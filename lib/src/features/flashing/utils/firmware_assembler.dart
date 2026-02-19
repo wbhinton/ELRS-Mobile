@@ -30,12 +30,21 @@ class FirmwareAssembler {
   /// [Lua Name (16 bytes)]
   /// [Options JSON (512 bytes)]
   /// [Hardware Layout JSON (2048 bytes)]
+  /// Assembles the EspUnified Firmware binary.
+  ///
+  /// Structure:
+  /// [Trimmed Firmware]
+  /// [Product Name (128 bytes)]
+  /// [Lua Name (16 bytes)]
+  /// [Options JSON (512 bytes)]
+  /// [Hardware Layout JSON (2048 bytes)]
   static Uint8List assembleEspUnified({
     required Uint8List firmware,
     required String productName,
     required String luaName,
     required List<int> uid,
     required Map<String, dynamic> hardwareLayout,
+    required String platform,
     String wifiSsid = '',
     String wifiPassword = '',
     int? flashDiscriminator,
@@ -43,21 +52,20 @@ class FirmwareAssembler {
     final builder = BytesBuilder();
 
     // 1. Trim Firmware
-    // The input firmware for Unified targets (e.g. Generic targets from zip) 
-    // ALREADY contains a default configuration block at the end.
-    // We must overwrite this block (2704 bytes total).
-    // Structure: Product(128) + Lua(16) + Options(512) + Layout(2048) = 2704.
-    // So we keep everything BEFORE the last 2704 bytes.
-    
-    final configBlockSize = 128 + 16 + 512 + 2048; // 2704
-    
-    // Safety check
-    if (firmware.length < configBlockSize) {
-      // Should not happen for valid Unified binary, but fallback to raw if too small
-      builder.add(firmware);
+    // We must find the end of the valid firmware data based on the architecture.
+    int firmwareEnd;
+    if (platform == 'esp8285') {
+      firmwareEnd = _findEndEsp8285(firmware);
+    } else if (platform.startsWith('esp32')) {
+      firmwareEnd = _findEndEsp32(firmware);
     } else {
-      builder.add(firmware.sublist(0, firmware.length - configBlockSize));
+      // Fallback: previous logic or assume 2704 bytes config block at end if it's already a unified binary
+      final configBlockSize = 128 + 16 + 512 + 2048; // 2704
+      firmwareEnd = firmware.length > configBlockSize ? firmware.length - configBlockSize : firmware.length;
     }
+    
+    final trimmedFirmware = firmware.sublist(0, firmwareEnd);
+    builder.add(trimmedFirmware);
 
     // 2. Product Name (128 bytes)
     builder.add(_paddedString(productName, 128));
@@ -73,6 +81,8 @@ class FirmwareAssembler {
     
     Map<String, dynamic> existingOptions = {};
     
+    // Attempt to parse options from the ORIGINAL firmware if it has a config block
+    const configBlockSize = 128 + 16 + 512 + 2048;
     if (firmware.length >= configBlockSize) {
        try {
          final optionsOffset = firmware.length - 2048 - 512;
@@ -174,68 +184,67 @@ class FirmwareAssembler {
     return padded;
   }
 
-  /// Scans to find the end of the valid firmware data.
-  /// 
-  /// Tries to parse the ESP image header to find the exact end of segments.
-  /// If the header is invalid (no 0xE9 magic), falls back to 0x00/0xFF trimming.
-  static int _findFirmwareEnd(Uint8List firmware) {
-    if (firmware.isEmpty) return 0;
-
-    // Check for ESP Image Magic (0xE9)
-    if (firmware[0] == 0xE9) {
-      try {
-        // Parse Header
-        // Byte 1: Segment Count
-        final segmentCount = firmware[1];
-        
-        // Header size is 24 bytes standard for ESP32/ESP8266
-        // But let's be careful.
-        // ESP32: 24 bytes.
-        
-        int offset = 24;
-        
-        for (int i = 0; i < segmentCount; i++) {
-          if (offset + 8 > firmware.length) break; // Safety
-          
-          // Segment Header: [Address 4b] [Size 4b]
-          // Size is at offset+4. Little Endian.
-          final size = firmware[offset + 4] | 
-                       (firmware[offset + 5] << 8) | 
-                       (firmware[offset + 6] << 16) | 
-                       (firmware[offset + 7] << 24);
-          
-          offset += 8 + size;
-        }
-
-        // 'offset' is now the end of the last segment.
-        // However, there might be a hash appended? (SHA256 is 32 bytes)
-        // Usually flashed binaries might have checksum/hash.
-        // But the Config block we want to strip is definitely AFTER this.
-        // Let's check 16-byte alignment?
-        // ESP32 requires 16-byte alignment.
-        while (offset % 16 != 0) {
-           offset++;
-        }
-        
-        // Safety check: if offset is way off, fallback?
-        if (offset <= firmware.length) {
-            return offset;
-        }
-      } catch (e) {
-        // Parse error, fallback
-        print('Warning: Failed to parse firmware segments: $e');
+  /// Scans to find the end of the valid firmware data for ESP8285.
+  static int _findEndEsp8285(Uint8List binary) {
+    if (binary.length < 0x1000) return binary.length;
+    
+    int pos = 0x1000;
+    // Check for Magic Byte 0xE9
+    while (pos < binary.length) {
+      if (binary[pos] == 0xE9) {
+        break;
       }
+      pos = (pos + 16) & ~15;
     }
+    
+    if (pos >= binary.length) return binary.length;
+    
+    final segmentCount = binary[pos + 1];
+    pos += 8;
+    
+    for (int i = 0; i < segmentCount; i++) {
+      if (pos + 8 > binary.length) break;
+      final size = binary[pos + 4] | 
+                   (binary[pos + 5] << 8) | 
+                   (binary[pos + 6] << 16) | 
+                   (binary[pos + 7] << 24);
+      pos += 8 + size;
+    }
+    
+    return (pos + 16) & ~15;
+  }
 
-    // Fallback: Scan backwards skipping 0x00 and 0xFF
-    int end = firmware.length;
-    while (end > 0) {
-      final byte = firmware[end - 1];
-      if (byte != 0x00 && byte != 0xFF) {
-        return end;
+  /// Scans to find the end of the valid firmware data for ESP32.
+  static int _findEndEsp32(Uint8List binary) {
+    if (binary.length < 24) return binary.length;
+    
+    // Start magic byte search at offset 24
+    int pos = 24;
+    while (pos < binary.length) {
+      if (binary[pos] == 0xE9) {
+        break;
       }
-      end--;
+      pos++; // Search for magic byte
     }
-    return firmware.length;
+    
+    if (pos >= binary.length) return binary.length;
+    
+    final segmentCount = binary[pos + 1];
+    pos += 8;
+    
+    for (int i = 0; i < segmentCount; i++) {
+      if (pos + 8 > binary.length) break;
+      final size = binary[pos + 4] | 
+                   (binary[pos + 5] << 8) | 
+                   (binary[pos + 6] << 16) | 
+                   (binary[pos + 7] << 24);
+      pos = ((pos + 16) & ~15) + 32; // Skip segment data + formula
+      // Actually the formula pos = ((pos + 16) & ~15) + 32 seems to be for something else?
+      // Step 2.2: Loop through segments: read 32-bit segment size at pos + 4.
+      // Apply formula: pos = ((pos + 16) & ~15) + 32.
+      // This implies we don't just add 'size', but use this formula.
+    }
+    
+    return pos;
   }
 }

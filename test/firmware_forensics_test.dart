@@ -64,6 +64,7 @@ void main() {
       hardwareLayout: hardwareLayout,
       wifiSsid: wifiSsid,
       wifiPassword: wifiPassword,
+      platform: 'esp8285',
       flashDiscriminator: discriminator, // Use exact value
     );
 

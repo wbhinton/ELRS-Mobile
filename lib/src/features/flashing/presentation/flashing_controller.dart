@@ -279,6 +279,7 @@ class FlashingController extends _$FlashingController {
         hardwareLayout: mergedHardwareLayout,
         wifiSsid: state.wifiSsid,
         wifiPassword: state.wifiPassword,
+        platform: state.selectedTarget!.platform,
       );
       
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);

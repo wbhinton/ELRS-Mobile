@@ -49,18 +49,8 @@ class DiscoveryService {
         }
       });
       
-      // Timer to fallback
-      Timer(const Duration(seconds: 3), () {
-        if (!_hasFoundDevice) {
-           print('No mDNS device found. Falling back to 10.0.0.1');
-           _ipController.add('10.0.0.1');
-        }
-      });
-      
     } catch (e) {
       print('Discovery failed: $e');
-      // Fallback immediately on error
-      _ipController.add('10.0.0.1');
     }
   }
 

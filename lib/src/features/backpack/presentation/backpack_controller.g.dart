@@ -42,7 +42,7 @@ final class BackpackControllerProvider
 }
 
 String _$backpackControllerHash() =>
-    r'8b095eea174f8256b3f787a0d12f357d44ef5ccf';
+    r'b0b9cad162bdccd891cb1147d28d7163f3500096';
 
 abstract class _$BackpackController extends $Notifier<BackpackState> {
   BackpackState build();

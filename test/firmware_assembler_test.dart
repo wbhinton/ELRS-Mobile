@@ -25,6 +25,7 @@ void main() {
         luaName: luaName,
         uid: uid,
         hardwareLayout: {'key': 'val'},
+        platform: 'esp8285',
         wifiSsid: 'ssid',
         wifiPassword: 'pass',
       );
@@ -40,6 +41,19 @@ void main() {
       final options = jsonDecode(optionsStr);
       
       expect(options['wifi-ssid'], equals('ssid'));
+    });
+
+    test('assembleEspUnified handles ESP32 platform', () {
+       final firmware = Uint8List.fromList([1, 2, 3]);
+       final result = FirmwareAssembler.assembleEspUnified(
+         firmware: firmware,
+         productName: 'PROD',
+         luaName: 'LUA',
+         uid: [0,0,0,0,0,0],
+         hardwareLayout: {},
+         platform: 'esp32',
+       );
+       expect(result.length, equals(3 + 128 + 16 + 512 + 2048));
     });
   });
 }

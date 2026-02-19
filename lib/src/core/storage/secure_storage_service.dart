@@ -12,6 +12,15 @@ class SecureStorageService {
   static const _keyWifiSsid = 'wifi_ssid';
   static const _keyWifiPassword = 'wifi_password';
   static const _keyRegulatoryDomain = 'regulatory_domain';
+  static const _keyManualIp = 'manual_ip';
+
+  Future<void> saveManualIp(String ip) async {
+    await _storage.write(key: _keyManualIp, value: ip);
+  }
+
+  Future<String?> loadManualIp() async {
+    return await _storage.read(key: _keyManualIp);
+  }
 
   Future<void> saveOptions({
     required String bindPhrase,

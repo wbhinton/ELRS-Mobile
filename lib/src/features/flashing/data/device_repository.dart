@@ -97,20 +97,22 @@ class DeviceRepository {
     Map<String, dynamic>? hardwareLayout,
     String? wifiSsid,
     String? wifiPassword,
+    String? platform,
   }) async {
     try {
       Uint8List dataToUpload;
       String filenameToUpload;
 
       // Check if Unified Building is requested/possible
-      if (hardwareLayout != null && productName != null && luaName != null && uid != null) {
-        print('Building Unified Firmware for $productName...');
+      if (hardwareLayout != null && productName != null && luaName != null && uid != null && platform != null) {
+        print('Building Unified Firmware for $productName ($platform)...');
         dataToUpload = FirmwareAssembler.assembleEspUnified(
           firmware: firmwareData,
           productName: productName,
           luaName: luaName,
           uid: uid,
           hardwareLayout: hardwareLayout,
+          platform: platform,
           wifiSsid: wifiSsid ?? '',
           wifiPassword: wifiPassword ?? '',
         );
@@ -120,34 +122,57 @@ class DeviceRepository {
         
         print('Unified Firmware Built. Size: ${dataToUpload.length} bytes');
         
-        // Compress the built firmware
-        print('Compressing unified firmware...');
-        final compressed = GZipEncoder().encode(dataToUpload);
-        if (compressed == null) {
-          throw Exception('Failed to compress unified firmware payload.');
-        }
-        dataToUpload = Uint8List.fromList(compressed);
-        filenameToUpload += '.gz';
-        print('Compressed Unified Size: ${dataToUpload.length} bytes');
-
-      } else {
-        // Standard / Legacy Flow
-
-        // Check if already compressed to avoid double compression
-        if (filename.endsWith('.gz')) {
-          print('Firmware already compressed: $filename');
-          dataToUpload = firmwareData;
-          filenameToUpload = filename;
-        } else {
-          print('Compressing firmware: $filename');
-          final compressed = GZipEncoder().encode(firmwareData);
+        // Conditional compression based on platform
+        if (platform == 'esp8285') {
+          print('Compressing unified firmware for ESP8285...');
+          final compressed = GZipEncoder().encode(dataToUpload);
           if (compressed == null) {
-            throw Exception('Failed to compress firmware payload.');
+            throw Exception('Failed to compress unified firmware payload.');
           }
           dataToUpload = Uint8List.fromList(compressed);
-          filenameToUpload = '$filename.gz';
-          print('Original Size: ${firmwareData.length} bytes');
-          print('Compressed Size: ${dataToUpload.length} bytes');
+          filenameToUpload += '.gz';
+          print('Compressed Unified Size: ${dataToUpload.length} bytes');
+        } else if (platform.startsWith('esp32')) {
+          print('Skipping compression for ESP32 platform: $platform');
+          // No compression for ESP32
+        } else {
+          // Default to GZip for other ESP platforms? 
+          // The request said: If platform.startsWith('esp32'), do not compress.
+          // Otherwise preserve working logic (which was GZip).
+          print('Defaulting to GZip compression for platform: $platform');
+          final compressed = GZipEncoder().encode(dataToUpload);
+          if (compressed != null) {
+            dataToUpload = Uint8List.fromList(compressed);
+            filenameToUpload += '.gz';
+          }
+        }
+
+      } else {
+        // Standard / Legacy Flow (used when not building Unified, or platform missing)
+        // Note: For legacy flow, we still might want to honor the platform-specific compression
+        // if platform is provided.
+        
+        if (platform != null && platform.startsWith('esp32')) {
+          print('Legacy Flow: Skipping compression for ESP32 ($platform)');
+          dataToUpload = firmwareData;
+          filenameToUpload = filename.endsWith('.gz') ? filename.substring(0, filename.length - 3) : filename;
+        } else {
+          // Check if already compressed to avoid double compression
+          if (filename.endsWith('.gz')) {
+            print('Firmware already compressed: $filename');
+            dataToUpload = firmwareData;
+            filenameToUpload = filename;
+          } else {
+            print('Compressing firmware: $filename');
+            final compressed = GZipEncoder().encode(firmwareData);
+            if (compressed == null) {
+              throw Exception('Failed to compress firmware payload.');
+            }
+            dataToUpload = Uint8List.fromList(compressed);
+            filenameToUpload = '$filename.gz';
+            print('Original Size: ${firmwareData.length} bytes');
+            print('Compressed Size: ${dataToUpload.length} bytes');
+          }
         }
       }
 
@@ -170,16 +195,15 @@ class DeviceRepository {
       
       request.files.add(multipartFile);
 
-      print('Sending pristine HTTP multipart request to $uri...');
-      
-      // Native http doesn't support onSendProgress easily without a custom client, 
-      // but the requirement didn't explicitly ask to preserve it (though it was in the signature).
-      // If vital, we'd need a stream transformer. For now, we follow the "Rewrite" instruction.
+      final targetIpValue = uri.host;
+      print('LOG: Attempting OTA Update at URL: http://$targetIpValue/update');
       
       final streamedResponse = await (_httpClient?.send(request) ?? request.send()).timeout(const Duration(seconds: 120));
       final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode != 200) {
+        print('LOG: OTA Update Failed! Status: ${response.statusCode}');
+        print('LOG: Device Error Response: ${response.body}');
         throw Exception('Flashing failed with status: ${response.statusCode}. Body: ${response.body}');
       }
       
