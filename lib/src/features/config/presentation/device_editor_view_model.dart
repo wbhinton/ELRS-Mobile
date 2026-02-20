@@ -66,6 +66,24 @@ class DeviceEditorViewModel extends Notifier<RuntimeConfig?> {
     state = state!.copyWith(config: newConfig);
   }
 
+  /// Updates a specific PWM pin's configuration.
+  void updatePwmPin(int index, Map<String, dynamic> pinConfig) {
+    if (state == null || !state!.config.containsKey('pwm')) return;
+
+    final newConfig = Map<String, dynamic>.from(state!.config);
+    final List<dynamic> oldPwmList = newConfig['pwm'];
+    
+    // Create a new list to ensure immutability is respected
+    final List<dynamic> newPwmList = List<dynamic>.from(oldPwmList);
+    
+    // Ensure the index is within bounds before updating
+    if (index >= 0 && index < newPwmList.length) {
+      newPwmList[index] = pinConfig;
+      newConfig['pwm'] = newPwmList;
+      state = state!.copyWith(config: newConfig);
+    }
+  }
+
   /// Saves the current draft to the device.
   /// Sequential POST to /options.json and /config as needed, followed by /reboot.
   Future<bool> saveChanges(
@@ -113,12 +131,39 @@ class DeviceEditorViewModel extends Notifier<RuntimeConfig?> {
     ref.notifyListeners();
   }
 
-  // Helper method to compare two maps for equality.
+  // Helper method to compare two maps for equality (including nested lists).
   bool _mapsEqual(Map<String, dynamic> a, Map<String, dynamic> b) {
     if (a.length != b.length) return false;
     for (final key in a.keys) {
       if (!b.containsKey(key)) return false;
-      if (a[key] != b[key]) return false;
+      
+      final valA = a[key];
+      final valB = b[key];
+
+      if (valA is List && valB is List) {
+        if (!_listsEqual(valA, valB)) return false;
+      } else if (valA is Map<String, dynamic> && valB is Map<String, dynamic>) {
+        if (!_mapsEqual(valA, valB)) return false;
+      } else if (valA != valB) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool _listsEqual(List<dynamic> a, List<dynamic> b) {
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      final valA = a[i];
+      final valB = b[i];
+
+      if (valA is Map<String, dynamic> && valB is Map<String, dynamic>) {
+        if (!_mapsEqual(valA, valB)) return false;
+      } else if (valA is List && valB is List) {
+        if (!_listsEqual(valA, valB)) return false;
+      } else if (valA != valB) {
+        return false;
+      }
     }
     return true;
   }

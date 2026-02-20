@@ -47,6 +47,20 @@ class ElrsMappings {
     2: 'Last Position',
   };
 
+  // PWM Modes (Timers and Serial)
+  static const Map<int, String> pwmModes = {
+    0: '50Hz',
+    1: '60Hz',
+    2: '100Hz',
+    3: '160Hz',
+    4: '333Hz',
+    5: '400Hz',
+    6: 'On/Off',
+    7: 'DSHOT300',
+    8: 'Serial TX',
+    9: 'Serial RX',
+  };
+
   // Helper method to look up a value safely
   static String getMapping(Map<int, String> map, int key, {String fallback = 'Unknown'}) {
     return map[key] ?? fallback;

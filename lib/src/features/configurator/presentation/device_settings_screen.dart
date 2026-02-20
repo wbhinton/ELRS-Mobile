@@ -5,6 +5,7 @@ import '../../config/domain/runtime_config_model.dart';
 import '../../config/presentation/config_view_model.dart';
 import '../../config/presentation/device_editor_view_model.dart';
 import '../../config/domain/elrs_mappings.dart';
+import 'widgets/pwm_mapping_panel.dart';
 
 class DeviceSettingsScreen extends ConsumerStatefulWidget {
   const DeviceSettingsScreen({super.key});
@@ -216,6 +217,14 @@ class _GeneralTab extends StatelessWidget {
             onChanged: (val) => editor.updateOption('wifi-password', val),
             obscure: true,
           ),
+          
+        if (draft.config.containsKey('pwm') && draft.config['pwm'] is List) ...[
+          const Divider(height: 32),
+          PwmMappingPanel(
+            pwmArray: draft.config['pwm'] as List<dynamic>,
+            onPinUpdated: editor.updatePwmPin,
+          ),
+        ],
       ],
     );
   }
