@@ -167,71 +167,54 @@ class DeviceRepository {
       print('Trimming Delta: $trimmingDelta');
       print('Final Byte Count: ${dataToUpload.length}');
 
-      // 1. Manually construct the multipart boundaries
-      final baseUrl = _dio.options.baseUrl;
-      final uri = Uri.parse(baseUrl.endsWith('/') ? '${baseUrl}update' : '$baseUrl/update');
+      final formData = FormData.fromMap({
+        'upload': MultipartFile.fromBytes(
+          dataToUpload,
+          filename: filenameToUpload,
+        ),
+      });
 
-      final boundary = '----ExpressLRSFormBoundaryFlutter';
-      final headerString = '--$boundary\r\n'
-          'Content-Disposition: form-data; name="upload"; filename="$filenameToUpload"\r\n'
-          'Content-Type: application/octet-stream\r\n\r\n';
-      final headerBytes = utf8.encode(headerString);
-      final footerString = '\r\n--$boundary--\r\n';
-      final footerBytes = utf8.encode(footerString);
+      // Bypassing chunked encoding by explicitly evaluating payload size
+      final evaluatedLength = formData.length;
 
-      // 2. Calculate EXACT total length of the request body to disable chunked encoding
-      final totalBodyLength = headerBytes.length + dataToUpload.length + footerBytes.length;
-
-      final client = HttpClient()..connectionTimeout = const Duration(seconds: 30);
-      
       try {
-        final request = await client.postUrl(uri);
+        final response = await _dio.post(
+          '/update',
+          data: formData,
+          options: Options(
+            headers: {
+              Headers.contentLengthHeader: evaluatedLength,
+              'X-FileSize': dataToUpload.length.toString(),
+            },
+            receiveTimeout: const Duration(seconds: 120),
+            sendTimeout: const Duration(seconds: 120),
+          ),
+          onSendProgress: (sent, total) {
+             print('Upload Progress: ${(sent / total * 100).toStringAsFixed(1)}%');
+          },
+        );
 
-        // 3. Set rigid headers: this forces a fixed Content-Length and kills chunking
-        request.contentLength = totalBodyLength; 
-        request.headers.set(HttpHeaders.contentTypeHeader, 'multipart/form-data; boundary=$boundary');
-        request.headers.set('X-FileSize', dataToUpload.length.toString()); // Raw binary size only
-
-        // 4. Write payload in exact order
-        request.add(headerBytes);
-        request.add(dataToUpload);
-        request.add(footerBytes);
-
-        final HttpClientResponse response = await request.close().timeout(const Duration(seconds: 120));
-        final String responseBody = await response.transform(utf8.decoder).join();
-        final responseData = jsonDecode(responseBody.trim());
-
-        // 5. Handle Mismatch Protocol (The 2-step handshake)
-        if (responseData['status'] == 'mismatch') {
-          print('LOG: Mismatch detected. Executing secondary force update...');
-          
-          final forceUri = Uri.parse(baseUrl.endsWith('/') ? '${baseUrl}forceupdate' : '$baseUrl/forceupdate');
-          final forceRequest = await client.postUrl(forceUri);
-          
-          final forceBoundary = '----ExpressLRSForceBoundary';
-          final forceBodyStr = '--$forceBoundary\r\n'
-              'Content-Disposition: form-data; name="action"\r\n\r\nconfirm\r\n--$forceBoundary--\r\n';
-          final forceBytes = utf8.encode(forceBodyStr);
-          
-          forceRequest.contentLength = forceBytes.length;
-          forceRequest.headers.set(HttpHeaders.contentTypeHeader, 'multipart/form-data; boundary=$forceBoundary');
-          forceRequest.add(forceBytes);
-          
-          final forceResponse = await forceRequest.close().timeout(const Duration(seconds: 30));
-          final forceResponseBody = await forceResponse.transform(utf8.decoder).join();
-          final forceData = jsonDecode(forceResponseBody.trim());
-          
-          if (forceData['status'] != 'ok') {
-            throw Exception('Force update failed: $forceResponseBody');
+        final responseData = response.data;
+        if (responseData is Map<String, dynamic>) {
+          if (responseData['status'] == 'mismatch') {
+             // Let the upper layer handle mismatch via confirmForceUpdate
+             throw Exception('mismatch');
+          } else if (responseData['status'] != 'ok') {
+             throw Exception('Flashing failed: ${responseData['msg']}');
           }
-        } else if (responseData['status'] != 'ok') {
-          throw Exception('Flashing failed: $responseBody');
         }
-        
         print('LOG: Flash successful!');
-
-      } finally {
-        client.close();
+      } on DioException catch (e) {
+        final errStr = e.toString();
+        // The ESP32 physically reboots within 200ms of a successful flash.
+        // It often severs the TCP connection before sending the HTTP JSON response back.
+        if (errStr.contains('Software caused connection abort') || 
+            errStr.contains('Connection closed before full header was received') ||
+            errStr.contains('Connection reset by peer')) {
+           print('LOG: ESP32 successfully updated and rebooted! Caught expected socket drop.');
+           return; // Treat as full success
+        }
+        rethrow;
       }
       
     } catch (e) {
@@ -239,38 +222,43 @@ class DeviceRepository {
     }
   }
 
-  /// Confirms a forced update after a target mismatch using raw HttpClient.
+  /// Confirms a forced update after a target mismatch using Dio.
   Future<void> confirmForceUpdate() async {
-    final client = HttpClient();
     try {
-      final baseUrl = _dio.options.baseUrl;
-      final forcePath = baseUrl.endsWith('/') ? '${baseUrl}forceupdate' : '$baseUrl/forceupdate';
-      final uri = Uri.parse(forcePath);
-
       print('LOG: Sending manual action=confirm to /forceupdate...');
       
-      final boundary = '----ELRSManagerConfirm${DateTime.now().millisecondsSinceEpoch}';
-      final bodyStr = '--$boundary\r\n'
-          'Content-Disposition: form-data; name="action"\r\n\r\n'
-          'confirm\r\n'
-          '--$boundary--\r\n';
-      final bodyBytes = utf8.encode(bodyStr);
+      final formData = FormData.fromMap({
+        'action': 'confirm',
+      });
 
-      final request = await client.postUrl(uri);
-      request.contentLength = bodyBytes.length;
-      request.headers.set('Content-Type', 'multipart/form-data; boundary=$boundary');
-      
-      request.add(bodyBytes);
-      final response = await request.close();
-      final responseBody = await response.transform(utf8.decoder).join();
-      
-      print('LOG: Confirm Force Manual Response: $responseBody');
+      final evaluatedLength = formData.length;
 
-      if (!responseBody.contains('"status": "ok"') && !responseBody.contains('"status":"ok"')) {
-        throw Exception('Force update confirmation failed: $responseBody');
+      final response = await _dio.post(
+        '/forceupdate',
+        data: formData,
+        options: Options(
+          headers: {
+            Headers.contentLengthHeader: evaluatedLength,
+          },
+        ),
+      );
+
+      final responseData = response.data;
+      if (responseData is Map<String, dynamic> && responseData['status'] != 'ok') {
+        throw Exception('Force update failed: ${responseData['msg']}');
       }
-    } finally {
-      client.close();
+      print('LOG: Force update successful!');
+    } on DioException catch (e) {
+        final errStr = e.toString();
+        if (errStr.contains('Software caused connection abort') || 
+            errStr.contains('Connection closed before full header was received') ||
+            errStr.contains('Connection reset by peer')) {
+           print('LOG: ESP32 successfully forced and rebooted! Caught expected socket drop.');
+           return; 
+        }
+        throw Exception('Failed to force update: $e');
+    } catch (e) {
+      throw Exception('Failed to force update: $e');
     }
   }
 
