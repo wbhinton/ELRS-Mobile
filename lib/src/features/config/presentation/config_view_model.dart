@@ -59,8 +59,14 @@ class ConfigViewModel extends _$ConfigViewModel {
     _manualIp = ip;
     final storage = ref.read(secureStorageServiceProvider);
     await storage.saveManualIp(ip);
-    state = const AsyncLoading();
-    _performHeartbeat();
+    
+    // Explicitly transition to loading
+    state = const AsyncValue.loading();
+    try {
+      await fetchConfig(ip);
+    } catch (e) {
+      // Allow it to remain in error/disconnected state
+    }
   }
 
   void _startHeartbeat() {
@@ -75,30 +81,39 @@ class ConfigViewModel extends _$ConfigViewModel {
 
     final service = ref.read(deviceConfigServiceProvider);
     
-    // Priority: 1. Manual IP (if set), 2. Default AP IP (10.0.0.1), 3. Discovered mDNS target.
+    // Priority: 1. Manual IP (if set), 2. Discovery targets (AP, Hostnames, Discovered mDNS)
     final ips = [
       if (_manualIp != null && _manualIp!.isNotEmpty) _manualIp!,
-      '10.0.0.1', // Ensure standard Access Point discovery is always attempted
+      '10.0.0.1', 
+      'elrs_rx.local',
+      'elrs_tx.local',
       if (_lastDiscoveredIp != null) _lastDiscoveredIp!,
     ];
 
-    for (final ip in ips) {
-      _probeIp = ip;
-      // Pulse probe (HEAD request, 1s timeout)
-      final alive = await service.probeDeviceHead(ip);
-      if (alive) {
-        // Robust check (GET /config, 2s timeout)
-        final ok = await service.probeDevice(ip);
-        if (ok) {
-          await _refreshConfig(ip);
-          return;
-        }
-      }
-    }
+    final uniqueIps = ips.toSet().toList();
+    if (uniqueIps.isEmpty) return;
 
-    // If we reach here, no device was found on any priority IP
-    if (state.value != null || state.isLoading) {
-      state = const AsyncValue.data(null);
+    try {
+      final successfulIp = await Future.any(uniqueIps.map((ip) async {
+        _probeIp = ip;
+        // Pulse probe (HEAD request, 1s timeout)
+        final alive = await service.probeDeviceHead(ip);
+        if (alive) {
+          // Robust check (GET /config, 2s timeout)
+          final ok = await service.probeDevice(ip);
+          if (ok) return ip;
+        }
+        throw Exception('Probe failed for $ip');
+      }));
+
+      // A device was successfully found concurrently
+      _probeIp = successfulIp;
+      await _refreshConfig(successfulIp);
+    } catch (e) {
+      // If we reach here, no device was found on any priority IP
+      if (state.value != null || state.isLoading) {
+        state = const AsyncValue.data(null);
+      }
     }
   }
 
@@ -119,6 +134,8 @@ class ConfigViewModel extends _$ConfigViewModel {
     state = await AsyncValue.guard(() async {
       final service = ref.read(deviceConfigServiceProvider);
       final config = await service.fetchConfig(ip);
+      // Synchronize centralized IP state with Dashboard
+      ref.read(targetIpProvider.notifier).updateIp(ip);
       return config.copyWith(activeIp: ip);
     });
   }

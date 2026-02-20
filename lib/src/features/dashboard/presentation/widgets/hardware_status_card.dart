@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../config/presentation/config_view_model.dart';
+import '../../../config/domain/elrs_mappings.dart';
 import '../../../flashing/presentation/flashing_controller.dart';
 
 class HardwareStatusCard extends ConsumerWidget {
@@ -23,7 +24,7 @@ class HardwareStatusCard extends ConsumerWidget {
       shadowColor: isConnected ? Colors.teal.withOpacity(0.5) : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: isConnected ? const BorderSide(color: Colors.teal, width: 1) : BorderSide.none,
+        side: isConnected ? const BorderSide(color: Colors.cyan, width: 2) : BorderSide.none,
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -60,18 +61,12 @@ class HardwareStatusCard extends ConsumerWidget {
     dynamic selectedTarget,
   ) {
     if (configAsync.isLoading) {
-      return Row(
+      return Center(
         key: const ValueKey('searching'),
-        children: [
-          _PulsingWifiIcon(),
-          const SizedBox(width: 16),
-          const Expanded(
-            child: Text(
-              'Searching for ELRS Device...',
-              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16),
-            ),
-          ),
-        ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: _PulsingRingIcon(),
+        ),
       );
     }
 
@@ -107,13 +102,33 @@ class HardwareStatusCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  config.productName ?? 'Unknown Device',
+                  config.productName ?? config.target ?? 'ELRS Device',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  'Connected: ${config.activeIp ?? 'Unknown IP'}',
-                  style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.w500),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Connected: ${config.activeIp ?? 'Unknown IP'}',
+                      style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.w500),
+                    ),
+                    if (config.settings.containsKey('domain')) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.orange.withOpacity(0.5)),
+                        ),
+                        child: Text(
+                          ElrsMappings.getMapping(ElrsMappings.domains, config.settings['domain']),
+                          style: const TextStyle(fontSize: 10, color: Colors.orange, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
                 const SizedBox(height: 8),
                 Wrap(
@@ -182,20 +197,26 @@ class HardwareStatusCard extends ConsumerWidget {
   }
 }
 
-class _PulsingWifiIcon extends StatefulWidget {
+class _PulsingRingIcon extends StatefulWidget {
   @override
-  _PulsingWifiIconState createState() => _PulsingWifiIconState();
+  _PulsingRingIconState createState() => _PulsingRingIconState();
 }
 
-class _PulsingWifiIconState extends State<_PulsingWifiIcon> with SingleTickerProviderStateMixin {
+class _PulsingRingIconState extends State<_PulsingRingIcon> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..repeat(reverse: true);
-    _animation = Tween<double>(begin: 0.3, end: 1.0).animate(_controller);
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..repeat(reverse: false);
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.5).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
   }
 
   @override
@@ -206,9 +227,27 @@ class _PulsingWifiIconState extends State<_PulsingWifiIcon> with SingleTickerPro
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animation,
-      child: const Icon(Icons.wifi, size: 48, color: Colors.teal),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.teal.withOpacity(_fadeAnimation.value), width: 3),
+                ),
+              ),
+            );
+          },
+        ),
+        const Icon(Icons.wifi, size: 48, color: Colors.teal),
+      ],
     );
   }
 }
