@@ -1,0 +1,74 @@
+{
+    "product_name": "RadioMaster ER8 2.4GHz Diversity+8xPWM RX",
+    "lua_name": "RM ER8",
+    "binding_phrase": "testphrase",
+    "options": {
+        "uid": [
+            140,
+            18,
+            142,
+            45,
+            196,
+            218
+        ],
+        "wifi-on-interval": 60,
+        "wifi-ssid": "testssid",
+        "wifi-password": "testpass",
+        "rcvr-uart-baud": 420000,
+        "lock-on-first-connection": true,
+        "is-airport": false,
+        "domain": 0,
+        "customised": true,
+        "flash-discriminator": 2710651230
+    },
+    "config": {
+        "serial-protocol": 0,
+        "serial1-protocol": 1,
+        "sbus-failsafe": 0,
+        "modelid": 255,
+        "force-tlm": false,
+        "vbind": 0,
+        "pwm": [
+            {
+                "config": 2048,
+                "pin": 14,
+                "features": 112
+            },
+            {
+                "config": 7680,
+                "pin": 12,
+                "features": 112
+            },
+            {
+                "config": 8704,
+                "pin": 15,
+                "features": 112
+            },
+            {
+                "config": 10752,
+                "pin": 2,
+                "features": 112
+            },
+            {
+                "config": 11776,
+                "pin": 4,
+                "features": 112
+            },
+            {
+                "config": 12800,
+                "pin": 9,
+                "features": 112
+            },
+            {
+                "config": 13824,
+                "pin": 19,
+                "features": 112
+            },
+            {
+                "config": 466432,
+                "pin": 22,
+                "features": 112
+            }
+        ]
+    }
+}

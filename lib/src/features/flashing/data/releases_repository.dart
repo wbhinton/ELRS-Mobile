@@ -35,7 +35,8 @@ class ReleasesRepository {
       
       return versions;
     } catch (e) {
-       throw Exception('Failed to fetch releases: $e');
+       print('RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.');
+       rethrow; // Provider will handle the error and fallback to cache
     }
   }
 

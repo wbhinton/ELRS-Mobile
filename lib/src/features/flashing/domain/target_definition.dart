@@ -23,6 +23,9 @@ abstract class TargetDefinition with _$TargetDefinition {
     /// Configuration map containing 'serial_rx', 'serial_tx', etc.
     @Default({}) Map<String, dynamic> config,
     
+    /// Target architecture platform (e.g., "esp8285", "esp32", "esp32-s3")
+    String? platform,
+
     // Keeping prior fields that might be useful, but making them optional/default to avoid breakages if not present
     @Default([]) List<String> upload_methods,
     @Default([]) List<String> options,

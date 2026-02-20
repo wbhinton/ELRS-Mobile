@@ -55,7 +55,8 @@ class FirmwareRepository {
       print('Found hash for $version: $hash');
       return hash as String;
     } catch (e) {
-      throw Exception('Failed to fetch/parse Artifactory index: $e');
+      print('FIRMWARE: Hash fetch failed (Offline?). Error: $e');
+      rethrow;
     }
   }
 

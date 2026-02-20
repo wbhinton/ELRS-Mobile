@@ -36,6 +36,7 @@ class FirmwareAssembler {
     required String luaName,
     required List<int> uid,
     required Map<String, dynamic> hardwareLayout,
+    required String platform,
     String wifiSsid = '',
     String wifiPassword = '',
     int? flashDiscriminator,
@@ -43,21 +44,13 @@ class FirmwareAssembler {
     final builder = BytesBuilder();
 
     // 1. Trim Firmware
-    // The input firmware for Unified targets (e.g. Generic targets from zip) 
-    // ALREADY contains a default configuration block at the end.
-    // We must overwrite this block (2704 bytes total).
-    // Structure: Product(128) + Lua(16) + Options(512) + Layout(2048) = 2704.
-    // So we keep everything BEFORE the last 2704 bytes.
+    print('DEBUG: Original Firmware Size: ${firmware.length}');
+    final end = _findFirmwareEnd(firmware, platform);
+    print('DEBUG: Calculated True End (Surgical): $end');
+    print('DEBUG: Bytes Stripped (Padding + Old Config): ${firmware.length - end}');
     
-    final configBlockSize = 128 + 16 + 512 + 2048; // 2704
-    
-    // Safety check
-    if (firmware.length < configBlockSize) {
-      // Should not happen for valid Unified binary, but fallback to raw if too small
-      builder.add(firmware);
-    } else {
-      builder.add(firmware.sublist(0, firmware.length - configBlockSize));
-    }
+    final trimmedFirmware = firmware.sublist(0, end);
+    builder.add(trimmedFirmware);
 
     // 2. Product Name (128 bytes)
     builder.add(_paddedString(productName, 128));
@@ -66,96 +59,44 @@ class FirmwareAssembler {
     builder.add(_paddedString(luaName, 16));
 
     // 4. Options JSON (512 bytes)
-    // To match the official Web Flasher byte-perfectly, we must:
-    // 1. Parse existing options from the base firmware (to get baud rate, etc.)
-    // 2. Construct a NEW map with specific key order.
-    // 3. Exclude 'domain', 'flash-dry', 'is-unified'.
-    
-    Map<String, dynamic> existingOptions = {};
-    
-    if (firmware.length >= configBlockSize) {
-       try {
-         final optionsOffset = firmware.length - 2048 - 512;
-         final existingOptionsBytes = firmware.sublist(optionsOffset, optionsOffset + 512);
-         final nullIndex = existingOptionsBytes.indexOf(0);
-         final existingOptionsStr = utf8.decode(
-           existingOptionsBytes.sublist(0, nullIndex != -1 ? nullIndex : 512),
-           allowMalformed: true
-         );
-         
-         if (existingOptionsStr.trim().isNotEmpty && existingOptionsStr.startsWith('{')) {
-            existingOptions = jsonDecode(existingOptionsStr) as Map<String, dynamic>;
-         }
-       } catch (e) {
-         // Ignore
-       }
-    }
+    // Deterministic Options: Build from scratch based on Web Flasher forensics.
+    final sanitizedSsid = wifiSsid.trim().replaceAll('\x00', '');
+    final sanitizedPassword = wifiPassword.trim().replaceAll('\x00', '');
 
-    // Construct Final Map in strict order for Golden Binary match
-    final Map<String, dynamic> finalOptions = {};
-
-    // 1. flash-discriminator
-    finalOptions['flash-discriminator'] = flashDiscriminator ?? 
-        existingOptions['flash-discriminator'] ?? 
-        (DateTime.now().millisecondsSinceEpoch & 0xFFFFFF);
-
-    // 2. uid
-    finalOptions['uid'] = uid;
-
-    // 3. wifi-on-interval
-    finalOptions['wifi-on-interval'] = existingOptions.containsKey('wifi-on-interval') 
-        ? existingOptions['wifi-on-interval'] 
-        : 60;
-
-    // 4. wifi-ssid
-    if (wifiSsid.isNotEmpty) {
-      finalOptions['wifi-ssid'] = wifiSsid;
-    } else if (existingOptions.containsKey('wifi-ssid')) {
-      finalOptions['wifi-ssid'] = existingOptions['wifi-ssid'];
-    }
-
-    // 5. wifi-password
-    if (wifiSsid.isNotEmpty) { // Only set password if ssid is set (or if we are preserving)
-       finalOptions['wifi-password'] = wifiPassword;
-    } else if (existingOptions.containsKey('wifi-password')) {
-       finalOptions['wifi-password'] = existingOptions['wifi-password'];
-    }
-
-    // 6. rcvr-uart-baud
-    if (existingOptions.containsKey('rcvr-uart-baud')) {
-      finalOptions['rcvr-uart-baud'] = existingOptions['rcvr-uart-baud'];
-    } else {
-      finalOptions['rcvr-uart-baud'] = 420000;
-    }
-
-    // 7. lock-on-first-connection
-    if (existingOptions.containsKey('lock-on-first-connection')) {
-      finalOptions['lock-on-first-connection'] = existingOptions['lock-on-first-connection'];
-    } else {
-      finalOptions['lock-on-first-connection'] = true;
-    }
-
-    // 8. Removed 'is-unified' per forensics analysis of Golden Binary.
-
-    // Preserve other keys (excluding our specific ones and the ones explicitly requested to be removed)
-    final excludedKeys = const {
-      'flash-discriminator', 'uid', 'wifi-on-interval', 'wifi-ssid', 'wifi-password',
-      'rcvr-uart-baud', 'lock-on-first-connection',
-      'domain', 'flash-dry', 'is-unified'
+    final Map<String, dynamic> finalOptions = {
+      'flash-discriminator': flashDiscriminator ?? (DateTime.now().millisecondsSinceEpoch & 0xFFFFFF),
+      'uid': uid,
+      'wifi-on-interval': 60,
+      'rcvr-uart-baud': 420000,
+      'lock-on-first-connection': true,
+      'customised': true,
     };
 
-    for (final key in existingOptions.keys) {
-      if (!excludedKeys.contains(key)) {
-        finalOptions[key] = existingOptions[key];
-      }
+    if (sanitizedSsid.isNotEmpty) {
+      finalOptions['wifi-ssid'] = sanitizedSsid;
+      finalOptions['wifi-password'] = sanitizedPassword;
     }
 
     final optionsJson = jsonEncode(finalOptions);
+    final optionsBytes = utf8.encode(optionsJson);
+    if (optionsBytes.length > 512) {
+      throw Exception('Options JSON exceeds 512 bytes (${optionsBytes.length} bytes).');
+    }
     builder.add(_paddedString(optionsJson, 512));
 
     // 5. Hardware Layout JSON (2048 bytes)
+    // Strict Hardware Layout Padding: Minify and pad to exactly 2048 bytes.
     final layoutJson = jsonEncode(hardwareLayout);
-    builder.add(_paddedString(layoutJson, 2048));
+    final minifiedLayout = layoutJson.replaceAll(RegExp(r'\s+'), '');
+    final layoutBytes = utf8.encode(minifiedLayout);
+    
+    if (layoutBytes.length > 2048) {
+      throw Exception('Hardware layout JSON exceeds 2048 bytes (${layoutBytes.length} bytes).');
+    }
+    
+    final paddedLayout = Uint8List(2048);
+    paddedLayout.setRange(0, layoutBytes.length, layoutBytes);
+    builder.add(paddedLayout);
 
     return builder.toBytes();
   }
@@ -164,78 +105,47 @@ class FirmwareAssembler {
   static Uint8List _paddedString(String text, int length) {
     final bytes = utf8.encode(text);
     if (bytes.length > length) {
-      // Truncate
       return Uint8List.fromList(bytes.sublist(0, length));
     }
     
-    // Pad with 0x00
     final padded = Uint8List(length);
     padded.setRange(0, bytes.length, bytes);
     return padded;
   }
 
-  /// Scans to find the end of the valid firmware data.
-  /// 
-  /// Tries to parse the ESP image header to find the exact end of segments.
-  /// If the header is invalid (no 0xE9 magic), falls back to 0x00/0xFF trimming.
-  static int _findFirmwareEnd(Uint8List firmware) {
-    if (firmware.isEmpty) return 0;
+  static int findFirmwareEnd(Uint8List binary, String platform) {
+    return _findFirmwareEnd(binary, platform);
+  }
 
-    // Check for ESP Image Magic (0xE9)
-    if (firmware[0] == 0xE9) {
-      try {
-        // Parse Header
-        // Byte 1: Segment Count
-        final segmentCount = firmware[1];
-        
-        // Header size is 24 bytes standard for ESP32/ESP8266
-        // But let's be careful.
-        // ESP32: 24 bytes.
-        
-        int offset = 24;
-        
-        for (int i = 0; i < segmentCount; i++) {
-          if (offset + 8 > firmware.length) break; // Safety
-          
-          // Segment Header: [Address 4b] [Size 4b]
-          // Size is at offset+4. Little Endian.
-          final size = firmware[offset + 4] | 
-                       (firmware[offset + 5] << 8) | 
-                       (firmware[offset + 6] << 16) | 
-                       (firmware[offset + 7] << 24);
-          
-          offset += 8 + size;
-        }
-
-        // 'offset' is now the end of the last segment.
-        // However, there might be a hash appended? (SHA256 is 32 bytes)
-        // Usually flashed binaries might have checksum/hash.
-        // But the Config block we want to strip is definitely AFTER this.
-        // Let's check 16-byte alignment?
-        // ESP32 requires 16-byte alignment.
-        while (offset % 16 != 0) {
-           offset++;
-        }
-        
-        // Safety check: if offset is way off, fallback?
-        if (offset <= firmware.length) {
-            return offset;
-        }
-      } catch (e) {
-        // Parse error, fallback
-        print('Warning: Failed to parse firmware segments: $e');
-      }
+  static int _findFirmwareEnd(Uint8List binary, String platform) {
+    int pos = 0;
+    if (platform == 'esp8285') pos = 0x1000;
+    
+    // Magic byte check (0xE9)
+    if (binary[pos] != 0xE9) {
+      print('DEBUG: Magic byte not found, returning full length');
+      return binary.length;
     }
-
-    // Fallback: Scan backwards skipping 0x00 and 0xFF
-    int end = firmware.length;
-    while (end > 0) {
-      final byte = firmware[end - 1];
-      if (byte != 0x00 && byte != 0xFF) {
-        return end;
+    
+    int segments = binary[pos + 1];
+    pos = platform.startsWith('esp32') ? 24 : 0x1008;
+    
+    for (int i = 0; i < segments; i++) {
+      if (pos + 8 > binary.length) {
+        print('DEBUG: Warning: Expected more segments but hit end of file.');
+        break;
       }
-      end--;
+      // Read 32-bit size (Little Endian)
+      int size = binary[pos + 4] | (binary[pos + 5] << 8) | (binary[pos + 6] << 16) | (binary[pos + 7] << 24);
+      pos += 8 + size;
     }
-    return firmware.length;
+    
+    // THE FIX: Exact bitwise match to official JS
+    pos = (pos + 16) & ~15; 
+    if (platform.startsWith('esp32')) {
+      pos += 32; // Mandatory ESP32 gap
+    }
+    
+    return pos;
   }
 }

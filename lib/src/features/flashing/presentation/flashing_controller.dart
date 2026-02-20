@@ -14,6 +14,8 @@ import 'package:archive/archive.dart';
 
 import '../../settings/presentation/settings_controller.dart';
 
+import '../state/flashing_provider.dart';
+
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
 
@@ -24,6 +26,7 @@ enum FlashingStatus {
   uploading,
   success,
   error,
+  mismatch,
 }
 
 @freezed
@@ -124,7 +127,7 @@ class FlashingController extends _$FlashingController {
     );
   }
 
-  Future<void> flash() async {
+  Future<void> flash({bool force = false}) async {
     if (state.selectedTarget == null) {
       state = state.copyWith(errorMessage: 'Please select a target device.');
       return;
@@ -143,6 +146,9 @@ class FlashingController extends _$FlashingController {
       progress: 0.0,
       errorMessage: null,
     );
+    
+    // Silence UI heartbeat
+    ref.read(isFlashingProvider.notifier).setFlashing(true);
 
     try {
       // 1. Download
@@ -210,8 +216,15 @@ class FlashingController extends _$FlashingController {
       // I will add a check: if filename ends with .gz, skip patching.
       
       Uint8List finalBytes;
+      
+      final targetConfig = state.selectedTarget!.config;
+      final isUnified = targetConfig.containsKey('layout_file');
+
       if (firmwareData.filename.endsWith('.gz')) {
          print('Skipping patching for compressed firmware: ${firmwareData.filename}');
+         finalBytes = firmwareData.bytes;
+      } else if (isUnified) {
+         print('Target is Unified (has layout_file). Skipping legacy FirmwarePatcher.');
          finalBytes = firmwareData.bytes;
       } else {
         final config = PatchConfiguration(
@@ -238,10 +251,8 @@ class FlashingController extends _$FlashingController {
       
       // Check if this target supports/requires Unified Building
       // Usually indicated by presence of layout_file in config.
-      // Or we can just try to fetch it.
-      final targetConfig = state.selectedTarget!.config;
-      if (targetConfig.containsKey('layout_file')) {
-         print('Target has layout_file. Preparing Target-Aware Build...');
+      if (isUnified) {
+         print('Preparing Target-Aware Build...');
          try {
            // 1. Get Hardware Zip
            final zipFile = await cacheService.getHardwareZipFile(state.selectedVersion!);
@@ -279,17 +290,33 @@ class FlashingController extends _$FlashingController {
         hardwareLayout: mergedHardwareLayout,
         wifiSsid: state.wifiSsid,
         wifiPassword: state.wifiPassword,
+        platform: state.selectedTarget!.platform,
+        force: force,
       );
       
+      ref.read(isFlashingProvider.notifier).setFlashing(false);
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);
     } catch (e) {
-      state = state.copyWith(
-        status: FlashingStatus.error,
-        errorMessage: e.toString(),
-        progress: 0.0,
-      );
+      ref.read(isFlashingProvider.notifier).setFlashing(false);
+      final errorMsg = e.toString();
+      
+      if (errorMsg.contains('mismatch')) {
+        state = state.copyWith(
+          status: FlashingStatus.mismatch,
+          errorMessage: 'Target mismatch detected. Forced update was attempted.',
+          progress: 0.0,
+        );
+      } else {
+        state = state.copyWith(
+          status: FlashingStatus.error,
+          errorMessage: errorMsg,
+          progress: 0.0,
+        );
+      }
     }
   }
+
+
 
   void resetStatus() {
     state = state.copyWith(status: FlashingStatus.idle, errorMessage: null, progress: 0.0);

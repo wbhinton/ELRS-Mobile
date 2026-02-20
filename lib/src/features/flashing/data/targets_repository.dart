@@ -129,6 +129,9 @@ class TargetsRepository {
                       // Ensure config is passed back to data
                       data['config'] = configMap;
 
+                      // Extract platform
+                      data['platform'] ??= deviceData['platform'];
+
                       targets.add(TargetDefinition.fromJson(data));
                     } catch (e) {
                       print('Error parsing target $deviceKey in $vendorKey: $e');

@@ -1,13 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 import '../../configurator/domain/device_config_model.dart';
 import '../utils/firmware_assembler.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'device_repository.g.dart';
 
@@ -97,20 +98,23 @@ class DeviceRepository {
     Map<String, dynamic>? hardwareLayout,
     String? wifiSsid,
     String? wifiPassword,
+    String? platform,
+    bool force = false,
   }) async {
     try {
       Uint8List dataToUpload;
       String filenameToUpload;
 
       // Check if Unified Building is requested/possible
-      if (hardwareLayout != null && productName != null && luaName != null && uid != null) {
-        print('Building Unified Firmware for $productName...');
+      if (hardwareLayout != null && productName != null && luaName != null && uid != null && platform != null) {
+        print('Building Unified Firmware for $productName ($platform)...');
         dataToUpload = FirmwareAssembler.assembleEspUnified(
           firmware: firmwareData,
           productName: productName,
           luaName: luaName,
           uid: uid,
           hardwareLayout: hardwareLayout,
+          platform: platform,
           wifiSsid: wifiSsid ?? '',
           wifiPassword: wifiPassword ?? '',
         );
@@ -120,82 +124,153 @@ class DeviceRepository {
         
         print('Unified Firmware Built. Size: ${dataToUpload.length} bytes');
         
-        // Compress the built firmware
-        print('Compressing unified firmware...');
-        final compressed = GZipEncoder().encode(dataToUpload);
-        if (compressed == null) {
-          throw Exception('Failed to compress unified firmware payload.');
+        // --- FORENSIC DEBUG: Save to Documents Directory ---
+        try {
+          final directory = await getApplicationDocumentsDirectory();
+          final debugFile = File('${directory.path}/generated_er8.bin');
+          await debugFile.writeAsBytes(dataToUpload);
+          print('I/flutter: DEBUG: Firmware saved to: ${debugFile.path}');
+          print('I/flutter: TIP: Run \'open "${directory.path}"\' in your terminal to see the file.');
+        } catch (e) {
+          print('Warning: Failed to save debug firmware file: $e');
         }
-        dataToUpload = Uint8List.fromList(compressed);
-        filenameToUpload += '.gz';
-        print('Compressed Unified Size: ${dataToUpload.length} bytes');
+        // --------------------------------------------------
 
       } else {
-        // Standard / Legacy Flow
-
-        // Check if already compressed to avoid double compression
-        if (filename.endsWith('.gz')) {
-          print('Firmware already compressed: $filename');
-          dataToUpload = firmwareData;
-          filenameToUpload = filename;
-        } else {
-          print('Compressing firmware: $filename');
-          final compressed = GZipEncoder().encode(firmwareData);
-          if (compressed == null) {
-            throw Exception('Failed to compress firmware payload.');
-          }
-          dataToUpload = Uint8List.fromList(compressed);
-          filenameToUpload = '$filename.gz';
-          print('Original Size: ${firmwareData.length} bytes');
-          print('Compressed Size: ${dataToUpload.length} bytes');
-        }
+        dataToUpload = firmwareData;
+        filenameToUpload = filename;
       }
 
-      // Construct URI from Dio's base URL
+      // Targeted Compression Logic (Task 3)
+      if (platform == 'esp8285') {
+        print('Compressing firmware for ESP8285...');
+        final compressed = GZipEncoder().encode(dataToUpload);
+        if (compressed == null) {
+          throw Exception('Failed to compress firmware payload.');
+        }
+        dataToUpload = Uint8List.fromList(compressed);
+        if (!filenameToUpload.endsWith('.gz')) filenameToUpload += '.gz';
+      } else if (platform != null && platform.startsWith('esp32')) {
+        print('Using raw bytes for ESP32 ($platform)');
+        if (filenameToUpload.endsWith('.gz')) {
+           filenameToUpload = filenameToUpload.substring(0, filenameToUpload.length - 3);
+        }
+      } else {
+        print('Skipping compression for platform: $platform');
+      }
+
+      int trimmingDelta = 0;
+      if (platform != null) {
+        final trimmedEnd = FirmwareAssembler.findFirmwareEnd(firmwareData, platform);
+        trimmingDelta = firmwareData.length - trimmedEnd;
+      }
+      print('Trimming Delta: $trimmingDelta');
+      print('Final Byte Count: ${dataToUpload.length}');
+
+      // 1. Manually construct the multipart boundaries
       final baseUrl = _dio.options.baseUrl;
       final uri = Uri.parse(baseUrl.endsWith('/') ? '${baseUrl}update' : '$baseUrl/update');
-      
-      final request = http.MultipartRequest('POST', uri);
 
-      // Set headers
-      request.headers['X-FileSize'] = dataToUpload.length.toString();
-      
-      // Attach file
-      final multipartFile = http.MultipartFile.fromBytes(
-        'upload',
-        dataToUpload,
-        filename: filenameToUpload,
-        contentType: MediaType('application', 'octet-stream'),
-      );
-      
-      request.files.add(multipartFile);
+      final boundary = '----ExpressLRSFormBoundaryFlutter';
+      final headerString = '--$boundary\r\n'
+          'Content-Disposition: form-data; name="upload"; filename="$filenameToUpload"\r\n'
+          'Content-Type: application/octet-stream\r\n\r\n';
+      final headerBytes = utf8.encode(headerString);
+      final footerString = '\r\n--$boundary--\r\n';
+      final footerBytes = utf8.encode(footerString);
 
-      print('Sending pristine HTTP multipart request to $uri...');
-      
-      // Native http doesn't support onSendProgress easily without a custom client, 
-      // but the requirement didn't explicitly ask to preserve it (though it was in the signature).
-      // If vital, we'd need a stream transformer. For now, we follow the "Rewrite" instruction.
-      
-      final streamedResponse = await (_httpClient?.send(request) ?? request.send()).timeout(const Duration(seconds: 120));
-      final response = await http.Response.fromStream(streamedResponse);
+      // 2. Calculate EXACT total length of the request body to disable chunked encoding
+      final totalBodyLength = headerBytes.length + dataToUpload.length + footerBytes.length;
 
-      if (response.statusCode != 200) {
-        throw Exception('Flashing failed with status: ${response.statusCode}. Body: ${response.body}');
-      }
+      final client = HttpClient()..connectionTimeout = const Duration(seconds: 30);
       
-      print('Flash successful! Device response: ${response.body}');
-      
-      // Verify ELRS specific JSON response if possible (parse body)
-      // The response body is usually JSON string.
-      if (response.body.contains('"status": "ok"') || response.body.contains('"status":"ok"')) {
-         // Success
-      } else if (response.body.contains('"msg"')) {
-         // Try to extract msg? Or just throw if status not ok?
-         // Assuming 200 OK means generic success for now, as parsing string manually is brittle.
+      try {
+        final request = await client.postUrl(uri);
+
+        // 3. Set rigid headers: this forces a fixed Content-Length and kills chunking
+        request.contentLength = totalBodyLength; 
+        request.headers.set(HttpHeaders.contentTypeHeader, 'multipart/form-data; boundary=$boundary');
+        request.headers.set('X-FileSize', dataToUpload.length.toString()); // Raw binary size only
+
+        // 4. Write payload in exact order
+        request.add(headerBytes);
+        request.add(dataToUpload);
+        request.add(footerBytes);
+
+        final HttpClientResponse response = await request.close().timeout(const Duration(seconds: 120));
+        final String responseBody = await response.transform(utf8.decoder).join();
+        final responseData = jsonDecode(responseBody.trim());
+
+        // 5. Handle Mismatch Protocol (The 2-step handshake)
+        if (responseData['status'] == 'mismatch') {
+          print('LOG: Mismatch detected. Executing secondary force update...');
+          
+          final forceUri = Uri.parse(baseUrl.endsWith('/') ? '${baseUrl}forceupdate' : '$baseUrl/forceupdate');
+          final forceRequest = await client.postUrl(forceUri);
+          
+          final forceBoundary = '----ExpressLRSForceBoundary';
+          final forceBodyStr = '--$forceBoundary\r\n'
+              'Content-Disposition: form-data; name="action"\r\n\r\nconfirm\r\n--$forceBoundary--\r\n';
+          final forceBytes = utf8.encode(forceBodyStr);
+          
+          forceRequest.contentLength = forceBytes.length;
+          forceRequest.headers.set(HttpHeaders.contentTypeHeader, 'multipart/form-data; boundary=$forceBoundary');
+          forceRequest.add(forceBytes);
+          
+          final forceResponse = await forceRequest.close().timeout(const Duration(seconds: 30));
+          final forceResponseBody = await forceResponse.transform(utf8.decoder).join();
+          final forceData = jsonDecode(forceResponseBody.trim());
+          
+          if (forceData['status'] != 'ok') {
+            throw Exception('Force update failed: $forceResponseBody');
+          }
+        } else if (responseData['status'] != 'ok') {
+          throw Exception('Flashing failed: $responseBody');
+        }
+        
+        print('LOG: Flash successful!');
+
+      } finally {
+        client.close();
       }
       
     } catch (e) {
       throw Exception('Failed to flash firmware: $e');
+    }
+  }
+
+  /// Confirms a forced update after a target mismatch using raw HttpClient.
+  Future<void> confirmForceUpdate() async {
+    final client = HttpClient();
+    try {
+      final baseUrl = _dio.options.baseUrl;
+      final forcePath = baseUrl.endsWith('/') ? '${baseUrl}forceupdate' : '$baseUrl/forceupdate';
+      final uri = Uri.parse(forcePath);
+
+      print('LOG: Sending manual action=confirm to /forceupdate...');
+      
+      final boundary = '----ELRSManagerConfirm${DateTime.now().millisecondsSinceEpoch}';
+      final bodyStr = '--$boundary\r\n'
+          'Content-Disposition: form-data; name="action"\r\n\r\n'
+          'confirm\r\n'
+          '--$boundary--\r\n';
+      final bodyBytes = utf8.encode(bodyStr);
+
+      final request = await client.postUrl(uri);
+      request.contentLength = bodyBytes.length;
+      request.headers.set('Content-Type', 'multipart/form-data; boundary=$boundary');
+      
+      request.add(bodyBytes);
+      final response = await request.close();
+      final responseBody = await response.transform(utf8.decoder).join();
+      
+      print('LOG: Confirm Force Manual Response: $responseBody');
+
+      if (!responseBody.contains('"status": "ok"') && !responseBody.contains('"status":"ok"')) {
+        throw Exception('Force update confirmation failed: $responseBody');
+      }
+    } finally {
+      client.close();
     }
   }
 

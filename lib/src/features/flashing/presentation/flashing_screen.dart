@@ -20,6 +20,40 @@ class FlashingScreen extends HookConsumerWidget {
 
     final state = ref.watch(flashingControllerProvider);
 
+    // Listen for mismatch state to show dialog
+    ref.listen<FlashingStatus>(
+      flashingControllerProvider.select((s) => s.status),
+      (previous, next) {
+        if (next == FlashingStatus.mismatch) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              title: const Text('Target Mismatch'),
+              content: Text(state.errorMessage ?? 'The selected firmware does not match this device.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    ref.read(flashingControllerProvider.notifier).resetStatus();
+                  },
+                  child: const Text('CANCEL'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    ref.read(flashingControllerProvider.notifier).flash();
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                  child: const Text('RETRY FLASH'),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('ELRS Mobile'),
@@ -42,10 +76,9 @@ class FlashingScreen extends HookConsumerWidget {
             // 2. Options Card
             const OptionsCard(),
             const SizedBox(height: 24),
-            const SizedBox(height: 24),
 
             // 3. Action Button & Progress
-            if (state.errorMessage != null)
+            if (state.errorMessage != null && state.status != FlashingStatus.mismatch)
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text(
@@ -65,7 +98,10 @@ class FlashingScreen extends HookConsumerWidget {
                 ),
               ),
 
-            if (state.status != FlashingStatus.idle && state.status != FlashingStatus.error && state.status != FlashingStatus.success)
+            if (state.status != FlashingStatus.idle && 
+                state.status != FlashingStatus.error && 
+                state.status != FlashingStatus.success &&
+                state.status != FlashingStatus.mismatch)
               Column(
                 children: [
                    LinearProgressIndicator(value: state.progress),
@@ -76,10 +112,17 @@ class FlashingScreen extends HookConsumerWidget {
               ),
 
             ElevatedButton(
-              onPressed: (state.status == FlashingStatus.idle || state.status == FlashingStatus.error || state.status == FlashingStatus.success)
+              onPressed: (state.status == FlashingStatus.idle || 
+                          state.status == FlashingStatus.error || 
+                          state.status == FlashingStatus.success ||
+                          state.status == FlashingStatus.mismatch)
                   ? () {
                       if (state.status == FlashingStatus.success) {
                         ref.read(flashingControllerProvider.notifier).resetStatus();
+                      } else if (state.status == FlashingStatus.mismatch) {
+                        // Re-trigger mismatch dialog if they click the button again
+                        ref.read(flashingControllerProvider.notifier).resetStatus();
+                        Future.microtask(() => ref.read(flashingControllerProvider.notifier).flash());
                       } else {
                         ref.read(flashingControllerProvider.notifier).flash();
                       }

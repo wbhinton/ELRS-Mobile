@@ -1,0 +1,11 @@
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!

@@ -1,22 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'discovery_provider.dart';
+import 'connection_repository.dart';
 
 part 'device_dio.g.dart';
 
 @riverpod
 Dio deviceDio(Ref ref) {
-  // Watch discovery provider for IP changes
-  final ipAsync = ref.watch(discoveryProvider);
-  final baseUrl = ipAsync.asData?.value != null 
-      ? 'http://${ipAsync.asData!.value}' 
-      : 'http://10.0.0.1'; // Default Fallback
+  // Watch centralized target IP provider
+  final ip = ref.watch(targetIpProvider);
+  final baseUrl = ip != null ? 'http://$ip' : '';
 
   final dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 3),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 60),
+      receiveTimeout: const Duration(seconds: 60),
       headers: {
         'User-Agent': 'ELRSManager/1.0',
       },
