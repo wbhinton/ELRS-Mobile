@@ -153,73 +153,116 @@ class DeviceRepository {
       print('Trimming Delta: $trimmingDelta');
       print('Final Byte Count: ${dataToUpload.length}');
 
-      // Construct URI from Dio's base URL
-      final baseUrl = _dio.options.baseUrl;
-      final updatePath = baseUrl.endsWith('/') ? '${baseUrl}update' : '$baseUrl/update';
+      // Manual Byte-Perfect Flashing via HttpClient
+      final client = HttpClient();
+      client.connectionTimeout = const Duration(seconds: 10);
       
-      print('LOG: Starting Dio OTA Update at URL: $updatePath');
+      try {
+        final baseUrl = _dio.options.baseUrl;
+        final updatePath = baseUrl.endsWith('/') ? '${baseUrl}update' : '$baseUrl/update';
+        final uri = Uri.parse(updatePath);
+        
+        final boundary = '----ELRSManager${DateTime.now().millisecondsSinceEpoch}';
+        
+        // Manual Part Construction
+        final headerStr = '--$boundary\r\n'
+            'Content-Disposition: form-data; name="upload"; filename="$filenameToUpload"\r\n'
+            'Content-Type: application/octet-stream\r\n\r\n';
+        final headerBytes = utf8.encode(headerStr);
+        final footerStr = '\r\n--$boundary--\r\n';
+        final footerBytes = utf8.encode(footerStr);
+        
+        final totalBodyLength = headerBytes.length + dataToUpload.length + footerBytes.length;
+        
+        print('LOG: Starting Manual Flash. Body Length: $totalBodyLength');
+        
+        final request = await client.postUrl(uri);
+        request.contentLength = totalBodyLength;
+        request.headers.set('Content-Type', 'multipart/form-data; boundary=$boundary');
+        request.headers.set('X-FileSize', dataToUpload.length.toString());
+        
+        // Write segments
+        request.add(headerBytes);
+        request.add(dataToUpload);
+        request.add(footerBytes);
+        
+        final response = await request.close();
+        final responseBody = await response.transform(utf8.decoder).join();
+        print('LOG: Initial Manual Response: $responseBody');
 
-      final formData = FormData.fromMap({
-        'upload': MultipartFile.fromBytes(
-          dataToUpload,
-          filename: filenameToUpload,
-        ),
-      });
-
-      final options = Options(
-        headers: {
-          'X-FileSize': dataToUpload.length.toString(),
-          'Content-Type': 'multipart/form-data',
-        },
-      );
-
-      // Phase 1: Upload
-      Response response = await _dio.post(
-        '/update', 
-        data: formData,
-        options: options,
-      );
-
-      print('LOG: Initial Update Response: ${response.data}');
-
-      // Phase 2: Automatic Mismatch Handling
-      dynamic responseData;
-      if (response.data is String) {
-        final rawData = (response.data as String).trim();
-        responseData = rawData.startsWith('{') ? jsonDecode(rawData) : {'status': 'error', 'msg': rawData};
-      } else {
-        responseData = response.data;
-      }
-
-      if (responseData['status'] == 'mismatch') {
-        print('LOG: Mismatch detected. Waiting 2 seconds before confirmation...');
-        await Future.delayed(const Duration(seconds: 2));
-
-        print('LOG: Sending action=confirm to /forceupdate...');
-        final forceResponse = await _dio.post(
-          '/forceupdate',
-          data: FormData.fromMap({'action': 'confirm'}),
-        );
-
-        print('LOG: Force Update Response: ${forceResponse.data}');
-        response = forceResponse; // Update response for final check
-      }
-
-      dynamic finalData;
-      if (response.data is String) {
-        final rawData = (response.data as String).trim();
-        finalData = rawData.startsWith('{') ? jsonDecode(rawData) : {'status': 'error', 'msg': rawData};
-      } else {
-        finalData = response.data;
-      }
-      if (finalData['status'] == 'ok') {
-        print('Flash successful! Final response: $finalData');
-      } else {
-        throw Exception('Flashing failed. Final status: ${finalData['status']}. Body: $finalData');
+        // Automatic Two-Step Handshake
+        if (responseBody.contains('"status": "mismatch"') || responseBody.contains('"status":"mismatch"')) {
+          print('LOG: Mismatch detected. Waiting 2 seconds for manual confirmation...');
+          await Future.delayed(const Duration(seconds: 2));
+          
+          final forcePath = updatePath.replaceAll('/update', '/forceupdate');
+          final forceUri = Uri.parse(forcePath);
+          
+          final forceRequest = await client.postUrl(forceUri);
+          final forceBoundary = '----ELRSManagerForce${DateTime.now().millisecondsSinceEpoch}';
+          
+          final forceBodyStr = '--$forceBoundary\r\n'
+              'Content-Disposition: form-data; name="action"\r\n\r\n'
+              'confirm\r\n'
+              '--$forceBoundary--\r\n';
+          final forceBodyBytes = utf8.encode(forceBodyStr);
+          
+          forceRequest.contentLength = forceBodyBytes.length;
+          forceRequest.headers.set('Content-Type', 'multipart/form-data; boundary=$forceBoundary');
+          
+          forceRequest.add(forceBodyBytes);
+          final forceResponse = await forceRequest.close();
+          final forceResponseBody = await forceResponse.transform(utf8.decoder).join();
+          print('LOG: Manual Force Update Response: $forceResponseBody');
+          
+          if (!forceResponseBody.contains('"status": "ok"') && !forceResponseBody.contains('"status":"ok"')) {
+            throw Exception('Manual force update failed: $forceResponseBody');
+          }
+        } else if (!responseBody.contains('"status": "ok"') && !responseBody.contains('"status":"ok"')) {
+          throw Exception('Flashing failed: $responseBody');
+        }
+        
+      } finally {
+        client.close();
       }
       
     } catch (e) {
       throw Exception('Failed to flash firmware: $e');
+    }
+  }
+
+  /// Confirms a forced update after a target mismatch using raw HttpClient.
+  Future<void> confirmForceUpdate() async {
+    final client = HttpClient();
+    try {
+      final baseUrl = _dio.options.baseUrl;
+      final forcePath = baseUrl.endsWith('/') ? '${baseUrl}forceupdate' : '$baseUrl/forceupdate';
+      final uri = Uri.parse(forcePath);
+
+      print('LOG: Sending manual action=confirm to /forceupdate...');
+      
+      final boundary = '----ELRSManagerConfirm${DateTime.now().millisecondsSinceEpoch}';
+      final bodyStr = '--$boundary\r\n'
+          'Content-Disposition: form-data; name="action"\r\n\r\n'
+          'confirm\r\n'
+          '--$boundary--\r\n';
+      final bodyBytes = utf8.encode(bodyStr);
+
+      final request = await client.postUrl(uri);
+      request.contentLength = bodyBytes.length;
+      request.headers.set('Content-Type', 'multipart/form-data; boundary=$boundary');
+      
+      request.add(bodyBytes);
+      final response = await request.close();
+      final responseBody = await response.transform(utf8.decoder).join();
+      
+      print('LOG: Confirm Force Manual Response: $responseBody');
+
+      if (!responseBody.contains('"status": "ok"') && !responseBody.contains('"status":"ok"')) {
+        throw Exception('Force update confirmation failed: $responseBody');
+      }
+    } finally {
+      client.close();
     }
   }
 

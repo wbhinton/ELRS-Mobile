@@ -312,6 +312,7 @@ class FlashingController extends _$FlashingController {
   }
 
 
+
   void resetStatus() {
     state = state.copyWith(status: FlashingStatus.idle, errorMessage: null, progress: 0.0);
   }
