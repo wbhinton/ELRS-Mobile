@@ -1,4 +1,4 @@
-# ExpressLRS Manager
+# ExpressLRS Mobile
 
 > [!IMPORTANT]
 > **Work in Progress**: This project is currently under active development and should be considered an alpha/experimental tool.
@@ -14,9 +14,16 @@ ExpressLRS Manager is a modern, cross-platform Flutter application designed to s
 - **Network Discovery**: Automatic detection of ELRS devices on your network using mDNS (NSD).
 
 
-## Credits
 
-This project heavily leverages logic and patterns from the official [ExpressLRS Webflasher](https://github.com/ExpressLRS/web-flasher) and [ExpressLRS Configurator](https://github.com/ExpressLRS/ExpressLRS-Configurator) projects. Without the incredible work of the ExpressLRS team and contributors, this application would not be possible.
 
+## Legal & Attribution
+
+**Software License:** This project is licensed under the GPLv3.
+
+**Trademark Notice:** "ExpressLRS" is a trademark of ExpressLRS LLC. This application is an independent, community-driven tool and is not officially affiliated with, sponsored by, or endorsed by ExpressLRS LLC.
+
+**Compatibility:** Designed for use with ExpressLRS 3.x and 4.x firmware.
+
+**Credits:** Special thanks to the ExpressLRS dev team for the open-source WebUI and Configurator logic that made this implementation possible.
 ---
 *Created and maintained for the FPV community.*
