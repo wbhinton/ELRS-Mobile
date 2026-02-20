@@ -74,9 +74,10 @@ class ConfigViewModel extends _$ConfigViewModel {
 
     final service = ref.read(deviceConfigServiceProvider);
     
-    // Priority: 1. Manual IP, 2. mDNS
+    // Priority: 1. Manual IP (if set), 2. Default AP IP (10.0.0.1), 3. Discovered mDNS target.
     final ips = [
       if (_manualIp != null && _manualIp!.isNotEmpty) _manualIp!,
+      '10.0.0.1', // Ensure standard Access Point discovery is always attempted
       if (_lastDiscoveredIp != null) _lastDiscoveredIp!,
     ];
 

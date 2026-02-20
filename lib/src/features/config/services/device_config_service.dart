@@ -99,6 +99,28 @@ class DeviceConfigService {
     }
   }
 
+  /// Saves the updated config to the device.
+  /// Performs a POST request to http://<ip>/config.
+  Future<void> saveConfig(String ip, Map<String, dynamic> config) async {
+    try {
+      final response = await _dio.post(
+        'http://$ip/config',
+        data: config,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 204) {
+        throw Exception('Failed to save config. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to save config to $ip: $e');
+    }
+  }
+
   /// Reboots the device.
   /// Performs a POST request to http://<ip>/reboot.
   Future<void> reboot(String ip) async {
