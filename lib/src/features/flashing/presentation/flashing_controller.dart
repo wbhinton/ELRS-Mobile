@@ -295,10 +295,10 @@ class FlashingController extends _$FlashingController {
       ref.read(isFlashingProvider.notifier).setFlashing(false);
       final errorMsg = e.toString();
       
-      if (errorMsg.contains('MISMATCH')) {
+      if (errorMsg.contains('mismatch')) {
         state = state.copyWith(
           status: FlashingStatus.mismatch,
-          errorMessage: errorMsg,
+          errorMessage: 'Target mismatch detected. Forced update was attempted.',
           progress: 0.0,
         );
       } else {
@@ -310,6 +310,7 @@ class FlashingController extends _$FlashingController {
       }
     }
   }
+
 
   void resetStatus() {
     state = state.copyWith(status: FlashingStatus.idle, errorMessage: null, progress: 0.0);

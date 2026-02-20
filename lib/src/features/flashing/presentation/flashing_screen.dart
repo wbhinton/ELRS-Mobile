@@ -42,10 +42,10 @@ class FlashingScreen extends HookConsumerWidget {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    ref.read(flashingControllerProvider.notifier).flash(force: true);
+                    ref.read(flashingControllerProvider.notifier).flash();
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                  child: const Text('FLASH ANYWAY'),
+                  child: const Text('RETRY FLASH'),
                 ),
               ],
             ),

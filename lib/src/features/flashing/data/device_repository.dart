@@ -155,64 +155,68 @@ class DeviceRepository {
 
       // Construct URI from Dio's base URL
       final baseUrl = _dio.options.baseUrl;
-      var path = baseUrl.endsWith('/') ? '${baseUrl}update' : '$baseUrl/update';
-      final uri = Uri.parse(path);
+      final updatePath = baseUrl.endsWith('/') ? '${baseUrl}update' : '$baseUrl/update';
       
-      print('LOG: Attempting Raw OTA Update at URL: $uri');
+      print('LOG: Starting Dio OTA Update at URL: $updatePath');
 
-      final client = HttpClient();
-      client.connectionTimeout = const Duration(seconds: 10);
-      
-      final request = await client.postUrl(uri);
-      
-      // Set headers
-      request.contentLength = dataToUpload.length;
-      request.headers.set(HttpHeaders.contentTypeHeader, 'application/octet-stream');
-      request.headers.set('X-FileSize', dataToUpload.length.toString());
-      
-      // Write raw bytes directly
-      request.add(dataToUpload);
+      final formData = FormData.fromMap({
+        'upload': MultipartFile.fromBytes(
+          dataToUpload,
+          filename: filenameToUpload,
+        ),
+      });
 
-      // ESP32 SuperP needs a moment to prepare flash before receiving the binary.
-      print('LOG: Waiting 2 seconds for device to prepare...');
-      await Future.delayed(const Duration(seconds: 2));
+      final options = Options(
+        headers: {
+          'X-FileSize': dataToUpload.length.toString(),
+          'Content-Type': 'multipart/form-data',
+        },
+      );
 
-      HttpClientResponse response = await request.close().timeout(const Duration(seconds: 120));
-      String responseBody = await response.transform(utf8.decoder).join();
+      // Phase 1: Upload
+      Response response = await _dio.post(
+        '/update', 
+        data: formData,
+        options: options,
+      );
 
-      print('LOG: Device Response Body: $responseBody');
+      print('LOG: Initial Update Response: ${response.data}');
 
-      // Phase 2: Mismatch Handling
-      if (responseBody.contains('"status": "mismatch"') || responseBody.contains('"status":"mismatch"')) {
-        print('LOG: Mismatch detected. Sending confirmation to /forceupdate...');
-        
-        // Construct /forceupdate URL
-        final forceUpdatePath = baseUrl.endsWith('/') ? '${baseUrl}forceupdate' : '$baseUrl/forceupdate';
-        final forceUri = Uri.parse(forceUpdatePath);
-
-        // RadioMaster ER8 and others require a multipart/form-data POST with action=confirm
-        var multipartRequest = http.MultipartRequest('POST', forceUri);
-        multipartRequest.fields['action'] = 'confirm';
-        
-        var forceResponse = await (_httpClient ?? http.Client()).send(multipartRequest).timeout(const Duration(seconds: 30));
-        var forceResponseBody = await forceResponse.stream.bytesToString();
-        
-        print('LOG: Force Update Response: $forceResponseBody');
-        
-        if (forceResponseBody.contains('"status": "ok"') || forceResponseBody.contains('"status":"ok"')) {
-          print('LOG: Force update confirmed!');
-          responseBody = forceResponseBody; // Treat this as the final response
-        } else {
-          throw Exception('MISMATCH: The firmware target does not match the device and force update failed. Response: $forceResponseBody');
-        }
+      // Phase 2: Automatic Mismatch Handling
+      dynamic responseData;
+      if (response.data is String) {
+        final rawData = (response.data as String).trim();
+        responseData = rawData.startsWith('{') ? jsonDecode(rawData) : {'status': 'error', 'msg': rawData};
+      } else {
+        responseData = response.data;
       }
 
-      if (response.statusCode != 200 && !responseBody.contains('"status": "ok"')) {
-        print('LOG: OTA Update Failed! Status: ${response.statusCode}');
-        throw Exception('Flashing failed with status: ${response.statusCode}. Body: $responseBody');
+      if (responseData['status'] == 'mismatch') {
+        print('LOG: Mismatch detected. Waiting 2 seconds before confirmation...');
+        await Future.delayed(const Duration(seconds: 2));
+
+        print('LOG: Sending action=confirm to /forceupdate...');
+        final forceResponse = await _dio.post(
+          '/forceupdate',
+          data: FormData.fromMap({'action': 'confirm'}),
+        );
+
+        print('LOG: Force Update Response: ${forceResponse.data}');
+        response = forceResponse; // Update response for final check
       }
-      
-      print('Flash successful! Final response: $responseBody');
+
+      dynamic finalData;
+      if (response.data is String) {
+        final rawData = (response.data as String).trim();
+        finalData = rawData.startsWith('{') ? jsonDecode(rawData) : {'status': 'error', 'msg': rawData};
+      } else {
+        finalData = response.data;
+      }
+      if (finalData['status'] == 'ok') {
+        print('Flash successful! Final response: $finalData');
+      } else {
+        throw Exception('Flashing failed. Final status: ${finalData['status']}. Body: $finalData');
+      }
       
     } catch (e) {
       throw Exception('Failed to flash firmware: $e');
