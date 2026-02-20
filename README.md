@@ -1,17 +1,22 @@
-# elrs_manager
+# ExpressLRS Manager
 
-A new Flutter project.
+> [!IMPORTANT]
+> **Work in Progress**: This project is currently under active development and should be considered an alpha/experimental tool.
 
-## Getting Started
+ExpressLRS Manager is a modern, cross-platform Flutter application designed to simplify the management, configuration, and flashing of ExpressLRS hardware. It aims to provide a seamless experience for updating firmware and managing device settings directly from your desktop or mobile device.
 
-This project is a starting point for a Flutter application.
+## Core Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Advanced WiFi Flashing**: Flashing for ESP32 and ESP8285 platforms via WiFi OTA.
+- **Unified Firmware Assembly**: Dynamically assembles firmware payloads with user-specific options (Binding Phrase, WiFi SSID/Password) and hardware layouts.
+- **Target Management**: Advanced parsing and resolution of ExpressLRS targets and hardware configuration files.
+- **Device Configurator**: Real-time fetching and updating of device parameters such as binding phrases and UID generation. (work in progress)
+- **Network Discovery**: Automatic detection of ELRS devices on your network using mDNS (NSD).
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Credits
+
+This project heavily leverages logic and patterns from the official [ExpressLRS Webflasher](https://github.com/ExpressLRS/web-flasher) and [ExpressLRS Configurator](https://github.com/ExpressLRS/ExpressLRS-Configurator) projects. Without the incredible work of the ExpressLRS team and contributors, this application would not be possible.
+
+---
+*Created and maintained for the FPV community.*
