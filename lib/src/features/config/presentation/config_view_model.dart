@@ -59,6 +59,7 @@ class ConfigViewModel extends _$ConfigViewModel {
     _manualIp = ip;
     final storage = ref.read(secureStorageServiceProvider);
     await storage.saveManualIp(ip);
+    state = const AsyncLoading();
     _performHeartbeat();
   }
 
@@ -96,7 +97,7 @@ class ConfigViewModel extends _$ConfigViewModel {
     }
 
     // If we reach here, no device was found on any priority IP
-    if (state.value != null) {
+    if (state.value != null || state.isLoading) {
       state = const AsyncValue.data(null);
     }
   }

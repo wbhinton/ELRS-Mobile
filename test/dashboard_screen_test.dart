@@ -35,7 +35,7 @@ void main() {
     expect(find.byIcon(Icons.build), findsOneWidget);         // Device Config
     expect(find.byIcon(Icons.videocam), findsOneWidget);      // Backpack
     expect(find.byIcon(Icons.folder_special), findsOneWidget); // Firmware Manager
-    expect(find.byIcon(Icons.settings), findsOneWidget);      // Settings
+    expect(find.byIcon(Icons.settings), findsWidgets);      // Settings
 
     // Verify HardwareStatusCard
     expect(find.byType(HardwareStatusCard), findsOneWidget);

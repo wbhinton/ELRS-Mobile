@@ -6,8 +6,8 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const App());
 
-    // Allow the splash screen timer and animations to complete
-    await tester.pumpAndSettle(const Duration(seconds: 4));
+    // Allow the splash screen timer to complete, avoiding pumpAndSettle due to infinite looping animations
+    await tester.pump(const Duration(seconds: 4));
 
     // Verify that the App is present
     expect(find.byType(App), findsOneWidget);

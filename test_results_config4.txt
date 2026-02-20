@@ -1,0 +1,186 @@
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart
+00:00 +0: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Initial state has no changes
+00:00 +1: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Initial state has no changes
+00:00 +2: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Initial state has no changes
+00:00 +3: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Initial state has no changes
+00:00 +4: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Initial state has no changes
+00:00 +5: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +6: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +7: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +8: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +9: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests saveChanges triggers both endpoints if both are changed
+00:00 +10: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController updates specific pin and saves
+00:00 +11: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +12: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +13: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +14: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +15: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +16: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +16: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from cache when network fails
+Failed to fetch targets online: DioException [unknown]: null. Checking cache...
+00:01 +17: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +17: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets throws when network fails and cache is empty
+Failed to fetch targets online: Exception: Network error. Checking cache...
+00:01 +18: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _IconWidgetFinder:<Found 2 widgets with icon "IconData(U+0E57F)": [
+            Icon(IconData(U+0E57F), dependencies: [Directionality, IconTheme]),
+            Icon(IconData(U+0E57F), size: 32.0, color: MaterialColor(primary value: Color(alpha:
+1.0000, red: 0.6196, green: 0.6196, blue: 0.6196, colorSpace: ColorSpace.sRGB)), dependencies:
+[Directionality, IconTheme]),
+          ]>
+   Which: is too many
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart:38:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart line 38
+The test description was:
+  Dashboard renders all menu items
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +18 -1: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items [E]
+  Test failed. See exception logs above.
+  The test description was: Dashboard renders all menu items
+  
+00:01 +18 -1: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository fetchConfig returns configuration map on success
+00:01 +19 -1: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+00:01 +20 -1: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+00:01 +20 -1: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository flashFirmware throws exception on error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:01 +21 -1: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository flashFirmware throws exception on error
+00:01 +21 -1: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository handles API error
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+00:01 +22 -1: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository flashFirmware throws exception on error
+00:01 +23 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:02 +24 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:02 +25 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:02 +26 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: App applies Dark Mode background
+00:02 +27 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:02 +28 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:02 +29 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:02 +30 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:02 +31 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +32 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +33 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +34 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +35 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +36 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +37 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +38 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:03 +39 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+pumpAndSettle timed out
+
+When the exception was thrown, this was the stack:
+#0      WidgetTester.pumpAndSettle.<anonymous closure> (package:flutter_test/src/widget_tester.dart:717:11)
+<asynchronous suspension>
+#1      TestAsyncUtils.guard.<anonymous closure> (package:flutter_test/src/test_async_utils.dart:130:27)
+<asynchronous suspension>
+#2      main.<anonymous closure> (file:///Users/wbhinton/projects/ELRS/test/widget_test.dart:10:5)
+<asynchronous suspension>
+#3      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#4      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  App renders without crashing
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:03 +39 -2: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing [E]
+  Test failed. See exception logs above.
+  The test description was: App renders without crashing
+  
+00:04 +39 -2: /Users/wbhinton/projects/ELRS/test/discovery_service_test.dart: Provider emits IP when device is found
+00:04 +40 -2: /Users/wbhinton/projects/ELRS/test/discovery_service_test.dart: Provider emits IP when device is found
+00:04 +41 -2: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateWifi sends correct ssid and password
+00:04 +42 -2: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download is rejected when cache limit is reached
+00:04 +42 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+Provider Transition: AsyncLoading<String?>() -> AsyncData<String?>(value: null)
+00:04 +43 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+00:04 +44 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+CONNECTION: Target IP updated to 192.168.1.55
+Provider Transition: AsyncData<String?>(value: null) -> AsyncData<String?>(value: 192.168.1.55)
+Final Provider Value: AsyncData<String?>(value: 192.168.1.55)
+Repo Base URL: http://192.168.1.55
+00:04 +45 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +45 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:04 +46 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +46 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware does NOT double-compress .gz files
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:04 +47 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +47 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware handles 500 error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 0
+00:04 +48 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +49 -2: /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: Controller loads saved options on init
+00:04 +50 -2: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:04 +51 -2: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:04 +52 -2: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Verify
+00:05 +53 -2: loading /Users/wbhinton/projects/ELRS/test/assets/ER8/er8_forensics_test.dart
+Forensic analysis complete. Results written to: test/assets/ER8/forensic_results.txt
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!
+
+00:05 +53 -2: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:05 +54 -2: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Trims firmware correctly
+00:05 +55 -2: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Includes Wi-Fi credentials in options JSON
+00:05 +56 -2: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly with specific BetaFPV strings
+00:05 +57 -2: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler generateUid hashes correctly
+00:05 +58 -2: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:05 +59 -2: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified handles ESP32 platform
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:05 +60 -2: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:05 +61 -2: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action handles download error
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:05 +62 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService fetchConfig returns RuntimeConfig on success
+Raw Device Config JSON: {settings: {field1: val1}, options: {wifi-ssid: mikes-wifi}, config: {hardware: lite}, modelId: 255, modelMatch: false}
+00:06 +63 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +64 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +65 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +66 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService fetchConfig throws exception on error
+00:06 +67 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Toggling Developer Mode saves to disk
+00:06 +68 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: RuntimeConfig model fromJson and toJson work correctly
+00:06 +69 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Setting Regulatory Domain updates state
+00:06 +70 -2: Some tests failed.
