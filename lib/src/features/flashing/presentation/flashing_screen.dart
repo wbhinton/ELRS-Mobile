@@ -19,6 +19,7 @@ class FlashingScreen extends HookConsumerWidget {
     }, []);
 
     final state = ref.watch(flashingControllerProvider);
+    final settings = ref.watch(settingsControllerProvider);
 
     // Listen for mismatch state to show dialog
     ref.listen<FlashingStatus>(
@@ -71,6 +72,12 @@ class FlashingScreen extends HookConsumerWidget {
               ],
             ),
           );
+        } else if (next == FlashingStatus.success && state.status == FlashingStatus.success) {
+           // Check if it was a download success (less intrusive than a dialog usually)
+           // But here we might want to show a SnackBar
+           ScaffoldMessenger.of(context).showSnackBar(
+             const SnackBar(content: Text('Action completed successfully!')),
+           );
         }
       },
     );
@@ -130,6 +137,23 @@ class FlashingScreen extends HookConsumerWidget {
                    Text(state.status.name.toUpperCase()),
                    const SizedBox(height: 16),
                 ],
+              ),
+
+            if (settings.expertMode)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: OutlinedButton(
+                  onPressed: (state.status == FlashingStatus.idle || 
+                              state.status == FlashingStatus.error || 
+                              state.status == FlashingStatus.success ||
+                              state.status == FlashingStatus.mismatch)
+                      ? () => ref.read(flashingControllerProvider.notifier).downloadFirmware()
+                      : null,
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: const Text('DOWNLOAD BINARY'),
+                ),
               ),
 
             ElevatedButton(

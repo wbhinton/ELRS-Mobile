@@ -25,8 +25,8 @@ import 'package:path_provider/path_provider.dart';
 part 'device_repository.g.dart';
 
 @riverpod
-DeviceRepository deviceRepository(Ref ref) {
-  final dio = ref.watch(deviceDioProvider);
+DeviceRepository deviceRepository(DeviceRepositoryRef ref) {
+  final dio = ref.watch(localDioProvider);
   return DeviceRepository(dio);
 }
 

@@ -207,6 +207,7 @@ class FirmwareRepository {
 }
 
 @riverpod
-FirmwareRepository firmwareRepository(Ref ref) {
-  return FirmwareRepository(Dio());
+FirmwareRepository firmwareRepository(FirmwareRepositoryRef ref) {
+  final dio = ref.watch(internetDioProvider);
+  return FirmwareRepository(dio);
 }

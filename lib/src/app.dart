@@ -10,10 +10,11 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'router.dart';
+import 'core/networking/connectivity_service.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -26,15 +27,27 @@ class App extends StatelessWidget {
   }
 }
 
-class _AppContent extends ConsumerWidget {
+class _AppContent extends HookConsumerWidget {
   const _AppContent();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(goRouterProvider);
     
+    // Automatic Network Binding
+    useEffect(() {
+      // Run initial check
+      Future.microtask(() => ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi());
+      return null;
+    }, []);
+
+    // Listen for network changes
+    ref.listen(connectivityServiceProvider, (prev, next) {
+      ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
+    });
+
     return MaterialApp.router(
-      title: 'ExpressLRS Mobile',
+      title: 'ELRS Mobile',
       theme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
       routerConfig: router,

@@ -13,6 +13,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool forceMobileData,
     @Default(0) int defaultRegulatoryDomain, // 0: FCC, 1: EU, etc.
     @Default(2) int maxCachedVersions,
+    @Default(false) bool expertMode,
     @Default('Unknown') String appVersion,
   }) = _SettingsState;
 }
@@ -33,6 +34,7 @@ class SettingsController extends _$SettingsController {
       forceMobileData: prefs.getBool('forceMobileData') ?? false,
       defaultRegulatoryDomain: prefs.getInt('defaultRegulatoryDomain') ?? 0,
       maxCachedVersions: prefs.getInt('maxCachedVersions') ?? 2,
+      expertMode: prefs.getBool('expertMode') ?? false,
       appVersion: info.version,
     );
   }
@@ -60,5 +62,12 @@ class SettingsController extends _$SettingsController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('maxCachedVersions', value);
     state = state.copyWith(maxCachedVersions: value);
+  }
+
+  Future<void> toggleExpertMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final newValue = !state.expertMode;
+    await prefs.setBool('expertMode', newValue);
+    state = state.copyWith(expertMode: newValue);
   }
 }

@@ -106,7 +106,15 @@ class SettingsScreen extends HookConsumerWidget {
           if (state.developerMode) ...[
              _buildSectionHeader(context, 'Developer'),
              const ListTile(title: Text('Developer Mode Enabled')),
-          ]
+          ],
+
+          _buildSectionHeader(context, 'Advanced'),
+          SwitchListTile(
+            title: const Text('Expert Mode'),
+            subtitle: const Text('Enable advanced firmware handling and downloads'),
+            value: state.expertMode,
+            onChanged: (val) => controller.toggleExpertMode(),
+          ),
         ],
       ),
     );

@@ -1,22 +1,38 @@
-# ExpressLRS Mobile
+# ELRS Mobile
 
-> [!IMPORTANT]
-> **Work in Progress**: This project is currently under active development and should be considered an alpha/experimental tool.
+## Overview
+ELRS Mobile is a cross-platform mobile application designed for the advanced management and configuration of ExpressLRS (ELRS) 4.0 hardware. The application provides a native interface for adjusting device parameters, mapping PWM outputs, and executing firmware updates over a local wireless network.
 
-ExpressLRS Manager is a modern, cross-platform Flutter application designed to simplify the management, configuration, and flashing of ExpressLRS hardware. It aims to provide a seamless experience for updating firmware and managing device settings directly from your desktop or mobile device.
+## Feature List
+- **Automated Discovery**: Real-time device detection via mDNS and static IP polling.
+- **Dynamic Configuration**: Comprehensive access to ELRS 4.x runtime options and hardware settings.
+- **PWM Mapping**: Granular control over physical pin assignments and output frequencies (50Hz–400Hz/DSHOT).
+- **Firmware Flashing**: Integrated firmware downloader and patcher for direct device updates.
+- **Connection Resilience**: Robust heartbeat logic to maintain operational continuity during transient network fluctuations.
+- **Manual IP Override**: Support for static connectivity in non-standard or restricted network environments.
 
-## Core Features
+## Quick Start
 
-- **Advanced WiFi Flashing**: Flashing for ESP32 and ESP8285 platforms via WiFi OTA.
-- **Unified Firmware Assembly**: Dynamically assembles firmware payloads with user-specific options (Binding Phrase, WiFi SSID/Password) and hardware layouts.
-- **Target Management**: Advanced parsing and resolution of ExpressLRS targets and hardware configuration files.
-- **Device Configurator**: Real-time fetching and updating of device parameters such as binding phrases and UID generation. (work in progress)
-- **Network Discovery**: Automatic detection of ELRS devices on your network using mDNS (NSD).
+### Prerequisites
+- Flutter SDK (Latest Stable)
+- ELRS 4.0 compatible hardware with WiFi enabled
 
+### Key Dependencies
+- `flutter_riverpod`: Reactive state management.
+- `dio`: High-performance HTTP client for API interactions.
+- `shared_preferences` & `flutter_secure_storage`: Persistent local data management.
+- `freezed`: Type-safe data modeling and immutability.
 
-## Credits
+### Development
+1. Clone the repository.
+2. Execute `flutter pub get` to install dependencies.
+3. Run `dart run build_runner build` to generate data models and providers.
+4. Execute `flutter run` on a connected mobile device or emulator.
 
-This project heavily leverages logic and patterns from the official [ExpressLRS Webflasher](https://github.com/ExpressLRS/web-flasher) and [ExpressLRS Configurator](https://github.com/ExpressLRS/ExpressLRS-Configurator) projects. Without the incredible work of the ExpressLRS team and contributors, this application would not be possible.
+## Documentation
+Additional technical details and operational procedures are available in the `/docs` directory:
+- [User Guide](docs/USER_GUIDE.md): Operational workflows and connectivity procedures.
+- [Technical Specification](docs/TECHNICAL_SPEC.md): System architecture, API definitions, and data mappings.
 
----
-*Created and maintained for the FPV community.*
+## Compliance & Disclaimer
+This application is an independent, community-driven project. It is **not** an official release from the ExpressLRS development team. The software is provided "as is," and users assume all risks associated with hardware configuration and firmware updates.

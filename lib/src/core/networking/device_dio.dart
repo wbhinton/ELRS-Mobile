@@ -13,11 +13,12 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'connection_repository.dart';
+import '../../settings/presentation/settings_controller.dart';
 
 part 'device_dio.g.dart';
 
 @riverpod
-Dio deviceDio(Ref ref) {
+Dio localDio(LocalDioRef ref) {
   // Watch centralized target IP provider
   final ip = ref.watch(targetIpProvider);
   final baseUrl = ip != null ? 'http://$ip' : '';
@@ -25,14 +26,33 @@ Dio deviceDio(Ref ref) {
   final dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 10), // Shorter timeout for local
+      receiveTimeout: const Duration(seconds: 30),
+      headers: {
+        'User-Agent': 'ELRSMobile/1.0',
+      },
+    ),
+  );
+  return dio;
+}
+
+@riverpod
+Dio internetDio(InternetDioRef ref) {
+  final settings = ref.watch(settingsControllerProvider);
+  
+  final dio = Dio(
+    BaseOptions(
       connectTimeout: const Duration(seconds: 60),
       receiveTimeout: const Duration(seconds: 60),
       headers: {
         'User-Agent': 'ELRSMobile/1.0',
       },
-      // Ensure we don't follow redirects automatically if that causes issues with captive portals,
-      // though typically ELRS devices don't redirect.
     ),
   );
+
+  // If forceMobileData is true, we might want to do something here,
+  // but usually "Internet" traffic should just follow OS default.
+  // The "Local" traffic is what we forced to WiFi.
+  
   return dio;
 }
