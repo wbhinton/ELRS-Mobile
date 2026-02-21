@@ -113,7 +113,7 @@ class HardwareStatusCard extends ConsumerWidget {
                       'Connected: ${config.activeIp ?? 'Unknown IP'}',
                       style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.w500),
                     ),
-                    if (config.settings.containsKey('domain')) ...[
+                    if (config.options.domain != null) ...[
                       const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -123,7 +123,7 @@ class HardwareStatusCard extends ConsumerWidget {
                           border: Border.all(color: Colors.orange.withOpacity(0.5)),
                         ),
                         child: Text(
-                          ElrsMappings.getMapping(ElrsMappings.domains, config.settings['domain']),
+                          ElrsMappings.getMapping(ElrsMappings.domains, config.options.domain),
                           style: const TextStyle(fontSize: 10, color: Colors.orange, fontWeight: FontWeight.bold),
                         ),
                       ),

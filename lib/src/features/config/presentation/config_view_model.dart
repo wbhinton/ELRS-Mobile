@@ -23,6 +23,8 @@ class ConfigViewModel extends _$ConfigViewModel {
   String? _lastDiscoveredIp;
   String? _manualIp;
   String? _probeIp; // The IP we are currently trying or failed on
+  int _missedHeartbeats = 0;
+  static const int _maxMissedHeartbeats = 3;
 
   @override
   FutureOr<RuntimeConfig?> build() async {
@@ -108,11 +110,19 @@ class ConfigViewModel extends _$ConfigViewModel {
 
       // A device was successfully found concurrently
       _probeIp = successfulIp;
+      _missedHeartbeats = 0; // Reset on any success
       await _refreshConfig(successfulIp);
     } catch (e) {
       // If we reach here, no device was found on any priority IP
-      if (state.value != null || state.isLoading) {
-        state = const AsyncValue.data(null);
+      _missedHeartbeats++;
+      
+      if (_missedHeartbeats >= _maxMissedHeartbeats) {
+        if (state.value != null || state.isLoading) {
+          state = const AsyncValue.data(null);
+        }
+      } else {
+        // Log missed heartbeat but preserve state
+        print('CONNECTION: Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). Preserving last good state.');
       }
     }
   }

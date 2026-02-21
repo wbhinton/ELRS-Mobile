@@ -50,6 +50,27 @@ class FlashingScreen extends HookConsumerWidget {
               ],
             ),
           );
+        } else if (next == FlashingStatus.error && state.errorMessage == 'NO_BIND_PHRASE') {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('No Binding Phrase'),
+              content: const Text('No Binding Phrase set. Proceed with default (empty)?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('CANCEL'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    ref.read(flashingControllerProvider.notifier).flash(ignoreMissingBindPhrase: true);
+                  },
+                  child: const Text('PROCEED'),
+                ),
+              ],
+            ),
+          );
         }
       },
     );

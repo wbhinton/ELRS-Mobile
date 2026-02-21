@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'widgets/dashboard_card.dart';
 import 'widgets/hardware_status_card.dart';
-import 'widgets/manual_ip_section.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -17,7 +16,6 @@ class DashboardScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: [
           HardwareStatusCard(),
-          ManualIpSection(),
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,

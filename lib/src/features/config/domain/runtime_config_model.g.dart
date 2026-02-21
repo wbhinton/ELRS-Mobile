@@ -39,12 +39,8 @@ _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
       productName: json['product_name'] as String?,
       version: json['version'] as String?,
       target: json['target'] as String?,
-      moduleType: (json['module-type'] as num?)?.toInt(),
+      moduleType: json['module-type'] as String?,
       hasSerialPins: json['has_serial_pins'] as bool?,
-      domain: (json['domain'] as num?)?.toInt(),
-      vbind: (json['vbind'] as num?)?.toInt(),
-      serialProtocol: (json['serial-protocol'] as num?)?.toInt(),
-      uartBaud: (json['uart-baud'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
@@ -54,10 +50,6 @@ Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
       'target': instance.target,
       'module-type': instance.moduleType,
       'has_serial_pins': instance.hasSerialPins,
-      'domain': instance.domain,
-      'vbind': instance.vbind,
-      'serial-protocol': instance.serialProtocol,
-      'uart-baud': instance.uartBaud,
     };
 
 _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(

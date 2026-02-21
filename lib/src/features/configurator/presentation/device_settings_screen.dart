@@ -96,25 +96,78 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
             ),
           ],
         ),
-        body: configAsync.when(
-          data: (baseConfig) {
+        body: Container(
+        child: () {
+          // If we have data (even if currently loading/error), show the content
+          if (configAsync.hasValue) {
+            final baseConfig = configAsync.value;
+            
             if (baseConfig == null) {
               return const Center(child: Text('Device Offline or Disconnected.'));
             }
+            
             if (draftState == null) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            return TabBarView(
+            return Stack(
               children: [
-                _InfoTab(config: draftState),
-                _GeneralTab(draft: draftState, editor: editor),
+                Column(
+                  children: [
+                    if (configAsync.isRefreshing || configAsync.isLoading)
+                      const LinearProgressIndicator(
+                        minHeight: 2,
+                        backgroundColor: Colors.transparent,
+                      ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          _InfoTab(config: draftState),
+                          _GeneralTab(draft: draftState, editor: editor),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                if (configAsync.isRefreshing || configAsync.isLoading)
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black54,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            width: 10,
+                            height: 10,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white70),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Reconnecting...',
+                            style: TextStyle(color: Colors.white70, fontSize: 10),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             );
-          },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, st) => Center(child: Text('Error: $e')),
-        ),
+          }
+
+          // Fallback for initial load or absolute disconnection
+          return configAsync.when(
+            data: (_) => const Center(child: Text('Device Offline.')),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, st) => Center(child: Text('Error: $e')),
+          );
+        }(),
+      ),
       ),
     );
   }
@@ -156,8 +209,8 @@ class _GeneralTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settings = draft.settings;
     final options = draft.options;
+    final config = draft.config;
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -166,47 +219,47 @@ class _GeneralTab extends StatelessWidget {
         const SizedBox(height: 16),
         
         // Regulatory Domain
-        if (settings.domain != null)
+        if (options.domain != null)
           _buildDropdown(
             title: 'Regulatory Domain',
-            value: settings.domain!,
+            value: options.domain!,
             options: ElrsMappings.domains,
-            onChanged: (val) => editor.updateSetting('domain', val),
+            onChanged: (val) => editor.updateOption('domain', val),
           ),
 
-        // UID Binding (Volatile, Persistent, etc)
-        if (settings.vbind != null || draft.config.vbind != null)
+        // Binding Mode
+        if (config.vbind != null)
           _buildDropdown(
             title: 'Binding Mode (vbind)',
-            value: settings.vbind ?? draft.config.vbind!,
+            value: config.vbind!,
             options: ElrsMappings.vbind,
-            onChanged: (val) => editor.updateSetting('vbind', val),
+            onChanged: (val) => editor.updateConfigValue('vbind', val),
           ),
 
         // Serial Protocol
-        if (settings.serialProtocol != null || draft.config.serialProtocol != null)
+        if (config.serialProtocol != null)
           _buildDropdown(
             title: 'Serial Protocol',
-            value: settings.serialProtocol ?? draft.config.serialProtocol!,
+            value: config.serialProtocol!,
             options: ElrsMappings.serialProtocols,
-            onChanged: (val) => editor.updateSetting('serial-protocol', val),
+            onChanged: (val) => editor.updateConfigValue('serial-protocol', val),
           ),
 
-        // Model ID (hyphenated modelid check)
-        if (draft.config.modelId != null)
+        // Model ID
+        if (config.modelId != null)
           _buildTextInput(
             title: 'Model ID',
-            value: draft.config.modelId.toString(),
-            onChanged: (val) => editor.updateConfigValue('modelid', int.tryParse(val) ?? draft.config.modelId),
+            value: config.modelId.toString(),
+            onChanged: (val) => editor.updateConfigValue('modelid', int.tryParse(val) ?? config.modelId),
             isNumber: true,
           ),
 
-        // UART Baud Rate
-        if (settings.uartBaud != null)
+        // Receiver UART Baud Rate
+        if (options.rcvrUartBaud != null)
           _buildTextInput(
             title: 'UART Baud Rate',
-            value: settings.uartBaud.toString(),
-            onChanged: (val) => editor.updateSetting('uart-baud', int.tryParse(val) ?? settings.uartBaud),
+            value: options.rcvrUartBaud.toString(),
+            onChanged: (val) => editor.updateOption('rcvr-uart-baud', int.tryParse(val) ?? options.rcvrUartBaud),
             isNumber: true,
           ),
 
@@ -229,10 +282,10 @@ class _GeneralTab extends StatelessWidget {
             obscure: true,
           ),
           
-        if (draft.config.pwm.isNotEmpty) ...[
+        if (config.pwm.isNotEmpty) ...[
           const Divider(height: 32),
           PwmMappingPanel(
-            pwmArray: draft.config.pwm,
+            pwmArray: config.pwm,
             onPinUpdated: editor.updatePwmPin,
           ),
         ],

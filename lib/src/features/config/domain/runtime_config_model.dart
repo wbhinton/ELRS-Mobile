@@ -27,12 +27,8 @@ abstract class ElrsSettings with _$ElrsSettings {
     @JsonKey(name: 'product_name') String? productName,
     String? version,
     String? target,
-    @JsonKey(name: 'module-type') int? moduleType,
+    @JsonKey(name: 'module-type') String? moduleType,
     @JsonKey(name: 'has_serial_pins') bool? hasSerialPins,
-    int? domain, // Often in settings or options
-    int? vbind,
-    @JsonKey(name: 'serial-protocol') int? serialProtocol,
-    @JsonKey(name: 'uart-baud') int? uartBaud,
   }) = _ElrsSettings;
 
   factory ElrsSettings.fromJson(Map<String, dynamic> json) =>

@@ -350,8 +350,7 @@ $ElrsConfigCopyWith<$Res> get config {
 /// @nodoc
 mixin _$ElrsSettings {
 
-@JsonKey(name: 'product_name') String? get productName; String? get version; String? get target;@JsonKey(name: 'module-type') int? get moduleType;@JsonKey(name: 'has_serial_pins') bool? get hasSerialPins; int? get domain;// Often in settings or options
- int? get vbind;@JsonKey(name: 'serial-protocol') int? get serialProtocol;@JsonKey(name: 'uart-baud') int? get uartBaud;
+@JsonKey(name: 'product_name') String? get productName; String? get version; String? get target;@JsonKey(name: 'module-type') String? get moduleType;@JsonKey(name: 'has_serial_pins') bool? get hasSerialPins;
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -364,16 +363,16 @@ $ElrsSettingsCopyWith<ElrsSettings> get copyWith => _$ElrsSettingsCopyWithImpl<E
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.vbind, vbind) || other.vbind == vbind)&&(identical(other.serialProtocol, serialProtocol) || other.serialProtocol == serialProtocol)&&(identical(other.uartBaud, uartBaud) || other.uartBaud == uartBaud));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,domain,vbind,serialProtocol,uartBaud);
+int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins);
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, domain: $domain, vbind: $vbind, serialProtocol: $serialProtocol, uartBaud: $uartBaud)';
+  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins)';
 }
 
 
@@ -384,7 +383,7 @@ abstract mixin class $ElrsSettingsCopyWith<$Res>  {
   factory $ElrsSettingsCopyWith(ElrsSettings value, $Res Function(ElrsSettings) _then) = _$ElrsSettingsCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') int? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins, int? domain, int? vbind,@JsonKey(name: 'serial-protocol') int? serialProtocol,@JsonKey(name: 'uart-baud') int? uartBaud
+@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins
 });
 
 
@@ -401,18 +400,14 @@ class _$ElrsSettingsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? domain = freezed,Object? vbind = freezed,Object? serialProtocol = freezed,Object? uartBaud = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,}) {
   return _then(_self.copyWith(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,target: freezed == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
 as String?,moduleType: freezed == moduleType ? _self.moduleType : moduleType // ignore: cast_nullable_to_non_nullable
-as int?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
-as bool?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as int?,vbind: freezed == vbind ? _self.vbind : vbind // ignore: cast_nullable_to_non_nullable
-as int?,serialProtocol: freezed == serialProtocol ? _self.serialProtocol : serialProtocol // ignore: cast_nullable_to_non_nullable
-as int?,uartBaud: freezed == uartBaud ? _self.uartBaud : uartBaud // ignore: cast_nullable_to_non_nullable
-as int?,
+as String?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -497,10 +492,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  int? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins,  int? domain,  int? vbind, @JsonKey(name: 'serial-protocol')  int? serialProtocol, @JsonKey(name: 'uart-baud')  int? uartBaud)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ElrsSettings() when $default != null:
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.domain,_that.vbind,_that.serialProtocol,_that.uartBaud);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins);case _:
   return orElse();
 
 }
@@ -518,10 +513,10 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  int? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins,  int? domain,  int? vbind, @JsonKey(name: 'serial-protocol')  int? serialProtocol, @JsonKey(name: 'uart-baud')  int? uartBaud)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins)  $default,) {final _that = this;
 switch (_that) {
 case _ElrsSettings():
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.domain,_that.vbind,_that.serialProtocol,_that.uartBaud);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -538,10 +533,10 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  int? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins,  int? domain,  int? vbind, @JsonKey(name: 'serial-protocol')  int? serialProtocol, @JsonKey(name: 'uart-baud')  int? uartBaud)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins)?  $default,) {final _that = this;
 switch (_that) {
 case _ElrsSettings() when $default != null:
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.domain,_that.vbind,_that.serialProtocol,_that.uartBaud);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins);case _:
   return null;
 
 }
@@ -553,19 +548,14 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 
 @JsonSerializable(explicitToJson: true)
 class _ElrsSettings implements ElrsSettings {
-  const _ElrsSettings({@JsonKey(name: 'product_name') this.productName, this.version, this.target, @JsonKey(name: 'module-type') this.moduleType, @JsonKey(name: 'has_serial_pins') this.hasSerialPins, this.domain, this.vbind, @JsonKey(name: 'serial-protocol') this.serialProtocol, @JsonKey(name: 'uart-baud') this.uartBaud});
+  const _ElrsSettings({@JsonKey(name: 'product_name') this.productName, this.version, this.target, @JsonKey(name: 'module-type') this.moduleType, @JsonKey(name: 'has_serial_pins') this.hasSerialPins});
   factory _ElrsSettings.fromJson(Map<String, dynamic> json) => _$ElrsSettingsFromJson(json);
 
 @override@JsonKey(name: 'product_name') final  String? productName;
 @override final  String? version;
 @override final  String? target;
-@override@JsonKey(name: 'module-type') final  int? moduleType;
+@override@JsonKey(name: 'module-type') final  String? moduleType;
 @override@JsonKey(name: 'has_serial_pins') final  bool? hasSerialPins;
-@override final  int? domain;
-// Often in settings or options
-@override final  int? vbind;
-@override@JsonKey(name: 'serial-protocol') final  int? serialProtocol;
-@override@JsonKey(name: 'uart-baud') final  int? uartBaud;
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
@@ -580,16 +570,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.vbind, vbind) || other.vbind == vbind)&&(identical(other.serialProtocol, serialProtocol) || other.serialProtocol == serialProtocol)&&(identical(other.uartBaud, uartBaud) || other.uartBaud == uartBaud));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,domain,vbind,serialProtocol,uartBaud);
+int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins);
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, domain: $domain, vbind: $vbind, serialProtocol: $serialProtocol, uartBaud: $uartBaud)';
+  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins)';
 }
 
 
@@ -600,7 +590,7 @@ abstract mixin class _$ElrsSettingsCopyWith<$Res> implements $ElrsSettingsCopyWi
   factory _$ElrsSettingsCopyWith(_ElrsSettings value, $Res Function(_ElrsSettings) _then) = __$ElrsSettingsCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') int? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins, int? domain, int? vbind,@JsonKey(name: 'serial-protocol') int? serialProtocol,@JsonKey(name: 'uart-baud') int? uartBaud
+@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins
 });
 
 
@@ -617,18 +607,14 @@ class __$ElrsSettingsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? domain = freezed,Object? vbind = freezed,Object? serialProtocol = freezed,Object? uartBaud = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,}) {
   return _then(_ElrsSettings(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,target: freezed == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
 as String?,moduleType: freezed == moduleType ? _self.moduleType : moduleType // ignore: cast_nullable_to_non_nullable
-as int?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
-as bool?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as int?,vbind: freezed == vbind ? _self.vbind : vbind // ignore: cast_nullable_to_non_nullable
-as int?,serialProtocol: freezed == serialProtocol ? _self.serialProtocol : serialProtocol // ignore: cast_nullable_to_non_nullable
-as int?,uartBaud: freezed == uartBaud ? _self.uartBaud : uartBaud // ignore: cast_nullable_to_non_nullable
-as int?,
+as String?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

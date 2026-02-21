@@ -18,11 +18,11 @@ void main() {
     });
 
     test('fetchConfig returns RuntimeConfig on success', () async {
-      final mockResponse = {
+      final mockResponse = <String, dynamic>{
         'product_name': 'Test RX',
-        'settings': {'domain': 1},
-        'options': {'wifi-ssid': 'mikes-wifi'},
-        'config': {'hardware': {'type': 'lite'}},
+        'settings': <String, dynamic>{'version': '1.0.0'},
+        'options': <String, dynamic>{'domain': 1, 'wifi-ssid': 'mikes-wifi'},
+        'config': <String, dynamic>{'hardware': <String, dynamic>{'type': 'lite'}},
         'modelId': 255,
         'modelMatch': false,
       };
@@ -35,7 +35,7 @@ void main() {
       final result = await service.fetchConfig(ip);
 
       expect(result.productName, equals('Test RX'));
-      expect(result.settings.domain, equals(1));
+      expect(result.options.domain, equals(1));
       expect(result.options.wifiSsid, equals('mikes-wifi'));
       expect(result.config.hardware?['type'], equals('lite'));
     });
@@ -84,15 +84,15 @@ void main() {
 
   group('RuntimeConfig model', () {
     test('fromJson and toJson work correctly', () {
-      final json = {
-        'settings': {'domain': 1},
-        'options': {'wifi-ssid': 'wifi'},
-        'config': {'modelid': 3},
+      final json = <String, dynamic>{
+        'settings': <String, dynamic>{},
+        'options': <String, dynamic>{'domain': 1, 'wifi-ssid': 'wifi'},
+        'config': <String, dynamic>{'modelid': 3},
       };
 
       final config = RuntimeConfig.fromJson(json);
-      expect(config.settings.domain, 1);
-      expect(config.toJson()['settings']['domain'], 1);
+      expect(config.options.domain, 1);
+      expect(config.toJson()['options']['domain'], 1);
     });
   });
 }

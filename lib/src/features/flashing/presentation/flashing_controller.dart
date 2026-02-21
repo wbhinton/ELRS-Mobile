@@ -11,6 +11,7 @@ import '../domain/target_definition.dart';
 import '../utils/target_resolver.dart';
 import '../utils/firmware_assembler.dart';
 import 'package:archive/archive.dart';
+import '../../../core/storage/persistence_service.dart';
 
 import '../../settings/presentation/settings_controller.dart';
 
@@ -42,6 +43,7 @@ abstract class FlashingState with _$FlashingState {
     @Default('') String wifiSsid,
     @Default('') String wifiPassword,
     @Default(0) int regulatoryDomain,
+    String? autosavingField,
   }) = _FlashingState;
 }
 
@@ -67,6 +69,22 @@ class FlashingController extends _$FlashingController {
   }
 
   Future<void> loadSavedOptions() async {
+    // Try to load from PersistenceService first
+    final persistence = await ref.read(persistenceServiceProvider.future);
+    final bindPhrase = persistence.getBindPhrase();
+    final wifiSsid = persistence.getWifiSsid();
+    final wifiPassword = persistence.getWifiPassword();
+
+    if (bindPhrase.isNotEmpty || wifiSsid.isNotEmpty || wifiPassword.isNotEmpty) {
+      state = state.copyWith(
+        bindPhrase: bindPhrase,
+        wifiSsid: wifiSsid,
+        wifiPassword: wifiPassword,
+      );
+      return;
+    }
+
+    // Fallback to legacy SecureStorageService if persistence is empty
     final storage = ref.read(secureStorageServiceProvider);
     final options = await storage.loadOptions();
     state = state.copyWith(
@@ -93,27 +111,45 @@ class FlashingController extends _$FlashingController {
     state = state.copyWith(selectedVersion: version);
   }
 
-  void setBindPhrase(String value) {
+  Future<void> setBindPhrase(String value) async {
     state = state.copyWith(bindPhrase: value);
-    _saveOptions();
+    final persistence = await ref.read(persistenceServiceProvider.future);
+    await persistence.setBindPhrase(value);
+    _triggerAutosaveFeedback('bindPhrase');
+    _saveOptionsLegacy();
   }
 
-  void setWifiSsid(String value) {
+  Future<void> setWifiSsid(String value) async {
     state = state.copyWith(wifiSsid: value);
-    _saveOptions();
+    final persistence = await ref.read(persistenceServiceProvider.future);
+    await persistence.setWifiSsid(value);
+    _triggerAutosaveFeedback('wifiSsid');
+    _saveOptionsLegacy();
   }
 
-  void setWifiPassword(String value) {
+  Future<void> setWifiPassword(String value) async {
     state = state.copyWith(wifiPassword: value);
-    _saveOptions();
+    final persistence = await ref.read(persistenceServiceProvider.future);
+    await persistence.setWifiPassword(value);
+    _triggerAutosaveFeedback('wifiPassword');
+    _saveOptionsLegacy();
   }
   
   void setRegulatoryDomain(int value) {
     state = state.copyWith(regulatoryDomain: value);
-    _saveOptions();
+    _saveOptionsLegacy();
   }
 
-  Future<void> _saveOptions() async {
+  void _triggerAutosaveFeedback(String field) {
+    state = state.copyWith(autosavingField: field);
+    Future.delayed(const Duration(seconds: 1), () {
+      if (state.autosavingField == field) {
+        state = state.copyWith(autosavingField: null);
+      }
+    });
+  }
+
+  Future<void> _saveOptionsLegacy() async {
     final storage = ref.read(secureStorageServiceProvider);
     // Debounce behavior could be added here, but for now simple save on change
     // Using a microtask or small delay might be better to avoid hammering storage 
@@ -127,7 +163,7 @@ class FlashingController extends _$FlashingController {
     );
   }
 
-  Future<void> flash({bool force = false}) async {
+  Future<void> flash({bool force = false, bool ignoreMissingBindPhrase = false}) async {
     if (state.selectedTarget == null) {
       state = state.copyWith(errorMessage: 'Please select a target device.');
       return;
@@ -136,9 +172,22 @@ class FlashingController extends _$FlashingController {
       state = state.copyWith(errorMessage: 'Please select a firmware version.');
       return;
     }
-    if (state.bindPhrase.isEmpty) {
-      state = state.copyWith(errorMessage: 'Please enter a binding phrase in Options.');
-      return;
+    
+    // Flash Guard: Check binding phrase
+    if (state.bindPhrase.isEmpty && !ignoreMissingBindPhrase) {
+      final persistence = await ref.read(persistenceServiceProvider.future);
+      final savedBindPhrase = persistence.getBindPhrase();
+      
+      if (savedBindPhrase.isEmpty) {
+        state = state.copyWith(
+          status: FlashingStatus.error,
+          errorMessage: 'NO_BIND_PHRASE',
+        );
+        return;
+      } else {
+        // Recover from persistence if state was somehow empty but storage has it
+        state = state.copyWith(bindPhrase: savedBindPhrase);
+      }
     }
 
     state = state.copyWith(

@@ -48,7 +48,8 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
          _wifiPasswordController.text = next.wifiPassword;
       }
     });
-
+    
+    final autosavingField = ref.watch(flashingControllerProvider.select((s) => s.autosavingField));
     final regulatoryDomain = ref.watch(flashingControllerProvider.select((s) => s.regulatoryDomain));
 
     return Card(
@@ -76,13 +77,23 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
               decoration: InputDecoration(
                 labelText: 'Binding Phrase',
                 helperText: 'Your unique binding phrase',
-                suffixIcon: IconButton(
-                  icon: Icon(_obscureBindPhrase ? Icons.visibility : Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      _obscureBindPhrase = !_obscureBindPhrase;
-                    });
-                  },
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (autosavingField == 'bindPhrase')
+                      const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: Icon(Icons.check_circle, color: Colors.green, size: 20),
+                      ),
+                    IconButton(
+                      icon: Icon(_obscureBindPhrase ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _obscureBindPhrase = !_obscureBindPhrase;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               onChanged: (value) => ref.read(flashingControllerProvider.notifier).setBindPhrase(value),
@@ -93,7 +104,12 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
             // Wifi SSID
             TextFormField(
               controller: _wifiSsidController,
-              decoration: const InputDecoration(labelText: 'WiFi SSID'),
+              decoration: InputDecoration(
+                labelText: 'WiFi SSID',
+                suffixIcon: autosavingField == 'wifiSsid' 
+                  ? const Icon(Icons.check_circle, color: Colors.green, size: 20)
+                  : null,
+              ),
               onChanged: (value) => ref.read(flashingControllerProvider.notifier).setWifiSsid(value),
             ),
              const SizedBox(height: 16),
@@ -103,13 +119,23 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
               controller: _wifiPasswordController,
               decoration: InputDecoration(
                 labelText: 'WiFi Password',
-                suffixIcon: IconButton(
-                  icon: Icon(_obscureWifiPassword ? Icons.visibility : Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      _obscureWifiPassword = !_obscureWifiPassword;
-                    });
-                  },
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (autosavingField == 'wifiPassword')
+                      const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: Icon(Icons.check_circle, color: Colors.green, size: 20),
+                      ),
+                    IconButton(
+                      icon: Icon(_obscureWifiPassword ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _obscureWifiPassword = !_obscureWifiPassword;
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               onChanged: (value) => ref.read(flashingControllerProvider.notifier).setWifiPassword(value),
