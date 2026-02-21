@@ -53,8 +53,7 @@ dependencies:
   path_provider: ^2.1.5
   http: ^1.6.0
   http_parser: ^4.1.2
-  file_saver: ^0.2.14
-  permission_handler: ^11.3.1
+  file_picker: ^8.1.7
 
 dev_dependencies:
   flutter_test:

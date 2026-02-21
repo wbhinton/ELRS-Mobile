@@ -12,8 +12,9 @@ import '../utils/target_resolver.dart';
 import '../utils/firmware_assembler.dart';
 import 'package:archive/archive.dart';
 import '../../../core/storage/persistence_service.dart';
-import 'package:file_saver/file_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 import '../../settings/presentation/settings_controller.dart';
 
@@ -29,6 +30,7 @@ enum FlashingStatus {
   patching,
   uploading,
   success,
+  downloadSuccess,
   error,
   mismatch,
 }
@@ -173,18 +175,13 @@ class FlashingController extends _$FlashingController {
       return;
     }
 
-    // 1. Check Permissions
-    if (await Permission.storage.request().isDenied) {
-      state = state.copyWith(errorMessage: 'Storage permission denied.');
-      return;
-    }
-
     state = state.copyWith(
       status: FlashingStatus.downloading,
       progress: 0.0,
       errorMessage: null,
     );
 
+    File? tempFile;
     try {
       // 1. Unbind process to permit mobile data for Artifactory download
       final connectivity = ref.read(connectivityServiceProvider.notifier);
@@ -195,16 +192,27 @@ class FlashingController extends _$FlashingController {
       state = state.copyWith(status: FlashingStatus.patching, progress: 0.5);
 
       final targetName = state.selectedTarget!.name.replaceAll(' ', '_');
-      final downloadName = 'ELRS_${targetName}_Firmware';
+      final downloadName = 'ELRS_${targetName}_Firmware.bin';
 
-      await FileSaver.instance.saveFile(
-        name: downloadName,
-        bytes: firmware.bytes,
-        ext: 'bin',
-        mimeType: MimeType.other,
+      // Step A (Temp Storage): Save to app's temporary directory
+      final tempDir = await getTemporaryDirectory();
+      tempFile = File('${tempDir.path}/$downloadName');
+      await tempFile.writeAsBytes(firmware.bytes);
+
+      // Step B (System Picker): Trigger native 'Save As' dialog
+      final result = await FilePicker.platform.saveFile(
+        dialogTitle: 'Save Firmware Binary',
+        fileName: downloadName,
+        bytes: firmware.bytes, // Some platforms (Web) need bytes, others (Mobile) work from dialog
       );
 
-      state = state.copyWith(status: FlashingStatus.success, progress: 1.0);
+      if (result != null) {
+        state = state.copyWith(status: FlashingStatus.downloadSuccess, progress: 1.0);
+        print('Firmware saved successfully to $result');
+      } else {
+        // User cancelled
+        state = state.copyWith(status: FlashingStatus.idle, progress: 0.0);
+      }
     } catch (e) {
       state = state.copyWith(
         status: FlashingStatus.error,
@@ -212,6 +220,14 @@ class FlashingController extends _$FlashingController {
         progress: 0.0,
       );
     } finally {
+       // Step C (Cleanup): Delete temporary file
+       if (tempFile != null && await tempFile.exists()) {
+         try {
+           await tempFile.delete();
+         } catch (e) {
+           print('Warning: Failed to cleanup temp file: $e');
+         }
+       }
        // 2. Re-bind to WiFi to restore local connectivity state
        await ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
     }
