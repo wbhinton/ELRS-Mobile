@@ -14,6 +14,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:archive/archive.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../core/networking/device_dio.dart';
 
 part 'firmware_repository.g.dart';
 
@@ -207,7 +208,7 @@ class FirmwareRepository {
 }
 
 @riverpod
-FirmwareRepository firmwareRepository(FirmwareRepositoryRef ref) {
+FirmwareRepository firmwareRepository(Ref ref) {
   final dio = ref.watch(internetDioProvider);
   return FirmwareRepository(dio);
 }

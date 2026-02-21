@@ -44,7 +44,7 @@ class MainActivity : FlutterActivity() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
                 try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_ID.M) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         connectivityManager?.bindProcessToNetwork(network)
                     } else {
                         ConnectivityManager.setProcessDefaultNetwork(network)
@@ -65,7 +65,7 @@ class MainActivity : FlutterActivity() {
 
     private fun unbindProcess(result: MethodChannel.Result) {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_ID.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 connectivityManager?.bindProcessToNetwork(null)
             } else {
                 ConnectivityManager.setProcessDefaultNetwork(null)

@@ -47,7 +47,7 @@ final class LocalDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$localDioHash() => r'94c8dd9b78b042551ca37ff7563f3f6084bc0074';
+String _$localDioHash() => r'e8b0055cecc739b3fd89295b33b0766be32aa1b0';
 
 @ProviderFor(internetDio)
 final internetDioProvider = InternetDioProvider._();
@@ -87,4 +87,4 @@ final class InternetDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$internetDioHash() => r'1f651b69ea724df77041f2147b1a9c076f0ed7f5';
+String _$internetDioHash() => r'3b5ac33abe396627432c96e6cc2af4e1941ed4f1';

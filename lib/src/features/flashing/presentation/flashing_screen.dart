@@ -6,6 +6,7 @@ import 'widgets/target_selection_card.dart';
 import 'widgets/options_card.dart';
 import 'package:go_router/go_router.dart';
 import 'flashing_controller.dart';
+import '../../settings/presentation/settings_controller.dart';
 
 class FlashingScreen extends HookConsumerWidget {
   const FlashingScreen({super.key});

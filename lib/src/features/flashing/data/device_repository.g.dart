@@ -53,4 +53,4 @@ final class DeviceRepositoryProvider
   }
 }
 
-String _$deviceRepositoryHash() => r'5f94df7481d54ec605acce075908ba85472d4c6e';
+String _$deviceRepositoryHash() => r'56dba98db46cc0fbea80821ee1b40876bcb2f0cc';

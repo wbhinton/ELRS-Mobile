@@ -13,12 +13,12 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'connection_repository.dart';
-import '../../settings/presentation/settings_controller.dart';
+import '../../features/settings/presentation/settings_controller.dart';
 
 part 'device_dio.g.dart';
 
 @riverpod
-Dio localDio(LocalDioRef ref) {
+Dio localDio(Ref ref) {
   // Watch centralized target IP provider
   final ip = ref.watch(targetIpProvider);
   final baseUrl = ip != null ? 'http://$ip' : '';
@@ -37,7 +37,7 @@ Dio localDio(LocalDioRef ref) {
 }
 
 @riverpod
-Dio internetDio(InternetDioRef ref) {
+Dio internetDio(Ref ref) {
   final settings = ref.watch(settingsControllerProvider);
   
   final dio = Dio(

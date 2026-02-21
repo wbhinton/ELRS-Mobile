@@ -18,6 +18,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../settings/presentation/settings_controller.dart';
 
 import '../state/flashing_provider.dart';
+import '../../../core/networking/connectivity_service.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
@@ -70,27 +71,6 @@ class FlashingController extends _$FlashingController {
     );
   }
 
-  /// Binds the app process to the current WiFi interface.
-  Future<void> bindToWiFi() async {
-    print('CONNECTIVITY: Explicitly binding to WiFi...');
-    await ref.read(nativeNetworkServiceProvider).bindProcessToWiFi();
-  }
-
-  /// Unbinds the app from any specific interface, reverting to OS defaults.
-  Future<void> unbind() async {
-    print('CONNECTIVITY: Explicitly unbinding process...');
-    await ref.read(nativeNetworkServiceProvider).unbindProcess();
-  }
-
-  /// Attempts to bind the app to WiFi if we are connected to one.
-  Future<void> autoBindIfWiFi() async {
-    final results = await Connectivity().checkConnectivity();
-    if (results.contains(ConnectivityResult.wifi)) {
-      await bindToWiFi();
-    } else {
-      await unbind();
-    }
-  }
 
   Future<void> loadSavedOptions() async {
     // Try to load from PersistenceService first
@@ -221,7 +201,7 @@ class FlashingController extends _$FlashingController {
         name: downloadName,
         bytes: firmware.bytes,
         ext: 'bin',
-        mimeType: MimeType.binary,
+        mimeType: MimeType.other,
       );
 
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);

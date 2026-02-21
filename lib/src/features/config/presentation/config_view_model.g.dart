@@ -55,7 +55,7 @@ final class DeviceConfigServiceProvider
 }
 
 String _$deviceConfigServiceHash() =>
-    r'4ca35a93eb5202cc599acec2f5549d673474859f';
+    r'3754746e7042d9d49591b32256229b063ac8652b';
 
 @ProviderFor(ConfigViewModel)
 final configViewModelProvider = ConfigViewModelProvider._();

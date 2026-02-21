@@ -11,7 +11,7 @@ import '../services/device_config_service.dart';
 part 'config_view_model.g.dart';
 
 @riverpod
-DeviceConfigService deviceConfigService(DeviceConfigServiceRef ref) {
+DeviceConfigService deviceConfigService(Ref ref) {
   final dio = ref.watch(localDioProvider);
   return DeviceConfigService(dio);
 }
