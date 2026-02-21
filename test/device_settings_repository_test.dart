@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:elrs_manager/src/features/flashing/data/device_repository.dart';
+import 'package:elrs_mobile/src/features/flashing/data/device_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 

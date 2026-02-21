@@ -1,0 +1,27 @@
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart
+00:00 +0: /Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart: ModelMatchController loads Model ID from config
+00:00 +1: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds
+00:00 +2: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds
+00:00 +2 -1: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:00 +2 -2: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds [E]
+  No matching calls. All calls: MockDeviceRepository.flashFirmware([1, 2, 3], HDZero_VRX4.bin, {onSendProgress: Closure: (int, int) => void, productName: null, luaName: null, uid: null, hardwareLayout: null, wifiSsid: null, wifiPassword: null, platform: null, force: false})
+  (If you called `verify(...).called(0);`, please instead use `verifyNever(...);`.)
+  package:matcher                            fail
+  package:mocktail/src/mocktail.dart 728:7   _VerifyCall._checkWith
+  package:mocktail/src/mocktail.dart 519:18  _makeVerify.<fn>
+  test/backpack_controller_test.dart 57:11   main.<fn>
+  
+00:00 +2 -2: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully [E]
+  Expected: FlashingStatus:<FlashingStatus.success>
+    Actual: FlashingStatus:<FlashingStatus.error>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/flashing_pipeline_test.dart 122:5              main.<fn>
+  
+00:00 +2 -2: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action handles download error
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:00 +3 -2: Some tests failed.

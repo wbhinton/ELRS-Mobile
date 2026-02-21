@@ -35,12 +35,11 @@ class PwmController extends _$PwmController {
       final repo = ref.read(deviceRepositoryProvider);
       final config = await repo.fetchConfig();
       
-      // Parse pwm_outputs.
-      // E.g. {'pwm_outputs': [0, 1, 6, 7]}
-      if (config.pwmOutputs.isNotEmpty) {
+      // Parse pwm.
+      if (config.config.pwm.isNotEmpty) {
         state = state.copyWith(
           status: PwmStatus.idle,
-          outputs: config.pwmOutputs,
+          outputs: config.config.pwm.cast<int>(),
         );
       } else {
         // Fallback or empty if not present

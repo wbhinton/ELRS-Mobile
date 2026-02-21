@@ -1,3 +1,15 @@
+// Copyright (C) 2026  Weston Hinton [wbhinton@gmail.com]
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+
 import 'package:dio/dio.dart';
 import '../domain/runtime_config_model.dart';
 
@@ -84,6 +96,28 @@ class DeviceConfigService {
       }
     } catch (e) {
       throw Exception('Failed to save options to $ip: $e');
+    }
+  }
+
+  /// Saves the updated config to the device.
+  /// Performs a POST request to http://<ip>/config.
+  Future<void> saveConfig(String ip, Map<String, dynamic> config) async {
+    try {
+      final response = await _dio.post(
+        'http://$ip/config',
+        data: config,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode != 200 && response.statusCode != 204) {
+        throw Exception('Failed to save config. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to save config to $ip: $e');
     }
   }
 

@@ -1,5 +1,5 @@
 
-import 'package:elrs_manager/src/features/flashing/utils/hardware_config_merger.dart';
+import 'package:elrs_mobile/src/features/flashing/utils/hardware_config_merger.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -2,9 +2,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:dio/dio.dart';
-import 'package:elrs_manager/src/features/flashing/data/targets_repository.dart';
-import 'package:elrs_manager/src/core/storage/firmware_cache_service.dart';
-import 'package:elrs_manager/src/features/flashing/domain/target_definition.dart';
+import 'package:elrs_mobile/src/features/flashing/data/targets_repository.dart';
+import 'package:elrs_mobile/src/core/storage/firmware_cache_service.dart';
+import 'package:elrs_mobile/src/features/flashing/domain/target_definition.dart';
 
 class MockDio extends Mock implements Dio {}
 class MockFirmwareCacheService extends Mock implements FirmwareCacheService {}

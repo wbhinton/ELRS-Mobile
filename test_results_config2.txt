@@ -1,0 +1,179 @@
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart
+00:00 +0: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +1: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +2: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +3: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +4: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +5: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController updates specific pin and saves
+00:00 +6: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Initial state has no changes
+00:00 +7: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Updating a setting flags hasChanges as true
+00:00 +8: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests Updating an option flags hasChanges as true
+00:00 +9: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests saveChanges correctly orchestrates saving logic depending on whats changed
+00:00 +10: /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: DeviceEditorViewModel Tests saveChanges triggers both endpoints if both are changed
+00:00 +11: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +12: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +13: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +14: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +15: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +16: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +16: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from cache when network fails
+Failed to fetch targets online: DioException [unknown]: null. Checking cache...
+00:00 +17: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:00 +17: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets throws when network fails and cache is empty
+Failed to fetch targets online: Exception: Network error. Checking cache...
+00:00 +18: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +19: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+00:01 +20: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository handles API error
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+00:01 +21: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:2:8: Error: Error when reading 'lib/src/features/configurator/config/domain/elrs_mappings.dart': No such file or directory
+import '../../config/domain/elrs_mappings.dart';
+       ^
+lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:83:38: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+ - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+          'CH${inputChannel + 1} • ${ElrsMappings.getMapping(ElrsMappings.pwmModes, mode, fallback: 'Unknown')}',
+                                     ^^^^^^^^^^^^
+lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:83:62: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+ - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+          'CH${inputChannel + 1} • ${ElrsMappings.getMapping(ElrsMappings.pwmModes, mode, fallback: 'Unknown')}',
+                                                             ^^^^^^^^^^^^
+lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:113:26: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+ - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+                  value: ElrsMappings.pwmModes.containsKey(mode) ? mode : null,
+                         ^^^^^^^^^^^^
+lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:114:26: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+ - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+                  items: ElrsMappings.pwmModes.entries.map((e) {
+                         ^^^^^^^^^^^^
+00:01 +21 -1: loading /Users/wbhinton/projects/ELRS/test/widget_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/widget_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/widget_test.dart: lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:2:8: Error: Error when reading 'lib/src/features/configurator/config/domain/elrs_mappings.dart': No such file or directory
+  import '../../config/domain/elrs_mappings.dart';
+         ^
+  lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:83:38: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+   - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+            'CH${inputChannel + 1} • ${ElrsMappings.getMapping(ElrsMappings.pwmModes, mode, fallback: 'Unknown')}',
+                                       ^^^^^^^^^^^^
+  lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:83:62: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+   - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+            'CH${inputChannel + 1} • ${ElrsMappings.getMapping(ElrsMappings.pwmModes, mode, fallback: 'Unknown')}',
+                                                               ^^^^^^^^^^^^
+  lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:113:26: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+   - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+                    value: ElrsMappings.pwmModes.containsKey(mode) ? mode : null,
+                           ^^^^^^^^^^^^
+  lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart:114:26: Error: The getter 'ElrsMappings' isn't defined for the type '_PwmPinTile'.
+   - '_PwmPinTile' is from 'package:elrs_mobile/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart' ('lib/src/features/configurator/presentation/widgets/pwm_mapping_panel.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'ElrsMappings'.
+                    items: ElrsMappings.pwmModes.entries.map((e) {
+                           ^^^^^^^^^^^^
+  .
+00:01 +22 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:01 +23 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:01 +23 -1: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository flashFirmware throws exception on error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:01 +24 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:01 +25 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:01 +26 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:02 +27 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: App applies Dark Mode background
+00:02 +28 -1: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates correct UID for standard phrase
+00:02 +29 -1: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates empty UID for empty phrase
+00:02 +30 -1: /Users/wbhinton/projects/ELRS/test/device_config_model_test.dart: DeviceConfig Model Parses valid /config JSON correctly
+00:03 +31 -1: /Users/wbhinton/projects/ELRS/test/device_config_model_test.dart: DeviceConfig Model Handles missing optional fields
+00:03 +32 -1: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Merges overlay into base layout correctly
+00:03 +33 -1: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Handles null or empty overlay
+00:03 +34 -1: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Does not mutate base layout
+00:03 +35 -1: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:03 +36 -1: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver applyOverlay merges correctly
+00:03 +37 -1: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout finds file in RX folder
+00:03 +38 -1: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout falls back to basename search
+00:03 +39 -1: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout throws specific error when not found
+00:03 +40 -1: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateBindingPhrase sends correct UID payload
+00:03 +41 -1: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateWifi sends correct ssid and password
+00:03 +42 -1: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download is rejected when cache limit is reached
+00:03 +43 -1: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download succeeds when under cache limit
+00:04 +44 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+Provider Transition: AsyncLoading<String?>() -> AsyncData<String?>(value: null)
+CONNECTION: Target IP updated to 192.168.1.55
+Provider Transition: AsyncData<String?>(value: null) -> AsyncData<String?>(value: 192.168.1.55)
+Final Provider Value: AsyncData<String?>(value: 192.168.1.55)
+Repo Base URL: http://192.168.1.55
+00:04 +45 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +45 -1: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:04 +46 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +46 -1: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware does NOT double-compress .gz files
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:04 +47 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +47 -1: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware handles 500 error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 0
+00:04 +48 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +49 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +50 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +51 -1: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:05 +52 -1: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:05 +53 -1: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action handles download error
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:05 +54 -1: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler generateUid hashes correctly
+00:05 +55 -1: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:05 +55 -1: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:05 +56 -1: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:05 +56 -1: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified handles ESP32 platform
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:05 +57 -1: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:05 +58 -1: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Trims firmware correctly
+00:05 +59 -1: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Includes Wi-Fi credentials in options JSON
+00:05 +60 -1: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly with specific BetaFPV strings
+00:05 +61 -1: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:05 +62 -1: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Verify
+00:05 +63 -1: loading /Users/wbhinton/projects/ELRS/test/assets/ER8/er8_forensics_test.dart
+Forensic analysis complete. Results written to: test/assets/ER8/forensic_results.txt
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!
+
+00:06 +63 -1: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService fetchConfig returns RuntimeConfig on success
+Raw Device Config JSON: {settings: {field1: val1}, options: {wifi-ssid: mikes-wifi}, config: {hardware: lite}, modelId: 255, modelMatch: false}
+00:06 +64 -1: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +65 -1: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +66 -1: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +67 -1: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +68 -1: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:06 +69 -1: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Toggling Developer Mode saves to disk
+00:06 +70 -1: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Setting Regulatory Domain updates state
+00:06 +71 -1: Some tests failed.

@@ -1,0 +1,1965 @@
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:00 +0 -1: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:00 +0 -2: loading /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:00 +0 -2: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:00 +0 -3: loading /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:00 +0 -3: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:00 +0 -3: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +1 -3: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +2 -3: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should throw exception if header not found
+00:00 +3 -3: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should not modify original binary
+00:00 +4 -3: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches version 0 firmware correctly
+00:00 +5 -3: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches non-zero version firmware correctly
+00:00 +6 -3: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Throws if magic header missing
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:00 +7 -3: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from network and caches it
+00:00 +8 -3: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from cache when network fails
+Failed to fetch targets online: DioException [unknown]: null. Checking cache...
+00:00 +9 -3: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets throws when network fails and cache is empty
+Failed to fetch targets online: Exception: Network error. Checking cache...
+00:01 +10 -4: loading /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:01 +10 -4: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:02 +10 -4: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+00:02 +11 -4: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository handles API error
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+00:03 +12 -5: loading /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:03 +12 -5: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:04 +12 -6: loading /Users/wbhinton/projects/ELRS/test/device_repository_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_repository_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_repository_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:04 +12 -6: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:04 +12 -7: loading /Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:04 +12 -7: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:06 +12 -8: loading /Users/wbhinton/projects/ELRS/test/widget_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/widget_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/widget_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:06 +12 -8: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:07 +12 -9: loading /Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:07 +12 -9: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:08 +12 -9: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver applyOverlay merges correctly
+00:08 +13 -9: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout finds file in RX folder
+00:08 +14 -9: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout falls back to basename search
+00:08 +15 -9: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout throws specific error when not found
+00:08 +16 -9: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates correct UID for standard phrase
+00:08 +17 -9: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates empty UID for empty phrase
+00:08 +18 -9: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Merges overlay into base layout correctly
+00:08 +19 -9: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Handles null or empty overlay
+00:08 +20 -9: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Does not mutate base layout
+00:08 +21 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:09 +22 -10: loading /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:09 +22 -10: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:10 +22 -10: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download is rejected when cache limit is reached
+00:10 +23 -10: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download succeeds when under cache limit
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:10 +24 -11: loading /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:10 +24 -11: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:11 +24 -12: loading /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/flashing_options_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:11 +24 -12: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:11 +24 -12: /Users/wbhinton/projects/ELRS/test/discovery_service_test.dart: Provider emits IP when device is found
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:11 +25 -13: loading /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:11 +25 -13: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:13 +25 -14: loading /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:13 +25 -14: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:14 +25 -14: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:14 +26 -14: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Trims firmware correctly
+00:14 +27 -14: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Includes Wi-Fi credentials in options JSON
+00:14 +28 -14: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly with specific BetaFPV strings
+00:14 +29 -14: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler generateUid hashes correctly
+00:14 +30 -14: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:14 +31 -14: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified handles ESP32 platform
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:15 +32 -15: loading /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:15 +32 -15: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:16 +32 -15: loading /Users/wbhinton/projects/ELRS/test/assets/ER8/er8_forensics_test.dart
+Forensic analysis complete. Results written to: test/assets/ER8/forensic_results.txt
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!
+
+lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+_RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+_ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+              ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+             ^^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                     ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+_ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+             ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+            ^^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                     ^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+_ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+            ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+           ^^^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                     ^^^^^^^^^^^^^^^^^^
+00:17 +32 -16: loading /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_config_service_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: lib/src/features/config/domain/runtime_config_model.g.dart:31:16: Error: '_$RuntimeConfigFromJson' is already declared in this scope.
+  _RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:9:15: Context: Previous declaration of '_$RuntimeConfigFromJson'.
+  RuntimeConfig _$RuntimeConfigFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:48:22: Error: '_$RuntimeConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$RuntimeConfigToJson(_RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:12:22: Context: Previous declaration of '_$RuntimeConfigToJson'.
+  Map<String, dynamic> _$RuntimeConfigToJson(RuntimeConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:59:15: Error: '_$ElrsSettingsFromJson' is already declared in this scope.
+  _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+                ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:15:14: Context: Previous declaration of '_$ElrsSettingsFromJson'.
+  ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
+               ^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:72:22: Error: '_$ElrsSettingsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:18:22: Context: Previous declaration of '_$ElrsSettingsToJson'.
+  Map<String, dynamic> _$ElrsSettingsToJson(ElrsSettings instance) =>
+                       ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:85:14: Error: '_$ElrsOptionsFromJson' is already declared in this scope.
+  _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
+               ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:21:13: Context: Previous declaration of '_$ElrsOptionsFromJson'.
+  ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => ElrsOptions();
+              ^^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:100:22: Error: '_$ElrsOptionsToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:23:22: Context: Previous declaration of '_$ElrsOptionsToJson'.
+  Map<String, dynamic> _$ElrsOptionsToJson(ElrsOptions instance) =>
+                       ^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:116:13: Error: '_$ElrsConfigFromJson' is already declared in this scope.
+  _ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => _ElrsConfig(
+              ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:26:12: Context: Previous declaration of '_$ElrsConfigFromJson'.
+  ElrsConfig _$ElrsConfigFromJson(Map<String, dynamic> json) => ElrsConfig();
+             ^^^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:127:22: Error: '_$ElrsConfigToJson' is already declared in this scope.
+  Map<String, dynamic> _$ElrsConfigToJson(_ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  lib/src/features/config/domain/runtime_config_model.g.dart:28:22: Context: Previous declaration of '_$ElrsConfigToJson'.
+  Map<String, dynamic> _$ElrsConfigToJson(ElrsConfig instance) =>
+                       ^^^^^^^^^^^^^^^^^^
+  .
+00:17 +32 -16: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:17 +32 -16: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:17 +33 -16: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Toggling Developer Mode saves to disk
+00:17 +34 -16: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Setting Regulatory Domain updates state
+00:17 +35 -16: Some tests failed.

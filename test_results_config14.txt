@@ -1,0 +1,205 @@
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart
+test/device_editor_view_model_test.dart:18:32: Error: No named parameter with the name 'domain'.
+        settings: ElrsSettings(domain: 0, serialProtocol: 0),
+                               ^^^^^^
+lib/src/features/config/domain/runtime_config_model.dart:26:17: Context: Found this candidate, but the arguments don't match.
+  const factory ElrsSettings({
+                ^
+test/device_editor_view_model_test.dart:39:61: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+      expect(container.read(deviceEditorProvider)?.settings.domain, 1);
+                                                            ^^^^^^
+00:00 +0 -1: loading /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: test/device_editor_view_model_test.dart:18:32: Error: No named parameter with the name 'domain'.
+          settings: ElrsSettings(domain: 0, serialProtocol: 0),
+                                 ^^^^^^
+  lib/src/features/config/domain/runtime_config_model.dart:26:17: Context: Found this candidate, but the arguments don't match.
+    const factory ElrsSettings({
+                  ^
+  test/device_editor_view_model_test.dart:39:61: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+        expect(container.read(deviceEditorProvider)?.settings.domain, 1);
+                                                              ^^^^^^
+  .
+00:00 +0 -2: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:00 +0 -2: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +1 -2: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController updates specific pin and saves
+00:00 +2 -2: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches version 0 firmware correctly
+00:00 +3 -2: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches non-zero version firmware correctly
+00:00 +4 -2: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Throws if magic header missing
+00:00 +5 -2: /Users/wbhinton/projects/ELRS/test/firmware_forensics_test.dart: ER8 Binary Forensics: Byte-Perfect Assembly Check
+00:00 +6 -2: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +7 -2: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds
+00:00 +8 -2: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds
+00:00 +9 -2: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds
+00:01 +10 -2: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from network and caches it
+00:01 +11 -2: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from cache when network fails
+Failed to fetch targets online: DioException [unknown]: null. Checking cache...
+00:01 +12 -2: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets throws when network fails and cache is empty
+Failed to fetch targets online: Exception: Network error. Checking cache...
+00:03 +13 -2: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+00:03 +14 -2: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository handles API error
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+00:03 +15 -2: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:03 +16 -2: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:03 +17 -2: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:03 +17 -2: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository flashFirmware throws exception on error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:03 +18 -2: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:03 +19 -2: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:03 +20 -2: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+test/runtime_config_model_test.dart:32:29: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+      expect(model.settings.domain, 2);
+                            ^^^^^^
+test/runtime_config_model_test.dart:52:29: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+      expect(model.settings.domain, null);
+                            ^^^^^^
+00:03 +20 -3: loading /Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart: test/runtime_config_model_test.dart:32:29: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+        expect(model.settings.domain, 2);
+                              ^^^^^^
+  test/runtime_config_model_test.dart:52:29: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+        expect(model.settings.domain, null);
+                              ^^^^^^
+  .
+00:04 +21 -3: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:04 +22 -3: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: App applies Dark Mode background
+00:04 +23 -3: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:05 +24 -3: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver applyOverlay merges correctly
+00:05 +25 -3: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout finds file in RX folder
+00:05 +26 -3: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout falls back to basename search
+00:05 +27 -3: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout throws specific error when not found
+00:05 +28 -3: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates correct UID for standard phrase
+00:05 +29 -3: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates empty UID for empty phrase
+00:05 +30 -3: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Merges overlay into base layout correctly
+00:05 +31 -3: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Handles null or empty overlay
+00:05 +32 -3: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Does not mutate base layout
+00:05 +33 -3: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:05 +34 -3: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateBindingPhrase sends correct UID payload
+00:05 +35 -3: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateWifi sends correct ssid and password
+00:05 +36 -3: /Users/wbhinton/projects/ELRS/test/discovery_service_test.dart: Provider emits IP when device is found
+00:06 +37 -3: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+Provider Transition: AsyncLoading<String?>() -> AsyncData<String?>(value: null)
+CONNECTION: Target IP updated to 192.168.1.55
+Provider Transition: AsyncData<String?>(value: null) -> AsyncData<String?>(value: 192.168.1.55)
+Final Provider Value: AsyncData<String?>(value: 192.168.1.55)
+Repo Base URL: http://192.168.1.55
+00:06 +38 -3: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download is rejected when cache limit is reached
+00:06 +39 -3: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:06 +40 -3: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:06 +40 -3: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:06 +41 -3: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:06 +41 -3: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware does NOT double-compress .gz files
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:06 +42 -3: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:06 +42 -3: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware handles 500 error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 0
+00:06 +43 -3: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:06 +44 -3: /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: Controller loads saved options on init
+00:06 +45 -3: /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: Controller updates state when user types and persists
+00:06 +46 -3: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:06 +47 -3: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Verify
+00:07 +48 -3: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:07 +49 -3: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Trims firmware correctly
+00:07 +50 -3: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Includes Wi-Fi credentials in options JSON
+00:07 +51 -3: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly with specific BetaFPV strings
+00:07 +52 -3: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler generateUid hashes correctly
+00:07 +52 -3: loading /Users/wbhinton/projects/ELRS/test/assets/ER8/er8_forensics_test.dart
+Forensic analysis complete. Results written to: test/assets/ER8/forensic_results.txt
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!
+
+00:07 +53 -3: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:07 +54 -3: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified handles ESP32 platform
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+test/device_config_service_test.dart:38:30: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+      expect(result.settings.domain, equals(1));
+                             ^^^^^^
+test/device_config_service_test.dart:94:30: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+      expect(config.settings.domain, 1);
+                             ^^^^^^
+00:07 +55 -4: loading /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_config_service_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: test/device_config_service_test.dart:38:30: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+        expect(result.settings.domain, equals(1));
+                               ^^^^^^
+  test/device_config_service_test.dart:94:30: Error: The getter 'domain' isn't defined for the type 'ElrsSettings'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'domain'.
+        expect(config.settings.domain, 1);
+                               ^^^^^^
+  .
+00:07 +55 -4: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:07 +56 -4: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action handles download error
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:07 +57 -4: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:07 +58 -4: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Toggling Developer Mode saves to disk
+00:07 +59 -4: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Setting Regulatory Domain updates state
+00:07 +60 -4: Some tests failed.

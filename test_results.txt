@@ -1,0 +1,662 @@
+Resolving dependencies...
+Downloading packages...
+  _fe_analyzer_shared 92.0.0 (95.0.0 available)
+  analyzer 9.0.0 (10.1.0 available)
+  analyzer_buffer 0.3.0 (0.3.1 available)
+  archive 3.6.1 (4.0.9 available)
+  dart_style 3.1.3 (3.1.5 available)
+  meta 1.17.0 (1.18.1 available)
+Got dependencies!
+6 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart
+test/pwm_controller_test.dart:18:64: Error: A value of type 'Map<String, List<int>>' can't be returned from an async function with return type 'Future<DeviceConfig>'.
+ - 'Map' is from 'dart:core'.
+ - 'List' is from 'dart:core'.
+ - 'Future' is from 'dart:async'.
+ - 'DeviceConfig' is from 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart' ('lib/src/features/configurator/domain/device_config_model.dart').
+    when(() => mockRepo.fetchConfig()).thenAnswer((_) async => {
+                                                               ^
+test/pwm_controller_test.dart:43:64: Error: A value of type 'Map<String, List<int>>' can't be returned from an async function with return type 'Future<DeviceConfig>'.
+ - 'Map' is from 'dart:core'.
+ - 'List' is from 'dart:core'.
+ - 'Future' is from 'dart:async'.
+ - 'DeviceConfig' is from 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart' ('lib/src/features/configurator/domain/device_config_model.dart').
+    when(() => mockRepo.fetchConfig()).thenAnswer((_) async => {
+                                                               ^
+00:00 +0 -1: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: test/pwm_controller_test.dart:18:64: Error: A value of type 'Map<String, List<int>>' can't be returned from an async function with return type 'Future<DeviceConfig>'.
+   - 'Map' is from 'dart:core'.
+   - 'List' is from 'dart:core'.
+   - 'Future' is from 'dart:async'.
+   - 'DeviceConfig' is from 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart' ('lib/src/features/configurator/domain/device_config_model.dart').
+      when(() => mockRepo.fetchConfig()).thenAnswer((_) async => {
+                                                                 ^
+  test/pwm_controller_test.dart:43:64: Error: A value of type 'Map<String, List<int>>' can't be returned from an async function with return type 'Future<DeviceConfig>'.
+   - 'Map' is from 'dart:core'.
+   - 'List' is from 'dart:core'.
+   - 'Future' is from 'dart:async'.
+   - 'DeviceConfig' is from 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart' ('lib/src/features/configurator/domain/device_config_model.dart').
+      when(() => mockRepo.fetchConfig()).thenAnswer((_) async => {
+                                                                 ^
+  .
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+test/backpack_controller_test.dart:29:44: Error: Too few positional arguments: 2 required, 1 given.
+    when(() => mockDeviceRepo.flashFirmware(dummyBytes, onSendProgress: any(named: 'onSendProgress')))
+                                           ^
+test/backpack_controller_test.dart:57:46: Error: Too few positional arguments: 2 required, 1 given.
+    verify(() => mockDeviceRepo.flashFirmware(dummyBytes, onSendProgress: any(named: 'onSendProgress'))).called(1);
+                                             ^
+00:00 +0 -2: loading /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: test/backpack_controller_test.dart:29:44: Error: Too few positional arguments: 2 required, 1 given.
+      when(() => mockDeviceRepo.flashFirmware(dummyBytes, onSendProgress: any(named: 'onSendProgress')))
+                                             ^
+  test/backpack_controller_test.dart:57:46: Error: Too few positional arguments: 2 required, 1 given.
+      verify(() => mockDeviceRepo.flashFirmware(dummyBytes, onSendProgress: any(named: 'onSendProgress'))).called(1);
+                                               ^
+  .
+00:00 +0 -2: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:00 +0 -2: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +1 -2: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should throw exception if header not found
+00:00 +2 -2: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should not modify original binary
+00:00 +3 -2: /Users/wbhinton/projects/ELRS/test/firmware_forensics_test.dart: ER8 Binary Forensics: Byte-Perfect Assembly Check
+DEBUG: Original Firmware Size: 1085040
+DEBUG: Calculated True End (Surgical): 1082336
+DEBUG: Bytes Stripped (Padding + Old Config): 2704
+Forensics report written to: test/assets/ER8/test_results.txt
+=== ER8 Binary Forensics Report ===
+
+--- 1. Total Size Check ---
+Golden Size:    1140800 bytes
+Generated Size: 1085040 bytes
+Status:         MISMATCH
+
+--- 2. Metadata Alignment ---
+Calculated Base End (Trimming Offset): 1082336 (0x1083E0)
+Metadata Block Map:
+  [0x000000 - 0x1083df] Base Firmware (1082336 bytes)
+  [0x1083e0 - 0x10845f] Product Name (128 bytes)
+  [0x108460 - 0x10846f] Lua Name     (16 bytes)
+  [0x108470 - 0x10866f] Options JSON (512 bytes)
+  [0x108670 - 0x108e6f] Hardware JSON(2048 bytes)
+
+--- 3. Byte-by-Byte Diff ---
+Mismatch at Offset: 0x000003 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x20 ( )
+  Actual (Generated): 0x3f (?)
+Mismatch at Offset: 0x000004 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xd4 (Ô)
+  Actual (Generated): 0x90 ()
+Mismatch at Offset: 0x000005 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x53 (S)
+  Actual (Generated): 0x92 ()
+Mismatch at Offset: 0x000006 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x08 ()
+  Actual (Generated): 0x37 (7)
+Mismatch at Offset: 0x00000C | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x00 ( )
+  Actual (Generated): 0x09 (	)
+Mismatch at Offset: 0x00001A | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x40 (@)
+  Actual (Generated): 0x0c ()
+Mismatch at Offset: 0x00001B | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x3f (?)
+  Actual (Generated): 0x3c (<)
+Mismatch at Offset: 0x00001C | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x68 (h)
+  Actual (Generated): 0x00 ( )
+Mismatch at Offset: 0x000073 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x34 (4)
+  Actual (Generated): 0x33 (3)
+Mismatch at Offset: 0x000074 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x31 (1)
+  Actual (Generated): 0x32 (2)
+Mismatch at Offset: 0x000076 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x34 (4)
+  Actual (Generated): 0x32 (2)
+Mismatch at Offset: 0x000077 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x35 (5)
+  Actual (Generated): 0x39 (9)
+Mismatch at Offset: 0x0000B0 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xaa (ª)
+  Actual (Generated): 0x96 ()
+Mismatch at Offset: 0x0000B1 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x59 (Y)
+  Actual (Generated): 0x84 ()
+Mismatch at Offset: 0x0000B2 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xce (Î)
+  Actual (Generated): 0x49 (I)
+Mismatch at Offset: 0x0000B3 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xf4 (ô)
+  Actual (Generated): 0x32 (2)
+Mismatch at Offset: 0x0000B4 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xc0 (À)
+  Actual (Generated): 0x24 ($)
+Mismatch at Offset: 0x0000B5 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x64 (d)
+  Actual (Generated): 0xb0 (°)
+Mismatch at Offset: 0x0000B6 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x5f (_)
+  Actual (Generated): 0x5b ([)
+Mismatch at Offset: 0x0000B7 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x5d (])
+  Actual (Generated): 0x7e (~)
+Mismatch at Offset: 0x0000B8 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x6e (n)
+  Actual (Generated): 0x8e ()
+Mismatch at Offset: 0x0000B9 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xda (Ú)
+  Actual (Generated): 0x8d ()
+Mismatch at Offset: 0x0000BA | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x50 (P)
+  Actual (Generated): 0xfe (þ)
+Mismatch at Offset: 0x0000BB | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x90 ()
+  Actual (Generated): 0x06 ()
+Mismatch at Offset: 0x0000BC | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x87 ()
+  Actual (Generated): 0x7f ()
+Mismatch at Offset: 0x0000BD | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x8c ()
+  Actual (Generated): 0x33 (3)
+Mismatch at Offset: 0x0000BE | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x29 ())
+  Actual (Generated): 0x56 (V)
+Mismatch at Offset: 0x0000BF | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x1f ()
+  Actual (Generated): 0x13 ()
+Mismatch at Offset: 0x0000C0 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x39 (9)
+  Actual (Generated): 0x85 ()
+Mismatch at Offset: 0x0000C1 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xd2 (Ò)
+  Actual (Generated): 0xa5 (¥)
+Mismatch at Offset: 0x0000C2 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x22 (")
+  Actual (Generated): 0x44 (D)
+Mismatch at Offset: 0x0000C3 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x64 (d)
+  Actual (Generated): 0x80 ()
+Mismatch at Offset: 0x0000C4 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xf5 (õ)
+  Actual (Generated): 0x12 ()
+Mismatch at Offset: 0x0000C5 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x73 (s)
+  Actual (Generated): 0x86 ()
+Mismatch at Offset: 0x0000C6 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xa2 (¢)
+  Actual (Generated): 0x53 (S)
+Mismatch at Offset: 0x0000C7 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x92 ()
+  Actual (Generated): 0x55 (U)
+Mismatch at Offset: 0x0000C8 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x5c (\)
+  Actual (Generated): 0x8d ()
+Mismatch at Offset: 0x0000C9 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x24 ($)
+  Actual (Generated): 0x9e ()
+Mismatch at Offset: 0x0000CA | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x75 (u)
+  Actual (Generated): 0xcd (Í)
+Mismatch at Offset: 0x0000CB | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x53 (S)
+  Actual (Generated): 0x2d (-)
+Mismatch at Offset: 0x0000CC | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x5d (])
+  Actual (Generated): 0xfb (û)
+Mismatch at Offset: 0x0000CD | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x9a ()
+  Actual (Generated): 0x1d ()
+Mismatch at Offset: 0x0000CE | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0xf6 (ö)
+  Actual (Generated): 0x2f (/)
+Mismatch at Offset: 0x0000CF | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x28 (()
+  Actual (Generated): 0x11 ()
+Mismatch at Offset: 0x000120 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x45 (E)
+  Actual (Generated): 0x77 (w)
+Mismatch at Offset: 0x000121 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x52 (R)
+  Actual (Generated): 0x69 (i)
+Mismatch at Offset: 0x000122 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x52 (R)
+  Actual (Generated): 0x66 (f)
+Mismatch at Offset: 0x000123 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x4f (O)
+  Actual (Generated): 0x69 (i)
+Mismatch at Offset: 0x000124 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x52 (R)
+  Actual (Generated): 0x20 ( )
+Mismatch at Offset: 0x000125 | Block: Base Firmware (Alignment/Padding Issue)
+  Expected (Golden): 0x3a (:)
+  Actual (Generated): 0x69 (i)
+... Truncating mismatch log after 50 errors.
+
+FAILURE: Found 50 byte mismatches inside the comparison range.
+
+00:00 +3 -3: /Users/wbhinton/projects/ELRS/test/firmware_forensics_test.dart: ER8 Binary Forensics: Byte-Perfect Assembly Check [E]
+  Expected: <0>
+    Actual: <50>
+  Binary bytes do not match the golden sample.
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/firmware_forensics_test.dart 142:5             main.<fn>
+  
+00:01 +3 -3: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+00:01 +3 -4: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches version 0 firmware correctly
+00:01 +4 -4: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches non-zero version firmware correctly
+00:01 +4 -4: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly [E]
+  DioException [unknown]: null
+  Error: Assertion failed: "Could not find mocked route matching request for GET https://artifactory.expresslrs.org/ExpressLRS/index.json { data: null, query parameters: {}, headers: {} }"
+  package:dio/src/dio_mixin.dart 523:7  DioMixin.fetch
+  
+00:01 +5 -4: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Throws if magic header missing
+00:01 +6 -4: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository handles API error
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+00:01 +7 -4: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from network and caches it
+00:01 +8 -4: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from cache when network fails
+Failed to fetch targets online: DioException [unknown]: null. Checking cache...
+00:01 +9 -4: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets throws when network fails and cache is empty
+Failed to fetch targets online: Exception: Network error. Checking cache...
+00:01 +10 -4: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+test/model_match_controller_test.dart:18:64: Error: A value of type 'Map<String, Object>' can't be returned from an async function with return type 'Future<DeviceConfig>'.
+ - 'Map' is from 'dart:core'.
+ - 'Object' is from 'dart:core'.
+ - 'Future' is from 'dart:async'.
+ - 'DeviceConfig' is from 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart' ('lib/src/features/configurator/domain/device_config_model.dart').
+    when(() => mockRepo.fetchConfig()).thenAnswer((_) async => {'modelId': 5, 'modelMatch': true});
+                                                               ^
+00:01 +10 -5: loading /Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart: test/model_match_controller_test.dart:18:64: Error: A value of type 'Map<String, Object>' can't be returned from an async function with return type 'Future<DeviceConfig>'.
+   - 'Map' is from 'dart:core'.
+   - 'Object' is from 'dart:core'.
+   - 'Future' is from 'dart:async'.
+   - 'DeviceConfig' is from 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart' ('lib/src/features/configurator/domain/device_config_model.dart').
+      when(() => mockRepo.fetchConfig()).thenAnswer((_) async => {'modelId': 5, 'modelMatch': true});
+                                                                 ^
+  .
+00:01 +10 -5: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:02 +10 -6: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:02 +10 -6: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository fetchConfig returns configuration map on success [E]
+  Expected: {'uid': [1, 2, 3], 'product_name': 'Test RX'}
+    Actual: _DeviceConfig:<DeviceConfig(productName: Test RX, version: unknown, uid: [1, 2, 3], pwmOutputs: [], modelId: 255, options: {}, regDomain: null, exp: {})>
+     Which: expected a map
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/device_repository_test.dart 29:7               main.<fn>.<fn>
+  
+00:02 +11 -6: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:02 +11 -6: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository flashFirmware throws exception on error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:02 +12 -6: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Model Match": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart:22:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart line 22
+The test description was:
+  Dashboard renders all menu items
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:02 +12 -7: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:02 +12 -7: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items [E]
+  Test failed. See exception logs above.
+  The test description was: Dashboard renders all menu items
+  
+test/widget_test.dart:16:35: Error: Couldn't find constructor 'MyApp'.
+    await tester.pumpWidget(const MyApp());
+                                  ^^^^^
+00:02 +12 -8: loading /Users/wbhinton/projects/ELRS/test/widget_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/widget_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/widget_test.dart: test/widget_test.dart:16:35: Error: Couldn't find constructor 'MyApp'.
+      await tester.pumpWidget(const MyApp());
+                                    ^^^^^
+  .
+00:02 +12 -8: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:02 +13 -8: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: App applies Dark Mode background
+00:03 +14 -8: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates correct UID for standard phrase
+00:03 +15 -8: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates empty UID for empty phrase
+00:03 +16 -8: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Merges overlay into base layout correctly
+00:03 +17 -8: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Handles null or empty overlay
+00:03 +18 -8: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Does not mutate base layout
+00:03 +19 -8: /Users/wbhinton/projects/ELRS/test/device_config_model_test.dart: DeviceConfig Model Parses valid /config JSON correctly
+00:03 +20 -8: /Users/wbhinton/projects/ELRS/test/device_config_model_test.dart: DeviceConfig Model Handles missing optional fields
+00:04 +21 -8: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:04 +21 -8: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+Provider Transition: AsyncLoading<String?>() -> AsyncData<String?>(value: null)
+00:04 +21 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:04 +21 -9: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device [E]
+  Expected: contains '10.0.0.1'
+    Actual: ''
+     Which: does not contain '10.0.0.1'
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/discovery_integration_test.dart 40:7           main.<fn>.<fn>
+  
+00:04 +22 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:04 +23 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:04 +24 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:04 +25 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:04 +26 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:04 +27 -9: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:05 +27 -9: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Initializing...": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure>.<anonymous closure> (file:///Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart:78:7)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart line 78
+The test description was:
+  Badge shows Green when connected
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:05 +27 -10: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:05 +27 -10: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected [E]
+  Test failed. See exception logs above.
+  The test description was: Badge shows Green when connected
+  
+test/flashing_options_test.dart:9:7: Error: The non-abstract class 'MockSecureStorageService' is missing implementations for these members:
+ - SecureStorageService.loadManualIp
+ - SecureStorageService.saveManualIp
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class MockSecureStorageService implements SecureStorageService {
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/core/storage/secure_storage_service.dart:33:19: Context: 'SecureStorageService.loadManualIp' is defined here.
+  Future<String?> loadManualIp() async {
+                  ^^^^^^^^^^^^
+lib/src/core/storage/secure_storage_service.dart:29:16: Context: 'SecureStorageService.saveManualIp' is defined here.
+  Future<void> saveManualIp(String ip) async {
+               ^^^^^^^^^^^^
+00:05 +27 -11: loading /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/flashing_options_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: test/flashing_options_test.dart:9:7: Error: The non-abstract class 'MockSecureStorageService' is missing implementations for these members:
+   - SecureStorageService.loadManualIp
+   - SecureStorageService.saveManualIp
+  Try to either
+   - provide an implementation,
+   - inherit an implementation from a superclass or mixin,
+   - mark the class as abstract, or
+   - provide a 'noSuchMethod' implementation.
+  class MockSecureStorageService implements SecureStorageService {
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/core/storage/secure_storage_service.dart:33:19: Context: 'SecureStorageService.loadManualIp' is defined here.
+    Future<String?> loadManualIp() async {
+                    ^^^^^^^^^^^^
+  lib/src/core/storage/secure_storage_service.dart:29:16: Context: 'SecureStorageService.saveManualIp' is defined here.
+    Future<void> saveManualIp(String ip) async {
+                 ^^^^^^^^^^^^
+  .
+00:05 +27 -11: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:05 +27 -11: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+Failed to fetch targets online: Binding has not yet been initialized.
+The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.. Checking cache...
+00:05 +27 -12: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateBindingPhrase sends correct UID payload
+00:05 +27 -12: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully [E]
+  Binding has not yet been initialized.
+  The "instance" getter on the ServicesBinding binding mixin is only available once that binding has been initialized.
+  Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+  In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+  If ServicesBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+  dart:async                                                                    _Completer.completeError
+  package:shared_preferences/src/shared_preferences_legacy.dart 90:19           SharedPreferences.getInstance
+  ===== asynchronous gap ===========================
+  dart:async                                                                    _CustomZone.registerBinaryCallback
+  package:shared_preferences/src/shared_preferences_legacy.dart 85:13           SharedPreferences.getInstance
+  package:elrs_mobile/src/core/storage/firmware_cache_service.dart 144:43       FirmwareCacheService.getCachedTargetJson
+  package:elrs_mobile/src/features/flashing/data/targets_repository.dart 29:46  TargetsRepository.fetchTargets
+  ===== asynchronous gap ===========================
+  dart:async                                                                    _CustomZone.registerBinaryCallback
+  package:elrs_mobile/src/features/flashing/data/targets_repository.dart 16:24  TargetsRepository.fetchTargets
+  package:elrs_mobile/src/features/flashing/data/targets_provider.dart 19:21    targets
+  package:elrs_mobile/src/features/flashing/data/targets_provider.g.dart 94:12  TargetsProvider.create
+  package:riverpod/src/providers/future_provider.dart 167:45                    $FutureProviderElement.create.<fn>
+  package:riverpod/src/core/element.dart 206:30                                 ElementWithFuture.handleFuture.<fn>
+  package:riverpod/src/core/element.dart 270:35                                 ElementWithFuture._handleAsync
+  package:riverpod/src/core/element.dart 200:12                                 ElementWithFuture.handleFuture
+  package:riverpod/src/providers/future_provider.dart 167:12                    $FutureProviderElement.create
+  package:riverpod/src/core/element.dart 684:28                                 ProviderElement.buildState
+  package:riverpod/src/core/element.dart 537:7                                  ProviderElement.mount
+  package:riverpod/src/core/element.dart 640:7                                  ProviderElement.flush
+  package:riverpod/src/core/provider/provider.dart 119:24                       $ProviderBaseImpl._addListener
+  package:riverpod/src/core/proxy_provider_listenable.dart 106:31               ProviderElementProxy._addListener
+  package:riverpod/src/core/provider_container.dart 960:26                      ProviderContainer.listen
+  package:riverpod/src/core/provider_container.dart 917:17                      ProviderContainer.read
+  test/targets_fetch_test.dart 13:37                                            main.<fn>
+  
+00:05 +28 -12: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateWifi sends correct ssid and password
+00:05 +29 -12: /Users/wbhinton/projects/ELRS/test/discovery_service_test.dart: Provider emits IP when device is found
+00:06 +30 -12: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler generateUid hashes correctly
+00:06 +31 -12: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure
+DEBUG: Original Firmware Size: 3
+00:06 +31 -13: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:06 +31 -13: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure [E]
+  RangeError (length): Invalid value: Not in inclusive range 0..2: 4096
+  dart:typed_data                                                                 Uint8List.[]
+  package:elrs_mobile/src/features/flashing/utils/firmware_assembler.dart 136:15  FirmwareAssembler._findFirmwareEnd
+  package:elrs_mobile/src/features/flashing/utils/firmware_assembler.dart 59:17   FirmwareAssembler.assembleEspUnified
+  test/firmware_assembler_test.dart 22:40                                         main.<fn>.<fn>
+  
+00:06 +31 -13: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified handles ESP32 platform
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:06 +32 -13: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:06 +33 -13: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Trims firmware correctly
+00:06 +34 -13: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Includes Wi-Fi credentials in options JSON
+00:06 +35 -13: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly with specific BetaFPV strings
+00:06 +36 -13: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:06 +36 -13: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:06 +36 -14: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:06 +37 -14: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Verify
+00:06 +38 -14: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers [E]
+  Exception: Failed to flash firmware: type 'Null' is not a subtype of type 'Future<Response<dynamic>>'
+  package:elrs_mobile/src/features/flashing/data/device_repository.dart 233:7  DeviceRepository.flashFirmware
+  test/device_repository_flashing_test.dart 51:30                              main.<fn>.<fn>
+  
+00:06 +38 -14: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware does NOT double-compress .gz files
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:06 +38 -15: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware does NOT double-compress .gz files [E]
+  Exception: Failed to flash firmware: type 'Null' is not a subtype of type 'Future<Response<dynamic>>'
+  package:elrs_mobile/src/features/flashing/data/device_repository.dart 233:7  DeviceRepository.flashFirmware
+  test/device_repository_flashing_test.dart 71:30                              main.<fn>.<fn>
+  
+00:06 +38 -15: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware handles 500 error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 0
+00:07 +39 -15: loading /Users/wbhinton/projects/ELRS/test/assets/ER8/er8_forensics_test.dart
+Forensic analysis complete. Results written to: test/assets/ER8/forensic_results.txt
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!
+
+00:07 +39 -15: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+00:07 +39 -15: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService fetchConfig returns RuntimeConfig on success
+Raw Device Config JSON: {settings: {field1: val1}, options: {wifi-ssid: mikes-wifi}, config: {hardware: lite}}
+00:07 +40 -15: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Started (Heartbeat silenced: true)
+00:07 +41 -15: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Finished (Heartbeat silenced: false)
+00:07 +42 -15: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+00:07 +42 -16: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:07 +43 -16: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:07 +44 -16: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: RuntimeConfig model fromJson and toJson work correctly
+00:07 +45 -16: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: RuntimeConfig model fromJson and toJson work correctly
+00:07 +45 -17: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Setting Regulatory Domain updates state
+00:07 +46 -17: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully [E]
+  No matching calls. All calls: MockDeviceRepository.flashFirmware([4, 5, 6], firmware.bin, {onSendProgress: null, productName: null, luaName: null, uid: null, hardwareLayout: null, wifiSsid: , wifiPassword: , platform: null, force: false})
+  (If you called `verify(...).called(0);`, please instead use `verifyNever(...);`.)
+  package:matcher                            fail
+  package:mocktail/src/mocktail.dart 728:7   _VerifyCall._checkWith
+  package:mocktail/src/mocktail.dart 519:18  _makeVerify.<fn>
+  test/flashing_pipeline_test.dart 107:11    main.<fn>
+  
+00:07 +46 -17: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: RuntimeConfig model fromJson and toJson work correctly [E]
+  Expected: {'settings': {'s': 1}, 'options': {'o': 2}, 'config': {'c': 3}}
+    Actual: {
+              'product_name': null,
+              'version': 'unknown',
+              'target': null,
+              'activeIp': null,
+              'settings': {'s': 1},
+              'options': {'o': 2},
+              'config': {'c': 3}
+            }
+     Which: has different length and has extra map key 'product_name'
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test/device_config_service_test.dart 91:7           main.<fn>.<fn>
+  
+00:07 +46 -17: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action handles download error
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:07 +47 -17: Some tests failed.

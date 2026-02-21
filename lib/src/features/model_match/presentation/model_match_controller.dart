@@ -35,9 +35,8 @@ class ModelMatchController extends _$ModelMatchController {
       final repo = ref.read(deviceRepositoryProvider);
       final config = await repo.fetchConfig();
       
-      // Parse response. Keys depend on actual ELRS API.
-      // In a real scenario, we'd map from the ELRS config structure.
-      final modelId = config.modelId;
+      // Parse response.
+      final modelId = config.config.modelId ?? 255;
       final isEnabled = modelId != 255;
       
       state = state.copyWith(

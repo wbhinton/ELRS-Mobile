@@ -1,0 +1,260 @@
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart
+00:00 +0: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds
+00:00 +1: /Users/wbhinton/projects/ELRS/test/firmware_forensics_test.dart: ER8 Binary Forensics: Byte-Perfect Assembly Check
+00:00 +2: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +3: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +4: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController updates specific pin and saves
+00:00 +5: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should throw exception if header not found
+00:00 +6: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should not modify original binary
+00:00 +7: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches version 0 firmware correctly
+00:00 +8: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches non-zero version firmware correctly
+00:00 +9: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Throws if magic header missing
+00:00 +10: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+00:00 +11: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository handles API error
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+00:00 +12: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +13: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +13: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from cache when network fails
+Failed to fetch targets online: DioException [unknown]: null. Checking cache...
+00:01 +14: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +14: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets throws when network fails and cache is empty
+Failed to fetch targets online: Exception: Network error. Checking cache...
+00:01 +15: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +16: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +17: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +17: /Users/wbhinton/projects/ELRS/test/device_repository_test.dart: DeviceRepository flashFirmware throws exception on error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:01 +18: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +19: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+00:01 +20: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextContainingWidgetFinder:<Found 0 widgets with text containing Searching for ELRS: []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart:47:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart line 47
+The test description was:
+  Dashboard renders all menu items
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:01 +20 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+00:01 +20 -1: /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: Dashboard renders all menu items [E]
+  Test failed. See exception logs above.
+  The test description was: Dashboard renders all menu items
+  
+00:01 +21 -1: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: App applies Dark Mode background
+00:02 +22 -1: /Users/wbhinton/projects/ELRS/test/device_config_model_test.dart: DeviceConfig Model Parses valid /config JSON correctly
+00:02 +23 -1: /Users/wbhinton/projects/ELRS/test/device_config_model_test.dart: DeviceConfig Model Handles missing optional fields
+00:02 +24 -1: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Merges overlay into base layout correctly
+00:02 +25 -1: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Handles null or empty overlay
+00:02 +26 -1: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Does not mutate base layout
+00:02 +27 -1: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:02 +28 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:02 +29 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+00:02 +30 -1: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing
+Pending timers:
+Timer (duration: 0:00:03.000000, periodic: false), created:
+#0      new FakeTimer._ (package:fake_async/fake_async.dart:342:62)
+#1      FakeAsync._createTimer (package:fake_async/fake_async.dart:260:29)
+#2      FakeAsync.run.<anonymous closure> (package:fake_async/fake_async.dart:185:15)
+#5      _SplashScreenState.initState (package:elrs_mobile/src/features/splash/presentation/splash_screen.dart:35:5)
+#6      StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5950:55)
+#7      ComponentElement.mount (package:flutter/src/widgets/framework.dart:5793:5)
+...     Normal element mounting (266 frames)
+#273    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4587:20)
+#274    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7264:36)
+#275    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7279:32)
+...     Normal element mounting (538 frames)
+#813    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4587:20)
+#814    Element.updateChild (package:flutter/src/widgets/framework.dart:4053:20)
+#815    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#816    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#817    ProxyElement.update (package:flutter/src/widgets/framework.dart:6149:5)
+#818    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#819    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#820    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#821    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5982:11)
+#822    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#823    StatefulElement.update (package:flutter/src/widgets/framework.dart:6007:5)
+#824    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#825    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#826    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#827    ProxyElement.update (package:flutter/src/widgets/framework.dart:6149:5)
+#828    _InheritedNotifierElement.update (package:flutter/src/widgets/inherited_notifier.dart:108:11)
+#829    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#830    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#831    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5982:11)
+#832    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#833    StatefulElement.update (package:flutter/src/widgets/framework.dart:6007:5)
+#834    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#835    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#836    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5982:11)
+#837    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#838    StatefulElement.update (package:flutter/src/widgets/framework.dart:6007:5)
+#839    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#840    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#841    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#842    ProxyElement.update (package:flutter/src/widgets/framework.dart:6149:5)
+#843    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#844    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#845    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5982:11)
+#846    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#847    StatefulElement.update (package:flutter/src/widgets/framework.dart:6007:5)
+#848    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#849    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#850    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#851    ProxyElement.update (package:flutter/src/widgets/framework.dart:6149:5)
+#852    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#853    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#854    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#855    ProxyElement.update (package:flutter/src/widgets/framework.dart:6149:5)
+#856    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#857    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#858    _RawViewElement.update (package:flutter/src/widgets/view.dart:568:5)
+#859    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#860    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#861    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#862    StatelessElement.update (package:flutter/src/widgets/framework.dart:5895:5)
+#863    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#864    ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5841:16)
+#865    StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5982:11)
+#866    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#867    StatefulElement.update (package:flutter/src/widgets/framework.dart:6007:5)
+#868    Element.updateChild (package:flutter/src/widgets/framework.dart:4037:15)
+#869    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1822:16)
+#870    RootElement.update (package:flutter/src/widgets/binding.dart:1800:5)
+#871    RootElement.performRebuild (package:flutter/src/widgets/binding.dart:1814:7)
+#872    Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#873    BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2750:15)
+#874    BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2807:11)
+#875    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3111:18)
+#876    AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2131:19)
+#877    RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:495:5)
+#878    SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#879    SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#880    AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:1960:9)
+#883    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#884    AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:1949:27)
+#885    WidgetTester.pumpWidget.<anonymous closure> (package:flutter_test/src/widget_tester.dart:598:22)
+#888    TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#889    WidgetTester.pumpWidget (package:flutter_test/src/widget_tester.dart:595:27)
+#890    main.<anonymous closure> (file:///Users/wbhinton/projects/ELRS/test/widget_test.dart:7:18)
+#891    testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:29)
+<asynchronous suspension>
+#892    TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1682:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 7 frames from dart:async and package:stack_trace)
+
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following assertion was thrown running a test:
+A Timer is still pending even after the widget tree was disposed.
+'package:flutter_test/src/binding.dart':
+Failed assertion: line 2242 pos 12: '!timersPending'
+
+When the exception was thrown, this was the stack:
+#2      AutomatedTestWidgetsFlutterBinding._verifyInvariants (package:flutter_test/src/binding.dart:2242:12)
+#3      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1703:7)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 3 frames from class _AssertionError and package:stack_trace)
+
+The test description was:
+  App renders without crashing
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:03 +30 -2: /Users/wbhinton/projects/ELRS/test/widget_test.dart: App renders without crashing [E]
+  Test failed. See exception logs above.
+  The test description was: App renders without crashing
+  
+00:03 +30 -2: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver applyOverlay merges correctly
+00:03 +31 -2: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout finds file in RX folder
+00:03 +32 -2: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout falls back to basename search
+00:03 +33 -2: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout throws specific error when not found
+00:03 +34 -2: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download is rejected when cache limit is reached
+00:03 +35 -2: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download succeeds when under cache limit
+00:03 +36 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+Provider Transition: AsyncLoading<String?>() -> AsyncData<String?>(value: null)
+CONNECTION: Target IP updated to 192.168.1.55
+Provider Transition: AsyncData<String?>(value: null) -> AsyncData<String?>(value: 192.168.1.55)
+00:03 +37 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+00:03 +38 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+Final Provider Value: AsyncData<String?>(value: 192.168.1.55)
+Repo Base URL: http://192.168.1.55
+00:03 +39 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:03 +40 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:03 +41 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:03 +42 -2: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:04 +43 -2: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:04 +44 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+00:04 +45 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+00:04 +46 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+00:04 +47 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:04 +48 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware does NOT double-compress .gz files
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:04 +49 -2: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware handles 500 error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 0
+00:04 +50 -2: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:04 +51 -2: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Verify
+00:04 +52 -2: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler generateUid hashes correctly
+00:04 +53 -2: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:04 +54 -2: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified handles ESP32 platform
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:05 +55 -2: loading /Users/wbhinton/projects/ELRS/test/assets/ER8/er8_forensics_test.dart
+Forensic analysis complete. Results written to: test/assets/ER8/forensic_results.txt
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!
+
+00:05 +55 -2: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:05 +56 -2: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action handles download error
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:05 +57 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService fetchConfig returns RuntimeConfig on success
+Raw Device Config JSON: {settings: {field1: val1}, options: {wifi-ssid: mikes-wifi}, config: {hardware: lite}, modelId: 255, modelMatch: false}
+00:05 +58 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:05 +59 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:05 +60 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService reboot sends POST request to /reboot
+00:05 +61 -2: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Toggling Developer Mode saves to disk
+00:05 +62 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService fetchConfig throws exception on error
+00:05 +63 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: DeviceConfigService fetchConfig throws exception on error
+00:05 +64 -2: /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: RuntimeConfig model fromJson and toJson work correctly
+00:05 +65 -2: Some tests failed.

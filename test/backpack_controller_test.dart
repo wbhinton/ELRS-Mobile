@@ -2,9 +2,9 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:elrs_manager/src/features/backpack/data/backpack_repository.dart';
-import 'package:elrs_manager/src/features/flashing/data/device_repository.dart';
-import 'package:elrs_manager/src/features/backpack/presentation/backpack_controller.dart';
+import 'package:elrs_mobile/src/features/backpack/data/backpack_repository.dart';
+import 'package:elrs_mobile/src/features/flashing/data/device_repository.dart';
+import 'package:elrs_mobile/src/features/backpack/presentation/backpack_controller.dart';
 
 class MockBackpackRepository extends Mock implements BackpackRepository {}
 class MockDeviceRepository extends Mock implements DeviceRepository {}
@@ -26,7 +26,7 @@ void main() {
     when(() => mockBackpackRepo.downloadBackpackFirmware(targetName))
         .thenAnswer((_) async => dummyBytes);
     
-    when(() => mockDeviceRepo.flashFirmware(dummyBytes, onSendProgress: any(named: 'onSendProgress')))
+    when(() => mockDeviceRepo.flashFirmware(dummyBytes, any(), onSendProgress: any(named: 'onSendProgress')))
         .thenAnswer((_) async {});
 
     final container = ProviderContainer(
@@ -54,7 +54,19 @@ void main() {
 
     // Assert
     verify(() => mockBackpackRepo.downloadBackpackFirmware(targetName)).called(1);
-    verify(() => mockDeviceRepo.flashFirmware(dummyBytes, onSendProgress: any(named: 'onSendProgress'))).called(1);
+    verify(() => mockDeviceRepo.flashFirmware(
+      dummyBytes, 
+      any(), 
+      onSendProgress: any(named: 'onSendProgress'),
+      productName: any(named: 'productName'),
+      luaName: any(named: 'luaName'),
+      uid: any(named: 'uid'),
+      hardwareLayout: any(named: 'hardwareLayout'),
+      wifiSsid: any(named: 'wifiSsid'),
+      wifiPassword: any(named: 'wifiPassword'),
+      platform: any(named: 'platform'),
+      force: any(named: 'force'),
+    )).called(1);
     
     final state = container.read(backpackControllerProvider);
     expect(state.status, BackpackStatus.success);

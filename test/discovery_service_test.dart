@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:elrs_manager/src/core/networking/discovery_service.dart';
-import 'package:elrs_manager/src/core/networking/discovery_provider.dart';
+import 'package:elrs_mobile/src/core/networking/discovery_service.dart';
+import 'package:elrs_mobile/src/core/networking/discovery_provider.dart';
 
 class MockDiscoveryService extends Mock implements DiscoveryService {}
 

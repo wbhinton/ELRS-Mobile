@@ -3,14 +3,14 @@ import 'package:mocktail/mocktail.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:typed_data';
 
-import 'package:elrs_manager/src/features/flashing/data/firmware_repository.dart';
-import 'package:elrs_manager/src/features/flashing/data/device_repository.dart';
-import 'package:elrs_manager/src/features/flashing/application/firmware_patcher.dart';
-import 'package:elrs_manager/src/features/flashing/presentation/flashing_controller.dart';
-import 'package:elrs_manager/src/features/flashing/domain/target_definition.dart';
-import 'package:elrs_manager/src/features/flashing/domain/patch_configuration.dart';
-import 'package:elrs_manager/src/core/storage/secure_storage_service.dart';
-import 'package:elrs_manager/src/core/storage/firmware_cache_service.dart';
+import 'package:elrs_mobile/src/features/flashing/data/firmware_repository.dart';
+import 'package:elrs_mobile/src/features/flashing/data/device_repository.dart';
+import 'package:elrs_mobile/src/features/flashing/application/firmware_patcher.dart';
+import 'package:elrs_mobile/src/features/flashing/presentation/flashing_controller.dart';
+import 'package:elrs_mobile/src/features/flashing/domain/target_definition.dart';
+import 'package:elrs_mobile/src/features/flashing/domain/patch_configuration.dart';
+import 'package:elrs_mobile/src/core/storage/secure_storage_service.dart';
+import 'package:elrs_mobile/src/core/storage/firmware_cache_service.dart';
 
 // 1. Define Mocks
 class MockFirmwareRepository extends Mock implements FirmwareRepository {}
@@ -62,8 +62,19 @@ void main() {
     
     when(() => mockPatcher.patchFirmware(any(), any()))
         .thenAnswer((_) async => Uint8List.fromList([4, 5, 6])); 
-    when(() => mockDeviceRepo.flashFirmware(any(), any()))
-        .thenAnswer((_) async => Future.value());
+    when(() => mockDeviceRepo.flashFirmware(
+      any(), 
+      any(),
+      onSendProgress: any(named: 'onSendProgress'),
+      productName: any(named: 'productName'),
+      luaName: any(named: 'luaName'),
+      uid: any(named: 'uid'),
+      hardwareLayout: any(named: 'hardwareLayout'),
+      wifiSsid: any(named: 'wifiSsid'),
+      wifiPassword: any(named: 'wifiPassword'),
+      platform: any(named: 'platform'),
+      force: any(named: 'force'),
+    )).thenAnswer((_) async => {});
 
     // Provider Override
     final container = ProviderContainer(
@@ -104,7 +115,19 @@ void main() {
       any(that: isA<Uint8List>()), 
       any(that: isA<PatchConfiguration>()) 
     )).called(1);
-    verify(() => mockDeviceRepo.flashFirmware(any(), 'firmware.bin')).called(1);
+    verify(() => mockDeviceRepo.flashFirmware(
+      any(), 
+      'firmware.bin',
+      onSendProgress: any(named: 'onSendProgress'),
+      productName: any(named: 'productName'),
+      luaName: any(named: 'luaName'),
+      uid: any(named: 'uid'),
+      hardwareLayout: any(named: 'hardwareLayout'),
+      wifiSsid: any(named: 'wifiSsid'),
+      wifiPassword: any(named: 'wifiPassword'),
+      platform: any(named: 'platform'),
+      force: any(named: 'force'),
+    )).called(1);
 
     final state = container.read(flashingControllerProvider);
     expect(state.status, equals(FlashingStatus.success));

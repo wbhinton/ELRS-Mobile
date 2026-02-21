@@ -1,0 +1,570 @@
+00:00 +0: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart
+lib/src/features/config/presentation/device_editor_view_model.dart:22:50: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+      settings: Map<String, dynamic>.from(config.settings),
+                                                 ^
+lib/src/features/config/presentation/device_editor_view_model.dart:23:49: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+      options: Map<String, dynamic>.from(config.options),
+                                                ^
+lib/src/features/config/presentation/device_editor_view_model.dart:24:48: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+      config: Map<String, dynamic>.from(config.config),
+                                               ^
+lib/src/features/config/presentation/device_editor_view_model.dart:22:17: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsSettings'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      settings: Map<String, dynamic>.from(config.settings),
+                ^
+lib/src/features/config/presentation/device_editor_view_model.dart:23:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: Map<String, dynamic>.from(config.options),
+               ^
+lib/src/features/config/presentation/device_editor_view_model.dart:24:15: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsConfig'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      config: Map<String, dynamic>.from(config.config),
+              ^
+lib/src/features/config/presentation/device_editor_view_model.dart:32:41: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:32:58: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                                         ^
+lib/src/features/config/presentation/device_editor_view_model.dart:33:41: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:33:57: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:34:41: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.config, state!.config);
+                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:34:56: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.config, state!.config);
+                                                       ^
+00:00 +0 -1: loading /Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_editor_view_model_test.dart: lib/src/features/config/presentation/device_editor_view_model.dart:22:50: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+        settings: Map<String, dynamic>.from(config.settings),
+                                                   ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:23:49: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+        options: Map<String, dynamic>.from(config.options),
+                                                  ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:24:48: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+        config: Map<String, dynamic>.from(config.config),
+                                                 ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:22:17: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsSettings'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        settings: Map<String, dynamic>.from(config.settings),
+                  ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:23:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: Map<String, dynamic>.from(config.options),
+                 ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:24:15: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsConfig'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        config: Map<String, dynamic>.from(config.config),
+                ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:32:41: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:32:58: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                                           ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:33:41: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:33:57: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:34:41: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.config, state!.config);
+                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:34:56: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.config, state!.config);
+                                                         ^
+  .
+00:00 +0 -2: loading /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 939:11    DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 733:19                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 726:19                      _CustomZone.run
+  dart:async/zone.dart 625:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 666:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 194:5      _RawReceivePort._handleMessage
+  
+00:00 +0 -2: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController parses output array
+00:00 +1 -2: /Users/wbhinton/projects/ELRS/test/pwm_controller_test.dart: PwmController updates specific pin and saves
+00:00 +2 -2: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches version 0 firmware correctly
+00:00 +3 -2: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Patches non-zero version firmware correctly
+00:00 +4 -2: /Users/wbhinton/projects/ELRS/test/stm32_firmware_patcher_test.dart: Stm32FirmwarePatcher Throws if magic header missing
+00:00 +5 -2: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should generate correct UID from bind phrase
+00:00 +6 -2: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should throw exception if header not found
+00:00 +7 -2: /Users/wbhinton/projects/ELRS/test/firmware_patcher_test.dart: FirmwarePatcher should not modify original binary
+00:00 +8 -2: /Users/wbhinton/projects/ELRS/test/firmware_forensics_test.dart: ER8 Binary Forensics: Byte-Perfect Assembly Check
+00:01 +9 -2: /Users/wbhinton/projects/ELRS/test/backpack_controller_test.dart: Backpack Flash Pipeline succeeds
+00:01 +10 -2: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from network and caches it
+00:01 +11 -2: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets returns data from cache when network fails
+Failed to fetch targets online: DioException [unknown]: null. Checking cache...
+00:01 +12 -2: /Users/wbhinton/projects/ELRS/test/targets_repository_test.dart: fetchTargets throws when network fails and cache is empty
+Failed to fetch targets online: Exception: Network error. Checking cache...
+lib/src/features/config/presentation/config_view_model.dart:147:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                   ^
+lib/src/features/config/presentation/config_view_model.dart:153:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: updatedOptions,
+               ^
+lib/src/features/config/presentation/config_view_model.dart:161:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                   ^
+lib/src/features/config/presentation/config_view_model.dart:167:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: updatedOptions,
+               ^
+lib/src/features/config/presentation/config_view_model.dart:175:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                   ^
+lib/src/features/config/presentation/config_view_model.dart:181:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: updatedOptions,
+               ^
+00:02 +13 -3: loading /Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/dashboard_screen_test.dart: lib/src/features/config/presentation/config_view_model.dart:147:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                     ^
+  lib/src/features/config/presentation/config_view_model.dart:153:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: updatedOptions,
+                 ^
+  lib/src/features/config/presentation/config_view_model.dart:161:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                     ^
+  lib/src/features/config/presentation/config_view_model.dart:167:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: updatedOptions,
+                 ^
+  lib/src/features/config/presentation/config_view_model.dart:175:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                     ^
+  lib/src/features/config/presentation/config_view_model.dart:181:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: updatedOptions,
+                 ^
+  .
+00:03 +13 -3: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository fetches and filters versions correctly
+00:03 +14 -3: /Users/wbhinton/projects/ELRS/test/releases_repository_test.dart: Repository handles API error
+RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.
+test/device_repository_test.dart:30:21: Error: The getter 'uid' isn't defined for the type 'RuntimeConfig'.
+ - 'RuntimeConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'uid'.
+      expect(result.uid, equals([1, 2, 3]));
+                    ^^^
+00:04 +15 -4: loading /Users/wbhinton/projects/ELRS/test/device_repository_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_repository_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_repository_test.dart: test/device_repository_test.dart:30:21: Error: The getter 'uid' isn't defined for the type 'RuntimeConfig'.
+   - 'RuntimeConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'uid'.
+        expect(result.uid, equals([1, 2, 3]));
+                      ^^^
+  .
+00:04 +15 -4: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: FlashingScreen loads with correct title and button
+test/model_match_controller_test.dart:3:8: Error: Error when reading 'lib/src/features/configurator/domain/device_config_model.dart': No such file or directory
+import 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart';
+       ^
+test/model_match_controller_test.dart:22:15: Error: Method not found: 'ElrsConfig'.
+      config: ElrsConfig(modelId: 5),
+              ^^^^^^^^^^
+test/model_match_controller_test.dart:19:70: Error: Couldn't find constructor 'RuntimeConfig'.
+    when(() => mockRepo.fetchConfig()).thenAnswer((_) async => const RuntimeConfig(
+                                                                     ^^^^^^^^^^^^^
+00:05 +15 -5: loading /Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/model_match_controller_test.dart: test/model_match_controller_test.dart:3:8: Error: Error when reading 'lib/src/features/configurator/domain/device_config_model.dart': No such file or directory
+  import 'package:elrs_mobile/src/features/configurator/domain/device_config_model.dart';
+         ^
+  test/model_match_controller_test.dart:22:15: Error: Method not found: 'ElrsConfig'.
+        config: ElrsConfig(modelId: 5),
+                ^^^^^^^^^^
+  test/model_match_controller_test.dart:19:70: Error: Couldn't find constructor 'RuntimeConfig'.
+      when(() => mockRepo.fetchConfig()).thenAnswer((_) async => const RuntimeConfig(
+                                                                       ^^^^^^^^^^^^^
+  .
+00:05 +16 -5: /Users/wbhinton/projects/ELRS/test/flashing_screen_test.dart: App applies Dark Mode background
+lib/src/features/config/presentation/config_view_model.dart:147:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                   ^
+lib/src/features/config/presentation/config_view_model.dart:153:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: updatedOptions,
+               ^
+lib/src/features/config/presentation/config_view_model.dart:161:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                   ^
+lib/src/features/config/presentation/config_view_model.dart:167:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: updatedOptions,
+               ^
+lib/src/features/config/presentation/config_view_model.dart:175:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                   ^
+lib/src/features/config/presentation/config_view_model.dart:181:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: updatedOptions,
+               ^
+lib/src/features/config/presentation/device_editor_view_model.dart:22:50: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+      settings: Map<String, dynamic>.from(config.settings),
+                                                 ^
+lib/src/features/config/presentation/device_editor_view_model.dart:23:49: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+      options: Map<String, dynamic>.from(config.options),
+                                                ^
+lib/src/features/config/presentation/device_editor_view_model.dart:24:48: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+      config: Map<String, dynamic>.from(config.config),
+                                               ^
+lib/src/features/config/presentation/device_editor_view_model.dart:22:17: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsSettings'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      settings: Map<String, dynamic>.from(config.settings),
+                ^
+lib/src/features/config/presentation/device_editor_view_model.dart:23:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      options: Map<String, dynamic>.from(config.options),
+               ^
+lib/src/features/config/presentation/device_editor_view_model.dart:24:15: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsConfig'.
+ - 'Map' is from 'dart:core'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+      config: Map<String, dynamic>.from(config.config),
+              ^
+lib/src/features/config/presentation/device_editor_view_model.dart:32:41: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:32:58: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+    return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                                         ^
+lib/src/features/config/presentation/device_editor_view_model.dart:33:41: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:33:57: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:34:41: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.config, state!.config);
+                                        ^
+lib/src/features/config/presentation/device_editor_view_model.dart:34:56: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+ - 'Map' is from 'dart:core'.
+           !_mapsEqual(_originalConfig!.config, state!.config);
+                                                       ^
+00:05 +17 -6: loading /Users/wbhinton/projects/ELRS/test/widget_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/widget_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/widget_test.dart: lib/src/features/config/presentation/config_view_model.dart:147:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                     ^
+  lib/src/features/config/presentation/config_view_model.dart:153:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: updatedOptions,
+                 ^
+  lib/src/features/config/presentation/config_view_model.dart:161:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                     ^
+  lib/src/features/config/presentation/config_view_model.dart:167:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: updatedOptions,
+                 ^
+  lib/src/features/config/presentation/config_view_model.dart:175:68: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
+                                                                     ^
+  lib/src/features/config/presentation/config_view_model.dart:181:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: updatedOptions,
+                 ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:22:50: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+        settings: Map<String, dynamic>.from(config.settings),
+                                                   ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:23:49: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+        options: Map<String, dynamic>.from(config.options),
+                                                  ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:24:48: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<dynamic, dynamic>'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+        config: Map<String, dynamic>.from(config.config),
+                                                 ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:22:17: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsSettings'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        settings: Map<String, dynamic>.from(config.settings),
+                  ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:23:16: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsOptions'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        options: Map<String, dynamic>.from(config.options),
+                 ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:24:15: Error: The argument type 'Map<String, dynamic>' can't be assigned to the parameter type 'ElrsConfig'.
+   - 'Map' is from 'dart:core'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+        config: Map<String, dynamic>.from(config.config),
+                ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:32:41: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:32:58: Error: The argument type 'ElrsSettings' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+      return !_mapsEqual(_originalConfig!.settings, state!.settings) ||
+                                                           ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:33:41: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:33:57: Error: The argument type 'ElrsOptions' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.options, state!.options) ||
+                                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:34:41: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.config, state!.config);
+                                          ^
+  lib/src/features/config/presentation/device_editor_view_model.dart:34:56: Error: The argument type 'ElrsConfig' can't be assigned to the parameter type 'Map<String, dynamic>'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+   - 'Map' is from 'dart:core'.
+             !_mapsEqual(_originalConfig!.config, state!.config);
+                                                         ^
+  .
+00:07 +17 -6: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates correct UID for standard phrase
+00:07 +18 -6: /Users/wbhinton/projects/ELRS/test/binding_phrase_utils_test.dart: BindingPhraseUtils Generates empty UID for empty phrase
+00:07 +19 -6: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Merges overlay into base layout correctly
+00:07 +20 -6: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Handles null or empty overlay
+00:07 +21 -6: /Users/wbhinton/projects/ELRS/test/hardware_config_merger_test.dart: HardwareConfigMerger Does not mutate base layout
+00:07 +22 -6: /Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart: RuntimeConfig Model Parses valid /config JSON with nested structure correctly
+00:07 +23 -6: /Users/wbhinton/projects/ELRS/test/runtime_config_model_test.dart: RuntimeConfig Model Handles missing nested fields with defaults
+00:07 +24 -6: /Users/wbhinton/projects/ELRS/test/targets_fetch_test.dart: Targets Provider fetches data successfully
+00:07 +25 -6: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver applyOverlay merges correctly
+00:07 +26 -6: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout finds file in RX folder
+00:07 +27 -6: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout falls back to basename search
+00:07 +28 -6: /Users/wbhinton/projects/ELRS/test/target_resolver_test.dart: TargetResolver resolveLayout throws specific error when not found
+00:08 +29 -6: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download is rejected when cache limit is reached
+00:08 +30 -6: /Users/wbhinton/projects/ELRS/test/firmware_manager_controller_test.dart: Download succeeds when under cache limit
+00:08 +31 -6: /Users/wbhinton/projects/ELRS/test/discovery_service_test.dart: Provider emits IP when device is found
+00:08 +32 -6: /Users/wbhinton/projects/ELRS/test/device_settings_repository_test.dart: DeviceRepository Settings updateBindingPhrase sends correct UID payload
+00:08 +33 -6: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+Provider Transition: AsyncLoading<String?>() -> AsyncData<String?>(value: null)
+00:08 +34 -6: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Repository updates Base URL when Discovery finds device
+CONNECTION: Target IP updated to 192.168.1.55
+Provider Transition: AsyncData<String?>(value: null) -> AsyncData<String?>(value: 192.168.1.55)
+Final Provider Value: AsyncData<String?>(value: 192.168.1.55)
+Repo Base URL: http://192.168.1.55
+00:08 +35 -6: /Users/wbhinton/projects/ELRS/test/discovery_integration_test.dart: Discovery Integration Test Badge shows Green when connected
+00:09 +36 -6: /Users/wbhinton/projects/ELRS/test/flashing_controller_test.dart: Selection Logic Resets Correctly
+00:09 +37 -6: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+00:09 +38 -6: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware sends GZIP compressed multipart request with correct headers
+LOG: Flash successful!
+00:09 +39 -6: /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: Controller loads saved options on init
+00:09 +39 -6: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware does NOT double-compress .gz files
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 3
+LOG: Flash successful!
+00:09 +40 -6: /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: Controller loads saved options on init
+00:09 +40 -6: /Users/wbhinton/projects/ELRS/test/device_repository_flashing_test.dart: DeviceRepository Flashing Tests flashFirmware handles 500 error
+Skipping compression for platform: null
+Trimming Delta: 0
+Final Byte Count: 0
+00:09 +41 -6: /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: Controller loads saved options on init
+00:09 +42 -6: /Users/wbhinton/projects/ELRS/test/flashing_options_test.dart: Controller updates state when user types and persists
+00:09 +43 -6: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly structured binary
+00:09 +44 -6: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Trims firmware correctly
+00:09 +45 -6: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Includes Wi-Fi credentials in options JSON
+00:09 +46 -6: /Users/wbhinton/projects/ELRS/test/unified_firmware_builder_test.dart: UnifiedFirmwareBuilder Builds correctly with specific BetaFPV strings
+00:10 +47 -6: loading /Users/wbhinton/projects/ELRS/test/assets/ER8/er8_forensics_test.dart
+Forensic analysis complete. Results written to: test/assets/ER8/forensic_results.txt
+=== ER8 BINARY FORENSIC REPORT ===
+Pixel 10 Output: 1140800 bytes
+Webflasher Output: 1140800 bytes
+Length Match: true
+----------------------------------
+Marker "EXPRESSLRS" Offset (Pixel): 0x-1
+Marker "EXPRESSLRS" Offset (Web):   0x-1
+Marker Shift: 0 bytes
+INFO: Bypassed randomized flash-discriminator divergence safely.
+
+RESULT: BIT-PERFECT MATCH FOUND!
+
+test/device_config_service_test.dart:36:29: Error: The operator '[]' isn't defined for the type 'ElrsSettings'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the operator to an existing operator, or defining a '[]' operator.
+      expect(result.settings['field1'], equals('val1'));
+                            ^
+test/device_config_service_test.dart:37:28: Error: The operator '[]' isn't defined for the type 'ElrsOptions'.
+ - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the operator to an existing operator, or defining a '[]' operator.
+      expect(result.options['wifi-ssid'], equals('mikes-wifi'));
+                           ^
+test/device_config_service_test.dart:38:27: Error: The operator '[]' isn't defined for the type 'ElrsConfig'.
+ - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the operator to an existing operator, or defining a '[]' operator.
+      expect(result.config['hardware'], equals('lite'));
+                          ^
+test/device_config_service_test.dart:92:29: Error: The operator '[]' isn't defined for the type 'ElrsSettings'.
+ - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+Try correcting the operator to an existing operator, or defining a '[]' operator.
+      expect(config.settings['s'], 1);
+                            ^
+00:10 +47 -7: loading /Users/wbhinton/projects/ELRS/test/device_config_service_test.dart [E]
+  Failed to load "/Users/wbhinton/projects/ELRS/test/device_config_service_test.dart":
+  Compilation failed for testPath=/Users/wbhinton/projects/ELRS/test/device_config_service_test.dart: test/device_config_service_test.dart:36:29: Error: The operator '[]' isn't defined for the type 'ElrsSettings'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the operator to an existing operator, or defining a '[]' operator.
+        expect(result.settings['field1'], equals('val1'));
+                              ^
+  test/device_config_service_test.dart:37:28: Error: The operator '[]' isn't defined for the type 'ElrsOptions'.
+   - 'ElrsOptions' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the operator to an existing operator, or defining a '[]' operator.
+        expect(result.options['wifi-ssid'], equals('mikes-wifi'));
+                             ^
+  test/device_config_service_test.dart:38:27: Error: The operator '[]' isn't defined for the type 'ElrsConfig'.
+   - 'ElrsConfig' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the operator to an existing operator, or defining a '[]' operator.
+        expect(result.config['hardware'], equals('lite'));
+                            ^
+  test/device_config_service_test.dart:92:29: Error: The operator '[]' isn't defined for the type 'ElrsSettings'.
+   - 'ElrsSettings' is from 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart' ('lib/src/features/config/domain/runtime_config_model.dart').
+  Try correcting the operator to an existing operator, or defining a '[]' operator.
+        expect(config.settings['s'], 1);
+                              ^
+  .
+00:10 +47 -7: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler generateUid hashes correctly
+00:10 +48 -7: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified builds correct structure
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:10 +49 -7: /Users/wbhinton/projects/ELRS/test/firmware_assembler_test.dart: FirmwareAssembler assembleEspUnified handles ESP32 platform
+DEBUG: Original Firmware Size: 3
+DEBUG: Magic byte not found, returning full length
+DEBUG: Calculated True End (Surgical): 3
+DEBUG: Bytes Stripped (Padding + Old Config): 0
+00:10 +50 -7: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action completes successfully
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:10 +51 -7: /Users/wbhinton/projects/ELRS/test/flashing_pipeline_test.dart: Flash Action handles download error
+FLASHING: Started (Heartbeat silenced: true)
+FLASHING: Finished (Heartbeat silenced: false)
+00:10 +52 -7: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Settings load with correct defaults
+00:10 +53 -7: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Toggling Developer Mode saves to disk
+00:10 +54 -7: /Users/wbhinton/projects/ELRS/test/settings_controller_test.dart: Setting Regulatory Domain updates state
+00:10 +55 -7: Some tests failed.

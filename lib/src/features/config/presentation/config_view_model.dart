@@ -11,8 +11,8 @@ import '../services/device_config_service.dart';
 part 'config_view_model.g.dart';
 
 @riverpod
-DeviceConfigService deviceConfigService(Ref ref) {
-  final dio = ref.watch(deviceDioProvider);
+DeviceConfigService deviceConfigService(DeviceConfigServiceRef ref) {
+  final dio = ref.watch(localDioProvider);
   return DeviceConfigService(dio);
 }
 
@@ -23,6 +23,8 @@ class ConfigViewModel extends _$ConfigViewModel {
   String? _lastDiscoveredIp;
   String? _manualIp;
   String? _probeIp; // The IP we are currently trying or failed on
+  int _missedHeartbeats = 0;
+  static const int _maxMissedHeartbeats = 3;
 
   @override
   FutureOr<RuntimeConfig?> build() async {
@@ -59,7 +61,14 @@ class ConfigViewModel extends _$ConfigViewModel {
     _manualIp = ip;
     final storage = ref.read(secureStorageServiceProvider);
     await storage.saveManualIp(ip);
-    _performHeartbeat();
+    
+    // Explicitly transition to loading
+    state = const AsyncValue.loading();
+    try {
+      await fetchConfig(ip);
+    } catch (e) {
+      // Allow it to remain in error/disconnected state
+    }
   }
 
   void _startHeartbeat() {
@@ -74,29 +83,47 @@ class ConfigViewModel extends _$ConfigViewModel {
 
     final service = ref.read(deviceConfigServiceProvider);
     
-    // Priority: 1. Manual IP, 2. mDNS
+    // Priority: 1. Manual IP (if set), 2. Discovery targets (AP, Hostnames, Discovered mDNS)
     final ips = [
       if (_manualIp != null && _manualIp!.isNotEmpty) _manualIp!,
+      '10.0.0.1', 
+      'elrs_rx.local',
+      'elrs_tx.local',
       if (_lastDiscoveredIp != null) _lastDiscoveredIp!,
     ];
 
-    for (final ip in ips) {
-      _probeIp = ip;
-      // Pulse probe (HEAD request, 1s timeout)
-      final alive = await service.probeDeviceHead(ip);
-      if (alive) {
-        // Robust check (GET /config, 2s timeout)
-        final ok = await service.probeDevice(ip);
-        if (ok) {
-          await _refreshConfig(ip);
-          return;
-        }
-      }
-    }
+    final uniqueIps = ips.toSet().toList();
+    if (uniqueIps.isEmpty) return;
 
-    // If we reach here, no device was found on any priority IP
-    if (state.value != null) {
-      state = const AsyncValue.data(null);
+    try {
+      final successfulIp = await Future.any(uniqueIps.map((ip) async {
+        _probeIp = ip;
+        // Pulse probe (HEAD request, 1s timeout)
+        final alive = await service.probeDeviceHead(ip);
+        if (alive) {
+          // Robust check (GET /config, 2s timeout)
+          final ok = await service.probeDevice(ip);
+          if (ok) return ip;
+        }
+        throw Exception('Probe failed for $ip');
+      }));
+
+      // A device was successfully found concurrently
+      _probeIp = successfulIp;
+      _missedHeartbeats = 0; // Reset on any success
+      await _refreshConfig(successfulIp);
+    } catch (e) {
+      // If we reach here, no device was found on any priority IP
+      _missedHeartbeats++;
+      
+      if (_missedHeartbeats >= _maxMissedHeartbeats) {
+        if (state.value != null || state.isLoading) {
+          state = const AsyncValue.data(null);
+        }
+      } else {
+        // Log missed heartbeat but preserve state
+        print('CONNECTION: Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). Preserving last good state.');
+      }
     }
   }
 
@@ -117,6 +144,8 @@ class ConfigViewModel extends _$ConfigViewModel {
     state = await AsyncValue.guard(() async {
       final service = ref.read(deviceConfigServiceProvider);
       final config = await service.fetchConfig(ip);
+      // Synchronize centralized IP state with Dashboard
+      ref.read(targetIpProvider.notifier).updateIp(ip);
       return config.copyWith(activeIp: ip);
     });
   }
@@ -125,10 +154,11 @@ class ConfigViewModel extends _$ConfigViewModel {
     final currentConfig = state.value;
     if (currentConfig == null) return;
 
-    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
-    updatedOptions['wifi-ssid'] = ssid;
+    final json = currentConfig.options.toJson();
+    json['wifi-ssid'] = ssid;
+    final updatedOptions = ElrsOptions.fromJson(json);
 
-    await _saveOptions(ip, updatedOptions);
+    await _saveOptions(ip, json);
     
     state = AsyncValue.data(currentConfig.copyWith(
       options: updatedOptions,
@@ -139,10 +169,11 @@ class ConfigViewModel extends _$ConfigViewModel {
     final currentConfig = state.value;
     if (currentConfig == null) return;
 
-    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
-    updatedOptions['wifi-password'] = password;
+    final json = currentConfig.options.toJson();
+    json['wifi-password'] = password;
+    final updatedOptions = ElrsOptions.fromJson(json);
 
-    await _saveOptions(ip, updatedOptions);
+    await _saveOptions(ip, json);
     
     state = AsyncValue.data(currentConfig.copyWith(
       options: updatedOptions,
@@ -153,10 +184,11 @@ class ConfigViewModel extends _$ConfigViewModel {
     final currentConfig = state.value;
     if (currentConfig == null) return;
 
-    final updatedOptions = Map<String, dynamic>.from(currentConfig.options);
-    updatedOptions[key] = value;
+    final json = currentConfig.options.toJson();
+    json[key] = value;
+    final updatedOptions = ElrsOptions.fromJson(json);
 
-    await _saveOptions(ip, updatedOptions);
+    await _saveOptions(ip, json);
     
     state = AsyncValue.data(currentConfig.copyWith(
       options: updatedOptions,

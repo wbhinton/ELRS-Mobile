@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:elrs_manager/src/features/config/domain/runtime_config_model.dart';
-import 'package:elrs_manager/src/features/config/services/device_config_service.dart';
+import 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart';
+import 'package:elrs_mobile/src/features/config/services/device_config_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 
@@ -18,10 +18,13 @@ void main() {
     });
 
     test('fetchConfig returns RuntimeConfig on success', () async {
-      final mockResponse = {
-        'settings': {'field1': 'val1'},
-        'options': {'wifi-ssid': 'mikes-wifi'},
-        'config': {'hardware': 'lite'},
+      final mockResponse = <String, dynamic>{
+        'product_name': 'Test RX',
+        'settings': <String, dynamic>{'version': '1.0.0'},
+        'options': <String, dynamic>{'domain': 1, 'wifi-ssid': 'mikes-wifi'},
+        'config': <String, dynamic>{'hardware': <String, dynamic>{'type': 'lite'}},
+        'modelId': 255,
+        'modelMatch': false,
       };
 
       dioAdapter.onGet(
@@ -31,9 +34,10 @@ void main() {
 
       final result = await service.fetchConfig(ip);
 
-      expect(result.settings['field1'], equals('val1'));
-      expect(result.options['wifi-ssid'], equals('mikes-wifi'));
-      expect(result.config['hardware'], equals('lite'));
+      expect(result.productName, equals('Test RX'));
+      expect(result.options.domain, equals(1));
+      expect(result.options.wifiSsid, equals('mikes-wifi'));
+      expect(result.config.hardware?['type'], equals('lite'));
     });
 
     test('saveOptions sends correct payload and headers', () async {
@@ -80,15 +84,15 @@ void main() {
 
   group('RuntimeConfig model', () {
     test('fromJson and toJson work correctly', () {
-      final json = {
-        'settings': {'s': 1},
-        'options': {'o': 2},
-        'config': {'c': 3},
+      final json = <String, dynamic>{
+        'settings': <String, dynamic>{},
+        'options': <String, dynamic>{'domain': 1, 'wifi-ssid': 'wifi'},
+        'config': <String, dynamic>{'modelid': 3},
       };
 
       final config = RuntimeConfig.fromJson(json);
-      expect(config.settings['s'], 1);
-      expect(config.toJson(), json);
+      expect(config.options.domain, 1);
+      expect(config.toJson()['options']['domain'], 1);
     });
   });
 }

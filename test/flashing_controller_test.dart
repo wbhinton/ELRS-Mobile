@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:elrs_manager/src/features/flashing/domain/target_definition.dart';
-import 'package:elrs_manager/src/features/flashing/presentation/flashing_controller.dart';
-import 'package:elrs_manager/src/features/flashing/presentation/target_selectors.dart';
-import 'package:elrs_manager/src/features/flashing/data/targets_provider.dart';
+import 'package:elrs_mobile/src/features/flashing/domain/target_definition.dart';
+import 'package:elrs_mobile/src/features/flashing/presentation/flashing_controller.dart';
+import 'package:elrs_mobile/src/features/flashing/presentation/target_selectors.dart';
+import 'package:elrs_mobile/src/features/flashing/data/targets_provider.dart';
 
 void main() {
   test('Selection Logic Resets Correctly', () {

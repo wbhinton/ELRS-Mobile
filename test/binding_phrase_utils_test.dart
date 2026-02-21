@@ -1,4 +1,4 @@
-import 'package:elrs_manager/src/core/utils/binding_phrase_utils.dart';
+import 'package:elrs_mobile/src/core/utils/binding_phrase_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

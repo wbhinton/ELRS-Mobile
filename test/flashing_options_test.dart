@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:elrs_manager/src/core/storage/secure_storage_service.dart';
-import 'package:elrs_manager/src/features/flashing/presentation/flashing_controller.dart';
+import 'package:elrs_mobile/src/core/storage/secure_storage_service.dart';
+import 'package:elrs_mobile/src/features/flashing/presentation/flashing_controller.dart';
 import 'package:mockito/mockito.dart';
 
 // 1. Mock Service
@@ -39,6 +39,14 @@ class MockSecureStorageService implements SecureStorageService {
       'wifiPassword': _storage['wifiPassword'] ?? '',
       'regulatoryDomain': int.parse(_storage['regulatoryDomain'] ?? '0'),
     };
+  }
+
+  @override
+  Future<String?> loadManualIp() async => _storage['manualIp'];
+
+  @override
+  Future<void> saveManualIp(String ip) async {
+    _storage['manualIp'] = ip;
   }
 }
 

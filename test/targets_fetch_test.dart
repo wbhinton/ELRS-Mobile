@@ -1,20 +1,34 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:elrs_manager/src/features/flashing/data/targets_provider.dart';
+import 'package:elrs_mobile/src/features/flashing/data/targets_provider.dart';
+import 'package:elrs_mobile/src/features/flashing/data/targets_repository.dart';
+import 'package:elrs_mobile/src/features/flashing/domain/target_definition.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mocktail/mocktail.dart';
+
+class MockTargetsRepository extends Mock implements TargetsRepository {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
+  
   test('Targets Provider fetches data successfully', () async {
-    // 1. Create a container (simulates the app scope)
-    final container = ProviderContainer();
+    final mockRepo = MockTargetsRepository();
+    
+    when(() => mockRepo.fetchTargets()).thenAnswer((_) async => [
+      const TargetDefinition(name: 'Test Target', vendor: 'Test Vendor'),
+    ]);
+
+    final container = ProviderContainer(
+      overrides: [
+        targetsRepositoryProvider.overrideWith((ref) => mockRepo),
+      ],
+    );
     addTearDown(container.dispose);
 
-    // 2. Listen to the provider and wait for the future to complete
-    // Note: We read the .future to get the actual value, not the AsyncValue wrapper
     final targets = await container.read(targetsProvider.future);
 
-    // 3. Assertions
     expect(targets, isNotEmpty);
-    print('✅ Successfully fetched ${targets.length} targets');
-    print('Sample: ${targets.first.name}');
+    expect(targets.first.name, equals('Test Target'));
   });
 }

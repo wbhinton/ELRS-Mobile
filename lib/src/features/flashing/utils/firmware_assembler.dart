@@ -1,3 +1,14 @@
+// Copyright (C) 2026  Weston Hinton [wbhinton@gmail.com]
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -122,7 +133,7 @@ class FirmwareAssembler {
     if (platform == 'esp8285') pos = 0x1000;
     
     // Magic byte check (0xE9)
-    if (binary[pos] != 0xE9) {
+    if (pos >= binary.length || binary[pos] != 0xE9) {
       print('DEBUG: Magic byte not found, returning full length');
       return binary.length;
     }

@@ -1,5 +1,5 @@
-name: elrs_manager
-description: "A new Flutter project."
+name: elrs_mobile
+description: "ELRS Mobile - Advanced WiFi Flashing and Configuration"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -42,6 +42,7 @@ dependencies:
   freezed_annotation: ^3.1.0
   json_annotation: ^4.10.0
   dio: ^5.9.1
+  connectivity_plus: ^6.1.1
   flutter_secure_storage: ^10.0.0
   nsd: ^4.1.0
   crypto: ^3.0.7
@@ -52,6 +53,8 @@ dependencies:
   path_provider: ^2.1.5
   http: ^1.6.0
   http_parser: ^4.1.2
+  file_saver: ^0.2.14
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

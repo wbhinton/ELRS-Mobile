@@ -2,8 +2,8 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:elrs_manager/src/features/flashing/domain/patch_configuration.dart';
-import 'package:elrs_manager/src/features/flashing/application/firmware_patcher.dart';
+import 'package:elrs_mobile/src/features/flashing/domain/patch_configuration.dart';
+import 'package:elrs_mobile/src/features/flashing/application/firmware_patcher.dart';
 
 void main() {
   group('FirmwarePatcher', () {

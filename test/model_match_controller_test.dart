@@ -1,8 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:elrs_mobile/src/features/config/domain/runtime_config_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:elrs_manager/src/features/flashing/data/device_repository.dart';
-import 'package:elrs_manager/src/features/model_match/presentation/model_match_controller.dart';
+import 'package:elrs_mobile/src/features/flashing/data/device_repository.dart';
+import 'package:elrs_mobile/src/features/model_match/presentation/model_match_controller.dart';
 
 class MockDeviceRepository extends Mock implements DeviceRepository {}
 
@@ -15,7 +16,11 @@ void main() {
 
   test('ModelMatchController loads Model ID from config', () async {
     // Stub
-    when(() => mockRepo.fetchConfig()).thenAnswer((_) async => {'modelId': 5, 'modelMatch': true});
+    when(() => mockRepo.fetchConfig()).thenAnswer((_) async => const RuntimeConfig(
+      productName: 'Test',
+      version: '1.0',
+      config: ElrsConfig(modelId: 5),
+    ));
 
     final container = ProviderContainer(
       overrides: [

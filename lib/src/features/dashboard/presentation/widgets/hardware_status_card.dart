@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../config/presentation/config_view_model.dart';
+import '../../../config/domain/elrs_mappings.dart';
 import '../../../flashing/presentation/flashing_controller.dart';
 
 class HardwareStatusCard extends ConsumerWidget {
@@ -13,101 +14,137 @@ class HardwareStatusCard extends ConsumerWidget {
     final selectedTarget = flashingState.selectedTarget;
 
     final viewModel = ref.watch(configViewModelProvider.notifier);
-    final probeIp = viewModel.probeIp;
     final manualIp = viewModel.manualIp;
+
+    final isConnected = configAsync.hasValue && configAsync.value != null;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
+      elevation: isConnected ? 8 : 2,
+      shadowColor: isConnected ? Colors.teal.withOpacity(0.5) : null,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: isConnected ? const BorderSide(color: Colors.cyan, width: 2) : BorderSide.none,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: configAsync.when(
-          data: (config) {
-            if (config == null) {
-              return Center(
-                child: Column(
-                  children: [
-                    if (probeIp != null) ...[
-                      const Icon(Icons.wifi_off, size: 48, color: Colors.grey),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Device Offline',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                    ] else ...[
-                      const CircularProgressIndicator.adaptive(),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Searching for ELRS Device...',
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                    const SizedBox(height: 16),
-                    _IpDisplayRow(
-                      ip: probeIp ?? '10.0.0.1',
-                      onEdit: () => _showIpDialog(context, ref, manualIp),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            // Refined mismatch logic: Only trigger if both are known and different.
-            final deviceTarget = config.target;
-            final isMatched = selectedTarget != null &&
-                deviceTarget != null &&
-                deviceTarget != 'Unknown' &&
-                selectedTarget.name == deviceTarget;
-
-            final showMismatch = selectedTarget != null &&
-                deviceTarget != null &&
-                deviceTarget != 'Unknown' &&
-                selectedTarget.name != deviceTarget;
-
-            return Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: _buildStateContent(context, ref, configAsync, selectedTarget),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () => _showIpDialog(context, ref, manualIp),
+                  tooltip: 'Manual Connection',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStateContent(
+    BuildContext context, 
+    WidgetRef ref, 
+    AsyncValue configAsync,
+    dynamic selectedTarget,
+  ) {
+    if (configAsync.isLoading) {
+      return Center(
+        key: const ValueKey('searching'),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: _PulsingRingIcon(),
+        ),
+      );
+    }
+
+    if (configAsync.hasValue && configAsync.value != null) {
+      final config = configAsync.value!;
+      
+      final deviceTarget = config.target;
+      final isMatched = selectedTarget != null &&
+          deviceTarget != null &&
+          deviceTarget != 'Unknown' &&
+          selectedTarget.name == deviceTarget;
+
+      final showMismatch = selectedTarget != null &&
+          deviceTarget != null &&
+          deviceTarget != 'Unknown' &&
+          selectedTarget.name != deviceTarget;
+
+      return Row(
+        key: const ValueKey('connected'),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.teal.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.check_circle, size: 32, color: Colors.teal),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  config.productName ?? config.target ?? 'ELRS Device',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: Text(
-                        config.productName ?? 'Unknown Device',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                        overflow: TextOverflow.ellipsis,
+                    Text(
+                      'Connected: ${config.activeIp ?? 'Unknown IP'}',
+                      style: const TextStyle(color: Colors.teal, fontWeight: FontWeight.w500),
+                    ),
+                    if (config.options.domain != null) ...[
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: Colors.orange.withOpacity(0.5)),
+                        ),
+                        child: Text(
+                          ElrsMappings.getMapping(ElrsMappings.domains, config.options.domain),
+                          style: const TextStyle(fontSize: 10, color: Colors.orange, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.refresh),
-                      onPressed: () => ref
-                          .read(configViewModelProvider.notifier)
-                          .fetchConfig(config.activeIp ?? '10.0.0.1'),
-                    ),
+                    ],
                   ],
                 ),
-                _IpDisplayRow(
-                  ip: config.activeIp ?? 'Unknown IP',
-                  onEdit: () => _showIpDialog(context, ref, manualIp),
-                ),
-                const SizedBox(height: 12),
-                Row(
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
                   children: [
                     _InfoChip(
                       label: config.version,
                       icon: Icons.code,
                       color: Colors.blueGrey,
                     ),
-                    const SizedBox(width: 8),
                     _InfoChip(
                       label: config.target ?? 'Unknown Target',
                       icon: Icons.track_changes,
                       color: Colors.indigo,
                     ),
-                    const Spacer(),
                     if (showMismatch)
                       const _MatchStatusIndicator(isMatched: false)
                     else if (isMatched)
@@ -115,77 +152,167 @@ class HardwareStatusCard extends ConsumerWidget {
                   ],
                 ),
               ],
-            );
-          },
-          loading: () => const _LoadingState(),
-          error: (err, stack) => _ErrorState(
-            error: err.toString(),
-            onRetry: () => ref
-                .read(configViewModelProvider.notifier)
-                .fetchConfig(probeIp ?? '10.0.0.1'),
+            ),
           ),
-        ),
-      ),
+        ],
+      );
+    }
+
+    // Disconnected / Failed state
+    return Row(
+      key: const ValueKey('disconnected'),
+      children: [
+        const Icon(Icons.wifi_off, size: 48, color: Colors.grey),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'No Device Found',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  ref.read(configViewModelProvider.notifier).fetchConfig('10.0.0.1'); 
+                },
+                icon: const Icon(Icons.refresh),
+                label: const Text('Retry'),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 
   void _showIpDialog(BuildContext context, WidgetRef ref, String? currentIp) {
-    final controller = TextEditingController(text: currentIp ?? '');
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Manual IP Override'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(
-            hintText: 'e.g. 192.168.1.50',
-            labelText: 'Device IP Address',
-          ),
-          keyboardType: TextInputType.number,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              ref.read(configViewModelProvider.notifier).setManualIp(controller.text);
-              Navigator.pop(context);
-            },
-            child: const Text('Connect'),
-          ),
-        ],
-      ),
+      builder: (context) => _ManualIpDialog(initialIp: currentIp, ref: ref),
     );
   }
 }
 
-class _IpDisplayRow extends StatelessWidget {
-  final String ip;
-  final VoidCallback onEdit;
+class _PulsingRingIcon extends StatefulWidget {
+  @override
+  _PulsingRingIconState createState() => _PulsingRingIconState();
+}
 
-  const _IpDisplayRow({required this.ip, required this.onEdit});
+class _PulsingRingIconState extends State<_PulsingRingIcon> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 1))..repeat(reverse: false);
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.5).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        Icon(Icons.lan, size: 14, color: Colors.grey[600]),
-        const SizedBox(width: 4),
-        Text(
-          'IP: $ip',
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-            fontFamily: 'monospace',
-          ),
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.teal.withOpacity(_fadeAnimation.value), width: 3),
+                ),
+              ),
+            );
+          },
         ),
-        const SizedBox(width: 4),
-        InkWell(
-          onTap: onEdit,
-          child: Icon(Icons.edit, size: 14, color: Theme.of(context).primaryColor),
+        const Icon(Icons.wifi, size: 48, color: Colors.teal),
+      ],
+    );
+  }
+}
+
+class _ManualIpDialog extends StatefulWidget {
+  final String? initialIp;
+  final WidgetRef ref;
+
+  const _ManualIpDialog({this.initialIp, required this.ref});
+
+  @override
+  _ManualIpDialogState createState() => _ManualIpDialogState();
+}
+
+class _ManualIpDialogState extends State<_ManualIpDialog> {
+  late TextEditingController _controller;
+  bool _isValid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialIp ?? '');
+    _validate(_controller.text);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _validate(String value) {
+    final regex = RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$');
+    setState(() {
+      _isValid = regex.hasMatch(value);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Manual IP Override'),
+      content: TextField(
+        controller: _controller,
+        onChanged: _validate,
+        decoration: InputDecoration(
+          hintText: 'e.g. 10.0.0.1',
+          labelText: 'Device IP Address',
+          errorText: _controller.text.isNotEmpty && !_isValid ? 'Invalid IPv4 address' : null,
+        ),
+        keyboardType: TextInputType.number,
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: _isValid
+              ? () {
+                  widget.ref.read(configViewModelProvider.notifier).setManualIp(_controller.text);
+                  Navigator.pop(context);
+                }
+              : null,
+          child: const Text('Connect'),
         ),
       ],
     );
@@ -253,65 +380,6 @@ class _MatchStatusIndicator extends StatelessWidget {
             color: isMatched ? Colors.green : Colors.orange,
             fontWeight: FontWeight.bold,
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class _LoadingState extends StatelessWidget {
-  const _LoadingState();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              width: 200,
-              height: 24,
-              color: Colors.grey.withOpacity(0.3),
-            ),
-            const Icon(Icons.refresh, color: Colors.grey),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Container(width: 80, height: 24, color: Colors.grey.withOpacity(0.3)),
-            const SizedBox(width: 8),
-            Container(width: 120, height: 24, color: Colors.grey.withOpacity(0.3)),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  final String error;
-  final VoidCallback onRetry;
-
-  const _ErrorState({required this.error, required this.onRetry});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(Icons.error_outline, color: Colors.red),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            'Error: $error',
-            style: const TextStyle(color: Colors.red),
-          ),
-        ),
-        TextButton(
-          onPressed: onRetry,
-          child: const Text('Retry'),
         ),
       ],
     );

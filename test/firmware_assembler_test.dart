@@ -1,7 +1,7 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:elrs_manager/src/features/flashing/utils/firmware_assembler.dart';
+import 'package:elrs_mobile/src/features/flashing/utils/firmware_assembler.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

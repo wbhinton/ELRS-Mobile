@@ -55,7 +55,7 @@ final class DeviceConfigServiceProvider
 }
 
 String _$deviceConfigServiceHash() =>
-    r'20bc71099997443723d723392a8d418155c244f8';
+    r'4ca35a93eb5202cc599acec2f5549d673474859f';
 
 @ProviderFor(ConfigViewModel)
 final configViewModelProvider = ConfigViewModelProvider._();
@@ -81,7 +81,7 @@ final class ConfigViewModelProvider
   ConfigViewModel create() => ConfigViewModel();
 }
 
-String _$configViewModelHash() => r'02861cc76a4ced7a6f19590c4bfb389bbc42e3f5';
+String _$configViewModelHash() => r'9c6a6a120353eefdb5c7a15f57c8cbc4171d8214';
 
 abstract class _$ConfigViewModel extends $AsyncNotifier<RuntimeConfig?> {
   FutureOr<RuntimeConfig?> build();

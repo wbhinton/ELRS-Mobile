@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:elrs_manager/src/features/firmware_manager/presentation/firmware_manager_controller.dart';
-import 'package:elrs_manager/src/core/storage/firmware_cache_service.dart';
-import 'package:elrs_manager/src/features/settings/presentation/settings_controller.dart';
-import 'package:elrs_manager/src/features/flashing/data/firmware_repository.dart';
-import 'package:elrs_manager/src/features/flashing/data/releases_repository.dart';
+import 'package:elrs_mobile/src/features/firmware_manager/presentation/firmware_manager_controller.dart';
+import 'package:elrs_mobile/src/core/storage/firmware_cache_service.dart';
+import 'package:elrs_mobile/src/features/settings/presentation/settings_controller.dart';
+import 'package:elrs_mobile/src/features/flashing/data/firmware_repository.dart';
+import 'package:elrs_mobile/src/features/flashing/data/releases_repository.dart';
 
 class MockFirmwareCacheService extends Mock implements FirmwareCacheService {}
 class MockFirmwareRepository extends Mock implements FirmwareRepository {}

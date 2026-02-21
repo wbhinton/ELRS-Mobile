@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:elrs_manager/src/features/flashing/data/releases_repository.dart';
+import 'package:elrs_mobile/src/features/flashing/data/releases_repository.dart';
 
 void main() {
   late Dio dio;
@@ -15,14 +15,16 @@ void main() {
   });
 
   test('Repository fetches and filters versions correctly', () async {
-    const route = 'https://api.github.com/repos/ExpressLRS/ExpressLRS/releases';
+    const route = 'https://artifactory.expresslrs.org/ExpressLRS/index.json';
     
-    final mockData = [
-      {'tag_name': 'v3.3.0'},
-      {'tag_name': '3.0.0'}, // Sometimes tags might lack 'v'
-      {'tag_name': 'v2.5.1'},
-      {'tag_name': 'v1.0.0'},
-    ];
+    final mockData = {
+      'tags': {
+        'v3.3.0': 'hash1',
+        '3.0.0': 'hash2',
+        'v2.5.1': 'hash3',
+        'v1.0.0': 'hash4',
+      }
+    };
 
     dioAdapter.onGet(
       route,
@@ -32,14 +34,13 @@ void main() {
     final versions = await repository.fetchVersions();
 
     // Should contain v3.3.0 and 3.0.0
-    // Should NOT contain v2.5.1 or v1.0.0
     expect(versions, hasLength(2));
-    expect(versions, containsAll(['v3.3.0', '3.0.0']));
-    expect(versions, isNot(contains('v2.5.1')));
+    expect(versions[0], equals('v3.3.0'));
+    expect(versions[1], equals('3.0.0'));
   });
 
   test('Repository handles API error', () async {
-     const route = 'https://api.github.com/repos/ExpressLRS/ExpressLRS/releases';
+     const route = 'https://artifactory.expresslrs.org/ExpressLRS/index.json';
      
      dioAdapter.onGet(
       route,

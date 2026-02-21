@@ -42,7 +42,7 @@ final class ModelMatchControllerProvider
 }
 
 String _$modelMatchControllerHash() =>
-    r'739fbf614e02f1a4d926c582a261af6e8ad39f5b';
+    r'8736003a99ee5e7121069ccd163d5b7ef5cd0965';
 
 abstract class _$ModelMatchController extends $Notifier<ModelMatchState> {
   ModelMatchState build();
