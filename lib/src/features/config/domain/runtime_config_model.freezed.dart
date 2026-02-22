@@ -241,8 +241,8 @@ return $default(_that.productName,_that.version,_that.target,_that.activeIp,_tha
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _RuntimeConfig implements RuntimeConfig {
-  const _RuntimeConfig({@JsonKey(name: 'product_name') this.productName, this.version = 'unknown', this.target, this.activeIp, this.settings = const ElrsSettings(), this.options = const ElrsOptions(), this.config = const ElrsConfig()});
+class _RuntimeConfig extends RuntimeConfig {
+  const _RuntimeConfig({@JsonKey(name: 'product_name') this.productName, this.version = 'unknown', this.target, this.activeIp, this.settings = const ElrsSettings(), this.options = const ElrsOptions(), this.config = const ElrsConfig()}): super._();
   factory _RuntimeConfig.fromJson(Map<String, dynamic> json) => _$RuntimeConfigFromJson(json);
 
 @override@JsonKey(name: 'product_name') final  String? productName;
@@ -350,7 +350,7 @@ $ElrsConfigCopyWith<$Res> get config {
 /// @nodoc
 mixin _$ElrsSettings {
 
-@JsonKey(name: 'product_name') String? get productName; String? get version; String? get target;@JsonKey(name: 'module-type') String? get moduleType;@JsonKey(name: 'has_serial_pins') bool? get hasSerialPins;
+@JsonKey(name: 'product_name') String? get productName; String? get version; String? get target;@JsonKey(name: 'module-type') String? get moduleType;@JsonKey(name: 'has_serial_pins') bool? get hasSerialPins;@JsonKey(name: 'device_id') int? get deviceId; int? get domain;
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -363,16 +363,16 @@ $ElrsSettingsCopyWith<ElrsSettings> get copyWith => _$ElrsSettingsCopyWithImpl<E
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins);
+int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain);
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins)';
+  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain)';
 }
 
 
@@ -383,7 +383,7 @@ abstract mixin class $ElrsSettingsCopyWith<$Res>  {
   factory $ElrsSettingsCopyWith(ElrsSettings value, $Res Function(ElrsSettings) _then) = _$ElrsSettingsCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins
+@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins,@JsonKey(name: 'device_id') int? deviceId, int? domain
 });
 
 
@@ -400,14 +400,16 @@ class _$ElrsSettingsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? deviceId = freezed,Object? domain = freezed,}) {
   return _then(_self.copyWith(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,target: freezed == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
 as String?,moduleType: freezed == moduleType ? _self.moduleType : moduleType // ignore: cast_nullable_to_non_nullable
 as String?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
-as bool?,
+as bool?,deviceId: freezed == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
+as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -492,10 +494,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ElrsSettings() when $default != null:
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain);case _:
   return orElse();
 
 }
@@ -513,10 +515,10 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain)  $default,) {final _that = this;
 switch (_that) {
 case _ElrsSettings():
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -533,10 +535,10 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain)?  $default,) {final _that = this;
 switch (_that) {
 case _ElrsSettings() when $default != null:
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain);case _:
   return null;
 
 }
@@ -548,7 +550,7 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 
 @JsonSerializable(explicitToJson: true)
 class _ElrsSettings implements ElrsSettings {
-  const _ElrsSettings({@JsonKey(name: 'product_name') this.productName, this.version, this.target, @JsonKey(name: 'module-type') this.moduleType, @JsonKey(name: 'has_serial_pins') this.hasSerialPins});
+  const _ElrsSettings({@JsonKey(name: 'product_name') this.productName, this.version, this.target, @JsonKey(name: 'module-type') this.moduleType, @JsonKey(name: 'has_serial_pins') this.hasSerialPins, @JsonKey(name: 'device_id') this.deviceId, this.domain});
   factory _ElrsSettings.fromJson(Map<String, dynamic> json) => _$ElrsSettingsFromJson(json);
 
 @override@JsonKey(name: 'product_name') final  String? productName;
@@ -556,6 +558,8 @@ class _ElrsSettings implements ElrsSettings {
 @override final  String? target;
 @override@JsonKey(name: 'module-type') final  String? moduleType;
 @override@JsonKey(name: 'has_serial_pins') final  bool? hasSerialPins;
+@override@JsonKey(name: 'device_id') final  int? deviceId;
+@override final  int? domain;
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
@@ -570,16 +574,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins);
+int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain);
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins)';
+  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain)';
 }
 
 
@@ -590,7 +594,7 @@ abstract mixin class _$ElrsSettingsCopyWith<$Res> implements $ElrsSettingsCopyWi
   factory _$ElrsSettingsCopyWith(_ElrsSettings value, $Res Function(_ElrsSettings) _then) = __$ElrsSettingsCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins
+@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins,@JsonKey(name: 'device_id') int? deviceId, int? domain
 });
 
 
@@ -607,14 +611,16 @@ class __$ElrsSettingsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? deviceId = freezed,Object? domain = freezed,}) {
   return _then(_ElrsSettings(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,target: freezed == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
 as String?,moduleType: freezed == moduleType ? _self.moduleType : moduleType // ignore: cast_nullable_to_non_nullable
 as String?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
-as bool?,
+as bool?,deviceId: freezed == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
+as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -625,7 +631,7 @@ as bool?,
 /// @nodoc
 mixin _$ElrsOptions {
 
- List<int>? get uid;@JsonKey(name: 'wifi-ssid') String? get wifiSsid;@JsonKey(name: 'wifi-password') String? get wifiPassword;@JsonKey(name: 'wifi-on-interval') int? get wifiOnInterval;@JsonKey(name: 'is-airport') bool? get isAirport;@JsonKey(name: 'airport-uart-baud') int? get airportUartBaud;@JsonKey(name: 'tlm-interval') int? get tlmInterval;@JsonKey(name: 'fan-runtime') int? get fanRuntime;@JsonKey(name: 'lock-on-first-connection') bool? get lockOnFirstConnection;@JsonKey(name: 'rcvr-uart-baud') int? get rcvrUartBaud;@JsonKey(name: 'dji-permanently-armed') bool? get djiPermanentlyArmed; int? get domain;
+ List<int>? get uid;@JsonKey(name: 'wifi-ssid') String? get wifiSsid;@JsonKey(name: 'wifi-password') String? get wifiPassword;@JsonKey(name: 'wifi-on-interval') int? get wifiOnInterval;@JsonKey(name: 'is-airport') bool? get isAirport;@JsonKey(name: 'airport-uart-baud') int? get airportUartBaud;@JsonKey(name: 'tlm-interval') int? get tlmInterval;@JsonKey(name: 'fan-runtime') int? get fanRuntime;@JsonKey(name: 'lock-on-first-connection') bool? get lockOnFirstConnection;@JsonKey(name: 'rcvr-uart-baud') int? get rcvrUartBaud;@JsonKey(name: 'dji-permanently-armed') bool? get djiPermanentlyArmed;@JsonKey(name: 'freq-index') int? get freqIndex; int? get domain;
 /// Create a copy of ElrsOptions
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -638,16 +644,16 @@ $ElrsOptionsCopyWith<ElrsOptions> get copyWith => _$ElrsOptionsCopyWithImpl<Elrs
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsOptions&&const DeepCollectionEquality().equals(other.uid, uid)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.isAirport, isAirport) || other.isAirport == isAirport)&&(identical(other.airportUartBaud, airportUartBaud) || other.airportUartBaud == airportUartBaud)&&(identical(other.tlmInterval, tlmInterval) || other.tlmInterval == tlmInterval)&&(identical(other.fanRuntime, fanRuntime) || other.fanRuntime == fanRuntime)&&(identical(other.lockOnFirstConnection, lockOnFirstConnection) || other.lockOnFirstConnection == lockOnFirstConnection)&&(identical(other.rcvrUartBaud, rcvrUartBaud) || other.rcvrUartBaud == rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, djiPermanentlyArmed) || other.djiPermanentlyArmed == djiPermanentlyArmed)&&(identical(other.domain, domain) || other.domain == domain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsOptions&&const DeepCollectionEquality().equals(other.uid, uid)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.isAirport, isAirport) || other.isAirport == isAirport)&&(identical(other.airportUartBaud, airportUartBaud) || other.airportUartBaud == airportUartBaud)&&(identical(other.tlmInterval, tlmInterval) || other.tlmInterval == tlmInterval)&&(identical(other.fanRuntime, fanRuntime) || other.fanRuntime == fanRuntime)&&(identical(other.lockOnFirstConnection, lockOnFirstConnection) || other.lockOnFirstConnection == lockOnFirstConnection)&&(identical(other.rcvrUartBaud, rcvrUartBaud) || other.rcvrUartBaud == rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, djiPermanentlyArmed) || other.djiPermanentlyArmed == djiPermanentlyArmed)&&(identical(other.freqIndex, freqIndex) || other.freqIndex == freqIndex)&&(identical(other.domain, domain) || other.domain == domain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(uid),wifiSsid,wifiPassword,wifiOnInterval,isAirport,airportUartBaud,tlmInterval,fanRuntime,lockOnFirstConnection,rcvrUartBaud,djiPermanentlyArmed,domain);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(uid),wifiSsid,wifiPassword,wifiOnInterval,isAirport,airportUartBaud,tlmInterval,fanRuntime,lockOnFirstConnection,rcvrUartBaud,djiPermanentlyArmed,freqIndex,domain);
 
 @override
 String toString() {
-  return 'ElrsOptions(uid: $uid, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, wifiOnInterval: $wifiOnInterval, isAirport: $isAirport, airportUartBaud: $airportUartBaud, tlmInterval: $tlmInterval, fanRuntime: $fanRuntime, lockOnFirstConnection: $lockOnFirstConnection, rcvrUartBaud: $rcvrUartBaud, djiPermanentlyArmed: $djiPermanentlyArmed, domain: $domain)';
+  return 'ElrsOptions(uid: $uid, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, wifiOnInterval: $wifiOnInterval, isAirport: $isAirport, airportUartBaud: $airportUartBaud, tlmInterval: $tlmInterval, fanRuntime: $fanRuntime, lockOnFirstConnection: $lockOnFirstConnection, rcvrUartBaud: $rcvrUartBaud, djiPermanentlyArmed: $djiPermanentlyArmed, freqIndex: $freqIndex, domain: $domain)';
 }
 
 
@@ -658,7 +664,7 @@ abstract mixin class $ElrsOptionsCopyWith<$Res>  {
   factory $ElrsOptionsCopyWith(ElrsOptions value, $Res Function(ElrsOptions) _then) = _$ElrsOptionsCopyWithImpl;
 @useResult
 $Res call({
- List<int>? uid,@JsonKey(name: 'wifi-ssid') String? wifiSsid,@JsonKey(name: 'wifi-password') String? wifiPassword,@JsonKey(name: 'wifi-on-interval') int? wifiOnInterval,@JsonKey(name: 'is-airport') bool? isAirport,@JsonKey(name: 'airport-uart-baud') int? airportUartBaud,@JsonKey(name: 'tlm-interval') int? tlmInterval,@JsonKey(name: 'fan-runtime') int? fanRuntime,@JsonKey(name: 'lock-on-first-connection') bool? lockOnFirstConnection,@JsonKey(name: 'rcvr-uart-baud') int? rcvrUartBaud,@JsonKey(name: 'dji-permanently-armed') bool? djiPermanentlyArmed, int? domain
+ List<int>? uid,@JsonKey(name: 'wifi-ssid') String? wifiSsid,@JsonKey(name: 'wifi-password') String? wifiPassword,@JsonKey(name: 'wifi-on-interval') int? wifiOnInterval,@JsonKey(name: 'is-airport') bool? isAirport,@JsonKey(name: 'airport-uart-baud') int? airportUartBaud,@JsonKey(name: 'tlm-interval') int? tlmInterval,@JsonKey(name: 'fan-runtime') int? fanRuntime,@JsonKey(name: 'lock-on-first-connection') bool? lockOnFirstConnection,@JsonKey(name: 'rcvr-uart-baud') int? rcvrUartBaud,@JsonKey(name: 'dji-permanently-armed') bool? djiPermanentlyArmed,@JsonKey(name: 'freq-index') int? freqIndex, int? domain
 });
 
 
@@ -675,7 +681,7 @@ class _$ElrsOptionsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsOptions
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? uid = freezed,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? wifiOnInterval = freezed,Object? isAirport = freezed,Object? airportUartBaud = freezed,Object? tlmInterval = freezed,Object? fanRuntime = freezed,Object? lockOnFirstConnection = freezed,Object? rcvrUartBaud = freezed,Object? djiPermanentlyArmed = freezed,Object? domain = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? uid = freezed,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? wifiOnInterval = freezed,Object? isAirport = freezed,Object? airportUartBaud = freezed,Object? tlmInterval = freezed,Object? fanRuntime = freezed,Object? lockOnFirstConnection = freezed,Object? rcvrUartBaud = freezed,Object? djiPermanentlyArmed = freezed,Object? freqIndex = freezed,Object? domain = freezed,}) {
   return _then(_self.copyWith(
 uid: freezed == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as List<int>?,wifiSsid: freezed == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast_nullable_to_non_nullable
@@ -688,7 +694,8 @@ as int?,fanRuntime: freezed == fanRuntime ? _self.fanRuntime : fanRuntime // ign
 as int?,lockOnFirstConnection: freezed == lockOnFirstConnection ? _self.lockOnFirstConnection : lockOnFirstConnection // ignore: cast_nullable_to_non_nullable
 as bool?,rcvrUartBaud: freezed == rcvrUartBaud ? _self.rcvrUartBaud : rcvrUartBaud // ignore: cast_nullable_to_non_nullable
 as int?,djiPermanentlyArmed: freezed == djiPermanentlyArmed ? _self.djiPermanentlyArmed : djiPermanentlyArmed // ignore: cast_nullable_to_non_nullable
-as bool?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as bool?,freqIndex: freezed == freqIndex ? _self.freqIndex : freqIndex // ignore: cast_nullable_to_non_nullable
+as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }
@@ -774,10 +781,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int>? uid, @JsonKey(name: 'wifi-ssid')  String? wifiSsid, @JsonKey(name: 'wifi-password')  String? wifiPassword, @JsonKey(name: 'wifi-on-interval')  int? wifiOnInterval, @JsonKey(name: 'is-airport')  bool? isAirport, @JsonKey(name: 'airport-uart-baud')  int? airportUartBaud, @JsonKey(name: 'tlm-interval')  int? tlmInterval, @JsonKey(name: 'fan-runtime')  int? fanRuntime, @JsonKey(name: 'lock-on-first-connection')  bool? lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud')  int? rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed')  bool? djiPermanentlyArmed,  int? domain)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<int>? uid, @JsonKey(name: 'wifi-ssid')  String? wifiSsid, @JsonKey(name: 'wifi-password')  String? wifiPassword, @JsonKey(name: 'wifi-on-interval')  int? wifiOnInterval, @JsonKey(name: 'is-airport')  bool? isAirport, @JsonKey(name: 'airport-uart-baud')  int? airportUartBaud, @JsonKey(name: 'tlm-interval')  int? tlmInterval, @JsonKey(name: 'fan-runtime')  int? fanRuntime, @JsonKey(name: 'lock-on-first-connection')  bool? lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud')  int? rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed')  bool? djiPermanentlyArmed, @JsonKey(name: 'freq-index')  int? freqIndex,  int? domain)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ElrsOptions() when $default != null:
-return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval,_that.isAirport,_that.airportUartBaud,_that.tlmInterval,_that.fanRuntime,_that.lockOnFirstConnection,_that.rcvrUartBaud,_that.djiPermanentlyArmed,_that.domain);case _:
+return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval,_that.isAirport,_that.airportUartBaud,_that.tlmInterval,_that.fanRuntime,_that.lockOnFirstConnection,_that.rcvrUartBaud,_that.djiPermanentlyArmed,_that.freqIndex,_that.domain);case _:
   return orElse();
 
 }
@@ -795,10 +802,10 @@ return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int>? uid, @JsonKey(name: 'wifi-ssid')  String? wifiSsid, @JsonKey(name: 'wifi-password')  String? wifiPassword, @JsonKey(name: 'wifi-on-interval')  int? wifiOnInterval, @JsonKey(name: 'is-airport')  bool? isAirport, @JsonKey(name: 'airport-uart-baud')  int? airportUartBaud, @JsonKey(name: 'tlm-interval')  int? tlmInterval, @JsonKey(name: 'fan-runtime')  int? fanRuntime, @JsonKey(name: 'lock-on-first-connection')  bool? lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud')  int? rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed')  bool? djiPermanentlyArmed,  int? domain)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<int>? uid, @JsonKey(name: 'wifi-ssid')  String? wifiSsid, @JsonKey(name: 'wifi-password')  String? wifiPassword, @JsonKey(name: 'wifi-on-interval')  int? wifiOnInterval, @JsonKey(name: 'is-airport')  bool? isAirport, @JsonKey(name: 'airport-uart-baud')  int? airportUartBaud, @JsonKey(name: 'tlm-interval')  int? tlmInterval, @JsonKey(name: 'fan-runtime')  int? fanRuntime, @JsonKey(name: 'lock-on-first-connection')  bool? lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud')  int? rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed')  bool? djiPermanentlyArmed, @JsonKey(name: 'freq-index')  int? freqIndex,  int? domain)  $default,) {final _that = this;
 switch (_that) {
 case _ElrsOptions():
-return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval,_that.isAirport,_that.airportUartBaud,_that.tlmInterval,_that.fanRuntime,_that.lockOnFirstConnection,_that.rcvrUartBaud,_that.djiPermanentlyArmed,_that.domain);case _:
+return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval,_that.isAirport,_that.airportUartBaud,_that.tlmInterval,_that.fanRuntime,_that.lockOnFirstConnection,_that.rcvrUartBaud,_that.djiPermanentlyArmed,_that.freqIndex,_that.domain);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -815,10 +822,10 @@ return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int>? uid, @JsonKey(name: 'wifi-ssid')  String? wifiSsid, @JsonKey(name: 'wifi-password')  String? wifiPassword, @JsonKey(name: 'wifi-on-interval')  int? wifiOnInterval, @JsonKey(name: 'is-airport')  bool? isAirport, @JsonKey(name: 'airport-uart-baud')  int? airportUartBaud, @JsonKey(name: 'tlm-interval')  int? tlmInterval, @JsonKey(name: 'fan-runtime')  int? fanRuntime, @JsonKey(name: 'lock-on-first-connection')  bool? lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud')  int? rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed')  bool? djiPermanentlyArmed,  int? domain)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<int>? uid, @JsonKey(name: 'wifi-ssid')  String? wifiSsid, @JsonKey(name: 'wifi-password')  String? wifiPassword, @JsonKey(name: 'wifi-on-interval')  int? wifiOnInterval, @JsonKey(name: 'is-airport')  bool? isAirport, @JsonKey(name: 'airport-uart-baud')  int? airportUartBaud, @JsonKey(name: 'tlm-interval')  int? tlmInterval, @JsonKey(name: 'fan-runtime')  int? fanRuntime, @JsonKey(name: 'lock-on-first-connection')  bool? lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud')  int? rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed')  bool? djiPermanentlyArmed, @JsonKey(name: 'freq-index')  int? freqIndex,  int? domain)?  $default,) {final _that = this;
 switch (_that) {
 case _ElrsOptions() when $default != null:
-return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval,_that.isAirport,_that.airportUartBaud,_that.tlmInterval,_that.fanRuntime,_that.lockOnFirstConnection,_that.rcvrUartBaud,_that.djiPermanentlyArmed,_that.domain);case _:
+return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval,_that.isAirport,_that.airportUartBaud,_that.tlmInterval,_that.fanRuntime,_that.lockOnFirstConnection,_that.rcvrUartBaud,_that.djiPermanentlyArmed,_that.freqIndex,_that.domain);case _:
   return null;
 
 }
@@ -830,7 +837,7 @@ return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval
 
 @JsonSerializable(explicitToJson: true)
 class _ElrsOptions implements ElrsOptions {
-  const _ElrsOptions({final  List<int>? uid, @JsonKey(name: 'wifi-ssid') this.wifiSsid, @JsonKey(name: 'wifi-password') this.wifiPassword, @JsonKey(name: 'wifi-on-interval') this.wifiOnInterval, @JsonKey(name: 'is-airport') this.isAirport, @JsonKey(name: 'airport-uart-baud') this.airportUartBaud, @JsonKey(name: 'tlm-interval') this.tlmInterval, @JsonKey(name: 'fan-runtime') this.fanRuntime, @JsonKey(name: 'lock-on-first-connection') this.lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud') this.rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed') this.djiPermanentlyArmed, this.domain}): _uid = uid;
+  const _ElrsOptions({final  List<int>? uid, @JsonKey(name: 'wifi-ssid') this.wifiSsid, @JsonKey(name: 'wifi-password') this.wifiPassword, @JsonKey(name: 'wifi-on-interval') this.wifiOnInterval, @JsonKey(name: 'is-airport') this.isAirport, @JsonKey(name: 'airport-uart-baud') this.airportUartBaud, @JsonKey(name: 'tlm-interval') this.tlmInterval, @JsonKey(name: 'fan-runtime') this.fanRuntime, @JsonKey(name: 'lock-on-first-connection') this.lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud') this.rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed') this.djiPermanentlyArmed, @JsonKey(name: 'freq-index') this.freqIndex, this.domain}): _uid = uid;
   factory _ElrsOptions.fromJson(Map<String, dynamic> json) => _$ElrsOptionsFromJson(json);
 
  final  List<int>? _uid;
@@ -852,6 +859,7 @@ class _ElrsOptions implements ElrsOptions {
 @override@JsonKey(name: 'lock-on-first-connection') final  bool? lockOnFirstConnection;
 @override@JsonKey(name: 'rcvr-uart-baud') final  int? rcvrUartBaud;
 @override@JsonKey(name: 'dji-permanently-armed') final  bool? djiPermanentlyArmed;
+@override@JsonKey(name: 'freq-index') final  int? freqIndex;
 @override final  int? domain;
 
 /// Create a copy of ElrsOptions
@@ -867,16 +875,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsOptions&&const DeepCollectionEquality().equals(other._uid, _uid)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.isAirport, isAirport) || other.isAirport == isAirport)&&(identical(other.airportUartBaud, airportUartBaud) || other.airportUartBaud == airportUartBaud)&&(identical(other.tlmInterval, tlmInterval) || other.tlmInterval == tlmInterval)&&(identical(other.fanRuntime, fanRuntime) || other.fanRuntime == fanRuntime)&&(identical(other.lockOnFirstConnection, lockOnFirstConnection) || other.lockOnFirstConnection == lockOnFirstConnection)&&(identical(other.rcvrUartBaud, rcvrUartBaud) || other.rcvrUartBaud == rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, djiPermanentlyArmed) || other.djiPermanentlyArmed == djiPermanentlyArmed)&&(identical(other.domain, domain) || other.domain == domain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsOptions&&const DeepCollectionEquality().equals(other._uid, _uid)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.isAirport, isAirport) || other.isAirport == isAirport)&&(identical(other.airportUartBaud, airportUartBaud) || other.airportUartBaud == airportUartBaud)&&(identical(other.tlmInterval, tlmInterval) || other.tlmInterval == tlmInterval)&&(identical(other.fanRuntime, fanRuntime) || other.fanRuntime == fanRuntime)&&(identical(other.lockOnFirstConnection, lockOnFirstConnection) || other.lockOnFirstConnection == lockOnFirstConnection)&&(identical(other.rcvrUartBaud, rcvrUartBaud) || other.rcvrUartBaud == rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, djiPermanentlyArmed) || other.djiPermanentlyArmed == djiPermanentlyArmed)&&(identical(other.freqIndex, freqIndex) || other.freqIndex == freqIndex)&&(identical(other.domain, domain) || other.domain == domain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_uid),wifiSsid,wifiPassword,wifiOnInterval,isAirport,airportUartBaud,tlmInterval,fanRuntime,lockOnFirstConnection,rcvrUartBaud,djiPermanentlyArmed,domain);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_uid),wifiSsid,wifiPassword,wifiOnInterval,isAirport,airportUartBaud,tlmInterval,fanRuntime,lockOnFirstConnection,rcvrUartBaud,djiPermanentlyArmed,freqIndex,domain);
 
 @override
 String toString() {
-  return 'ElrsOptions(uid: $uid, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, wifiOnInterval: $wifiOnInterval, isAirport: $isAirport, airportUartBaud: $airportUartBaud, tlmInterval: $tlmInterval, fanRuntime: $fanRuntime, lockOnFirstConnection: $lockOnFirstConnection, rcvrUartBaud: $rcvrUartBaud, djiPermanentlyArmed: $djiPermanentlyArmed, domain: $domain)';
+  return 'ElrsOptions(uid: $uid, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, wifiOnInterval: $wifiOnInterval, isAirport: $isAirport, airportUartBaud: $airportUartBaud, tlmInterval: $tlmInterval, fanRuntime: $fanRuntime, lockOnFirstConnection: $lockOnFirstConnection, rcvrUartBaud: $rcvrUartBaud, djiPermanentlyArmed: $djiPermanentlyArmed, freqIndex: $freqIndex, domain: $domain)';
 }
 
 
@@ -887,7 +895,7 @@ abstract mixin class _$ElrsOptionsCopyWith<$Res> implements $ElrsOptionsCopyWith
   factory _$ElrsOptionsCopyWith(_ElrsOptions value, $Res Function(_ElrsOptions) _then) = __$ElrsOptionsCopyWithImpl;
 @override @useResult
 $Res call({
- List<int>? uid,@JsonKey(name: 'wifi-ssid') String? wifiSsid,@JsonKey(name: 'wifi-password') String? wifiPassword,@JsonKey(name: 'wifi-on-interval') int? wifiOnInterval,@JsonKey(name: 'is-airport') bool? isAirport,@JsonKey(name: 'airport-uart-baud') int? airportUartBaud,@JsonKey(name: 'tlm-interval') int? tlmInterval,@JsonKey(name: 'fan-runtime') int? fanRuntime,@JsonKey(name: 'lock-on-first-connection') bool? lockOnFirstConnection,@JsonKey(name: 'rcvr-uart-baud') int? rcvrUartBaud,@JsonKey(name: 'dji-permanently-armed') bool? djiPermanentlyArmed, int? domain
+ List<int>? uid,@JsonKey(name: 'wifi-ssid') String? wifiSsid,@JsonKey(name: 'wifi-password') String? wifiPassword,@JsonKey(name: 'wifi-on-interval') int? wifiOnInterval,@JsonKey(name: 'is-airport') bool? isAirport,@JsonKey(name: 'airport-uart-baud') int? airportUartBaud,@JsonKey(name: 'tlm-interval') int? tlmInterval,@JsonKey(name: 'fan-runtime') int? fanRuntime,@JsonKey(name: 'lock-on-first-connection') bool? lockOnFirstConnection,@JsonKey(name: 'rcvr-uart-baud') int? rcvrUartBaud,@JsonKey(name: 'dji-permanently-armed') bool? djiPermanentlyArmed,@JsonKey(name: 'freq-index') int? freqIndex, int? domain
 });
 
 
@@ -904,7 +912,7 @@ class __$ElrsOptionsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsOptions
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? uid = freezed,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? wifiOnInterval = freezed,Object? isAirport = freezed,Object? airportUartBaud = freezed,Object? tlmInterval = freezed,Object? fanRuntime = freezed,Object? lockOnFirstConnection = freezed,Object? rcvrUartBaud = freezed,Object? djiPermanentlyArmed = freezed,Object? domain = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? uid = freezed,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? wifiOnInterval = freezed,Object? isAirport = freezed,Object? airportUartBaud = freezed,Object? tlmInterval = freezed,Object? fanRuntime = freezed,Object? lockOnFirstConnection = freezed,Object? rcvrUartBaud = freezed,Object? djiPermanentlyArmed = freezed,Object? freqIndex = freezed,Object? domain = freezed,}) {
   return _then(_ElrsOptions(
 uid: freezed == uid ? _self._uid : uid // ignore: cast_nullable_to_non_nullable
 as List<int>?,wifiSsid: freezed == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast_nullable_to_non_nullable
@@ -917,7 +925,8 @@ as int?,fanRuntime: freezed == fanRuntime ? _self.fanRuntime : fanRuntime // ign
 as int?,lockOnFirstConnection: freezed == lockOnFirstConnection ? _self.lockOnFirstConnection : lockOnFirstConnection // ignore: cast_nullable_to_non_nullable
 as bool?,rcvrUartBaud: freezed == rcvrUartBaud ? _self.rcvrUartBaud : rcvrUartBaud // ignore: cast_nullable_to_non_nullable
 as int?,djiPermanentlyArmed: freezed == djiPermanentlyArmed ? _self.djiPermanentlyArmed : djiPermanentlyArmed // ignore: cast_nullable_to_non_nullable
-as bool?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as bool?,freqIndex: freezed == freqIndex ? _self.freqIndex : freqIndex // ignore: cast_nullable_to_non_nullable
+as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as int?,
   ));
 }

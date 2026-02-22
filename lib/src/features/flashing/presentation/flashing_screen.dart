@@ -73,11 +73,13 @@ class FlashingScreen extends HookConsumerWidget {
               ],
             ),
           );
-        } else if (next == FlashingStatus.success && state.status == FlashingStatus.success) {
-           // Check if it was a download success (less intrusive than a dialog usually)
-           // But here we might want to show a SnackBar
+        } else if (next == FlashingStatus.success) {
            ScaffoldMessenger.of(context).showSnackBar(
-             const SnackBar(content: Text('Action completed successfully!')),
+             const SnackBar(content: Text('Flashing completed successfully!')),
+           );
+        } else if (next == FlashingStatus.downloadSuccess) {
+           ScaffoldMessenger.of(context).showSnackBar(
+             const SnackBar(content: Text('Firmware saved successfully!')),
            );
         }
       },
@@ -147,8 +149,9 @@ class FlashingScreen extends HookConsumerWidget {
                   onPressed: (state.status == FlashingStatus.idle || 
                               state.status == FlashingStatus.error || 
                               state.status == FlashingStatus.success ||
+                              state.status == FlashingStatus.downloadSuccess ||
                               state.status == FlashingStatus.mismatch)
-                      ? () => ref.read(flashingControllerProvider.notifier).downloadFirmware()
+                       ? () => ref.read(flashingControllerProvider.notifier).downloadFirmware()
                       : null,
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -161,6 +164,7 @@ class FlashingScreen extends HookConsumerWidget {
               onPressed: (state.status == FlashingStatus.idle || 
                           state.status == FlashingStatus.error || 
                           state.status == FlashingStatus.success ||
+                          state.status == FlashingStatus.downloadSuccess ||
                           state.status == FlashingStatus.mismatch)
                   ? () {
                       if (state.status == FlashingStatus.success) {

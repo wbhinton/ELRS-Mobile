@@ -1,0 +1,25 @@
+{
+    // Flutter VS Code extension launch configuration.
+    // "type": "dart" is correct for the Dart/Flutter VS Code extension.
+    // Run configs pass dart_defines/local.json (gitignored) via --dart-define-from-file.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ELRS (debug)",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define-from-file=dart_defines/local.json"
+            ]
+        },
+        {
+            "name": "ELRS (release)",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define-from-file=dart_defines/local.json",
+                "--release"
+            ]
+        }
+    ]
+}

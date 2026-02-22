@@ -41,6 +41,8 @@ _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
       target: json['target'] as String?,
       moduleType: json['module-type'] as String?,
       hasSerialPins: json['has_serial_pins'] as bool?,
+      deviceId: (json['device_id'] as num?)?.toInt(),
+      domain: (json['domain'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
@@ -50,6 +52,8 @@ Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
       'target': instance.target,
       'module-type': instance.moduleType,
       'has_serial_pins': instance.hasSerialPins,
+      'device_id': instance.deviceId,
+      'domain': instance.domain,
     };
 
 _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
@@ -64,6 +68,7 @@ _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(
   lockOnFirstConnection: json['lock-on-first-connection'] as bool?,
   rcvrUartBaud: (json['rcvr-uart-baud'] as num?)?.toInt(),
   djiPermanentlyArmed: json['dji-permanently-armed'] as bool?,
+  freqIndex: (json['freq-index'] as num?)?.toInt(),
   domain: (json['domain'] as num?)?.toInt(),
 );
 
@@ -80,6 +85,7 @@ Map<String, dynamic> _$ElrsOptionsToJson(_ElrsOptions instance) =>
       'lock-on-first-connection': instance.lockOnFirstConnection,
       'rcvr-uart-baud': instance.rcvrUartBaud,
       'dji-permanently-armed': instance.djiPermanentlyArmed,
+      'freq-index': instance.freqIndex,
       'domain': instance.domain,
     };
 

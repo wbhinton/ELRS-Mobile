@@ -1,5 +1,5 @@
-
 import 'dart:typed_data';
+import 'package:binary/binary.dart';
 
 class Stm32FirmwarePatcher {
   static const _magicHeader = [0xBE, 0xEF, 0xBA, 0xBE, 0xCA, 0xFE, 0xF0, 0x0D];
@@ -41,15 +41,15 @@ class Stm32FirmwarePatcher {
       throw Exception('Firmware too short for patching.');
     }
 
-    // Write Domain (uint8)
-    view.setUint8(writeOffset + 0, domain);
+    // Write Domain (uint8) using robust range-checked extension type.
+    view.setUint8(writeOffset + 0, Uint8(domain).toInt());
 
     // Write UID Flag (uint8) = 1
-    view.setUint8(writeOffset + 1, 1);
+    view.setUint8(writeOffset + 1, Uint8.one.toInt());
 
     // Write UID (6 bytes)
     for (int i = 0; i < 6; i++) {
-      view.setUint8(writeOffset + 2 + i, uid[i]);
+        view.setUint8(writeOffset + 2 + i, Uint8(uid[i]).toInt());
     }
 
     return patched;

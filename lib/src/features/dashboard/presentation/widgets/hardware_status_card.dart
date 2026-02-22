@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../config/domain/runtime_config_model.dart';
 import '../../../config/presentation/config_view_model.dart';
-import '../../../config/domain/elrs_mappings.dart';
+import '../../../../elrs_mappings.dart';
 import '../../../flashing/presentation/flashing_controller.dart';
 
 class HardwareStatusCard extends ConsumerWidget {
@@ -38,7 +39,7 @@ class HardwareStatusCard extends ConsumerWidget {
                 Expanded(
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
-                    child: _buildStateContent(context, ref, configAsync, selectedTarget),
+                    child: _buildStateContent(context, ref, configAsync as AsyncValue<RuntimeConfig?>, selectedTarget),
                   ),
                 ),
                 IconButton(
@@ -57,7 +58,7 @@ class HardwareStatusCard extends ConsumerWidget {
   Widget _buildStateContent(
     BuildContext context, 
     WidgetRef ref, 
-    AsyncValue configAsync,
+    AsyncValue<RuntimeConfig?> configAsync,
     dynamic selectedTarget,
   ) {
     if (configAsync.isLoading) {
@@ -123,7 +124,12 @@ class HardwareStatusCard extends ConsumerWidget {
                           border: Border.all(color: Colors.orange.withOpacity(0.5)),
                         ),
                         child: Text(
-                          ElrsMappings.getMapping(ElrsMappings.domains, config.options.domain),
+                          getDomainLabel(
+                            config.options.domain ?? 0,
+                            config.frequencyBand == 900
+                                ? FrequencyCategory.freq900MHz
+                                : FrequencyCategory.freq2400MHz,
+                          ),
                           style: const TextStyle(fontSize: 10, color: Colors.orange, fontWeight: FontWeight.bold),
                         ),
                       ),

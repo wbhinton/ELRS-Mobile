@@ -217,21 +217,23 @@ class DeviceRepository {
         }
         print('LOG: Flash successful!');
       } on DioException catch (e) {
-        final errStr = e.toString();
-        // The ESP32 physically reboots within 200ms of a successful flash.
-        // It often severs the TCP connection before sending the HTTP JSON response back.
-        if (errStr.contains('Software caused connection abort') || 
-            errStr.contains('Connection closed before full header was received') ||
-            errStr.contains('Connection reset by peer')) {
-           print('LOG: ESP32 successfully updated and rebooted! Caught expected socket drop.');
+        if (_isExpectedRebootSocketDrop(e)) {
+           print('LOG: Device successfully updated and rebooted! Caught expected socket drop.');
            return; // Treat as full success
         }
         rethrow;
       }
-      
     } catch (e) {
       throw Exception('Failed to flash firmware: $e');
     }
+  }
+
+  bool _isExpectedRebootSocketDrop(DioException e) {
+    final errStr = e.toString().toLowerCase();
+    return errStr.contains('software caused connection abort') || 
+           errStr.contains('connection closed before full header was received') ||
+           errStr.contains('connection reset by peer') ||
+           errStr.contains('broken pipe');
   }
 
   /// Confirms a forced update after a target mismatch using Dio.

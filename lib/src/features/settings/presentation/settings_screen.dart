@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/utils/bug_report_service.dart';
 import 'settings_controller.dart';
 
 class SettingsScreen extends HookConsumerWidget {
@@ -115,9 +116,93 @@ class SettingsScreen extends HookConsumerWidget {
             value: state.expertMode,
             onChanged: (val) => controller.toggleExpertMode(),
           ),
+          
+          if (state.expertMode) ...[
+            const Divider(),
+            ListTile(
+              title: const Text('Submit Debug Report to GitHub'),
+              subtitle: const Text('Help us fix bugs by sharing anonymous system logs'),
+              leading: const Icon(Icons.bug_report, color: Colors.orange),
+              trailing: const Icon(Icons.send),
+              onTap: () => _showPrivacyGuard(context),
+            ),
+          ],
         ],
       ),
     );
+  }
+
+  void _showPrivacyGuard(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Privacy Guard'),
+        content: const Text(
+          'This will send your device info and app logs to GitHub for debugging. '
+          'No personal info like Binding Phrases or WiFi passwords will be included. '
+          'Proceed?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              _submitReport(context);
+            },
+            child: const Text('Proceed'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _submitReport(BuildContext context) async {
+    // Track whether user cancelled so we don't pop an already-popped dialog.
+    var _dialogDismissed = false;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => AlertDialog(
+        content: const Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 20),
+            Expanded(child: Text('Submitting report…')),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              _dialogDismissed = true;
+              Navigator.pop(ctx);
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+
+    final error = await BugReportService.instance.submitReport(
+      'Automated Bug Report',
+      'User submitted a debug report from Settings.',
+    );
+
+    if (context.mounted && !_dialogDismissed) {
+      Navigator.pop(context); // Hide loading dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error == null
+            ? 'Report submitted successfully!'
+            : 'Failed: $error'),
+          backgroundColor: error == null ? Colors.green : Colors.red,
+          duration: const Duration(seconds: 6),
+        ),
+      );
+    }
   }
 
   Widget _buildSectionHeader(BuildContext context, String title) {

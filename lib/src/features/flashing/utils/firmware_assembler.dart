@@ -13,6 +13,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
+import 'package:binary/binary.dart';
 
 class FirmwareAssembler {
   /// Generates the unique user ID (UID) from a binding phrase.
@@ -75,7 +76,7 @@ class FirmwareAssembler {
     final sanitizedPassword = wifiPassword.trim().replaceAll('\x00', '');
 
     final Map<String, dynamic> finalOptions = {
-      'flash-discriminator': flashDiscriminator ?? (DateTime.now().millisecondsSinceEpoch & 0xFFFFFF),
+      'flash-discriminator': flashDiscriminator ?? Uint32.fromWrapped(DateTime.now().millisecondsSinceEpoch).toInt(),
       'uid': uid,
       'wifi-on-interval': 60,
       'rcvr-uart-baud': 420000,
@@ -146,13 +147,18 @@ class FirmwareAssembler {
         print('DEBUG: Warning: Expected more segments but hit end of file.');
         break;
       }
-      // Read 32-bit size (Little Endian)
-      int size = binary[pos + 4] | (binary[pos + 5] << 8) | (binary[pos + 6] << 16) | (binary[pos + 7] << 24);
+      
+      // Read 32-bit size (Little Endian) using Uint32 constructor (calls fit() internally).
+      final s0 = binary[pos + 4];
+      final s1 = binary[pos + 5] << 8;
+      final s2 = binary[pos + 6] << 16;
+      final s3 = binary[pos + 7] << 24;
+      final size = Uint32.fromWrapped(s0 | s1 | s2 | s3).toInt();
       pos += 8 + size;
     }
     
-    // THE FIX: Exact bitwise match to official JS
-    pos = (pos + 16) & ~15; 
+    // THE FIX: Exact bitwise match to official JS using Uint32.fromWrapped for robust alignment
+    pos = (Uint32.fromWrapped(pos + 16) & Uint32.fromWrapped(~15)).toInt(); 
     if (platform.startsWith('esp32')) {
       pos += 32; // Mandatory ESP32 gap
     }

@@ -1,17 +1,46 @@
+import 'package:binary/binary.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:elrs_mobile/src/bit_list.dart' as elrs_bits;
 import 'pwm_controller.dart';
 
 class PwmScreen extends HookConsumerWidget {
   const PwmScreen({super.key});
 
-  static const List<String> channelNames = [
-    'Ch 1', 'Ch 2', 'Ch 3', 'Ch 4', 
-    'Ch 5 (Aux1)', 'Ch 6 (Aux2)', 'Ch 7 (Aux3)', 'Ch 8 (Aux4)',
-    'Ch 9 (Aux5)', 'Ch 10 (Aux6)', 'Ch 11 (Aux7)', 'Ch 12 (Aux8)',
-    'Ch 13', 'Ch 14', 'Ch 15', 'Ch 16'
-  ];
+  // Total number of logical ELRS channels — drives BitList length, no hardcoded list.
+  static const int _kChannelCount = 16;
+
+  // Aux-channel suffixes for Ch 5–12; all others are plain "Ch N".
+  static const Map<int, String> _kAuxSuffixes = {
+    4: 'Aux1', 5: 'Aux2', 6: 'Aux3', 7: 'Aux4',
+    8: 'Aux5', 9: 'Aux6', 10: 'Aux7', 11: 'Aux8',
+  };
+
+  /// Dynamically generates a human-readable channel label for index [i].
+  static String _channelLabel(int i) {
+    final suffix = _kAuxSuffixes[i];
+    return suffix != null ? 'Ch ${i + 1} ($suffix)' : 'Ch ${i + 1}';
+  }
+
+  /// WYSIWIS register validation — called per-pin in debug/test builds.
+  /// Asserts that [BitList] and [Uint8.nthBit] agree on every bit of [rawReg].
+  /// Throws [StateError] on mismatch; is a no-op in release builds.
+  static void _assertWysiwis(elrs_bits.BitList configBits, Uint8 rawReg) {
+    assert(() {
+      for (var i = 0; i < configBits.length; i++) {
+        final fromBitList = configBits[i];
+        final fromReg = rawReg.nthBit(i);
+        if (fromBitList != fromReg) {
+          throw StateError(
+            'WYSIWIS violation: BitList mismatch with raw register at bit $i '
+            '(BitList=$fromBitList, nthBit=$fromReg)',
+          );
+        }
+      }
+      return true;
+    }());
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,29 +72,49 @@ class PwmScreen extends HookConsumerWidget {
                     separatorBuilder: (ctx, index) => const Divider(),
                     itemBuilder: (context, index) {
                       final currentChannel = state.outputs[index];
-                      // Ensure channel index is within valid range for existing names, or show raw
-                      
+
+                      // Wrap the raw channel value in the device's register type.
+                      // Uint8 is the ground-truth register width used by the device WebUI.
+                      final rawReg = Uint8(currentChannel);
+
+                      // BitList provides list-style iteration over the register's bits,
+                      // decoupling the UI loop from any hardcoded channel count literal.
+                      final configBits = elrs_bits.BitList.fromInt(
+                        rawReg.toInt(),
+                        length: _kChannelCount,
+                      );
+
+                      // WYSIWIS: run parity assertion before the items list is built.
+                      // assert() is a statement — it cannot appear inside a collection
+                      // literal expression, so validation is lifted into a helper.
+                      _assertWysiwis(configBits, rawReg);
+
                       return ListTile(
                         title: Text('Output Pin ${index + 1}'),
-                        subtitle: Text('Mapped to ${currentChannel < channelNames.length ? channelNames[currentChannel] : "Ch ${currentChannel + 1}"}'),
+                        subtitle: Text(
+                          'Mapped to ${_channelLabel(currentChannel < _kChannelCount ? currentChannel : currentChannel)}',
+                        ),
                         trailing: DropdownButton<int>(
-                          value: currentChannel < channelNames.length ? currentChannel : null,
+                          value: currentChannel < _kChannelCount ? currentChannel : null,
                           onChanged: (val) {
                             if (val != null) {
                               controller.updateOutput(index, val);
                             }
                           },
-                          items: List.generate(channelNames.length, (i) {
-                            return DropdownMenuItem(
-                              value: i,
-                              child: Text(
-                                channelNames[i],
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                          // BitList drives iteration — _kChannelCount is the only
+                          // constant controlling loop width.
+                          items: [
+                            for (var i = 0; i < configBits.length; i++)
+                              DropdownMenuItem<int>(
+                                value: i,
+                                child: Text(
+                                  _channelLabel(i),
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
                               ),
-                            );
-                          }),
+                          ],
                         ),
                       );
                     },
@@ -74,8 +123,8 @@ class PwmScreen extends HookConsumerWidget {
               ],
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: state.status == PwmStatus.saving 
-            ? null 
+        onPressed: state.status == PwmStatus.saving
+            ? null
             : () => controller.save(),
         child: state.status == PwmStatus.saving
             ? const CircularProgressIndicator(color: Colors.white)

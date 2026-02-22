@@ -12,7 +12,10 @@
 
 import 'package:flutter/material.dart';
 import 'src/app.dart';
+import 'src/core/utils/bug_report_service.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  BugReportService.instance.init();
   runApp(const App());
 }

@@ -36,10 +36,19 @@ class PwmController extends _$PwmController {
       final config = await repo.fetchConfig();
       
       // Parse pwm.
+      // The real device sends each pin as a Map {config, pin, features}.
+      // The 'config' value is the packed Uint16 register the UI decodes.
+      // Older/test payloads may send plain ints — both shapes are handled.
       if (config.config.pwm.isNotEmpty) {
+        final outputs = config.config.pwm.map<int>((entry) {
+          if (entry is Map) {
+            return (entry['config'] as num?)?.toInt() ?? 0;
+          }
+          return (entry as num).toInt();
+        }).toList();
         state = state.copyWith(
           status: PwmStatus.idle,
-          outputs: config.config.pwm.cast<int>(),
+          outputs: outputs,
         );
       } else {
         // Fallback or empty if not present

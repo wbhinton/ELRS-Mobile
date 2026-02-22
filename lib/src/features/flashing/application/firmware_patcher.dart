@@ -14,6 +14,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:binary/binary.dart';
 import '../domain/patch_configuration.dart';
 
 part 'firmware_patcher.g.dart';
@@ -86,7 +87,7 @@ class FirmwarePatcher {
        throw Exception('Patching out of bounds');
     }
     for (int i = 0; i < data.length; i++) {
-      source[offset + i] = data[i];
+      source[offset + i] = Uint8(data[i]).toInt();
     }
   }
 }
