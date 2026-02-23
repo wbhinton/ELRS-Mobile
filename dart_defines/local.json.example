@@ -1,3 +1,4 @@
 {
-  "GITHUB_TOKEN": "ghp_your_token_here"
+  "GITHUB_TOKEN": "ghp_your_token_here",
+  "SENTRY_DSN": "https://your_dsn_here"
 }

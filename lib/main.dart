@@ -11,11 +11,25 @@
 // GNU General Public License for more details.
 
 import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'src/app.dart';
-import 'src/core/utils/bug_report_service.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BugReportService.instance.init();
-  runApp(const App());
+  
+  const String sentryDsn = String.fromEnvironment('SENTRY_DSN');
+  debugPrint('[Sentry] DSN loaded: ${sentryDsn.isNotEmpty ? "YES ✓" : "NO — check dart-defines"}');
+
+  if (sentryDsn.isNotEmpty) {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentryDsn;
+        // Adjust these as needed
+        options.tracesSampleRate = 1.0;
+      },
+      appRunner: () => runApp(const App()),
+    );
+  } else {
+    runApp(const App());
+  }
 }

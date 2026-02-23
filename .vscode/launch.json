@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "dart",
             "toolArgs": [
-                "--dart-define-from-file=dart_defines/local.json"
+                "--dart-define-from-file=${workspaceFolder}/dart_defines/local.json"
             ]
         },
         {
@@ -17,7 +17,7 @@
             "request": "launch",
             "type": "dart",
             "toolArgs": [
-                "--dart-define-from-file=dart_defines/local.json",
+                "--dart-define-from-file=${workspaceFolder}/dart_defines/local.json",
                 "--release"
             ]
         }
