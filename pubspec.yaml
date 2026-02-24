@@ -69,6 +69,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.0
   build_runner: ^2.11.1
   freezed: ^3.2.5
   json_serializable: ^6.12.0
@@ -87,6 +88,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - icons/elrs_mobile.png
   
 dependency_overrides:
   http: ^1.6.0
@@ -94,10 +98,6 @@ dependency_overrides:
   device_info_plus: ^11.1.2
   connectivity_plus: ^6.1.1
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -124,3 +124,12 @@ dependency_overrides:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "icons/elrs_mobile.png"
+  adaptive_icon_foreground: "icons/elrs_mobile_foreground.png"
+  adaptive_icon_background: "#202229"
+  min_sdk_android: 21

@@ -9,7 +9,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   Timer? _navigationTimer;
@@ -24,10 +25,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeIn,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
 
     _animationController.forward();
@@ -48,18 +46,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   }
 
   Widget _buildLogo() {
-    return const SizedBox(
-      height: 180,
-      width: 180,
-      // TODO: Replace with custom Logo Asset.
-      child: Center(
-        child: Icon(
-          Icons.settings_input_antenna,
-          size: 120,
-          color: Color(0xFF00E5FF), // Electric Cyan
-        ),
-      ),
-    );
+    return Image.asset('icons/elrs_mobile.png', height: 180, width: 180);
   }
 
   @override
@@ -93,7 +80,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     Text(
                       'ELRS Mobile', // Or 'ELRS Manager'
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontFamily: 'Roboto', // Replace with desired sans-serif if needed
+                        fontFamily:
+                            'Roboto', // Replace with desired sans-serif if needed
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
                         letterSpacing: 1.2,
@@ -139,10 +127,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     const Text(
                       'Not an official ExpressLRS product.\nCompatible with 3.x/4.x firmware.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
+                      style: TextStyle(color: Colors.grey, fontSize: 10),
                     ),
                     const SizedBox(height: 16),
                   ],
@@ -158,10 +143,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         padding: EdgeInsets.only(top: 16.0),
         child: Text(
           'v1.0.0-beta',
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 10,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 10),
         ),
       ),
     );
