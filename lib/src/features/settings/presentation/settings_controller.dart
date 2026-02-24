@@ -24,7 +24,7 @@ abstract class SettingsState with _$SettingsState {
   }) = _SettingsState;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class SettingsController extends _$SettingsController {
   @override
   SettingsState build() {

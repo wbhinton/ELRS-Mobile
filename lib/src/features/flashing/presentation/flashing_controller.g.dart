@@ -20,7 +20,7 @@ final class FlashingControllerProvider
         argument: null,
         retry: null,
         name: r'flashingControllerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -42,7 +42,7 @@ final class FlashingControllerProvider
 }
 
 String _$flashingControllerHash() =>
-    r'd8b9177dad41909e64b17151368a24ee3fb2e598';
+    r'96aadeff9940a6d217e48ed05acae268818ec916';
 
 abstract class _$FlashingController extends $Notifier<FlashingState> {
   FlashingState build();

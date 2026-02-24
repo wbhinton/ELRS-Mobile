@@ -54,23 +54,18 @@ abstract class FlashingState with _$FlashingState {
   }) = _FlashingState;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class FlashingController extends _$FlashingController {
   @override
   FlashingState build() {
-    // Watch settings to react to changes, or just read once?
-    // If user changes default in settings, we probably want to update current if it matches old default?
-    // Or just use it for initial value.
-    // "pre-filling the Options form".
-    // Let's watch it so if they change it in settings, it updates here if not overridden?
-    // But `regulatoryDomain` is part of state.
-    // Let's just load it initially.
-
-    // Actually, `build` is called when providers change if we watch.
-    // We want to initialize with the default.
     final settings = ref.watch(settingsControllerProvider);
 
-    return FlashingState(regulatoryDomain: settings.defaultRegulatoryDomain);
+    return FlashingState(
+      bindPhrase: settings.globalBindPhrase,
+      wifiSsid: settings.homeWifiSsid,
+      wifiPassword: settings.homeWifiPassword,
+      regulatoryDomain: settings.defaultRegulatoryDomain,
+    );
   }
 
   Future<void> loadSavedOptions() async {
