@@ -30,10 +30,11 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build APK
+      - name: Build APK and App Bundle
         run: |
           printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
           flutter build apk --release --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+          flutter build appbundle --release --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -43,7 +44,9 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
           draft: false
           prerelease: false
           generate_release_notes: true
