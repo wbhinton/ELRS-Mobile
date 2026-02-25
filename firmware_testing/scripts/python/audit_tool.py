@@ -4,6 +4,7 @@ import os
 import sys
 import argparse
 import gzip
+import json
 from datetime import datetime
 
 # ExpressLRS Ground Truth Auditor
@@ -149,6 +150,19 @@ def main():
         for field in OFFSETS.keys():
             val1 = config1.get(field)
             val2 = config2.get(field)
+
+            if field == "Options JSON":
+                try:
+                    dict1 = json.loads(val1)
+                    dict2 = json.loads(val2)
+                    dict1.pop('flash-discriminator', None)
+                    dict2.pop('flash-discriminator', None)
+                    
+                    if dict1 == dict2:
+                        log.write("MATCH: Options JSON (ignoring randomized discriminator)\n")
+                        continue
+                except json.JSONDecodeError:
+                    pass # Fallback to standard string comparison if not valid JSON
 
             if val1 != val2:
                 diverged = True
