@@ -210,10 +210,13 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
               // Map composite bitfield to Domain ID (bits 0-3) using package:binary
               initialValue: Uint16(regulatoryDomain).slice(0, 3).toInt(),
               items: const [
-                DropdownMenuItem(value: 0, child: Text('FCC (915MHz)')),
-                DropdownMenuItem(value: 1, child: Text('EU (868MHz)')),
-                DropdownMenuItem(value: 2, child: Text('ISM (2.4GHz)')),
-                DropdownMenuItem(value: 3, child: Text('AU (915MHz)')),
+                DropdownMenuItem(value: 0, child: Text('AU (915MHz)')),
+                DropdownMenuItem(value: 1, child: Text('FCC (915MHz)')),
+                DropdownMenuItem(value: 2, child: Text('EU (868MHz)')),
+                DropdownMenuItem(value: 3, child: Text('IN (866MHz)')),
+                DropdownMenuItem(value: 4, child: Text('AU (433MHz)')),
+                DropdownMenuItem(value: 5, child: Text('EU (433MHz)')),
+                DropdownMenuItem(value: 6, child: Text('US (433MHz)')),
               ],
               onChanged: (value) {
                 if (value != null) {

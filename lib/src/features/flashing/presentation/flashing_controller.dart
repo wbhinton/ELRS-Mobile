@@ -386,7 +386,8 @@ class FlashingController extends _$FlashingController {
                 productName.toLowerCase().contains('dual')));
 
     if (isSubGhzOrDual) {
-      finalDomain = state.regulatoryDomain;
+      // Extract ONLY the domain ID (bits 0-3) by masking with 0x0F
+      finalDomain = state.regulatoryDomain & 0x0F;
     }
 
     final deviceRepo = ref.read(deviceRepositoryProvider);
