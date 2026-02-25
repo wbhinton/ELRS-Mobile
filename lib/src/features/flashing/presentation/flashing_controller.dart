@@ -374,9 +374,18 @@ class FlashingController extends _$FlashingController {
       }
     }
 
+    // Determine if we should send a domain (Sub-GHz or Dual-Band)
     int? finalDomain;
-    if (productName != null &&
-        (productName.contains('900') || productName.contains('433'))) {
+    final target = state.selectedTarget;
+
+    final isSubGhzOrDual =
+        (target != null && (target.is900Mhz || target.isDualBand)) ||
+        (productName != null &&
+            (productName.contains('900') ||
+                productName.contains('433') ||
+                productName.toLowerCase().contains('dual')));
+
+    if (isSubGhzOrDual) {
       finalDomain = state.regulatoryDomain;
     }
 
