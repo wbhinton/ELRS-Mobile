@@ -369,43 +369,60 @@ class SettingsScreen extends HookConsumerWidget {
       ),
     );
 
-    await Sentry.captureMessage(
-      description.isNotEmpty
-          ? description
-          : 'User Feedback: Manual Debug Report',
-      level: SentryLevel.info,
-      withScope: (scope) {
-        scope.setTag('user-report', 'manual');
-        scope.setTag('app.version', state.appVersion);
-        scope.setTag('app.expert_mode', state.expertMode.toString());
-        scope.setTag('app.developer_mode', state.developerMode.toString());
-        scope.setTag('app.domain_2400', state.defaultDomain2400.toString());
-        scope.setTag('app.domain_900', state.defaultDomain900.toString());
-        scope.setTag(
-          'app.max_cached_versions',
-          state.maxCachedVersions.toString(),
-        );
-        scope.setTag(
-          'has_bind_phrase',
-          state.globalBindPhrase.isNotEmpty.toString(),
-        );
-        scope.setTag('has_wifi_ssid', state.homeWifiSsid.isNotEmpty.toString());
-      },
-    );
-    final error =
-        null; // Sentry.captureMessage is fire-and-forget for this purpose
-
-    if (context.mounted && !dialogDismissed) {
-      Navigator.pop(context); // Hide loading dialog
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            error == null ? 'Report submitted successfully!' : 'Failed: $error',
-          ),
-          backgroundColor: error == null ? Colors.green : Colors.red,
-          duration: const Duration(seconds: 6),
-        ),
+    try {
+      final id = await Sentry.captureMessage(
+        description.isNotEmpty
+            ? description
+            : 'User Feedback: Manual Debug Report',
+        level: SentryLevel.info,
+        withScope: (scope) {
+          scope.setTag('user-report', 'manual');
+          scope.setTag('app.version', state.appVersion);
+          scope.setTag('app.expert_mode', state.expertMode.toString());
+          scope.setTag('app.developer_mode', state.developerMode.toString());
+          scope.setTag('app.domain_2400', state.defaultDomain2400.toString());
+          scope.setTag('app.domain_900', state.defaultDomain900.toString());
+          scope.setTag(
+            'app.max_cached_versions',
+            state.maxCachedVersions.toString(),
+          );
+          scope.setTag(
+            'has_bind_phrase',
+            state.globalBindPhrase.isNotEmpty.toString(),
+          );
+          scope.setTag(
+            'has_wifi_ssid',
+            state.homeWifiSsid.isNotEmpty.toString(),
+          );
+        },
       );
+
+      if (context.mounted && !dialogDismissed) {
+        Navigator.pop(context); // Hide loading dialog
+
+        final msg = id != SentryId.empty()
+            ? 'Submitted! Event ID: ${id.toString().substring(0, 8)}…'
+            : 'Report submitted successfully!';
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(msg),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 6),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted && !dialogDismissed) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to submit: $e'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 6),
+          ),
+        );
+      }
     }
   }
 
