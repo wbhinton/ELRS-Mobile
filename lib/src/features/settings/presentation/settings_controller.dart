@@ -47,7 +47,7 @@ class SettingsController extends _$SettingsController {
       homeWifiPassword: persistence.getWifiPassword(),
       maxCachedVersions: prefs.getInt('maxCachedVersions') ?? 2,
       expertMode: prefs.getBool('expertMode') ?? false,
-      appVersion: info.version,
+      appVersion: '${info.version}+${info.buildNumber}',
       disclaimerAccepted: persistence.hasAcceptedDisclaimer(),
       isLoaded: true,
     );
