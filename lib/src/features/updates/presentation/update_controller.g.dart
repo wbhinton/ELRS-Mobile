@@ -20,7 +20,7 @@ final class UpdateControllerProvider
         argument: null,
         retry: null,
         name: r'updateControllerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -41,7 +41,7 @@ final class UpdateControllerProvider
   }
 }
 
-String _$updateControllerHash() => r'd7eaff45e02257858f58686852e08c4146e126f8';
+String _$updateControllerHash() => r'b5e1fd7d18e02f24ffd434eeed6f5a035fe76046';
 
 abstract class _$UpdateController extends $Notifier<UpdateState> {
   UpdateState build();

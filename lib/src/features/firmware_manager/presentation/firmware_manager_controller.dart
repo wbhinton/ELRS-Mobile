@@ -20,7 +20,7 @@ abstract class FirmwareManagerState with _$FirmwareManagerState {
   }) = _FirmwareManagerState;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class FirmwareManagerController extends _$FirmwareManagerController {
   @override
   FirmwareManagerState build() {
@@ -32,7 +32,7 @@ class FirmwareManagerController extends _$FirmwareManagerController {
     try {
       final cacheService = ref.read(firmwareCacheServiceProvider);
       final releasesRepo = ref.read(releasesRepositoryProvider);
-      
+
       // Fetch available versions (online)
       // Note: This might fail if offline. We should handle that gracefully.
       List<String> available = [];
@@ -53,7 +53,10 @@ class FirmwareManagerController extends _$FirmwareManagerController {
         cacheSizeMb: size,
       );
     } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: 'Error loading: $e');
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: 'Error loading: $e',
+      );
     }
   }
 
@@ -64,9 +67,12 @@ class FirmwareManagerController extends _$FirmwareManagerController {
 
     // Check limit
     if (state.cachedVersions.length >= settings.maxCachedVersions) {
-       // We can't easily show dialog from here, but we can set error message
-       state = state.copyWith(errorMessage: 'Cache limit reached (${settings.maxCachedVersions}). Delete a version first.');
-       return;
+      // We can't easily show dialog from here, but we can set error message
+      state = state.copyWith(
+        errorMessage:
+            'Cache limit reached (${settings.maxCachedVersions}). Delete a version first.',
+      );
+      return;
     }
 
     state = state.copyWith(
@@ -80,15 +86,15 @@ class FirmwareManagerController extends _$FirmwareManagerController {
 
       // 2. Download Firmware Zip
       final firmwareBytes = await firmwareRepo.downloadArtifact(
-        hash, 
+        hash,
         'firmware.zip',
         onReceiveProgress: (received, total) {
           if (total != -1) {
-             // 50% progress allocated to firmware zip
-             final progress = (received / total) * 0.5;
-             state = state.copyWith(
-               downloadProgress: {...state.downloadProgress, version: progress},
-             );
+            // 50% progress allocated to firmware zip
+            final progress = (received / total) * 0.5;
+            state = state.copyWith(
+              downloadProgress: {...state.downloadProgress, version: progress},
+            );
           }
         },
       );
@@ -97,11 +103,11 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       final hardwareBytes = await firmwareRepo.downloadHardwareZip(
         onReceiveProgress: (received, total) {
           if (total != -1) {
-             // 50% to 100% progress allocated to hardware zip
-             final progress = 0.5 + ((received / total) * 0.5);
-             state = state.copyWith(
-               downloadProgress: {...state.downloadProgress, version: progress},
-             );
+            // 50% to 100% progress allocated to hardware zip
+            final progress = 0.5 + ((received / total) * 0.5);
+            state = state.copyWith(
+              downloadProgress: {...state.downloadProgress, version: progress},
+            );
           }
         },
       );
@@ -109,21 +115,20 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       // 4. Save both to cache
       await cacheService.saveZip(version, firmwareBytes);
       await cacheService.saveHardwareZip(version, hardwareBytes);
-      
+
       // Refresh cache list
       final cached = await cacheService.getCachedVersions();
       final size = await cacheService.getCacheSizeMb();
-      
+
       state = state.copyWith(
         cachedVersions: cached,
         cacheSizeMb: size,
         downloadProgress: {...state.downloadProgress}..remove(version),
       );
-
     } catch (e) {
       // Cleanup on failure
       await cacheService.deleteCachedZip(version);
-      
+
       state = state.copyWith(
         errorMessage: 'Download failed: $e',
         downloadProgress: {...state.downloadProgress}..remove(version),
@@ -135,14 +140,11 @@ class FirmwareManagerController extends _$FirmwareManagerController {
     try {
       final cacheService = ref.read(firmwareCacheServiceProvider);
       await cacheService.deleteCachedZip(version);
-      
+
       final cached = await cacheService.getCachedVersions();
       final size = await cacheService.getCacheSizeMb();
-      
-      state = state.copyWith(
-        cachedVersions: cached,
-        cacheSizeMb: size,
-      );
+
+      state = state.copyWith(cachedVersions: cached, cacheSizeMb: size);
     } catch (e) {
       state = state.copyWith(errorMessage: 'Delete failed: $e');
     }

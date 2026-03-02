@@ -5,7 +5,7 @@ import '../domain/update_state.dart';
 
 part 'update_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class UpdateController extends _$UpdateController {
   @override
   UpdateState build() {
