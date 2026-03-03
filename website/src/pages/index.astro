@@ -17,8 +17,8 @@ import Layout from '../layouts/Layout.astro';
 		<section id="overview">
 			<h2>Overview</h2>
 			<p>
-				ELRS Mobile is a comprehensive open-source interface for managing ExpressLRS hardware. 
-				Configure parameters, map PWM outputs, and flash firmware updates directly through your mobile device's WiFi or local network.
+				ELRS Mobile is an comprehensive open-source solution for flashing and configureing ExpressLRS hardware. 
+				Providing cached firmware for completely offline operation and a convenient interface for the ELRS WebUI for device configuration.
 			</p>
 		</section>
 
@@ -35,6 +35,31 @@ import Layout from '../layouts/Layout.astro';
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
 						allowfullscreen>
 					</iframe>
+				</div>
+			</div>
+		</section>
+
+		<section id="app-stores">
+			<h2>Official App Stores</h2>
+			<p>We are working hard to bring ELRS Mobile to your favorite app stores. Approval and publishing is currently in progress.</p>
+			<div class="store-grid">
+				<div class="store-card disabled">
+					<div class="store-icon">
+						<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414L20.355 13.706C21.215 13.209 21.215 11.961 20.355 11.464L17.523 9.82944L14.771 12.5834L17.523 15.3414ZM13.883 13.4724L16.635 16.2234L5.656 22.564C5.071 22.902 4.331 22.795 3.865 22.28L13.883 13.4724ZM3.535 20.916L12.997 12.5844L3.535 4.25144C3.195 4.41444 3 4.76744 3 5.16644V20.0014C3 20.4 3.195 20.7534 3.535 20.916ZM13.883 11.6964L3.865 2.88844C4.331 2.37344 5.071 2.26644 5.656 2.60444L16.635 8.94544L13.883 11.6964Z"/></svg>
+					</div>
+					<div class="store-info">
+						<h3>Google Play</h3>
+						<span class="status">In Review</span>
+					</div>
+				</div>
+				<div class="store-card disabled">
+					<div class="store-icon">
+						<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.96.95-2.06 1.92-3.4 1.92s-1.8-.84-3.37-.84-2.1.84-3.41.84c-1.28 0-2.43-1.02-3.41-2.45C1.45 16.71.36 12.44 2.45 9.15c1-1.5 2.51-2.48 4.14-2.48 1.4 0 2.4 1.05 3.4 1.05s2.2-.9 3.55-.9c1.1 0 2.45.6 3.45 1.7-2.7 1.6-2.2 5.3 0 6.6-.7 1.8-1.7 3.6-2.94 5.16zM13 2c0 1.5-1.26 3.1-2.9 3.1-.15-1.9 1.4-3.5 2.9-3.5z"/></svg>
+					</div>
+					<div class="store-info">
+						<h3>App Store</h3>
+						<span class="status">Coming Soon</span>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -190,6 +215,42 @@ import Layout from '../layouts/Layout.astro';
 		border-bottom-left-radius: 12px;
 		border-bottom-right-radius: 12px;
 		z-index: 10;
+	}
+	.store-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+	.store-card {
+		display: flex;
+		align-items: center;
+		padding: 1.5rem;
+		background: var(--surface);
+		border-radius: 16px;
+		border: 1px solid rgba(0, 191, 165, 0.2);
+		gap: 1.2rem;
+		transition: transform 0.2s ease;
+	}
+	.store-card.disabled {
+		opacity: 0.8;
+		filter: grayscale(0.5);
+	}
+	.store-icon svg {
+		width: 40px;
+		height: 40px;
+		color: var(--primary);
+	}
+	.store-info h3 {
+		margin: 0;
+		font-size: 1.2rem;
+	}
+	.store-info .status {
+		font-size: 0.9rem;
+		color: var(--primary);
+		opacity: 0.8;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 	}
 	.hardware-grid {
 		display: grid;
