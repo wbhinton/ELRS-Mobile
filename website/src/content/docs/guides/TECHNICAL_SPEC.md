@@ -1,5 +1,6 @@
 ---
 title: Technical Specification
+slug: technical_spec
 ---
 
 # Technical Specification

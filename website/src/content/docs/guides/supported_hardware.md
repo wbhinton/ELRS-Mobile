@@ -1,5 +1,6 @@
 ---
 title: Supported Hardware
+slug: supported_hardware
 ---
 
 # Supported Hardware

@@ -1,5 +1,6 @@
 ---
 title: Usage Instructions
+slug: usage_instructions
 ---
 
 # How to Use ELRS Mobile

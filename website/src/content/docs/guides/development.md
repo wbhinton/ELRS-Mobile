@@ -1,5 +1,6 @@
 ---
 title: Development Guide
+slug: development
 ---
 
 # Development Guide

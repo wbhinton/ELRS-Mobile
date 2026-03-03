@@ -1,5 +1,6 @@
 ---
 title: Installation Guide
+slug: installation
 ---
 
 # Installation Guide

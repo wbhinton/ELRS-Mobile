@@ -1,5 +1,6 @@
 ---
 title: User Guide
+slug: user_guide
 ---
 
 # User Guide

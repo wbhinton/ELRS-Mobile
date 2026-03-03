@@ -1,5 +1,6 @@
 ---
 title: Technical Architecture
+slug: technical_architecture
 ---
 
 # Technical Architecture
