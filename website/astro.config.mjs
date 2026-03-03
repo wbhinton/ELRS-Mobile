@@ -4,8 +4,8 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://wbhinton.github.io',
-  base: '/ELRS-Mobile',
+  site: 'https://elrsmobile.com',
+  base: '/',
   integrations: [
     starlight({
       title: 'ELRS Mobile',
@@ -43,7 +43,7 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Guides',
-          autogenerate: { directory: 'guides' },
+          autogenerate: { directory: '' },
         },
       ],
     }),
