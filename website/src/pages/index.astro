@@ -14,12 +14,36 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 		</header>
 
-		<section id="overview">
-			<h2>Overview</h2>
-			<p>
-				ELRS Mobile is an comprehensive open-source solution for flashing and configureing ExpressLRS hardware. 
-				Providing cached firmware for completely offline operation and a convenient interface for the ELRS WebUI for device configuration.
-			</p>
+		<section id="why-elrs-mobile">
+			<h2>Why ELRS Mobile?</h2>
+			<div class="feature-highlight">
+				<div class="highlight-text">
+					<h3>No Cell Service? No Problem.</h3>
+					<p>
+						When you're out in the field and encounter a firmware mismatch (e.g., TX on 4.0, RX on 3.x), the web flasher fails without an internet connection. 
+					</p>
+					<p>
+						ELRS Mobile solves this with <strong>Offline Caching</strong>. Once you've cached a firmware version, the app can compile and flash every supported target completely offline.
+					</p>
+				</div>
+				<div class="feature-grid">
+					<div class="feature-item">
+						<span class="feature-icon">⚡</span>
+						<h4>Blazing Fast</h4>
+						<p>Flash from local cache instead of waiting for web downloads.</p>
+					</div>
+					<div class="feature-item">
+						<span class="feature-icon">📡</span>
+						<h4>Reliable Anywhere</h4>
+						<p>Eliminate edge cases with zero cell coverage or wifi access.</p>
+					</div>
+					<div class="feature-item">
+						<span class="feature-icon">🛠️</span>
+						<h4>Unified Flow</h4>
+						<p>One interface for all your ExpressLRS hardware needs.</p>
+					</div>
+				</div>
+			</div>
 		</section>
 
 		<section id="demo">
@@ -149,6 +173,43 @@ import Layout from '../layouts/Layout.astro';
 		-webkit-text-fill-color: transparent;
 		background-size: 400%;
 		background-position: 0%;
+	}
+	p {
+		font-size: 1.1rem;
+		line-height: 1.6;
+		margin-bottom: 2rem;
+	}
+	.feature-highlight {
+		background: rgba(0, 191, 165, 0.05);
+		border: 1px solid rgba(0, 191, 165, 0.1);
+		border-radius: 24px;
+		padding: 2.5rem;
+		margin-bottom: 3rem;
+	}
+	.highlight-text h3 {
+		color: var(--primary);
+		font-size: 1.8rem;
+		margin-bottom: 1rem;
+	}
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 2rem;
+		margin-top: 2.5rem;
+	}
+	.feature-item h4 {
+		color: var(--primary);
+		margin: 0.5rem 0;
+		font-size: 1.2rem;
+	}
+	.feature-item p {
+		font-size: 0.95rem;
+		margin-bottom: 0;
+		opacity: 0.8;
+	}
+	.feature-icon {
+		font-size: 2rem;
+		display: block;
 	}
 	.tagline {
 		font-size: 1.5rem;
