@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../presentation/settings_controller.dart';
 
 /// Shows the disclaimer dialog. Pass [onAccepted] to be notified when the
@@ -64,13 +63,6 @@ class _DisclaimerDialog extends ConsumerWidget {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => launchUrl(
-            Uri.parse('https://www.expresslrs.org/'),
-            mode: LaunchMode.externalApplication,
-          ),
-          child: const Text('ELRS Docs'),
-        ),
         ElevatedButton(
           onPressed: () async {
             await widgetRef

@@ -141,9 +141,9 @@ class SettingsScreen extends HookConsumerWidget {
           ),
           ListTile(
             title: const Text('GitHub Repository'),
-            subtitle: const Text('https://github.com/ExpressLRS/ExpressLRS'),
+            subtitle: const Text('https://github.com/wbhinton/ELRS-Mobile'),
             leading: const Icon(Icons.code),
-            onTap: () => _launchUrl('https://github.com/ExpressLRS/ExpressLRS'),
+            onTap: () => _launchUrl('https://github.com/wbhinton/ELRS-Mobile'),
           ),
           ListTile(
             title: const Text('Discord Community'),
@@ -218,6 +218,11 @@ class SettingsScreen extends HookConsumerWidget {
                     'Join #help on the ELRS Discord — the community can usually recover any device.',
               ),
               const SizedBox(height: 12),
+              const Text(
+                'Joshua Bardwell\'s "The easiest way to unbrick an ELRS receiver" video is highly recommended:',
+                style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
+              ),
+              const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
                 children: [
@@ -226,6 +231,13 @@ class SettingsScreen extends HookConsumerWidget {
                     label: const Text('Web Flasher'),
                     onPressed: () =>
                         _launchUrl('https://expresslrs.github.io/web-flasher/'),
+                  ),
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.play_circle_outline, size: 16),
+                    label: const Text('Recovery Video'),
+                    onPressed: () => _launchUrl(
+                      'https://www.youtube.com/watch?v=TzAaYg47TSU',
+                    ),
                   ),
                   OutlinedButton.icon(
                     icon: const Icon(Icons.chat, size: 16),
