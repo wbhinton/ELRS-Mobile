@@ -1,4 +1,4 @@
-package com.elrs.elrs_mobile
+package io.datarx.elrsmobile
 
 import android.content.Context
 import android.net.ConnectivityManager

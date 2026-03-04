@@ -56,6 +56,7 @@ class _AppContent extends HookConsumerWidget {
       theme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
       routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
