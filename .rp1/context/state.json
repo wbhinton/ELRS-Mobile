@@ -1,0 +1,14 @@
+{
+  "strategy": "parallel-map-reduce",
+  "repo_type": "single-project",
+  "monorepo_projects": [],
+  "generated_at": "2026-03-09T00:00:00.000Z",
+  "git_commit": "9b63cc2d9810aea5d678ecad573c87e757e5cfe6",
+  "files_analyzed": 350,
+  "languages": ["Dart", "Flutter"],
+  "metrics": {
+    "modules": 11,
+    "components": 25,
+    "concepts": 17
+  }
+}
