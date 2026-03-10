@@ -6,6 +6,7 @@ import 'features/settings/presentation/settings_screen.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
 import 'features/configurator/presentation/device_settings_screen.dart';
 import 'features/firmware_manager/presentation/firmware_manager_screen.dart';
+import 'features/settings/presentation/legal_notice_screen.dart';
 
 part 'router.g.dart';
 
@@ -34,6 +35,10 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: '/firmware_manager',
         builder: (context, state) => const FirmwareManagerScreen(),
+      ),
+      GoRoute(
+        path: '/legal',
+        builder: (context, state) => const LegalNoticeScreen(),
       ),
     ],
   );

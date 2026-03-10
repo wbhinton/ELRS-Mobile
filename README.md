@@ -14,7 +14,7 @@ ExpressLRS Mobile is a modern, cross-platform companion application built with F
 
 Whether you are configuring a new receiver on the bench or flashing an emergency update in the middle of a field with no cellular service, ELRS Mobile provides a seamless, robust Over-The-Air (OTA) experience.
 
-*Note: This is an independent, community-driven tool and is not officially affiliated with, sponsored by, or endorsed by ExpressLRS LLC. Compatible with ExpressLRS 3.x and 4.x firmware.*
+*Note: ELRS Mobile is an independent, community-driven FOSS project developed by Weston Hinton. This project is not an official product of ExpressLRS LLC and is not officially supported, endorsed, or certified by the ExpressLRS development team. For the official ExpressLRS configurator and documentation, please visit [expresslrs.org](https://www.expresslrs.org).*
 
 🚀 **Quick Start**
 

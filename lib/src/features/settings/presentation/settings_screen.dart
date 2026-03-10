@@ -151,6 +151,13 @@ class SettingsScreen extends HookConsumerWidget {
             leading: const Icon(Icons.chat),
             onTap: () => _launchUrl('https://discord.gg/expresslrs'),
           ),
+          ListTile(
+            title: const Text('Legal & License'),
+            subtitle: const Text('Standard disclaimer and GPLv3 License'),
+            leading: const Icon(Icons.gavel_outlined),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () => context.push('/legal'),
+          ),
           ExpansionTile(
             leading: const Icon(
               Icons.warning_amber_rounded,
