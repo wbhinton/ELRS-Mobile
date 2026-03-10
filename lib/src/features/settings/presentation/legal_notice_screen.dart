@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LegalNoticeScreen extends StatelessWidget {
   const LegalNoticeScreen({super.key});
@@ -9,7 +10,7 @@ class LegalNoticeScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Legal & License')),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
-        children: const [
+        children: [
           Text(
             'Legal Notice',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -31,6 +32,29 @@ class LegalNoticeScreen extends StatelessWidget {
             'For the official ExpressLRS configurator and documentation, please visit expresslrs.org.',
             style: TextStyle(fontSize: 16),
           ),
+          SizedBox(height: 16),
+          Text(
+            'Official Support',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Support the official ExpressLRS project: ',
+            style: TextStyle(fontSize: 16),
+          ),
+          InkWell(
+            onTap: () => _launchUrl(
+              'https://opencollective.com/expresslrs/donate?interval=oneTime&amount=20&name=&legalName=&email=',
+            ),
+            child: const Text(
+              'Donate via Open Collective',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
           SizedBox(height: 24),
           Divider(),
           SizedBox(height: 24),
@@ -48,6 +72,13 @@ class LegalNoticeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 }
 
