@@ -37,6 +37,7 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun bindProcessToWiFi(result: MethodChannel.Result) {
+        val safeResult = SafeResult(result)
         // Unregister any existing callback first
         networkCallback?.let {
             try {
@@ -64,15 +65,15 @@ class MainActivity : FlutterActivity() {
                         ConnectivityManager.setProcessDefaultNetwork(network)
                     }
                     boundNetwork = network
-                    runOnUiThread { result.success(true) }
+                    safeResult.success(true)
                 } catch (e: Exception) {
-                    runOnUiThread { result.error("BIND_FAILED", e.message, null) }
+                    safeResult.error("BIND_FAILED", e.message, null)
                 }
             }
 
             override fun onUnavailable() {
                 super.onUnavailable()
-                runOnUiThread { result.error("UNAVAILABLE", "WiFi network not available", null) }
+                safeResult.error("UNAVAILABLE", "WiFi network not available", null)
             }
         }
 
@@ -81,6 +82,7 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun unbindProcess(result: MethodChannel.Result) {
+        val safeResult = SafeResult(result)
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 connectivityManager?.bindProcessToNetwork(null)
@@ -99,9 +101,53 @@ class MainActivity : FlutterActivity() {
             }
             
             boundNetwork = null
-            result.success(true)
+            safeResult.success(true)
         } catch (e: Exception) {
-            result.error("UNBIND_FAILED", e.message, null)
+            safeResult.error("UNBIND_FAILED", e.message, null)
+        }
+    }
+
+    /**
+     * A wrapper for MethodChannel.Result that ensures each result is only called once.
+     * This prevents "java.lang.IllegalStateException: Reply already submitted" errors
+     * if a callback (like ConnectivityManager.NetworkCallback) triggers multiple times.
+     */
+    private class SafeResult(private val result: MethodChannel.Result) : MethodChannel.Result {
+        private var hasReplied = false
+
+        override fun success(any: Any?) {
+            runOnUiThread {
+                if (!hasReplied) {
+                    hasReplied = true
+                    result.success(any)
+                }
+            }
+        }
+
+        override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+            runOnUiThread {
+                if (!hasReplied) {
+                    hasReplied = true
+                    result.error(errorCode, errorMessage, errorDetails)
+                }
+            }
+        }
+
+        override fun notImplemented() {
+            runOnUiThread {
+                if (!hasReplied) {
+                    hasReplied = true
+                    result.notImplemented()
+                }
+            }
+        }
+
+        private fun runOnUiThread(action: () -> Unit) {
+            if (android.os.Looper.myLooper() == android.os.Looper.getMainLooper()) {
+                action()
+            } else {
+                android.os.Handler(android.os.Looper.getMainLooper()).post(action)
+            }
         }
     }
 }
