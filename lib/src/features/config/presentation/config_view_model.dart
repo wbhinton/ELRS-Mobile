@@ -60,9 +60,11 @@ class ConfigViewModel extends _$ConfigViewModel {
   Future<void> setManualIp(String ip) async {
     _manualIp = ip;
     final storage = await ref.read(persistenceServiceProvider.future);
+    if (!ref.mounted) return;
     await storage.saveManualIp(ip);
 
     // Explicitly transition to loading
+    if (!ref.mounted) return;
     state = const AsyncValue.loading();
     try {
       await fetchConfig(ip);
@@ -113,11 +115,15 @@ class ConfigViewModel extends _$ConfigViewModel {
         }),
       );
 
+      if (!ref.mounted) return;
+
       // A device was successfully found concurrently
       _probeIp = successfulIp;
       _missedHeartbeats = 0; // Reset on any success
       await _refreshConfig(successfulIp);
     } catch (e) {
+      if (!ref.mounted) return;
+
       // If we reach here, no device was found on any priority IP
       _missedHeartbeats++;
 
@@ -138,23 +144,28 @@ class ConfigViewModel extends _$ConfigViewModel {
     final service = ref.read(deviceConfigServiceProvider);
     try {
       final config = await service.fetchConfig(ip);
+      if (!ref.mounted) return;
+
       // Sync centralized IP with Dashboard
       ref.read(targetIpProvider.notifier).updateIp(ip);
       state = AsyncValue.data(config.copyWith(activeIp: ip));
     } catch (e) {
+      if (!ref.mounted) return;
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
   Future<void> fetchConfig(String ip) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final result = await AsyncValue.guard(() async {
       final service = ref.read(deviceConfigServiceProvider);
       final config = await service.fetchConfig(ip);
-      // Synchronize centralized IP state with Dashboard
       ref.read(targetIpProvider.notifier).updateIp(ip);
       return config.copyWith(activeIp: ip);
     });
+    if (ref.mounted) {
+      state = result;
+    }
   }
 
   Future<void> updateWifiSsid(String ip, String ssid) async {
@@ -166,6 +177,7 @@ class ConfigViewModel extends _$ConfigViewModel {
     final updatedOptions = ElrsOptions.fromJson(json);
 
     await _saveOptions(ip, json);
+    if (!ref.mounted) return;
 
     state = AsyncValue.data(currentConfig.copyWith(options: updatedOptions));
   }
@@ -179,6 +191,7 @@ class ConfigViewModel extends _$ConfigViewModel {
     final updatedOptions = ElrsOptions.fromJson(json);
 
     await _saveOptions(ip, json);
+    if (!ref.mounted) return;
 
     state = AsyncValue.data(currentConfig.copyWith(options: updatedOptions));
   }
@@ -192,6 +205,7 @@ class ConfigViewModel extends _$ConfigViewModel {
     final updatedOptions = ElrsOptions.fromJson(json);
 
     await _saveOptions(ip, json);
+    if (!ref.mounted) return;
 
     state = AsyncValue.data(currentConfig.copyWith(options: updatedOptions));
   }
