@@ -134,23 +134,10 @@ jobs:
           echo "${{ secrets.P12_BASE64 }}" | base64 --decode > $RUNNER_TEMP/dist.p12
           security import $RUNNER_TEMP/dist.p12 -k $KEYCHAIN_PATH -P "${{ secrets.P12_PASSWORD }}" -A -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | sed 's/\"//g')
 
           # 3. Import provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
-          
-          # Diagnostic: Show the actual name and UUID of the profile
-          echo "Checking profile details..."
-          export PROV_PATH=~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
-          PROV_NAME=$(grep -aA1 "Name" "$PROV_PATH" | grep "<string>" | sed -e 's/<string>//' -e 's/<\/string>//' | xargs)
-          PROV_UUID=$(grep -aA1 "UUID" "$PROV_PATH" | grep "<string>" | sed -e 's/<string>//' -e 's/<\/string>//' | xargs)
-          echo "Profile Name: $PROV_NAME"
-          echo "Profile UUID: $PROV_UUID"
-          
-          # Diagnostic: Show identities in the keychain
-          echo "Installed Identities:"
-          security find-identity -v -p codesigning $KEYCHAIN_PATH
 
       - name: Build IPA
         run: |
