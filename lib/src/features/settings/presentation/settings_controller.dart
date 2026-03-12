@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../core/storage/persistence_service.dart';
+import '../../../core/utils/validation_utils.dart';
 
 part 'settings_controller.freezed.dart';
 part 'settings_controller.g.dart';
@@ -22,6 +23,9 @@ abstract class SettingsState with _$SettingsState {
     @Default('Unknown') String appVersion,
     @Default(false) bool disclaimerAccepted,
     @Default(false) bool isLoaded,
+    String? bindPhraseError,
+    String? wifiSsidError,
+    String? wifiPasswordError,
   }) = _SettingsState;
 }
 
@@ -79,21 +83,34 @@ class SettingsController extends _$SettingsController {
   }
 
   Future<void> setGlobalBindPhrase(String value) async {
-    final persistence = await ref.read(persistenceServiceProvider.future);
-    await persistence.setBindPhrase(value);
-    state = state.copyWith(globalBindPhrase: value);
+    final error = ValidationUtils.validateBindPhrase(value);
+    state = state.copyWith(globalBindPhrase: value, bindPhraseError: error);
+    if (error == null) {
+      final persistence = await ref.read(persistenceServiceProvider.future);
+      await persistence.setBindPhrase(value);
+    }
   }
 
   Future<void> setHomeWifiSsid(String value) async {
-    final persistence = await ref.read(persistenceServiceProvider.future);
-    await persistence.setWifiSsid(value);
-    state = state.copyWith(homeWifiSsid: value);
+    final error = ValidationUtils.validateSsid(value);
+    state = state.copyWith(homeWifiSsid: value, wifiSsidError: error);
+    if (error == null) {
+      final persistence = await ref.read(persistenceServiceProvider.future);
+      await persistence.setWifiSsid(value);
+    }
   }
 
   Future<void> setHomeWifiPassword(String value) async {
-    final persistence = await ref.read(persistenceServiceProvider.future);
-    await persistence.setWifiPassword(value);
-    state = state.copyWith(homeWifiPassword: value);
+    final error = ValidationUtils.validatePassword(value);
+    state = state.copyWith(homeWifiPassword: value, wifiPasswordError: error);
+    if (error == null || value.isEmpty) {
+      // Allow persisting empty (open network)
+      final persistence = await ref.read(persistenceServiceProvider.future);
+      await persistence.setWifiPassword(value);
+      if (value.isEmpty) {
+        state = state.copyWith(wifiPasswordError: null);
+      }
+    }
   }
 
   Future<void> setMaxCachedVersions(int value) async {

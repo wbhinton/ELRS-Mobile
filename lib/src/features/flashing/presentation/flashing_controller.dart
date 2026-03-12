@@ -18,7 +18,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
-import '../../settings/presentation/settings_controller.dart';
+import '../../settings/presentation/settings_controller.dart' hide Default;
+import '../../../core/utils/validation_utils.dart';
 
 import '../state/flashing_provider.dart';
 import '../../../core/networking/connectivity_service.dart';
@@ -53,6 +54,9 @@ abstract class FlashingState with _$FlashingState {
     @Default('') String wifiPassword,
     @Default(0) int regulatoryDomain,
     String? autosavingField,
+    String? bindPhraseError,
+    String? wifiSsidError,
+    String? wifiPasswordError,
   }) = _FlashingState;
 }
 
@@ -126,24 +130,36 @@ class FlashingController extends _$FlashingController {
   }
 
   Future<void> setBindPhrase(String value) async {
-    state = state.copyWith(bindPhrase: value);
-    final persistence = await ref.read(persistenceServiceProvider.future);
-    await persistence.setBindPhrase(value);
-    _triggerAutosaveFeedback('bindPhrase');
+    final error = ValidationUtils.validateBindPhrase(value);
+    state = state.copyWith(bindPhrase: value, bindPhraseError: error);
+    if (error == null) {
+      final persistence = await ref.read(persistenceServiceProvider.future);
+      await persistence.setBindPhrase(value);
+      _triggerAutosaveFeedback('bindPhrase');
+    }
   }
 
   Future<void> setWifiSsid(String value) async {
-    state = state.copyWith(wifiSsid: value);
-    final persistence = await ref.read(persistenceServiceProvider.future);
-    await persistence.setWifiSsid(value);
-    _triggerAutosaveFeedback('wifiSsid');
+    final error = ValidationUtils.validateSsid(value);
+    state = state.copyWith(wifiSsid: value, wifiSsidError: error);
+    if (error == null) {
+      final persistence = await ref.read(persistenceServiceProvider.future);
+      await persistence.setWifiSsid(value);
+      _triggerAutosaveFeedback('wifiSsid');
+    }
   }
 
   Future<void> setWifiPassword(String value) async {
-    state = state.copyWith(wifiPassword: value);
-    final persistence = await ref.read(persistenceServiceProvider.future);
-    await persistence.setWifiPassword(value);
-    _triggerAutosaveFeedback('wifiPassword');
+    final error = ValidationUtils.validatePassword(value);
+    state = state.copyWith(wifiPassword: value, wifiPasswordError: error);
+    if (error == null || value.isEmpty) {
+      final persistence = await ref.read(persistenceServiceProvider.future);
+      await persistence.setWifiPassword(value);
+      _triggerAutosaveFeedback('wifiPassword');
+      if (value.isEmpty) {
+        state = state.copyWith(wifiPasswordError: null);
+      }
+    }
   }
 
   Future<void> setRegulatoryDomain(int id) async {

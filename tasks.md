@@ -7,7 +7,7 @@ The app has a solid foundation (Flutter, Clean Architecture, Riverpod), but seve
 
 | Priority | Recommendation | Estimated Effort | Status |
 | :--- | :--- | :--- | :--- |
-| **Critical** | Implement firmware cache eviction | 4-6 hrs | [ ] |
+| **Critical** | Implement firmware cache eviction | 4-6 hrs | [/] |
 | **Critical** | Fix WebView JS vulnerability | 30 min | [x] |
 | **Critical** | Implement encrypted credential storage | 2 hrs | [x] |
 | **High** | Replace `print()` with structured logging | 2-3 hrs | [ ] |
@@ -15,7 +15,7 @@ The app has a solid foundation (Flutter, Clean Architecture, Riverpod), but seve
 | **High** | Remove debug firmware artifacts | 10 min | [x] |
 | **Medium** | Optimize heartbeat logic | 3-4 hrs | [ ] |
 | **Medium** | Move binary patching to Isolates | 4-6 hrs | [ ] |
-| **Medium** | Add input validation (SSID/Password) | 2 hrs | [ ] |
+| **Medium** | Add input validation (SSID/Password) | 2 hrs | [x] |
 
 ---
 
