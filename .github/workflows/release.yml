@@ -35,7 +35,9 @@ jobs:
 
       - name: Build APK and App Bundle
         run: |
-          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          # Use numeric version for Store, full tag for filename
+          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//' | cut -d'-' -f1)
+          DISPLAY_VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           BUILD_NUMBER=${{ github.run_number }}
           printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
           flutter build apk --release \
@@ -141,7 +143,8 @@ jobs:
 
       - name: Build IPA
         run: |
-          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          # Use numeric version (e.g. 1.0.13) for App Store compatibility
+          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//' | cut -d'-' -f1)
           BUILD_NUMBER=${{ github.run_number }}
           
           # Build IPA and export for App Store
