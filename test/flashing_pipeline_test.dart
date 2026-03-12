@@ -87,9 +87,10 @@ void main() {
     when(() => mockCache.getZipFile(any())).thenAnswer((_) async => null);
 
     // Default stubs for storage to avoid errors during controller init/save
-    when(() => mockStorage.getBindPhrase()).thenReturn('');
-    when(() => mockStorage.getWifiSsid()).thenReturn('');
-    when(() => mockStorage.getWifiPassword()).thenReturn('');
+    when(() => mockStorage.migrateIfNeeded()).thenAnswer((_) async {});
+    when(() => mockStorage.getBindPhrase()).thenAnswer((_) async => '');
+    when(() => mockStorage.getWifiSsid()).thenAnswer((_) async => '');
+    when(() => mockStorage.getWifiPassword()).thenAnswer((_) async => '');
 
     when(() => mockStorage.setBindPhrase(any())).thenAnswer((_) async {});
     when(() => mockStorage.setWifiSsid(any())).thenAnswer((_) async {});

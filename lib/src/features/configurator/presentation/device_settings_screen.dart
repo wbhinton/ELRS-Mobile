@@ -8,7 +8,8 @@ class DeviceSettingsScreen extends ConsumerStatefulWidget {
   const DeviceSettingsScreen({super.key});
 
   @override
-  ConsumerState<DeviceSettingsScreen> createState() => _DeviceSettingsScreenState();
+  ConsumerState<DeviceSettingsScreen> createState() =>
+      _DeviceSettingsScreenState();
 }
 
 class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
@@ -18,15 +19,28 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     // Fallback to default ELRS IP if not found
     final ip = ref.read(configViewModelProvider.notifier).probeIp ?? '10.0.0.1';
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(const Color(0xFF121212)) // ELRS dark theme background match
+      ..setBackgroundColor(
+        const Color(0xFF121212),
+      ) // ELRS dark theme background match
       ..setNavigationDelegate(
         NavigationDelegate(
+          onNavigationRequest: (NavigationRequest request) {
+            // Only allow navigation to themes/pages on the local device IP
+            final uri = Uri.parse(request.url);
+            if (uri.host == ip) {
+              return NavigationDecision.navigate;
+            }
+            debugPrint(
+              'Blocked external navigation in Config WebView: ${request.url}',
+            );
+            return NavigationDecision.prevent;
+          },
           onPageFinished: (String url) {
             if (mounted) {
               setState(() {

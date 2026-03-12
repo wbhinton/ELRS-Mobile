@@ -10,7 +10,6 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
@@ -19,7 +18,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 import '../../config/domain/runtime_config_model.dart';
 import '../utils/firmware_assembler.dart';
-import 'package:path_provider/path_provider.dart';
 
 part 'device_repository.g.dart';
 
@@ -140,20 +138,6 @@ class DeviceRepository {
       if (!filenameToUpload.endsWith('.bin')) filenameToUpload += '.bin';
 
       print('Unified Firmware Built. Size: ${dataToUpload.length} bytes');
-
-      // --- FORENSIC DEBUG: Save to Documents Directory ---
-      try {
-        final directory = await getApplicationDocumentsDirectory();
-        final debugFile = File('${directory.path}/generated_er8.bin');
-        await debugFile.writeAsBytes(dataToUpload);
-        print('I/flutter: DEBUG: Firmware saved to: ${debugFile.path}');
-        print(
-          'I/flutter: TIP: Run \'open "${directory.path}"\' in your terminal to see the file.',
-        );
-      } catch (e) {
-        print('Warning: Failed to save debug firmware file: $e');
-      }
-      // --------------------------------------------------
     } else {
       dataToUpload = firmwareData;
       filenameToUpload = filename;

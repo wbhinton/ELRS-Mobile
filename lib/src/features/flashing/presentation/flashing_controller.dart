@@ -85,9 +85,9 @@ class FlashingController extends _$FlashingController {
 
   Future<void> loadSavedOptions() async {
     final persistence = await ref.read(persistenceServiceProvider.future);
-    final bindPhrase = persistence.getBindPhrase();
-    final wifiSsid = persistence.getWifiSsid();
-    final wifiPassword = persistence.getWifiPassword();
+    final bindPhrase = await persistence.getBindPhrase();
+    final wifiSsid = await persistence.getWifiSsid();
+    final wifiPassword = await persistence.getWifiPassword();
 
     state = state.copyWith(
       bindPhrase: bindPhrase,
@@ -409,7 +409,7 @@ class FlashingController extends _$FlashingController {
     // Flash Guard: Check binding phrase
     if (state.bindPhrase.isEmpty && !ignoreMissingBindPhrase) {
       final persistence = await ref.read(persistenceServiceProvider.future);
-      final savedBindPhrase = persistence.getBindPhrase();
+      final savedBindPhrase = await persistence.getBindPhrase();
 
       if (savedBindPhrase.isEmpty) {
         state = state.copyWith(

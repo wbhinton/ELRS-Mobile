@@ -8,11 +8,11 @@ The app has a solid foundation (Flutter, Clean Architecture, Riverpod), but seve
 | Priority | Recommendation | Estimated Effort | Status |
 | :--- | :--- | :--- | :--- |
 | **Critical** | Implement firmware cache eviction | 4-6 hrs | [ ] |
-| **Critical** | Fix WebView JS vulnerability | 30 min | [ ] |
-| **Critical** | Implement encrypted credential storage | 2 hrs | [ ] |
+| **Critical** | Fix WebView JS vulnerability | 30 min | [x] |
+| **Critical** | Implement encrypted credential storage | 2 hrs | [x] |
 | **High** | Replace `print()` with structured logging | 2-3 hrs | [ ] |
 | **High** | Fix mDNS fallback (Dead Timer) | 1-2 hrs | [ ] |
-| **High** | Remove debug firmware artifacts | 10 min | [ ] |
+| **High** | Remove debug firmware artifacts | 10 min | [x] |
 | **Medium** | Optimize heartbeat logic | 3-4 hrs | [ ] |
 | **Medium** | Move binary patching to Isolates | 4-6 hrs | [ ] |
 | **Medium** | Add input validation (SSID/Password) | 2 hrs | [ ] |
@@ -35,7 +35,7 @@ The app has a solid foundation (Flutter, Clean Architecture, Riverpod), but seve
 
 ### 4. Remove Debug Firmware Artifacts
 *   **Analysis**: `device_repository.dart` contains code that saves a binary file to the `Documents` directory on every build.
-*   **Antigravity's Take**: **Housekeeping**. This was useful for early development of the Unified Builder but is now just a hidden storage leak for users.
+*   **Antigravity's Take**: **Fixed**. Removed legacy debug code from `DeviceRepository` to prevent credential exposure.
 
 ### 5. Optimize Heartbeat Logic
 *   **Analysis**: The current heartbeat in `ConfigViewModel` is functional but "chatty".
@@ -53,15 +53,15 @@ RP1/OpenCode performed a security audit identifying several critical blockers fo
 
 ### 1. Unrestricted WebView JavaScript
 *   **Analysis**: `device_settings_screen.dart` uses `JavaScriptMode.unrestricted`.
-*   **Antigravity's Take**: **Blocker**. While ELRS Web UIs often require JS, we should ideally restrict the WebView to only load from local device IPs (`10.0.0.1` or the discovered IP) and implement a `NavigationDelegate` to block any external URL loading.
+*   **Antigravity's Take**: **Fixed**. Implemented `NavigationDelegate` to restrict WebView navigation to local device IPs only.
 
 ### 2. Unencrypted Credential Storage
 *   **Analysis**: WiFi passwords and Binding Phrases are stored in plain text in `SharedPreferences`.
-*   **Antigravity's Take**: **Blocker**. We should migrate to `flutter_secure_storage`. This ensures credentials are stored in the iOS Keychain or Android EncryptedSharedPreferences, preventing other apps or rooted users from easily scraping them.
+*   **Antigravity's Take**: **Fixed**. Migrated sensitive credentials to `flutter_secure_storage` with auto-migration from older versions.
 
 ### 3. Debug Firmware Write
 *   **Analysis**: The app writes a binary file containing user credentials to the public `Documents` directory.
-*   **Antigravity's Take**: **High Priority**. I've marked this to be removed immediately. It's a "leftover" from debugging that leaks the user's binding phrase and WiFi password into a file on the device storage.
+*   **Antigravity's Take**: **Fixed**. Forensic write logic has been entirely removed from the codebase.
 
 ### 4. Input Validation & Cryptography
 *   **Analysis**: Missing validation on user inputs and use of MD5.

@@ -13,7 +13,10 @@ class MockPersistenceService implements PersistenceService {
   }
 
   @override
-  String getBindPhrase() => _storage['bindPhrase'] ?? '';
+  Future<void> migrateIfNeeded() async {}
+
+  @override
+  Future<String> getBindPhrase() async => _storage['bindPhrase'] ?? '';
 
   @override
   Future<void> setWifiSsid(String value) async {
@@ -21,7 +24,7 @@ class MockPersistenceService implements PersistenceService {
   }
 
   @override
-  String getWifiSsid() => _storage['wifiSsid'] ?? '';
+  Future<String> getWifiSsid() async => _storage['wifiSsid'] ?? '';
 
   @override
   Future<void> setWifiPassword(String value) async {
@@ -29,7 +32,7 @@ class MockPersistenceService implements PersistenceService {
   }
 
   @override
-  String getWifiPassword() => _storage['wifiPassword'] ?? '';
+  Future<String> getWifiPassword() async => _storage['wifiPassword'] ?? '';
 
   @override
   Future<void> saveManualIp(String ip) async {
@@ -114,7 +117,7 @@ void main() {
     // To properly verify async side-effects that are fire-and-forget, we need to ensure the event loop processes it.
     await Future.delayed(Duration.zero);
 
-    final loaded = mockStorage.getBindPhrase();
+    final loaded = await mockStorage.getBindPhrase();
     expect(loaded, equals('new_secret'));
   });
 }
