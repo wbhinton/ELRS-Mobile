@@ -15,7 +15,7 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>io.datarx.elrsmobile</key>
-		<string>distribution</string>
+		<string>ELRS Mobile ELRS-Mobile Weston Hinton</string>
 	</dict>
 </dict>
 </plist>
