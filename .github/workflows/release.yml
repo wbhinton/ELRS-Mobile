@@ -35,9 +35,9 @@ jobs:
 
       - name: Build APK and App Bundle
         run: |
-          # Use numeric version for Store, full tag for filename
-          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//' | cut -d'-' -f1)
-          DISPLAY_VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+      - name: Build APK and App Bundle
+        run: |
+          VERSION=$(echo "${{ github.ref_name }}"| sed 's/^v//')
           BUILD_NUMBER=${{ github.run_number }}
           printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
           flutter build apk --release \
@@ -140,11 +140,19 @@ jobs:
           # 3. Import provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
+          
+          # Add keychain to search list (CRITICAL for codesign)
+          security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | sed 's/\"//g')
+          
+          # Diagnostic: Check visibility
+          echo "Installed Identities:"
+          security find-identity -v -p codesigning $KEYCHAIN_PATH
 
       - name: Build IPA
         run: |
-          # Use numeric version (e.g. 1.0.13) for App Store compatibility
-          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//' | cut -d'-' -f1)
+      - name: Build IPA
+        run: |
+          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           BUILD_NUMBER=${{ github.run_number }}
           
           # Build IPA and export for App Store
