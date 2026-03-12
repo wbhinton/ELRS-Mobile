@@ -4,8 +4,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import '../../../core/presentation/responsive_layout.dart';
 import 'disclaimer_dialog.dart';
 import 'settings_controller.dart';
+import 'widgets/settings_master_detail.dart';
 
 class SettingsScreen extends HookConsumerWidget {
   const SettingsScreen({super.key});
@@ -14,8 +16,8 @@ class SettingsScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.read(settingsControllerProvider.notifier);
     final state = ref.watch(settingsControllerProvider);
-    final showBindPhrase = useState(false);
-    final showWifiPassword = useState(false);
+    final showBindPhrase = useValueNotifier(false);
+    final showWifiPassword = useValueNotifier(false);
 
     useEffect(() {
       Future.microtask(() => controller.loadSettings());
@@ -24,298 +26,372 @@ class SettingsScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
-      body: ListView(
-        children: [
-          _buildSectionHeader(context, 'Flashing Defaults'),
-          ListTile(
-            title: const Text('Default 2.4GHz Domain'),
-            subtitle: Text(_getDomainLabel2400(state.defaultDomain2400)),
-            trailing: DropdownButton<int>(
-              value: state.defaultDomain2400,
-              onChanged: (val) {
-                if (val != null) controller.setDefaultDomain2400(val);
-              },
-              items: const [
-                DropdownMenuItem(value: 0, child: Text('ISM')),
-                DropdownMenuItem(value: 1, child: Text('EU CE LBT')),
-              ],
+      body: SettingsMasterDetail(
+        masterBuilder: (context, selected, onSelected) => ListView(
+          children: [
+            _buildSidebarItem(
+              context,
+              icon: Icons.flash_on,
+              title: 'Flashing & WiFi',
+              selected: selected == SettingsCategory.flashing,
+              onTap: () => onSelected(SettingsCategory.flashing),
             ),
-          ),
-          ListTile(
-            title: const Text('Default Sub-GHz Domain'),
-            subtitle: Text(_getDomainLabel900(state.defaultDomain900)),
-            trailing: DropdownButton<int>(
-              value: state.defaultDomain900,
-              onChanged: (val) {
-                if (val != null) controller.setDefaultDomain900(val);
-              },
-              items: const [
-                DropdownMenuItem(value: 0, child: Text('AU915')),
-                DropdownMenuItem(value: 1, child: Text('FCC915')),
-                DropdownMenuItem(value: 2, child: Text('EU868')),
-                DropdownMenuItem(value: 3, child: Text('IN866')),
-                DropdownMenuItem(value: 4, child: Text('AU433')),
-                DropdownMenuItem(value: 5, child: Text('EU433')),
-                DropdownMenuItem(value: 6, child: Text('US433')),
-              ],
+            _buildSidebarItem(
+              context,
+              icon: Icons.info_outline,
+              title: 'About & Support',
+              selected: selected == SettingsCategory.about,
+              onTap: () => onSelected(SettingsCategory.about),
             ),
-          ),
-
-          _buildEditDialogTile(
-            context,
-            title: 'Global Binding Phrase',
-            subtitle: state.globalBindPhrase.isEmpty
-                ? 'Not set'
-                : (showBindPhrase.value ? state.globalBindPhrase : '••••••••'),
-            currentValue: state.globalBindPhrase,
-            onSaved: (val) => controller.setGlobalBindPhrase(val),
-            isSecret: true,
-            isVisibleNotifier: showBindPhrase,
-          ),
-          _buildEditDialogTile(
-            context,
-            title: 'Home WiFi SSID',
-            subtitle: state.homeWifiSsid.isEmpty
-                ? 'Not set'
-                : state.homeWifiSsid,
-            currentValue: state.homeWifiSsid,
-            onSaved: (val) => controller.setHomeWifiSsid(val),
-          ),
-          _buildEditDialogTile(
-            context,
-            title: 'Home WiFi Password',
-            subtitle: state.homeWifiPassword.isEmpty
-                ? 'Not set'
-                : (showWifiPassword.value
-                      ? state.homeWifiPassword
-                      : '••••••••'),
-            currentValue: state.homeWifiPassword,
-            onSaved: (val) => controller.setHomeWifiPassword(val),
-            isSecret: true,
-            isVisibleNotifier: showWifiPassword,
-          ),
-
-          ListTile(
-            title: const Text('Manage Cached Firmware'),
-            subtitle: const Text('Download or delete offline firmware'),
-            leading: const Icon(Icons.sd_storage),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () => context.push('/firmware_manager'),
-          ),
-
-          ListTile(
-            title: const Text('Max Cached Versions'),
-            subtitle: Text('${state.maxCachedVersions} versions'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.remove),
-                  onPressed: state.maxCachedVersions > 1
-                      ? () => controller.setMaxCachedVersions(
-                          state.maxCachedVersions - 1,
-                        )
-                      : null,
-                ),
-                Text(
-                  '${state.maxCachedVersions}',
-                  style: const TextStyle(fontSize: 18),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: state.maxCachedVersions < 10
-                      ? () => controller.setMaxCachedVersions(
-                          state.maxCachedVersions + 1,
-                        )
-                      : null,
-                ),
-              ],
+            _buildSidebarItem(
+              context,
+              icon: Icons.settings_suggest,
+              title: 'Advanced',
+              selected: selected == SettingsCategory.advanced,
+              onTap: () => onSelected(SettingsCategory.advanced),
             ),
-          ),
+          ],
+        ),
+        detailBuilder: (context, selected) {
+          final isTablet = ResponsiveLayout.isTablet(context);
 
-          _buildSectionHeader(context, 'About'),
-          ListTile(
-            title: const Text('App Version'),
-            subtitle: Text(state.appVersion),
-            leading: const Icon(Icons.info_outline),
-          ),
-          ListTile(
-            title: const Text('GitHub Repository'),
-            subtitle: const Text('https://github.com/wbhinton/ELRS-Mobile'),
-            leading: const Icon(Icons.code),
-            onTap: () => _launchUrl('https://github.com/wbhinton/ELRS-Mobile'),
-          ),
-          ListTile(
-            title: const Text('Discord Community'),
-            subtitle: const Text('Join the ELRS Discord'),
-            leading: const Icon(Icons.chat),
-            onTap: () => _launchUrl('https://discord.gg/expresslrs'),
-          ),
-          ListTile(
-            title: const Text('Legal & License'),
-            subtitle: const Text('Standard disclaimer and GPLv3 License'),
-            leading: const Icon(Icons.gavel_outlined),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () => context.push('/legal'),
-          ),
-          ExpansionTile(
-            leading: const Icon(
-              Icons.warning_amber_rounded,
-              color: Colors.amber,
+          return ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: isTablet ? 32.0 : 0.0,
+              vertical: 8.0,
             ),
-            title: const Text('Disclaimer & Liability'),
-            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             children: [
-              const Text(
-                'ELRS Mobile is provided as-is, without warranty of any kind. '
-                'The developers are not responsible for any damage, data loss, or '
-                'non-functional hardware resulting from the use of this application, '
-                'including but not limited to bricked receivers, transmitters, or '
-                'flight controllers.\n\n'
-                'By using this app you accept full responsibility for your hardware.',
-                style: TextStyle(height: 1.5),
-              ),
-              const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                  icon: const Icon(Icons.open_in_new, size: 16),
-                  label: const Text('View Full Disclaimer'),
-                  onPressed: () => showDisclaimerDialog(
-                    context,
-                    ref,
-                    barrierDismissible: true,
+              if (!isTablet || selected == SettingsCategory.flashing) ...[
+                _buildSectionHeader(context, 'Flashing Defaults'),
+                ListTile(
+                  title: const Text('Default 2.4GHz Domain'),
+                  subtitle: Text(_getDomainLabel2400(state.defaultDomain2400)),
+                  trailing: DropdownButton<int>(
+                    value: state.defaultDomain2400,
+                    onChanged: (val) {
+                      if (val != null) controller.setDefaultDomain2400(val);
+                    },
+                    items: const [
+                      DropdownMenuItem(value: 0, child: Text('ISM')),
+                      DropdownMenuItem(value: 1, child: Text('EU CE LBT')),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-          ExpansionTile(
-            leading: const Icon(
-              Icons.build_circle_outlined,
-              color: Colors.orange,
-            ),
-            title: const Text('Flash Recovery Instructions'),
-            subtitle: const Text('What to do if a flash fails'),
-            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            children: [
-              const Text(
-                'If your device appears unresponsive after a failed flash:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const _RecoveryStep(
-                number: '1',
-                text:
-                    'Hold the BOOT button while plugging in via USB to enter bootloader mode.',
-              ),
-              const _RecoveryStep(
-                number: '2',
-                text:
-                    'Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.',
-              ),
-              const _RecoveryStep(
-                number: '3',
-                text:
-                    'For WiFi-capable devices, hold BOOT for 60 s to trigger WiFi Hotspot recovery mode.',
-              ),
-              const _RecoveryStep(
-                number: '4',
-                text:
-                    'Join #help on the ELRS Discord — the community can usually recover any device.',
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Joshua Bardwell\'s "The easiest way to unbrick an ELRS receiver" video is highly recommended:',
-                style: TextStyle(fontSize: 13, fontStyle: FontStyle.italic),
-              ),
-              const SizedBox(height: 8),
-              Wrap(
-                spacing: 8,
-                children: [
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.open_in_new, size: 16),
-                    label: const Text('Web Flasher'),
-                    onPressed: () =>
-                        _launchUrl('https://expresslrs.github.io/web-flasher/'),
+                ListTile(
+                  title: const Text('Default Sub-GHz Domain'),
+                  subtitle: Text(_getDomainLabel900(state.defaultDomain900)),
+                  trailing: DropdownButton<int>(
+                    value: state.defaultDomain900,
+                    onChanged: (val) {
+                      if (val != null) controller.setDefaultDomain900(val);
+                    },
+                    items: const [
+                      DropdownMenuItem(value: 0, child: Text('AU915')),
+                      DropdownMenuItem(value: 1, child: Text('FCC915')),
+                      DropdownMenuItem(value: 2, child: Text('EU868')),
+                      DropdownMenuItem(value: 3, child: Text('IN866')),
+                      DropdownMenuItem(value: 4, child: Text('AU433')),
+                      DropdownMenuItem(value: 5, child: Text('EU433')),
+                      DropdownMenuItem(value: 6, child: Text('US433')),
+                    ],
                   ),
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.play_circle_outline, size: 16),
-                    label: const Text('Recovery Video'),
-                    onPressed: () => _launchUrl(
-                      'https://www.youtube.com/watch?v=TzAaYg47TSU',
+                ),
+                _buildEditDialogTile(
+                  context,
+                  title: 'Global Binding Phrase',
+                  subtitle: state.globalBindPhrase.isEmpty
+                      ? 'Not set'
+                      : (showBindPhrase.value
+                            ? state.globalBindPhrase
+                            : '••••••••'),
+                  currentValue: state.globalBindPhrase,
+                  onSaved: (val) => controller.setGlobalBindPhrase(val),
+                  isSecret: true,
+                  isVisibleNotifier: showBindPhrase,
+                ),
+                _buildEditDialogTile(
+                  context,
+                  title: 'Home WiFi SSID',
+                  subtitle: state.homeWifiSsid.isEmpty
+                      ? 'Not set'
+                      : state.homeWifiSsid,
+                  currentValue: state.homeWifiSsid,
+                  onSaved: (val) => controller.setHomeWifiSsid(val),
+                ),
+                _buildEditDialogTile(
+                  context,
+                  title: 'Home WiFi Password',
+                  subtitle: state.homeWifiPassword.isEmpty
+                      ? 'Not set'
+                      : (showWifiPassword.value
+                            ? state.homeWifiPassword
+                            : '••••••••'),
+                  currentValue: state.homeWifiPassword,
+                  onSaved: (val) => controller.setHomeWifiPassword(val),
+                  isSecret: true,
+                  isVisibleNotifier: showWifiPassword,
+                ),
+                ListTile(
+                  title: const Text('Manage Cached Firmware'),
+                  subtitle: const Text('Download or delete offline firmware'),
+                  leading: const Icon(Icons.sd_storage),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () => context.push('/firmware_manager'),
+                ),
+                ListTile(
+                  title: const Text('Max Cached Versions'),
+                  subtitle: Text('${state.maxCachedVersions} versions'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: state.maxCachedVersions > 1
+                            ? () => controller.setMaxCachedVersions(
+                                state.maxCachedVersions - 1,
+                              )
+                            : null,
+                      ),
+                      Text(
+                        '${state.maxCachedVersions}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: state.maxCachedVersions < 10
+                            ? () => controller.setMaxCachedVersions(
+                                state.maxCachedVersions + 1,
+                              )
+                            : null,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              if (!isTablet || selected == SettingsCategory.about) ...[
+                _buildSectionHeader(context, 'About'),
+                ListTile(
+                  title: const Text('App Version'),
+                  subtitle: Text(state.appVersion),
+                  leading: const Icon(Icons.info_outline),
+                ),
+                ListTile(
+                  title: const Text('GitHub Repository'),
+                  subtitle: const Text(
+                    'https://github.com/wbhinton/ELRS-Mobile',
+                  ),
+                  leading: const Icon(Icons.code),
+                  onTap: () =>
+                      _launchUrl('https://github.com/wbhinton/ELRS-Mobile'),
+                ),
+                ListTile(
+                  title: const Text('Discord Community'),
+                  subtitle: const Text('Join the ELRS Discord'),
+                  leading: const Icon(Icons.chat),
+                  onTap: () => _launchUrl('https://discord.gg/expresslrs'),
+                ),
+                ListTile(
+                  title: const Text('Legal & License'),
+                  subtitle: const Text('Standard disclaimer and GPLv3 License'),
+                  leading: const Icon(Icons.gavel_outlined),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () => context.push('/legal'),
+                ),
+                ExpansionTile(
+                  leading: const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.amber,
+                  ),
+                  title: const Text('Disclaimer & Liability'),
+                  childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  children: [
+                    const Text(
+                      'ELRS Mobile is provided as-is, without warranty of any kind. '
+                      'The developers are not responsible for any damage, data loss, or '
+                      'non-functional hardware resulting from the use of this application, '
+                      'including but not limited to bricked receivers, transmitters, or '
+                      'flight controllers.\n\n'
+                      'By using this app you accept full responsibility for your hardware.',
+                      style: TextStyle(height: 1.5),
                     ),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton.icon(
+                        icon: const Icon(Icons.open_in_new, size: 16),
+                        label: const Text('View Full Disclaimer'),
+                        onPressed: () => showDisclaimerDialog(
+                          context,
+                          ref,
+                          barrierDismissible: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                ExpansionTile(
+                  leading: const Icon(
+                    Icons.build_circle_outlined,
+                    color: Colors.orange,
                   ),
-                  OutlinedButton.icon(
-                    icon: const Icon(Icons.chat, size: 16),
-                    label: const Text('Discord'),
-                    onPressed: () =>
-                        _launchUrl('https://discord.gg/expresslrs'),
+                  title: const Text('Flash Recovery Instructions'),
+                  subtitle: const Text('What to do if a flash fails'),
+                  childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  children: [
+                    const Text(
+                      'If your device appears unresponsive after a failed flash:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 8),
+                    const _RecoveryStep(
+                      number: '1',
+                      text:
+                          'Hold the BOOT button while plugging in via USB to enter bootloader mode.',
+                    ),
+                    const _RecoveryStep(
+                      number: '2',
+                      text:
+                          'Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.',
+                    ),
+                    const _RecoveryStep(
+                      number: '3',
+                      text:
+                          'For WiFi-capable devices, hold BOOT for 60 s to trigger WiFi Hotspot recovery mode.',
+                    ),
+                    const _RecoveryStep(
+                      number: '4',
+                      text:
+                          'Join #help on the ELRS Discord — the community can usually recover any device.',
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'Joshua Bardwell\'s "The easiest way to unbrick an ELRS receiver" video is highly recommended:',
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        OutlinedButton.icon(
+                          icon: const Icon(Icons.open_in_new, size: 16),
+                          label: const Text('Web Flasher'),
+                          onPressed: () => _launchUrl(
+                            'https://expresslrs.github.io/web-flasher/',
+                          ),
+                        ),
+                        OutlinedButton.icon(
+                          icon: const Icon(Icons.play_circle_outline, size: 16),
+                          label: const Text('Recovery Video'),
+                          onPressed: () => _launchUrl(
+                            'https://www.youtube.com/watch?v=TzAaYg47TSU',
+                          ),
+                        ),
+                        OutlinedButton.icon(
+                          icon: const Icon(Icons.chat, size: 16),
+                          label: const Text('Discord'),
+                          onPressed: () =>
+                              _launchUrl('https://discord.gg/expresslrs'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+              if (!isTablet || selected == SettingsCategory.advanced) ...[
+                if (state.developerMode) ...[
+                  _buildSectionHeader(context, 'Developer'),
+                  const ListTile(title: Text('Developer Mode Enabled')),
+                  ListTile(
+                    title: const Text('Test Sentry Error Capture'),
+                    subtitle: const Text(
+                      'Sends a test exception to Sentry — check the dashboard',
+                    ),
+                    leading: const Icon(
+                      Icons.science,
+                      color: Colors.deepPurple,
+                    ),
+                    trailing: const Icon(Icons.send),
+                    onTap: () async {
+                      final id = await Sentry.captureException(
+                        Exception('Sentry test exception — ignore'),
+                        stackTrace: StackTrace.current,
+                        withScope: (scope) => scope.setTag('test', 'true'),
+                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Sent! Event ID: ${id.toString().substring(0, 8)}…',
+                            ),
+                            backgroundColor: Colors.deepPurple,
+                            duration: const Duration(seconds: 6),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
-              ),
-            ],
-          ),
-
-          if (state.developerMode) ...[
-            _buildSectionHeader(context, 'Developer'),
-            const ListTile(title: Text('Developer Mode Enabled')),
-            ListTile(
-              title: const Text('Test Sentry Error Capture'),
-              subtitle: const Text(
-                'Sends a test exception to Sentry — check the dashboard',
-              ),
-              leading: const Icon(Icons.science, color: Colors.deepPurple),
-              trailing: const Icon(Icons.send),
-              onTap: () async {
-                final id = await Sentry.captureException(
-                  Exception('Sentry test exception — ignore'),
-                  stackTrace: StackTrace.current,
-                  withScope: (scope) => scope.setTag('test', 'true'),
-                );
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Sent! Event ID: ${id.toString().substring(0, 8)}…',
-                      ),
-                      backgroundColor: Colors.deepPurple,
-                      duration: const Duration(seconds: 6),
+                _buildSectionHeader(context, 'Advanced'),
+                SwitchListTile(
+                  title: const Text('Expert Mode'),
+                  subtitle: const Text(
+                    'Enable advanced firmware handling and downloads',
+                  ),
+                  value: state.expertMode,
+                  onChanged: (val) => controller.toggleExpertMode(),
+                ),
+                if (state.expertMode) ...[
+                  const Divider(),
+                  ListTile(
+                    title: const Text('Submit Debug Report to Sentry'),
+                    subtitle: const Text(
+                      'Help us fix bugs by sharing anonymous system logs',
                     ),
-                  );
-                }
-              },
-            ),
-          ],
-
-          _buildSectionHeader(context, 'Advanced'),
-          SwitchListTile(
-            title: const Text('Expert Mode'),
-            subtitle: const Text(
-              'Enable advanced firmware handling and downloads',
-            ),
-            value: state.expertMode,
-            onChanged: (val) => controller.toggleExpertMode(),
-          ),
-
-          if (state.expertMode) ...[
-            const Divider(),
-            ListTile(
-              title: const Text('Submit Debug Report to Sentry'),
-              subtitle: const Text(
-                'Help us fix bugs by sharing anonymous system logs',
-              ),
-              leading: const Icon(Icons.bug_report, color: Colors.orange),
-              trailing: const Icon(Icons.send),
-              onTap: () => _showPrivacyGuard(context, state),
-            ),
-          ],
-        ],
+                    leading: const Icon(Icons.bug_report, color: Colors.orange),
+                    trailing: const Icon(Icons.send),
+                    onTap: () => _showPrivacyGuard(context, state, ref),
+                  ),
+                ],
+              ],
+            ],
+          );
+        },
       ),
     );
   }
 
-  void _showPrivacyGuard(BuildContext context, SettingsState state) {
+  Widget _buildSidebarItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: selected ? Theme.of(context).colorScheme.primary : null,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+          color: selected ? Theme.of(context).colorScheme.primary : null,
+        ),
+      ),
+      selected: selected,
+      onTap: onTap,
+    );
+  }
+
+  void _showPrivacyGuard(
+    BuildContext context,
+    SettingsState state,
+    WidgetRef ref,
+  ) {
     final descController = TextEditingController();
     showDialog(
       context: context,
@@ -349,7 +425,7 @@ class SettingsScreen extends HookConsumerWidget {
             onPressed: () async {
               final desc = descController.text.trim();
               Navigator.pop(context);
-              _submitReport(context, state, desc);
+              _submitReport(context, state, desc, ref);
             },
             child: const Text('Proceed'),
           ),
@@ -362,6 +438,7 @@ class SettingsScreen extends HookConsumerWidget {
     BuildContext context,
     SettingsState state,
     String description,
+    WidgetRef ref,
   ) async {
     // Track whether user cancelled so we don't pop an already-popped dialog.
     var dialogDismissed = false;
@@ -514,15 +591,16 @@ class SettingsScreen extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (isSecret && isVisibleNotifier != null)
-            IconButton(
-              icon: Icon(
-                isVisibleNotifier.value
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-                size: 20,
+            ValueListenableBuilder<bool>(
+              valueListenable: isVisibleNotifier,
+              builder: (context, visible, _) => IconButton(
+                icon: Icon(
+                  visible ? Icons.visibility : Icons.visibility_off,
+                  size: 20,
+                ),
+                onPressed: () =>
+                    isVisibleNotifier.value = !isVisibleNotifier.value,
               ),
-              onPressed: () =>
-                  isVisibleNotifier.value = !isVisibleNotifier.value,
             ),
           const Icon(Icons.edit, size: 20),
         ],
