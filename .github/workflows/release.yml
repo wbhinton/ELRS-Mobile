@@ -54,7 +54,7 @@ jobs:
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJsonRaw: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
           packageName: io.datarx.elrsmobile
           releaseFiles: ELRS-Mobile-${{ github.ref_name }}.aab
           track: internal
