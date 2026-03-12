@@ -57,7 +57,7 @@ jobs:
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
           packageName: io.datarx.elrsmobile
           releaseFiles: ELRS-Mobile-${{ github.ref_name }}.aab
           track: internal
@@ -134,10 +134,15 @@ jobs:
           echo "${{ secrets.P12_BASE64 }}" | base64 --decode > $RUNNER_TEMP/dist.p12
           security import $RUNNER_TEMP/dist.p12 -k $KEYCHAIN_PATH -P "${{ secrets.P12_PASSWORD }}" -A -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | sed 's/\"//g')
 
           # 3. Import provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
+          
+          # Diagnostic: Show the actual name of the profile (to verify against 'distribution')
+          echo "Checking profile name..."
+          grep -aA1 "Name" ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision | grep "<string>" | sed -e 's/<string>//' -e 's/<\/string>//' | xargs || true
 
       - name: Build IPA
         run: |
