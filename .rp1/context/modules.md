@@ -1,8 +1,8 @@
 # Module & Component Breakdown
 
 **Project**: ELRS (ExpressLRS) Mobile App
-**Analysis Date**: 2026-03-09
-**Modules Analyzed**: 11
+**Analysis Date**: 2026-03-12
+**Modules Analyzed**: 12
 
 ## Core Modules
 
@@ -18,6 +18,22 @@
 ```dart
 // Exports
 export 'app_theme.dart';
+```
+
+### core/presentation (`lib/src/core/presentation/`) [NEW]
+**Purpose**: Shared presentation utilities - responsive breakpoint helpers for tablet/desktop layouts
+**Complexity**: Low
+**Dependencies**: flutter
+
+**Key Components**:
+- **ResponsiveBreakpoints** (`responsive_layout.dart`): Breakpoint constants (tablet: 600, desktop: 1200, maxContentWidth: 800)
+- **ResponsiveLayout** (`responsive_layout.dart`): Widget for max-width constraint on tablets
+
+**Public Interface**:
+```dart
+// Static helpers
+ResponsiveLayout.isTablet(BuildContext)
+ResponsiveLayout.isDesktop(BuildContext)
 ```
 
 ### core/storage (`lib/src/core/storage/`)
@@ -89,10 +105,10 @@ targetIpProvider
 ### features/dashboard (`lib/src/features/dashboard/`)
 **Purpose**: Main entry screen - displays device connection status and navigation
 **Complexity**: Low
-**Dependencies**: features/settings, flutter_svg
+**Dependencies**: features/settings, flutter_svg, core/presentation
 
 **Key Components**:
-- **DashboardScreen**: Main hub with navigation cards
+- **DashboardScreen**: Main hub with navigation cards (adapts 2-col mobile, 3-col tablet)
 - **DashboardCard**: Navigation card widget
 - **HardwareStatusCard**: Device connection status
 - **ConnectionStatusBadge**: Status indicator
@@ -101,12 +117,14 @@ targetIpProvider
 ### features/settings (`lib/src/features/settings/`)
 **Purpose**: App configuration - binding phrases, WiFi credentials, developer mode
 **Complexity**: Medium
-**Dependencies**: core/storage
+**Dependencies**: core/storage, core/presentation
 
 **Key Components**:
 - **SettingsController**: Global app settings management
-- **SettingsScreen**: Settings UI with sections
+- **SettingsScreen**: Settings UI with master-detail on tablet
 - **DisclaimerDialog**: First-launch disclaimer
+- **LegalNoticeScreen** [NEW]: Legal disclaimer and GPLv3 license
+- **SettingsMasterDetail** [NEW]: Master-detail layout widget
 
 ### features/config (`lib/src/features/config/`)
 **Purpose**: Device runtime configuration - heartbeat monitoring, options management
@@ -114,7 +132,7 @@ targetIpProvider
 **Dependencies**: core/networking, core/storage, features/flashing
 
 **Key Components**:
-- **ConfigViewModel**: Heartbeat polling, config fetch/update
+- **ConfigViewModel**: Heartbeat polling, config fetch/update (added ref.mounted guards)
 - **DeviceConfigService**: HTTP client for device config
 - **RuntimeConfigModel**: Freezed model (ElrsSettings, ElrsOptions, ElrsConfig)
 - **FrequencyValidator**: Frequency validation against hardware
@@ -164,6 +182,12 @@ graph TD
     Dashboard --> Flashing
     Dashboard --> Configurator
     Dashboard --> FirmwareManager
+    Dashboard --> Presentation[core/presentation]
+    
+    Presentation --> Responsive[ResponsiveBreakpoints<br/>ResponsiveLayout]
+    
+    Settings --> Presentation
+    Settings --> MasterDetail[SettingsMasterDetail]
     
     Flashing --> Storage[core/storage]
     Flashing --> Networking
@@ -190,9 +214,10 @@ graph TD
 | features/flashing | 20 | 3,500 | High | Good |
 | core/networking | 6 | 400 | Medium | N/A |
 | core/storage | 2 | 249 | Low | N/A |
-| features/settings | 4 | 900 | Medium | Limited |
+| core/presentation | 1 | 43 | Low | N/A |
+| features/settings | 6 | 1,050 | Medium | Limited |
 | features/config | 5 | 600 | Medium | Limited |
-| features/dashboard | 5 | 250 | Low | Limited |
+| features/dashboard | 5 | 280 | Low | Limited |
 | features/firmware_manager | 2 | 300 | Low | N/A |
 | features/updates | 2 | 100 | Low | N/A |
 | core/theme | 1 | 68 | Low | N/A |
@@ -216,3 +241,5 @@ graph TD
 - **Riverpod State Management**: Code-generated providers with .g.dart
 - **Repository Pattern**: Abstracts HTTP/storage concerns
 - **Freezed Immutable States**: Immutable state classes with copyWith
+- **Responsive Layout**: Core presentation module for adaptive breakpoints
+- **Master-Detail**: Tablet-optimized settings navigation

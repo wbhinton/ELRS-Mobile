@@ -3,7 +3,7 @@
 **Type**: Single Project
 **Languages**: Dart, Flutter
 **Version**: v3.x
-**Updated**: 2026-03-09
+**Updated**: 2026-03-12
 
 ## Project Summary
 
@@ -23,9 +23,9 @@ ELRS (ExpressLRS) Mobile App is a Flutter application for flashing ExpressLRS fi
 
 | File | Lines | Load For |
 |------|-------|----------|
-| architecture.md | ~179 | System design, component relationships, data flows |
-| modules.md | ~218 | Component breakdown, module responsibilities |
-| patterns.md | ~77 | Code conventions, implementation patterns |
+| architecture.md | ~185 | System design, component relationships, data flows |
+| modules.md | ~240 | Component breakdown, module responsibilities |
+| patterns.md | ~130 | Code conventions, implementation patterns |
 | concept_map.md | ~93 | Domain terminology, business concepts |
 
 ## Task-Based Loading
@@ -49,17 +49,18 @@ Read: {{$RP1_ROOT}}/context/{filename}
 lib/src/
 ├── main.dart                    # App entry point
 ├── app.dart                     # Root widget with ProviderScope
-├── router.dart                  # GoRouter configuration
+├── router.dart                  # GoRouter configuration (+ /legal route)
 ├── bit_list.dart                # Bit-level data structure
 ├── elrs_mappings.dart           # ELRS constant mappings
 ├── core/
 │   ├── theme/app_theme.dart     # Material 3 theming
+│   ├── presentation/            # Responsive layout utilities [NEW]
 │   ├── storage/                 # Persistence & caching
 │   └── networking/              # Device discovery & HTTP
 └── features/
     ├── flashing/                # Firmware flashing (main feature)
     ├── dashboard/               # Main screen
-    ├── settings/                # App configuration
+    ├── settings/                # App configuration (+ LegalNoticeScreen [NEW])
     ├── config/                  # Device runtime config
     ├── configurator/            # Device settings UI
     ├── firmware_manager/         # Offline cache management

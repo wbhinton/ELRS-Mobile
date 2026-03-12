@@ -8,9 +8,9 @@
 
 ```mermaid
 graph TB
-    subgraph Presentation
-        UI[Flutter Widgets]
-        Router[go_router]
+    subgraph Presentation_Layer
+        Screens[SplashScreen<br/>DashboardScreen<br/>SettingsScreen<br/>LegalNoticeScreen<br/>FlashingScreen<br/>DeviceSettingsScreen<br/>FirmwareManagerScreen]
+        Router[goRouter]
     end
     
     subgraph Feature_Layer

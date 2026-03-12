@@ -1,7 +1,7 @@
 # Implementation Patterns
 
 **Project**: ELRS (ExpressLRS) Mobile App
-**Last Updated**: 2026-03-09
+**Last Updated**: 2026-03-12
 
 ## Naming & Organization
 
@@ -9,7 +9,7 @@
 **Functions**: camelCase for methods, descriptive verbs (downloadFirmware, selectVendor)
 **Imports**: absolute imports with package prefix, grouped by external/first-party/internal
 
-Evidence: `lib/src/router.dart`, `lib/src/features/flashing/domain/target_definition.dart`
+Evidence: `lib/src/router.dart`, `lib/src/features/settings/presentation/widgets/settings_master_detail.dart`
 
 ## Type & Data Modeling
 
@@ -75,3 +75,26 @@ Evidence: `lib/src/features/flashing/data/firmware_repository.dart:212-215`, `li
 
 **Plugin Pattern**: None detected
 **Hook System**: None detected
+
+## Responsive Layout Patterns (NEW)
+
+**Breakpoints**: Static constants: tablet=600, desktop=1200, maxContentWidth=800
+**Detection**: MediaQuery.of(context).size.width >= breakpoint
+**Layout Adaptation**: Conditional rendering: 2-col mobile, 3-col tablet; master-detail on tablet
+
+Evidence: `lib/src/core/presentation/responsive_layout.dart:4-26`, `lib/src/features/dashboard/presentation/dashboard_screen.dart:22`, `lib/src/features/dashboard/presentation/dashboard_screen.dart:72`
+
+## Master-Detail Pattern (NEW)
+
+**Implementation**: Stateful widget tracking selected category enum; Row layout tablet, single list mobile
+**Category Enum**: SettingsCategory enum (flashing, about, advanced) exported for navigation
+**Conditional Content**: if (!isTablet || selected == category) for conditional section rendering
+
+Evidence: `lib/src/features/settings/presentation/widgets/settings_master_detail.dart:4`, `lib/src/features/settings/presentation/widgets/settings_master_detail.dart:31-54`, `lib/src/features/settings/presentation/settings_screen.dart:64`
+
+## Widget Lifecycle: Mounted Guards (NEW)
+
+**Pattern**: if (!ref.mounted) return; placed before all async state mutations in Riverpod notifiers
+**Purpose**: Prevents state updates on disposed widgets causing setState during build errors
+
+Evidence: `lib/src/features/config/presentation/config_view_model.dart:63`, `lib/src/features/config/presentation/config_view_model.dart:67`, `lib/src/features/config/presentation/config_view_model.dart:118`, `lib/src/features/config/presentation/config_view_model.dart:125`, `lib/src/features/config/presentation/config_view_model.dart:147`
