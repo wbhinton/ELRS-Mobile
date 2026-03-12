@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../core/storage/persistence_service.dart';
+import '../../../core/storage/firmware_cache_service.dart';
 
 part 'settings_controller.freezed.dart';
 part 'settings_controller.g.dart';
@@ -100,6 +101,15 @@ class SettingsController extends _$SettingsController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('maxCachedVersions', value);
     state = state.copyWith(maxCachedVersions: value);
+
+    // Trigger immediate eviction
+    final cacheService = ref.read(firmwareCacheServiceProvider);
+    await cacheService.evictOldestVersions(value);
+  }
+
+  Future<void> clearCache() async {
+    final cacheService = ref.read(firmwareCacheServiceProvider);
+    await cacheService.clearCache();
   }
 
   Future<void> toggleExpertMode() async {

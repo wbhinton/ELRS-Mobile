@@ -1,5 +1,5 @@
 // Copyright (C) 2026  Weston Hinton [wbhinton@gmail.com]
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -47,7 +47,8 @@ class FirmwareCacheService {
         if (entity is File) {
           final filename = p.basename(entity.path);
           // Expected format: expresslrs_vX.Y.Z.zip
-          if (filename.startsWith('expresslrs_v') && filename.endsWith('.zip')) {
+          if (filename.startsWith('expresslrs_v') &&
+              filename.endsWith('.zip')) {
             final version = filename
                 .replaceFirst('expresslrs_v', '')
                 .replaceFirst('.zip', '');
@@ -115,6 +116,52 @@ class FirmwareCacheService {
     }
   }
 
+  /// Deletes all cached firmware files.
+  Future<void> clearCache() async {
+    final dirPath = await _getCacheDir();
+    final dir = Directory(dirPath);
+    if (await dir.exists()) {
+      await for (final entity in dir.list()) {
+        if (entity is File) {
+          await entity.delete();
+        }
+      }
+    }
+  }
+
+  /// Automatically evicts oldest cached versions to stay under the limit.
+  Future<void> evictOldestVersions(int maxVersions) async {
+    final dirPath = await _getCacheDir();
+    final dir = Directory(dirPath);
+    if (!await dir.exists()) return;
+
+    final versions = await getCachedVersions();
+    if (versions.length <= maxVersions) return;
+
+    // We need to sort by modification time to find the oldest.
+    // However, getCachedVersions only returns version strings.
+    // Let's list files and get their stats.
+    final List<({String version, DateTime modified})> versionStats = [];
+
+    for (final version in versions) {
+      final file = await getZipFile(version);
+      if (file != null && await file.exists()) {
+        final stat = await file.lastModified();
+        versionStats.add((version: version, modified: stat));
+      }
+    }
+
+    // Sort: Oldest first
+    versionStats.sort((a, b) => a.modified.compareTo(b.modified));
+
+    // Calculate how many to delete
+    final numToDelete = versions.length - maxVersions;
+    for (int i = 0; i < numToDelete; i++) {
+      final versionToDelete = versionStats[i].version;
+      await deleteCachedZip(versionToDelete);
+    }
+  }
+
   /// Returns total cache size in Megabytes.
   Future<double> getCacheSizeMb() async {
     final dirPath = await _getCacheDir();
@@ -143,13 +190,14 @@ class FirmwareCacheService {
   Future<String?> getCachedTargetJson(String version) async {
     final prefs = await SharedPreferences.getInstance();
     // Try specific version first, then latest
-    return prefs.getString('targets_$version') ?? prefs.getString('targets_latest');
+    return prefs.getString('targets_$version') ??
+        prefs.getString('targets_latest');
   }
 
-  /// Extracts the base hardware layout from the cached hardware.zip and merges it 
+  /// Extracts the base hardware layout from the cached hardware.zip and merges it
   /// with any overlay provided in the target config.
   Future<Map<String, dynamic>> getMergedHardwareLayout(
-    String version, 
+    String version,
     Map<String, dynamic> targetConfig,
   ) async {
     // 1. Get cached hardware zip
@@ -166,11 +214,11 @@ class FirmwareCacheService {
 
     final bytes = await zipFile.readAsBytes();
     final archive = ZipDecoder().decodeBytes(bytes);
-    
+
     // Find the layout file (e.g. "hardware/layouts/ESP32_2400_RX.json")
     final file = archive.findFile(layoutFile);
     if (file == null) {
-       throw Exception('Layout file $layoutFile not found in hardware.zip');
+      throw Exception('Layout file $layoutFile not found in hardware.zip');
     }
 
     final content = String.fromCharCodes(file.content as List<int>);
@@ -178,7 +226,7 @@ class FirmwareCacheService {
 
     // 3. Merge Overlay
     final overlay = targetConfig['overlay'] as Map<String, dynamic>?;
-    
+
     // Import merger to avoid circular deps if possible, or just implement here?
     // User asked to use HardwareConfigMerger.
     // I need to import it.
