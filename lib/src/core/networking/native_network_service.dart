@@ -1,5 +1,5 @@
 // Copyright (C) 2026  Weston Hinton [wbhinton@gmail.com]
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -29,8 +29,8 @@ class NativeNetworkService {
     try {
       await _channel.invokeMethod('bindProcessToWiFi');
       print('NATIVE: Process bound to WiFi interface');
-    } on PlatformException catch (e) {
-      print('NATIVE: Failed to bind to WiFi: ${e.message}');
+    } on Exception catch (e) {
+      print('NATIVE: Failed to bind to WiFi: $e');
     }
   }
 
@@ -39,8 +39,8 @@ class NativeNetworkService {
     try {
       await _channel.invokeMethod('unbindProcess');
       print('NATIVE: Process unbound from specific interface');
-    } on PlatformException catch (e) {
-      print('NATIVE: Failed to unbind: ${e.message}');
+    } on Exception catch (e) {
+      print('NATIVE: Failed to unbind: $e');
     }
   }
 }

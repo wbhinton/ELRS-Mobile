@@ -167,6 +167,18 @@ class SettingsScreen extends HookConsumerWidget {
                     ],
                   ),
                 ),
+                ListTile(
+                  title: const Text('Clear Firmware Cache'),
+                  subtitle: const Text('Delete all downloaded firmware files'),
+                  leading: const Icon(Icons.delete_sweep, color: Colors.red),
+                  trailing: TextButton(
+                    onPressed: () => _showClearCacheDialog(context, controller),
+                    child: const Text(
+                      'CLEAR',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ),
               ],
               if (!isTablet || selected == SettingsCategory.about) ...[
                 _buildSectionHeader(context, 'About'),
@@ -384,6 +396,39 @@ class SettingsScreen extends HookConsumerWidget {
       ),
       selected: selected,
       onTap: onTap,
+    );
+  }
+
+  void _showClearCacheDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Clear Firmware Cache?'),
+        content: const Text(
+          'This will delete all downloaded firmware zip files. '
+          'You will need to re-download them if you want to flash offline.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('CANCEL'),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            onPressed: () {
+              controller.clearCache();
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Firmware cache cleared')),
+              );
+            },
+            child: const Text('CLEAR ALL'),
+          ),
+        ],
+      ),
     );
   }
 

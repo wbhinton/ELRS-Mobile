@@ -65,16 +65,6 @@ class FirmwareManagerController extends _$FirmwareManagerController {
     final cacheService = ref.read(firmwareCacheServiceProvider);
     final firmwareRepo = ref.read(firmwareRepositoryProvider);
 
-    // Check limit
-    if (state.cachedVersions.length >= settings.maxCachedVersions) {
-      // We can't easily show dialog from here, but we can set error message
-      state = state.copyWith(
-        errorMessage:
-            'Cache limit reached (${settings.maxCachedVersions}). Delete a version first.',
-      );
-      return;
-    }
-
     state = state.copyWith(
       downloadProgress: {...state.downloadProgress, version: 0.0},
       errorMessage: null,
@@ -115,6 +105,9 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       // 4. Save both to cache
       await cacheService.saveZip(version, firmwareBytes);
       await cacheService.saveHardwareZip(version, hardwareBytes);
+
+      // Perform eviction to maintain limit
+      await cacheService.evictOldestVersions(settings.maxCachedVersions);
 
       // Refresh cache list
       final cached = await cacheService.getCachedVersions();
