@@ -9,18 +9,17 @@ import UIKit
   ) -> Bool {
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
     
-    if let controller = window?.rootViewController as? FlutterViewController {
-        let networkChannel = FlutterMethodChannel(name: "org.expresslrs.elrs_mobile/network",
-                                                  binaryMessenger: controller.binaryMessenger)
-        networkChannel.setMethodCallHandler({
-          (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
-          if (call.method == "bindProcessToWiFi" || call.method == "unbindProcess") {
-            result(true)
-          } else {
-            result(FlutterMethodNotImplemented)
-          }
-        })
-    }
+    let registrar = self.registrar(forPlugin: "NetworkPlugin")
+    let networkChannel = FlutterMethodChannel(name: "org.expresslrs.elrs_mobile/network",
+                                              binaryMessenger: registrar!.messenger())
+    networkChannel.setMethodCallHandler({
+      (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
+      if (call.method == "bindProcessToWiFi" || call.method == "unbindProcess") {
+        result(true)
+      } else {
+        result(FlutterMethodNotImplemented)
+      }
+    })
     
     return result
   }
