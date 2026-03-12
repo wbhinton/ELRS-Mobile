@@ -140,9 +140,17 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
           
-          # Diagnostic: Show the actual name of the profile (to verify against 'distribution')
-          echo "Checking profile name..."
-          grep -aA1 "Name" ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision | grep "<string>" | sed -e 's/<string>//' -e 's/<\/string>//' | xargs || true
+          # Diagnostic: Show the actual name and UUID of the profile
+          echo "Checking profile details..."
+          export PROV_PATH=~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
+          PROV_NAME=$(grep -aA1 "Name" "$PROV_PATH" | grep "<string>" | sed -e 's/<string>//' -e 's/<\/string>//' | xargs)
+          PROV_UUID=$(grep -aA1 "UUID" "$PROV_PATH" | grep "<string>" | sed -e 's/<string>//' -e 's/<\/string>//' | xargs)
+          echo "Profile Name: $PROV_NAME"
+          echo "Profile UUID: $PROV_UUID"
+          
+          # Diagnostic: Show identities in the keychain
+          echo "Installed Identities:"
+          security find-identity -v -p codesigning $KEYCHAIN_PATH
 
       - name: Build IPA
         run: |
