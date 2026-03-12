@@ -51,6 +51,15 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonRaw: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          packageName: io.datarx.elrsmobile
+          releaseFiles: ELRS-Mobile-${{ github.ref_name }}.aab
+          track: internal
+          status: completed
+
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v1
@@ -92,7 +101,7 @@ jobs:
             -d "{\"files\":{\"$GIST_FILE\":{\"content\":$ESCAPED_CONTENT}}}"
 
   build-ios:
-    name: Build iOS App
+    name: Build & Distribute iOS
     runs-on: macos-latest
     permissions:
       contents: write
@@ -109,20 +118,51 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build iOS payload
+      - name: Install Apple Certificate and Provisioning Profile
+        run: |
+          # 1. Create temporary keychain
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          KEYCHAIN_PASSWORD=$(openssl rand -base64 24)
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # 2. Import certificate
+          echo "${{ secrets.P12_BASE64 }}" | base64 --decode > $RUNNER_TEMP/dist.p12
+          security import $RUNNER_TEMP/dist.p12 -k $KEYCHAIN_PATH -P "${{ secrets.P12_PASSWORD }}" -A -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # 3. Import provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
+
+      - name: Build IPA
         run: |
           VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           BUILD_NUMBER=${{ github.run_number }}
-          flutter build ios --release --no-codesign \
+          
+          # Build IPA and export for App Store
+          flutter build ipa --release \
             --build-name=$VERSION \
             --build-number=$BUILD_NUMBER \
+            --export-options-plist=ios/ExportOptions.plist \
             --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+
+          mv build/ios/ipa/*.ipa "ELRS-Mobile-${{ github.ref_name }}.ipa"
+
+      - name: Upload to App Store Connect
+        run: |
+          # Create API key file for xcrun
+          mkdir -p ~/.appstoreconnect/private_keys
+          printf "%s" "${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}.p8
           
-          mkdir -p Payload
-          mv build/ios/iphoneos/Runner.app Payload/
-          zip -A -q -r "ELRS-Mobile-${{ github.ref_name }}.ipa" Payload
-          
-      - name: Upload iOS payload to Release
+          xcrun altool --upload-app \
+            --type ios \
+            --file "ELRS-Mobile-${{ github.ref_name }}.ipa" \
+            --apiKey ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }} \
+            --apiIssuer ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+
+      - name: Upload iOS IPA to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: ELRS-Mobile-${{ github.ref_name }}.ipa
