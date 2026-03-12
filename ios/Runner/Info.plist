@@ -79,5 +79,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>ELRS Mobile requires access to your photo library to allow you to select and upload custom firmware or configuration files.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>ELRS Mobile requires camera access to scan QR codes for quick device configuration and pairing.</string>
 </dict>
 </plist>
