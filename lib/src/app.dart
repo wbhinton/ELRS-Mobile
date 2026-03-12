@@ -37,11 +37,14 @@ class _AppContent extends HookConsumerWidget {
 
     // Automatic Network Binding & Settings Load
     useEffect(() {
-      // Run initial check
-      Future.microtask(() {
-        ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
-        ref.read(settingsControllerProvider.notifier).loadSettings();
-        ref.read(updateControllerProvider.notifier).checkForUpdates();
+      Future.microtask(() async {
+        // Bind to WiFi first, before any network operations
+        await ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
+        // Then load settings and check updates in parallel
+        await Future.wait([
+          ref.read(settingsControllerProvider.notifier).loadSettings(),
+          ref.read(updateControllerProvider.notifier).checkForUpdates(),
+        ]);
       });
       return null;
     }, []);

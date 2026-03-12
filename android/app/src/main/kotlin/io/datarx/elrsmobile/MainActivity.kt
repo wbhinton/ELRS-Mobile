@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.net.wifi.WifiManager
 import android.os.Build
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -16,10 +17,18 @@ class MainActivity : FlutterActivity() {
     private var boundNetwork: Network? = null
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
+    private var multicastLock: WifiManager.MulticastLock? = null
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         
         connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        
+        val wifi = getSystemService(Context.WIFI_SERVICE) as android.net.wifi.WifiManager
+        multicastLock = wifi.createMulticastLock("elrs_mobile_multicast_lock").apply {
+            setReferenceCounted(true)
+            acquire()
+        }
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             when (call.method) {
@@ -38,19 +47,83 @@ class MainActivity : FlutterActivity() {
 
     private fun bindProcessToWiFi(result: MethodChannel.Result) {
         val safeResult = SafeResult(result)
-        // Unregister any existing callback first
+        
+        // 1. Unregister any existing callback
         networkCallback?.let {
             try {
                 connectivityManager?.unregisterNetworkCallback(it)
-            } catch (e: Exception) {
-                // Ignore failure to unregister
+            } catch (e: Exception) {}
+        }
+
+        // Log all available networks for debugging
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networks = connectivityManager?.allNetworks ?: emptyArray()
+            println("NATIVE: Scanning ${networks.size} networks...")
+            for (network in networks) {
+                val caps = connectivityManager?.getNetworkCapabilities(network)
+                val isWifi = caps?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+                val hasInternet = caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+                val isValidated = caps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) == true
+                println("NATIVE:   Network $network: WiFi=$isWifi Internet=$hasInternet Validated=$isValidated")
+            }
+            
+            // Log active network
+            val activeNetwork = connectivityManager?.activeNetwork
+            if (activeNetwork != null) {
+                val activeCaps = connectivityManager?.getNetworkCapabilities(activeNetwork)
+                val activeIsWifi = activeCaps?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true
+                val activeHasInternet = activeCaps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+                println("NATIVE: Active network: $activeNetwork (WiFi=$activeIsWifi Internet=$activeHasInternet)")
+            } else {
+                println("NATIVE: No active network!")
             }
         }
 
+        // 2. Try to get the active network first
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val activeNetwork = connectivityManager?.activeNetwork
+            if (activeNetwork != null) {
+                val caps = connectivityManager?.getNetworkCapabilities(activeNetwork)
+                if (caps?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true) {
+                    try {
+                        connectivityManager?.bindProcessToNetwork(activeNetwork)
+                        boundNetwork = activeNetwork
+                        println("NATIVE: Bound to active network $activeNetwork")
+                        safeResult.success(true)
+                        return
+                    } catch (e: Exception) {
+                        println("NATIVE: Failed to bind to active network: ${e.message}")
+                    }
+                } else {
+                    println("NATIVE: Active network is not WiFi, trying other networks...")
+                }
+            }
+        }
+
+        // 3. Try to find an ALREADY connected WiFi network in allNetworks
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networks = connectivityManager?.allNetworks ?: emptyArray()
+            for (network in networks) {
+                val caps = connectivityManager?.getNetworkCapabilities(network)
+                // Accept WiFi with or without internet - ELRS devices have no internet
+                if (caps?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true) {
+                    try {
+                        connectivityManager?.bindProcessToNetwork(network)
+                        boundNetwork = network
+                        println("NATIVE: Found existing WiFi $network, bound process.")
+                        safeResult.success(true)
+                        return // Success!
+                    } catch (e: Exception) {
+                        println("NATIVE: Failed to bind to existing network: ${e.message}")
+                    }
+                }
+            }
+        }
+
+        // 4. If no existing network found or bind failed, request a new one
+        println("NATIVE: Requesting new WiFi network...")
         val request = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            // CRITICAL: Remove NET_CAPABILITY_INTERNET so we can bind to ELRS hotspots
-            // that don't provide internet access.
             .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
 
@@ -65,6 +138,7 @@ class MainActivity : FlutterActivity() {
                         ConnectivityManager.setProcessDefaultNetwork(network)
                     }
                     boundNetwork = network
+                    println("NATIVE: Network available $network, bound process.")
                     safeResult.success(true)
                 } catch (e: Exception) {
                     safeResult.error("BIND_FAILED", e.message, null)

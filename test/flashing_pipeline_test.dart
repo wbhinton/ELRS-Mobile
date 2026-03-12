@@ -35,7 +35,7 @@ class FakeConnectivityService extends ConnectivityService {
   Stream<List<ConnectivityResult>> build() => const Stream.empty();
 
   @override
-  Future<void> bindToWiFi() async {}
+  Future<bool> bindToWiFi({int retries = 3}) async => true;
 
   @override
   Future<void> unbind() async {}

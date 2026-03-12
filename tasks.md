@@ -2,6 +2,8 @@
 
 This document outlines the strategic priorities for the ELRS Mobile App, based on analysis from OpenCode/RP1 and Antigravity.
 
+- [x] Debug WiFi Routing: Resolve issue where cellular data overrides local WiFi connection.
+
 ## Strategic Analysis Overview
 The app has a solid foundation (Flutter, Clean Architecture, Riverpod), but several "technical debt" items and optimization opportunities exist that will improve long-term stability and user experience.
 

@@ -94,7 +94,7 @@ class ConfigViewModel extends _$ConfigViewModel {
       '10.0.0.1',
       'elrs_rx.local',
       'elrs_tx.local',
-      ?_lastDiscoveredIp,
+      if (_lastDiscoveredIp != null) _lastDiscoveredIp!,
     ];
 
     final uniqueIps = ips.toSet().toList();
