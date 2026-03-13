@@ -2,53 +2,74 @@
 
 **Project**: ELRS (ExpressLRS) Mobile App
 **Architecture Pattern**: Clean Architecture with Riverpod State Management
-**Last Updated**: 2026-03-09
+**Last Updated**: 2026-03-12
 
 ## High-Level Architecture
 
 ```mermaid
 graph TB
     subgraph Presentation_Layer
-        Screens[SplashScreen<br/>DashboardScreen<br/>SettingsScreen<br/>LegalNoticeScreen<br/>FlashingScreen<br/>DeviceSettingsScreen<br/>FirmwareManagerScreen]
-        Router[goRouter]
+        FC[FlashingController]
+        CVM[ConfigViewModel]
+        DEVM[DeviceEditorViewModel]
+        SC[SettingsController]
+        FWC[FirmwareManagerController]
+        TS[TargetSelectors]
     end
     
     subgraph Feature_Layer
-        TP[TargetsProvider]
+        DR[DeviceRepository]
+        FR[FirmwareRepository]
+        TR[TargetsRepository]
         RR[ReleasesRepository]
-        TR[TargetResolver]
-        HCM[HardwareConfigMerger]
+        FP[FirmwarePatcher]
+        FA[FirmwareAssembler]
     end
     
     subgraph Core_Infrastructure
         DS[DiscoveryService]
         CS[ConnectivityService]
         NNS[NativeNetworkService]
+        DD[DeviceDio]
+        ID[InternetDio]
         CR[ConnectionRepository]
         PS[PersistenceService]
         FCS[FirmwareCacheService]
+        DCS[DeviceConfigService]
     end
     
-    subgraph External
-        ELRS[ExpressLRS Artifactory]
-        GitHub[GitHub Releases]
-        Sentry[Sentry]
+    subgraph External_Services
+        Artifactory[ExpressLRS Artifactory]
+        GitHub[GitHub Targets JSON]
+        Device[ELRS Device<br/>10.0.0.1]
+        Native[iOS/Android<br/>Platform Channel]
     end
     
-    UI -->|navigate| Router
-    Router -->|fetch| TP
-    Router -->|fetch| RR
-    TP -->|uses| FCS
-    TP -->|resolve| TR
-    TR -->|merge| HCM
+    FC -->|selects target| TR
+    FC -->|downloads| FR
+    FR -->|caches| FCS
+    FR -->|HTTP| Artifactory
+    TR -->|HTTP| GitHub
+    TR -->|caches| FCS
+    FC -->|uses| DR
+    DR -->|local HTTP| DD
+    DD -->|connects| Device
     
+    CVM -->|probes| DCS
+    DCS -->|HTTP| DD
+    CVM -->|discovers| DS
     DS -->|mDNS scan| NNS
-    CS -->|bind WiFi| NNS
     NNS -->|platform channel| Native
     
-    RR -->|HTTP| ELRS
-    FCS -->|cache| PS
-    FCS -->|files| LocalStorage
+    CS -->|monitors| NNS
+    CR -->|provides IP| DD
+    
+    FC -->|patches| FP
+    FP -->|assembles| FA
+    FA -->|config| FCS
+    
+    SC -->|persists| PS
+    FCS -->|file cache| PS
 ```
 
 ## Component Architecture
@@ -71,6 +92,7 @@ graph TB
 **Purpose**: Device runtime configuration via heartbeat
 **Key Components**:
 - **ConfigViewModel**: Heartbeat polling, config fetch/update
+- **DeviceEditorViewModel**: Device configuration editing
 - **DeviceConfigService**: HTTP client for /config, /options.json
 - **RuntimeConfigModel**: Freezed model for device settings
 - **FrequencyValidator**: Validates frequency against hardware
@@ -97,19 +119,31 @@ graph TB
 sequenceDiagram
     participant User
     participant FlashingController
-    participant ReleasesRepository
     participant FirmwareRepository
     participant FirmwarePatcher
     participant DeviceRepository
     
     User->>FlashingController: Select target/version
-    FlashingController->>ReleasesRepository: Get version list
     FlashingController->>FirmwareRepository: Download firmware ZIP
     FirmwareRepository-->>FlashingController: Firmware binary
     FlashingController->>FirmwarePatcher: Patch with bind phrase/WiFi
     FirmwarePatcher-->>FlashingController: Patched firmware
     FlashingController->>DeviceRepository: Upload & flash
     DeviceRepository-->>User: Success/Failure
+```
+
+### Heartbeat Polling Flow
+```mermaid
+sequenceDiagram
+    participant ConfigViewModel
+    participant DeviceConfigService
+    participant ConnectionRepository
+    
+    ConfigViewModel->>ConfigViewModel: Start 10s timer
+    ConfigViewModel->>ConnectionRepository: Get target IP
+    ConfigViewModel->>DeviceConfigService: Probe /config
+    DeviceConfigService-->>ConfigViewModel: RuntimeConfig
+    ConfigViewModel->>ConfigViewModel: Update UI state
 ```
 
 ### Device Discovery Flow
@@ -124,15 +158,14 @@ sequenceDiagram
     ConnectivityService->>NativeNetworkService: Bind to WiFi
     App->>DiscoveryService: Start mDNS scan
     DiscoveryService-->>App: Device IP found
-    App->>DeviceRepository: Connect to 10.0.0.1
+    App->>ConnectionRepository: Update target IP
 ```
 
 ## Integration Points
 
 ### External Services
 - **ExpressLRS Artifactory**: Firmware hosting - `https://artifactory.expresslrs.org/`
-- **GitHub Releases**: Version metadata, targets.json
-- **GitHub Actions**: CI/CD for Android/iOS builds
+- **GitHub Targets Repository**: Target definitions JSON
 - **Sentry**: Error tracking via sentry_flutter
 
 ### Internal Communication
@@ -149,7 +182,6 @@ sequenceDiagram
 ### Data Protection
 - **Credentials**: Stored in SharedPreferences (encrypted on mobile)
 - **WiFi Binding**: Platform channels for secure network control
-- **No cloud sync**: All data local to device
 
 ## Performance Considerations
 
@@ -175,5 +207,5 @@ sequenceDiagram
 - **Production**: GitHub Releases with semantic versioning (v*)
 
 ### Infrastructure
-- **Platforms**: Android (APK/AAB), iOS (IPA), Web (GitHub Pages)
-- **Distribution**: GitHub Releases with release.yml workflow
+- **Platforms**: Android (APK/AAB), iOS (IPA), Web (experimental)
+- **Distribution**: GitHub Releases

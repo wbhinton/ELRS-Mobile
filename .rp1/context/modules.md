@@ -14,27 +14,13 @@
 **Key Components**:
 - **AppTheme** (`app_theme.dart`): Material 3 dark theme configuration
 
-**Public Interface**:
-```dart
-// Exports
-export 'app_theme.dart';
-```
-
-### core/presentation (`lib/src/core/presentation/`) [NEW]
+### core/presentation (`lib/src/core/presentation/`)
 **Purpose**: Shared presentation utilities - responsive breakpoint helpers for tablet/desktop layouts
 **Complexity**: Low
 **Dependencies**: flutter
 
 **Key Components**:
-- **ResponsiveBreakpoints** (`responsive_layout.dart`): Breakpoint constants (tablet: 600, desktop: 1200, maxContentWidth: 800)
-- **ResponsiveLayout** (`responsive_layout.dart`): Widget for max-width constraint on tablets
-
-**Public Interface**:
-```dart
-// Static helpers
-ResponsiveLayout.isTablet(BuildContext)
-ResponsiveLayout.isDesktop(BuildContext)
-```
+- **ResponsiveLayout**: Breakpoint constants and max-width constraint widget
 
 ### core/storage (`lib/src/core/storage/`)
 **Purpose**: Persistence layer - SharedPreferences for settings and file-based firmware caching
@@ -44,13 +30,6 @@ ResponsiveLayout.isDesktop(BuildContext)
 **Key Components**:
 - **PersistenceService**: Bind phrase, WiFi credentials, manual IP storage
 - **FirmwareCacheService**: Firmware ZIP file caching, cache size management
-
-**Public Interface**:
-```dart
-// Providers
-persistenceServiceProvider
-firmwareCacheServiceProvider
-```
 
 ### core/networking (`lib/src/core/networking/`)
 **Purpose**: Device discovery, connectivity management, HTTP client for ELRS device communication
@@ -63,18 +42,6 @@ firmwareCacheServiceProvider
 - **NativeNetworkService**: Platform channel for WiFi binding (iOS/Android)
 - **DeviceDio**: Pre-configured HTTP client
 - **ConnectionRepository**: Target IP management
-
-**Public Interface**:
-```dart
-// Providers
-connectivityServiceProvider
-discoveryServiceProvider
-localDioProvider
-githubDioProvider
-artifactoryDioProvider
-discoveryProvider
-targetIpProvider
-```
 
 ## Feature Modules
 
@@ -115,7 +82,7 @@ targetIpProvider
 - **UpdateNotificationBanner**: App update notification
 
 ### features/settings (`lib/src/features/settings/`)
-**Purpose**: App configuration - binding phrases, WiFi credentials, developer mode
+**Purpose**: App configuration - binding phrases, WiFi credentials, developer mode, legal notices
 **Complexity**: Medium
 **Dependencies**: core/storage, core/presentation
 
@@ -123,8 +90,8 @@ targetIpProvider
 - **SettingsController**: Global app settings management
 - **SettingsScreen**: Settings UI with master-detail on tablet
 - **DisclaimerDialog**: First-launch disclaimer
-- **LegalNoticeScreen** [NEW]: Legal disclaimer and GPLv3 license
-- **SettingsMasterDetail** [NEW]: Master-detail layout widget
+- **LegalNoticeScreen**: Legal disclaimer and GPLv3 license
+- **SettingsMasterDetail**: Master-detail layout widget
 
 ### features/config (`lib/src/features/config/`)
 **Purpose**: Device runtime configuration - heartbeat monitoring, options management
@@ -132,7 +99,8 @@ targetIpProvider
 **Dependencies**: core/networking, core/storage, features/flashing
 
 **Key Components**:
-- **ConfigViewModel**: Heartbeat polling, config fetch/update (added ref.mounted guards)
+- **ConfigViewModel**: Heartbeat polling, config fetch/update
+- **DeviceEditorViewModel**: Device configuration editing
 - **DeviceConfigService**: HTTP client for device config
 - **RuntimeConfigModel**: Freezed model (ElrsSettings, ElrsOptions, ElrsConfig)
 - **FrequencyValidator**: Frequency validation against hardware
@@ -215,9 +183,9 @@ graph TD
 | core/networking | 6 | 400 | Medium | N/A |
 | core/storage | 2 | 249 | Low | N/A |
 | core/presentation | 1 | 43 | Low | N/A |
-| features/settings | 6 | 1,050 | Medium | Limited |
+| features/settings | 7 | 1,200 | Medium | Limited |
 | features/config | 5 | 600 | Medium | Limited |
-| features/dashboard | 5 | 280 | Low | Limited |
+| features/dashboard | 5 | 400 | Low | Limited |
 | features/firmware_manager | 2 | 300 | Low | N/A |
 | features/updates | 2 | 100 | Low | N/A |
 | core/theme | 1 | 68 | Low | N/A |

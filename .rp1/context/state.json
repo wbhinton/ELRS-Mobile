@@ -3,8 +3,8 @@
   "repo_type": "single-project",
   "monorepo_projects": [],
   "generated_at": "2026-03-12T00:00:00.000Z",
-  "git_commit": "287fffff63d4a7cad541b75b63dd654d2a4f54b0",
-  "files_analyzed": 357,
+  "git_commit": "9456fb4cbf086f9eea340c17213f9e1f5eee466a",
+  "files_analyzed": 107,
   "languages": ["Dart", "Flutter"],
   "metrics": {
     "modules": 12,

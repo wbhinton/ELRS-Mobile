@@ -15,7 +15,7 @@ ELRS (ExpressLRS) Mobile App is a Flutter application for flashing ExpressLRS fi
 |--------|-------|
 | Entry Point | `lib/main.dart` |
 | Key Pattern | Clean Architecture + Riverpod State Management |
-| Tech Stack | Flutter, Riverpod, go_router, freezed, dio |
+| Tech Stack | Flutter, Riverpod, go_router, Freezed, dio |
 
 ## KB File Manifest
 
@@ -23,10 +23,10 @@ ELRS (ExpressLRS) Mobile App is a Flutter application for flashing ExpressLRS fi
 
 | File | Lines | Load For |
 |------|-------|----------|
-| architecture.md | ~185 | System design, component relationships, data flows |
-| modules.md | ~240 | Component breakdown, module responsibilities |
-| patterns.md | ~130 | Code conventions, implementation patterns |
-| concept_map.md | ~93 | Domain terminology, business concepts |
+| architecture.md | ~211 | System design, component relationships, data flows |
+| modules.md | ~213 | Component breakdown, module responsibilities |
+| patterns.md | ~96 | Code conventions, implementation patterns |
+| concept_map.md | ~127 | Domain terminology, business concepts |
 
 ## Task-Based Loading
 
@@ -54,13 +54,13 @@ lib/src/
 ├── elrs_mappings.dart           # ELRS constant mappings
 ├── core/
 │   ├── theme/app_theme.dart     # Material 3 theming
-│   ├── presentation/            # Responsive layout utilities [NEW]
+│   ├── presentation/            # Responsive layout utilities
 │   ├── storage/                 # Persistence & caching
 │   └── networking/              # Device discovery & HTTP
 └── features/
     ├── flashing/                # Firmware flashing (main feature)
     ├── dashboard/               # Main screen
-    ├── settings/                # App configuration (+ LegalNoticeScreen [NEW])
+    ├── settings/                # App configuration (+ LegalNoticeScreen)
     ├── config/                  # Device runtime config
     ├── configurator/            # Device settings UI
     ├── firmware_manager/         # Offline cache management
