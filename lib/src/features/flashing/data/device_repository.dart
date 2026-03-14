@@ -18,6 +18,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 import '../../config/domain/runtime_config_model.dart';
 import '../utils/firmware_assembler.dart';
+import 'package:aptabase_flutter/aptabase_flutter.dart';
 
 part 'device_repository.g.dart';
 
@@ -39,8 +40,12 @@ class DeviceRepository {
   Future<RuntimeConfig> fetchConfig() async {
     try {
       final response = await _dio.get('/config');
+      Aptabase.instance.trackEvent('Device Connected');
       return RuntimeConfig.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
+      Aptabase.instance.trackEvent('Device Connection Failed', {
+        'error': e.toString(),
+      });
       throw Exception('Failed to fetch config: $e');
     }
   }
@@ -51,6 +56,7 @@ class DeviceRepository {
     try {
       final uid = FirmwareAssembler.generateUid(phrase);
       await _dio.post('/config', data: {'uid': uid});
+      Aptabase.instance.trackEvent('Settings Changed', {'setting': 'Bind Phrase'});
     } catch (e) {
       throw Exception('Failed to update binding phrase: $e');
     }
@@ -64,6 +70,7 @@ class DeviceRepository {
         '/config',
         data: {'wifi-ssid': ssid, 'wifi-password': password},
       );
+      Aptabase.instance.trackEvent('Settings Changed', {'setting': 'WiFi'});
     } catch (e) {
       throw Exception('Failed to update WiFi: $e');
     }

@@ -2,6 +2,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
 import '../domain/update_state.dart';
+import 'package:aptabase_flutter/aptabase_flutter.dart';
 
 part 'update_controller.g.dart';
 
@@ -33,6 +34,11 @@ class UpdateController extends _$UpdateController {
         final currentVersion = packageInfo.version;
 
         if (_isNewer(latestVersion, currentVersion)) {
+          Aptabase.instance.trackEvent('Update Checked', {
+            'result': 'Update Available',
+            'latest': latestVersion,
+            'current': currentVersion,
+          });
           state = state.copyWith(
             isUpdateAvailable: true,
             latestVersion: latestVersion,
@@ -40,10 +46,17 @@ class UpdateController extends _$UpdateController {
             isChecking: false,
           );
         } else {
+          Aptabase.instance.trackEvent('Update Checked', {
+            'result': 'Up To Date',
+            'current': currentVersion,
+          });
           state = state.copyWith(isChecking: false);
         }
       }
     } catch (e) {
+      Aptabase.instance.trackEvent('Update Check Failed', {
+        'error': e.toString(),
+      });
       // Silently fail update check to avoid annoying user if offline
       state = state.copyWith(isChecking: false);
     }
