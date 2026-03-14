@@ -51,18 +51,18 @@ import Layout from "../layouts/Layout.astro";
 
 			<h3>Analytics and Error Reporting</h3>
 			<p>
-				To help us improve the App, resolve technical issues, and understand which features are most useful, we use privacy-first third-party services:
+				To help us improve the App, resolve technical issues, and understand which features are most useful, we use privacy-first third-party services. <strong>Analytics are disabled by default</strong> and only enabled if you choose to opt-in via the "Share Analytics" toggle in the App's Settings.
 			</p>
 			<ul>
 				<li>
 					<strong>Sentry (Crash Reporting)</strong>: When the App crashes or encounters a critical error, it may automatically send an anonymous report containing device hardware model, OS version, App version, and stack traces.
 				</li>
 				<li>
-					<strong>Aptabase (Usage Analytics)</strong>: We use Aptabase to track general usage events, such as when firmware is successfully downloaded or flashed, when a device connects, or when updates are checked. Aptabase is designed to collect minimal data without unique identifiers.
+					<strong>Aptabase (Usage Analytics)</strong>: We use Aptabase to track general usage events, such as when firmware is successfully downloaded or flashed, when the configuration webview is used, or when a device is discovered via mDNS. 
 				</li>
 			</ul>
 			<p>
-				These reports do <strong>not</strong> include your Binding Phrase, WiFi passwords, IP address, or personal identity. We use this information solely for debugging, performance optimization, and prioritizing development efforts.
+				These reports are strictly anonymized. For network discovery, we only record the <strong>connection category</strong> (e.g., "Access Point" or "Home WiFi") and never your raw IP address. We <strong>never</strong> collect your Binding Phrase, WiFi passwords, or personal identity. We use this information solely for debugging, performance optimization, and prioritizing development efforts.
 			</p>
 
 			<h3>Firmware Downloads</h3>
