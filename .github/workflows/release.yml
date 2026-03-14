@@ -107,12 +107,15 @@ jobs:
 
   build-ios:
     name: Build & Distribute iOS
-    runs-on: macos-15
+    runs-on: macos-latest
     permissions:
       contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_26.app
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2

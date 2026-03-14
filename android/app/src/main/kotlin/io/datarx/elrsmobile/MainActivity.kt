@@ -10,6 +10,8 @@ import android.os.Build
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import androidx.core.view.WindowCompat
+import android.os.Bundle
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "org.expresslrs.elrs_mobile/network"
@@ -18,6 +20,12 @@ class MainActivity : FlutterActivity() {
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
     private var multicastLock: WifiManager.MulticastLock? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Enable edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+    }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
