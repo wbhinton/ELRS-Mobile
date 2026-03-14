@@ -23,7 +23,7 @@ import '../../../core/utils/validation_utils.dart';
 
 import '../state/flashing_provider.dart';
 import '../../../core/networking/connectivity_service.dart';
-import 'package:aptabase_flutter/aptabase_flutter.dart';
+import '../../../core/analytics/analytics_service.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
@@ -224,7 +224,7 @@ class FlashingController extends _$FlashingController {
           status: FlashingStatus.downloadSuccess,
           progress: 1.0,
         );
-        Aptabase.instance.trackEvent('Firmware Downloaded', {
+        ref.read(analyticsServiceProvider).trackEvent('Firmware Downloaded', {
           'target': state.selectedTarget?.name ?? 'Unknown',
           'version': state.selectedVersion ?? 'Unknown',
         });
@@ -239,7 +239,7 @@ class FlashingController extends _$FlashingController {
         errorMessage: e.toString(),
         progress: 0.0,
       );
-      Aptabase.instance.trackEvent('Firmware Download Error', {
+      ref.read(analyticsServiceProvider).trackEvent('Firmware Download Error', {
         'error': e.toString(),
       });
     } finally {
@@ -485,10 +485,9 @@ class FlashingController extends _$FlashingController {
 
       ref.read(isFlashingProvider.notifier).setFlashing(false);
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);
-      Aptabase.instance.trackEvent('Firmware Flashed', {
+      ref.read(analyticsServiceProvider).trackEvent('Firmware Flashed', {
         'target': state.selectedTarget?.name ?? 'Unknown',
         'version': state.selectedVersion ?? 'Unknown',
-        'isTx': isTx.toString(),
       });
     } catch (e) {
       ref.read(isFlashingProvider.notifier).setFlashing(false);
@@ -508,7 +507,7 @@ class FlashingController extends _$FlashingController {
           progress: 0.0,
         );
       }
-      Aptabase.instance.trackEvent('Firmware Flash Error', {
+      ref.read(analyticsServiceProvider).trackEvent('Firmware Flash Error', {
         'errorType': state.status.toString(),
         'error': errorMsg,
       });

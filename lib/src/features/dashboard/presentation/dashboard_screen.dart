@@ -9,7 +9,6 @@ import '../../settings/presentation/settings_controller.dart';
 import '../../settings/presentation/disclaimer_dialog.dart';
 import 'widgets/dashboard_card.dart';
 import 'widgets/hardware_status_card.dart';
-import 'widgets/update_notification_banner.dart';
 
 class DashboardScreen extends HookConsumerWidget {
   const DashboardScreen({super.key});
@@ -65,7 +64,6 @@ class DashboardScreen extends HookConsumerWidget {
             ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
-                const UpdateNotificationBanner(),
                 HardwareStatusCard(),
                 const SizedBox(height: 16),
                 GridView.count(

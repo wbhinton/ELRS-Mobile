@@ -348,6 +348,14 @@ class SettingsScreen extends HookConsumerWidget {
                 ],
                 _buildSectionHeader(context, 'Advanced'),
                 SwitchListTile(
+                  title: const Text('Share Analytics'),
+                  subtitle: const Text(
+                    'Help improve the app by sharing anonymous usage data',
+                  ),
+                  value: state.shareAnalytics,
+                  onChanged: (val) => controller.setShareAnalytics(val),
+                ),
+                SwitchListTile(
                   title: const Text('Expert Mode'),
                   subtitle: const Text(
                     'Enable advanced firmware handling and downloads',

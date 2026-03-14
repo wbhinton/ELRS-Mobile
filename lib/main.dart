@@ -13,6 +13,7 @@
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:aptabase_flutter/aptabase_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'src/app.dart';
 
 Future<void> main() async {
@@ -22,8 +23,16 @@ Future<void> main() async {
   debugPrint('[Sentry] DSN loaded: ${sentryDsn.isNotEmpty ? "YES ✓" : "NO — check dart-defines"}');
 
   try {
-    await Aptabase.init("A-US-0489684056");
-    debugPrint('[Aptabase] Initialized successfully');
+    final prefs = await SharedPreferences.getInstance();
+    final shareAnalytics = prefs.getBool('shareAnalytics') ?? true;
+    
+    if (shareAnalytics) {
+      await Aptabase.init("A-US-0489684056");
+      Aptabase.instance.trackEvent('App Started');
+      debugPrint('[Aptabase] Initialized successfully and "App Started" event queued.');
+    } else {
+      debugPrint('[Aptabase] Tracking disabled by user preference.');
+    }
   } catch (e) {
     debugPrint('[Aptabase] Failed to initialize: $e');
   }

@@ -17,7 +17,6 @@ import 'core/theme/app_theme.dart';
 import 'router.dart';
 import 'core/networking/connectivity_service.dart';
 import 'features/settings/presentation/settings_controller.dart';
-import 'features/updates/presentation/update_controller.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -40,11 +39,8 @@ class _AppContent extends HookConsumerWidget {
       Future.microtask(() async {
         // Bind to WiFi first, before any network operations
         await ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
-        // Then load settings and check updates in parallel
-        await Future.wait([
-          ref.read(settingsControllerProvider.notifier).loadSettings(),
-          ref.read(updateControllerProvider.notifier).checkForUpdates(),
-        ]);
+        // Then load settings
+        await ref.read(settingsControllerProvider.notifier).loadSettings();
       });
       return null;
     }, []);

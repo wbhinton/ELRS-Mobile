@@ -18,20 +18,21 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 import '../../config/domain/runtime_config_model.dart';
 import '../utils/firmware_assembler.dart';
-import 'package:aptabase_flutter/aptabase_flutter.dart';
+import '../../../core/analytics/analytics_service.dart';
 
 part 'device_repository.g.dart';
 
 @riverpod
 DeviceRepository deviceRepository(Ref ref) {
   final dio = ref.watch(localDioProvider);
-  return DeviceRepository(dio);
+  return DeviceRepository(dio, ref);
 }
 
 class DeviceRepository {
   final Dio _dio;
+  final Ref _ref;
 
-  DeviceRepository(this._dio);
+  DeviceRepository(this._dio, this._ref);
 
   Dio get dio => _dio;
 
@@ -40,10 +41,10 @@ class DeviceRepository {
   Future<RuntimeConfig> fetchConfig() async {
     try {
       final response = await _dio.get('/config');
-      Aptabase.instance.trackEvent('Device Connected');
+      _ref.read(analyticsServiceProvider).trackEvent('Device Connected');
       return RuntimeConfig.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
-      Aptabase.instance.trackEvent('Device Connection Failed', {
+      _ref.read(analyticsServiceProvider).trackEvent('Device Connection Failed', {
         'error': e.toString(),
       });
       throw Exception('Failed to fetch config: $e');
@@ -56,7 +57,7 @@ class DeviceRepository {
     try {
       final uid = FirmwareAssembler.generateUid(phrase);
       await _dio.post('/config', data: {'uid': uid});
-      Aptabase.instance.trackEvent('Settings Changed', {'setting': 'Bind Phrase'});
+      _ref.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'Bind Phrase'});
     } catch (e) {
       throw Exception('Failed to update binding phrase: $e');
     }
@@ -70,7 +71,7 @@ class DeviceRepository {
         '/config',
         data: {'wifi-ssid': ssid, 'wifi-password': password},
       );
-      Aptabase.instance.trackEvent('Settings Changed', {'setting': 'WiFi'});
+      _ref.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'WiFi'});
     } catch (e) {
       throw Exception('Failed to update WiFi: $e');
     }

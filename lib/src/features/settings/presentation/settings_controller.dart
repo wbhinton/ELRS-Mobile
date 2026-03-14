@@ -23,6 +23,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool expertMode,
     @Default('Unknown') String appVersion,
     @Default(false) bool disclaimerAccepted,
+    @Default(true) bool shareAnalytics,
     @Default(false) bool isLoaded,
     String? bindPhraseError,
     String? wifiSsidError,
@@ -54,6 +55,7 @@ class SettingsController extends _$SettingsController {
       expertMode: prefs.getBool('expertMode') ?? false,
       appVersion: '${info.version}+${info.buildNumber}',
       disclaimerAccepted: persistence.hasAcceptedDisclaimer(),
+      shareAnalytics: prefs.getBool('shareAnalytics') ?? true,
       isLoaded: true,
     );
   }
@@ -140,5 +142,11 @@ class SettingsController extends _$SettingsController {
     final persistence = await ref.read(persistenceServiceProvider.future);
     await persistence.setDisclaimerAccepted();
     state = state.copyWith(disclaimerAccepted: true);
+  }
+
+  Future<void> setShareAnalytics(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('shareAnalytics', value);
+    state = state.copyWith(shareAnalytics: value);
   }
 }
