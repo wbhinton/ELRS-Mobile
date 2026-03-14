@@ -23,12 +23,12 @@ DiscoveryService discoveryService(Ref ref) {
 }
 
 class DiscoveryService {
-  final Ref _ref;
+  final Ref? _ref;
   Discovery? _discovery;
   final _ipController = StreamController<String?>.broadcast();
   bool _hasFoundDevice = false;
 
-  DiscoveryService(this._ref);
+  DiscoveryService([this._ref]);
 
   Stream<String?> get targetIpStream => _ipController.stream;
 
@@ -41,7 +41,7 @@ class DiscoveryService {
     );
 
     try {
-      _ref.read(analyticsServiceProvider).trackEvent('mDNS Scan Started');
+      _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Started');
       _discovery = await startDiscovery('_http._tcp');
       print(
         'Discovery: mDNS discovery started, scanning for _http._tcp services...',
@@ -53,7 +53,7 @@ class DiscoveryService {
           print(
             'Discovery: No mDNS device found within 3s, falling back to 10.0.0.1',
           );
-          _ref.read(analyticsServiceProvider).trackEvent('mDNS Fallback Triggered');
+          _ref?.read(analyticsServiceProvider).trackEvent('mDNS Fallback Triggered');
           _ipController.add('10.0.0.1');
         }
       });
@@ -72,9 +72,9 @@ class DiscoveryService {
             if (host != null) {
               // Found valid ELRS mDNS
               _hasFoundDevice = true;
-              _ref.read(analyticsServiceProvider).trackEvent('mDNS Device Found', {
+              _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found', {
                 'name': name,
-                'host': host,
+                'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
               });
               _ipController.add(host);
             }
@@ -83,7 +83,7 @@ class DiscoveryService {
       });
     } catch (e) {
       print('Discovery failed: $e');
-      _ref.read(analyticsServiceProvider).trackEvent('mDNS Scan Failed', {'error': e.toString()});
+      _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Failed', {'error': e.toString()});
     }
   }
 

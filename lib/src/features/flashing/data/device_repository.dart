@@ -30,9 +30,9 @@ DeviceRepository deviceRepository(Ref ref) {
 
 class DeviceRepository {
   final Dio _dio;
-  final Ref _ref;
+  final Ref? _ref;
 
-  DeviceRepository(this._dio, this._ref);
+  DeviceRepository(this._dio, [this._ref]);
 
   Dio get dio => _dio;
 
@@ -41,10 +41,10 @@ class DeviceRepository {
   Future<RuntimeConfig> fetchConfig() async {
     try {
       final response = await _dio.get('/config');
-      _ref.read(analyticsServiceProvider).trackEvent('Device Connected');
+      _ref?.read(analyticsServiceProvider).trackEvent('Device Connected');
       return RuntimeConfig.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
-      _ref.read(analyticsServiceProvider).trackEvent('Device Connection Failed', {
+      _ref?.read(analyticsServiceProvider).trackEvent('Device Connection Failed', {
         'error': e.toString(),
       });
       throw Exception('Failed to fetch config: $e');
@@ -57,7 +57,7 @@ class DeviceRepository {
     try {
       final uid = FirmwareAssembler.generateUid(phrase);
       await _dio.post('/config', data: {'uid': uid});
-      _ref.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'Bind Phrase'});
+      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'Bind Phrase'});
     } catch (e) {
       throw Exception('Failed to update binding phrase: $e');
     }
@@ -71,7 +71,7 @@ class DeviceRepository {
         '/config',
         data: {'wifi-ssid': ssid, 'wifi-password': password},
       );
-      _ref.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'WiFi'});
+      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'WiFi'});
     } catch (e) {
       throw Exception('Failed to update WiFi: $e');
     }

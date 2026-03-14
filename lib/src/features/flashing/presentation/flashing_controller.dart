@@ -18,7 +18,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
-import '../../settings/presentation/settings_controller.dart' hide Default;
+import '../../settings/presentation/settings_controller.dart';
 import '../../../core/utils/validation_utils.dart';
 
 import '../state/flashing_provider.dart';
