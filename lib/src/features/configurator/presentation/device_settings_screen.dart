@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../config/presentation/config_view_model.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/analytics/analytics_service.dart';
 
 class DeviceSettingsScreen extends ConsumerStatefulWidget {
   const DeviceSettingsScreen({super.key});
@@ -22,6 +23,11 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
 
     // Fallback to default ELRS IP if not found
     final ip = ref.read(configViewModelProvider.notifier).probeIp ?? '10.0.0.1';
+
+    // Track Webview Usage
+    ref.read(analyticsServiceProvider).trackEvent('Config Webview Opened', {
+      'connection_type': ip == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
+    });
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
