@@ -9,9 +9,8 @@ import UIKit
   ) -> Bool {
     let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
     
-    let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
     let networkChannel = FlutterMethodChannel(name: "org.expresslrs.elrs_mobile/network",
-                                              binaryMessenger: controller.binaryMessenger)
+                                              binaryMessenger: self.registrar(forPlugin: "ELRSNetworkPlugin")!.messenger())
     
     networkChannel.setMethodCallHandler({
       (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
