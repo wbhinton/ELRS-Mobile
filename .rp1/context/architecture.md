@@ -2,7 +2,7 @@
 
 **Project**: ELRS (ExpressLRS) Mobile App
 **Architecture Pattern**: Clean Architecture with Riverpod State Management
-**Last Updated**: 2026-03-12
+**Last Updated**: 2026-03-15
 
 ## High-Level Architecture
 
@@ -15,6 +15,7 @@ graph TB
         SC[SettingsController]
         FWC[FirmwareManagerController]
         TS[TargetSelectors]
+        AS[AnalyticsService]
     end
     
     subgraph Feature_Layer
@@ -43,6 +44,7 @@ graph TB
         GitHub[GitHub Targets JSON]
         Device[ELRS Device<br/>10.0.0.1]
         Native[iOS/Android<br/>Platform Channel]
+        Aptabase[Aptabase<br/>Analytics]
     end
     
     FC -->|selects target| TR
@@ -70,9 +72,21 @@ graph TB
     
     SC -->|persists| PS
     FCS -->|file cache| PS
+    
+    AS -->|tracks events| Aptabase
+    DS -->|emits events| AS
+    DR -->|emits events| AS
+    FC -->|emits events| AS
 ```
 
 ## Component Architecture
+
+### Analytics Module (`lib/src/core/analytics/`)
+**Purpose**: Event tracking service using Aptabase SDK
+**Key Components**:
+- **AnalyticsService**: Singleton service with trackEvent(name, properties)
+- Initializes early in main.dart before UI
+- Respects shareAnalytics setting (opt-in, default true)
 
 ### Flashing Module (`lib/src/features/flashing/`)
 **Purpose**: Core firmware flashing functionality
@@ -84,33 +98,19 @@ graph TB
 - **FirmwareRepository**: Downloads from ExpressLRS Artifactory
 - **TargetsRepository**: Fetches target definitions from GitHub
 
-**Dependencies**:
-- Internal: persistenceService, firmwareCacheService, connectivityService
-- External: dio, archive, flutter_wakelock
-
 ### Configuration Module (`lib/src/features/config/`)
 **Purpose**: Device runtime configuration via heartbeat
 **Key Components**:
 - **ConfigViewModel**: Heartbeat polling, config fetch/update
 - **DeviceEditorViewModel**: Device configuration editing
 - **DeviceConfigService**: HTTP client for /config, /options.json
-- **RuntimeConfigModel**: Freezed model for device settings
-- **FrequencyValidator**: Validates frequency against hardware
 
 ### Networking Layer (`lib/src/core/networking/`)
 **Purpose**: Device discovery and connectivity
 **Key Components**:
-- **DiscoveryService**: mDNS scanning for `_http._tcp`
+- **DiscoveryService**: mDNS scanning for `_http._tcp` with analytics events
 - **ConnectivityService**: Network interface binding
 - **NativeNetworkService**: Platform channel for WiFi binding
-- **ConnectionRepository**: Target IP management
-- **DeviceDio**: Pre-configured HTTP client
-
-### Storage Layer (`lib/src/core/storage/`)
-**Purpose**: Persistence and caching
-**Key Components**:
-- **PersistenceService**: SharedPreferences for credentials
-- **FirmwareCacheService**: File-based ZIP caching
 
 ## Data Flow
 
@@ -120,30 +120,19 @@ sequenceDiagram
     participant User
     participant FlashingController
     participant FirmwareRepository
+    participant AnalyticsService
     participant FirmwarePatcher
     participant DeviceRepository
     
     User->>FlashingController: Select target/version
     FlashingController->>FirmwareRepository: Download firmware ZIP
     FirmwareRepository-->>FlashingController: Firmware binary
+    FlashingController->>AnalyticsService: trackEvent("Firmware Downloaded")
     FlashingController->>FirmwarePatcher: Patch with bind phrase/WiFi
     FirmwarePatcher-->>FlashingController: Patched firmware
     FlashingController->>DeviceRepository: Upload & flash
-    DeviceRepository-->>User: Success/Failure
-```
-
-### Heartbeat Polling Flow
-```mermaid
-sequenceDiagram
-    participant ConfigViewModel
-    participant DeviceConfigService
-    participant ConnectionRepository
-    
-    ConfigViewModel->>ConfigViewModel: Start 10s timer
-    ConfigViewModel->>ConnectionRepository: Get target IP
-    ConfigViewModel->>DeviceConfigService: Probe /config
-    DeviceConfigService-->>ConfigViewModel: RuntimeConfig
-    ConfigViewModel->>ConfigViewModel: Update UI state
+    DeviceRepository-->>FlashingController: Success/Failure
+    FlashingController->>AnalyticsService: trackEvent("Firmware Flashed")
 ```
 
 ### Device Discovery Flow
@@ -151,14 +140,20 @@ sequenceDiagram
 sequenceDiagram
     participant App
     participant DiscoveryService
+    participant AnalyticsService
     participant ConnectivityService
     participant NativeNetworkService
     
     App->>ConnectivityService: Monitor WiFi
     ConnectivityService->>NativeNetworkService: Bind to WiFi
     App->>DiscoveryService: Start mDNS scan
+    DiscoveryService->>AnalyticsService: trackEvent("mDNS Scan Started")
     DiscoveryService-->>App: Device IP found
-    App->>ConnectionRepository: Update target IP
+    alt No device found in 3s
+        DiscoveryService->>AnalyticsService: trackEvent("mDNS Fallback Triggered")
+        DiscoveryService-->>App: 10.0.0.1 (fallback)
+    end
+    App->>AnalyticsService: trackEvent("mDNS Device Found", {connection_type})
 ```
 
 ## Integration Points
@@ -166,6 +161,7 @@ sequenceDiagram
 ### External Services
 - **ExpressLRS Artifactory**: Firmware hosting - `https://artifactory.expresslrs.org/`
 - **GitHub Targets Repository**: Target definitions JSON
+- **Aptabase**: Analytics tracking (A-US-0489684056)
 - **Sentry**: Error tracking via sentry_flutter
 
 ### Internal Communication
@@ -182,6 +178,7 @@ sequenceDiagram
 ### Data Protection
 - **Credentials**: Stored in SharedPreferences (encrypted on mobile)
 - **WiFi Binding**: Platform channels for secure network control
+- **Analytics**: User opt-in via shareAnalytics setting
 
 ## Performance Considerations
 
@@ -196,8 +193,8 @@ sequenceDiagram
 - Parallel download/extract
 
 ### Monitoring
+- Aptabase for analytics events
 - Sentry for crash reporting
-- Debug print statements in repositories
 
 ## Deployment Architecture
 
@@ -207,5 +204,5 @@ sequenceDiagram
 - **Production**: GitHub Releases with semantic versioning (v*)
 
 ### Infrastructure
-- **Platforms**: Android (APK/AAB), iOS (IPA), Web (experimental)
-- **Distribution**: GitHub Releases
+- **Platforms**: Android (APK/AAB), iOS (IPA)
+- **Distribution**: GitHub Releases, Google Play, Apple App Store

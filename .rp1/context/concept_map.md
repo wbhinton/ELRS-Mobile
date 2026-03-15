@@ -20,6 +20,17 @@
 - Dual-band devices support both 2.4GHz and 900MHz
 - FirmwarePatcher dispatches to ESP or STM32 patcher based on platform
 
+### AnalyticsService
+**Definition**: Event tracking service using Aptabase SDK for telemetry. Initializes with app ID A-US-0489684056, respects shareAnalytics setting
+**Implementation**: [`lib/src/core/analytics/analytics_service.dart`]
+**Key Properties**:
+- `shareAnalytics`: User preference controlling whether analytics events are sent. Default true, stored in SharedPreferences
+
+**Business Rules**:
+- AnalyticsService checks shareAnalytics setting before tracking events
+- Initialization happens early in app lifecycle, before user opt-in
+- Tracks: mDNS scans, device connections, firmware operations, settings changes
+
 ### PatchConfiguration
 **Definition**: Configuration for patching firmware with bindPhrase, WiFi credentials, regulatoryDomain, UID
 **Implementation**: [`lib/src/features/flashing/domain/patch_configuration.dart`]
@@ -30,22 +41,6 @@
 ### RuntimeConfig
 **Definition**: Runtime configuration retrieved from device containing ElrsSettings, ElrsOptions, and ElrsConfig
 **Implementation**: [`lib/src/features/config/domain/runtime_config_model.dart`]
-**Key Properties**:
-- `ElrsSettings`: productName, version, target, moduleType, hasSerialPins, deviceId, domain
-- `ElrsOptions`: uid, wifi-ssid, wifi-password, wifi-on-interval, tlm-interval, fan-runtime, isAirport, domain
-- `ElrsConfig`: modelId, forceTlm, vbind, serialProtocol, sbusFailsafe, pwm, hardware
-
-### FirmwarePatcher
-**Definition**: Patches ESP firmware binaries with magic header injection for UID
-**Implementation**: [`lib/src/features/flashing/application/firmware_patcher.dart`]
-**Variants**:
-- ESP: Uses FirmwareAssembler append-based approach
-- STM32: Uses Stm32FirmwarePatcher binary patching
-
-### UnifiedFirmwareBuilder
-**Definition**: Generic unified firmware builder that appends configuration sections to base firmware
-**Implementation**: [`lib/src/features/flashing/utils/unified_firmware_builder.dart`]
-**Process**: Trim firmware, append productName (128B), luaName (16B), options JSON (512B), hardware layout (2048B)
 
 ## Technical Concepts
 
@@ -54,28 +49,33 @@
 **Implementation**: [`lib/src/features/flashing/utils/firmware_assembler.dart`]
 
 ### Stm32FirmwarePatcher
-**Purpose**: Binary patching for STM32 firmware using magic header 0xBE, 0xEF, 0xBA, 0xBE, 0xCA, 0xFE, 0xF0, 0x0D
+**Purpose**: Binary patching for STM32 firmware using magic header bytes
 **Implementation**: [`lib/src/features/flashing/utils/stm32_firmware_patcher.dart`]
 
-### TargetResolver
-**Purpose**: Resolves hardware layout by extracting from hardware.zip and applying target overlay config
-**Implementation**: [`lib/src/features/flashing/utils/target_resolver.dart`]
+### Platform Channel Architecture
+**Purpose**: Native WiFi binding for ELRS device communication
+**Implementation**: MethodChannel 'org.expresslrs.elrs_mobile/network'
+**Usage**:
+```dart
+// Flutter calls native WiFi binding
+await channel.invokeMethod('bindProcessToWiFi', {'ip': '10.0.0.1'});
+```
 
-### HardwareConfigMerger
-**Purpose**: Merges overlay configuration into base hardware layout (overlay values override base)
-**Implementation**: [`lib/src/features/flashing/utils/hardware_config_merger.dart`]
+### mDNS Discovery
+**Definition**: Multicast DNS for service discovery on local network. Used to find ELRS devices via _http._tcp
+**Events Emitted**:
+- mDNS Scan Started
+- mDNS Fallback Triggered (when no device found in 3s, falls back to 10.0.0.1)
+- mDNS Device Found (with connection_type: Access Point vs Home WiFi)
+- mDNS Scan Failed (with error details)
 
-### FrequencyValidator
-**Purpose**: Validates frequency against hardware capabilities using Bit 7 of modelId as 2.4GHz capability flag
-**Implementation**: [`lib/src/features/config/utils/frequency_validator.dart`]
-
-### BindingPhraseUtils
-**Purpose**: Generates 6-byte UID from binding phrase using MD5 hash of '-DMY_BINDING_PHRASE=$phrase'
-**Implementation**: [`lib/src/core/utils/binding_phrase_utils.dart`]
-
-### ValidationUtils
-**Purpose**: General validation utilities for WiFi SSID (1-32 octets), password (8-63 chars), and binding phrase
-**Implementation**: [`lib/src/core/utils/validation_utils.dart`]
+### Firmware Operation Events
+**Definition**: Analytics events for flashing operations
+**Events**:
+- Firmware Downloaded (target, version)
+- Firmware Download Error (error)
+- Firmware Flashed (target, version)
+- Firmware Flash Error (errorType, error)
 
 ## Terminology Glossary
 
@@ -83,43 +83,14 @@
 - **UID Generation**: 6-byte unique identifier generated from MD5 hash of binding phrase for RF link authentication
 - **Regulatory Domain**: Frequency band regulations: AU915, FCC915, EU868, IN866, AU433, EU433, US433
 - **Model Match**: Feature binding receiver to specific RC model ID (0-63) for security
-- **PWM Mode**: Output timing protocol: 50Hz-400Hz, DSHOT300, Serial TX/RX
-- **Serial Protocol**: RC telemetry protocol: CRSF, SBUS, SUMD, DJI RS Pro, MAVLink, AirPort, HoTT, Jetibox
+- **Aptabase**: Privacy-focused analytics platform (A-US-0489684056)
+- **Access Point**: Connection type when device host is 10.0.0.1 (ELRS device as AP)
+- **Home WiFi**: Connection type when device is on same network as app
 
 ### Technical Terms
-- **Magic Header**: Signature bytes in firmware for locating configuration injection point (ESP: 0xBE, 0xEF, 0xCA, 0xFE; STM32: 0xBE, 0xEF, 0xBA, 0xBE, 0xCA, 0xFE, 0xF0, 0x0D)
-- **Unified Firmware**: Single firmware binary with appended configuration sections (productName 128B, luaName 16B, options 512B, hardware layout 2048B)
-- **Hardware Layout**: JSON configuration describing device hardware (GPIO pins, LED config, etc.) embedded in unified firmware
-- **Lua Name**: 16-byte device identifier displayed in OpenTX Lua scripts
-- **Product Name**: 128-byte human-readable device name in unified firmware
-- **Flash Discriminator**: Unique identifier to prevent flashing wrong firmware version
-- **Hardware Overlay**: Target-specific configuration that overrides base hardware layout from hardware.zip
-
-## Patterns
-
-### Magic Header Binary Patching
-**Context**: Firmware flashing
-**Application**: Locate signature bytes in firmware binary and inject configuration at fixed offset relative to header
-
-### Configuration Overlay
-**Context**: Hardware layout resolution
-**Application**: Base hardware layout merged with target-specific overlay where overlay values override base
-
-### UID Generation from Binding Phrase
-**Context**: Device binding
-**Application**: MD5 hash of '-DMY_BINDING_PHRASE=$phrase', first 6 bytes = UID
-
-### Fixed-Size Section Appending
-**Context**: Unified firmware
-**Application**: Append productName (128B), luaName (16B), options JSON (512B), hardware layout (2048B) to trimmed firmware
-
-### Hardware Capability Flag
-**Context**: Frequency validation
-**Application**: modelId bit 7 = 2.4GHz capability flag used as ground truth for band selection
-
-### Platform-Specific Dispatch
-**Context**: Firmware patching
-**Application**: FirmwarePatcher dispatches to ESP (FirmwareAssembler) or STM32 (Stm32FirmwarePatcher) based on platform
+- **Magic Header**: Signature bytes in firmware for locating configuration injection point
+- **Unified Firmware**: Single firmware binary with appended configuration sections
+- **Hardware Layout**: JSON configuration describing device hardware embedded in unified firmware
 
 ## Cross-References
 - **Architecture**: See [architecture.md] - Clean Architecture with Riverpod

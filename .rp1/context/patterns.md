@@ -1,96 +1,159 @@
 # Implementation Patterns
 
 **Project**: ELRS (ExpressLRS) Mobile App
-**Last Updated**: 2026-03-12
+**Last Updated**: 2026-03-15
 
 ## Naming & Organization
 
-**Files**: snake_case for Dart files (target_definition.dart), feature-first directory structure
-**Functions**: camelCase for methods, descriptive verbs (downloadFirmware, selectVendor)
+**Files**: snake_case for Dart files, feature-first directory structure
+**Functions**: camelCase for methods, descriptive verbs (downloadFirmware, trackEvent)
 **Imports**: absolute imports with package prefix, grouped by external/first-party/internal
 
-Evidence: `lib/src/router.dart`, `lib/src/features/settings/presentation/widgets/settings_master_detail.dart`
+Evidence: `lib/src/router.dart`, `lib/src/features/settings/`
 
 ## Type & Data Modeling
 
-**Data Representation**: Freezed immutable classes with @freezed annotation, using factory constructors
+**Data Representation**: Freezed immutable classes with @freezed annotation
 **Type Strictness**: Gradual typing - explicit types on public API, inference for locals
 **Immutability**: Freezed generates copyWith methods; @Default values for nullable fields
 
-Evidence: `lib/src/features/flashing/domain/target_definition.dart:6-46`
+Evidence: `lib/src/features/flashing/domain/target_definition.dart`
 
 ## Error Handling
 
 **Strategy**: Exception-based with custom error messages; throw Exception('message')
 **Propagation**: Try-catch at boundary, rethrow with context; early returns for validation failures
-**Common Types**: Exception, DioException
 
-Evidence: `lib/src/features/flashing/utils/firmware_assembler.dart:131-134`
+Evidence: `lib/src/features/flashing/utils/firmware_assembler.dart`
 
 ## Validation & Boundaries
 
 **Location**: Domain layer and service layer; validators as static utility classes
-**Method**: Custom validators returning String? (error message) or null (valid); throw on invalid input in services
+**Method**: Custom validators returning String? (error message) or null (valid)
 
-Evidence: `lib/src/core/utils/validation_utils.dart:3-37`, `lib/src/features/config/utils/frequency_validator.dart`
+Evidence: `lib/src/core/utils/validation_utils.dart`
 
 ## Observability
 
 **Logging**: print statements in repositories/services, debugPrint in UI
-**Metrics**: None detected
+**Metrics**: Aptabase analytics integration - AnalyticsService with trackEvent() method
 **Tracing**: None detected
 
-Evidence: `lib/src/features/flashing/utils/firmware_assembler.dart:77-82`
+Evidence: `lib/src/core/analytics/analytics_service.dart`
 
 ## Testing Idioms
 
 **Organization**: test/ directory mirroring src/ structure, feature-based
-**Fixtures**: Riverpod providers as test fixtures; test_setup.dart for shared configuration
-**Levels**: Unit tests dominant with integration tests for discovery services
+**Fixtures**: Riverpod providers as test fixtures
+**Levels**: Unit tests dominant
 
-Evidence: `test/firmware_cache_service_test.dart`, `test/setup/test_setup.dart`, `test/flashing_pipeline_test.dart`
+Evidence: `test/firmware_cache_service_test.dart`
 
 ## I/O & Integration
 
-**Database**: No local DB; SharedPreferences via PersistenceService for bind phrase/wifi settings
-**HTTP Clients**: Dio for HTTP; custom dio providers with timeouts; ResponseType.bytes for binary downloads
+**HTTP Clients**: Dio for HTTP with custom dio providers, ResponseType.bytes for binary
 **Resilience**: Basic error handling, no circuit breaker
-
-Evidence: `lib/src/features/config/services/device_config_service.dart:21-35`
 
 ## Concurrency & Async
 
-**Async Usage**: async/await throughout; Future<T> returns for all I/O; Future.microtask for deferred initialization
-**Parallelism**: Parallel download/extract operations; no async streams observed
-
-Evidence: `lib/src/features/dashboard/presentation/dashboard_screen.dart:27-31`, `lib/src/features/flashing/utils/firmware_assembler.dart`
+**Async Usage**: async/await throughout; Future<T> returns for all I/O
+**Parallelism**: Parallel download/extract operations
 
 ## Dependency & Configuration
 
-**DI Pattern**: Riverpod @riverpod annotated providers; constructor injection for repositories
-**Config Loading**: Environment via ProviderScope; runtime config via RuntimeConfig model; @Default values for optional config
+**DI Pattern**: Riverpod @riverpod annotated providers; constructor injection
+**Config Loading**: @Default values for optional config; SharedPreferences for settings
 
-Evidence: `lib/src/features/config/domain/runtime_config_model.dart:15-23`, `lib/src/app.dart`
+## Analytics Patterns
+
+### Service Integration
+**Pattern**: AnalyticsService as @Riverpod(keepAlive: true) singleton; reads shareAnalytics setting before tracking
+
+**Code**:
+```dart
+@Riverpod(keepAlive: true)
+AnalyticsService analyticsService(Ref ref) {
+  return AnalyticsService(ref);
+}
+
+Future<void> trackEvent(String name, [Map<String, dynamic>? properties]) async {
+  final enabled = _ref.read(settingsControllerProvider).shareAnalytics;
+  if (!enabled) return;
+  // ... track event
+}
+```
+
+**Evidence**: `lib/src/core/analytics/analytics_service.dart:21-47`
+
+### Initialization
+**Pattern**: init() called early in app lifecycle; graceful handling if not initialized (early return with debugPrint)
+
+**Code**:
+```dart
+// In main.dart
+try {
+  await container.read(analyticsServiceProvider).init();
+} catch (e) {
+  debugPrint('[Main] Analytics initialization failed: $e');
+}
+```
+
+### Event Tracking
+**Pattern**: trackEvent(name, [properties]) - optional Map<String, dynamic> for properties
+
+**Events**:
+- mDNS: "mDNS Scan Started", "mDNS Fallback Triggered", "mDNS Device Found", "mDNS Scan Failed"
+- Flashing: "Firmware Downloaded", "Firmware Download Error", "Firmware Flashed", "Firmware Flash Error"
+- Device: "Device Connected", "Device Connection Failed", "Settings Changed"
+
+### shareAnalytics Setting
+**Pattern**: @Default(true) for opt-in default, SharedPreferences persistence, setter method
+
+**Code**:
+```dart
+@Default(true) bool shareAnalytics,
+
+// In loadSettings:
+shareAnalytics: prefs.getBool('shareAnalytics') ?? true,
+
+// Setter:
+Future<void> setShareAnalytics(bool value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('shareAnalytics', value);
+  state = state.copyWith(shareAnalytics: value);
+}
+```
+
+**Evidence**: `lib/src/features/settings/presentation/settings_controller.dart`
 
 ## Widget Lifecycle: Mounted Guards
 
-**Pattern**: if (!ref.mounted) return; placed before all async state mutations in Riverpod notifiers
-**Purpose**: Prevents state updates on disposed widgets causing setState during build errors
+**Pattern**: if (!ref.mounted) return; placed before all async state mutations
 
-Evidence: `lib/src/features/config/presentation/config_view_model.dart:63`, `lib/src/features/config/presentation/config_view_model.dart:67`, `lib/src/features/config/presentation/config_view_model.dart:118`
+Evidence: `lib/src/features/config/presentation/config_view_model.dart`
 
 ## Responsive Layout Patterns
 
 **Breakpoints**: Static constants: tablet=600, desktop=1200, maxContentWidth=800
-**Detection**: MediaQuery.of(context).size.width >= breakpoint
-**Layout Adaptation**: Conditional rendering: 2-col mobile, 3-col tablet; master-detail on tablet
 
-Evidence: `lib/src/core/presentation/responsive_layout.dart:4-26`, `lib/src/features/dashboard/presentation/dashboard_screen.dart:22`, `lib/src/features/dashboard/presentation/dashboard_screen.dart:72`
+Evidence: `lib/src/core/presentation/responsive_layout.dart`
 
 ## Master-Detail Pattern
 
 **Implementation**: Stateful widget tracking selected category enum; Row layout tablet, single list mobile
-**Category Enum**: SettingsCategory enum (flashing, about, advanced) exported for navigation
-**Conditional Content**: if (!isTablet || selected == category) for conditional section rendering
 
-Evidence: `lib/src/features/settings/presentation/widgets/settings_master_detail.dart:4`, `lib/src/features/settings/presentation/widgets/settings_master_detail.dart:31-54`, `lib/src/features/settings/presentation/settings_screen.dart:64`
+Evidence: `lib/src/features/settings/presentation/widgets/settings_master_detail.dart`
+
+## Legacy Removal
+
+**Pattern**: Deprecated methods return early with explanatory comment; no stub implementations
+
+**Example**:
+```dart
+Future<void> checkForUpdates() async {
+  // Legacy Gist update check removed as the app is now on official stores.
+  return;
+}
+```
+
+Evidence: `lib/src/features/updates/presentation/update_controller.dart:13-16`

@@ -2,13 +2,13 @@
   "strategy": "parallel-map-reduce",
   "repo_type": "single-project",
   "monorepo_projects": [],
-  "generated_at": "2026-03-12T00:00:00.000Z",
-  "git_commit": "9456fb4cbf086f9eea340c17213f9e1f5eee466a",
-  "files_analyzed": 107,
-  "languages": ["Dart", "Flutter"],
+  "generated_at": "2026-03-15T00:00:00.000Z",
+  "git_commit": "1856d2f8dff4f6942aa60dc988cfb073ad0c29fb",
+  "files_analyzed": 36,
+  "languages": ["Dart", "Kotlin", "Swift"],
   "metrics": {
     "modules": 12,
     "components": 28,
-    "concepts": 17
+    "concepts": 18
   }
 }

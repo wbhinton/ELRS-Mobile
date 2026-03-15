@@ -10,6 +10,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -26,6 +27,7 @@ class NativeNetworkService {
   /// Binds the entire app process to the WiFi network even if it lacks internet access.
   /// This prevents the OS from routing traffic to 10.0.0.1 over cellular.
   Future<void> bindProcessToWiFi() async {
+    if (Platform.isIOS) return;
     try {
       await _channel.invokeMethod('bindProcessToWiFi');
       print('NATIVE: Process bound to WiFi interface');
@@ -36,6 +38,7 @@ class NativeNetworkService {
 
   /// Unbinds the process from the specific network, returning to default OS routing.
   Future<void> unbindProcess() async {
+    if (Platform.isIOS) return;
     try {
       await _channel.invokeMethod('unbindProcess');
       print('NATIVE: Process unbound from specific interface');
