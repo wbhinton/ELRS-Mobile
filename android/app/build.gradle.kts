@@ -49,6 +49,9 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            
+            // Add custom proguard rules for analytics reliability
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 }
