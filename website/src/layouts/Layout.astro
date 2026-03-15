@@ -10,11 +10,30 @@ const { title } = Astro.props;
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="ELRS Mobile - An open source solution for flashing and configuring ExpressLRS hardware." />
+		<meta name="description" content="The first native mobile app to flash ExpressLRS firmware and configure TX/RX modules via Wi-Fi. No laptop required. Compatible with iOS and Android." />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+
+		<!-- Structured Data: SoftwareApplication for SEO -->
+		<script type="application/ld+json">
+		  {
+			"@context": "https://schema.org",
+			"@type": "SoftwareApplication",
+			"name": "ELRS Mobile",
+			"operatingSystem": "Android, iOS",
+			"applicationCategory": "UtilitiesApplication",
+			"description": "Flash ExpressLRS firmware and configure TX/RX hardware modules directly from your smartphone via Wi-Fi.",
+			"offers": {
+			  "@type": "Offer",
+			  "price": "0",
+			  "priceCurrency": "USD"
+			}
+		  }
+		</script>
+
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-8X6YE82V0S"></script>
 		<script is:inline>
@@ -26,6 +45,19 @@ const { title } = Astro.props;
 		</script>
 	</head>
 	<body>
+		<nav class="navbar">
+			<div class="nav-content">
+				<a href="/" class="nav-logo">
+					<img src="/images/logo.svg" alt="Logo" />
+					<span>ELRS Mobile</span>
+				</a>
+				<div class="nav-links">
+					<a href="/#hardware">Hardware</a>
+					<a href="/user_guide">Documentation</a>
+					<a href="/#installation" class="nav-btn">Get App</a>
+				</div>
+			</div>
+		</nav>
 		<slot />
 	</body>
 </html>
@@ -66,5 +98,73 @@ const { title } = Astro.props;
 		width: 800px;
 		max-width: calc(100% - 2rem);
 		line-height: 1.6;
+		padding-top: 5rem; /* Space for sticky nav */
+	}
+	.navbar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4rem;
+		background: rgba(30, 30, 30, 0.8);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+	}
+	.nav-content {
+		width: 800px;
+		max-width: calc(100% - 2rem);
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.nav-logo {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		text-decoration: none;
+		color: var(--text);
+		font-weight: bold;
+		font-size: 1.2rem;
+	}
+	.nav-logo img {
+		width: 32px;
+		height: 32px;
+	}
+	.nav-links {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+	}
+	.nav-links a:not(.nav-btn) {
+		text-decoration: none;
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		transition: color 0.2s;
+	}
+	.nav-links a:hover {
+		color: var(--primary);
+	}
+	.nav-btn {
+		background: var(--primary);
+		color: var(--background) !important;
+		padding: 0.5rem 1rem;
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 0.85rem;
+		transition: transform 0.2s;
+	}
+	.nav-btn:hover {
+		transform: scale(1.05);
+	}
+	@media (max-width: 600px) {
+		.nav-links a:not(.nav-btn) {
+			display: none;
+		}
 	}
 </style>

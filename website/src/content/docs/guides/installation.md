@@ -10,7 +10,7 @@ ELRS Mobile is available on official app stores for the most seamless experience
 ## Official App Stores
 
 ### Android
-**Get it on Google Play:** ELRS Mobile is now in full production on Android. 
+**Get it on Google Play:** ELRS Mobile is now in full production on Android, supporting ExpressLRS V3.x and V4.x. 
 [Install from Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
 
 ### iOS
