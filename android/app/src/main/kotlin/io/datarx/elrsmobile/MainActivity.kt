@@ -7,13 +7,13 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import android.os.Build
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import androidx.core.view.WindowCompat
+import androidx.activity.enableEdgeToEdge
 import android.os.Bundle
 
-class MainActivity : FlutterActivity() {
+class MainActivity : FlutterFragmentActivity() {
     private val CHANNEL = "org.expresslrs.elrs_mobile/network"
     private var connectivityManager: ConnectivityManager? = null
     private var boundNetwork: Network? = null
@@ -24,7 +24,7 @@ class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Enable edge-to-edge display
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        enableEdgeToEdge()
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
