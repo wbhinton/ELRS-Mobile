@@ -5,7 +5,20 @@ slug: installation
 
 # Installation Guide
 
-**Current Release:** You can install the latest version of ELRS Mobile directly from the [GitHub Releases](https://github.com/ExpressLRS/ExpressLRS/releases) page.
-- **Android:** Download and install the `.apk` file. *(Note: You may need to enable "Install from Unknown Sources" in your Android settings).*
+ELRS Mobile is available on official app stores for the most seamless experience and automatic updates.
 
-**Coming Soon:** If there is enough interest generated, we plan to publish ELRS Mobile to the Google Play Store and Apple App Store in the near future to make installation and updates seamless.
+## Official App Stores
+
+### Android
+**Get it on Google Play:** ELRS Mobile is now in full production on Android. 
+[Install from Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
+
+### iOS
+**App Store (In Review):** The iOS version is currently under final review by Apple for the public App Store. You can join the public beta via TestFlight in the meantime.
+[Join TestFlight Beta](https://testflight.apple.com/join/jwU1WrpX)
+
+## Alternative Installation (GitHub)
+For power users or those who prefer manual management, you can install the latest version directly from the [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases) page.
+
+- **Android:** Download the `.apk` file. *(Note: You may need to enable "Install from Unknown Sources" in your Android settings).*
+- **iOS:** Manual IPA installation requires a signed environment or sideloading tools. TestFlight is highly recommended.

@@ -24,8 +24,13 @@ Offline flashing is made possible through a robust local caching system. When a 
 ## Persistent Storage
 To streamline the user experience, volatile but frequently reused configuration data—such as custom Binding Phrases, Wi-Fi SSIDs, and network passwords—are securely saved to the device using `SharedPreferences`. This prevents users from having to repeatedly re-enter complex network credentials or binding strings every time they flash a new device.
 
-## Analytics Suite
-The application integrates `sentry_flutter` to provide a comprehensive, opt-in crash reporting and analytics suite. This allows for real-time monitoring of unexpected runtime exceptions, flashing pipeline failures, or configuration parsing errors out in the field. It helps maintain the high reliability required for hardware-management bridging applications.
+## Analytics and Monitoring
+The application utilizes a multi-tier observability strategy to balance user privacy with technical reliability:
+
+1. **Aptabase (Usage Analytics)**: We use Aptabase for privacy-first, opt-in usage tracking. This helps us understand which features (like specific flashing targets or firmware versions) are most commonly used to prioritize development efforts.
+2. **Sentry (Error Reporting)**: The app integrates `sentry_flutter` for real-time monitoring of unexpected runtime exceptions and flashing pipeline failures. 
+
+This suite ensures high reliability for hardware-management bridging while keeping "Analytics disabled by default" for user privacy.
 
 ## Cellular Fallback & Forced Routing
 Mobile operating systems (especially newer Android and iOS versions) will automatically drop or deprioritize Wi-Fi connections that do not provide internet access, silently routing traffic over 5G/LTE instead. This causes apps to fail to connect to ELRS hardware hotspots (like `10.0.0.1`). 
