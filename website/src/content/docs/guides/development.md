@@ -1,10 +1,7 @@
 ---
-title: Development Guide
+title: Development & Firmware Auditing
 slug: development
 ---
-
-# Development Guide
-& Firmware Auditing
 
 ## Note on Firmware Auditing and Byte-Perfect Matches
 

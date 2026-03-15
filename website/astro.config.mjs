@@ -10,7 +10,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'ELRS Mobile',
-      description: 'Advanced WiFi Flashing and Configuration for ExpressLRS',
+      description: 'Flash and configure ExpressLRS receivers and transmitters directly from your iOS or Android device. 100% offline flashing, no PC or cables required.',
       logo: {
         src: './src/assets/logo.png',
       },

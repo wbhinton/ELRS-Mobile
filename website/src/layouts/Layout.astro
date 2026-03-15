@@ -1,16 +1,31 @@
 ---
 interface Props {
 	title: string;
+	description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = "Flash and configure ExpressLRS receivers and transmitters directly from your iOS or Android device. 100% offline flashing, no PC or cables required." } = Astro.props;
+
+const schema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "ELRS Mobile",
+  "operatingSystem": "Android, iOS",
+  "applicationCategory": "UtilitiesApplication",
+  "description": description,
+  "offers": {
+	"@type": "Offer",
+	"price": "0",
+	"priceCurrency": "USD"
+  }
+});
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="The first native mobile app to flash ExpressLRS firmware and configure TX/RX modules via Wi-Fi. No laptop required. Compatible with iOS and Android." />
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
@@ -18,21 +33,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 
 		<!-- Structured Data: SoftwareApplication for SEO -->
-		<script type="application/ld+json">
-		  {
-			"@context": "https://schema.org",
-			"@type": "SoftwareApplication",
-			"name": "ELRS Mobile",
-			"operatingSystem": "Android, iOS",
-			"applicationCategory": "UtilitiesApplication",
-			"description": "Flash ExpressLRS firmware and configure TX/RX hardware modules directly from your smartphone via Wi-Fi.",
-			"offers": {
-			  "@type": "Offer",
-			  "price": "0",
-			  "priceCurrency": "USD"
-			}
-		  }
-		</script>
+		<script type="application/ld+json" set:html={schema} />
 
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-8X6YE82V0S"></script>
@@ -52,7 +53,7 @@ const { title } = Astro.props;
 					<span>ELRS Mobile</span>
 				</a>
 				<div class="nav-links">
-					<a href="/#hardware">Hardware</a>
+					<a href="/supported_hardware">Hardware</a>
 					<a href="/user_guide">Documentation</a>
 					<a href="/#installation" class="nav-btn">Get App</a>
 				</div>

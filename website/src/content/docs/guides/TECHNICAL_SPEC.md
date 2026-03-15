@@ -3,8 +3,6 @@ title: Technical Specification
 slug: technical_spec
 ---
 
-# Technical Specification
-
 ## Architecture Overview
 The application is built using Flutter and leverages the Riverpod state management framework. It interacts with ELRS hardware via a RESTful API exposed by the device's onboard WiFi module.
 

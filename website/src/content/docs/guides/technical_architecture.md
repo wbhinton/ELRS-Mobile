@@ -3,8 +3,6 @@ title: Technical Architecture
 slug: technical_architecture
 ---
 
-# Technical Architecture
-
 ELRS Mobile is not just a web-wrapper; it is a native Dart implementation of the ExpressLRS compilation and configuration pipeline.
 
 ## Unified Firmware Assembly

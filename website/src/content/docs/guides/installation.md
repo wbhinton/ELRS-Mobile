@@ -3,8 +3,6 @@ title: Installation Guide
 slug: installation
 ---
 
-# Installation Guide
-
 ELRS Mobile is available on official app stores for the most seamless experience and automatic updates.
 
 ## Official App Stores

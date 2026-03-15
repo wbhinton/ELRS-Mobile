@@ -3,8 +3,6 @@ title: Supported Hardware
 slug: supported_hardware
 ---
 
-# Supported Hardware
-
 ## Supported Platforms
 - **Supported:** All ESP8285, ESP32, ESP32-C3, and ESP32-S3 Wi-Fi capable receivers and transmitters.
 - **Currently Unsupported:** STM32 targets requiring serial STLink or Betaflight Passthrough flashing.

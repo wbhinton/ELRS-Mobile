@@ -3,8 +3,6 @@ title: User Guide
 slug: user_guide
 ---
 
-# User Guide
-
 ## Overview
 This application provides a comprehensive mobile interface for managing ELRS 4.0 hardware. It enables users to configure receiver (RX) and transmitter (TX) parameters, map PWM outputs, and flash firmware updates directly from a mobile device.
 

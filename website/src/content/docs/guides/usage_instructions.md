@@ -3,8 +3,6 @@ title: Usage Instructions
 slug: usage_instructions
 ---
 
-# How to Use ELRS Mobile
-
 ## Phase 1: Caching Firmware (Do this at home)
 1. Open the app and navigate to the Firmware Manager.
 2. Tap the download icon next to the latest stable release (e.g., 3.4.0).

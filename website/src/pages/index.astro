@@ -2,12 +2,14 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="ELRS Mobile | Flash & Configure ExpressLRS from your Phone">
+<Layout 
+	title="ELRS Mobile | Flash & Configure ExpressLRS from your Phone" 
+	description="Flash and configure ExpressLRS receivers and transmitters directly from your iOS or Android device. 100% offline flashing, no PC or cables required."
+>
 	<main>
-		<header>
-			<h1>ELRS <span class="text-gradient">Mobile</span></h1>
-			<p class="tagline">The Field-Ready ExpressLRS Tool. No Laptop Required.</p>
-			<p class="sub-tagline">Flash V3.x and V4.x Firmware via Wi-Fi.</p>
+		<section class="hero">
+			<h1 class="hero-gradient">The Field-Ready ExpressLRS Tool.<br/>No Laptop Required.</h1>
+			<p>Flash V3.x and V4.x Firmware via Wi-Fi directly from your iOS or Android device.</p>
 			
 			{/* 
 			<div class="hero-visual">
@@ -15,14 +17,14 @@ import Layout from "../layouts/Layout.astro";
 			</div>
 			*/}
 
-			<div class="cta-primary">
+			<div class="cta-buttons">
 				<a
 					href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile"
-					class="button primary">Get it on Google Play</a
+					class="btn primary">Get it on Google Play</a
 				>
 				<a
 					href="https://testflight.apple.com/join/jwU1WrpX"
-					class="button primary">iOS (App Store - In Review)</a
+					class="btn secondary">Join iOS TestFlight</a
 				>
 			</div>
 
@@ -34,58 +36,47 @@ import Layout from "../layouts/Layout.astro";
 					class="secondary-link">Project GitHub</a
 				>
 			</div>
-		</header>
+		</section>
 
-		<section id="why-elrs-mobile">
-			<h2>Solving the "Field Mismatch" Problem</h2>
+		<section id="problem-solution" class="problem-solution">
+			<h2>Stuck at the field? No cell service?</h2>
 			<div class="feature-highlight">
 				<div class="highlight-text">
-					<h3>Stuck at the field? No cell service?</h3>
 					<p>
 						We've all been there: You're at the race or the park, and you realize your TX is on 4.0 but your RX is still on 3.x. Without a laptop and internet, your day is over.
 					</p>
 					<p>
-						ELRS Mobile solves this with <strong>Offline Caching</strong>. Once you've cached a firmware version, the app compiles and flashes every supported target completely offline. No laptop, no hassle, just more flight time.
+						<strong>ELRS Mobile solves this with Offline Caching.</strong> Once you've cached a firmware version at home, the app compiles and flashes every supported target completely offline. No laptop, no hassle, just more flight time.
 					</p>
-				</div>
-				<div class="feature-grid">
-					<div class="feature-item">
-						<span class="feature-icon">⚡</span>
-						<h4>Blazing Fast</h4>
-						<p>
-							Flash from local cache instead of waiting for web
-							downloads.
-						</p>
-					</div>
-					<div class="feature-item">
-						<span class="feature-icon">📡</span>
-						<h4>Reliable Anywhere</h4>
-						<p>
-							Eliminate edge cases with zero cell coverage or wifi
-							access.
-						</p>
-					</div>
-					<div class="feature-item">
-						<span class="feature-icon">🛠️</span>
-						<h4>Unified Flow</h4>
-						<p>
-							One interface for all your ExpressLRS hardware
-							needs.
-						</p>
-					</div>
 				</div>
 			</div>
 		</section>
 
-		<section id="demo">
+		<section class="features">
+			<div class="feature-card">
+				<h3>⚡ Blazing Fast</h3>
+				<p>Flash from local cache instead of waiting for web downloads.</p>
+			</div>
+			<div class="feature-card">
+				<h3>📡 Reliable Anywhere</h3>
+				<p>Eliminate edge cases with zero cell coverage or wifi access. Connection resilience ensures you stay connected during transient network drops.</p>
+			</div>
+			<div class="feature-card">
+				<h3>🛠 Unified Flow</h3>
+				<p>One interface for all your ExpressLRS hardware needs. Automatically patches firmware with your unique SSID and Binding Phrase before flashing OTA.</p>
+			</div>
+		</section>
+
+		<section class="demo">
 			<h2>See it in Action</h2>
+			<p class="demo-sub">Watch the ELRS Mobile Flashing Demo by 828Engineer</p>
 			<div class="video-container">
 				<div class="phone-mockup">
 					<iframe
 						width="100%"
 						height="100%"
-						src="https://www.youtube.com/embed/6tukOoXa5aQ?autoplay=0&loop=1&rel=0&controls=1"
-						title="ELRS Mobile Demo"
+						src="https://www.youtube.com/embed/6tukOoXa5aQ"
+						title="ELRS Mobile Flashing Demo"
 						frameborder="0"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 						allowfullscreen
@@ -94,6 +85,8 @@ import Layout from "../layouts/Layout.astro";
 				</div>
 			</div>
 		</section>
+
+
 
 		<section id="installation">
 			<h2>Installation</h2>
@@ -184,39 +177,13 @@ import Layout from "../layouts/Layout.astro";
 			</p>
 		</section>
 
-		<section id="features" class="grid">
-			<div class="card">
-				<h3>Device Discovery</h3>
-				<p>
-					Seamlessly locate ELRS devices via mDNS, static AP IP
-					(10.0.0.1), or manual override for complex networks.
-				</p>
-			</div>
-			<div class="card">
-				<h3>Smart Flashing</h3>
-				<p>
-					The system patches firmware with your unique credentials
-					(SSID, Binding Phrase) automatically before flashing OTA.
-				</p>
-			</div>
-			<div class="card">
-				<h3>Connection Resilience</h3>
-				<p>
-					A multi-stage heartbeat monitor ensures you stay connected
-					during transient network drops with a smart 30-second grace
-					period.
-				</p>
-			</div>
-			<div class="card">
-				<h3>Expert Mode</h3>
-				<p>
-					Enable advanced auditing by saving assembled binaries
-					locally for inspection or manual flashing via STLink/FTDI.
-				</p>
-			</div>
-		</section>
 
 
+
+
+		<div class="docs-link">
+			<p>Want to see how it works under the hood? Check out the <a href="/user_guide">Official Documentation</a>.</p>
+		</div>
 
 		<footer>
 			<p>&copy; 2026 Weston Hinton. Distributed under the GNU GPL v3.</p>
@@ -270,9 +237,16 @@ import Layout from "../layouts/Layout.astro";
 </script>
 
 <style>
-	header {
+	.hero {
 		text-align: center;
 		padding: 4rem 0;
+	}
+	.hero-gradient {
+		background-image: linear-gradient(45deg, var(--primary), #ffffff);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
 	}
 	.logo-container {
 		margin-bottom: 1rem;
@@ -307,42 +281,48 @@ import Layout from "../layouts/Layout.astro";
 		line-height: 1.6;
 		margin-bottom: 2rem;
 	}
-	.feature-highlight {
+	.problem-solution {
 		background: rgba(0, 191, 165, 0.05);
-		border: 1px solid rgba(0, 191, 165, 0.1);
-		border-radius: 24px;
+		border-top: 1px solid rgba(0, 191, 165, 0.1);
+		border-bottom: 1px solid rgba(0, 191, 165, 0.1);
+		margin: 2rem 0;
+	}
+	.feature-highlight {
 		padding: 2.5rem;
-		margin-bottom: 3rem;
+		margin-bottom: 1rem;
 	}
 	@media (max-width: 600px) {
 		.feature-highlight {
 			padding: 1.5rem;
 		}
 	}
-	.highlight-text h3 {
+	.features {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 2rem;
+		margin-bottom: 4rem;
+	}
+	.feature-card {
+		background: var(--surface);
+		padding: 2.5rem;
+		border-radius: 20px;
+		border: 1px solid rgba(0, 191, 165, 0.1);
+		transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s;
+	}
+	.feature-card:hover {
+		transform: translateY(-8px);
+		border-color: var(--primary);
+	}
+	.feature-card h3 {
 		color: var(--primary);
-		font-size: 1.8rem;
+		font-size: 1.5rem;
+		margin-top: 0;
 		margin-bottom: 1rem;
 	}
-	.feature-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: 2rem;
-		margin-top: 2.5rem;
-	}
-	.feature-item h4 {
-		color: var(--primary);
-		margin: 0.5rem 0;
-		font-size: 1.2rem;
-	}
-	.feature-item p {
-		font-size: 0.95rem;
+	.feature-card p {
+		font-size: 1rem;
 		margin-bottom: 0;
-		opacity: 0.8;
-	}
-	.feature-icon {
-		font-size: 2rem;
-		display: block;
+		opacity: 0.9;
 	}
 	.tagline {
 		font-size: 1.5rem;
@@ -397,6 +377,25 @@ import Layout from "../layouts/Layout.astro";
 		color: var(--surface);
 		user-select: none;
 	}
+	.btn {
+		padding: 0.8rem 2.5rem;
+		border-radius: 12px;
+		text-decoration: none;
+		font-weight: bold;
+		transition: transform 0.2s, background 0.2s;
+		display: inline-block;
+	}
+	.btn:hover {
+		transform: translateY(-2px);
+	}
+	.btn.primary {
+		background: var(--primary);
+		color: white;
+	}
+	.btn.secondary {
+		border: 1px solid var(--primary);
+		color: var(--primary);
+	}
 	.button {
 		padding: 0.8rem 2.5rem;
 		border-radius: 12px;
@@ -415,6 +414,13 @@ import Layout from "../layouts/Layout.astro";
 		border: 1px solid var(--primary);
 		color: var(--primary);
 	}
+	.cta-buttons {
+		margin-top: 2rem;
+		display: flex;
+		justify-content: center;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
 	section {
 		padding: 3rem 0;
 	}
@@ -431,6 +437,16 @@ import Layout from "../layouts/Layout.astro";
 		section > p {
 			text-align: center;
 		}
+	}
+	.demo {
+		padding: 4rem 0;
+		text-align: center;
+	}
+	.demo-sub {
+		opacity: 0.7;
+		margin-top: -1rem;
+		margin-bottom: 2rem;
+		font-style: italic;
 	}
 	.video-container {
 		display: flex;
@@ -655,5 +671,17 @@ import Layout from "../layouts/Layout.astro";
 		margin: 0;
 		font-size: 0.9rem;
 		color: var(--text-muted);
+	}
+
+	.docs-link {
+		text-align: center;
+		padding: 3rem 0;
+		border-top: 1px dashed rgba(255, 255, 255, 0.1);
+		margin-top: 2rem;
+	}
+	.docs-link p {
+		font-size: 1.1rem;
+		color: var(--text-muted);
+		margin-bottom: 0;
 	}
 </style>
