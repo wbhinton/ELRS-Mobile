@@ -19,10 +19,21 @@ Whether you are configuring a new receiver on the bench or flashing an emergency
 
 🚀 **Quick Start**
 
-- **Android:** Get it on [Google Play (Open Testing)](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile) or grab the latest `.apk` from the [Releases Page](https://github.com/wbhinton/ELRS-Mobile/releases).
-- **iOS:** Join the [Apple TestFlight Beta](https://testflight.apple.com/join/jwU1WrpX) to install on your iPhone or iPad.
-- **Install:** On Android, open the APK file. You may need to "Allow from this source". On iOS, the TestFlight app will guide you through the installation.
-- **Connect:** Power on your ELRS hardware, join its Wi-Fi hotspot, and open the app. It will auto-detect your device via mDNS.
+The most reliable way to use ELRS Mobile is by joining our official beta programs. This ensures you receive automatic updates and the latest stability fixes.
+
+### 1. Install the App
+- **Android (Google Play):** Join the [Open Testing program](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile) to install via the Play Store.
+- **iOS (TestFlight):** Join the [Apple TestFlight Beta](https://testflight.apple.com/join/jwU1WrpX) to install on your iPhone or iPad.
+- **Alternative (Android Only):** Download the raw `.apk` from the [Releases Page](https://github.com/wbhinton/ELRS-Mobile/releases).
+
+### 2. Connect & Flash
+- **Power On:** Turn on your ELRS hardware and wait for it to enter Wi-Fi Hotspot mode (rapid blinking LED).
+- **Join Network:** Connect your phone to the `ExpressLRS RX` or `ExpressLRS TX` Wi-Fi hotspot (Password: `expresslrs`).
+- **Launch:** Open the app. It will auto-detect your device via mDNS and you're ready to go!
+
+**Joining the Beta Test Groups**
+- **Android Users:** If you are using multiple Google accounts, ensure you are signed in to the Play Store with the same account used to join the testing group.
+- **iOS Users:** You will need to install the **TestFlight** app from the App Store first. Once installed, clicking the link above will prompt you to "Start Testing".
 
 **Key Features**
 - 100% Offline Flashing: Prepare for the field using the Firmware Manager. The app caches complete firmware releases (firmware.zip and hardware.zip directly from Artifactory), allowing you to dynamically assemble and flash firmware targets without an internet connection.
