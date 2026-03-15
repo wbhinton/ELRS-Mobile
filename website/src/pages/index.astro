@@ -10,7 +10,11 @@ import Layout from "../layouts/Layout.astro";
 			<div class="cta-group">
 				<a
 					href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile"
-					class="button primary">Get it on Google Play</a
+					class="button primary">Android (Google Play)</a
+				>
+				<a
+					href="https://testflight.apple.com/join/jwU1WrpX"
+					class="button primary">iOS (TestFlight)</a
 				>
 				<a
 					href="https://github.com/wbhinton/ELRS-Mobile/releases"
@@ -112,19 +116,22 @@ import Layout from "../layouts/Layout.astro";
 						<span class="status">Open Testing</span>
 					</div>
 				</a>
-				<div class="store-card disabled">
+				<a
+					href="https://testflight.apple.com/join/jwU1WrpX"
+					class="store-card"
+				>
 					<div class="store-icon">
 						<svg viewBox="0 0 24 24" fill="currentColor"
 							><path
-								d="M17.05 20.28c-.96.95-2.06 1.92-3.4 1.92s-1.8-.84-3.37-.84-2.1.84-3.41.84c-1.28 0-2.43-1.02-3.41-2.45C1.45 16.71.36 12.44 2.45 9.15c1-1.5 2.51-2.48 4.14-2.48 1.4 0 2.4 1.05 3.4 1.05s2.2-.9 3.55-.9c1.1 0 2.45.6 3.45 1.7-2.7 1.6-2.2 5.3 0 6.6-.7 1.8-1.7 3.6-2.94 5.16zM13 2c0 1.5-1.26 3.1-2.9 3.1-.15-1.9 1.4-3.5 2.9-3.5z"
+								d="M17.05 20.28c-.96.95-2.06 1.92-3.4 1.92s-1.8-.84-3.37-.84-2.1.84-3.41.84c-1.28 0-2.43-1.02-3.41-2.45C1.45 16.71.36 12.44 2.45 9.15c1-1.5 2.51-2.48 trackEvent 4.14-2.48 1.4 0 2.4 1.05 3.4 1.05s2.2-.9 3.55-.9c1.1 0 2.45.6 3.45 1.7-2.7 1.6-2.2 5.3 0 6.6-.7 1.8-1.7 3.6-2.94 5.16zM13 2c0 1.5-1.26 3.1-2.9 3.1-.15-1.9 1.4-3.5 2.9-3.5z"
 							></path>
 						</svg>
 					</div>
 					<div class="store-info">
-						<h3>App Store</h3>
-						<span class="status">Coming Soon</span>
+						<h3>TestFlight</h3>
+						<span class="status">Beta Testing</span>
 					</div>
-				</div>
+				</a>
 			</div>
 		</section>
 
@@ -201,7 +208,10 @@ import Layout from "../layouts/Layout.astro";
 						Install via <a
 							href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile"
 							>Google Play</a
-						> (Recommended) or download the latest <code>.apk</code>
+						> (Android) or <a
+							href="https://testflight.apple.com/join/jwU1WrpX"
+							>TestFlight</a
+						> (iOS), or download the latest <code>.apk</code>
 						from <a
 							href="https://github.com/wbhinton/ELRS-Mobile/releases"
 							>Releases</a
