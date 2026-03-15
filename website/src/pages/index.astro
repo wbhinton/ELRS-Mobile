@@ -252,6 +252,37 @@ import Layout from "../layouts/Layout.astro";
 	</main>
 </Layout>
 
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const playStoreLinks = document.querySelectorAll('a[href*="play.google.com/store/apps/details"]');
+		const testFlightLinks = document.querySelectorAll('a[href*="testflight.apple.com/join"]');
+
+		playStoreLinks.forEach(link => {
+			link.addEventListener('click', () => {
+				if (typeof window.gtag === 'function') {
+					window.gtag('event', 'app_store_click', {
+						'app_store': 'Google Play',
+						'event_category': 'App Install',
+						'event_label': 'Play Store Link'
+					});
+				}
+			});
+		});
+
+		testFlightLinks.forEach(link => {
+			link.addEventListener('click', () => {
+				if (typeof window.gtag === 'function') {
+					window.gtag('event', 'app_store_click', {
+						'app_store': 'TestFlight',
+						'event_category': 'App Install',
+						'event_label': 'TestFlight Link'
+					});
+				}
+			});
+		});
+	});
+</script>
+
 <style>
 	header {
 		text-align: center;
