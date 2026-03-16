@@ -195,9 +195,12 @@ import Layout from "../layouts/Layout.astro";
 				ExpressLRS and the ExpressLRS logo are trademarks of ExpressLRS LLC. Use of these marks on this website is for descriptive and compatibility purposes only. 
 				For the official ExpressLRS configurator and documentation, please visit <a href="https://www.expresslrs.org">expresslrs.org</a>.
 			</p>
-			<p class="support-notice">
-				Support the official ExpressLRS project: <a href="https://opencollective.com/expresslrs/donate?interval=oneTime&amount=20&name=&legalName=&email=">Donate via Open Collective</a>
-			</p>
+			<div class="support-notice">
+				<p>
+					Support the official ExpressLRS project: 
+					<a href="https://opencollective.com/expresslrs/donate?interval=oneTime&amount=20&name=&legalName=&email=" class="support-link">Donate via Open Collective</a>
+				</p>
+			</div>
 			<p>
 				<a href="/privacy">Privacy Policy</a>
 			</p>
@@ -609,12 +612,37 @@ import Layout from "../layouts/Layout.astro";
 		color: var(--text-muted);
 		font-size: 0.9rem;
 	}
-	.legal-notice, .trademark-notice, .support-notice {
+	.legal-notice, .trademark-notice {
 		font-size: 0.75rem;
 		color: #999;
 		max-width: 800px;
 		margin: 1rem auto;
 		line-height: 1.4;
+	}
+	.support-notice {
+		background: rgba(0, 191, 165, 0.08);
+		border: 1px solid rgba(0, 191, 165, 0.2);
+		border-radius: 12px;
+		padding: 1.5rem;
+		margin: 2rem auto;
+		max-width: 600px;
+	}
+	.support-notice p {
+		font-size: 1.1rem;
+		font-weight: 500;
+		color: var(--text);
+		margin: 0;
+	}
+	.support-link {
+		color: var(--primary);
+		text-decoration: underline;
+		font-weight: 700;
+		display: inline-block;
+		margin-left: 0.5rem;
+	}
+	.support-link:hover {
+		color: #ffffff;
+		text-decoration: none;
 	}
 	a {
 		color: var(--primary);
