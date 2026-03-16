@@ -45,17 +45,23 @@ The most reliable way to use ELRS Mobile is by joining our official beta program
 > **Pro-Tip:** ELRS Mobile natively handles forced routing, ensuring your phone doesn't silently switch back to 5G/LTE when it realizes the ELRS hotspot has no internet. This completely eliminates the most common "connected but can't see the receiver" issue out in the field.
 
 --------------------------------------------------------------------------------
+**Demo Video**
+
+[![Flash ELRS from your iPhone](https://img.youtube.com/vi/v1gV7t4i-dA/maxresdefault.jpg)](https://www.youtube.com/shorts/v1gV7t4i-dA)
+*Click the image above to watch the mobile flashing demo!*
+
+--------------------------------------------------------------------------------
 **Screenshots**
 
 <p align="center">
-  <img src="screenshots/Dashboard_device_connected.png" alt="Dashboard - Device Connected" width="32%"/>
-  <img src="screenshots/FirmwareManager.png" alt="Offline Firmware Manager" width="32%"/>
-  <img src="screenshots/FlashingScreen_target_selection.png" alt="Target Selection" width="32%"/>
+  <img src="store_front/android/en-US/phone_169/01.png" alt="Dashboard - Device Connected" width="32%"/>
+  <img src="store_front/android/en-US/phone_169/02.png" alt="Offline Firmware Manager" width="32%"/>
+  <img src="store_front/android/en-US/phone_169/03.png" alt="Target Selection" width="32%"/>
 </p>
 <p align="center">
-  <img src="screenshots/FlashingScreen_flash_download.png" alt="Flashing Progress" width="32%"/>
-  <img src="screenshots/DeviceConfig_initial.png" alt="PWM Configuration" width="32%"/>
-  <img src="screenshots/Settings_top.png" alt="App Settings" width="32%"/>
+  <img src="store_front/android/en-US/phone_169/04.png" alt="Flashing Progress" width="32%"/>
+  <img src="store_front/android/en-US/phone_169/05.png" alt="PWM Configuration" width="32%"/>
+  <img src="store_front/android/en-US/phone_169/06.png" alt="App Settings" width="32%"/>
 </p>
 
 --------------------------------------------------------------------------------
