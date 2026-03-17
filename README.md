@@ -2,7 +2,7 @@
   <img src="icons/elrs_mobile.png" alt="ExpressLRS Mobile Logo" width="150"/>
 </p>
 
-[![Google Play](https://img.shields.io/badge/Google%20Play-Open%20Testing-blue.svg?style=flat-square&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
+[![Google Play](https://img.shields.io/badge/Google%20Play-Get%20It%20On-blue.svg?style=flat-square&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
 [![TestFlight](https://img.shields.io/badge/TestFlight-Beta%20Testing-teal.svg?style=flat-square&logo=apple&logoColor=white)](https://testflight.apple.com/join/jwU1WrpX)
 [![GitHub Release](https://img.shields.io/github/v/release/wbhinton/ELRS-Mobile?style=flat-square&color=orange)](https://github.com/wbhinton/ELRS-Mobile/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/wbhinton/ELRS-Mobile/release.yml?branch=main&style=flat-square)](https://github.com/wbhinton/ELRS-Mobile/actions)
@@ -22,7 +22,7 @@ Whether you are configuring a new receiver on the bench or flashing an emergency
 The most reliable way to use ELRS Mobile is by joining our official beta programs. This ensures you receive automatic updates and the latest stability fixes.
 
 ### 1. Install the App
-- **Android (Google Play):** Join the [Open Testing program](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile) to install via the Play Store.
+- **Android (Google Play):** Install via the [Play Store](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile).
 - **iOS (TestFlight):** Join the [Apple TestFlight Beta](https://testflight.apple.com/join/jwU1WrpX) to install on your iPhone or iPad.
 - **Alternative (Android Only):** Download the raw `.apk` from the [Releases Page](https://github.com/wbhinton/ELRS-Mobile/releases).
 
@@ -32,7 +32,7 @@ The most reliable way to use ELRS Mobile is by joining our official beta program
 - **Launch:** Open the app. It will auto-detect your device via mDNS and you're ready to go!
 
 **Joining the Beta Test Groups**
-- **Android Users:** If you are using multiple Google accounts, ensure you are signed in to the Play Store with the same account used to join the testing group.
+- **Android Users:** The app is available publically on the Play Store. Ensure you are signed into the same Google account that you used to purchase/install the app.
 - **iOS Users:** You will need to install the **TestFlight** app from the App Store first. Once installed, clicking the link above will prompt you to "Start Testing".
 
 **Key Features**
