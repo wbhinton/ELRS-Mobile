@@ -11,12 +11,6 @@ import Layout from "../layouts/Layout.astro";
 			<h1 class="hero-gradient">The Field-Ready ExpressLRS Tool.<br/>No Laptop Required.</h1>
 			<p>Flash V3.x and V4.x Firmware via Wi-Fi directly from your iOS or Android device.</p>
 			
-			{/* 
-			<div class="hero-visual">
-				<img src="/images/hero-iphone-radio.png" alt="ELRS Mobile on iPhone next to a RadioMaster Radio" class="hero-image" />
-			</div>
-			*/}
-
 			<div class="cta-buttons">
 				<a
 					href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile"
@@ -38,38 +32,63 @@ import Layout from "../layouts/Layout.astro";
 			</div>
 		</section>
 
-		<section id="problem-solution" class="problem-solution">
-			<h2>Stuck at the field? No cell service?</h2>
-			<div class="feature-highlight">
-				<div class="highlight-text">
+		<section id="use-cases" class="use-cases">
+			<div class="section-header">
+				<h2>Why ELRS Mobile?</h2>
+				<p class="section-sub">Real-world solutions for the field and the bench.</p>
+			</div>
+			
+			<div class="use-cases-grid">
+				<div class="card use-case-card">
+					<div class="card-header">
+						<span class="badge">Problem</span>
+						<h3>The "Dead Zone" Mismatch</h3>
+					</div>
 					<p>
-						We've all been there: You're at the race or the park, and you realize your TX is on 4.0 but your RX is still on 3.x. Without a laptop and internet, your day is over.
+						You're at a remote bando and realize your TX is on v4.0 but your RX is on v3.3. No cell service, no laptop, and no way to reach the Web Flasher.
 					</p>
+					<div class="solution">
+						<strong>The Fix:</strong> Open the app, select your cached target, and flash via Wi-Fi. Back in the air in under 60 seconds—zero bars required.
+					</div>
+				</div>
+
+				<div class="card use-case-card">
+					<div class="card-header">
+						<span class="badge">Updates</span>
+						<h3>Mass Configuration</h3>
+					</div>
 					<p>
-						<strong>ELRS Mobile solves this with Offline Caching.</strong> Once you've cached a firmware version at home, the app compiles and flashes every supported target completely offline. No laptop, no hassle, just more flight time.
+						Changed your home Wi-Fi password or SSID? Bringing ten aircraft to your PC just to update a text string is a massive chore.
 					</p>
+					<div class="solution">
+						<strong>The Fix:</strong> Bring your phone to the fleet. Connect to each quad's AP and update network settings or binding phrases natively and instantly.
+					</div>
 				</div>
 			</div>
 		</section>
 
 		<section class="features">
-			<div class="feature-card">
+			<div class="card feature-card">
 				<h3>⚡ Blazing Fast</h3>
-				<p>Flash from local cache instead of waiting for web downloads.</p>
+				<p>Flash from local cache instead of waiting for web downloads or cloud compiles.</p>
 			</div>
-			<div class="feature-card">
+			<div class="card feature-card">
 				<h3>📡 Reliable Anywhere</h3>
-				<p>Eliminate edge cases with zero cell coverage or wifi access. Connection resilience ensures you stay connected during transient network drops.</p>
+				<p>Engineered for resilience. Direct OTA flashing ensures stable connections even in remote areas.</p>
 			</div>
-			<div class="feature-card">
+			<div class="card feature-card">
 				<h3>🛠 Unified Flow</h3>
-				<p>One interface for all your ExpressLRS hardware needs. Automatically patches firmware with your unique SSID and Binding Phrase before flashing OTA.</p>
+				<p>One interface for all hardware. Automatically patches firmware with your config before flashing.</p>
 			</div>
 		</section>
 
+
+
 		<section class="demo">
-			<h2>See it in Action</h2>
-			<p class="demo-sub">Watch the ELRS Mobile Flashing Demo by 828Engineer</p>
+			<div class="section-header">
+				<h2>See it in Action</h2>
+				<p class="section-sub">Quick OTA flashing from local cache.</p>
+			</div>
 			<div class="video-container">
 				<div class="phone-mockup">
 					<iframe
@@ -86,124 +105,89 @@ import Layout from "../layouts/Layout.astro";
 			</div>
 		</section>
 
-
-
 		<section id="installation">
-			<h2>Installation</h2>
+			<div class="section-header">
+				<h2>Get Started</h2>
+				<p class="section-sub">Choose your platform and join the flight.</p>
+			</div>
 			
 			<div class="installation-type">
-				<h3>Recommended: Official App Stores</h3>
-				<p>For the most seamless experience and automatic updates, install via official channels.</p>
 				<div class="store-grid">
-					<a
-						href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile"
-						class="store-card"
-					>
+					<a href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile" class="store-card">
 						<div class="store-icon">
-							<svg viewBox="0 0 24 24" fill="currentColor"
-								><path
-									d="M17.523 15.3414L20.355 13.706C21.215 13.209 21.215 11.961 20.355 11.464L17.523 9.82944L14.771 12.5834L17.523 15.3414ZM13.883 13.4724L16.635 16.2234L5.656 22.564C5.071 22.902 4.331 22.795 3.865 22.28L13.883 13.4724ZM3.535 20.916L12.997 12.5844L3.535 4.25144C3.195 4.41444 3 4.76744 3 5.16644V20.0014C3 20.4 3.195 20.7534 3.535 20.916ZM13.883 11.6964L3.865 2.88844C4.331 2.37344 5.071 2.26644 5.656 2.60444L16.635 8.94544L13.883 11.6964Z"
-								></path>
-							</svg>
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414L20.355 13.706C21.215 13.209 21.215 11.961 20.355 11.464L17.523 9.82944L14.771 12.5834L17.523 15.3414ZM13.883 13.4724L16.635 16.2234L5.656 22.564C5.071 22.902 4.331 22.795 3.865 22.28L13.883 13.4724ZM3.535 20.916L12.997 12.5844L3.535 4.25144C3.195 4.41444 3 4.76744 3 5.16644V20.0014C3 20.4 3.195 20.7534 3.535 20.916ZM13.883 11.6964L3.865 2.88844C4.331 2.37344 5.071 2.26644 5.656 2.60444L16.635 8.94544L13.883 11.6964Z"></path></svg>
 						</div>
 						<div class="store-info">
 							<h3>Google Play</h3>
-							<span class="status">Production</span>
+							<span class="badge">Production</span>
 						</div>
 					</a>
-					<a
-						href="https://testflight.apple.com/join/jwU1WrpX"
-						class="store-card"
-					>
+					<a href="https://testflight.apple.com/join/jwU1WrpX" class="store-card">
 						<div class="store-icon">
-							<svg viewBox="0 0 24 24" fill="currentColor"
-								><path
-									d="M17.05 20.28c-.96.95-2.06 1.92-3.4 1.92s-1.8-.84-3.37-.84-2.1.84-3.41.84c-1.28 0-2.43-1.02-3.41-2.45-2.17-3.17-3.26-7.44-1.17-10.73 1-1.5 2.51-2.48 4.14-2.48 1.4 0 2.4 1.05 3.4 1.05s2.2-.9 3.55-.9c1.1 0 2.45.6 3.45 1.7-2.7 1.6-2.2 5.3 0 6.6-.7 1.8-1.7 3.6-2.94 5.16zM13 2c0 1.5-1.26 3.1-2.9 3.1-.15-1.9 1.4-3.5 2.9-3.5z"
-								></path>
-							</svg>
+							<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.96.95-2.06 1.92-3.4 1.92s-1.8-.84-3.37-.84-2.1.84-3.41.84c-1.28 0-2.43-1.02-3.41-2.45-2.17-3.17-3.26-7.44-1.17-10.73 1-1.5 2.51-2.48 4.14-2.48 1.4 0 2.4 1.05 3.4 1.05s2.2-.9 3.55-.9c1.1 0 2.45.6 3.45 1.7-2.7 1.6-2.2 5.3 0 6.6-.7 1.8-1.7 3.6-2.94 5.16zM13 2c0 1.5-1.26 3.1-2.9 3.1-.15-1.9 1.4-3.5 2.9-3.5z"></path></svg>
 						</div>
 						<div class="store-info">
 							<h3>TestFlight</h3>
-							<span class="status">In Review for App Store</span>
+							<span class="badge">iOS Beta</span>
 						</div>
 					</a>
 				</div>
 			</div>
 
 			<div class="installation-advanced">
-				<h3>Advanced: Sideloading & Manual Installs</h3>
-				<p>For power users or local development, download the latest artifacts directly.</p>
+				<h3>Advanced Installation</h3>
+				<p>Direct downloads and source code for power users.</p>
 				<div class="advanced-links">
-					<a href="https://github.com/wbhinton/ELRS-Mobile/releases" class="advanced-card">
-						<h4>Download Android APK</h4>
-						<p>Sideload directly from GitHub Releases</p>
+					<a href="https://github.com/wbhinton/ELRS-Mobile/releases" class="card advanced-card">
+						<h4>Android APK</h4>
+						<p>Sideload via GitHub Releases</p>
 					</a>
-					<a href="https://github.com/wbhinton/ELRS-Mobile" class="advanced-card">
-						<h4>View Source Code</h4>
-						<p>Build from source or contribute on GitHub</p>
+					<a href="https://github.com/wbhinton/ELRS-Mobile" class="card advanced-card">
+						<h4>Source Code</h4>
+						<p>View on GitHub</p>
 					</a>
 				</div>
 			</div>
 		</section>
 
 		<section id="hardware">
-			<h2>Supported Hardware & Versions</h2>
-			<p>
-				ELRS Mobile is optimized for high-speed Wi-Fi flashing across current ExpressLRS generations (V3.x and V4.x).
-			</p>
+			<div class="section-header">
+				<h2>Compatibility</h2>
+				<p class="section-sub">Broad support for the ExpressLRS ecosystem.</p>
+			</div>
 			<div class="hardware-grid">
-				<div class="hw-card">
+				<div class="card hw-card">
 					<h4>Supported Chipsets</h4>
 					<ul>
 						<li><strong>ESP8285</strong> (Common on RXs)</li>
 						<li><strong>ESP32</strong> (Standard TX/RX)</li>
-						<li><strong>ESP32-C3</strong> (Next-Gen)</li>
-						<li><strong>ESP32-S3</strong> (High-Performance)</li>
+						<li><strong>ESP32-C3 / S3</strong> (Next-Gen)</li>
 					</ul>
 				</div>
-				<div class="hw-card">
-					<h4>Tested Targets</h4>
+				<div class="card hw-card">
+					<h4>Tested Hardware</h4>
 					<ul>
 						<li>RadioMaster XR1 / XR4 Dual Band</li>
-						<li>BETAFPV SuperP 14Ch (2.4G & 900M)</li>
-						<li>HappyModel EP / EP Dual</li>
+						<li>BETAFPV SuperP / Micro TX</li>
+						<li>HappyModel EP Dual / ES900</li>
 						<li>RadioMaster Nomad / Pocket</li>
 					</ul>
 				</div>
 			</div>
-			<p class="note">
-				Currently unsupported: STM32 targets requiring serial STLink or
-				Betaflight Passthrough.
-			</p>
 		</section>
 
-
-
-
-
 		<div class="docs-link">
-			<p>Want to see how it works under the hood? Check out the <a href="/user_guide">Official Documentation</a>.</p>
+			<p>Need help? Visit the <a href="/user_guide">User Guide</a>.</p>
 		</div>
 
 		<footer>
 			<p>&copy; 2026 Weston Hinton. Distributed under the GNU GPL v3.</p>
-			<p class="legal-notice">
-				ELRS Mobile is a free and open-source (FOSS) project developed independently by Weston Hinton. 
-				This project is not an official product of ExpressLRS LLC and is not officially supported, endorsed, or certified by the ExpressLRS development team.
-			</p>
-			<p class="trademark-notice">
-				ExpressLRS and the ExpressLRS logo are trademarks of ExpressLRS LLC. Use of these marks on this website is for descriptive and compatibility purposes only. 
-				For the official ExpressLRS configurator and documentation, please visit <a href="https://www.expresslrs.org">expresslrs.org</a>.
-			</p>
-			<div class="support-notice">
-				<p>
-					Support the official ExpressLRS project: 
-					<a href="https://opencollective.com/expresslrs/donate?interval=oneTime&amount=20&name=&legalName=&email=" class="support-link">Donate via Open Collective</a>
-				</p>
+			<div class="trademark-notice">
+				ExpressLRS™ is a trademark of ExpressLRS LLC. ELRS Mobile is an independent FOSS project and is not affiliated with or endorsed by ExpressLRS LLC.
 			</div>
-			<p>
-				<a href="/privacy">Privacy Policy</a>
-			</p>
+			<div class="support-notice">
+				Support the project: <a href="https://opencollective.com/expresslrs/donate" class="support-link">Donate to ExpressLRS</a>
+			</div>
 		</footer>
 	</main>
 </Layout>
@@ -240,476 +224,387 @@ import Layout from "../layouts/Layout.astro";
 </script>
 
 <style>
-	.hero {
+	/* --- Design System --- */
+	:root {
+		--primary: #00bfa5;
+		--surface: rgba(255, 255, 255, 0.03);
+		--text: #ffffff;
+		--text-muted: #a0a0a0;
+		--background: #0a0a0a;
+	}
+
+	main {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	section {
+		padding: 5rem 0;
+	}
+
+	.section-header {
 		text-align: center;
-		padding: 4rem 0;
-	}
-	.hero-gradient {
-		background-image: linear-gradient(45deg, var(--primary), #ffffff);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.logo-container {
-		margin-bottom: 1rem;
-		display: flex;
-		justify-content: center;
-	}
-	.logo {
-		width: 80px;
-		height: 80px;
-		filter: drop-shadow(0 0 10px rgba(0, 191, 165, 0.3));
-	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 800;
-		margin: 0;
-		line-height: 1.1;
-	}
-	@media (max-width: 600px) {
-		h1 {
-			font-size: 2.5rem;
-		}
-	}
-	.text-gradient {
-		background-image: linear-gradient(45deg, var(--primary), #ffffff);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	p {
-		font-size: 1.1rem;
-		line-height: 1.6;
-		margin-bottom: 2rem;
-	}
-	.problem-solution {
-		background: rgba(0, 191, 165, 0.05);
-		border-top: 1px solid rgba(0, 191, 165, 0.1);
-		border-bottom: 1px solid rgba(0, 191, 165, 0.1);
-		margin: 2rem 0;
-	}
-	.feature-highlight {
-		padding: 2.5rem;
-		margin-bottom: 1rem;
-	}
-	@media (max-width: 600px) {
-		.feature-highlight {
-			padding: 1.5rem;
-		}
-	}
-	.features {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		gap: 2rem;
 		margin-bottom: 4rem;
 	}
-	.feature-card {
-		background: var(--surface);
-		padding: 2.5rem;
-		border-radius: 20px;
-		border: 1px solid rgba(0, 191, 165, 0.1);
-		transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s;
+
+	h2 {
+		font-size: 3rem;
+		font-weight: 800;
+		margin-bottom: 1rem;
+		letter-spacing: -0.02em;
 	}
-	.feature-card:hover {
+
+	.section-sub {
+		font-size: 1.25rem;
+		color: var(--text-muted);
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.card {
+		background: var(--surface);
+		border-radius: 24px;
+		border: 1px solid rgba(0, 191, 165, 0.1);
+		padding: 2.5rem;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.card:hover {
 		transform: translateY(-8px);
 		border-color: var(--primary);
+		box-shadow: 0 20px 40px rgba(0, 191, 165, 0.1);
+		background: rgba(0, 191, 165, 0.02);
 	}
-	.feature-card h3 {
-		color: var(--primary);
-		font-size: 1.5rem;
-		margin-top: 0;
-		margin-bottom: 1rem;
+
+	/* --- Hero --- */
+	.hero {
+		text-align: center;
+		padding: 8rem 0 5rem;
 	}
-	.feature-card p {
-		font-size: 1rem;
-		margin-bottom: 0;
-		opacity: 0.9;
+
+	.hero-gradient {
+		font-size: 4.5rem;
+		font-weight: 900;
+		line-height: 1.05;
+		margin-bottom: 2rem;
+		background: linear-gradient(to bottom right, #fff 30%, var(--primary));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
 	}
-	.tagline {
+
+	.hero p {
 		font-size: 1.5rem;
 		color: var(--text-muted);
-		margin-top: 1rem;
-		margin-bottom: 0.5rem;
+		max-width: 700px;
+		margin: 0 auto 3rem;
 	}
-	.sub-tagline {
-		font-size: 1.1rem;
-		opacity: 0.7;
-		margin-bottom: 2rem;
-	}
-	.hero-visual {
-		margin: 24px auto;
-		max-width: 600px;
-		border-radius: 24px;
-		overflow: hidden;
-		box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-		border: 1px solid rgba(0, 191, 165, 0.2);
-	}
-	.hero-image {
-		width: 100%;
-		height: auto;
-		display: block;
-	}
-	.cta-primary {
-		margin-top: 2rem;
+
+	.cta-buttons {
 		display: flex;
 		justify-content: center;
 		gap: 1.5rem;
-		flex-wrap: wrap;
+		margin-bottom: 2rem;
 	}
+
+	.btn {
+		padding: 1rem 2.5rem;
+		border-radius: 14px;
+		font-weight: 700;
+		font-size: 1.1rem;
+		transition: all 0.2s;
+		text-decoration: none;
+	}
+
+	.btn.primary {
+		background: var(--primary);
+		color: #000;
+	}
+
+	.btn.secondary {
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		color: #fff;
+		background: rgba(255, 255, 255, 0.03);
+	}
+
+	.btn:hover {
+		transform: translateY(-2px);
+		filter: brightness(1.1);
+	}
+
 	.cta-secondary {
-		margin-top: 1.5rem;
 		display: flex;
 		justify-content: center;
-		gap: 0.8rem;
-		align-items: center;
-		font-size: 0.9rem;
-		opacity: 0.8;
-	}
-	.secondary-link {
+		gap: 1rem;
 		color: var(--text-muted);
+		font-size: 0.95rem;
+	}
+
+	.secondary-link {
+		color: inherit;
 		text-decoration: none;
 		transition: color 0.2s;
 	}
+
 	.secondary-link:hover {
 		color: var(--primary);
-		text-decoration: underline;
 	}
-	.divider {
-		color: var(--surface);
-		user-select: none;
+
+	/* --- Use Cases --- */
+	.use-cases-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 2rem;
 	}
-	.btn {
-		padding: 0.8rem 2.5rem;
-		border-radius: 12px;
-		text-decoration: none;
-		font-weight: bold;
-		transition: transform 0.2s, background 0.2s;
-		display: inline-block;
-	}
-	.btn:hover {
-		transform: translateY(-2px);
-	}
-	.btn.primary {
-		background: var(--primary);
-		color: white;
-	}
-	.btn.secondary {
-		border: 1px solid var(--primary);
-		color: var(--primary);
-	}
-	.button {
-		padding: 0.8rem 2.5rem;
-		border-radius: 12px;
-		text-decoration: none;
-		font-weight: bold;
-		transition: transform 0.2s, background 0.2s;
-	}
-	.button:hover {
-		transform: translateY(-2px);
-	}
-	.button.primary {
-		background: var(--primary);
-		color: white;
-	}
-	.button.secondary {
-		border: 1px solid var(--primary);
-		color: var(--primary);
-	}
-	.cta-buttons {
-		margin-top: 2rem;
+
+	.card-header {
 		display: flex;
-		justify-content: center;
-		gap: 1.5rem;
-		flex-wrap: wrap;
-	}
-	section {
-		padding: 3rem 0;
-	}
-	h2 {
-		font-size: 2rem;
-		border-bottom: 2px solid var(--surface);
-		padding-bottom: 0.5rem;
+		justify-content: space-between;
+		align-items: center;
 		margin-bottom: 1.5rem;
 	}
-	@media (max-width: 600px) {
-		h2 {
-			text-align: center;
-		}
-		section > p {
-			text-align: center;
-		}
+
+	.badge {
+		font-size: 0.75rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		padding: 0.4rem 0.8rem;
+		border-radius: 100px;
+		background: rgba(0, 191, 165, 0.1);
+		color: var(--primary);
 	}
-	.demo {
-		padding: 4rem 0;
-		text-align: center;
+
+	.use-case-card h3 {
+		font-size: 1.5rem;
+		margin: 0;
 	}
-	.demo-sub {
-		opacity: 0.7;
-		margin-top: -1rem;
+
+	.use-case-card p {
+		color: var(--text-muted);
+		line-height: 1.6;
 		margin-bottom: 2rem;
-		font-style: italic;
+		flex-grow: 1;
 	}
+
+	.solution {
+		padding: 1.5rem;
+		background: rgba(0, 191, 165, 0.05);
+		border-radius: 16px;
+		border-left: 4px solid var(--primary);
+		font-size: 1rem;
+	}
+
+	.solution strong {
+		display: block;
+		color: var(--primary);
+		margin-bottom: 0.25rem;
+	}
+
+	/* --- Features --- */
+	.features {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+	}
+
+	.feature-card h3 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: var(--primary);
+	}
+
+	/* --- Demo --- */
 	.video-container {
 		display: flex;
 		justify-content: center;
-		padding: 2rem 0;
 	}
+
 	.phone-mockup {
-		position: relative;
-		width: 300px;
-		max-width: 100%;
-		height: 600px;
+		width: 320px;
+		height: 640px;
 		background: #000;
-		border: 12px solid #2d2d2d;
-		border-radius: 36px;
+		border: 12px solid #1a1a1a;
+		border-radius: 48px;
+		position: relative;
 		overflow: hidden;
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+		box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
 	}
-	@media (max-width: 400px) {
-		.phone-mockup {
-			height: 500px;
-		}
-	}
-	.phone-mockup::before {
+
+	.phone-mockup::after {
 		content: "";
 		position: absolute;
 		top: 0;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 150px;
-		height: 25px;
-		background: #2d2d2d;
-		border-bottom-left-radius: 12px;
-		border-bottom-right-radius: 12px;
-		z-index: 10;
-	}
-	.store-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1.5rem;
-		margin-top: 2rem;
-	}
-	@media (max-width: 600px) {
-		.store-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-	.store-card {
-		display: flex;
-		align-items: center;
-		padding: 1.5rem;
-		background: var(--surface);
-		border-radius: 16px;
-		border: 1px solid rgba(0, 191, 165, 0.2);
-		gap: 1.2rem;
-		transition: transform 0.2s ease;
-	}
-	.store-card.disabled {
-		opacity: 0.8;
-		filter: grayscale(0.5);
-	}
-	.store-icon svg {
-		width: 40px;
-		height: 40px;
-		color: var(--primary);
-	}
-	.store-info h3 {
-		margin: 0;
-		font-size: 1.2rem;
-	}
-	.store-info .status {
-		font-size: 0.9rem;
-		color: var(--primary);
-		opacity: 0.8;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-	.hardware-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 2rem;
-		margin: 2rem 0;
-	}
-	@media (max-width: 600px) {
-		.hardware-grid {
-			grid-template-columns: 1fr;
-			gap: 1rem;
-		}
-	}
-	.hw-card {
-		background: var(--surface);
-		padding: 1.5rem;
-		border-radius: 12px;
-	}
-	.hw-card h4 {
-		margin-top: 0;
-		color: var(--primary);
-		border-bottom: 1px solid var(--background);
-		padding-bottom: 0.5rem;
-	}
-	.hw-card ul {
-		margin: 0;
-		padding-left: 1.2rem;
-		color: var(--text-muted);
-	}
-	.note {
-		font-size: 0.9rem;
-		font-style: italic;
-		color: var(--text-muted);
-		text-align: center;
-	}
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		gap: 1.5rem;
-	}
-	.card {
-		background: var(--surface);
-		padding: 1.5rem;
-		border-radius: 12px;
-		border: 1px solid transparent;
-		transition: border-color 0.2s;
-	}
-	.card:hover {
-		border-color: var(--primary);
-	}
-	.card h3 {
-		margin-top: 0;
-		color: var(--primary);
-	}
-	.install-steps {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
-	}
-	.step {
-		display: flex;
-		align-items: center;
-		gap: 1.5rem;
-		background: var(--surface);
-		padding: 1rem;
-		border-radius: 8px;
-	}
-	.step-number {
-		background: var(--primary);
-		color: white;
-		width: 32px;
-		height: 32px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 50%;
-		font-weight: bold;
-		flex-shrink: 0;
-	}
-	footer {
-		text-align: center;
-		padding: 2rem 0;
-		margin-top: 4rem;
-		border-top: 1px solid var(--surface);
-		color: var(--text-muted);
-		font-size: 0.9rem;
-	}
-	.legal-notice, .trademark-notice {
-		font-size: 0.75rem;
-		color: #999;
-		max-width: 800px;
-		margin: 1rem auto;
-		line-height: 1.4;
-	}
-	.support-notice {
-		background: rgba(0, 191, 165, 0.08);
-		border: 1px solid rgba(0, 191, 165, 0.2);
-		border-radius: 12px;
-		padding: 1.5rem;
-		margin: 2rem auto;
-		max-width: 600px;
-	}
-	.support-notice p {
-		font-size: 1.1rem;
-		font-weight: 500;
-		color: var(--text);
-		margin: 0;
-	}
-	.support-link {
-		color: var(--primary);
-		text-decoration: underline;
-		font-weight: 700;
-		display: inline-block;
-		margin-left: 0.5rem;
-	}
-	.support-link:hover {
-		color: #ffffff;
-		text-decoration: none;
-	}
-	a {
-		color: var(--primary);
-		text-decoration: none;
-	}
-	a:hover {
-		text-decoration: underline;
-	}
-	.store-card:hover {
-		transform: translateY(-5px);
-		border-color: var(--primary);
-		box-shadow: 0 5px 15px rgba(0, 191, 165, 0.2);
+		width: 140px;
+		height: 28px;
+		background: #1a1a1a;
+		border-bottom-left-radius: 18px;
+		border-bottom-right-radius: 18px;
 	}
 
-	.installation-type {
+	/* --- Installation --- */
+	.store-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 1.5rem;
 		margin-bottom: 3rem;
 	}
 
+	.store-card {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		padding: 1.5rem;
+		background: var(--surface);
+		border: 1px solid rgba(255, 255, 255, 0.05);
+		border-radius: 20px;
+		text-decoration: none;
+		color: #fff;
+		transition: all 0.2s;
+	}
+
+	.store-card:hover {
+		border-color: var(--primary);
+		background: rgba(0, 191, 165, 0.03);
+		transform: translateY(-4px);
+	}
+
+	.store-icon svg {
+		width: 48px;
+		height: 48px;
+		color: var(--primary);
+	}
+
+	.store-info h3 {
+		font-size: 1.25rem;
+		margin: 0 0 0.25rem;
+	}
+
 	.installation-advanced {
-		background: rgba(255, 255, 255, 0.03);
-		padding: 2rem;
-		border-radius: 16px;
+		text-align: center;
+		padding: 3rem;
+		background: rgba(255, 255, 255, 0.02);
+		border-radius: 32px;
 		border: 1px dashed rgba(255, 255, 255, 0.1);
 	}
 
 	.advanced-links {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		gap: 1.5rem;
-		margin-top: 1.5rem;
+		margin-top: 2rem;
 	}
 
 	.advanced-card {
-		background: var(--surface);
 		padding: 1.5rem;
-		border-radius: 12px;
-		text-decoration: none;
-		color: var(--text);
-		transition: transform 0.2s, border-color 0.2s;
-		border: 1px solid transparent;
-	}
-
-	.advanced-card:hover {
-		transform: translateY(-3px);
-		border-color: #555;
+		text-align: left;
 	}
 
 	.advanced-card h4 {
-		margin: 0 0 0.5rem 0;
-		color: var(--primary);
+		margin: 0 0 0.5rem;
+		font-size: 1.1rem;
 	}
 
 	.advanced-card p {
-		margin: 0;
 		font-size: 0.9rem;
+		margin: 0;
 		color: var(--text-muted);
 	}
 
+	/* --- Hardware --- */
+	.hardware-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+		margin-bottom: 2rem;
+	}
+
+	.hardware-card h4 {
+		font-size: 1.25rem;
+		margin: 0 0 1rem;
+		color: var(--primary);
+	}
+
+	.hardware-card ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.hardware-card li {
+		padding: 0.5rem 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+		color: var(--text-muted);
+	}
+
+	.hardware-card li:last-child {
+		border: none;
+	}
+
+	.hardware-card li strong {
+		color: #fff;
+	}
+
+	.note {
+		text-align: center;
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		font-style: italic;
+	}
+
+	/* --- Footer --- */
 	.docs-link {
 		text-align: center;
-		padding: 3rem 0;
-		border-top: 1px dashed rgba(255, 255, 255, 0.1);
-		margin-top: 2rem;
+		padding: 4rem 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.05);
 	}
-	.docs-link p {
-		font-size: 1.1rem;
+
+	.docs-link a {
+		color: var(--primary);
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	footer {
+		text-align: center;
+		padding-bottom: 5rem;
 		color: var(--text-muted);
-		margin-bottom: 0;
+		font-size: 0.9rem;
+	}
+
+	.trademark-notice {
+		font-size: 0.75rem;
+		max-width: 800px;
+		margin: 2rem auto;
+		line-height: 1.5;
+		opacity: 0.6;
+	}
+
+	.support-notice {
+		margin-top: 2rem;
+		padding: 1.5rem;
+		background: rgba(0, 191, 165, 0.05);
+		border-radius: 100px;
+		display: inline-block;
+	}
+
+	.support-link {
+		color: var(--primary);
+		font-weight: 700;
+		text-decoration: none;
+		margin-left: 0.5rem;
+	}
+
+	/* --- Responsive --- */
+	@media (max-width: 768px) {
+		.hero-gradient { font-size: 3rem; }
+		h2 { font-size: 2.25rem; }
+		section { padding: 4rem 0; }
+		.card { padding: 1.5rem; }
 	}
 </style>
