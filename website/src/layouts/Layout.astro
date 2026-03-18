@@ -45,43 +45,25 @@ const schema = JSON.stringify({
 			gtag('config', 'G-8X6YE82V0S');
 		</script>
 	</head>
-	<body>
-		<nav class="navbar">
-			<div class="nav-content">
-				<a href="/" class="nav-logo">
-					<img src="/images/logo.svg" alt="Logo" />
+	<body class="m-0 flex flex-col min-h-screen bg-background text-white font-sans antialiased scroll-smooth">
+		<nav class="fixed top-0 inset-x-0 h-16 bg-background/80 backdrop-blur-xl border-b border-white/10 z-[1000] flex items-center">
+			<div class="w-full max-w-4xl mx-auto px-4 flex justify-between items-center">
+				<a href="/" class="flex items-center gap-3 no-underline text-white font-bold text-lg">
+					<img src="/images/logo.svg" alt="Logo" class="w-8 h-8" />
 					<span>ELRS Mobile</span>
 				</a>
-				<div class="nav-links">
-					<a href="/supported_hardware">Hardware</a>
-					<a href="/user_guide">Documentation</a>
-					<a href="/#installation" class="nav-btn">Get App</a>
+				<div class="flex items-center gap-4 md:gap-6">
+					<a href="/supported_hardware" class="hidden md:block no-underline text-text-muted text-sm transition-colors hover:text-primary">Hardware</a>
+					<a href="/user_guide" class="hidden md:block no-underline text-text-muted text-sm transition-colors hover:text-primary">Documentation</a>
+					<a href="/#installation" class="bg-primary text-background px-4 py-2 rounded-lg no-underline font-bold text-xs md:text-sm transition-transform hover:scale-105">Get App</a>
 				</div>
 			</div>
 		</nav>
 		<slot />
 	</body>
 </html>
+
 <style is:global>
-	:root {
-		--primary: #00BFA5;
-		--background: #1E1E1E;
-		--surface: #2D2D2D;
-		--text: #FFFFFF;
-		--text-muted: #BDBDBD;
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: var(--background);
-		color: var(--text);
-		scroll-behavior: smooth;
-	}
-	body {
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
 	code {
 		font-family:
 			Menlo,
@@ -92,80 +74,5 @@ const schema = JSON.stringify({
 			Bitstream Vera Sans Mono,
 			Courier New,
 			monospace;
-	}
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		line-height: 1.6;
-		padding-top: 5rem; /* Space for sticky nav */
-	}
-	.navbar {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 4rem;
-		background: rgba(30, 30, 30, 0.8);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-		z-index: 1000;
-		display: flex;
-		align-items: center;
-	}
-	.nav-content {
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		margin: 0 auto;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-	.nav-logo {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		text-decoration: none;
-		color: var(--text);
-		font-weight: bold;
-		font-size: 1.2rem;
-	}
-	.nav-logo img {
-		width: 32px;
-		height: 32px;
-	}
-	.nav-links {
-		display: flex;
-		align-items: center;
-		gap: 1.5rem;
-	}
-	.nav-links a:not(.nav-btn) {
-		text-decoration: none;
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		transition: color 0.2s;
-	}
-	.nav-links a:hover {
-		color: var(--primary);
-	}
-	.nav-btn {
-		background: var(--primary);
-		color: var(--background) !important;
-		padding: 0.5rem 1rem;
-		border-radius: 8px;
-		text-decoration: none;
-		font-weight: bold;
-		font-size: 0.85rem;
-		transition: transform 0.2s;
-	}
-	.nav-btn:hover {
-		transform: scale(1.05);
-	}
-	@media (max-width: 600px) {
-		.nav-links a:not(.nav-btn) {
-			display: none;
-		}
 	}
 </style>
