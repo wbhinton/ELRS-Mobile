@@ -1,208 +1,160 @@
 # System Architecture
 
-**Project**: ELRS (ExpressLRS) Mobile App
-**Architecture Pattern**: Clean Architecture with Riverpod State Management
-**Last Updated**: 2026-03-15
+**Project**: ELRS Mobile
+**Architecture Pattern**: Layered + Platform Integration
+**Last Updated**: 2026-03-18
 
 ## High-Level Architecture
 
 ```mermaid
 graph TB
-    subgraph Presentation_Layer
-        FC[FlashingController]
-        CVM[ConfigViewModel]
-        DEVM[DeviceEditorViewModel]
-        SC[SettingsController]
-        FWC[FirmwareManagerController]
-        TS[TargetSelectors]
-        AS[AnalyticsService]
+    subgraph Mobile App
+        UI[Flutter UI Layer]
+        BL[FirmwareAssembler]
+        Cache[FirmwareCacheService]
+        Prefs[SharedPreferences]
+        Native[NativeNetworkService]
     end
-    
-    subgraph Feature_Layer
-        DR[DeviceRepository]
-        FR[FirmwareRepository]
-        TR[TargetsRepository]
-        RR[ReleasesRepository]
-        FP[FirmwarePatcher]
-        FA[FirmwareAssembler]
+
+    subgraph Platform Channel
+        MC[MethodChannel]
+        NativeAPI[bindProcessToWiFi]
     end
-    
-    subgraph Core_Infrastructure
-        DS[DiscoveryService]
-        CS[ConnectivityService]
-        NNS[NativeNetworkService]
-        DD[DeviceDio]
-        ID[InternetDio]
-        CR[ConnectionRepository]
-        PS[PersistenceService]
-        FCS[FirmwareCacheService]
-        DCS[DeviceConfigService]
-    end
-    
-    subgraph External_Services
+
+    subgraph External Services
         Artifactory[ExpressLRS Artifactory]
-        GitHub[GitHub Targets JSON]
-        Device[ELRS Device<br/>10.0.0.1]
-        Native[iOS/Android<br/>Platform Channel]
-        Aptabase[Aptabase<br/>Analytics]
+        Aptabase[Aptabase Analytics]
+        Sentry[Sentry Monitoring]
     end
-    
-    FC -->|selects target| TR
-    FC -->|downloads| FR
-    FR -->|caches| FCS
-    FR -->|HTTP| Artifactory
-    TR -->|HTTP| GitHub
-    TR -->|caches| FCS
-    FC -->|uses| DR
-    DR -->|local HTTP| DD
-    DD -->|connects| Device
-    
-    CVM -->|probes| DCS
-    DCS -->|HTTP| DD
-    CVM -->|discovers| DS
-    DS -->|mDNS scan| NNS
-    NNS -->|platform channel| Native
-    
-    CS -->|monitors| NNS
-    CR -->|provides IP| DD
-    
-    FC -->|patches| FP
-    FP -->|assembles| FA
-    FA -->|config| FCS
-    
-    SC -->|persists| PS
-    FCS -->|file cache| PS
-    
-    AS -->|tracks events| Aptabase
-    DS -->|emits events| AS
-    DR -->|emits events| AS
-    FC -->|emits events| AS
+
+    UI --> BL
+    BL --> Cache
+    Cache --> Artifactory
+    UI --> Prefs
+    UI --> Native
+    Native --> MC
+    MC --> NativeAPI
+    BL --> Aptabase
+    BL --> Sentry
 ```
 
 ## Component Architecture
 
-### Analytics Module (`lib/src/core/analytics/`)
-**Purpose**: Event tracking service using Aptabase SDK
-**Key Components**:
-- **AnalyticsService**: Singleton service with trackEvent(name, properties)
-- Initializes early in main.dart before UI
-- Respects shareAnalytics setting (opt-in, default true)
+### Flutter UI Layer
+**Purpose**: Cross-platform mobile UI for firmware management and device configuration
+**Location**: [`lib/src/features/`]
+**Responsibilities**:
+- Flashing screen with target selection and action controls
+- Settings UI with master-detail tablet layout
+- Firmware manager with download progress tracking
 
-### Flashing Module (`lib/src/features/flashing/`)
-**Purpose**: Core firmware flashing functionality
-**Key Components**:
-- **FlashingController**: Orchestrates download → patch → flash workflow
-- **FirmwarePatcher**: Binary modification for ESP/STM32
-- **FirmwareAssembler**: Builds unified firmware with appended config
-- **DeviceRepository**: HTTP client for device flashing (10.0.0.1)
-- **FirmwareRepository**: Downloads from ExpressLRS Artifactory
-- **TargetsRepository**: Fetches target definitions from GitHub
+**Dependencies**:
+- Internal: FlashingController, SettingsController, ConfigViewModel
+- External: flutter_hooks, riverpod, go_router
 
-### Configuration Module (`lib/src/features/config/`)
-**Purpose**: Device runtime configuration via heartbeat
-**Key Components**:
-- **ConfigViewModel**: Heartbeat polling, config fetch/update
-- **DeviceEditorViewModel**: Device configuration editing
-- **DeviceConfigService**: HTTP client for /config, /options.json
+### FirmwareAssembler (Business Logic Layer)
+**Purpose**: Local on-device firmware assembly and patching
+**Location**: [`lib/src/core/`]
+**Responsibilities**:
+- Extract base firmware from cached archives
+- Inject user configuration (bind phrase, WiFi, PWM settings)
+- Generate target-specific binary payloads
 
-### Networking Layer (`lib/src/core/networking/`)
-**Purpose**: Device discovery and connectivity
-**Key Components**:
-- **DiscoveryService**: mDNS scanning for `_http._tcp` with analytics events
-- **ConnectivityService**: Network interface binding
-- **NativeNetworkService**: Platform channel for WiFi binding
+**Interface**:
+```dart
+Future<Uint8List> assemble(
+  Target target,
+  RuntimeConfig config,
+  String? bindPhrase,
+) async;
+```
+
+### FirmwareCacheService (Data/Cache Layer)
+**Purpose**: Local caching for firmware archives enabling offline operation
+**Location**: [`lib/src/core/storage/`]
+**Responsibilities**:
+- Pull and store firmware.zip and hardware.zip from Artifactory
+- Maintain versioned cache for instant flashing
+- Handle cache invalidation and cleanup
+
+### NativeNetworkService (Platform Integration Layer)
+**Purpose**: Platform channel wrapper for OS-level WiFi network binding
+**Location**: [`lib/src/core/networking/native_network_service.dart`]
+**Responsibilities**:
+- Invoke platform channels for bindProcessToWiFi
+- Prevent OS cellular fallback to 10.0.0.1
+- Cross-platform abstraction (iOS stub, Android implementation)
+
+**Interface**:
+```dart
+Future<void> bindProcessToWiFi();
+Future<void> unbindProcess();
+```
 
 ## Data Flow
 
-### Firmware Flash Flow
+### Firmware Flashing Flow
 ```mermaid
 sequenceDiagram
     participant User
-    participant FlashingController
-    participant FirmwareRepository
-    participant AnalyticsService
-    participant FirmwarePatcher
-    participant DeviceRepository
-    
-    User->>FlashingController: Select target/version
-    FlashingController->>FirmwareRepository: Download firmware ZIP
-    FirmwareRepository-->>FlashingController: Firmware binary
-    FlashingController->>AnalyticsService: trackEvent("Firmware Downloaded")
-    FlashingController->>FirmwarePatcher: Patch with bind phrase/WiFi
-    FirmwarePatcher-->>FlashingController: Patched firmware
-    FlashingController->>DeviceRepository: Upload & flash
-    DeviceRepository-->>FlashingController: Success/Failure
-    FlashingController->>AnalyticsService: trackEvent("Firmware Flashed")
+    participant UI as FlashingScreen
+    participant Controller as FlashingController
+    participant Assembler as FirmwareAssembler
+    participant Cache as FirmwareCacheService
+    participant Device as ELRS Device
+
+    User->>UI: Select target + version
+    UI->>Controller: Start flash
+    Controller->>Cache: Get cached firmware
+    Cache-->>Controller: Firmware archive
+    Controller->>Assembler: Assemble with config
+    Assembler-->>Controller: Patched binary
+    Controller->>Device: XH-over-HTTP upload
+    Device-->>Controller: Success
+    Controller-->>UI: Flash complete
 ```
 
 ### Device Discovery Flow
 ```mermaid
 sequenceDiagram
     participant App
-    participant DiscoveryService
-    participant AnalyticsService
-    participant ConnectivityService
-    participant NativeNetworkService
-    
-    App->>ConnectivityService: Monitor WiFi
-    ConnectivityService->>NativeNetworkService: Bind to WiFi
-    App->>DiscoveryService: Start mDNS scan
-    DiscoveryService->>AnalyticsService: trackEvent("mDNS Scan Started")
-    DiscoveryService-->>App: Device IP found
-    alt No device found in 3s
-        DiscoveryService->>AnalyticsService: trackEvent("mDNS Fallback Triggered")
-        DiscoveryService-->>App: 10.0.0.1 (fallback)
+    participant mDNS as mDNS Resolution
+    participant Fallback as Static IP (10.0.0.1)
+    participant Manual as Manual Override
+
+    App->>mDNS: Discover ELRS devices
+    alt Device found
+        mDNS-->>App: Device IP
+    else No mDNS response
+        App->>Fallback: Connect to AP IP
+        Fallback-->>App: Connection established
+    else Still failing
+        App->>Manual: Allow manual IP entry
     end
-    App->>AnalyticsService: trackEvent("mDNS Device Found", {connection_type})
 ```
 
 ## Integration Points
 
 ### External Services
-- **ExpressLRS Artifactory**: Firmware hosting - `https://artifactory.expresslrs.org/`
-- **GitHub Targets Repository**: Target definitions JSON
-- **Aptabase**: Analytics tracking (A-US-0489684056)
-- **Sentry**: Error tracking via sentry_flutter
+- **ExpressLRS Artifactory**: Firmware repository for base firmware.zip and device-specific hardware.zip
+- **Aptabase**: Privacy-first, opt-in usage analytics for feature prioritization
+- **Sentry**: Real-time runtime exception and flashing pipeline failure monitoring
+- **Google Analytics**: Website traffic tracking (G-8X6YE82V0S)
 
-### Internal Communication
-- **Riverpod Providers**: Dependency injection throughout
-- **Freezed Immutable States**: State management
-- **Platform Channels**: Native WiFi binding (iOS/Android)
-
-## Security Architecture
-
-### Authentication
-- **UID-based Binding**: 6-byte unique ID from binding phrase MD5
-- **No persistent auth tokens**: Each session uses device IP
-
-### Data Protection
-- **Credentials**: Stored in SharedPreferences (encrypted on mobile)
-- **WiFi Binding**: Platform channels for secure network control
-- **Analytics**: User opt-in via shareAnalytics setting
+### Platform APIs
+- **bindProcessToWiFi**: OS-level API to force app process onto Wi-Fi interface
+- **MethodChannel**: Flutter-to-native bridge using `org.expresslrs.elrs_mobile/network`
 
 ## Performance Considerations
 
 ### Bottlenecks
-- Firmware downloads (large ZIP files)
-- Binary patching on main thread (async handling)
-- mDNS discovery latency
+- Initial firmware cache download (one-time, ~50MB per target)
+- Device discovery timeout (mDNS can take 2-5 seconds)
 
 ### Scalability
-- Firmware caching for offline use
-- Target JSON caching
-- Parallel download/extract
+- Firmware cache enables instant subsequent flashes
+- Local assembly eliminates cloud compile latency
 
 ### Monitoring
-- Aptabase for analytics events
-- Sentry for crash reporting
-
-## Deployment Architecture
-
-### Environments
-- **Development**: Local builds, debug mode
-- **Staging**: Beta releases via TestFlight/Play Store internal
-- **Production**: GitHub Releases with semantic versioning (v*)
-
-### Infrastructure
-- **Platforms**: Android (APK/AAB), iOS (IPA)
-- **Distribution**: GitHub Releases, Google Play, Apple App Store
+- Flashing events tracked via AnalyticsService
+- Error reporting via Sentry with device context

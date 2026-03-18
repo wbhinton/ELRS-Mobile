@@ -22,15 +22,16 @@ Offline flashing is made possible through a robust local caching system. When a 
 ## Persistent Storage
 To streamline the user experience, volatile but frequently reused configuration data—such as custom Binding Phrases, Wi-Fi SSIDs, and network passwords—are securely saved to the device using `SharedPreferences`. This prevents users from having to repeatedly re-enter complex network credentials or binding strings every time they flash a new device.
 
-## Analytics and Monitoring
+## Analytics & Observability
 The application utilizes a multi-tier observability strategy to balance user privacy with technical reliability:
 
-1. **Aptabase (Usage Analytics)**: We use Aptabase for privacy-first, opt-in usage tracking. This helps us understand which features (like specific flashing targets or firmware versions) are most commonly used to prioritize development efforts.
-2. **Sentry (Error Reporting)**: The app integrates `sentry_flutter` for real-time monitoring of unexpected runtime exceptions and flashing pipeline failures. 
+1. **Aptabase (Usage Analytics)**: Privacy-first, opt-in usage tracking. We track feature adoption (e.g., specific flashing targets) to prioritize development efforts.
+2. **Sentry (Error Reporting)**: Real-time monitoring of runtime exceptions and flashing pipeline failures.
+3. **Expert Mode Auditing**: Local binary export for bitwise parity verification against community standards.
 
-This suite ensures high reliability for hardware-management bridging while keeping "Analytics disabled by default" for user privacy.
+---
 
-## Cellular Fallback & Forced Routing
-Mobile operating systems (especially newer Android and iOS versions) will automatically drop or deprioritize Wi-Fi connections that do not provide internet access, silently routing traffic over 5G/LTE instead. This causes apps to fail to connect to ELRS hardware hotspots (like `10.0.0.1`). 
+## Native Network Binding
+Mobile operating systems (especially Android and iOS) will deprioritize Wi-Fi connections that lack internet access, silently routing traffic over cellular instead. This prevents standard apps from reaching ELRS hardware at `10.0.0.1`.
 
-ELRS Mobile solves this natively. When the app detects an active connection to an ELRS hotspot, the `NativeNetworkService` invokes a platform-specific `MethodChannel` (`org.expresslrs.elrs_mobile/network`) to execute `bindProcessToWiFi`. This forcibly binds the entire Flutter app process directly to the Wi-Fi interface at the OS level, guaranteeing that all HTTP requests and MDNS discovery packets reach the hardware, entirely bypassing the OS's cellular fallback logic.
+ELRS Mobile solves this via the `NativeNetworkService`. When a hardware connection is detected, the app invokes a platform-specific `MethodChannel` (`org.expresslrs.elrs_mobile/network`) to bind the entire Flutter process to the Wi-Fi interface at the OS kernel level. This ensures all HTTP and mDNS traffic routes correctly to the hardware, regardless of cellular status.

@@ -56,29 +56,27 @@ The system employs a reactive architecture:
 The following tables define the mapping between integer identifiers used in the API and their human-readable equivalents.
 
 ### Regulatory Domains
-| ID | Label |
-| :--- | :--- |
-| 0 | AU915 |
-| 1 | FCC915 |
-| 2 | EU868 |
-| 3 | IN866 |
+| ID | Label | Description |
+| :--- | :--- | :--- |
+| 0 | AU915 | Australia/New Zealand 915MHz |
+| 1 | FCC915 | North American 915MHz |
+| 2 | EU868 | European 868MHz |
+| 3 | IN866 | Indian 866MHz |
+| 4 | AU433 | Australia 433MHz |
+| 5 | EU433 | European 433MHz |
+| 6 | US433 | North American 433MHz |
+| 7 | US433-Wide | North American Wide 433MHz |
 
-### Serial Protocols
-| ID | Protocol |
-| :--- | :--- |
-| 0 | CRSF |
-| 1 | SBUS |
-| 4 | MAVLink |
-| 5 | AirPort |
 
-### PWM Modes
-| ID | Mode |
-| :--- | :--- |
-| 0 | 50Hz |
-| 5 | 400Hz |
-| 7 | DSHOT300 |
-| 8 | Serial TX |
-| 9 | Serial RX |
+## Advanced Mappings
+
+### VBind (Binding Storage)
+Determines how the binding phrase is stored on the device.
+- **0: Persistent**: Saved to flash memory (standard).
+- **1: Volatile**: Cleared on power cycle.
+- **2: Returnable**: Used for loaner gear.
+- **3: Administered**: Used in multi-pilot fleet environments.
+
 
 ## Persistence Layer
 The system implements a dual-layer persistence strategy:

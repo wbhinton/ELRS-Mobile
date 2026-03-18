@@ -8,7 +8,7 @@ import Layout from "../layouts/Layout.astro";
 >
 	<main class="max-w-[1200px] mx-auto px-4">
 		<section class="text-center py-16 md:py-32">
-			<h1 class="text-3xl md:text-7xl font-black leading-[1.2] md:leading-[1.1] mb-6 md:mb-8 bg-gradient-to-br from-white via-white to-primary bg-clip-text text-transparent break-words">
+			<h1 class="text-4xl md:text-7xl font-black leading-tight md:leading-[1.1] mb-6 md:mb-8 bg-gradient-to-br from-white via-white to-primary bg-clip-text text-transparent break-words">
 				The Field-Ready ExpressLRS Tool. No Laptop Required.
 			</h1>
 			<p class="text-lg md:text-2xl text-text-muted max-w-2xl mx-auto mb-10 md:mb-12">
@@ -193,6 +193,12 @@ import Layout from "../layouts/Layout.astro";
 </Layout>
 
 <script>
+	declare global {
+		interface Window {
+			gtag: (...args: any[]) => void;
+		}
+	}
+
 	document.addEventListener('DOMContentLoaded', () => {
 		const playStoreLinks = document.querySelectorAll('a[href*="play.google.com/store/apps/details"]');
 		const testFlightLinks = document.querySelectorAll('a[href*="testflight.apple.com/join"]');

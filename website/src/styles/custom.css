@@ -20,7 +20,86 @@
 .hero-gradient {
 	background-image: linear-gradient(45deg, #00BFA5, #ffffff);
 	-webkit-background-clip: text;
+	background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-size: 400%;
 	background-position: 0%;
+}
+
+/* Fix Starlight Logo Overlap - MOBILE FIRST */
+header img {
+	max-height: 2.5rem !important;
+	width: auto !important;
+}
+
+/* Ensure Logo doesn't overlap text on Desktop */
+[data-has-logo] .site-title {
+	align-items: center;
+}
+
+/* Responsive Tables in Documentation */
+.sl-markdown-content table {
+	display: block;
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	border-collapse: collapse;
+	margin-bottom: 1.5rem;
+}
+
+/* Code Block Mobile Optimizations */
+.sl-markdown-content pre {
+	padding: 1rem !important;
+	font-size: 0.85rem !important;
+}
+
+/* Fix Mobile TOC Dropdown Overlap */
+#starlight__mobile-toc {
+	background-color: var(--sl-color-bg-nav) !important;
+	border-bottom: 1px solid var(--sl-color-hairline-shade) !important;
+	z-index: 10;
+}
+
+#starlight__mobile-toc[open] > summary {
+	border-bottom: 1px solid var(--sl-color-hairline-shade) !important;
+}
+
+/* Fix TOC Summary Crowding/Overlap */
+#starlight__on-this-page--mobile {
+	display: flex !important;
+	justify-content: space-between !important;
+	align-items: center !important;
+	padding-inline: 1rem !important;
+	gap: 1rem !important;
+}
+
+#starlight__on-this-page--mobile > span {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+}
+
+#starlight__mobile-toc .dropdown {
+	background-color: var(--sl-color-bg-nav) !important;
+	box-shadow: var(--sl-shadow-md) !important;
+	margin-top: 0.5rem;
+	border: 1px solid var(--sl-color-hairline-shade);
+	border-radius: 0.5rem;
+}
+
+/* Prevent Header/TOC crowding on small screens */
+@media (max-width: 50rem) {
+	:root {
+		--sl-nav-height: 3.5rem;
+		--sl-mobile-toc-height: 3rem;
+	}
+	
+	header.header {
+		height: var(--sl-nav-height) !important;
+	}
+	
+	starlight-toc {
+		top: var(--sl-nav-height) !important;
+	}
 }

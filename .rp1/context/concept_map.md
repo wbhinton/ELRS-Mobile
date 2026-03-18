@@ -1,98 +1,102 @@
 # Domain Concepts & Terminology
 
-**Project**: ELRS (ExpressLRS) Mobile App
-**Domain**: RC Model Firmware Flashing / IoT Device Management
+**Project**: ELRS Mobile
+**Domain**: Firmware Flashing & Device Configuration (RC Hobby / FPV)
 
 ## Core Business Concepts
 
-### TargetDefinition
-**Definition**: Represents an ELRS hardware target/device from targets.json with vendor, name, platform, frequencyType (2.4GHz/900MHz/Dual Band), deviceType (RX/TX), and config map
-**Implementation**: [`lib/src/features/flashing/domain/target_definition.dart`]
+### NativeNetworkService
+**Definition**: Platform channel service that binds the app process to WiFi interface to prevent OS from routing traffic to 10.0.0.1 over cellular
+**Implementation**: [`lib/src/core/networking/native_network_service.dart`]
 **Key Properties**:
-- `vendor`: Hardware manufacturer (e.g., HappyModel, BetaFPV)
-- `name`: Device model identifier
-- `platform`: ESP8285, ESP32, STM32, etc.
-- `frequencyType`: 2.4GHz, 900MHz, or Dual Band
-- `deviceType`: RX (Receiver) or TX (Transmitter)
+- Platform channel: `org.expresslrs.elrs_mobile/network`
+- Cross-platform: iOS stub (returns early), Android full implementation
 
 **Business Rules**:
-- Device must match firmware for correct flashing
-- Dual-band devices support both 2.4GHz and 900MHz
-- FirmwarePatcher dispatches to ESP or STM32 patcher based on platform
+- On iOS: No-op (iOS doesn't need explicit binding)
+- On Android: Calls native `bindProcessToWiFi` to force WiFi routing
 
-### AnalyticsService
-**Definition**: Event tracking service using Aptabase SDK for telemetry. Initializes with app ID A-US-0489684056, respects shareAnalytics setting
-**Implementation**: [`lib/src/core/analytics/analytics_service.dart`]
-**Key Properties**:
-- `shareAnalytics`: User preference controlling whether analytics events are sent. Default true, stored in SharedPreferences
-
-**Business Rules**:
-- AnalyticsService checks shareAnalytics setting before tracking events
-- Initialization happens early in app lifecycle, before user opt-in
-- Tracks: mDNS scans, device connections, firmware operations, settings changes
-
-### PatchConfiguration
-**Definition**: Configuration for patching firmware with bindPhrase, WiFi credentials, regulatoryDomain, UID
-**Implementation**: [`lib/src/features/flashing/domain/patch_configuration.dart`]
+### Process Binding
+**Definition**: OS-level network interface binding ensuring traffic to ELRS devices routes over WiFi instead of cellular
 **Relationships**:
-- Uses BindingPhraseUtils to generate UID bytes from bindPhrase
-- Applied to firmware before flashing
+- Uses MethodChannel for native API calls
+- Ensures reliable device discovery and flashing
 
-### RuntimeConfig
-**Definition**: Runtime configuration retrieved from device containing ElrsSettings, ElrsOptions, and ElrsConfig
-**Implementation**: [`lib/src/features/config/domain/runtime_config_model.dart`]
+### ConfigViewModel
+**Definition**: Manages live connection state, heartbeat logic, and IP discovery for device communication
+**Relationships**:
+- Manages RuntimeConfig state
+- Heartbeat at 10-second intervals with 30-second grace period
+
+### FlashingController
+**Definition**: Orchestrates firmware downloads, local binary patching, and XH-over-HTTP upload process
+**Relationships**:
+- Uses FirmwareAssembler for binary preparation
+- Coordinates with ConnectivityService for network binding
+- Checks device connection via ConfigViewModel before flashing
+
+### Device Discovery
+**Definition**: Multi-stage process: mDNS resolution → Static AP IP fallback → Manual IP override
+**Business Rules**:
+- Hotspot mode detection via rapid LED blinking
+- Grace period recovery: 3 missed heartbeats (30s) before disconnect
+
+### Version Caching
+**Definition**: Firmware versions displayed only from locally cached files
+**Implementation**: [`lib/src/features/flashing/presentation/widgets/version_selector.dart`]
+**Business Rules**:
+- Dropdown shows only versions present in `cachedVersions.value`
+- Empty cache navigates user to Firmware Manager
 
 ## Technical Concepts
 
-### FirmwareAssembler
-**Purpose**: Assembles ESP Unified Firmware with trimmed firmware + productName (128B) + luaName (16B) + options JSON (512B) + hardware layout (2048B)
-**Implementation**: [`lib/src/features/flashing/utils/firmware_assembler.dart`]
-
-### Stm32FirmwarePatcher
-**Purpose**: Binary patching for STM32 firmware using magic header bytes
-**Implementation**: [`lib/src/features/flashing/utils/stm32_firmware_patcher.dart`]
-
-### Platform Channel Architecture
-**Purpose**: Native WiFi binding for ELRS device communication
-**Implementation**: MethodChannel 'org.expresslrs.elrs_mobile/network'
-**Usage**:
+### Local-First Firmware Assembly
+**Purpose**: App builds firmware binaries locally on-device rather than relying on remote cloud compilers
+**Implementation**: [`lib/` - FirmwareAssembler]
+**Usage Examples**:
 ```dart
-// Flutter calls native WiFi binding
-await channel.invokeMethod('bindProcessToWiFi', {'ip': '10.0.0.1'});
+// Extract base firmware, patch with user config, generate target-specific binary
+final payload = await firmwareAssembler.assemble(target, config, bindPhrase);
 ```
 
-### mDNS Discovery
-**Definition**: Multicast DNS for service discovery on local network. Used to find ELRS devices via _http._tcp
-**Events Emitted**:
-- mDNS Scan Started
-- mDNS Fallback Triggered (when no device found in 3s, falls back to 10.0.0.1)
-- mDNS Device Found (with connection_type: Access Point vs Home WiFi)
-- mDNS Scan Failed (with error details)
+### OTA (Over-The-Air) Flashing
+**Purpose**: Wireless firmware transmission directly to ELRS device via XH-over-HTTP protocol
+**Usage Examples**:
+```dart
+// HTTP-based firmware upload to device
+await deviceRepo.flashFirmware(payload, targetIP);
+```
 
-### Firmware Operation Events
-**Definition**: Analytics events for flashing operations
-**Events**:
-- Firmware Downloaded (target, version)
-- Firmware Download Error (error)
-- Firmware Flashed (target, version)
-- Firmware Flash Error (errorType, error)
+### Dual-Layer Persistence
+**Purpose**: SharedPreferences for non-sensitive data + FlutterSecureStorage for encrypted credentials
+**Implementation**: [`lib/src/core/storage/`]
+**Usage Examples**:
+- Binding phrases stored encrypted
+- WiFi SSIDs/passwords stored encrypted
+- Regulatory domain defaults in SharedPreferences
+
+### Multi-tier Observability
+**Purpose**: Privacy-first analytics strategy with opt-in usage tracking and real-time error monitoring
+**Implementation**: 
+- Aptabase for feature usage insights
+- Sentry for runtime exception monitoring
 
 ## Terminology Glossary
 
 ### Business Terms
-- **UID Generation**: 6-byte unique identifier generated from MD5 hash of binding phrase for RF link authentication
-- **Regulatory Domain**: Frequency band regulations: AU915, FCC915, EU868, IN866, AU433, EU433, US433
-- **Model Match**: Feature binding receiver to specific RC model ID (0-63) for security
-- **Aptabase**: Privacy-focused analytics platform (A-US-0489684056)
-- **Access Point**: Connection type when device host is 10.0.0.1 (ELRS device as AP)
-- **Home WiFi**: Connection type when device is on same network as app
+- **PWM Modes**: Pulse Width Modulation output modes: 50Hz, 400Hz, DSHOT300, Serial TX, Serial RX
+- **Serial Protocols**: Communication protocols: CRSF (0), SBUS (1), MAVLink (4), AirPort (5)
+- **Expert Mode**: Allows saving assembled firmware binary to local storage for auditing/sharing
+- **UID Generation**: 6-byte unique identifier from binding phrase MD5 for RF link authentication
 
 ### Technical Terms
-- **Magic Header**: Signature bytes in firmware for locating configuration injection point
-- **Unified Firmware**: Single firmware binary with appended configuration sections
-- **Hardware Layout**: JSON configuration describing device hardware embedded in unified firmware
+- **XH-over-HTTP**: HTTP-based firmware upload protocol used by ELRS devices
+- **Firmware Caching**: Pre-downloading firmware archives for offline flashing capability
+- **Heartbeat**: Periodic connection check between app and device (10-second intervals)
+- **Hotspot Mode**: WiFi mode on ELRS device indicated by rapid LED blinking
+- **JSON Minification**: Byte-offset differences due to dense vs. spaced JSON (functionally identical)
 
 ## Cross-References
-- **Architecture**: See [architecture.md] - Clean Architecture with Riverpod
-- **Modules**: See [modules.md] - Feature-based module organization
-- **Patterns**: See [patterns.md] - Implementation conventions
+- **Firmware Pipeline**: See [architecture.md#firmware-pipeline]
+- **Network Binding**: See [modules.md#core-networking]
+- **State Management**: See [patterns.md#state-management]
