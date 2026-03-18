@@ -99,11 +99,6 @@ class SettingsScreen extends HookConsumerWidget {
                 _buildEditDialogTile(
                   context,
                   title: 'Global Binding Phrase',
-                  subtitle: state.globalBindPhrase.isEmpty
-                      ? 'Not set'
-                      : (showBindPhrase.value
-                            ? state.globalBindPhrase
-                            : '••••••••'),
                   currentValue: state.globalBindPhrase,
                   onSaved: (val) => controller.setGlobalBindPhrase(val),
                   isSecret: true,
@@ -112,20 +107,12 @@ class SettingsScreen extends HookConsumerWidget {
                 _buildEditDialogTile(
                   context,
                   title: 'Home WiFi SSID',
-                  subtitle: state.homeWifiSsid.isEmpty
-                      ? 'Not set'
-                      : state.homeWifiSsid,
                   currentValue: state.homeWifiSsid,
                   onSaved: (val) => controller.setHomeWifiSsid(val),
                 ),
                 _buildEditDialogTile(
                   context,
                   title: 'Home WiFi Password',
-                  subtitle: state.homeWifiPassword.isEmpty
-                      ? 'Not set'
-                      : (showWifiPassword.value
-                            ? state.homeWifiPassword
-                            : '••••••••'),
                   currentValue: state.homeWifiPassword,
                   onSaved: (val) => controller.setHomeWifiPassword(val),
                   isSecret: true,
@@ -631,81 +618,92 @@ class SettingsScreen extends HookConsumerWidget {
   Widget _buildEditDialogTile(
     BuildContext context, {
     required String title,
-    required String subtitle,
     required String currentValue,
     required Function(String) onSaved,
     bool isSecret = false,
     ValueNotifier<bool>? isVisibleNotifier,
   }) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (isSecret && isVisibleNotifier != null)
-            ValueListenableBuilder<bool>(
-              valueListenable: isVisibleNotifier,
-              builder: (context, visible, _) => IconButton(
+    Widget buildTile(bool isVisible) {
+      final subtitle = currentValue.isEmpty
+          ? 'Not set'
+          : (isSecret && !isVisible ? '••••••••' : currentValue);
+
+      return ListTile(
+        title: Text(title),
+        subtitle: Text(subtitle),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (isSecret && isVisibleNotifier != null)
+              IconButton(
                 icon: Icon(
-                  visible ? Icons.visibility : Icons.visibility_off,
+                  isVisible ? Icons.visibility : Icons.visibility_off,
                   size: 20,
                 ),
                 onPressed: () =>
                     isVisibleNotifier.value = !isVisibleNotifier.value,
               ),
-            ),
-          const Icon(Icons.edit, size: 20),
-        ],
-      ),
-      onTap: () {
-        final textController = TextEditingController(text: currentValue);
-        bool obscureText = isSecret && !(isVisibleNotifier?.value ?? false);
+            const Icon(Icons.edit, size: 20),
+          ],
+        ),
+        onTap: () {
+          final textController = TextEditingController(text: currentValue);
+          bool obscureText = isSecret && !isVisible;
 
-        showDialog(
-          context: context,
-          builder: (context) => StatefulBuilder(
-            builder: (context, setState) => AlertDialog(
-              title: Text('Edit $title'),
-              content: TextField(
-                controller: textController,
-                obscureText: obscureText,
-                decoration: InputDecoration(
-                  hintText: 'Enter $title',
-                  suffixIcon: isSecret
-                      ? IconButton(
-                          icon: Icon(
-                            obscureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              obscureText = !obscureText;
-                            });
-                          },
-                        )
-                      : null,
+          showDialog(
+            context: context,
+            builder: (context) => StatefulBuilder(
+              builder: (context, setState) => AlertDialog(
+                title: Text('Edit $title'),
+                content: TextField(
+                  controller: textController,
+                  obscureText: obscureText,
+                  decoration: InputDecoration(
+                    hintText: 'Enter $title',
+                    suffixIcon: isSecret
+                        ? IconButton(
+                            icon: Icon(
+                              obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                obscureText = !obscureText;
+                              });
+                            },
+                          )
+                        : null,
+                  ),
                 ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cancel'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      onSaved(textController.text);
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Save'),
+                  ),
+                ],
               ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    onSaved(textController.text);
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Save'),
-                ),
-              ],
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
+
+    if (isSecret && isVisibleNotifier != null) {
+      return ValueListenableBuilder<bool>(
+        valueListenable: isVisibleNotifier,
+        builder: (context, isVisible, child) => buildTile(isVisible),
+      );
+    }
+
+    return buildTile(false);
   }
 }
 
