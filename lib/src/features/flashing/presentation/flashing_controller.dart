@@ -24,6 +24,7 @@ import '../../../core/utils/validation_utils.dart';
 import '../state/flashing_provider.dart';
 import '../../../core/networking/connectivity_service.dart';
 import '../../../core/analytics/analytics_service.dart';
+import '../../config/presentation/config_view_model.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
@@ -427,6 +428,14 @@ class FlashingController extends _$FlashingController {
     }
     if (state.selectedVersion == null) {
       state = state.copyWith(errorMessage: 'Please select a firmware version.');
+      return;
+    }
+
+    final configState = ref.read(configViewModelProvider);
+    if (!configState.hasValue || configState.value == null) {
+      state = state.copyWith(
+        errorMessage: 'Cannot flash: No ELRS device connected.',
+      );
       return;
     }
 

@@ -6,6 +6,7 @@ import 'widgets/options_card.dart';
 import 'package:go_router/go_router.dart';
 import 'flashing_controller.dart';
 import '../../settings/presentation/settings_controller.dart';
+import '../../config/presentation/config_view_model.dart';
 
 class FlashingScreen extends HookConsumerWidget {
   const FlashingScreen({super.key});
@@ -22,6 +23,8 @@ class FlashingScreen extends HookConsumerWidget {
 
     final state = ref.watch(flashingControllerProvider);
     final settings = ref.watch(settingsControllerProvider);
+    final configAsync = ref.watch(configViewModelProvider);
+    final isConnected = configAsync.hasValue && configAsync.value != null;
 
     // Listen for mismatch state to show dialog
     ref.listen<FlashingStatus>(
@@ -150,7 +153,13 @@ class FlashingScreen extends HookConsumerWidget {
                 state.status != FlashingStatus.mismatch)
               Column(
                 children: [
-                  LinearProgressIndicator(value: state.progress),
+                  LinearProgressIndicator(
+                    value: state.progress,
+                    minHeight: 6, // Slightly thicker for better outdoor visibility
+                    color: const Color(0xFF00E5FF), // Bright Cyan
+                    backgroundColor: Colors.grey.withOpacity(0.3), // Neutral dark track
+                    borderRadius: BorderRadius.circular(4), // Rounded edges
+                  ),
                   const SizedBox(height: 8),
                   Text(state.status.name.toUpperCase()),
                   const SizedBox(height: 16),
@@ -179,12 +188,12 @@ class FlashingScreen extends HookConsumerWidget {
               ),
 
             ElevatedButton(
-              onPressed:
-                  (state.status == FlashingStatus.idle ||
-                      state.status == FlashingStatus.error ||
-                      state.status == FlashingStatus.success ||
-                      state.status == FlashingStatus.downloadSuccess ||
-                      state.status == FlashingStatus.mismatch)
+              onPressed: (isConnected &&
+                      (state.status == FlashingStatus.idle ||
+                          state.status == FlashingStatus.error ||
+                          state.status == FlashingStatus.success ||
+                          state.status == FlashingStatus.downloadSuccess ||
+                          state.status == FlashingStatus.mismatch))
                   ? () {
                       if (state.status == FlashingStatus.success) {
                         ref
@@ -212,7 +221,11 @@ class FlashingScreen extends HookConsumerWidget {
                     : null,
               ),
               child: Text(
-                state.status == FlashingStatus.success ? 'DONE' : 'FLASH',
+                !isConnected
+                    ? 'WAITING FOR DEVICE...'
+                    : state.status == FlashingStatus.success
+                        ? 'DONE'
+                        : 'FLASH',
               ),
             ),
           ],
