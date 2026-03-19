@@ -3,7 +3,7 @@
 </p>
 
 [![Google Play](https://img.shields.io/badge/Google%20Play-Get%20It%20On-blue.svg?style=flat-square&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
-[![TestFlight](https://img.shields.io/badge/TestFlight-Beta%20Testing-teal.svg?style=flat-square&logo=apple&logoColor=white)](https://testflight.apple.com/join/jwU1WrpX)
+[![App Store](https://img.shields.io/badge/App--Store-Download-blue?style=flat-square&logo=apple&logoColor=white)](https://apps.apple.com/us/app/elrs-mobile/id6760490014)
 [![GitHub Release](https://img.shields.io/github/v/release/wbhinton/ELRS-Mobile?style=flat-square&color=orange)](https://github.com/wbhinton/ELRS-Mobile/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/wbhinton/ELRS-Mobile/release.yml?branch=main&style=flat-square)](https://github.com/wbhinton/ELRS-Mobile/actions)
 [![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat-square&logo=Flutter&logoColor=white)](https://flutter.dev)
@@ -21,11 +21,11 @@ Whether you are configuring a new receiver on the bench or flashing an emergency
 
 🚀 **Quick Start**
 
-The most reliable way to use ELRS Mobile is by joining our official beta programs. This ensures you receive automatic updates and the latest stability fixes.
+The easiest way to get started with ELRS Mobile is by installing it from your device's official app store.
 
 ### 1. Install the App
-- **Android (Google Play):** Install via the [Play Store](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile).
-- **iOS (TestFlight):** Join the [Apple TestFlight Beta](https://testflight.apple.com/join/jwU1WrpX) to install on your iPhone or iPad.
+- **Android (Google Play):** [Get it on Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile).
+- **iOS (App Store):** [Download on the App Store](https://apps.apple.com/us/app/elrs-mobile/id6760490014).
 - **Alternative (Android Only):** Download the raw `.apk` from the [Releases Page](https://github.com/wbhinton/ELRS-Mobile/releases).
 
 ### 2. Connect & Flash ([Detailed Instructions](https://elrsmobile.com/user_guide))
@@ -33,9 +33,6 @@ The most reliable way to use ELRS Mobile is by joining our official beta program
 - **Join Network:** Connect your phone to the `ExpressLRS RX` or `ExpressLRS TX` Wi-Fi hotspot (Password: `expresslrs`).
 - **Launch:** Open the app. It will auto-detect your device via mDNS and you're ready to go!
 
-**Joining the Beta Test Groups**
-- **Android Users:** The app is available publically on the Play Store. Ensure you are signed into the same Google account that you used to purchase/install the app.
-- **iOS Users:** You will need to install the **TestFlight** app from the App Store first. Once installed, clicking the link above will prompt you to "Start Testing".
 
 **Key Features**
 - 100% Offline Flashing: Prepare for the field using the Firmware Manager. The app caches complete firmware releases (firmware.zip and hardware.zip directly from Artifactory), allowing you to dynamically assemble and flash firmware targets without an internet connection.
@@ -71,15 +68,14 @@ The most reliable way to use ELRS Mobile is by joining our official beta program
 
 For detailed instructions and technical information, please refer to the documentation:
 
-- **[Installation Procedures](docs/installation.md)**: How to download and install the app.
-- **[User Guide](docs/USER_GUIDE.md)**: Step-by-step guide on caching firmware, connecting to your device, and flashing.
-- **[Supported Hardware](docs/supported_hardware.md)**: Lists of explicitly tested hardware targets and binaries, and supported platforms.
-- **[Technical Architecture](docs/technical_architecture.md)**: Details on the native Dart implementation and unified firmware assembly.
-- **[Development & Auditing](docs/development.md)**: Information for developers regarding firmware auditing and byte-perfect matches.
+- **[User Guide](https://elrsmobile.com/user_guide)**: Step-by-step guide on caching firmware, connecting to your device, and flashing.
+- **[Supported Hardware](https://elrsmobile.com/supported_hardware)**: Lists of explicitly tested hardware targets and binaries, and supported platforms.
+- **[Technical Architecture](https://elrsmobile.com/technical_architecture)**: Details on the native Dart implementation and unified firmware assembly.
+- **[Development & Auditing](https://elrsmobile.com/development)**: Information for developers regarding firmware auditing and byte-perfect matches.
 
 --------------------------------------------------------------------------------
 ## 💬 Community & Support
-- **Discord:** Join the [ExpressLRS Discord](https://discord.gg/expresslrs) and find me in the `#testing` channel.
+- **Discord:** Join the [ExpressLRS Discord](https://discord.gg/expresslrs) and find me in the `#general` channel.
 - **Bug Reports:** Please use the [GitHub Issue Tracker](https://github.com/wbhinton/ELRS-Mobile/issues) for technical bugs.
 - **Feedback:** Feel free to open a [Discussion](https://github.com/wbhinton/ELRS-Mobile/discussions) for feature requests!
 
