@@ -11,8 +11,6 @@
 
 # ExpressLRS Mobile
 
-
-
 ### [🌐 Official Website & Documentation (elrsmobile.com)](https://elrsmobile.com)
 
 ExpressLRS Mobile is a modern, cross-platform companion application built with Flutter, designed to simplify the management, configuration, and flashing of ExpressLRS hardware directly from your mobile device or desktop.
@@ -30,7 +28,7 @@ The most reliable way to use ELRS Mobile is by joining our official beta program
 - **iOS (TestFlight):** Join the [Apple TestFlight Beta](https://testflight.apple.com/join/jwU1WrpX) to install on your iPhone or iPad.
 - **Alternative (Android Only):** Download the raw `.apk` from the [Releases Page](https://github.com/wbhinton/ELRS-Mobile/releases).
 
-### 2. Connect & Flash
+### 2. Connect & Flash ([Detailed Instructions](https://elrsmobile.com/user_guide))
 - **Power On:** Turn on your ELRS hardware and wait for it to enter Wi-Fi Hotspot mode (rapid blinking LED).
 - **Join Network:** Connect your phone to the `ExpressLRS RX` or `ExpressLRS TX` Wi-Fi hotspot (Password: `expresslrs`).
 - **Launch:** Open the app. It will auto-detect your device via mDNS and you're ready to go!
