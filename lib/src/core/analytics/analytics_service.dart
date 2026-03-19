@@ -12,17 +12,17 @@ AnalyticsService analyticsService(Ref ref) {
 
 class AnalyticsService {
   final Ref _ref;
-  bool _isAptabaseInitialized = false;
+  bool _isInitialized = false;
   static const _aptabaseAppId = "A-US-0489684056";
 
   AnalyticsService(this._ref);
 
   /// Initializes Aptabase. Should be called early in the app lifecycle.
   Future<void> init() async {
-    if (_isAptabaseInitialized) return;
+    if (_isInitialized) return;
     try {
       await Aptabase.init(_aptabaseAppId);
-      _isAptabaseInitialized = true;
+      _isInitialized = true;
       debugPrint('[AnalyticsService] Aptabase initialized successfully');
     } catch (e) {
       debugPrint('[AnalyticsService] Failed to initialize Aptabase: $e');
@@ -30,14 +30,13 @@ class AnalyticsService {
   }
 
   Future<void> trackEvent(String name, [Map<String, dynamic>? properties]) async {
-    final enabled = _ref.read(settingsControllerProvider).shareAnalytics;
-    if (!enabled) return;
-
-    if (!_isAptabaseInitialized) {
-      debugPrint('[AnalyticsService] Initialization pending, skipping event: $name');
-      // We could retry init here if needed, but early init in main should solve it.
+    if (!_isInitialized) {
+      debugPrint('[AnalyticsService] Aptabase not initialized, dropping event: $name');
       return;
     }
+
+    final enabled = _ref.read(settingsControllerProvider).shareAnalytics;
+    if (!enabled) return;
 
     try {
       Aptabase.instance.trackEvent(name, properties);

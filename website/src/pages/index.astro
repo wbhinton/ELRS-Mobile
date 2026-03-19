@@ -19,10 +19,12 @@ import Layout from "../layouts/Layout.astro";
 				<a
 					href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile"
 					class="w-full md:w-auto px-8 py-3.5 rounded-xl font-bold text-base md:text-lg transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline"
+					onclick="gtag('event', 'app_download_click', { 'store': 'google_play' });"
 				>Get it on Google Play</a>
 				<a
 					href="https://testflight.apple.com/join/jwU1WrpX"
 					class="w-full md:w-auto px-8 py-3.5 rounded-xl font-bold text-base md:text-lg transition-all hover:-translate-y-0.5 hover:brightness-110 text-center border border-white/10 text-white bg-white/5 no-underline"
+					onclick="gtag('event', 'app_download_click', { 'store': 'apple_app_store' });"
 				>Join iOS TestFlight</a>
 			</div>
 
@@ -206,8 +208,8 @@ import Layout from "../layouts/Layout.astro";
 		playStoreLinks.forEach(link => {
 			link.addEventListener('click', () => {
 				if (typeof window.gtag === 'function') {
-					window.gtag('event', 'app_store_click', {
-						'app_store': 'Google Play',
+					window.gtag('event', 'app_download_click', {
+						'store': 'google_play',
 						'event_category': 'App Install',
 						'event_label': 'Play Store Link'
 					});
@@ -218,8 +220,8 @@ import Layout from "../layouts/Layout.astro";
 		testFlightLinks.forEach(link => {
 			link.addEventListener('click', () => {
 				if (typeof window.gtag === 'function') {
-					window.gtag('event', 'app_store_click', {
-						'app_store': 'TestFlight',
+					window.gtag('event', 'app_download_click', {
+						'store': 'apple_app_store',
 						'event_category': 'App Install',
 						'event_label': 'TestFlight Link'
 					});
