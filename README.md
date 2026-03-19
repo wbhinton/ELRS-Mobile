@@ -72,7 +72,7 @@ The most reliable way to use ELRS Mobile is by joining our official beta program
 For detailed instructions and technical information, please refer to the documentation:
 
 - **[Installation Procedures](docs/installation.md)**: How to download and install the app.
-- **[Usage Instructions](docs/usage_instructions.md)**: Step-by-step guide on caching firmware, connecting to your device, and flashing.
+- **[User Guide](docs/USER_GUIDE.md)**: Step-by-step guide on caching firmware, connecting to your device, and flashing.
 - **[Supported Hardware](docs/supported_hardware.md)**: Lists of explicitly tested hardware targets and binaries, and supported platforms.
 - **[Technical Architecture](docs/technical_architecture.md)**: Details on the native Dart implementation and unified firmware assembly.
 - **[Development & Auditing](docs/development.md)**: Information for developers regarding firmware auditing and byte-perfect matches.
