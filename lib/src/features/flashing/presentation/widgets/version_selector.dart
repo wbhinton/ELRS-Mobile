@@ -80,7 +80,7 @@ class VersionSelector extends HookConsumerWidget {
             border: OutlineInputBorder(),
             helperText: 'Select the ELRS version to flash (>= 3.0.0)',
           ),
-          value: selectedVersion,
+          initialValue: selectedVersion,
           items: versions.map((version) {
             return DropdownMenuItem(
               value: version,

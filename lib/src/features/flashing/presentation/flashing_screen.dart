@@ -157,7 +157,7 @@ class FlashingScreen extends HookConsumerWidget {
                     value: state.progress,
                     minHeight: 6, // Slightly thicker for better outdoor visibility
                     color: const Color(0xFF00E5FF), // Bright Cyan
-                    backgroundColor: Colors.grey.withOpacity(0.3), // Neutral dark track
+                    backgroundColor: Colors.grey.withValues(alpha: 0.3), // Neutral dark track
                     borderRadius: BorderRadius.circular(4), // Rounded edges
                   ),
                   const SizedBox(height: 8),

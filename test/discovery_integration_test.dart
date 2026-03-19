@@ -23,7 +23,7 @@ void main() {
 
       // Keep the provider alive and print logic
       container.listen(discoveryProvider, (previous, next) {
-        print('Provider Transition: $previous -> $next');
+        debugPrint('Provider Transition: $previous -> $next');
       });
 
       // Act 1 (Default/Initial State - null)
@@ -52,14 +52,14 @@ void main() {
       // Verify provider updated
       final ipState = container.read(discoveryProvider);
       if (ipState.isLoading) {
-         // wait a bit more if needed
-         await Future.delayed(const Duration(milliseconds: 50));
+        // wait a bit more if needed
+        await Future.delayed(const Duration(milliseconds: 50));
       }
-      print('Final Provider Value: ${container.read(discoveryProvider)}');
+      debugPrint('Final Provider Value: ${container.read(discoveryProvider)}');
 
       // Read Repo again 
       repo = container.read(deviceRepositoryProvider);
-      print('Repo Base URL: ${repo.dio.options.baseUrl}');
+      debugPrint('Repo Base URL: ${repo.dio.options.baseUrl}');
 
       // Assert New IP
       expect(repo.dio.options.baseUrl, contains('192.168.1.55'));

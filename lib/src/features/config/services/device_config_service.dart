@@ -11,10 +11,12 @@
 // GNU General Public License for more details.
 
 import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 import '../domain/runtime_config_model.dart';
 
 class DeviceConfigService {
   final Dio _dio;
+  static final _log = Logger('DeviceConfigService');
 
   DeviceConfigService(this._dio);
 
@@ -52,13 +54,13 @@ class DeviceConfigService {
   }
 
   /// Fetches the current configuration from the device.
-  /// Performs a GET request to http://<ip>/config.
+  /// Performs a GET request to `http://<ip>/config`.
   Future<RuntimeConfig> fetchConfig(String ip) async {
     try {
       final response = await _dio.get('http://$ip/config');
       if (response.statusCode == 200) {
         final data = response.data;
-        print('Raw Device Config JSON: $data');
+        _log.info('Raw Device Config JSON: $data');
         
         if (data is Map<String, dynamic>) {
           return RuntimeConfig.fromJson(data);
@@ -74,7 +76,7 @@ class DeviceConfigService {
   }
 
   /// Saves the updated options to the device.
-  /// Performs a POST request to http://<ip>/options.json.
+  /// Performs a POST request to `http://<ip>/options.json`.
   /// Adds 'customised': true to the payload.
   Future<void> saveOptions(String ip, Map<String, dynamic> options) async {
     try {
@@ -100,7 +102,7 @@ class DeviceConfigService {
   }
 
   /// Saves the updated config to the device.
-  /// Performs a POST request to http://<ip>/config.
+  /// Performs a POST request to `http://<ip>/config`.
   Future<void> saveConfig(String ip, Map<String, dynamic> config) async {
     try {
       final response = await _dio.post(
@@ -122,7 +124,7 @@ class DeviceConfigService {
   }
 
   /// Reboots the device.
-  /// Performs a POST request to http://<ip>/reboot.
+  /// Performs a POST request to `http://<ip>/reboot`.
   Future<void> reboot(String ip) async {
     try {
       final response = await _dio.post('http://$ip/reboot');

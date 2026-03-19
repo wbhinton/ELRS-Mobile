@@ -14,8 +14,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:binary/binary.dart';
+import 'package:logging/logging.dart';
 
 class FirmwareAssembler {
+  static final _log = Logger('FirmwareAssembler');
   /// Generates the unique user ID (UID) from a binding phrase.
   ///
   /// Logic:
@@ -74,11 +76,11 @@ class FirmwareAssembler {
     final builder = BytesBuilder();
 
     // 1. Trim Firmware
-    print('DEBUG: Original Firmware Size: ${firmware.length}');
+    _log.fine('Original Firmware Size: ${firmware.length}');
     final end = findFirmwareEnd(firmware, platform);
-    print('DEBUG: Calculated True End (Surgical): $end');
-    print(
-      'DEBUG: Bytes Stripped (Padding + Old Config): ${firmware.length - end}',
+    _log.fine('Calculated True End (Surgical): $end');
+    _log.fine(
+      'Bytes Stripped (Padding + Old Config): ${firmware.length - end}',
     );
 
     final trimmedFirmware = firmware.sublist(0, end);
@@ -171,7 +173,7 @@ class FirmwareAssembler {
 
     // Magic byte check (0xE9)
     if (pos >= binary.length || binary[pos] != 0xE9) {
-      print('DEBUG: Magic byte not found, returning full length');
+      _log.warning('Magic byte not found, returning full length');
       return binary.length;
     }
 
@@ -180,7 +182,7 @@ class FirmwareAssembler {
 
     for (int i = 0; i < segments; i++) {
       if (pos + 8 > binary.length) {
-        print('DEBUG: Warning: Expected more segments but hit end of file.');
+        _log.warning('Expected more segments but hit end of file.');
         break;
       }
 

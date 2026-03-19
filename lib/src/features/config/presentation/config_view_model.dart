@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/connection_repository.dart';
 import '../../../core/networking/device_dio.dart';
@@ -25,6 +26,7 @@ class ConfigViewModel extends _$ConfigViewModel {
   String? _probeIp; // The IP we are currently trying or failed on
   int _missedHeartbeats = 0;
   static const int _maxMissedHeartbeats = 3;
+  static final _log = Logger('ConfigViewModel');
 
   @override
   FutureOr<RuntimeConfig?> build() async {
@@ -90,11 +92,10 @@ class ConfigViewModel extends _$ConfigViewModel {
 
     // Priority: 1. Manual IP (if set), 2. Discovery targets (AP, Hostnames, Discovered mDNS)
     final ips = [
-      if (_manualIp != null && _manualIp!.isNotEmpty) _manualIp!,
       '10.0.0.1',
       'elrs_rx.local',
       'elrs_tx.local',
-      if (_lastDiscoveredIp != null) _lastDiscoveredIp!,
+      ...[_manualIp, _lastDiscoveredIp].nonNulls.where((s) => s.isNotEmpty),
     ];
 
     final uniqueIps = ips.toSet().toList();
@@ -133,8 +134,8 @@ class ConfigViewModel extends _$ConfigViewModel {
         }
       } else {
         // Log missed heartbeat but preserve state
-        print(
-          'CONNECTION: Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). Preserving last good state.',
+        _log.info(
+          'Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). Preserving last good state.',
         );
       }
     }

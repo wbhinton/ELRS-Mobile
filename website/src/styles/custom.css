@@ -103,3 +103,9 @@ header img {
 		top: var(--sl-nav-height) !important;
 	}
 }
+
+/* Fix Theme Toggle Dropdown - ensure it appears above everything */
+.astro-4yphtoen {
+	z-index: 1000 !important;
+	position: relative;
+}

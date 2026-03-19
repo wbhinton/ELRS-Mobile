@@ -24,7 +24,7 @@ void main() async {
   );
 
   if (!await binariesDir.exists()) {
-    print('Error: binaries directory not found at ${binariesDir.path}');
+    stdout.writeln('Error: binaries directory not found at ${binariesDir.path}');
     return;
   }
 
@@ -44,7 +44,7 @@ void main() async {
     }
 
     if (files.isEmpty) {
-      print('No .bin or .gz files found.');
+      stdout.writeln('No .bin or .gz files found.');
       return;
     }
 
@@ -52,11 +52,11 @@ void main() async {
     final uniqueFiles = {for (var f in files) f.path: f}.values.toList()
       ..sort((a, b) => a.path.compareTo(b.path));
 
-    print('\nAvailable Firmware Binaries:');
+    stdout.writeln('\nAvailable Firmware Binaries:');
     for (var i = 0; i < uniqueFiles.length; i++) {
-      print('[$i] ${p.relative(uniqueFiles[i].path)}');
+      stdout.writeln('[$i] ${p.relative(uniqueFiles[i].path)}');
     }
-    print('[q] Quit');
+    stdout.writeln('[q] Quit');
 
     stdout.write('\nSelect first file index: ');
     final input1 = stdin.readLineSync();
@@ -75,7 +75,7 @@ void main() async {
         idx1 >= uniqueFiles.length ||
         idx2 < 0 ||
         idx2 >= uniqueFiles.length) {
-      print('Invalid selection. Please try again.');
+      stdout.writeln('Invalid selection. Please try again.');
       continue;
     }
 
@@ -93,9 +93,9 @@ Future<Uint8List> loadFirmwareData(File file) async {
 
 Future<void> validateBinaries(
     File file1, File file2, Directory projectRoot) async {
-  print('\nLoading ${p.basename(file1.path)}...');
+  stdout.writeln('\nLoading ${p.basename(file1.path)}...');
   final buffer1 = await loadFirmwareData(file1);
-  print('Loading ${p.basename(file2.path)}...');
+  stdout.writeln('Loading ${p.basename(file2.path)}...');
   final buffer2 = await loadFirmwareData(file2);
 
   final logDir =
@@ -155,8 +155,8 @@ Future<void> validateBinaries(
   }
 
   await logSink.close();
-  print('Validation complete. Found $discrepancies discrepancies.');
-  print('Log written to: ${logFile.path}');
+  stdout.writeln('Validation complete. Found $discrepancies discrepancies.');
+  stdout.writeln('Log written to: ${logFile.path}');
 }
 
 /// Requirement 4: Assembly Logic Mirroring

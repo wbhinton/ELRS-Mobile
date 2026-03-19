@@ -14,6 +14,7 @@ import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 import '../../config/domain/runtime_config_model.dart';
@@ -31,6 +32,7 @@ DeviceRepository deviceRepository(Ref ref) {
 class DeviceRepository {
   final Dio _dio;
   final Ref? _ref;
+  static final _log = Logger('DeviceRepository');
 
   DeviceRepository(this._dio, [this._ref]);
 
@@ -119,7 +121,7 @@ class DeviceRepository {
         luaName != null &&
         uid != null &&
         platform != null) {
-      print('Building Unified Firmware for $productName ($platform)...');
+      _log.info('Building Unified Firmware for $productName ($platform)...');
 
       Uint8List baseFirmware = firmwareData;
       if (filename.endsWith('.gz')) {
@@ -145,7 +147,7 @@ class DeviceRepository {
           : filename;
       if (!filenameToUpload.endsWith('.bin')) filenameToUpload += '.bin';
 
-      print('Unified Firmware Built. Size: ${dataToUpload.length} bytes');
+      _log.info('Unified Firmware Built. Size: ${dataToUpload.length} bytes');
     } else {
       dataToUpload = firmwareData;
       filenameToUpload = filename;
@@ -153,7 +155,7 @@ class DeviceRepository {
 
     // Targeted Compression Logic (Task 3)
     if (platform == 'esp8285') {
-      print('Compressing firmware for ESP8285...');
+      _log.info('Compressing firmware for ESP8285...');
       final compressed = GZipEncoder().encode(dataToUpload);
       if (compressed == null) {
         throw Exception('Failed to compress firmware payload.');
@@ -161,7 +163,7 @@ class DeviceRepository {
       dataToUpload = Uint8List.fromList(compressed);
       if (!filenameToUpload.endsWith('.gz')) filenameToUpload += '.gz';
     } else if (platform != null && platform.startsWith('esp32')) {
-      print('Using raw bytes for ESP32 ($platform)');
+      _log.info('Using raw bytes for ESP32 ($platform)');
       if (filenameToUpload.endsWith('.gz')) {
         filenameToUpload = filenameToUpload.substring(
           0,
@@ -169,7 +171,7 @@ class DeviceRepository {
         );
       }
     } else {
-      print('Skipping compression for platform: $platform');
+      _log.info('Skipping compression for platform: $platform');
     }
 
     int trimmingDelta = 0;
@@ -180,8 +182,8 @@ class DeviceRepository {
       );
       trimmingDelta = firmwareData.length - trimmedEnd;
     }
-    print('Trimming Delta: $trimmingDelta');
-    print('Final Byte Count: ${dataToUpload.length}');
+    _log.info('Trimming Delta: $trimmingDelta');
+    _log.info('Final Byte Count: ${dataToUpload.length}');
 
     return (bytes: dataToUpload, filename: filenameToUpload);
   }
@@ -240,7 +242,7 @@ class DeviceRepository {
             sendTimeout: const Duration(seconds: 120),
           ),
           onSendProgress: (sent, total) {
-            print(
+            _log.info(
               'Upload Progress: ${(sent / total * 100).toStringAsFixed(1)}%',
             );
           },
@@ -255,11 +257,11 @@ class DeviceRepository {
             throw Exception('Flashing failed: ${responseData['msg']}');
           }
         }
-        print('LOG: Flash successful!');
+        _log.info('Flash successful!');
       } on DioException catch (e) {
         if (_isExpectedRebootSocketDrop(e)) {
-          print(
-            'LOG: Device successfully updated and rebooted! Caught expected socket drop.',
+          _log.info(
+            'Device successfully updated and rebooted! Caught expected socket drop.',
           );
           return; // Treat as full success
         }
@@ -281,7 +283,7 @@ class DeviceRepository {
   /// Confirms a forced update after a target mismatch using Dio.
   Future<void> confirmForceUpdate() async {
     try {
-      print('LOG: Sending manual action=confirm to /forceupdate...');
+      _log.info('Sending manual action=confirm to /forceupdate...');
 
       final formData = FormData.fromMap({'action': 'confirm'});
 
@@ -300,7 +302,7 @@ class DeviceRepository {
           responseData['status'] != 'ok') {
         throw Exception('Force update failed: ${responseData['msg']}');
       }
-      print('LOG: Force update successful!');
+      _log.info('Force update successful!');
     } on DioException catch (e) {
       final errStr = e.toString();
       if (errStr.contains('Software caused connection abort') ||
@@ -308,8 +310,8 @@ class DeviceRepository {
             'Connection closed before full header was received',
           ) ||
           errStr.contains('Connection reset by peer')) {
-        print(
-          'LOG: ESP32 successfully forced and rebooted! Caught expected socket drop.',
+        _log.info(
+          'ESP32 successfully forced and rebooted! Caught expected socket drop.',
         );
         return;
       }

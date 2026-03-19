@@ -22,7 +22,7 @@ class HardwareStatusCard extends ConsumerWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: isConnected ? 8 : 2,
-      shadowColor: isConnected ? Colors.teal.withOpacity(0.5) : null,
+      shadowColor: isConnected ? Colors.teal.withValues(alpha: 0.5) : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: isConnected
@@ -101,7 +101,7 @@ class HardwareStatusCard extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.teal.withOpacity(0.1),
+              color: Colors.teal.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.check_circle, size: 32, color: Colors.teal),
@@ -137,10 +137,10 @@ class HardwareStatusCard extends ConsumerWidget {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(0.2),
+                          color: Colors.orange.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(4),
                           border: Border.all(
-                            color: Colors.orange.withOpacity(0.5),
+                            color: Colors.orange.withValues(alpha: 0.5),
                           ),
                         ),
                         child: Text(
@@ -278,7 +278,7 @@ class _PulsingRingIconState extends State<_PulsingRingIcon>
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.teal.withOpacity(_fadeAnimation.value),
+                    color: Colors.teal.withValues(alpha: _fadeAnimation.value),
                     width: 3,
                   ),
                 ),
@@ -379,9 +379,9 @@ class _InfoChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.5)),
+        border: Border.all(color: color.withValues(alpha: 0.5)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

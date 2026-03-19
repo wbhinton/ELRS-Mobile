@@ -33,7 +33,7 @@ abstract class TargetDefinition with _$TargetDefinition {
     String? platform,
 
     // Keeping prior fields that might be useful, but making them optional/default to avoid breakages if not present
-    @Default([]) List<String> upload_methods,
+    @JsonKey(name: 'upload_methods') @Default([]) List<String> uploadMethods,
     @Default([]) List<String> options,
     @Default('') String category,
 

@@ -11,10 +11,13 @@
 // GNU General Public License for more details.
 
 import 'package:dio/dio.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/storage/firmware_cache_service.dart';
 
 part 'releases_repository.g.dart';
+
+final _log = Logger('ReleasesRepository');
 
 class ReleasesRepository {
   final Dio _dio;
@@ -47,7 +50,7 @@ class ReleasesRepository {
       
       return versions;
     } catch (e) {
-       print('RELEASES: Offline or Artifactory unreachable. Fallback to cache may be available.');
+       _log.warning('Offline or Artifactory unreachable. Fallback to cache may be available.');
        rethrow; // Provider will handle the error and fallback to cache
     }
   }
@@ -80,7 +83,7 @@ Future<List<String>> releases(Ref ref) async {
   try {
     return await repo.fetchVersions();
   } catch (e) {
-    print('Failed to fetch releases ($e). Checking cache...');
+    _log.warning('Failed to fetch releases ($e). Checking cache...');
     final cacheService = ref.read(firmwareCacheServiceProvider);
     final cached = await cacheService.getCachedVersions();
     

@@ -25,11 +25,15 @@ class PersistenceService {
     final oldSsid = _prefs.getString(_keyWifiSsid);
     final oldPass = _prefs.getString(_keyWifiPassword);
 
-    if (oldPhrase != null)
+    if (oldPhrase != null) {
       await _secure.write(key: _keyBindPhrase, value: oldPhrase);
-    if (oldSsid != null) await _secure.write(key: _keyWifiSsid, value: oldSsid);
-    if (oldPass != null)
+    }
+    if (oldSsid != null) {
+      await _secure.write(key: _keyWifiSsid, value: oldSsid);
+    }
+    if (oldPass != null) {
       await _secure.write(key: _keyWifiPassword, value: oldPass);
+    }
 
     // Clean up old plain-text data
     await _prefs.remove(_keyBindPhrase);

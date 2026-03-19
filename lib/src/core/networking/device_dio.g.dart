@@ -87,4 +87,4 @@ final class InternetDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$internetDioHash() => r'3b5ac33abe396627432c96e6cc2af4e1941ed4f1';
+String _$internetDioHash() => r'b2a10bdac62637d2917ffbe157c748115b86425d';

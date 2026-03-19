@@ -33,7 +33,7 @@ class FirmwareManagerScreen extends HookConsumerWidget {
           _buildStorageHeader(context, state, settings.maxCachedVersions),
           if (state.errorMessage != null)
             Container(
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha: 0.1),
               width: double.infinity,
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -86,8 +86,9 @@ class FirmwareManagerScreen extends HookConsumerWidget {
     Color barColor = Colors.blue;
     if (usagePercent >= 1.0) {
       barColor = Colors.red;
-    } else if (usagePercent > 0.8)
+    } else if (usagePercent > 0.8) {
       barColor = Colors.orange;
+    }
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -116,7 +117,7 @@ class FirmwareManagerScreen extends HookConsumerWidget {
           LinearProgressIndicator(
             value: usagePercent,
             color: barColor,
-            backgroundColor: Colors.grey.withOpacity(0.3),
+            backgroundColor: Colors.grey.withValues(alpha: 0.3),
           ),
         ],
       ),

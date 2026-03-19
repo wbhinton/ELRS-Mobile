@@ -12,11 +12,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'src/app.dart';
 import 'src/core/analytics/analytics_service.dart';
 
 Future<void> main() async {
+  // Initialize logging
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    debugPrint('${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}');
+  });
+
   WidgetsFlutterBinding.ensureInitialized();
   
   // Create a container to access providers before the app starts

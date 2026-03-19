@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:typed_data';
 
 import 'package:elrs_mobile/src/features/flashing/data/firmware_repository.dart';
 import 'package:elrs_mobile/src/features/flashing/data/device_repository.dart';
@@ -168,7 +167,7 @@ void main() {
     addTearDown(container.dispose);
 
     // Act: Initialize Controller
-    final subscription = container.listen(
+    container.listen(
       flashingControllerProvider,
       (_, _) {},
     );

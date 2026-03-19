@@ -22,10 +22,10 @@ import Layout from "../layouts/Layout.astro";
 					onclick="gtag('event', 'app_download_click', { 'store': 'google_play' });"
 				>Get it on Google Play</a>
 				<a
-					href="https://testflight.apple.com/join/jwU1WrpX"
-					class="w-full md:w-auto px-8 py-3.5 rounded-xl font-bold text-base md:text-lg transition-all hover:-translate-y-0.5 hover:brightness-110 text-center border border-white/10 text-white bg-white/5 no-underline"
+					href="https://apps.apple.com/us/app/elrs-mobile/id6760490014"
+					class="w-full md:w-auto px-8 py-3.5 rounded-xl font-bold text-base md:text-lg transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline"
 					onclick="gtag('event', 'app_download_click', { 'store': 'apple_app_store' });"
-				>Join iOS TestFlight</a>
+				>Download on App Store</a>
 			</div>
 
 			<div class="flex justify-center items-center gap-3 md:gap-4 text-text-muted text-sm md:text-base">
@@ -125,13 +125,13 @@ import Layout from "../layouts/Layout.astro";
 						<span class="text-[0.7rem] font-extrabold text-primary uppercase bg-primary/10 px-2 py-0.5 rounded">Production</span>
 					</div>
 				</a>
-				<a href="https://testflight.apple.com/join/jwU1WrpX" class="flex items-center gap-4 md:gap-6 p-5 md:p-6 bg-surface border border-white/5 rounded-2xl no-underline text-white transition-all hover:border-primary hover:bg-primary/[0.03] hover:-translate-y-1">
+				<a href="https://apps.apple.com/us/app/elrs-mobile/id6760490014" class="flex items-center gap-4 md:gap-6 p-5 md:p-6 bg-surface border border-white/5 rounded-2xl no-underline text-white transition-all hover:border-primary hover:bg-primary/[0.03] hover:-translate-y-1">
 					<div class="text-primary">
 						<svg class="w-9 h-9 md:w-12 md:h-12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.96.95-2.06 1.92-3.4 1.92s-1.8-.84-3.37-.84-2.1.84-3.41.84c-1.28 0-2.43-1.02-3.41-2.45-2.17-3.17-3.26-7.44-1.17-10.73 1-1.5 2.51-2.48 4.14-2.48 1.4 0 2.4 1.05 3.4 1.05s2.2-.9 3.55-.9c1.1 0 2.45.6 3.45 1.7-2.7 1.6-2.2 5.3 0 6.6-.7 1.8-1.7 3.6-2.94 5.16zM13 2c0 1.5-1.26 3.1-2.9 3.1-.15-1.9 1.4-3.5 2.9-3.5z"></path></svg>
 					</div>
 					<div class="store-info">
-						<h3 class="text-lg md:text-xl font-bold m-0">TestFlight</h3>
-						<span class="text-[0.7rem] font-extrabold text-primary uppercase bg-primary/10 px-2 py-0.5 rounded">iOS Beta</span>
+						<h3 class="text-lg md:text-xl font-bold m-0">App Store</h3>
+						<span class="text-[0.7rem] font-extrabold text-primary uppercase bg-primary/10 px-2 py-0.5 rounded">Production</span>
 					</div>
 				</a>
 			</div>
@@ -197,13 +197,13 @@ import Layout from "../layouts/Layout.astro";
 <script>
 	declare global {
 		interface Window {
-			gtag: (...args: any[]) => void;
+			gtag: (command: string, action: string, params?: object) => void;
 		}
 	}
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const playStoreLinks = document.querySelectorAll('a[href*="play.google.com/store/apps/details"]');
-		const testFlightLinks = document.querySelectorAll('a[href*="testflight.apple.com/join"]');
+		const appleAppStoreLinks = document.querySelectorAll('a[href*="apps.apple.com"]');
 
 		playStoreLinks.forEach(link => {
 			link.addEventListener('click', () => {
@@ -217,13 +217,13 @@ import Layout from "../layouts/Layout.astro";
 			});
 		});
 
-		testFlightLinks.forEach(link => {
+		appleAppStoreLinks.forEach(link => {
 			link.addEventListener('click', () => {
 				if (typeof window.gtag === 'function') {
 					window.gtag('event', 'app_download_click', {
 						'store': 'apple_app_store',
 						'event_category': 'App Install',
-						'event_label': 'TestFlight Link'
+						'event_label': 'App Store Link'
 					});
 				}
 			});

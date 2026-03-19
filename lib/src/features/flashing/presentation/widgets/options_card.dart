@@ -216,7 +216,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   decoration: const InputDecoration(
                     labelText: 'Regulatory Domain',
                   ),
-                  value: currentDomainId,
+                  initialValue: currentDomainId,
                   items: domainItems,
                   onChanged: (value) {
                     if (value != null) {

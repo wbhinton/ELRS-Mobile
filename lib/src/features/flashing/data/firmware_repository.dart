@@ -13,6 +13,7 @@
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:archive/archive.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 
@@ -27,6 +28,7 @@ class FirmwareData {
 
 class FirmwareRepository {
   final Dio _dio;
+  static final _log = Logger('FirmwareRepository');
 
   FirmwareRepository(this._dio);
 
@@ -41,11 +43,11 @@ class FirmwareRepository {
         version,
         onReceiveProgress: onReceiveProgress,
       );
-      print('Zip downloaded (${zipBytes.length} bytes). Extracting...');
+      _log.info('Zip downloaded (${zipBytes.length} bytes). Extracting...');
 
       return extractFirmwareFromZip(zipBytes, targetName, isLbt: isLbt);
     } catch (e) {
-      print('Firmware download error: $e');
+      _log.warning('Firmware download error: $e');
       throw Exception('Failed to download/extract firmware: $e');
     }
   }
@@ -53,7 +55,7 @@ class FirmwareRepository {
   /// Fetches the commit hash for a given version from the Artifactory index.
   Future<String> fetchHashForVersion(String version) async {
     try {
-      print('Fetching Artifactory Index...');
+      _log.info('Fetching Artifactory Index...');
       final indexResponse = await _dio.get(
         'https://artifactory.expresslrs.org/ExpressLRS/index.json',
       );
@@ -64,10 +66,10 @@ class FirmwareRepository {
       }
 
       final hash = tags[version];
-      print('Found hash for $version: $hash');
+      _log.info('Found hash for $version: $hash');
       return hash as String;
     } catch (e) {
-      print('FIRMWARE: Hash fetch failed (Offline?). Error: $e');
+      _log.warning('Hash fetch failed (Offline?). Error: $e');
       rethrow;
     }
   }
@@ -81,7 +83,7 @@ class FirmwareRepository {
     try {
       final url =
           'https://artifactory.expresslrs.org/ExpressLRS/$hash/$filename';
-      print('Downloading artifact: $url');
+      _log.info('Downloading artifact: $url');
 
       final response = await _dio.get<List<int>>(
         url,
@@ -115,7 +117,7 @@ class FirmwareRepository {
   }) async {
     try {
       const url = 'https://artifactory.expresslrs.org/ExpressLRS/hardware.zip';
-      print('Downloading hardware zip: $url');
+      _log.info('Downloading hardware zip: $url');
 
       final response = await _dio.get<List<int>>(
         url,
@@ -178,17 +180,17 @@ class FirmwareRepository {
       }
 
       if (matchedFile == null) {
-        print('No matching firmware found for target: $targetName');
-        print('Available candidates in zip:');
+        _log.warning('No matching firmware found for target: $targetName');
+        _log.info('Available candidates in zip:');
         for (final c in candidates) {
-          print(' - $c');
+          _log.info(' - $c');
         }
         throw Exception(
           'Firmware file for $targetName not found in release archive.',
         );
       }
 
-      print('Extracted match: ${matchedFile.name}');
+      _log.info('Extracted match: ${matchedFile.name}');
       final fileContent = matchedFile.content as List<int>;
       // Extract the filename from the path (e.g. firmware/FCC/Target/firmware.bin -> firmware.bin)
       // Actually we want the full name or just the basename? User said "actual filename found (e.g., BetaFPV_Nano_RX.bin.gz)".

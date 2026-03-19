@@ -95,7 +95,7 @@ void main() {
     addTearDown(container.dispose);
 
     // Act
-    final subscription = container.listen(
+    container.listen(
       flashingControllerProvider,
       (_, _) {},
     );

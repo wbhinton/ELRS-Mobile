@@ -11,6 +11,7 @@
 // GNU General Public License for more details.
 
 import 'dart:async';
+import 'package:logging/logging.dart';
 import 'package:nsd/nsd.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../analytics/analytics_service.dart';
@@ -27,6 +28,7 @@ class DiscoveryService {
   Discovery? _discovery;
   final _ipController = StreamController<String?>.broadcast();
   bool _hasFoundDevice = false;
+  static final _log = Logger('DiscoveryService');
 
   DiscoveryService([this._ref]);
 
@@ -36,22 +38,22 @@ class DiscoveryService {
     // Prevent multiple scans
     if (_discovery != null) return;
 
-    print(
+    _log.info(
       'Discovery Service started. (Note: mDNS may not work in Android Emulator)',
     );
 
     try {
       _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Started');
       _discovery = await startDiscovery('_http._tcp');
-      print(
-        'Discovery: mDNS discovery started, scanning for _http._tcp services...',
+      _log.info(
+        'mDNS discovery started, scanning for _http._tcp services...',
       );
 
       // Fallback: If no device found within 3 seconds, assume 10.0.0.1
       Timer(const Duration(seconds: 3), () {
         if (!_hasFoundDevice) {
-          print(
-            'Discovery: No mDNS device found within 3s, falling back to 10.0.0.1',
+          _log.info(
+            'No mDNS device found within 3s, falling back to 10.0.0.1',
           );
           _ref?.read(analyticsServiceProvider).trackEvent('mDNS Fallback Triggered');
           _ipController.add('10.0.0.1');
@@ -59,16 +61,16 @@ class DiscoveryService {
       });
 
       _discovery!.addListener(() {
-        print(
-          'Discovery: Service list changed, checking ${_discovery!.services.length} services...',
+        _log.info(
+          'Service list changed, checking ${_discovery!.services.length} services...',
         );
         // Listener fires on changes. Iterate over services.
         for (final service in _discovery!.services) {
           final name = service.name ?? '';
-          print('Discovery: Found service: $name');
+          _log.info('Found service: $name');
           if (name.toLowerCase().contains('elrs')) {
             final host = service.host;
-            print('Discovery: ELRS device found at host: $host');
+            _log.info('ELRS device found at host: $host');
             if (host != null) {
               // Found valid ELRS mDNS
               _hasFoundDevice = true;
@@ -82,7 +84,7 @@ class DiscoveryService {
         }
       });
     } catch (e) {
-      print('Discovery failed: $e');
+      _log.warning('Discovery failed: $e');
       _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Failed', {'error': e.toString()});
     }
   }

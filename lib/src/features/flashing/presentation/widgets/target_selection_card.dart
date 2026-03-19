@@ -48,7 +48,7 @@ class TargetSelectionCard extends ConsumerWidget {
             // 1. Device Type Dropdown
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(labelText: 'Device Type'),
-              value: selectedDeviceType,
+              initialValue: selectedDeviceType,
               items: deviceTypes.map((type) {
                 return DropdownMenuItem(value: type, child: Text(type));
               }).toList(),
@@ -63,7 +63,7 @@ class TargetSelectionCard extends ConsumerWidget {
             // 2. Vendor Dropdown
             DropdownButtonFormField<String>(
               decoration: const InputDecoration(labelText: 'Device Vendor'),
-              value: selectedVendor,
+              initialValue: selectedVendor,
               items: vendors.map((vendor) {
                 return DropdownMenuItem(value: vendor, child: Text(vendor));
               }).toList(),
@@ -82,7 +82,7 @@ class TargetSelectionCard extends ConsumerWidget {
               decoration: const InputDecoration(
                 labelText: 'Regulatory & Frequency',
               ),
-              value: selectedFrequency,
+              initialValue: selectedFrequency,
               items: frequencies.map((freq) {
                 return DropdownMenuItem(value: freq, child: Text(freq));
               }).toList(),
@@ -99,7 +99,7 @@ class TargetSelectionCard extends ConsumerWidget {
             // 4. Device Target Dropdown
             DropdownButtonFormField<TargetDefinition>(
               decoration: const InputDecoration(labelText: 'Device Target'),
-              value: selectedTarget,
+              initialValue: selectedTarget,
               items: selectedFrequency == null
                   ? []
                   : devices.map((device) {

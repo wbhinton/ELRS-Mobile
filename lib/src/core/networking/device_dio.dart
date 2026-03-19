@@ -13,7 +13,6 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'connection_repository.dart';
-import '../../features/settings/presentation/settings_controller.dart';
 
 part 'device_dio.g.dart';
 
@@ -38,8 +37,6 @@ Dio localDio(Ref ref) {
 
 @riverpod
 Dio internetDio(Ref ref) {
-  final settings = ref.watch(settingsControllerProvider);
-  
   final dio = Dio(
     BaseOptions(
       connectTimeout: const Duration(seconds: 60),

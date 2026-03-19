@@ -30,7 +30,7 @@ class ValidationUtils {
     if (value == null || value.isEmpty) {
       return 'Binding Phrase cannot be empty';
     }
-    if (value.length < 1) {
+    if (value.isEmpty) {
       return 'Binding Phrase is too short';
     }
     return null;

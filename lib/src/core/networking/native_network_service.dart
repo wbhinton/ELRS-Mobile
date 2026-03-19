@@ -12,6 +12,7 @@
 
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'native_network_service.g.dart';
@@ -22,6 +23,7 @@ NativeNetworkService nativeNetworkService(Ref ref) {
 }
 
 class NativeNetworkService {
+  static final _log = Logger('NativeNetworkService');
   static const _channel = MethodChannel('org.expresslrs.elrs_mobile/network');
 
   /// Binds the entire app process to the WiFi network even if it lacks internet access.
@@ -30,9 +32,9 @@ class NativeNetworkService {
     if (Platform.isIOS) return;
     try {
       await _channel.invokeMethod('bindProcessToWiFi');
-      print('NATIVE: Process bound to WiFi interface');
+      _log.info('Process bound to WiFi interface');
     } on Exception catch (e) {
-      print('NATIVE: Failed to bind to WiFi: $e');
+      _log.warning('Failed to bind to WiFi: $e');
     }
   }
 
@@ -41,9 +43,9 @@ class NativeNetworkService {
     if (Platform.isIOS) return;
     try {
       await _channel.invokeMethod('unbindProcess');
-      print('NATIVE: Process unbound from specific interface');
+      _log.info('Process unbound from specific interface');
     } on Exception catch (e) {
-      print('NATIVE: Failed to unbind: $e');
+      _log.warning('Failed to unbind: $e');
     }
   }
 }

@@ -14,7 +14,7 @@ _TargetDefinition _$TargetDefinitionFromJson(Map<String, dynamic> json) =>
       firmware: json['firmware'] as String?,
       config: json['config'] as Map<String, dynamic>? ?? const {},
       platform: json['platform'] as String?,
-      upload_methods:
+      uploadMethods:
           (json['upload_methods'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -37,7 +37,7 @@ Map<String, dynamic> _$TargetDefinitionToJson(_TargetDefinition instance) =>
       'firmware': instance.firmware,
       'config': instance.config,
       'platform': instance.platform,
-      'upload_methods': instance.upload_methods,
+      'upload_methods': instance.uploadMethods,
       'options': instance.options,
       'category': instance.category,
       'device_type': instance.deviceType,

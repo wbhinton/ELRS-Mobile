@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../flashing/data/releases_repository.dart';
 import '../../settings/presentation/settings_controller.dart';
@@ -22,6 +23,7 @@ abstract class FirmwareManagerState with _$FirmwareManagerState {
 
 @Riverpod(keepAlive: true)
 class FirmwareManagerController extends _$FirmwareManagerController {
+  static final _log = Logger('FirmwareManagerController');
   @override
   FirmwareManagerState build() {
     return const FirmwareManagerState();
@@ -39,7 +41,7 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       try {
         available = await releasesRepo.fetchVersions();
       } catch (e) {
-        print('Failed to fetch available versions: $e');
+        _log.warning('Failed to fetch available versions: $e');
         // If offline, maybe we only show cached?
       }
 

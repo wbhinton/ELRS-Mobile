@@ -10,12 +10,15 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'connection_repository.g.dart';
 
 @Riverpod(keepAlive: true)
 class TargetIp extends _$TargetIp {
+  static final _log = Logger('TargetIp');
+
   @override
   String? build() {
     return null;
@@ -23,7 +26,7 @@ class TargetIp extends _$TargetIp {
 
   void updateIp(String newIp) {
     if (state != newIp) {
-      print('CONNECTION: Target IP updated to $newIp');
+      _log.info('Target IP updated to $newIp');
       state = newIp;
     }
   }

@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logging/logging.dart';
 import '../domain/target_definition.dart';
 import '../../../core/storage/firmware_cache_service.dart';
 
 class TargetsRepository {
   final Dio _dio;
   final FirmwareCacheService _cacheService;
+  static final _log = Logger('TargetsRepository');
 
   TargetsRepository(this._dio, this._cacheService);
 
@@ -23,7 +25,7 @@ class TargetsRepository {
 
       return await compute(_parseTargets, jsonString);
     } catch (e) {
-      print('Failed to fetch targets online: $e. Checking cache...');
+      _log.warning('Failed to fetch targets online: $e. Checking cache...');
       // Allow fallback to cache
       final cachedJson = await _cacheService.getCachedTargetJson('master');
       if (cachedJson != null && cachedJson.isNotEmpty) {
@@ -140,10 +142,12 @@ class TargetsRepository {
                   }
 
                   // Inject layout_file and overlay for hardware merging
-                  if (data.containsKey('layout_file'))
+                  if (data.containsKey('layout_file')) {
                     configMap['layout_file'] = data['layout_file'];
-                  if (data.containsKey('overlay'))
+                  }
+                  if (data.containsKey('overlay')) {
                     configMap['overlay'] = data['overlay'];
+                  }
 
                   // Ensure config is passed back to data
                   data['config'] = configMap;
@@ -154,7 +158,7 @@ class TargetsRepository {
                   data['category'] = categoryKey;
                   targets.add(TargetDefinition.fromJson(data));
                 } catch (e) {
-                  print('Error parsing target $deviceKey in $vendorKey: $e');
+                  _log.warning('Error parsing target $deviceKey in $vendorKey: $e');
                 }
               }
             });

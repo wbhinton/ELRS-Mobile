@@ -8,6 +8,25 @@ This application provides a comprehensive mobile interface for managing ExpressL
 
 ---
 
+## Installation
+
+### Official App Stores
+
+#### [Android](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
+Install from Google Play
+
+<a href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Get it on Google Play</a>
+
+#### [iOS](https://apps.apple.com/us/app/elrs-mobile/id6760490014)
+Install from the App Store
+
+<a href="https://apps.apple.com/us/app/elrs-mobile/id6760490014" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Download on App Store</a>
+
+### Manual Installation
+For power users or those who prefer manual management, visit our [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases) page for the latest `.apk` files.
+
+---
+
 ## 🚀 Quick Start: Flashing Your First Device
 
 ### Phase 1: Caching Firmware (Do this at home)

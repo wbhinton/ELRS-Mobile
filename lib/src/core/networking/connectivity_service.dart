@@ -11,6 +11,7 @@
 // GNU General Public License for more details.
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'native_network_service.dart';
 
@@ -18,6 +19,8 @@ part 'connectivity_service.g.dart';
 
 @Riverpod(keepAlive: true)
 class ConnectivityService extends _$ConnectivityService {
+  static final _log = Logger('ConnectivityService');
+
   @override
   Stream<List<ConnectivityResult>> build() {
     return Connectivity().onConnectivityChanged;
@@ -27,13 +30,13 @@ class ConnectivityService extends _$ConnectivityService {
   /// Returns true if successful.
   Future<bool> bindToWiFi({int retries = 3}) async {
     for (var i = 0; i < retries; i++) {
-      print('CONNECTIVITY: Binding attempt ${i + 1}...');
+      _log.info('Binding attempt ${i + 1}...');
       try {
         await ref.read(nativeNetworkServiceProvider).bindProcessToWiFi();
         // We assume success if no exception, though the native side logs detail.
         return true;
       } catch (e) {
-        print('CONNECTIVITY: Binding attempt ${i + 1} failed: $e');
+        _log.warning('Binding attempt ${i + 1} failed: $e');
         if (i < retries - 1) {
           await Future.delayed(const Duration(seconds: 1));
         }
@@ -44,33 +47,33 @@ class ConnectivityService extends _$ConnectivityService {
 
   /// Unbinds the app from any specific interface, reverting to OS defaults.
   Future<void> unbind() async {
-    print('CONNECTIVITY: Explicitly unbinding process...');
+    _log.info('Explicitly unbinding process...');
     await ref.read(nativeNetworkServiceProvider).unbindProcess();
   }
 
   /// Attempts to bind the app to WiFi if we are connected to one.
   Future<void> autoBindIfWiFi() async {
     final results = await Connectivity().checkConnectivity();
-    print('CONNECTIVITY: Check results: $results (length: ${results.length})');
-    print(
-      'CONNECTIVITY: Contains wifi: ${results.contains(ConnectivityResult.wifi)}',
+    _log.info('Check results: $results (length: ${results.length})');
+    _log.info(
+      'Contains wifi: ${results.contains(ConnectivityResult.wifi)}',
     );
-    print(
-      'CONNECTIVITY: Contains cellular: ${results.contains(ConnectivityResult.mobile)}',
+    _log.info(
+      'Contains cellular: ${results.contains(ConnectivityResult.mobile)}',
     );
 
     // If we have any network connections, try to bind to WiFi
     // This handles the case where WiFi has no internet but we're still connected
     if (results.isNotEmpty) {
-      print('CONNECTIVITY: We have network connections, attempting bind...');
+      _log.info('We have network connections, attempting bind...');
       final success = await bindToWiFi();
       if (!success) {
-        print('CONNECTIVITY: Auto-bind failed after retries.');
+        _log.warning('Auto-bind failed after retries.');
       } else {
-        print('CONNECTIVITY: Auto-bind succeeded!');
+        _log.info('Auto-bind succeeded!');
       }
     } else {
-      print('CONNECTIVITY: No network connections detected, unbinding...');
+      _log.info('No network connections detected, unbinding...');
       await unbind();
     }
   }
