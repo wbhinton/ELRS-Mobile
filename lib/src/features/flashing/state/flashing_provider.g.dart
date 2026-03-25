@@ -40,7 +40,7 @@ final class IsFlashingProvider extends $NotifierProvider<IsFlashing, bool> {
   }
 }
 
-String _$isFlashingHash() => r'b3ae338042f4d525fa393426f4bb4fd98bdee729';
+String _$isFlashingHash() => r'f0187edf035d87f380a28008dbd69c1e4eac6e2c';
 
 abstract class _$IsFlashing extends $Notifier<bool> {
   bool build();

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'features/splash/presentation/splash_screen.dart';
 import 'features/flashing/presentation/flashing_screen.dart';
 import 'features/settings/presentation/settings_screen.dart';
@@ -14,6 +15,9 @@ part 'router.g.dart';
 GoRouter goRouter(Ref ref) {
   return GoRouter(
     initialLocation: '/',
+    observers: [
+      SentryNavigatorObserver(), // Automatically tracks screen routing
+    ],
     routes: [
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
       GoRoute(

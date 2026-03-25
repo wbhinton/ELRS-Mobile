@@ -22,6 +22,13 @@ Future<void> main() async {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     debugPrint('${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}');
+
+    // Pipe logs to Sentry Breadcrumbs
+    Sentry.addBreadcrumb(Breadcrumb(
+      message: record.message,
+      category: record.loggerName,
+      level: SentryLevel.info,
+    ));
   });
 
   WidgetsFlutterBinding.ensureInitialized();

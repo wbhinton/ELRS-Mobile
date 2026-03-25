@@ -94,4 +94,4 @@ final class ReleasesProvider
   }
 }
 
-String _$releasesHash() => r'7f4f85ab3128e65dc06a18fc3d33c790afe79d5d';
+String _$releasesHash() => r'b4a9e185b6fb63ea0f94e981aff9c0c2637ff8cd';

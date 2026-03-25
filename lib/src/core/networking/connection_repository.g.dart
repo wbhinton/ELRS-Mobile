@@ -40,7 +40,7 @@ final class TargetIpProvider extends $NotifierProvider<TargetIp, String?> {
   }
 }
 
-String _$targetIpHash() => r'bbd05b0034dc338fe0e5a98ff2334174a4699b96';
+String _$targetIpHash() => r'630d8c355cf2a77ca2a77ebdae85bd2f7625f8ae';
 
 abstract class _$TargetIp extends $Notifier<String?> {
   String? build();
