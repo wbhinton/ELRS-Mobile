@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
@@ -127,6 +128,12 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       // 4. Save both to cache
       await cacheService.saveZip(version, firmwareBytes);
       await cacheService.saveHardwareZip(version, hardwareBytes);
+
+      Sentry.metrics.count(
+        'firmware_download_completed',
+        1,
+        attributes: {'version': SentryAttribute.string(version)},
+      );
 
       // Perform eviction to maintain limit
       await cacheService.evictOldestVersions(settings.maxCachedVersions);
