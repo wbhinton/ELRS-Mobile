@@ -21,7 +21,10 @@ class AnalyticsService {
   Future<void> init() async {
     if (_isInitialized) return;
     try {
-      await Aptabase.init(_aptabaseAppId);
+      await Aptabase.init(
+        _aptabaseAppId,
+        const InitOptions(host: 'https://us.aptabase.com'),
+      );
       _isInitialized = true;
       debugPrint('[AnalyticsService] Aptabase initialized successfully');
     } catch (e) {

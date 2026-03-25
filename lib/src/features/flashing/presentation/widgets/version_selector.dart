@@ -15,6 +15,9 @@ class VersionSelector extends HookConsumerWidget {
     final selectedVersion = ref.watch(
       flashingControllerProvider.select((s) => s.selectedVersion),
     );
+    final selectedTarget = ref.watch(
+      flashingControllerProvider.select((s) => s.selectedTarget),
+    );
     final controller = ref.read(flashingControllerProvider.notifier);
 
     // Auto-select latest on data load if nothing selected
@@ -57,20 +60,52 @@ class VersionSelector extends HookConsumerWidget {
 
     return releasesAsync.when(
       data: (allVersions) {
-        // ONLY display versions present in cachedVersions.value
-        final versions = allVersions
-            .where((v) => cachedVersions.value.contains(v))
-            .toList();
+        // Filter out versions that don't meet the target's min requirement
+        final supportedVersions = cachedVersions.value.where((version) {
+          return _isVersionSupported(version, selectedTarget?.minVersion);
+        }).toList();
 
-        if (versions.isEmpty) {
-          // Fallback if the intersection is empty (should be caught by check above, but for safety)
-          return OutlinedButton.icon(
-            onPressed: () async {
-              await context.push('/firmware_manager');
-              await refreshCache();
-            },
-            icon: const Icon(Icons.download),
-            label: const Text('No compatible firmware cached. Go to Manager'),
+        // Sort versions (usually alphabetical/lexicographical works for SemVer if they have same length components)
+        // ELRS versions are typically X.Y.Z
+        supportedVersions.sort((a, b) => b.compareTo(a));
+
+        if (supportedVersions.isEmpty) {
+          return Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.red.withAlpha(25),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.red.withAlpha(128)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.warning_amber_rounded, color: Colors.red),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Hardware requires v${selectedTarget?.minVersion} or newer.',
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    await context.push('/firmware_manager');
+                    await refreshCache();
+                  },
+                  icon: const Icon(Icons.download),
+                  label: const Text('Download Compatible Firmware'),
+                ),
+              ],
+            ),
           );
         }
 
@@ -80,8 +115,10 @@ class VersionSelector extends HookConsumerWidget {
             border: OutlineInputBorder(),
             helperText: 'Select the ELRS version to flash (>= 3.0.0)',
           ),
-          initialValue: selectedVersion,
-          items: versions.map((version) {
+          value: supportedVersions.contains(selectedVersion)
+              ? selectedVersion
+              : null,
+          items: supportedVersions.map((version) {
             return DropdownMenuItem(
               value: version,
               child: Row(
@@ -116,4 +153,14 @@ class VersionSelector extends HookConsumerWidget {
       ),
     );
   }
+}
+
+bool _isVersionSupported(String version, String? minVersion) {
+  if (minVersion == null || minVersion.isEmpty) return true;
+  // Strip 'v' prefixes if present
+  final v1 = version.startsWith('v') ? version.substring(1) : version;
+  final v2 = minVersion.startsWith('v') ? minVersion.substring(1) : minVersion;
+
+  // Simple lexicographical compare works for ELRS standard versioning (e.g. 3.4.0 >= 3.3.0)
+  return v1.compareTo(v2) >= 0;
 }

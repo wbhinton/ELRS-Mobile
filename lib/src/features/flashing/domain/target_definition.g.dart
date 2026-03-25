@@ -27,6 +27,7 @@ _TargetDefinition _$TargetDefinitionFromJson(Map<String, dynamic> json) =>
       category: json['category'] as String? ?? '',
       deviceType: json['device_type'] as String? ?? 'RX',
       frequencyType: json['frequency_type'] as String? ?? '2.4GHz',
+      minVersion: json['min_version'] as String?,
     );
 
 Map<String, dynamic> _$TargetDefinitionToJson(_TargetDefinition instance) =>
@@ -42,4 +43,5 @@ Map<String, dynamic> _$TargetDefinitionToJson(_TargetDefinition instance) =>
       'category': instance.category,
       'device_type': instance.deviceType,
       'frequency_type': instance.frequencyType,
+      'min_version': instance.minVersion,
     };
