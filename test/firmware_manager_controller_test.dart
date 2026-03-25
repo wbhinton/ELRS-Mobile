@@ -7,6 +7,7 @@ import 'package:elrs_mobile/src/core/storage/firmware_cache_service.dart';
 import 'package:elrs_mobile/src/features/settings/presentation/settings_controller.dart';
 import 'package:elrs_mobile/src/features/flashing/data/firmware_repository.dart';
 import 'package:elrs_mobile/src/features/flashing/data/releases_repository.dart';
+import 'package:elrs_mobile/src/core/networking/connection_repository.dart';
 
 class MockFirmwareCacheService extends Mock implements FirmwareCacheService {}
 class MockFirmwareRepository extends Mock implements FirmwareRepository {}
@@ -47,6 +48,8 @@ void main() {
 
     when(() => mockCacheService.saveZip(any(), any())).thenAnswer((_) async => MockFile());
     when(() => mockCacheService.saveHardwareZip(any(), any())).thenAnswer((_) async => MockFile());
+    when(() => mockCacheService.deleteCachedZip(any())).thenAnswer((_) async => {});
+    when(() => mockCacheService.evictOldestVersions(any())).thenAnswer((_) async => {});
   });
 
   ProviderContainer makeContainer({required List<String> cachedVersions}) {
@@ -58,6 +61,7 @@ void main() {
         firmwareRepositoryProvider.overrideWithValue(mockFirmwareRepository),
         releasesRepositoryProvider.overrideWithValue(mockReleasesRepository),
         settingsControllerProvider.overrideWith(() => MockSettingsController()),
+        targetIpProvider.overrideWithValue('192.168.1.1'),
       ],
     );
   }
@@ -97,5 +101,28 @@ void main() {
     expect(state.errorMessage, isNull);
     verify(() => mockCacheService.saveZip('3.3.1', any())).called(1);
     verify(() => mockCacheService.saveHardwareZip('3.3.1', any())).called(1);
+  });
+
+  test('Download is blocked when connected directly to ELRS hotspot (10.0.0.1)', () async {
+    // Setup
+    container = makeContainer(cachedVersions: []);
+    // Override with hotspot IP
+    container.updateOverrides([
+        firmwareCacheServiceProvider.overrideWithValue(mockCacheService),
+        firmwareRepositoryProvider.overrideWithValue(mockFirmwareRepository),
+        releasesRepositoryProvider.overrideWithValue(mockReleasesRepository),
+        settingsControllerProvider.overrideWith(() => MockSettingsController()),
+        targetIpProvider.overrideWithValue('10.0.0.1'),
+    ]);
+    
+    final controller = container.read(firmwareManagerControllerProvider.notifier);
+    
+    // Act
+    await controller.downloadVersion('3.3.1');
+    
+    // Assert
+    final state = container.read(firmwareManagerControllerProvider);
+    expect(state.errorMessage, contains('hotspot'));
+    verifyNever(() => mockFirmwareRepository.downloadArtifact(any(), any(), onReceiveProgress: any(named: 'onReceiveProgress')));
   });
 }
