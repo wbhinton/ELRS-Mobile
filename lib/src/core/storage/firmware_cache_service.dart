@@ -108,11 +108,24 @@ class FirmwareCacheService {
   Future<void> deleteCachedZip(String version) async {
     final file = await getZipFile(version);
     if (file != null) {
-      await file.delete();
+      try {
+        if (await file.exists()) {
+          await file.delete();
+        }
+      } catch (_) {
+        // Silently ignore if the file was already deleted by another process
+      }
     }
+
     final hardwareFile = await getHardwareZipFile(version);
     if (hardwareFile != null) {
-      await hardwareFile.delete();
+      try {
+        if (await hardwareFile.exists()) {
+          await hardwareFile.delete();
+        }
+      } catch (_) {
+        // Silently ignore if the file was already deleted by another process
+      }
     }
   }
 

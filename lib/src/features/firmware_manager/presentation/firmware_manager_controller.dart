@@ -155,13 +155,30 @@ class FirmwareManagerController extends _$FirmwareManagerController {
         downloadProgress: {...state.downloadProgress}..remove(version),
       );
     } catch (e) {
-      // Cleanup on failure
-      await cacheService.deleteCachedZip(version);
+      final errStr = e.toString();
+      
+      // Sniff for nested network exceptions masked by repository wrappers
+      if (errStr.contains('DioException') || 
+          errStr.contains('Connection closed') || 
+          errStr.contains('SocketException')) {
+        
+        _log.warning('Network connection dropped mid-download', e);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'Download interrupted: Network connection was lost. Please check your connection and try again.',
+          downloadProgress: {...state.downloadProgress}..remove(version),
+        );
+      } else {
+        // Cleanup on failure for other errors
+        await cacheService.deleteCachedZip(version);
 
-      state = state.copyWith(
-        errorMessage: 'Download failed: $e',
-        downloadProgress: {...state.downloadProgress}..remove(version),
-      );
+        _log.severe('Failed to download firmware', e);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'Failed to download firmware: $e',
+          downloadProgress: {...state.downloadProgress}..remove(version),
+        );
+      }
     }
   }
 
