@@ -99,6 +99,9 @@ class FlashingScreen extends HookConsumerWidget {
       },
     );
 
+    final selectedTarget = state.selectedTarget;
+    final isStm32 = selectedTarget?.platform == 'stm32';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('ELRS Mobile'),
@@ -166,6 +169,33 @@ class FlashingScreen extends HookConsumerWidget {
                 ],
               ),
 
+            if (isStm32)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Card(
+                  color: Colors.amber.shade50,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.amber.shade700),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      children: [
+                        Icon(Icons.warning_amber_rounded, color: Colors.amber.shade900),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Text(
+                            'STM32 Target Selected: OTA flashing is not supported for this hardware. You can build and save this firmware locally to flash manually via STLink or Betaflight Passthrough.',
+                            style: TextStyle(fontSize: 13, height: 1.4),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
             if (settings.expertMode)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12.0),
@@ -189,6 +219,7 @@ class FlashingScreen extends HookConsumerWidget {
 
             ElevatedButton(
               onPressed: (isConnected &&
+                      !isStm32 &&
                       (state.status == FlashingStatus.idle ||
                           state.status == FlashingStatus.error ||
                           state.status == FlashingStatus.success ||
@@ -223,9 +254,11 @@ class FlashingScreen extends HookConsumerWidget {
               child: Text(
                 !isConnected
                     ? 'WAITING FOR DEVICE...'
-                    : state.status == FlashingStatus.success
-                        ? 'DONE'
-                        : 'FLASH',
+                    : isStm32
+                        ? 'OTA UNAVAILABLE'
+                        : state.status == FlashingStatus.success
+                            ? 'DONE'
+                            : 'FLASH',
               ),
             ),
           ],

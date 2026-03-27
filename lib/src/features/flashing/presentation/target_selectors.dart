@@ -3,15 +3,22 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../data/targets_provider.dart';
 import '../domain/target_definition.dart';
 import 'flashing_controller.dart';
+import '../../settings/presentation/settings_controller.dart';
 
 part 'target_selectors.g.dart';
 
 @riverpod
 List<String> availableDeviceTypes(Ref ref) {
   final targetsValue = ref.watch(targetsProvider);
+  final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
+
   return targetsValue.when(
     data: (targets) {
-      final types = targets.map((t) => t.deviceType).toSet().toList();
+      final types = targets
+          .where((t) => expertMode || t.platform != 'stm32')
+          .map((t) => t.deviceType)
+          .toSet()
+          .toList();
       types.sort();
       return types;
     },
@@ -26,13 +33,14 @@ List<String> availableVendors(Ref ref) {
   final selectedDeviceType = ref.watch(
     flashingControllerProvider.select((s) => s.selectedDeviceType),
   );
+  final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
 
   if (selectedDeviceType == null) return [];
 
   return targetsValue.when(
     data: (targets) {
       final vendors = targets
-          .where((t) => t.deviceType == selectedDeviceType)
+          .where((t) => t.deviceType == selectedDeviceType && (expertMode || t.platform != 'stm32'))
           .map((t) => t.vendor)
           .toSet()
           .toList();
@@ -53,6 +61,7 @@ List<String> availableFrequencies(Ref ref) {
   final selectedVendor = ref.watch(
     flashingControllerProvider.select((s) => s.selectedVendor),
   );
+  final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
 
   if (selectedDeviceType == null || selectedVendor == null) return [];
 
@@ -62,12 +71,12 @@ List<String> availableFrequencies(Ref ref) {
           .where(
             (t) =>
                 t.deviceType == selectedDeviceType &&
-                t.vendor == selectedVendor,
+                t.vendor == selectedVendor &&
+                (expertMode || t.platform != 'stm32'),
           )
           .map((t) => t.frequencyType)
           .toSet()
           .toList();
-      // Keep Dual Band at the end perhaps, but alphabetical is fine for now
       freqs.sort();
       return freqs;
     },
@@ -88,10 +97,9 @@ List<TargetDefinition> availableTargetsList(Ref ref) {
   final selectedFrequency = ref.watch(
     flashingControllerProvider.select((s) => s.selectedFrequency),
   );
+  final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
 
-  if (selectedDeviceType == null ||
-      selectedVendor == null ||
-      selectedFrequency == null) {
+  if (selectedDeviceType == null || selectedVendor == null || selectedFrequency == null) {
     return [];
   }
 
@@ -102,9 +110,11 @@ List<TargetDefinition> availableTargetsList(Ref ref) {
             (t) =>
                 t.deviceType == selectedDeviceType &&
                 t.vendor == selectedVendor &&
-                t.frequencyType == selectedFrequency,
+                t.frequencyType == selectedFrequency &&
+                (expertMode || t.platform != 'stm32'),
           )
           .toList();
+
       devices.sort((a, b) => a.name.compareTo(b.name));
       return devices;
     },

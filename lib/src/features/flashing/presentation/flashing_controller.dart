@@ -335,7 +335,11 @@ class FlashingController extends _$FlashingController {
       );
 
       final patcher = ref.read(firmwarePatcherProvider);
-      finalBytes = await patcher.patchFirmware(firmwareData.bytes, config);
+      finalBytes = await patcher.patchFirmware(
+        firmwareData.bytes,
+        config,
+        platform: state.selectedTarget?.platform,
+      );
     }
 
     return (bytes: finalBytes, filename: firmwareData.filename);
