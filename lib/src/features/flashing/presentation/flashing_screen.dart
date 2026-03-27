@@ -173,21 +173,27 @@ class FlashingScreen extends HookConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Card(
-                  color: Colors.amber.shade50,
+                  color: Colors.amber.withValues(alpha: 0.1),
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.amber.shade700),
+                    side: BorderSide(color: Colors.amber.withValues(alpha: 0.4)),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Row(
                       children: [
-                        Icon(Icons.warning_amber_rounded, color: Colors.amber.shade900),
+                        Icon(Icons.warning_amber_rounded,
+                            color: Colors.amber.shade400),
                         const SizedBox(width: 12),
-                        const Expanded(
+                        Expanded(
                           child: Text(
                             'STM32 Target Selected: OTA flashing is not supported for this hardware. You can build and save this firmware locally to flash manually via STLink or Betaflight Passthrough.',
-                            style: TextStyle(fontSize: 13, height: 1.4),
+                            style: TextStyle(
+                              fontSize: 13,
+                              height: 1.4,
+                              color: Colors.amber.shade100,
+                            ),
                           ),
                         ),
                       ],
