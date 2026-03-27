@@ -45,7 +45,7 @@ import Layout from "../layouts/Layout.astro";
 			</div>
 			
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-				<div class="bg-surface rounded-2xl border border-primary/10 p-6 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-[0_15px_30px_rgba(0,191,165,0.1)] flex flex-col gap-4">
+				<div class="bg-surface/40 backdrop-blur-md rounded-2xl border border-primary/10 p-6 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,191,165,0.07)] flex flex-col gap-4">
 					<div class="flex justify-between items-start gap-4">
 						<span class="text-[0.7rem] font-extrabold uppercase tracking-wider px-2.5 py-1.5 rounded-lg bg-primary/10 text-primary">Problem</span>
 						<h3 class="text-xl md:text-2xl font-bold">The "Dead Zone" Mismatch</h3>
@@ -58,7 +58,7 @@ import Layout from "../layouts/Layout.astro";
 					</div>
 				</div>
 
-				<div class="bg-surface rounded-2xl border border-primary/10 p-6 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-[0_15px_30px_rgba(0,191,165,0.1)] flex flex-col gap-4">
+				<div class="bg-surface/40 backdrop-blur-md rounded-2xl border border-primary/10 p-6 md:p-10 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,191,165,0.07)] flex flex-col gap-4">
 					<div class="flex justify-between items-start gap-4">
 						<span class="text-[0.7rem] font-extrabold uppercase tracking-wider px-2.5 py-1.5 rounded-lg bg-primary/10 text-primary">Updates</span>
 						<h3 class="text-xl md:text-2xl font-bold">Mass Configuration</h3>
@@ -74,15 +74,15 @@ import Layout from "../layouts/Layout.astro";
 		</section>
 
 		<section class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 py-12 md:py-20">
-			<div class="bg-surface rounded-2xl border border-primary/10 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-[0_15px_30px_rgba(0,191,165,0.1)] flex flex-col gap-3">
+			<div class="bg-surface/40 backdrop-blur-md rounded-2xl border border-primary/10 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,191,165,0.07)] flex flex-col gap-3">
 				<h3 class="text-xl md:text-2xl font-bold text-primary">⚡ Blazing Fast</h3>
 				<p class="text-text-muted text-sm md:text-base leading-relaxed">Flash from local cache instead of waiting for web downloads or cloud compiles.</p>
 			</div>
-			<div class="bg-surface rounded-2xl border border-primary/10 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-[0_15px_30px_rgba(0,191,165,0.1)] flex flex-col gap-3">
+			<div class="bg-surface/40 backdrop-blur-md rounded-2xl border border-primary/10 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,191,165,0.07)] flex flex-col gap-3">
 				<h3 class="text-xl md:text-2xl font-bold text-primary">📡 Reliable Anywhere</h3>
 				<p class="text-text-muted text-sm md:text-base leading-relaxed">Engineered for resilience. Direct OTA flashing ensures stable connections even in remote areas.</p>
 			</div>
-			<div class="bg-surface rounded-2xl border border-primary/10 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-[0_15px_30px_rgba(0,191,165,0.1)] flex flex-col gap-3">
+			<div class="bg-surface/40 backdrop-blur-md rounded-2xl border border-primary/10 p-6 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_40px_rgba(0,191,165,0.07)] flex flex-col gap-3">
 				<h3 class="text-xl md:text-2xl font-bold text-primary">🛠 Unified Flow</h3>
 				<p class="text-text-muted text-sm md:text-base leading-relaxed">One interface for all hardware. Automatically patches firmware with your config before flashing.</p>
 			</div>
@@ -136,16 +136,16 @@ import Layout from "../layouts/Layout.astro";
 				</a>
 			</div>
 
-			<div class="text-center p-8 md:p-12 bg-white/[0.02] rounded-[24px] md:rounded-[32px] border border-dashed border-white/10">
-				<h3 class="text-xl md:text-2xl font-bold mb-2">Advanced Installation</h3>
+			<div class="text-center p-8 md:p-12 bg-surface/30 backdrop-blur-md rounded-[24px] md:rounded-[32px] border border-white/5 shadow-2xl">
+				<h3 class="text-xl md:text-2xl font-bold mb-2 tracking-tight">Advanced Installation</h3>
 				<p class="text-text-muted text-sm md:text-base">Direct downloads and source code for power users.</p>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-6 md:mt-8">
-					<a href="https://github.com/wbhinton/ELRS-Mobile/releases" class="bg-surface rounded-2xl border border-primary/10 p-5 md:p-6 transition-all duration-300 hover:border-primary text-left no-underline">
-						<h4 class="text-white font-bold mb-1">Android APK</h4>
+					<a href="https://github.com/wbhinton/ELRS-Mobile/releases" class="bg-white/5 rounded-2xl border border-white/5 p-5 md:p-6 transition-all duration-300 hover:border-primary/50 hover:bg-white/10 text-left no-underline group">
+						<h4 class="text-white font-bold mb-1 transition-colors group-hover:text-primary">Android APK</h4>
 						<p class="text-text-muted text-sm m-0">Sideload via GitHub Releases</p>
 					</a>
-					<a href="https://github.com/wbhinton/ELRS-Mobile" class="bg-surface rounded-2xl border border-primary/10 p-5 md:p-6 transition-all duration-300 hover:border-primary text-left no-underline">
-						<h4 class="text-white font-bold mb-1">Source Code</h4>
+					<a href="https://github.com/wbhinton/ELRS-Mobile" class="bg-white/5 rounded-2xl border border-white/5 p-5 md:p-6 transition-all duration-300 hover:border-primary/50 hover:bg-white/10 text-left no-underline group">
+						<h4 class="text-white font-bold mb-1 transition-colors group-hover:text-primary">Source Code</h4>
 						<p class="text-text-muted text-sm m-0">View on GitHub</p>
 					</a>
 				</div>
@@ -158,22 +158,23 @@ import Layout from "../layouts/Layout.astro";
 				<p class="text-lg md:text-xl text-text-muted max-w-2xl mx-auto">Broad support for the ExpressLRS ecosystem.</p>
 			</div>
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
-				<div class="bg-surface rounded-2xl border border-primary/10 p-6 md:p-8">
-					<h4 class="text-lg md:text-xl font-bold mb-4 text-primary">Supported Chipsets</h4>
-					<ul class="list-none p-0 m-0">
-						<li class="py-2 border-b border-white/5 text-text-muted text-sm md:text-base"><strong class="text-white">ESP8285</strong> (Common on RXs)</li>
-						<li class="py-2 border-b border-white/5 text-text-muted text-sm md:text-base"><strong class="text-white">ESP32</strong> (Standard TX/RX)</li>
-						<li class="py-2 border-none text-text-muted text-sm md:text-base"><strong class="text-white">ESP32-C3 / S3</strong> (Next-Gen)</li>
-					</ul>
+				<div class="bg-surface/30 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8 shadow-xl">
+					<h4 class="text-lg md:text-xl font-bold mb-6 text-primary tracking-tight">Supported Chipsets</h4>
+					<div class="flex flex-wrap gap-2">
+						<span class="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider">ESP8285</span>
+						<span class="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider">ESP32</span>
+						<span class="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider">ESP32-C3</span>
+						<span class="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider">ESP32-S3</span>
+					</div>
 				</div>
-				<div class="bg-surface rounded-2xl border border-primary/10 p-6 md:p-8">
-					<h4 class="text-lg md:text-xl font-bold mb-4 text-primary">Tested Hardware</h4>
-					<ul class="list-none p-0 m-0">
-						<li class="py-2 border-b border-white/5 text-text-muted text-sm md:text-base text-white">RadioMaster XR1 / XR4 Dual Band</li>
-						<li class="py-2 border-b border-white/5 text-text-muted text-sm md:text-base text-white">BETAFPV SuperP / Micro TX</li>
-						<li class="py-2 border-b border-white/5 text-text-muted text-sm md:text-base text-white">HappyModel EP Dual / ES900</li>
-						<li class="py-2 border-none text-text-muted text-sm md:text-base text-white">RadioMaster Nomad / Pocket</li>
-					</ul>
+				<div class="bg-surface/30 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8 shadow-xl">
+					<h4 class="text-lg md:text-xl font-bold mb-6 text-primary tracking-tight">Tested Hardware</h4>
+					<div class="flex flex-wrap gap-2">
+						<span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/90 text-xs font-medium italic">RadioMaster XR Series</span>
+						<span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/90 text-xs font-medium italic">BetaFPV SuperP</span>
+						<span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/90 text-xs font-medium italic">HappyModel ES900 / EP</span>
+						<span class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/90 text-xs font-medium italic">RadioMaster Nomad / Pocket</span>
+					</div>
 				</div>
 			</div>
 		</section>

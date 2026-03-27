@@ -1,10 +1,23 @@
 ---
 title: Technical Specification
 slug: technical_spec
+sidebar:
+  order: 5
 ---
 
 ## Architecture Overview
-The application is built using Flutter and leverages the Riverpod state management framework. It interacts with ELRS hardware via a RESTful API exposed by the device's onboard WiFi module.
+
+<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
+  <div class="flex items-center gap-3 mb-2">
+    <div class="p-2 rounded-lg bg-primary/10 text-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M216,40V216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8H208A8,8,0,0,1,216,40Zm-16,8H56V208H200ZM160,88a8,8,0,0,1-8,8H104a8,8,0,0,1,0-16h48A8,8,0,0,1,160,88Zm0,32a8,8,0,0,1-8,8H104a8,8,0,0,1,0-16h48A8,8,0,0,1,160,120Zm0,32a8,8,0,0,1-8,8H104a8,8,0,0,1,0-16h48A8,8,0,0,1,160,152Z"></path></svg>
+    </div>
+    <span class="text-lg font-bold text-primary tracking-tight">Design Principle</span>
+  </div>
+  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
+    The application is built using Flutter and leverages the <strong>Riverpod</strong> state management framework. It interacts with ELRS hardware via a RESTful API exposed by the device's onboard WiFi module, ensuring low-latency communication and real-time state synchronization.
+  </p>
+</div>
 
 ## Data Layer
 

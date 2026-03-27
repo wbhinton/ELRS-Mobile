@@ -1,6 +1,8 @@
 ---
 title: User Guide
 slug: user_guide
+sidebar:
+  order: 1
 ---
 
 ## Overview
@@ -63,5 +65,19 @@ The app uses a robust multi-stage discovery sequence to find your hardware:
 
 ## Expert Mode & Auditing
 Within the Settings menu, users can enable **Expert Mode**. This allows you to save the assembled firmware binary directly to your device for auditing or manual flashing via FTDI.
+
+<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
+  <div class="flex items-center gap-3 mb-2">
+    <div class="p-2 rounded-lg bg-primary/10 text-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
+      </svg>
+    </div>
+    <span class="text-lg font-bold text-primary tracking-tight">STM32 Hardware Handling</span>
+  </div>
+  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
+    While ELRS Mobile can assemble and patch firmware for STM32 targets (up to ELRS v3.x), these devices do not support Over-The-Air (OTA) flashing via Wi-Fi. If you select an STM32 target, the app will allow you to build and save the binary locally so you can flash it manually using a PC via STLink or Betaflight Passthrough.
+  </p>
+</div>
 
 For developers looking to verify the integrity of these binaries, see our [**Firmware Validation Guide**](/guides/firmware-validation).
