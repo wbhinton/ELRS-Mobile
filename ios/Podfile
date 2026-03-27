@@ -1,4 +1,5 @@
 # Uncomment this line to define a global platform for your project
+source 'https://cdn.cocoapods.org/'
 platform :ios, '13.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
@@ -31,6 +32,9 @@ inhibit_all_warnings!
 
 target 'Runner' do
   use_frameworks!
+
+  # Explicitly pin Sentry for CI/CD stability
+  pod 'Sentry', '8.58.0'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end

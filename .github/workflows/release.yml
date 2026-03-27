@@ -129,6 +129,10 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Update CocoaPods Specs
+        working-directory: ios
+        run: pod repo update || true
+
       - name: Install Apple Certificate and Provisioning Profile
         run: |
           # 1. Create temporary keychain
