@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../application/firmware_patcher.dart';
@@ -124,7 +125,17 @@ class FlashingController extends _$FlashingController {
   }
 
   void selectTarget(TargetDefinition? target) {
-    state = state.copyWith(selectedTarget: target);
+    String? updatedVersion = state.selectedVersion;
+
+    // If switching to an STM32 target, clear the version if it's a 4.x release
+    // (STM32 support was dropped in ELRS v4.0.0)
+    if (target?.platform == 'stm32' &&
+        updatedVersion != null &&
+        (updatedVersion.startsWith('4.') || updatedVersion.startsWith('v4.'))) {
+      updatedVersion = null;
+    }
+
+    state = state.copyWith(selectedTarget: target, selectedVersion: updatedVersion);
   }
 
   void selectVersion(String? version) {
@@ -334,7 +345,11 @@ class FlashingController extends _$FlashingController {
       );
 
       final patcher = ref.read(firmwarePatcherProvider);
-      finalBytes = await patcher.patchFirmware(firmwareData.bytes, config);
+      finalBytes = await patcher.patchFirmware(
+        firmwareData.bytes,
+        config,
+        platform: state.selectedTarget?.platform,
+      );
     }
 
     return (bytes: finalBytes, filename: firmwareData.filename);
@@ -494,6 +509,13 @@ class FlashingController extends _$FlashingController {
 
       ref.read(isFlashingProvider.notifier).setFlashing(false);
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);
+      Sentry.metrics.count(
+        'firmware_flash_success',
+        1,
+        attributes: {
+          'target': SentryAttribute.string(state.selectedTarget?.name ?? 'unknown'),
+        },
+      );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Flashed', {
         'target': state.selectedTarget?.name ?? 'Unknown',
         'version': state.selectedVersion ?? 'Unknown',
@@ -516,6 +538,13 @@ class FlashingController extends _$FlashingController {
           progress: 0.0,
         );
       }
+      Sentry.metrics.count(
+        'firmware_flash_failure',
+        1,
+        attributes: {
+          'error': SentryAttribute.string(state.status.toString()),
+        },
+      );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Flash Error', {
         'errorType': state.status.toString(),
         'error': errorMsg,

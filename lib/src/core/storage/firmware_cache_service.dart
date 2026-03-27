@@ -37,26 +37,32 @@ class FirmwareCacheService {
   }
 
   /// Returns a list of cached version strings (e.g. ['3.3.0', '3.2.1'])
+  /// Only returns versions where BOTH the firmware zip and hardware zip exist.
   Future<List<String>> getCachedVersions() async {
     final dirPath = await _getCacheDir();
     final dir = Directory(dirPath);
-    final List<String> versions = [];
+    if (!await dir.exists()) return [];
 
-    if (await dir.exists()) {
-      await for (final entity in dir.list()) {
-        if (entity is File) {
-          final filename = p.basename(entity.path);
-          // Expected format: expresslrs_vX.Y.Z.zip
-          if (filename.startsWith('expresslrs_v') &&
-              filename.endsWith('.zip')) {
-            final version = filename
-                .replaceFirst('expresslrs_v', '')
-                .replaceFirst('.zip', '');
+    final List<String> versions = [];
+    
+    await for (final entity in dir.list()) {
+      if (entity is File && entity.path.endsWith('.zip')) {
+        final filename = p.basename(entity.path);
+        
+        // Identify main firmware zips (e.g., expresslrs_v3.3.0.zip)
+        if (filename.startsWith('expresslrs_v') && !filename.contains('hardware')) {
+          final version = filename.substring('expresslrs_v'.length, filename.length - 4);
+          
+          // Verify the accompanying hardware zip also exists before yielding
+          if (await hasCachedHardwareZip(version)) {
             versions.add(version);
           }
         }
       }
     }
+    
+    // Sort descending so newest versions appear at the top
+    versions.sort((a, b) => b.compareTo(a));
     return versions;
   }
 
@@ -108,11 +114,24 @@ class FirmwareCacheService {
   Future<void> deleteCachedZip(String version) async {
     final file = await getZipFile(version);
     if (file != null) {
-      await file.delete();
+      try {
+        if (await file.exists()) {
+          await file.delete();
+        }
+      } catch (_) {
+        // Silently ignore if the file was already deleted by another process
+      }
     }
+
     final hardwareFile = await getHardwareZipFile(version);
     if (hardwareFile != null) {
-      await hardwareFile.delete();
+      try {
+        if (await hardwareFile.exists()) {
+          await hardwareFile.delete();
+        }
+      } catch (_) {
+        // Silently ignore if the file was already deleted by another process
+      }
     }
   }
 

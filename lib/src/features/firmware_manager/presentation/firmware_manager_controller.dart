@@ -1,10 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:dio/dio.dart';
 import '../../flashing/data/releases_repository.dart';
 import '../../settings/presentation/settings_controller.dart';
 import '../../../core/storage/firmware_cache_service.dart';
 import '../../flashing/data/firmware_repository.dart';
+import '../../../core/networking/connection_repository.dart';
 
 part 'firmware_manager_controller.freezed.dart';
 part 'firmware_manager_controller.g.dart';
@@ -63,9 +66,27 @@ class FirmwareManagerController extends _$FirmwareManagerController {
   }
 
   Future<void> downloadVersion(String version) async {
+    // Safeguard: Prevent downloads ONLY if connected directly to the ELRS device hotspot
+    final targetIp = ref.read(targetIpProvider);
+    if (targetIp == '10.0.0.1') {
+      state = state.copyWith(
+        errorMessage: 'Cannot download firmware while connected directly to the receiver\'s Wi-Fi hotspot. Please disconnect or use a home network.',
+      );
+      return;
+    }
+
     final settings = ref.read(settingsControllerProvider);
     final cacheService = ref.read(firmwareCacheServiceProvider);
     final firmwareRepo = ref.read(firmwareRepositoryProvider);
+
+    // Safeguard: Cache limit
+    final cached = await cacheService.getCachedVersions();
+    if (cached.length >= settings.maxCachedVersions && !cached.contains(version)) {
+      state = state.copyWith(
+        errorMessage: 'Cache limit reached. Please delete an old version.',
+      );
+      return;
+    }
 
     state = state.copyWith(
       downloadProgress: {...state.downloadProgress, version: 0.0},
@@ -108,6 +129,12 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       await cacheService.saveZip(version, firmwareBytes);
       await cacheService.saveHardwareZip(version, hardwareBytes);
 
+      Sentry.metrics.count(
+        'firmware_download_completed',
+        1,
+        attributes: {'version': SentryAttribute.string(version)},
+      );
+
       // Perform eviction to maintain limit
       await cacheService.evictOldestVersions(settings.maxCachedVersions);
 
@@ -120,14 +147,38 @@ class FirmwareManagerController extends _$FirmwareManagerController {
         cacheSizeMb: size,
         downloadProgress: {...state.downloadProgress}..remove(version),
       );
-    } catch (e) {
-      // Cleanup on failure
-      await cacheService.deleteCachedZip(version);
-
+    } on DioException catch (e) {
+      _log.warning('Network error during firmware download', e);
       state = state.copyWith(
-        errorMessage: 'Download failed: $e',
+        isLoading: false,
+        errorMessage: 'Network error: Unable to reach the firmware server. Please check your internet connection.',
         downloadProgress: {...state.downloadProgress}..remove(version),
       );
+    } catch (e) {
+      final errStr = e.toString();
+      
+      // Sniff for nested network exceptions masked by repository wrappers
+      if (errStr.contains('DioException') || 
+          errStr.contains('Connection closed') || 
+          errStr.contains('SocketException')) {
+        
+        _log.warning('Network connection dropped mid-download', e);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'Download interrupted: Network connection was lost. Please check your connection and try again.',
+          downloadProgress: {...state.downloadProgress}..remove(version),
+        );
+      } else {
+        // Cleanup on failure for other errors
+        await cacheService.deleteCachedZip(version);
+
+        _log.severe('Failed to download firmware', e);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: 'Failed to download firmware: $e',
+          downloadProgress: {...state.downloadProgress}..remove(version),
+        );
+      }
     }
   }
 

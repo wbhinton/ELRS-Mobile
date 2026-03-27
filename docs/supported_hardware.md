@@ -2,7 +2,10 @@
 
 ## Supported Platforms
 - **Supported:** All ESP8285, ESP32, ESP32-C3, and ESP32-S3 Wi-Fi capable receivers and transmitters.
-- **Currently Unsupported:** STM32 targets requiring serial STLink or Betaflight Passthrough flashing.
+- **Legacy Support (STM32):** Hardware using STM32 chips (e.g. FrSky R9, early Ghost) is supported for **Binary Building only**.
+    - **Expert Mode Required:** These targets are hidden by default and require enabling **Expert Mode** in Settings.
+    - **No OTA Support:** STM32 hardware does not support Wi-Fi OTA flashing via the mobile app. You must build the binary in-app and flash manually via STLink or Betaflight Passthrough.
+    - **Version Compatibility:** STM32 targets are only compatible with ExpressLRS **v3.x.x** and older. Firmware v4.0.0 and above does not support STM32.
 
 ## Tested Hardware
 The following hardware targets have been explicitly tested with ELRS Mobile:

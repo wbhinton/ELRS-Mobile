@@ -33,34 +33,36 @@ void main() {
   });
 
   test(
-    'evictOldestVersions should remove oldest version when limit exceeded',
+    'evictOldestVersions should remove oldest version based on modification time',
     () async {
-      // 1. Create dummy files with different modification dates
-      final v1Dir = Directory(p.join(tempDir.path, 'firmware_cache'));
-      await v1Dir.create(recursive: true);
+      final cacheDir = Directory(p.join(tempDir.path, 'firmware_cache'));
+      await cacheDir.create(recursive: true);
 
-      final f1 = File(p.join(v1Dir.path, 'expresslrs_v1.0.0.zip'));
-      await f1.writeAsString('v1');
-      // Manual modification time setting is tricky in Dart, but we can rely on sequential creation
-      await Future.delayed(const Duration(milliseconds: 100));
+      // Helper to create both zips for a version with a specific modification time
+      Future<void> createVersion(String version, DateTime modified) async {
+        final f1 = File(p.join(cacheDir.path, 'expresslrs_v$version.zip'));
+        await f1.writeAsString('fw');
+        await f1.setLastModified(modified);
+        
+        final f2 = File(p.join(cacheDir.path, 'expresslrs_hardware_v$version.zip'));
+        await f2.writeAsString('hw');
+        await f2.setLastModified(modified);
+      }
 
-      final f2 = File(p.join(v1Dir.path, 'expresslrs_v2.0.0.zip'));
-      await f2.writeAsString('v2');
-      await Future.delayed(const Duration(milliseconds: 100));
-
-      final f3 = File(p.join(v1Dir.path, 'expresslrs_v3.0.0.zip'));
-      await f3.writeAsString('v3');
+      final now = DateTime.now();
+      // v1 is oldest, v3 is newest
+      await createVersion('1.0.0', now.subtract(const Duration(hours: 3)));
+      await createVersion('2.0.0', now.subtract(const Duration(hours: 2)));
+      await createVersion('3.0.0', now.subtract(const Duration(hours: 1)));
 
       // Verify all exist
-      expect(
-        await service.getCachedVersions(),
-        containsAll(['1.0.0', '2.0.0', '3.0.0']),
-      );
+      final versionsBefore = await service.getCachedVersions();
+      expect(versionsBefore, containsAll(['1.0.0', '2.0.0', '3.0.0']));
 
-      // 2. Perform eviction with limit 2
+      // Perform eviction with limit 2
       await service.evictOldestVersions(2);
 
-      // 3. Verify v1.0.0 is gone (it's the oldest)
+      // Verify v1.0.0 is gone (it's the oldest)
       final remaining = await service.getCachedVersions();
       expect(remaining.length, 2);
       expect(remaining, isNot(contains('1.0.0')));
@@ -69,16 +71,30 @@ void main() {
   );
 
   test('clearCache should remove everything', () async {
-    final v1Dir = Directory(p.join(tempDir.path, 'firmware_cache'));
-    await v1Dir.create(recursive: true);
-    await File(
-      p.join(v1Dir.path, 'expresslrs_v1.0.0.zip'),
-    ).writeAsString('test');
+    final cacheDir = Directory(p.join(tempDir.path, 'firmware_cache'));
+    await cacheDir.create(recursive: true);
+    await File(p.join(cacheDir.path, 'expresslrs_v1.0.0.zip')).writeAsString('fw');
+    await File(p.join(cacheDir.path, 'expresslrs_hardware_v1.0.0.zip')).writeAsString('hw');
 
     expect((await service.getCachedVersions()).length, 1);
 
     await service.clearCache();
 
     expect((await service.getCachedVersions()).length, 0);
+  });
+
+  test('getCachedVersions should ignore versions with missing hardware zip', () async {
+    final cacheDir = Directory(p.join(tempDir.path, 'firmware_cache'));
+    await cacheDir.create(recursive: true);
+    
+    // Complete version
+    await File(p.join(cacheDir.path, 'expresslrs_v3.3.0.zip')).writeAsString('fw');
+    await File(p.join(cacheDir.path, 'expresslrs_hardware_v3.3.0.zip')).writeAsString('hw');
+    
+    // Incomplete version (missing hardware)
+    await File(p.join(cacheDir.path, 'expresslrs_v3.2.1.zip')).writeAsString('fw');
+
+    final versions = await service.getCachedVersions();
+    expect(versions, equals(['3.3.0']));
   });
 }
