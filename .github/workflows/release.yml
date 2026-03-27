@@ -2,8 +2,11 @@ name: Build and Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*' # Trigger on version tags like v1.0.0
+  workflow_dispatch: # Allow manual trigger from GitHub Actions UI
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -38,7 +41,11 @@ jobs:
         run: |
       - name: Build APK and App Bundle
         run: |
-          VERSION=$(echo "${{ github.ref_name }}"| sed 's/^v//')
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          else
+            VERSION="0.0.0-ci-${{ github.run_number }}"
+          fi
           BUILD_NUMBER=${{ github.run_number }}
           printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
           flutter build apk --release \
@@ -58,6 +65,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload to Google Play
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
@@ -67,6 +75,7 @@ jobs:
           status: completed
 
       - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
@@ -80,7 +89,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update Version Gist
-        if: success()
+        if: startsWith(github.ref, 'refs/tags/v') && success()
         run: |
           VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           GIST_FILE="version.json"
@@ -162,7 +171,11 @@ jobs:
         run: |
       - name: Build IPA
         run: |
-          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          else
+            VERSION="0.0.0-ci-${{ github.run_number }}"
+          fi
           BUILD_NUMBER=${{ github.run_number }}
           
           # Build IPA and export for App Store
@@ -175,6 +188,7 @@ jobs:
           mv build/ios/ipa/*.ipa "ELRS-Mobile-${{ github.ref_name }}.ipa"
 
       - name: Upload to App Store Connect
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           # Create API key file for xcrun
           mkdir -p ~/.appstoreconnect/private_keys
@@ -187,6 +201,7 @@ jobs:
             --apiIssuer ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
 
       - name: Upload iOS IPA to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
           files: ELRS-Mobile-${{ github.ref_name }}.ipa
