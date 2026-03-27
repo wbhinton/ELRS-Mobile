@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'website/**'
+      - 'docs/**'
+      - '.github/workflows/deploy-website.yml'
     tags:
       - 'v*' # Trigger on version tags like v1.0.0
   workflow_dispatch: # Allow manual trigger from GitHub Actions UI
