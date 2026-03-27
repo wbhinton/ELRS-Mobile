@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../../config/presentation/config_view_model.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/analytics/analytics_service.dart';
@@ -59,6 +61,18 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
       ..loadRequest(Uri.parse('http://$ip/'));
   }
 
+  Widget _buildWebView() {
+    if (Platform.isAndroid) {
+      return WebViewWidget.fromPlatformCreationParams(
+        params: AndroidWebViewWidgetCreationParams(
+          controller: _controller.platform,
+          displayWithHybridComposition: false, // Fallback to TextureView to avoid MediaTek driver crashes
+        ),
+      );
+    }
+    return WebViewWidget(controller: _controller);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +85,7 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
       ),
       body: Stack(
         children: [
-          WebViewWidget(controller: _controller),
+          _buildWebView(),
           if (_isLoading)
             const Center(
               child: CircularProgressIndicator(color: Color(0xFF00E5FF)),
