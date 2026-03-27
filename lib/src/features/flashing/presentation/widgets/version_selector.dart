@@ -64,7 +64,7 @@ class VersionSelector extends HookConsumerWidget {
         // AND handle STM32 specific version caps (no v4+)
         final supportedVersions = cachedVersions.value.where((version) {
           final isStm32 = selectedTarget?.platform == 'stm32';
-          if (isStm32 && version.startsWith('4.')) {
+          if (isStm32 && (version.startsWith('4.') || version.startsWith('v4.'))) {
             return false;
           }
           return _isVersionSupported(version, selectedTarget?.minVersion);

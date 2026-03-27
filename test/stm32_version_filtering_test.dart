@@ -54,7 +54,7 @@ void main() {
     config: {},
   );
 
-  testWidgets('Should hide STM32 target if v4.0.0 is selected', (WidgetTester tester) async {
+  testWidgets('STM32 targets should be visible in expert mode even if v4 is selected', (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -82,45 +82,36 @@ void main() {
       ),
     );
 
-    await tester.pumpAndSettle();
-    expect(find.text('Test STM32'), findsNothing);
-    expect(find.text('Test ESP32'), findsOneWidget);
-  });
-
-  testWidgets('Should show STM32 target if v3.3.0 is selected and expert mode is on', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          targetsProvider.overrideWith((ref) => Future.value([stm32Target, esp32Target])),
-          settingsControllerProvider.overrideWith(() => MockSettingsController(const SettingsState(expertMode: true))),
-          flashingControllerProvider.overrideWith(() => MockFlashingController(const FlashingState(
-            selectedVersion: '3.3.0',
-            selectedDeviceType: 'TX',
-            selectedVendor: 'TestVendor',
-            selectedFrequency: '2400',
-          ))),
-        ],
-        child: MaterialApp(
-          home: Scaffold(
-            body: Consumer(
-              builder: (context, ref, child) {
-                final targets = ref.watch(availableTargetsListProvider);
-                return ListView(
-                  children: targets.map((t) => Text(t.name)).toList(),
-                );
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-
-    await tester.pumpAndSettle();
+    await tester.pump(); // No need for pumpAndSettle if there's no async work in build
+    
+    // Now visible because we moved from hiding to resetting on selection
     expect(find.text('Test STM32'), findsOneWidget);
     expect(find.text('Test ESP32'), findsOneWidget);
   });
 
-  testWidgets('Should hide v4.0.0 from VersionSelector if STM32 target is selected', (WidgetTester tester) async {
+  testWidgets('Selecting an STM32 target while v4 is selected should clear the version', (WidgetTester tester) async {
+    final container = ProviderContainer(
+      overrides: [
+        settingsControllerProvider.overrideWith(() => MockSettingsController(const SettingsState(expertMode: true))),
+      ],
+    );
+    addTearDown(container.dispose);
+
+    final controller = container.read(flashingControllerProvider.notifier);
+    
+    // 1. Select v4
+    controller.selectVersion('4.0.0');
+    expect(container.read(flashingControllerProvider).selectedVersion, '4.0.0');
+
+    // 2. Select STM32 target
+    controller.selectTarget(stm32Target);
+
+    // 3. Version should be cleared
+    expect(container.read(flashingControllerProvider).selectedTarget, stm32Target);
+    expect(container.read(flashingControllerProvider).selectedVersion, isNull);
+  });
+
+  testWidgets('Should hide v4.0.0 from VersionSelector if STM32 target is already selected', (WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [

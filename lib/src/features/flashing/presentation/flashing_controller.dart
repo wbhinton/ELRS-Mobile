@@ -125,7 +125,17 @@ class FlashingController extends _$FlashingController {
   }
 
   void selectTarget(TargetDefinition? target) {
-    state = state.copyWith(selectedTarget: target);
+    String? updatedVersion = state.selectedVersion;
+
+    // If switching to an STM32 target, clear the version if it's a 4.x release
+    // (STM32 support was dropped in ELRS v4.0.0)
+    if (target?.platform == 'stm32' &&
+        updatedVersion != null &&
+        (updatedVersion.startsWith('4.') || updatedVersion.startsWith('v4.'))) {
+      updatedVersion = null;
+    }
+
+    state = state.copyWith(selectedTarget: target, selectedVersion: updatedVersion);
   }
 
   void selectVersion(String? version) {

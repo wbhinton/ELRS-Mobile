@@ -11,13 +11,11 @@ part 'target_selectors.g.dart';
 List<String> availableDeviceTypes(Ref ref) {
   final targetsValue = ref.watch(targetsProvider);
   final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
-  final selectedVersion = ref.watch(flashingControllerProvider.select((s) => s.selectedVersion));
-  final isV3 = selectedVersion == null || selectedVersion.startsWith('3.');
 
   return targetsValue.when(
     data: (targets) {
       final types = targets
-          .where((t) => (expertMode || t.platform != 'stm32') && (t.platform != 'stm32' || isV3))
+          .where((t) => expertMode || t.platform != 'stm32')
           .map((t) => t.deviceType)
           .toSet()
           .toList();
@@ -36,18 +34,13 @@ List<String> availableVendors(Ref ref) {
     flashingControllerProvider.select((s) => s.selectedDeviceType),
   );
   final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
-  final selectedVersion = ref.watch(flashingControllerProvider.select((s) => s.selectedVersion));
-  final isV3 = selectedVersion == null || selectedVersion.startsWith('3.');
 
   if (selectedDeviceType == null) return [];
 
   return targetsValue.when(
     data: (targets) {
       final vendors = targets
-          .where((t) =>
-              t.deviceType == selectedDeviceType &&
-              (expertMode || t.platform != 'stm32') &&
-              (t.platform != 'stm32' || isV3))
+          .where((t) => t.deviceType == selectedDeviceType && (expertMode || t.platform != 'stm32'))
           .map((t) => t.vendor)
           .toSet()
           .toList();
@@ -69,8 +62,6 @@ List<String> availableFrequencies(Ref ref) {
     flashingControllerProvider.select((s) => s.selectedVendor),
   );
   final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
-  final selectedVersion = ref.watch(flashingControllerProvider.select((s) => s.selectedVersion));
-  final isV3 = selectedVersion == null || selectedVersion.startsWith('3.');
 
   if (selectedDeviceType == null || selectedVendor == null) return [];
 
@@ -81,8 +72,7 @@ List<String> availableFrequencies(Ref ref) {
             (t) =>
                 t.deviceType == selectedDeviceType &&
                 t.vendor == selectedVendor &&
-                (expertMode || t.platform != 'stm32') &&
-                (t.platform != 'stm32' || isV3),
+                (expertMode || t.platform != 'stm32'),
           )
           .map((t) => t.frequencyType)
           .toSet()
@@ -108,8 +98,6 @@ List<TargetDefinition> availableTargetsList(Ref ref) {
     flashingControllerProvider.select((s) => s.selectedFrequency),
   );
   final expertMode = ref.watch(settingsControllerProvider.select((s) => s.expertMode));
-  final selectedVersion = ref.watch(flashingControllerProvider.select((s) => s.selectedVersion));
-  final isV3 = selectedVersion == null || selectedVersion.startsWith('3.');
 
   if (selectedDeviceType == null || selectedVendor == null || selectedFrequency == null) {
     return [];
@@ -123,8 +111,7 @@ List<TargetDefinition> availableTargetsList(Ref ref) {
                 t.deviceType == selectedDeviceType &&
                 t.vendor == selectedVendor &&
                 t.frequencyType == selectedFrequency &&
-                (expertMode || t.platform != 'stm32') &&
-                (t.platform != 'stm32' || isV3),
+                (expertMode || t.platform != 'stm32'),
           )
           .toList();
 
