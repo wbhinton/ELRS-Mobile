@@ -97,6 +97,12 @@ class DashboardScreen extends HookConsumerWidget {
                       color: Colors.grey,
                       onTap: () => context.push('/settings'),
                     ),
+                    DashboardCard(
+                      title: 'Help & Support',
+                      icon: Icons.help_outline,
+                      color: Colors.purple,
+                      onTap: () => context.push('/support'),
+                    ),
                   ],
                 ),
               ],
