@@ -55,61 +55,73 @@ class SupportScreen extends HookConsumerWidget {
 
             return TabBarView(
               children: [
-                ListView.builder(
-                  padding: const EdgeInsets.all(8.0),
-                  itemCount: faqItems.length,
-                  itemBuilder: (context, index) {
-                    final item = faqItems[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                      child: ExpansionTile(
-                        title: Text(
-                          item['title']!,
-                          style: const TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        childrenPadding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          MarkdownBody(
-                            data: item['body']!,
-                            onTapLink: (text, href, title) {
-                              if (href != null) _launchUrl(href);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                ListView.builder(
-                  padding: const EdgeInsets.all(8.0),
-                  itemCount: walkthroughSteps.length,
-                  itemBuilder: (context, index) {
-                    final step = walkthroughSteps[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                      child: ExpansionTile(
-                        initiallyExpanded: index == 0, // Auto-expand the first step
-                        title: Text(
-                          step['title']!,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ExpansionPanelList.radio(
+                      elevation: 2,
+                      children: faqItems.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final item = entry.value;
+                        return ExpansionPanelRadio(
+                          value: index,
+                          headerBuilder: (BuildContext context, bool isExpanded) {
+                            return ListTile(
+                              title: Text(
+                                item['title']!,
+                                style: const TextStyle(fontWeight: FontWeight.w600),
                               ),
-                        ),
-                        childrenPadding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          MarkdownBody(
-                            data: step['body']!,
-                            onTapLink: (text, href, title) {
-                              if (href != null) _launchUrl(href);
-                            },
+                            );
+                          },
+                          body: Padding(
+                            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                            child: MarkdownBody(
+                              data: item['body']!,
+                              onTapLink: (text, href, title) {
+                                if (href != null) _launchUrl(href);
+                              },
+                            ),
                           ),
-                        ],
-                      ),
-                    );
-                  },
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ExpansionPanelList.radio(
+                      initialOpenPanelValue: 0, // Auto-expand the first step
+                      elevation: 2,
+                      children: walkthroughSteps.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final step = entry.value;
+                        return ExpansionPanelRadio(
+                          value: index,
+                          headerBuilder: (BuildContext context, bool isExpanded) {
+                            return ListTile(
+                              title: Text(
+                                step['title']!,
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      color: Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            );
+                          },
+                          body: Padding(
+                            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                            child: MarkdownBody(
+                              data: step['body']!,
+                              onTapLink: (text, href, title) {
+                                if (href != null) _launchUrl(href);
+                              },
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
                 _ResourcesTab(ref: ref),
               ],
