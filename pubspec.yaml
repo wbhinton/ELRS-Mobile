@@ -100,6 +100,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/lua/elrs.lua
     - icons/elrs_mobile.png
     - icons/elrs_mobile_foreground.svg
   

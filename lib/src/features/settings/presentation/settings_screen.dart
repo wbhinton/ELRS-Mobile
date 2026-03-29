@@ -8,6 +8,7 @@ import '../../../core/presentation/responsive_layout.dart';
 import 'disclaimer_dialog.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_master_detail.dart';
+import '../../../core/utils/lua_export_utils.dart';
 
 class SettingsScreen extends HookConsumerWidget {
   const SettingsScreen({super.key});
@@ -352,6 +353,31 @@ class SettingsScreen extends HookConsumerWidget {
                 ),
                 if (state.expertMode) ...[
                   const Divider(),
+                  ListTile(
+                    title: const Text('Export ELRS Lua Script'),
+                    subtitle:
+                        const Text('Save elrs.lua for EdgeTX/OpenTX radios'),
+                    leading: const Icon(Icons.code, color: Colors.blue),
+                    trailing: const Icon(Icons.save_alt),
+                    onTap: () async {
+                      try {
+                        await LuaExportUtils.exportElrsLuaScript();
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('elrs.lua saved to device!'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed to save script: $e')),
+                          );
+                        }
+                      }
+                    },
+                  ),
                   ListTile(
                     title: const Text('Submit Debug Report to Sentry'),
                     subtitle: const Text(
