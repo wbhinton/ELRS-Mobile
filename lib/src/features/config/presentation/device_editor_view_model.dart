@@ -1,3 +1,5 @@
+import 'package:binary/binary.dart';
+import 'package:logging/logging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/domain/runtime_config_model.dart';
 
@@ -7,6 +9,7 @@ import '../../config/domain/runtime_config_model.dart';
 class DeviceEditorViewModel extends Notifier<RuntimeConfig?> {
   RuntimeConfig? _originalConfig;
   bool _isSaving = false;
+  static final _log = Logger('DeviceEditorViewModel');
 
   @override
   RuntimeConfig? build() {
@@ -15,6 +18,9 @@ class DeviceEditorViewModel extends Notifier<RuntimeConfig?> {
 
   /// Initializes the editor with a fresh config from the device.
   void initialize(RuntimeConfig config) {
+    _log.info('Initializing editor stage. PWM count: ${config.config.pwm.length}');
+    // Polymorphic State: We no longer force-normalize to Map.
+    // V3 stays List<int>, V4 stays List<Map>.
     _originalConfig = config;
     state = config;
   }
@@ -58,17 +64,21 @@ class DeviceEditorViewModel extends Notifier<RuntimeConfig?> {
   }
 
   /// Updates a specific PWM pin's configuration.
-  void updatePwmPin(int index, Map<String, dynamic> pinConfig) {
+  /// Handles both Map (V4) and int (V3) types.
+  void updatePwmPin(int index, dynamic newPinConfig) {
     if (state == null) return;
 
     final List<dynamic> oldPwmList = state!.config.pwm;
-    
-    // Create a new list to ensure immutability is respected
     final List<dynamic> newPwmList = List<dynamic>.from(oldPwmList);
-    
-    // Ensure the index is within bounds before updating
+
     if (index >= 0 && index < newPwmList.length) {
-      newPwmList[index] = pinConfig;
+      // Bit-integrity: If the existing value is an int (V3), wrap the new one.
+      if (oldPwmList[index] is int && newPinConfig is int) {
+        newPwmList[index] = Uint8(newPinConfig).toInt();
+      } else {
+        newPwmList[index] = newPinConfig;
+      }
+
       state = state!.copyWith(
         config: state!.config.copyWith(pwm: newPwmList),
       );
@@ -95,20 +105,41 @@ class DeviceEditorViewModel extends Notifier<RuntimeConfig?> {
       }
 
       // 2. Save Config if changed
-      if (_originalConfig!.config != state!.config ||
-          _originalConfig!.settings != state!.settings) {
-        
-        // The /config endpoint expects 'settings', 'config', and other core fields
-        final payload = <String, dynamic>{
-          'settings': state!.settings.toJson(),
-          'config': state!.config.toJson(),
-        };
+      if (_originalConfig!.config != state!.config) {
+        // Outbound Flattening: V4 returns Maps but expects Ints on save.
+        final List<int> pwmToSave = state!.config.pwm.map((item) {
+          if (item is Map) return item['config'] as int? ?? 0;
+          return item as int; // V3 channel mapping
+        }).toList();
+
+        _log.info('Flattened PWM for save: $pwmToSave');
+
+        // Create a flat payload starting with the config fields.
+        // We do NO nesting: most ELRS versions expect fields at the root of /config.
+        final Map<String, dynamic> payload = state!.config.toJson();
+        payload['pwm'] = pwmToSave;
+
+        // Metadata Scrubbing: Remove read-only hardware definitions.
+        // Sending null or root-level hardware strings back can cause some ESP
+        // firmware to reject the configuration update.
+        payload.remove('product_name');
+        payload.remove('lua_name');
+        payload.remove('target');
+        payload.remove('reg_domain');
+        payload.remove('version');
+        payload.remove('has_serial_pins');
+        payload.remove('has-highpower');
+        payload.remove('uidtype');
+        payload.remove('hardware'); // Already bit-packed into 'config'
+
+        _log.info('Flat & Scrubbed Config POST payload: $payload');
         await saveConfig(targetIp, payload);
       }
 
       // 3. Trigger Reboot
       await reboot(targetIp);
 
+      _originalConfig = state;
       _isSaving = false;
       ref.notifyListeners();
       return true;

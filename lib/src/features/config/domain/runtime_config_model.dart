@@ -96,8 +96,17 @@ extension RuntimeConfigX on RuntimeConfig {
   /// write-path (e.g. before saving settings) where strict enforcement
   /// is appropriate.
   int get frequencyBand {
+    // ── V3 hardware: modelId is 255 by default and cannot be trusted. ────────
+    // Use the target name string and domain index as fallbacks instead.
+    if (settings.version?.startsWith('3.') == true) {
+      if (settings.target?.contains('900') == true) return 900;
+      if (settings.target?.contains('2400') == true) return 2400;
+      // domain > 1 covers AU915, EU868, FCC915, IN865, etc. (all 900/433 MHz)
+      if ((options.domain ?? 0) > 1) return 900;
+      return 2400;
+    }
+    // ── V4 hardware: bit 7 of modelId is the ground-truth 2.4 GHz flag. ─────
     final rawModelId = config.modelId ?? 0;
-    // Bit 7 of modelId is the 2.4 GHz capability flag (ground truth).
     final is2G4 = Uint16(rawModelId).nthBit(7);
     return is2G4 ? 2400 : 900;
   }

@@ -1,5 +1,5 @@
 class ElrsMappings {
-  // Regulatory Domains
+  // Regulatory Domains — 900 MHz band
   static const Map<int, String> domains = {
     0: 'AU915',
     1: 'FCC915',
@@ -9,6 +9,12 @@ class ElrsMappings {
     5: 'EU433',
     6: 'US433',
     7: 'US433-Wide',
+  };
+
+  // Regulatory Domains — 2.4 GHz band
+  static const Map<int, String> domains2400 = {
+    0: 'ISM_2400',
+    1: 'EU_CE_2400',
   };
 
   // VBind (Binding Storage)
