@@ -64,6 +64,7 @@ dependencies:
   flutter_svg: ^2.2.3
   path: ^1.9.1
   aptabase_flutter: ^0.4.1
+  flutter_markdown: ^0.7.5
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +101,8 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/docs/
+    - assets/lua/elrs.lua
     - icons/elrs_mobile.png
     - icons/elrs_mobile_foreground.svg
   

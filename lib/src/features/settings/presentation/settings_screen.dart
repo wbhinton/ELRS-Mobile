@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import '../../../core/presentation/responsive_layout.dart';
-import 'disclaimer_dialog.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_master_detail.dart';
+import '../../../core/utils/lua_export_utils.dart';
 
 class SettingsScreen extends HookConsumerWidget {
   const SettingsScreen({super.key});
@@ -175,128 +174,11 @@ class SettingsScreen extends HookConsumerWidget {
                   leading: const Icon(Icons.info_outline),
                 ),
                 ListTile(
-                  title: const Text('GitHub Repository'),
-                  subtitle: const Text(
-                    'https://github.com/wbhinton/ELRS-Mobile',
-                  ),
-                  leading: const Icon(Icons.code),
-                  onTap: () =>
-                      _launchUrl('https://github.com/wbhinton/ELRS-Mobile'),
-                ),
-                ListTile(
-                  title: const Text('Discord Community'),
-                  subtitle: const Text('Join the ELRS Discord'),
-                  leading: const Icon(Icons.chat),
-                  onTap: () => _launchUrl('https://discord.gg/expresslrs'),
-                ),
-                ListTile(
                   title: const Text('Legal & License'),
                   subtitle: const Text('Standard disclaimer and GPLv3 License'),
                   leading: const Icon(Icons.gavel_outlined),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () => context.push('/legal'),
-                ),
-                ExpansionTile(
-                  leading: const Icon(
-                    Icons.warning_amber_rounded,
-                    color: Colors.amber,
-                  ),
-                  title: const Text('Disclaimer & Liability'),
-                  childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  children: [
-                    const Text(
-                      'ELRS Mobile is provided as-is, without warranty of any kind. '
-                      'The developers are not responsible for any damage, data loss, or '
-                      'non-functional hardware resulting from the use of this application, '
-                      'including but not limited to bricked receivers, transmitters, or '
-                      'flight controllers.\n\n'
-                      'By using this app you accept full responsibility for your hardware.',
-                      style: TextStyle(height: 1.5),
-                    ),
-                    const SizedBox(height: 12),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: TextButton.icon(
-                        icon: const Icon(Icons.open_in_new, size: 16),
-                        label: const Text('View Full Disclaimer'),
-                        onPressed: () => showDisclaimerDialog(
-                          context,
-                          ref,
-                          barrierDismissible: true,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                ExpansionTile(
-                  leading: const Icon(
-                    Icons.build_circle_outlined,
-                    color: Colors.orange,
-                  ),
-                  title: const Text('Flash Recovery Instructions'),
-                  subtitle: const Text('What to do if a flash fails'),
-                  childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  children: [
-                    const Text(
-                      'If your device appears unresponsive after a failed flash:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    const _RecoveryStep(
-                      number: '1',
-                      text:
-                          'Hold the BOOT button while plugging in via USB to enter bootloader mode.',
-                    ),
-                    const _RecoveryStep(
-                      number: '2',
-                      text:
-                          'Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.',
-                    ),
-                    const _RecoveryStep(
-                      number: '3',
-                      text:
-                          'For WiFi-capable devices, hold BOOT for 60 s to trigger WiFi Hotspot recovery mode.',
-                    ),
-                    const _RecoveryStep(
-                      number: '4',
-                      text:
-                          'Join #help on the ELRS Discord — the community can usually recover any device.',
-                    ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'Joshua Bardwell\'s "The easiest way to unbrick an ELRS receiver" video is highly recommended:',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      children: [
-                        OutlinedButton.icon(
-                          icon: const Icon(Icons.open_in_new, size: 16),
-                          label: const Text('Web Flasher'),
-                          onPressed: () => _launchUrl(
-                            'https://expresslrs.github.io/web-flasher/',
-                          ),
-                        ),
-                        OutlinedButton.icon(
-                          icon: const Icon(Icons.play_circle_outline, size: 16),
-                          label: const Text('Recovery Video'),
-                          onPressed: () => _launchUrl(
-                            'https://www.youtube.com/watch?v=TzAaYg47TSU',
-                          ),
-                        ),
-                        OutlinedButton.icon(
-                          icon: const Icon(Icons.chat, size: 16),
-                          label: const Text('Discord'),
-                          onPressed: () =>
-                              _launchUrl('https://discord.gg/expresslrs'),
-                        ),
-                      ],
-                    ),
-                  ],
                 ),
               ],
               if (!isTablet || selected == SettingsCategory.advanced) ...[
@@ -352,6 +234,31 @@ class SettingsScreen extends HookConsumerWidget {
                 ),
                 if (state.expertMode) ...[
                   const Divider(),
+                  ListTile(
+                    title: const Text('Export ELRS Lua Script'),
+                    subtitle:
+                        const Text('Save elrs.lua for EdgeTX/OpenTX radios'),
+                    leading: const Icon(Icons.code, color: Colors.blue),
+                    trailing: const Icon(Icons.save_alt),
+                    onTap: () async {
+                      try {
+                        await LuaExportUtils.exportElrsLuaScript();
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('elrs.lua saved to device!'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Failed to save script: $e')),
+                          );
+                        }
+                      }
+                    },
+                  ),
                   ListTile(
                     title: const Text('Submit Debug Report to Sentry'),
                     subtitle: const Text(
@@ -608,12 +515,6 @@ class SettingsScreen extends HookConsumerWidget {
     }
   }
 
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
 
   Widget _buildEditDialogTile(
     BuildContext context, {
@@ -707,35 +608,3 @@ class SettingsScreen extends HookConsumerWidget {
   }
 }
 
-class _RecoveryStep extends StatelessWidget {
-  const _RecoveryStep({required this.number, required this.text});
-
-  final String number;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 11,
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            child: Text(
-              number,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(child: Text(text, style: const TextStyle(height: 1.4))),
-        ],
-      ),
-    );
-  }
-}
