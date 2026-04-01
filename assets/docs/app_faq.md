@@ -26,9 +26,6 @@
 ## Do I need an internet connection or cellular service to flash firmware?
 No. ELRS Mobile features **100% Offline Flashing**. As long as you have previously downloaded the firmware version via the Firmware Manager while on home Wi-Fi, the app can dynamically assemble and flash the firmware completely offline.
 
-## My phone keeps disconnecting from the ExpressLRS Wi-Fi hotspot.
-ELRS Mobile natively handles forced network routing. It ensures your phone doesn't silently switch back to 5G/LTE when it realizes the receiver's hotspot has no internet access, completely eliminating the common "connected but can't see the receiver" issue out in the field.
-
 ## I get a "Not enough space" error when flashing my ESP8285 receiver.
 ESP8285 chips (like those found on many AIO boards) only have 1MB of total physical storage. Updating directly to a major release (like from 3.x to 4.x) over Wi-Fi can run out of dual-partition space because the incoming file is too large to unpack alongside the currently running firmware. 
 
@@ -40,7 +37,7 @@ ELRS Mobile comes with the universal, version-agnostic Lua script built right in
 2. Tap **Export ELRS Lua Script**.
 3. This saves `elrs.lua` directly to your phone's local storage. Turn on your radio and plug it into your phone via USB, be sure to select "USB Storage" mode on your radio and transfer the file into your `SCRIPTS/TOOLS` folder using your phone's file manager. 
 
-**Note** You need to delete any previous versions of the elrs.lua script (eg. elrs_v2.lua, elrs_v3.lua, etc) from your radio's SD card before using the new script.
+**Note:** You need to delete any previous versions of the elrs.lua script (eg. elrs_v2.lua, elrs_v3.lua, etc) from your radio's SD card before using the new script.
 
 ## What if a flash fails and my device becomes unresponsive?
 If your device is unresponsive after a failed flash, you can easily recover it:
@@ -48,7 +45,7 @@ If your device is unresponsive after a failed flash, you can easily recover it:
 2. Use a computer and the ELRS Web Flasher to re-flash the device over a wired USB/UART connection.
 3. For Wi-Fi-capable devices, you can also hold the BOOT 
 
-**Note** There is a video link on the Resources Tab that shows how to do this.
+**Note:** There is a video link on the Resources Tab that shows how to do this.
 
 ## Can I save the firmware file to my phone without flashing it?
 Yes. By going into **Settings** and enabling **Expert Mode**, you unlock the ability to save the assembled firmware binary directly to your mobile device's local storage instead of immediately flashing it Over-The-Air (OTA).
