@@ -15,6 +15,8 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/storage/firmware_cache_service.dart';
 
+import '../../../core/networking/device_dio.dart';
+
 part 'releases_repository.g.dart';
 
 final _log = Logger('ReleasesRepository');
@@ -74,7 +76,7 @@ class ReleasesRepository {
 
 @riverpod
 ReleasesRepository releasesRepository(Ref ref) {
-  return ReleasesRepository(Dio());
+  return ReleasesRepository(ref.watch(internetDioProvider));
 }
 
 @riverpod
