@@ -26,6 +26,7 @@ import '../state/flashing_provider.dart';
 import '../../../core/networking/connectivity_service.dart';
 import '../../../core/analytics/analytics_service.dart';
 import '../../config/presentation/config_view_model.dart';
+import '../../config/domain/runtime_config_model.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
@@ -468,6 +469,44 @@ class FlashingController extends _$FlashingController {
       } else {
         // Recover from persistence if state was somehow empty but storage has it
         state = state.copyWith(bindPhrase: savedBindPhrase);
+      }
+    }
+
+    // Pre-flight Target Mismatch Guard
+    if (!force) {
+      final deviceConfig = configState.value!;
+      final deviceTarget = deviceConfig.effectiveTarget;
+      final selectedFirmwareTarget = state.selectedTarget!.config['firmware'] as String?
+          ?? state.selectedTarget!.firmware
+          ?? state.selectedTarget!.productCode;
+
+      if (deviceTarget != 'Unknown Target' && selectedFirmwareTarget != null) {
+        // Normalize both targets for comparison (strip UNIFIED_ prefix, lowercase)
+        final normalizedDevice = deviceTarget
+            .replaceAll('UNIFIED_', '')
+            .replaceAll('unified_', '')
+            .toLowerCase()
+            .trim();
+        final normalizedSelected = selectedFirmwareTarget
+            .replaceAll('UNIFIED_', '')
+            .replaceAll('unified_', '')
+            .toLowerCase()
+            .trim();
+
+        if (normalizedDevice != normalizedSelected &&
+            !normalizedDevice.contains(normalizedSelected) &&
+            !normalizedSelected.contains(normalizedDevice)) {
+          state = state.copyWith(
+            status: FlashingStatus.mismatch,
+            errorMessage:
+                'Target mismatch: The connected device reports itself as '
+                '"$deviceTarget", but you selected "${state.selectedTarget!.name}" '
+                '($selectedFirmwareTarget).\n\n'
+                'Flashing mismatched firmware can brick your device. '
+                'Are you sure you want to continue?',
+          );
+          return;
+        }
       }
     }
 

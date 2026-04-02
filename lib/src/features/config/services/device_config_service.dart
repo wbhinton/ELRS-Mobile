@@ -20,14 +20,14 @@ class DeviceConfigService {
 
   DeviceConfigService(this._dio);
 
-  /// Probes the device with a very fast (1s) HEAD request to check if IP is alive.
+  /// Probes the device with a lightweight GET request for hardware metadata to securely verify heartbeat.
   Future<bool> probeDeviceHead(String ip) async {
     try {
-      final response = await _dio.head(
-        'http://$ip/',
+      final response = await _dio.get(
+        'http://$ip/hardware.json',
         options: Options(
-          sendTimeout: const Duration(seconds: 1),
-          receiveTimeout: const Duration(seconds: 1),
+          sendTimeout: const Duration(seconds: 2),
+          receiveTimeout: const Duration(seconds: 2),
         ),
       );
       return response.statusCode == 200;

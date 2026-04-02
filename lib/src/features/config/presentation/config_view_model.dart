@@ -25,6 +25,7 @@ class ConfigViewModel extends _$ConfigViewModel {
   String? _manualIp;
   String? _probeIp; // The IP we are currently trying or failed on
   int _missedHeartbeats = 0;
+  bool _isHeartbeating = false;
   static const int _maxMissedHeartbeats = 3;
   static final _log = Logger('ConfigViewModel');
 
@@ -78,66 +79,75 @@ class ConfigViewModel extends _$ConfigViewModel {
   void _startHeartbeat() {
     _heartbeatTimer?.cancel();
     _heartbeatTimer = Timer.periodic(
-      const Duration(seconds: 10),
+      const Duration(seconds: 3),
       (_) => _performHeartbeat(),
     );
   }
 
   Future<void> _performHeartbeat() async {
+    if (_isHeartbeating) return;
+    
     // Silence UI during Flash to prevent network contention
     final isFlashing = ref.read(isFlashingProvider);
     if (isFlashing) return;
 
-    final service = ref.read(deviceConfigServiceProvider);
-
-    // Priority: 1. Manual IP (if set), 2. Discovery targets (AP, Hostnames, Discovered mDNS)
-    final ips = [
-      '10.0.0.1',
-      'elrs_rx.local',
-      'elrs_tx.local',
-      ...[_manualIp, _lastDiscoveredIp].nonNulls.where((s) => s.isNotEmpty),
-    ];
-
-    final uniqueIps = ips.toSet().toList();
-    if (uniqueIps.isEmpty) return;
-
+    _isHeartbeating = true;
     try {
-      final successfulIp = await Future.any(
-        uniqueIps.map((ip) async {
-          _probeIp = ip;
-          // Pulse probe (HEAD request, 1s timeout)
-          final alive = await service.probeDeviceHead(ip);
-          if (alive) {
-            // Robust check (GET /config, 2s timeout)
-            final ok = await service.probeDevice(ip);
-            if (ok) return ip;
-          }
-          throw Exception('Probe failed for $ip');
-        }),
-      );
+      final service = ref.read(deviceConfigServiceProvider);
 
-      if (!ref.mounted) return;
+      // Priority: 1. Manual IP (if set), 2. Discovery targets (AP, Hostnames, Discovered mDNS)
+      final ips = [
+        '10.0.0.1',
+        'elrs_rx.local',
+        'elrs_tx.local',
+        ...[_manualIp, _lastDiscoveredIp].nonNulls.where((s) => s.isNotEmpty),
+      ];
 
-      // A device was successfully found concurrently
-      _probeIp = successfulIp;
-      _missedHeartbeats = 0; // Reset on any success
-      await _refreshConfig(successfulIp);
-    } catch (e) {
-      if (!ref.mounted) return;
+      final uniqueIps = ips.toSet().toList();
+      if (uniqueIps.isEmpty) return;
 
-      // If we reach here, no device was found on any priority IP
-      _missedHeartbeats++;
-
-      if (_missedHeartbeats >= _maxMissedHeartbeats) {
-        if (state.value != null || state.isLoading) {
-          state = const AsyncValue.data(null);
-        }
-      } else {
-        // Log missed heartbeat but preserve state
-        _log.info(
-          'Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). Preserving last good state.',
+      try {
+        final successfulIp = await Future.any(
+          uniqueIps.map((ip) async {
+            _probeIp = ip;
+            // Pulse probe (HEAD request, 1s timeout)
+            final alive = await service.probeDeviceHead(ip);
+            if (alive) return ip;
+            
+            throw Exception('Probe failed for $ip');
+          }),
         );
+
+        if (!ref.mounted) return;
+
+        // A device was successfully found concurrently
+        _probeIp = successfulIp;
+        _missedHeartbeats = 0; // Reset on any success
+        
+        // Only fetch the heavy JSON configuration if we aren't already loaded!
+        // Pulling the full configuration payload every 3 seconds causes ESP heap exhaustion.
+        if (state.value == null) {
+          await _refreshConfig(successfulIp);
+        }
+      } catch (e) {
+        if (!ref.mounted) return;
+
+        // If we reach here, no device was found on any priority IP
+        _missedHeartbeats++;
+
+        if (_missedHeartbeats >= _maxMissedHeartbeats) {
+          if (state.value != null || state.isLoading) {
+            state = const AsyncValue.data(null);
+          }
+        } else {
+          // Log missed heartbeat but preserve state
+          _log.info(
+            'Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). Preserving last good state.',
+          );
+        }
       }
+    } finally {
+      _isHeartbeating = false;
     }
   }
 

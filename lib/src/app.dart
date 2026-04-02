@@ -34,18 +34,18 @@ class _AppContent extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(goRouterProvider);
 
-    // Automatic Network Binding & Settings Load
+    // Application Startup
     useEffect(() {
       Future.microtask(() async {
-        // Bind to WiFi first, before any network operations
+        // Safe passively bind to WiFi
         await ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
-        // Then load settings
+        // Load settings passively
         await ref.read(settingsControllerProvider.notifier).loadSettings();
       });
       return null;
     }, []);
 
-    // Listen for network changes
+    // Listen for network changes passively
     ref.listen(connectivityServiceProvider, (prev, next) {
       ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
     });

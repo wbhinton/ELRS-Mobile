@@ -36,9 +36,18 @@ class DiscoveryService {
   DiscoveryService([this._ref]);
 
   Stream<String?> get targetIpStream => _ipController.stream;
+  bool _isScanning = false;
+
+  Future<void> restartScan() async {
+    _log.info('Restarting discovery scan...');
+    await stopScan();
+    await Future.delayed(const Duration(milliseconds: 200));
+    await startScan();
+  }
 
   Future<void> startScan() async {
-    if (_sockets.isNotEmpty) return;
+    if (_isScanning || _sockets.isNotEmpty) return;
+    _isScanning = true;
 
     _log.info('Discovery Service started (RawDatagramSocket).');
 
@@ -74,16 +83,17 @@ class DiscoveryService {
             interface.name.toLowerCase().contains('en') || 
             interface.name.toLowerCase().contains('eth')) {
           _log.info('Binding mDNS to interface: ${interface.name}');
-          final socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0);
+          final socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 5353, reuseAddress: true);
+          socket.multicastHops = 255;
           socket.joinMulticast(address, interface);
           
           socket.listen((event) {
             if (event == RawSocketEvent.read) {
               final datagram = socket.receive();
               if (datagram != null) {
-                // Check if the response contains "elrs" in ASCII
+                // Check if the response contains "elrs" or "expresslrs" in ASCII
                 final responseStr = String.fromCharCodes(datagram.data).toLowerCase();
-                if (responseStr.contains('elrs')) {
+                if (responseStr.contains('elrs') || responseStr.contains('expresslrs')) {
                   final host = datagram.address.address;
                   if (!_hasFoundDevice) {
                     _log.info('ELRS device found via raw mDNS at host: $host');
@@ -129,6 +139,7 @@ class DiscoveryService {
   }
 
   Future<void> stopScan() async {
+    _isScanning = false;
     _retryTimer?.cancel();
     
     for (final socket in _sockets) {

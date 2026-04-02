@@ -73,7 +73,20 @@ class MainActivity : FlutterFragmentActivity() {
     private fun bindProcessToWiFi(result: MethodChannel.Result) {
         val safeResult = SafeResult(result)
         
-        // 1. Unregister any existing callback
+        // 0. Pre-Flight Check: Are we already safely bound?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val currentBound = connectivityManager?.boundNetworkForProcess
+            if (currentBound != null) {
+                val caps = connectivityManager?.getNetworkCapabilities(currentBound)
+                if (caps?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) == true) {
+                    println("NATIVE: Already natively bound to an active WiFi network. Bypassing request loop.")
+                    safeResult.success(true)
+                    return
+                }
+            }
+        }
+
+        // 2. Unregister any existing callback
         networkCallback?.let {
             try {
                 connectivityManager?.unregisterNetworkCallback(it)
@@ -145,8 +158,8 @@ class MainActivity : FlutterFragmentActivity() {
             }
         }
 
-        // 4. If no existing network found or bind failed, request a new one
-        println("NATIVE: Requesting new WiFi network...")
+        // 5. If no existing network found, forcefully request it
+        println("NATIVE: Requesting WiFi route from Android OS...")
         val request = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -163,7 +176,7 @@ class MainActivity : FlutterFragmentActivity() {
                         ConnectivityManager.setProcessDefaultNetwork(network)
                     }
                     boundNetwork = network
-                    println("NATIVE: Network available $network, bound process.")
+                    println("NATIVE: Network successfully granted by OS: $network, process bound.")
                     safeResult.success(true)
                 } catch (e: Exception) {
                     safeResult.error("BIND_FAILED", e.message, null)
