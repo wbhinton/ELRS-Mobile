@@ -40,98 +40,41 @@ class TargetsRepository {
     final Map<String, dynamic> jsonMap = jsonDecode(jsonString);
     final List<TargetDefinition> targets = [];
 
-    // The targets.json structure is typically:
-    // {
-    //   "vendor1": {
-    //     "device1": { ... },
-    //     "device2": { ... }
-    //   },
-    //   "vendor2": { ... }
-    // }
-    // We need to flatten this into a list of TargetDefinition objects.
-    // However, the user request implied a simpler list or direct mapping.
-    // Given the complexity of targets.json, we'll implement a recursive or nested parsing logic
-    // if we needed to preserve the structure, but here we will try to iterate through vendors and devices.
-
-    // Wait, the user said: "The model should represent an ELRS Target... based on targets.json".
-    // And "Map the 'firmware' key if it exists, or use a dynamic map".
-
-    // Structure:
-    // VendorKey -> { "name": "Visual Name", "category1": { "device1": {...} }, ... }
-
+    // Flattens the nested targets.json structure into a list of TargetDefinition objects.
+    // VendorKey -> { "name": "Visual Name", "category": { "device": {...} }, ... }
     jsonMap.forEach((vendorKey, vendorData) {
       if (vendorData is Map<String, dynamic>) {
-        // extract vendor display name
         final String vendorName = vendorData['name'] as String? ?? vendorKey;
 
         vendorData.forEach((categoryKey, categoryData) {
-          // Skip "name" field at this level
           if (categoryKey == 'name') return;
 
           if (categoryData is Map<String, dynamic>) {
-            // This is a category (e.g. rx_2400, tx_900)
-            // Iterate over devices in this category
             categoryData.forEach((deviceKey, deviceData) {
               if (deviceData is Map<String, dynamic>) {
-                // This is the actual device target definition
                 final data = Map<String, dynamic>.from(deviceData);
-
-                // Inject metadata
-                data['vendor'] = vendorName; // Use display name for UI
+                
+                data['vendor'] = vendorName;
                 data['name'] ??= deviceData['product_name'] ?? deviceKey;
 
                 final parts = categoryKey.split('_');
                 if (parts.length == 2) {
-                  data['device_type'] = parts[0].toUpperCase(); // "RX" or "TX"
+                  data['device_type'] = parts[0].toUpperCase();
                   final freq = parts[1];
-                  if (freq == '2400') {
-                    data['frequency_type'] = '2.4GHz';
-                  } else if (freq == '900') {
-                    data['frequency_type'] = '900MHz';
-                  } else if (freq == 'dual') {
-                    data['frequency_type'] = 'Dual Band';
-                  } else {
-                    data['frequency_type'] = freq;
-                  }
+                  data['frequency_type'] = freq == '2400' ? '2.4GHz' : 
+                                           freq == '900' ? '900MHz' : 
+                                           freq == 'dual' ? 'Dual Band' : freq;
                 }
 
-                // category can be useful too?
-                // data['category'] = categoryKey;
-
                 try {
-                  // Map fields to TargetDefinition
-                  // TargetDefinition expects 'vendor', 'name', 'product_code', 'firmware', 'config'
-                  // The JSON has 'product_name', 'lua_name', 'upload_methods'.
-                  // We might need to map 'product_name' to 'name'? (Done above)
-                  // 'firmware'? Is it in the JSON?
-                  // Sometimes 'firmware' is implied or not present?
-                  // The debug script showed 'platform': 'esp82...', 'layout_file'...
-                  // It doesn't explicitly have 'firmware' or 'product_code' usually?
-                  // Wait, 'product_name' is the friendly name.
-                  // 'product_code' is usually not there? Or is it used for matching?
-                  // If 'firmware' is missing, we might use the key 'deviceKey' or constructs.
-
-                  // Important: Model expects 'product_code' for matching?
-                  // Or 'firmware'?
-                  // Let's set 'product_code' to deviceKey if missing?
                   if (data['product_code'] == null) {
                     data['product_code'] = deviceKey;
                   }
 
-                  // 'firmware' field:
-                  // If the JSON doesn't have it, we might need to derive it?
-                  // For Artifactory matching, we need the folder name in the zip.
-                  // Is `deviceKey` the folder name?
-                  // e.g. "single-radio" -> "anyleaf_2400_rx_single" ??
-                  // Or is `deviceData['firmware']` present?
-                  // If not present, we might have trouble matching.
-                  // Let's assume for now we pass what we have, and debug if it's missing.
-
-                  // Ensure important fields are preserved in 'config' map since TargetDefinition might not have specific fields for them
-                  // and we want to avoid regenerating code if possible.
                   if (data['config'] == null) {
                     data['config'] = <String, dynamic>{};
                   }
+                  
                   final configMap = data['config'] as Map<String, dynamic>;
 
                   if (data.containsKey('product_name')) {

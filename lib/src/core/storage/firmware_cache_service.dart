@@ -16,6 +16,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:archive/archive.dart';
 import 'dart:convert';
+import 'package:logging/logging.dart';
 import '../../features/flashing/utils/hardware_config_merger.dart';
 
 part 'firmware_cache_service.g.dart';
@@ -26,6 +27,8 @@ FirmwareCacheService firmwareCacheService(Ref ref) {
 }
 
 class FirmwareCacheService {
+  static final _log = Logger('FirmwareCacheService');
+
   Future<String> _getCacheDir() async {
     final docsDir = await getApplicationDocumentsDirectory();
     final cacheDir = Directory(p.join(docsDir.path, 'firmware_cache'));
@@ -117,8 +120,8 @@ class FirmwareCacheService {
         if (await file.exists()) {
           await file.delete();
         }
-      } catch (_) {
-        // Silently ignore if the file was already deleted by another process
+      } catch (e, st) {
+        _log.warning('Failed to delete cached zip file for $version', e, st);
       }
     }
 
@@ -128,8 +131,8 @@ class FirmwareCacheService {
         if (await hardwareFile.exists()) {
           await hardwareFile.delete();
         }
-      } catch (_) {
-        // Silently ignore if the file was already deleted by another process
+      } catch (e, st) {
+        _log.warning('Failed to delete cached hardware zip file for $version', e, st);
       }
     }
   }
