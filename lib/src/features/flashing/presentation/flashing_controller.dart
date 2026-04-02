@@ -473,40 +473,34 @@ class FlashingController extends _$FlashingController {
     }
 
     // Pre-flight Target Mismatch Guard
+    // Compares at the PRODUCT level, not the platform level.
+    // Multiple products share the same unified target (e.g. UNIFIED_ESP8285_2400_RX)
+    // so we must compare product_name to catch cross-product mismatches.
     if (!force) {
       final deviceConfig = configState.value!;
-      final deviceTarget = deviceConfig.effectiveTarget;
-      final selectedFirmwareTarget = state.selectedTarget!.config['firmware'] as String?
-          ?? state.selectedTarget!.firmware
-          ?? state.selectedTarget!.productCode;
+      final deviceProductName = deviceConfig.effectiveProductName;
+      final selectedProductName =
+          state.selectedTarget!.config['product_name'] as String?
+          ?? state.selectedTarget!.name;
 
-      if (deviceTarget != 'Unknown Target' && selectedFirmwareTarget != null) {
-        // Normalize both targets for comparison (strip UNIFIED_ prefix, lowercase)
-        final normalizedDevice = deviceTarget
-            .replaceAll('UNIFIED_', '')
-            .replaceAll('unified_', '')
-            .toLowerCase()
-            .trim();
-        final normalizedSelected = selectedFirmwareTarget
-            .replaceAll('UNIFIED_', '')
-            .replaceAll('unified_', '')
-            .toLowerCase()
-            .trim();
+      // Normalize for comparison
+      final normalizedDevice = deviceProductName.toLowerCase().trim();
+      final normalizedSelected = selectedProductName.toLowerCase().trim();
 
-        if (normalizedDevice != normalizedSelected &&
-            !normalizedDevice.contains(normalizedSelected) &&
-            !normalizedSelected.contains(normalizedDevice)) {
-          state = state.copyWith(
-            status: FlashingStatus.mismatch,
-            errorMessage:
-                'Target mismatch: The connected device reports itself as '
-                '"$deviceTarget", but you selected "${state.selectedTarget!.name}" '
-                '($selectedFirmwareTarget).\n\n'
-                'Flashing mismatched firmware can brick your device. '
-                'Are you sure you want to continue?',
-          );
-          return;
-        }
+      final isMismatch = normalizedDevice != normalizedSelected &&
+          normalizedDevice != 'elrs device'; // Skip check if device didn't report a name
+
+      if (isMismatch) {
+        state = state.copyWith(
+          status: FlashingStatus.mismatch,
+          errorMessage:
+              'Target mismatch: The connected device identifies as '
+              '"$deviceProductName", but you selected '
+              '"$selectedProductName".\n\n'
+              'Flashing mismatched firmware can brick your device. '
+              'Are you sure you want to continue?',
+        );
+        return;
       }
     }
 

@@ -114,6 +114,20 @@ extension RuntimeConfigX on RuntimeConfig {
     
     return hp ?? sp ?? p ?? st ?? t ?? 'ELRS Device';
   }
-  String get effectiveVersion => settings.version ?? (version != 'unknown' ? version : 'Unknown Version');
-  String get effectiveTarget => settings.target ?? target ?? 'Unknown Target';
+  String get effectiveVersion {
+    final v = settings.version?.trim();
+    if (v != null && v.isNotEmpty) return v;
+    if (version != 'unknown') return version;
+    // V3 doesn't report version — indicate legacy firmware
+    return settings.moduleType != null ? 'V3 (${settings.moduleType})' : 'V3';
+  }
+
+  String get effectiveTarget {
+    final st = settings.target?.trim();
+    if (st != null && st.isNotEmpty) return st;
+    final t = target?.trim();
+    if (t != null && t.isNotEmpty) return t;
+    // V3 doesn't report unified target
+    return settings.moduleType ?? 'Legacy Target';
+  }
 }

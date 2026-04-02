@@ -63,6 +63,7 @@ class DeviceConfigService {
         _log.info('Raw Device Config JSON: $data');
         
         if (data is Map<String, dynamic>) {
+          _normalizeV3Config(data);
           return RuntimeConfig.fromJson(data);
         } else {
           throw Exception('Invalid data format received from $ip');
@@ -133,6 +134,49 @@ class DeviceConfigService {
       }
     } catch (e) {
       throw Exception('Failed to reboot device at $ip: $e');
+    }
+  }
+
+  /// Normalizes V3 firmware JSON payloads to match the V4 structure.
+  ///
+  /// V3 stores `product_name`, `lua_name`, `version`, `target`, `module-type`,
+  /// `uidtype`, and `reg_domain` inside the `config` block.
+  /// V4 moved these into a dedicated `settings` block.
+  ///
+  /// This method hoists those fields into a synthetic `settings` map so the
+  /// Freezed model sees a consistent shape regardless of firmware version.
+  void _normalizeV3Config(Map<String, dynamic> data) {
+    // If settings already exists (V4+), nothing to do
+    if (data.containsKey('settings') && data['settings'] is Map) return;
+
+    final config = data['config'];
+    if (config is! Map<String, dynamic>) return;
+
+    // Keys that belong in settings, not config
+    const metadataKeys = [
+      'product_name',
+      'lua_name',
+      'version',
+      'target',
+      'module-type',
+      'uidtype',
+      'reg_domain',
+      'radio-type',
+      'has-highpower',
+      'has_serial_pins',
+      'device_id',
+    ];
+
+    final settings = <String, dynamic>{};
+    for (final key in metadataKeys) {
+      if (config.containsKey(key)) {
+        settings[key] = config[key];
+      }
+    }
+
+    if (settings.isNotEmpty) {
+      data['settings'] = settings;
+      _log.info('V3 normalization: hoisted ${settings.keys.toList()} into settings block');
     }
   }
 }
