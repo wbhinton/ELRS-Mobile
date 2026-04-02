@@ -11,7 +11,7 @@ import '../data/device_repository.dart';
 import '../../../core/storage/firmware_cache_service.dart';
 import '../domain/target_definition.dart';
 import '../utils/target_resolver.dart';
-import '../utils/firmware_assembler.dart';
+import '../../../core/utils/binding_phrase_utils.dart';
 import 'package:archive/archive.dart';
 import '../../../core/storage/persistence_service.dart';
 import 'package:file_picker/file_picker.dart';
@@ -26,6 +26,7 @@ import '../state/flashing_provider.dart';
 import '../../../core/networking/connectivity_service.dart';
 import '../../../core/analytics/analytics_service.dart';
 import '../../config/presentation/config_view_model.dart';
+import '../../config/domain/runtime_config_model.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
@@ -391,9 +392,9 @@ class FlashingController extends _$FlashingController {
         luaName = targetConfig['lua_name'] as String? ?? 'ELRS';
 
         if (state.bindPhrase.isNotEmpty) {
-          uid = FirmwareAssembler.generateUid(state.bindPhrase);
+          uid = BindingPhraseUtils.generateUid(state.bindPhrase);
         } else {
-          uid = FirmwareAssembler.generateUid('');
+          uid = BindingPhraseUtils.generateUid('');
         }
       } catch (e) {
         debugPrint('Warning: Failed to prepare unified build data: $e');
@@ -471,6 +472,38 @@ class FlashingController extends _$FlashingController {
       }
     }
 
+    // Pre-flight Target Mismatch Guard
+    // Compares at the PRODUCT level, not the platform level.
+    // Multiple products share the same unified target (e.g. UNIFIED_ESP8285_2400_RX)
+    // so we must compare product_name to catch cross-product mismatches.
+    if (!force) {
+      final deviceConfig = configState.value!;
+      final deviceProductName = deviceConfig.effectiveProductName;
+      final selectedProductName =
+          state.selectedTarget!.config['product_name'] as String?
+          ?? state.selectedTarget!.name;
+
+      // Normalize for comparison
+      final normalizedDevice = deviceProductName.toLowerCase().trim();
+      final normalizedSelected = selectedProductName.toLowerCase().trim();
+
+      final isMismatch = normalizedDevice != normalizedSelected &&
+          normalizedDevice != 'elrs device'; // Skip check if device didn't report a name
+
+      if (isMismatch) {
+        state = state.copyWith(
+          status: FlashingStatus.mismatch,
+          errorMessage:
+              'Target mismatch: The connected device identifies as '
+              '"$deviceProductName", but you selected '
+              '"$selectedProductName".\n\n'
+              'Flashing mismatched firmware can brick your device. '
+              'Are you sure you want to continue?',
+        );
+        return;
+      }
+    }
+
     state = state.copyWith(
       status: FlashingStatus.downloading,
       progress: 0.0,
@@ -482,6 +515,9 @@ class FlashingController extends _$FlashingController {
 
     // Silence UI heartbeat
     ref.read(isFlashingProvider.notifier).setFlashing(true);
+    
+    // Give heartbeats a chance to cancel and the ESP to settle
+    await Future.delayed(const Duration(milliseconds: 300));
 
     try {
       final connectivity = ref.read(connectivityServiceProvider.notifier);

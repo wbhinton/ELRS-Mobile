@@ -13,6 +13,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'discovery_service.dart';
 import 'native_network_service.dart';
 
 part 'connectivity_service.g.dart';
@@ -26,19 +27,29 @@ class ConnectivityService extends _$ConnectivityService {
     return Connectivity().onConnectivityChanged;
   }
 
+  Future<bool>? _bindingFuture;
+
   /// Binds the app process to the current WiFi interface.
   /// Returns true if successful.
-  Future<bool> bindToWiFi({int retries = 3}) async {
+  Future<bool> bindToWiFi({int retries = 3}) {
+    if (_bindingFuture != null) return _bindingFuture!;
+    _bindingFuture = _executeBind(retries: retries).whenComplete(() {
+      _bindingFuture = null;
+    });
+    return _bindingFuture!;
+  }
+
+  Future<bool> _executeBind({int retries = 3}) async {
     for (var i = 0; i < retries; i++) {
       _log.info('Binding attempt ${i + 1}...');
       try {
-        await ref.read(nativeNetworkServiceProvider).bindProcessToWiFi();
+        await ref.read(nativeNetworkServiceProvider).bindProcessToWiFi().timeout(const Duration(seconds: 4));
         // We assume success if no exception, though the native side logs detail.
         return true;
       } catch (e) {
         _log.warning('Binding attempt ${i + 1} failed: $e');
         if (i < retries - 1) {
-          await Future.delayed(const Duration(seconds: 1));
+          await Future.delayed(const Duration(milliseconds: 500));
         }
       }
     }
@@ -70,7 +81,8 @@ class ConnectivityService extends _$ConnectivityService {
       if (!success) {
         _log.warning('Auto-bind failed after retries.');
       } else {
-        _log.info('Auto-bind succeeded!');
+        _log.info('Auto-bind succeeded. Restarting mDNS sockets on new interface...');
+        ref.read(discoveryServiceProvider).restartScan();
       }
     } else {
       _log.info('No network connections detected, unbinding...');

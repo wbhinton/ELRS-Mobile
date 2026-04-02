@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:binary/binary.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class Stm32FirmwarePatcher {
   static const _magicHeader = [0xBE, 0xEF, 0xBA, 0xBE, 0xCA, 0xFE, 0xF0, 0x0D];
@@ -15,6 +16,17 @@ class Stm32FirmwarePatcher {
   }) {
     if (uid.length != 6) {
       throw ArgumentError('UID must be exactly 6 bytes.');
+    }
+
+    int? domainUint8;
+    try {
+      domainUint8 = Uint8.checkRange(domain).toInt();
+    } catch (e) {
+      Sentry.captureMessage(
+        'STM32 Firmware Patch Overflow: Domain $domain exceeds Uint8 bounds',
+        level: SentryLevel.error,
+      );
+      throw Exception('Domain value out of bounds: $domain');
     }
 
     // Copy firmware to a new list to modify
@@ -42,14 +54,24 @@ class Stm32FirmwarePatcher {
     }
 
     // Write Domain (uint8) using robust range-checked extension type.
-    view.setUint8(writeOffset + 0, Uint8(domain).toInt());
+    view.setUint8(writeOffset + 0, domainUint8);
 
     // Write UID Flag (uint8) = 1
     view.setUint8(writeOffset + 1, Uint8.one.toInt());
 
     // Write UID (6 bytes)
     for (int i = 0; i < 6; i++) {
-        view.setUint8(writeOffset + 2 + i, Uint8(uid[i]).toInt());
+        int? uidByte;
+        try {
+          uidByte = Uint8.checkRange(uid[i]).toInt();
+        } catch (e) {
+          Sentry.captureMessage(
+            'STM32 Firmware Patch Overflow: UID byte ${uid[i]} exceeds Uint8 bounds',
+            level: SentryLevel.error,
+          );
+          throw Exception('UID byte out of bounds: ${uid[i]}');
+        }
+        view.setUint8(writeOffset + 2 + i, uidByte);
     }
 
     return patched;

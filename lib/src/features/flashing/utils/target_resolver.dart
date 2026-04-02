@@ -1,27 +1,8 @@
 import 'dart:convert';
 import 'package:archive/archive.dart';
+import 'hardware_config_merger.dart';
 
 class TargetResolver {
-  /// Merges the overlay configuration into the base hardware layout.
-  ///
-  /// The [overlay] values overwrite the [base] values.
-  /// Returns a new map with the merged configuration.
-  static Map<String, dynamic> applyOverlay(
-    Map<String, dynamic> base,
-    Map<String, dynamic>? overlay,
-  ) {
-    if (overlay == null || overlay.isEmpty) {
-      return Map<String, dynamic>.from(base);
-    }
-
-    final merged = Map<String, dynamic>.from(base);
-
-    for (final entry in overlay.entries) {
-      merged[entry.key] = entry.value;
-    }
-
-    return merged;
-  }
 
   /// resolving the final hardware layout by extracting the base layout from
   /// the hardware zip and applying any overlays from the target config.
@@ -88,6 +69,6 @@ class TargetResolver {
     final overlay = targetConfig['overlay'] as Map<String, dynamic>?;
 
     // 3. Merge
-    return applyOverlay(baseLayout, overlay);
+    return HardwareConfigMerger.mergeOverlay(baseLayout, overlay);
   }
 }

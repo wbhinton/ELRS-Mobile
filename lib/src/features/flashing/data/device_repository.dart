@@ -19,8 +19,9 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 import '../../config/domain/runtime_config_model.dart';
-import '../utils/firmware_assembler.dart';
+import '../../../core/utils/binding_phrase_utils.dart';
 import '../../../core/analytics/analytics_service.dart';
+import '../utils/firmware_assembler.dart';
 
 part 'device_repository.g.dart';
 
@@ -65,8 +66,8 @@ class DeviceRepository {
   /// Generates the UID and sends it to /config.
   Future<void> updateBindingPhrase(String phrase) async {
     try {
-      final uid = FirmwareAssembler.generateUid(phrase);
-      await _dio.post('/config', data: {'uid': uid});
+      final expectedUid = BindingPhraseUtils.generateUid(phrase);
+      await _dio.post('/config', data: {'uid': expectedUid});
       _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'Bind Phrase'});
     } catch (e) {
       throw Exception('Failed to update binding phrase: $e');

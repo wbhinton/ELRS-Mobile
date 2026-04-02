@@ -35,6 +35,7 @@ class FlashingScreen extends HookConsumerWidget {
             context: context,
             barrierDismissible: false,
             builder: (context) => AlertDialog(
+              icon: const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 48),
               title: const Text('Target Mismatch'),
               content: Text(
                 state.errorMessage ??
@@ -51,12 +52,14 @@ class FlashingScreen extends HookConsumerWidget {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    ref.read(flashingControllerProvider.notifier).flash();
+                    ref
+                        .read(flashingControllerProvider.notifier)
+                        .flash(force: true);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                   ),
-                  child: const Text('RETRY FLASH'),
+                  child: const Text('FLASH ANYWAY'),
                 ),
               ],
             ),

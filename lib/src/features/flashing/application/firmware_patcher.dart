@@ -11,11 +11,11 @@
 // GNU General Public License for more details.
 
 import 'dart:typed_data';
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../domain/patch_configuration.dart';
 import '../utils/stm32_firmware_patcher.dart';
+import '../../../core/utils/binding_phrase_utils.dart';
 
 part 'firmware_patcher.g.dart';
 
@@ -25,6 +25,8 @@ FirmwarePatcher firmwarePatcher(Ref ref) {
 }
 
 class FirmwarePatcher {
+  static final _log = Logger('FirmwarePatcher');
+
   Future<Uint8List> patchFirmware(Uint8List original, PatchConfiguration config, {String? platform}) async {
     // ESP targets do not use magic bytes; they are patched via JSON assembly later in the pipeline
     if (platform != 'stm32') {
@@ -32,31 +34,17 @@ class FirmwarePatcher {
     }
 
     try {
-      // Generate the 6-byte UID from the binding phrase
-      final uidBytes = _generateUid(config.bindPhrase);
-
       // Delegate the actual bit-packing to our dedicated STM32 utility
       final patched = Stm32FirmwarePatcher.patchStm32(
         firmware: original,
-        uid: uidBytes,
+        uid: BindingPhraseUtils.generateUid(config.bindPhrase),
         domain: config.domain ?? 0,
       );
 
       return patched;
-    } catch (e) {
-      // Preserve the error signature for our telemetry
-      throw Exception('Flashing failed: Wrong Magic Byte');
+    } catch (e, st) {
+      _log.severe('STM32 firmware patching failed', e, st);
+      throw Exception('Firmware patching failed: $e');
     }
-  }
-
-  List<int> _generateUid(String bindPhrase) {
-    if (bindPhrase.isEmpty) return List.filled(6, 0);
-    
-    // MD5 hash
-    final digest = md5.convert(utf8.encode(bindPhrase));
-    final bytes = digest.bytes;
-    
-    // Take first 6 bytes for ELRS UID
-    return bytes.sublist(0, 6);
   }
 }

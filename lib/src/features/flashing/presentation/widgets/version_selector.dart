@@ -118,7 +118,7 @@ class VersionSelector extends HookConsumerWidget {
           decoration: const InputDecoration(
             labelText: 'Firmware Version',
             border: OutlineInputBorder(),
-            helperText: 'Select the ELRS version to flash (>= 3.0.0)',
+            helperText: 'Select the ELRS version to flash',
           ),
           value: supportedVersions.contains(selectedVersion)
               ? selectedVersion

@@ -81,18 +81,16 @@ class HardwareStatusCard extends ConsumerWidget {
     if (configAsync.hasValue && configAsync.value != null) {
       final config = configAsync.value!;
 
-      final deviceTarget = config.target;
+      final deviceProduct = config.effectiveProductName;
       final isMatched =
           selectedTarget != null &&
-          deviceTarget != null &&
-          deviceTarget != 'Unknown' &&
-          selectedTarget.name == deviceTarget;
+          deviceProduct != 'ELRS Device' &&
+          selectedTarget.name == deviceProduct;
 
       final showMismatch =
           selectedTarget != null &&
-          deviceTarget != null &&
-          deviceTarget != 'Unknown' &&
-          selectedTarget.name != deviceTarget;
+          deviceProduct != 'ELRS Device' &&
+          selectedTarget.name != deviceProduct;
 
       return Row(
         key: const ValueKey('connected'),
@@ -112,7 +110,7 @@ class HardwareStatusCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  config.productName ?? config.target ?? 'ELRS Device',
+                  config.effectiveProductName,
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -165,12 +163,12 @@ class HardwareStatusCard extends ConsumerWidget {
                   runSpacing: 4,
                   children: [
                     _InfoChip(
-                      label: config.version,
+                      label: config.effectiveVersion,
                       icon: Icons.code,
                       color: Colors.blueGrey,
                     ),
                     _InfoChip(
-                      label: config.target ?? 'Unknown Target',
+                      label: config.effectiveTarget,
                       icon: Icons.track_changes,
                       color: Colors.indigo,
                     ),

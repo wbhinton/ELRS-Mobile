@@ -12,38 +12,29 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:crypto/crypto.dart';
-import 'package:binary/binary.dart';
 import 'package:logging/logging.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:binary/binary.dart';
 
 class FirmwareAssembler {
   static final _log = Logger('FirmwareAssembler');
-  /// Generates the unique user ID (UID) from a binding phrase.
-  ///
-  /// Logic:
-  /// 1. Prefix with `-DMY_BINDING_PHRASE="`
-  /// 2. MD5 hash the result
-  /// 3. Take first 6 bytes
-  static List<int> generateUid(String phrase) {
-    if (phrase.isEmpty) return [0, 0, 0, 0, 0, 0];
-
-    // Construct the exact compiler literal string: '-DMY_BINDING_PHRASE="$phrase"'
-    final input = '-DMY_BINDING_PHRASE="$phrase"';
-    final bytes = utf8.encode(input);
-    final digest = md5.convert(bytes);
-
-    // Extract the first 6 bytes
-    return digest.bytes.sublist(0, 6);
-  }
-
+  
   /// Updates the firmware options map with the validated regulatory domain.
   static void updateDomainOption(
     Map<String, dynamic> options,
     int rawDomainValue,
   ) {
-    // Use checkRange to throw early if the value exceeds 8-bit limits (0-255).
-    // This prevents the default wrapping behavior of the Uint8 constructor.
-    final domain = Uint8.checkRange(rawDomainValue);
+    // Use checkRange to log any bounds errors to Sentry if it overflows.
+    int? domain;
+    try {
+      domain = Uint8.checkRange(rawDomainValue).toInt();
+    } catch (e) {
+      Sentry.captureMessage(
+        'Firmware Assembler Overflow: Domain $rawDomainValue exceeds Uint8 bounds',
+        level: SentryLevel.error,
+      );
+      throw Exception('Domain value out of bounds: $rawDomainValue');
+    }
 
     // Inject into the options map as the fixed-width extension type.
     options['domain'] = domain;
@@ -196,7 +187,7 @@ class FirmwareAssembler {
     }
 
     // THE FIX: Exact bitwise match to official JS using Uint32.fromWrapped for robust alignment
-    pos = (Uint32.fromWrapped(pos + 16) & Uint32.fromWrapped(~15)).toInt();
+    pos = (Uint32.fromWrapped((pos + 16)) & Uint32.fromWrapped(~15)).toInt();
     if (platform.startsWith('esp32')) {
       pos += 32; // Mandatory ESP32 gap
     }

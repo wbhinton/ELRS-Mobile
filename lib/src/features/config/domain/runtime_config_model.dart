@@ -101,4 +101,33 @@ extension RuntimeConfigX on RuntimeConfig {
     final is2G4 = Uint16(rawModelId).nthBit(7);
     return is2G4 ? 2400 : 900;
   }
+
+  String get effectiveProductName {
+    final hwProduct = config.hardware != null ? config.hardware!['product_name'] as String? : null;
+    
+    // Validate out empty strings which routinely bypass traditional ?? null coalescing
+    final hp = hwProduct?.trim().isNotEmpty == true ? hwProduct!.trim() : null;
+    final sp = settings.productName?.trim().isNotEmpty == true ? settings.productName!.trim() : null;
+    final p = productName?.trim().isNotEmpty == true ? productName!.trim() : null;
+    final st = settings.target?.trim().isNotEmpty == true ? settings.target!.trim() : null;
+    final t = target?.trim().isNotEmpty == true ? target!.trim() : null;
+    
+    return hp ?? sp ?? p ?? st ?? t ?? 'ELRS Device';
+  }
+  String get effectiveVersion {
+    final v = settings.version?.trim();
+    if (v != null && v.isNotEmpty) return v;
+    if (version != 'unknown') return version;
+    // V3 doesn't report version — indicate legacy firmware
+    return settings.moduleType != null ? 'V3 (${settings.moduleType})' : 'V3';
+  }
+
+  String get effectiveTarget {
+    final st = settings.target?.trim();
+    if (st != null && st.isNotEmpty) return st;
+    final t = target?.trim();
+    if (t != null && t.isNotEmpty) return t;
+    // V3 doesn't report unified target
+    return settings.moduleType ?? 'Legacy Target';
+  }
 }
