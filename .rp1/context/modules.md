@@ -1,150 +1,183 @@
 # Module & Component Breakdown
 
-**Project**: ELRS Mobile
-**Analysis Date**: 2026-03-18
+**Project**: ExpressLRS Configurator
+**Analysis Date**: 2026-04-02
 **Modules Analyzed**: 6
 
 ## Core Modules
 
-### core/networking (`lib/src/core/networking/`)
-**Purpose**: Device discovery, connectivity management, HTTP client for ELRS device communication
+### features/flashing (`lib/src/features/flashing/`)
+**Purpose**: Firmware downloading, patching, building, and flashing for ELRS devices
 **Complexity**: High
-**Dependencies**: flutter/services, platform channels
+**Dependencies**: FirmwareRepository, DeviceRepository, TargetsRepository, ReleasesRepository, TargetResolver, HardwareConfigMerger, UnifiedFirmwareBuilder, FirmwarePatcher
 
 **Key Components**:
-- **NativeNetworkService**: Platform channel wrapper for WiFi binding
-- **ConnectivityService**: Network state monitoring and auto-binding
-- **DiscoveryService**: mDNS device discovery with fallback
-- **DeviceDio**: Configured HTTP client for device API calls
+
+| Component | Type | File | Responsibility |
+|-----------|------|------|----------------|
+| FlashingController | Controller | presentation/flashing_controller.dart | Main orchestrator for firmware download, patching, and flash operations |
+| FlashingScreen | Screen | presentation/flashing_screen.dart | Main UI screen for firmware flashing workflow |
+| FlashingState | State | state/flashing_provider.dart | Controls heartbeat silencing during firmware upload |
+| FirmwareRepository | Repository | data/firmware_repository.dart | Handles firmware downloads and extraction from Artifactory |
+| DeviceRepository | Repository | data/device_repository.dart | HTTP communication with ELRS devices |
+| TargetsRepository | Repository | data/targets_repository.dart | Fetches and parses ELRS target definitions |
+| ReleasesRepository | Repository | data/releases_repository.dart | Fetches available firmware versions |
+| TargetResolver | Utility | utils/target_resolver.dart | Resolves hardware layout from hardware.zip |
+| HardwareConfigMerger | Utility | utils/hardware_config_merger.dart | Merges overlay config into base hardware layout |
+| UnifiedFirmwareBuilder | Utility | utils/unified_firmware_builder.dart | Builds unified ESP firmware binary |
+| FirmwarePatcher | Service | application/firmware_patcher.dart | Platform-specific firmware patching orchestrator |
 
 **Public Interface**:
 ```dart
-// Native binding
-Future<void> bindProcessToWiFi();
-Future<void> unbindProcess();
+// Controller actions
+final controller = ref.read(flashingControllerProvider.notifier);
+await controller.flash(target: target, version: version);
+await controller.downloadFirmware(target: target, version: version);
 
-// Device discovery
-Future<List<DiscoveredDevice>> discoverDevices();
-Future<Device> connectToDevice(String ip);
-
-// Device communication
-Future<RuntimeConfig> getConfig(String ip);
-Future<void> setConfig(String ip, RuntimeConfig config);
-```
-
-### features/flashing/presentation (`lib/src/features/flashing/presentation/`)
-**Purpose**: Firmware flashing UI layer - screens, widgets, and state management
-**Complexity**: High
-**Dependencies**: core/networking, core/storage, core/analytics, features/settings, features/config
-
-**Key Components**:
-- **FlashingController** (`flashing_controller.dart`): State management with Freezed
-- **FlashingScreen** (`flashing_screen.dart`): Main flashing UI with connection guard
-- **VersionSelector** (`widgets/version_selector.dart`): Cached firmware dropdown
-- **TargetSelectionCard** (`widgets/target_selection.dart`): Target picker
-- **OptionsCard** (`widgets/options_card.dart`): Bind phrase and options
-
-**Usage Examples**:
-```dart
 // State observation
 final state = ref.watch(flashingControllerProvider);
-final status = state.status;
-final isConnected = configAsync.hasValue && configAsync.value != null;
-
-// Actions
-ref.read(flashingControllerProvider.notifier).startFlash();
+if (state.status == FlashingStatus.success) { ... }
 ```
 
-**Testing**: [`test/features/flashing/`] - Controller unit tests with mocked dependencies
+**Flashing Workflow**:
+```dart
+// 1. Select target and version
+await controller.selectTarget(targetDefinition);
+await controller.selectVersion('3.6.3');
 
-### features/settings/presentation (`lib/src/features/settings/presentation/`)
-**Purpose**: App configuration UI with master-detail tablet layout
+// 2. Configure (bind phrase, WiFi)
+controller.updateBindPhrase('my drone');
+controller.updateWifiCredentials('myssid', 'mypassword');
+
+// 3. Flash
+await controller.flash();
+
+// State transitions: idle -> downloading -> patching -> uploading -> success/error
+```
+
+### features/config (`lib/src/features/config/`)
+**Purpose**: Device connection management and runtime config synchronization
 **Complexity**: Medium
-**Dependencies**: core/presentation, sentry_flutter
+**Dependencies**: DeviceConfigService, DiscoveryService, PersistenceService, ConnectivityService
+
+**Key Components**:
+
+| Component | Type | File | Responsibility |
+|-----------|------|------|----------------|
+| ConfigViewModel | ViewModel | presentation/config_view_model.dart | Manages device discovery, heartbeat, and config fetching |
+| RuntimeConfigModel | Model | domain/runtime_config_model.dart | Root device configuration with settings, options, config |
+| DeviceConfigService | Service | services/device_config_service.dart | HTTP client for device WebUI communication |
+
+**Public Interface**:
+```dart
+// Connection state
+final config = ref.watch(configViewModelProvider);
+if (config != null) { ... }
+
+// Actions
+await ref.read(configViewModelProvider.notifier).saveConfig(config);
+```
+
+### features/dashboard (`lib/src/features/dashboard/`)
+**Purpose**: Main entry screen with device status overview
+**Components**: DashboardScreen, DashboardCard, HardwareStatusCard, ConnectionStatusBadge
+
+### features/settings (`lib/src/features/settings/`)
+**Purpose**: App settings including analytics opt-in, legal notices
+**Components**: SettingsScreen, SettingsController, LegalNoticeScreen, DisclaimerDialog
+
+### features/firmware_manager (`lib/src/features/firmware_manager/`)
+**Purpose**: Local firmware file management and import
+**Components**: FirmwareManagerScreen, FirmwareManagerController
+
+### features/support (`lib/src/features/support/`)
+**Purpose**: Help documentation and troubleshooting
+**Components**: SupportScreen
+
+## Support Modules
+
+### core/networking (`lib/src/core/networking/`)
+**Purpose**: Network connectivity and HTTP client management
 
 **Services**:
-- **SettingsController**: Global binding phrase, WiFi credentials, regulatory domains
-- **SettingsScreen**: Master-detail layout with visibility toggles
+- **DeviceDio**: Dual Dio instances (localDio for device, internetDio for APIs)
+- **NativeNetworkService**: Platform channel for Android WiFi binding
+- **DiscoveryService**: mDNS service discovery for ELRS devices
+- **ConnectivityService**: Native WiFi interface binding
 
-**Configuration**: SharedPreferences + FlutterSecureStorage
-**Error Handling**: Sentry integration for debug report submission
+**Configuration**:
+```dart
+// localDio: 10s connect, 30s receive timeout
+// internetDio: 60s default timeout
+// Both use JSON response parsing
+```
 
-### website/marketing (`website/src/`)
-**Purpose**: Astro-based marketing website with landing page
-**Complexity**: Low
-**Dependencies**: Astro Starlight, Tailwind CSS, Google Analytics
+### core/storage (`lib/src/core/storage/`)
+**Purpose**: Local storage and caching
 
-**Components**:
-- Landing page with features and installation links
-- SEO structured data (SoftwareApplication schema)
-- Documentation via Starlight
+**Services**:
+- **FirmwareCacheService**: LRU cache for downloaded firmware zips
+- **PersistenceService**: Encrypted storage for credentials (bind phrase, WiFi)
 
-### ios/native (`ios/Runner/`)
-**Purpose**: iOS native app delegate with Flutter engine setup
-**Complexity**: Low
-**Dependencies**: Flutter SDK
+### core/utils (`lib/src/core/utils/`)
+**Shared Functions**:
+- **LuaExportUtils**: Lua script generation for device export
+- **ValidationUtils**: Input validation for bind phrases, frequencies
+- **BindingPhraseUtils**: MD5 hash generation for UID derivation
 
-**Responsibilities**:
-- Implicit Flutter engine initialization
-- Plugin registration (channel handler removed - no longer needed)
-
-### store_front/assets (`store_front/`)
-**Purpose**: Marketing assets and screenshot utilities
-**Complexity**: Low
-**Dependencies**: PIL/Pillow
-
-**Components**:
-- Python script for App Store screenshot scaling
+### core/analytics (`lib/src/core/analytics/`)
+**Purpose**: Analytics tracking via Aptabase
+**Configuration**: App ID A-US-0489684056, user opt-in required
 
 ## Module Dependencies
 
-### Dependency Graph
 ```mermaid
 graph TD
-    FlashingScreen --> FlashingController
-    FlashingScreen --> ConfigViewModel
-    FlashingController --> NativeNetworkService
-    FlashingController --> FirmwareCacheService
-    FlashingController --> AnalyticsService
-    FlashingController --> SettingsController
-    FlashingController --> ConfigViewModel
+    Flashing -->|uses| Config
+    Flashing -->|imports| FlashingData
+    Flashing -->|imports| FlashingUtils
+    Flashing -->|reads| FlashingState
+    Config -->|uses| CoreNetworking
+    Config -->|uses| CoreStorage
+    CoreNetworking -->|platform| NativeNetwork
+    CoreStorage -->|uses| Persistence
     
-    SettingsScreen --> SettingsController
-    SettingsScreen --> ResponsiveLayout
-    
-    NativeNetworkService --> MethodChannel
-    MethodChannel --> AppDelegate
-    
-    FirmwareCacheService --> CacheService
-    CacheService --> Artifactory
+    FlashingData -->|uses| FirmwareCacheService
+    FlashingData -->|uses| localDio
 ```
 
-### Import Analysis
-- **Most Imported**: FlashingController (cross-feature coordination)
-- **Most Dependencies**: core/networking (platform integration)
-- **Circular Dependencies**: None detected
+### Dependency Analysis
+
+| Module | Internal Dependencies | External Dependencies |
+|--------|----------------------|---------------------|
+| features/flashing/presentation | 5 | 8 (riverpod, dio, freezed, etc.) |
+| features/flashing/data | 3 | 2 (dio, archive) |
+| features/flashing/utils | 1 | 1 (archive) |
+| features/config | 4 | 1 (riverpod) |
 
 ## Module Metrics
 
-| Module | Files | Complexity | Pattern |
-|--------|-------|------------|---------|
-| core/networking | 4 | High | Platform Channel |
-| features/flashing | 8 | High | Riverpod + Freezed |
-| features/settings | 4 | Medium | Master-Detail |
-| website | 12 | Low | Astro Starlight |
-| ios/native | 2 | Low | Flutter Engine |
-| store_front | 1 | Low | PIL Script |
+| Module | Files | Lines | Components | Complexity |
+|--------|-------|-------|------------|------------|
+| features/flashing/presentation | 6 | ~841 | 2 | High |
+| features/flashing/data | 5 | ~579 | 5 | Medium |
+| features/flashing/utils | 4 | ~201 | 4 | Medium |
+| features/config | 2 | ~223 | 2 | Medium |
+| core/networking | 5 | ~350 | 5 | Medium |
+| core/storage | 2 | ~180 | 2 | Low |
 
 ## Code Quality Insights
 
 ### Well-Structured Modules
-- **FlashingController**: Clean separation of concerns with Freezed immutable states
-- **NativeNetworkService**: Clear platform channel abstraction with error handling
-
-### Areas for Improvement
-- **AppDelegate.swift**: Simplified (removed unused channel handler)
+- **flashing/data**: Clean repository pattern with typed return values and error wrapping
+- **flashing/utils**: Stateless utility functions with clear single responsibilities
+- **core/networking**: Separated concerns (local vs internet traffic) with clear provider boundaries
 
 ### Architectural Patterns
-- **Feature-First Organization**: Discrete functional modules under lib/src/features/
-- **Provider Composition**: Controllers read from multiple services via Riverpod
-- **Platform Channel Abstraction**: Clean Dart API over native implementations
+- **Repository-Provider Pattern**: Each repository has corresponding Riverpod provider for DI
+- **Controller-ViewModel Coordination**: FlashingController checks ConfigViewModel state before operations
+- **Feature Orchestration**: Single controller coordinates multiple repositories and utilities
+
+### Areas for Improvement
+- **FirmwareAssembler**: Growing complexity may benefit from further decomposition
+- **FlashingController**: 500+ lines - consider extracting sub-controllers for version selection and options
