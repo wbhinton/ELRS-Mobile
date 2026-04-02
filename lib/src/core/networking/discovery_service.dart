@@ -11,10 +11,11 @@
 // GNU General Public License for more details.
 
 import 'dart:async';
+import 'dart:io';
 import 'package:logging/logging.dart';
-import 'package:nsd/nsd.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../analytics/analytics_service.dart';
+import 'native_network_service.dart';
 
 part 'discovery_service.g.dart';
 
@@ -25,64 +26,102 @@ DiscoveryService discoveryService(Ref ref) {
 
 class DiscoveryService {
   final Ref? _ref;
-  Discovery? _discovery;
   final _ipController = StreamController<String?>.broadcast();
   bool _hasFoundDevice = false;
   static final _log = Logger('DiscoveryService');
+  
+  final List<RawDatagramSocket> _sockets = [];
+  Timer? _retryTimer;
 
   DiscoveryService([this._ref]);
 
   Stream<String?> get targetIpStream => _ipController.stream;
 
   Future<void> startScan() async {
-    // Prevent multiple scans
-    if (_discovery != null) return;
+    if (_sockets.isNotEmpty) return;
 
-    _log.info(
-      'Discovery Service started. (Note: mDNS may not work in Android Emulator)',
-    );
+    _log.info('Discovery Service started (RawDatagramSocket).');
 
     try {
+      if (Platform.isAndroid) {
+        await _ref?.read(nativeNetworkServiceProvider).acquireMulticastLock();
+        await _ref?.read(nativeNetworkServiceProvider).bindProcessToWiFi();
+      }
+      
       _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Started');
-      _discovery = await startDiscovery('_http._tcp');
-      _log.info(
-        'mDNS discovery started, scanning for _http._tcp services...',
+      
+      final interfaces = await NetworkInterface.list(
+        includeLinkLocal: false,
+        type: InternetAddressType.IPv4,
+        includeLoopback: false,
       );
 
-      // Fallback: If no device found within 3 seconds, assume 10.0.0.1
-      Timer(const Duration(seconds: 3), () {
-        if (!_hasFoundDevice) {
-          _log.info(
-            'No mDNS device found within 3s, falling back to 10.0.0.1',
-          );
-          _ref?.read(analyticsServiceProvider).trackEvent('mDNS Fallback Triggered');
-          _ipController.add('10.0.0.1');
-        }
-      });
+      final address = InternetAddress('224.0.0.251');
+      const port = 5353;
+      
+      // Standard mDNS PTR query for _http._tcp.local
+      final query = <int>[
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 
+        0x00, 0x00, 0x00, 0x00, 0x05, 0x5f, 0x68, 0x74, 
+        0x74, 0x70, 0x04, 0x5f, 0x74, 0x63, 0x70, 0x05, 
+        0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x00, 0x00, 0x0c, 
+        0x00, 0x01
+      ];
 
-      _discovery!.addListener(() {
-        _log.info(
-          'Service list changed, checking ${_discovery!.services.length} services...',
-        );
-        // Listener fires on changes. Iterate over services.
-        for (final service in _discovery!.services) {
-          final name = service.name ?? '';
-          _log.info('Found service: $name');
-          if (name.toLowerCase().contains('elrs')) {
-            final host = service.host;
-            _log.info('ELRS device found at host: $host');
-            if (host != null) {
-              // Found valid ELRS mDNS
-              _hasFoundDevice = true;
-              _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found', {
-                'name': name,
-                'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
-              });
-              _ipController.add(host);
+      for (final interface in interfaces) {
+        // Broadly accept wlan, en (iOS/macOS), or eth interfaces
+        if (interface.name.toLowerCase().contains('wlan') || 
+            interface.name.toLowerCase().contains('en') || 
+            interface.name.toLowerCase().contains('eth')) {
+          _log.info('Binding mDNS to interface: ${interface.name}');
+          final socket = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 0);
+          socket.joinMulticast(address, interface);
+          
+          socket.listen((event) {
+            if (event == RawSocketEvent.read) {
+              final datagram = socket.receive();
+              if (datagram != null) {
+                // Check if the response contains "elrs" in ASCII
+                final responseStr = String.fromCharCodes(datagram.data).toLowerCase();
+                if (responseStr.contains('elrs')) {
+                  final host = datagram.address.address;
+                  if (!_hasFoundDevice) {
+                    _log.info('ELRS device found via raw mDNS at host: $host');
+                    _hasFoundDevice = true;
+                    _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found', {
+                      'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
+                      'method': 'RawDatagramSocket'
+                    });
+                    _ipController.add(host);
+                  }
+                }
+              }
             }
-          }
+          });
+          
+          _sockets.add(socket);
         }
+      }
+
+      // Retry mechanism: blast query every second for 5 seconds
+      int retries = 0;
+      _retryTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_hasFoundDevice || retries >= 5) {
+          timer.cancel();
+          if (!_hasFoundDevice) {
+             _log.info('No mDNS device found within 5s, falling back to 10.0.0.1');
+             _ref?.read(analyticsServiceProvider).trackEvent('mDNS Fallback Triggered');
+             _ipController.add('10.0.0.1');
+          }
+          return;
+        }
+        
+        for (final socket in _sockets) {
+          socket.send(query, address, port);
+        }
+        retries++;
       });
+      
     } catch (e) {
       _log.warning('Discovery failed: $e');
       _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Failed', {'error': e.toString()});
@@ -90,13 +129,19 @@ class DiscoveryService {
   }
 
   Future<void> stopScan() async {
-    if (_discovery != null) {
-      await stopDiscovery(_discovery!);
-      _discovery = null;
-      _hasFoundDevice = false;
-      _ipController.add(
-        null,
-      ); // Emit null to indicate scan stopped / disconnected
+    _retryTimer?.cancel();
+    
+    for (final socket in _sockets) {
+      socket.close();
+    }
+    _sockets.clear();
+    
+    _hasFoundDevice = false;
+    _ipController.add(null);
+    
+    if (Platform.isAndroid) {
+      await _ref?.read(nativeNetworkServiceProvider).releaseMulticastLock();
+      await _ref?.read(nativeNetworkServiceProvider).unbindProcess();
     }
   }
 }

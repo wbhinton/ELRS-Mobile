@@ -11,7 +11,7 @@ import '../data/device_repository.dart';
 import '../../../core/storage/firmware_cache_service.dart';
 import '../domain/target_definition.dart';
 import '../utils/target_resolver.dart';
-import '../utils/firmware_assembler.dart';
+import '../../../core/utils/binding_phrase_utils.dart';
 import 'package:archive/archive.dart';
 import '../../../core/storage/persistence_service.dart';
 import 'package:file_picker/file_picker.dart';
@@ -391,9 +391,9 @@ class FlashingController extends _$FlashingController {
         luaName = targetConfig['lua_name'] as String? ?? 'ELRS';
 
         if (state.bindPhrase.isNotEmpty) {
-          uid = FirmwareAssembler.generateUid(state.bindPhrase);
+          uid = BindingPhraseUtils.generateUid(state.bindPhrase);
         } else {
-          uid = FirmwareAssembler.generateUid('');
+          uid = BindingPhraseUtils.generateUid('');
         }
       } catch (e) {
         debugPrint('Warning: Failed to prepare unified build data: $e');

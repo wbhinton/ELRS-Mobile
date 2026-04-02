@@ -15,7 +15,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:archive/archive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../features/flashing/utils/hardware_config_merger.dart';
 
@@ -200,17 +199,32 @@ class FirmwareCacheService {
   // --- JSON Caching for Offline Targets ---
 
   Future<void> saveTargetJson(String version, String jsonString) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('targets_$version', jsonString);
+    final dirPath = await _getCacheDir();
+    final filePath = p.join(dirPath, 'targets_$version.json');
+    final file = File(filePath);
+    await file.writeAsString(jsonString);
+    
     // Also save as 'latest' for fallback if version match fails
-    await prefs.setString('targets_latest', jsonString);
+    final latestPath = p.join(dirPath, 'targets_latest.json');
+    await File(latestPath).writeAsString(jsonString);
   }
 
   Future<String?> getCachedTargetJson(String version) async {
-    final prefs = await SharedPreferences.getInstance();
-    // Try specific version first, then latest
-    return prefs.getString('targets_$version') ??
-        prefs.getString('targets_latest');
+    final dirPath = await _getCacheDir();
+    final filePath = p.join(dirPath, 'targets_$version.json');
+    final file = File(filePath);
+    
+    if (await file.exists()) {
+      return await file.readAsString();
+    }
+    
+    final latestPath = p.join(dirPath, 'targets_latest.json');
+    final latestFile = File(latestPath);
+    if (await latestFile.exists()) {
+      return await latestFile.readAsString();
+    }
+    
+    return null;
   }
 
   /// Extracts the base hardware layout from the cached hardware.zip and merges it

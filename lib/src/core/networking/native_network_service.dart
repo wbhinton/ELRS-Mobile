@@ -48,4 +48,26 @@ class NativeNetworkService {
       _log.warning('Failed to unbind: $e');
     }
   }
+
+  /// Acquires a multicast lock on Android to allow mDNS discovery.
+  Future<void> acquireMulticastLock() async {
+    if (Platform.isIOS) return;
+    try {
+      await _channel.invokeMethod('acquireMulticastLock');
+      _log.info('Multicast lock acquired');
+    } on Exception catch (e) {
+      _log.warning('Failed to acquire multicast lock: $e');
+    }
+  }
+
+  /// Releases the multicast lock.
+  Future<void> releaseMulticastLock() async {
+    if (Platform.isIOS) return;
+    try {
+      await _channel.invokeMethod('releaseMulticastLock');
+      _log.info('Multicast lock released');
+    } on Exception catch (e) {
+      _log.warning('Failed to release multicast lock: $e');
+    }
+  }
 }

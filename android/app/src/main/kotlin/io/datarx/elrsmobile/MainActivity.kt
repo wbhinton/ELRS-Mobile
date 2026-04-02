@@ -34,8 +34,7 @@ class MainActivity : FlutterFragmentActivity() {
         
         val wifi = getSystemService(Context.WIFI_SERVICE) as android.net.wifi.WifiManager
         multicastLock = wifi.createMulticastLock("elrs_mobile_multicast_lock").apply {
-            setReferenceCounted(true)
-            acquire()
+            setReferenceCounted(false)
         }
 
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
@@ -45,6 +44,24 @@ class MainActivity : FlutterFragmentActivity() {
                 }
                 "unbindProcess" -> {
                     unbindProcess(result)
+                }
+                "acquireMulticastLock" -> {
+                    try {
+                        multicastLock?.acquire()
+                        result.success(true)
+                    } catch (e: Exception) {
+                        result.error("LOCK_FAILED", e.message, null)
+                    }
+                }
+                "releaseMulticastLock" -> {
+                    try {
+                        if (multicastLock?.isHeld == true) {
+                            multicastLock?.release()
+                        }
+                        result.success(true)
+                    } catch (e: Exception) {
+                        result.error("RELEASE_FAILED", e.message, null)
+                    }
                 }
                 else -> {
                     result.notImplemented()
