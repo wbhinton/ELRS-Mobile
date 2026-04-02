@@ -15,6 +15,7 @@ class SupportScreen extends HookConsumerWidget {
         appBar: AppBar(
           title: const Text('Help & Support'),
           bottom: const TabBar(
+            isScrollable: true,
             tabs: [
               Tab(text: 'Flashing Guide'),
               Tab(text: 'FAQ'),

@@ -81,16 +81,16 @@ class HardwareStatusCard extends ConsumerWidget {
     if (configAsync.hasValue && configAsync.value != null) {
       final config = configAsync.value!;
 
-      final deviceTarget = config.effectiveTarget;
+      final deviceProduct = config.effectiveProductName;
       final isMatched =
           selectedTarget != null &&
-          deviceTarget != 'Unknown Target' &&
-          selectedTarget.name == deviceTarget;
+          deviceProduct != 'ELRS Device' &&
+          selectedTarget.name == deviceProduct;
 
       final showMismatch =
           selectedTarget != null &&
-          deviceTarget != 'Unknown Target' &&
-          selectedTarget.name != deviceTarget;
+          deviceProduct != 'ELRS Device' &&
+          selectedTarget.name != deviceProduct;
 
       return Row(
         key: const ValueKey('connected'),

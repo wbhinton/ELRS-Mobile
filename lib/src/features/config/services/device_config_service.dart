@@ -21,10 +21,11 @@ class DeviceConfigService {
   DeviceConfigService(this._dio);
 
   /// Probes the device with a lightweight GET request for hardware metadata to securely verify heartbeat.
-  Future<bool> probeDeviceHead(String ip) async {
+  Future<bool> probeDeviceHead(String ip, {CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
         'http://$ip/hardware.json',
+        cancelToken: cancelToken,
         options: Options(
           sendTimeout: const Duration(seconds: 2),
           receiveTimeout: const Duration(seconds: 2),
@@ -38,10 +39,11 @@ class DeviceConfigService {
 
   /// Probes the device to see if it's alive and responding.
   /// Uses a short timeout (2s) as requested.
-  Future<bool> probeDevice(String ip) async {
+  Future<bool> probeDevice(String ip, {CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
         'http://$ip/',
+        cancelToken: cancelToken,
         options: Options(
           sendTimeout: const Duration(seconds: 2),
           receiveTimeout: const Duration(seconds: 2),
@@ -55,9 +57,12 @@ class DeviceConfigService {
 
   /// Fetches the current configuration from the device.
   /// Performs a GET request to `http://<ip>/config`.
-  Future<RuntimeConfig> fetchConfig(String ip) async {
+  Future<RuntimeConfig> fetchConfig(String ip, {CancelToken? cancelToken}) async {
     try {
-      final response = await _dio.get('http://$ip/config');
+      final response = await _dio.get(
+        'http://$ip/config',
+        cancelToken: cancelToken,
+      );
       if (response.statusCode == 200) {
         final data = response.data;
         _log.info('Raw Device Config JSON: $data');

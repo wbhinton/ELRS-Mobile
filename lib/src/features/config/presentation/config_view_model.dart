@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/connection_repository.dart';
@@ -26,6 +27,7 @@ class ConfigViewModel extends _$ConfigViewModel {
   String? _probeIp; // The IP we are currently trying or failed on
   int _missedHeartbeats = 0;
   bool _isHeartbeating = false;
+  CancelToken? _heartbeatCancelToken;
   static const int _maxMissedHeartbeats = 3;
   static final _log = Logger('ConfigViewModel');
 
@@ -48,6 +50,15 @@ class ConfigViewModel extends _$ConfigViewModel {
       if (ip != null) {
         _lastDiscoveredIp = ip;
         _performHeartbeat();
+      }
+    });
+
+    // Listen for flashing status to cancel heartbeats immediately
+    ref.listen(isFlashingProvider, (previous, next) {
+      if (next == true) {
+        _log.info('Flashing started. Cancelling in-flight heartbeats...');
+        _heartbeatCancelToken?.cancel('Flashing started');
+        _heartbeatCancelToken = null;
       }
     });
 
@@ -92,6 +103,7 @@ class ConfigViewModel extends _$ConfigViewModel {
     if (isFlashing) return;
 
     _isHeartbeating = true;
+    _heartbeatCancelToken = CancelToken();
     try {
       final service = ref.read(deviceConfigServiceProvider);
 
@@ -111,9 +123,12 @@ class ConfigViewModel extends _$ConfigViewModel {
           uniqueIps.map((ip) async {
             _probeIp = ip;
             // Pulse probe (HEAD request, 1s timeout)
-            final alive = await service.probeDeviceHead(ip);
+            final alive = await service.probeDeviceHead(
+              ip,
+              cancelToken: _heartbeatCancelToken,
+            );
             if (alive) return ip;
-            
+
             throw Exception('Probe failed for $ip');
           }),
         );
@@ -127,7 +142,7 @@ class ConfigViewModel extends _$ConfigViewModel {
         // Only fetch the heavy JSON configuration if we aren't already loaded!
         // Pulling the full configuration payload every 3 seconds causes ESP heap exhaustion.
         if (state.value == null) {
-          await _refreshConfig(successfulIp);
+          await _refreshConfig(successfulIp, cancelToken: _heartbeatCancelToken);
         }
       } catch (e) {
         if (!ref.mounted) return;
@@ -151,10 +166,10 @@ class ConfigViewModel extends _$ConfigViewModel {
     }
   }
 
-  Future<void> _refreshConfig(String ip) async {
+  Future<void> _refreshConfig(String ip, {CancelToken? cancelToken}) async {
     final service = ref.read(deviceConfigServiceProvider);
     try {
-      final config = await service.fetchConfig(ip);
+      final config = await service.fetchConfig(ip, cancelToken: cancelToken);
       if (!ref.mounted) return;
 
       // Sync centralized IP with Dashboard

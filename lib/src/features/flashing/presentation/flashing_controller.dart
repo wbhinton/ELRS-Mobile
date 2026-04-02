@@ -515,6 +515,9 @@ class FlashingController extends _$FlashingController {
 
     // Silence UI heartbeat
     ref.read(isFlashingProvider.notifier).setFlashing(true);
+    
+    // Give heartbeats a chance to cancel and the ESP to settle
+    await Future.delayed(const Duration(milliseconds: 300));
 
     try {
       final connectivity = ref.read(connectivityServiceProvider.notifier);
