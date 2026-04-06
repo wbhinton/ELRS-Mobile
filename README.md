@@ -8,6 +8,7 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/wbhinton/ELRS-Mobile/release.yml?branch=main&style=flat-square)](https://github.com/wbhinton/ELRS-Mobile/actions)
 [![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat-square&logo=Flutter&logoColor=white)](https://flutter.dev)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat-square)](https://www.gnu.org/licenses/gpl-3.0)
+[![GitHub Store](https://raw.githubusercontent.com/OpenHub-Store/Github-Store/main/media-resources/ghs_download_badge.png)](https://github.com/OpenHub-Store/Github-Store)
 
 # ExpressLRS Mobile
 
@@ -25,6 +26,7 @@ The easiest way to get started with ELRS Mobile is by installing it from your de
 
 ### 1. Install the App
 - **Android (Google Play):** [Get it on Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile).
+- **Android (GitHub Store):** [Download on GitHub Store](https://github.com/OpenHub-Store/Github-Store).
 - **iOS (App Store):** [Download on the App Store](https://apps.apple.com/us/app/elrs-mobile/id6760490014).
 - **Alternative (Android Only):** Download the raw `.apk` from the [Releases Page](https://github.com/wbhinton/ELRS-Mobile/releases).
 

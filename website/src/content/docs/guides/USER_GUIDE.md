@@ -24,6 +24,13 @@ Install from the App Store
 
 <a href="https://apps.apple.com/us/app/elrs-mobile/id6760490014" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Download on App Store</a>
 
+### Alternative Installation
+
+#### GitHub Store
+Ideal for users who prefer an alternative app store experience.
+
+<a href="https://github.com/OpenHub-Store/Github-Store" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Download on GitHub Store</a>
+
 ### Manual Installation
 For power users or those who prefer manual management, visit our [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases) page for the latest `.apk` files.
 
