@@ -144,6 +144,19 @@ class ConfigViewModel extends _$ConfigViewModel {
 
   // ── Discovery: pre-connection phase ─────────────────────────────────────────
 
+  /// Restarts the full pre-connection discovery flow.
+  ///
+  /// Called by the UI "Retry" button. Resets the mDNS found-state so the nsd
+  /// listener can fire again on the next device advertisement, then restarts
+  /// the aggressive 3-second poller for static fallback addresses.
+  /// Identical to cold-start discovery behavior.
+  void restartDiscovery() {
+    _log.info('Manual retry requested — restarting discovery.');
+    ref.read(discoveryServiceProvider).resetFoundState();
+    _heartbeatTimer?.cancel();
+    _startDiscoveryPoller();
+  }
+
   /// Starts the aggressive pre-connection discovery poller (3-second interval).
   ///
   /// Probes static fallback addresses in parallel via [_probeFallbackAddresses].
