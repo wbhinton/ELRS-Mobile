@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/connection_repository.dart';
 import '../../../core/networking/device_dio.dart';
+import '../../../core/networking/connectivity_service.dart';
 import '../../../core/networking/discovery_service.dart';
 import '../../../core/storage/persistence_service.dart';
 import '../../flashing/state/flashing_provider.dart';
@@ -118,6 +119,22 @@ class ConfigViewModel extends _$ConfigViewModel {
       }
     });
 
+    // ── Connectivity: proactive reconnection ──────────────────────────────────
+    // Listen for Wi-Fi changes and proactively trigger a heartbeat to verify 
+    // the path. This eliminates the "Ghost Connection" by forcing a check 
+    // immediately when the phone switches networks.
+    ref.listen(connectivityServiceProvider, (previous, next) {
+      if (ref.read(isFlashingProvider)) return;
+
+      _log.info('Connectivity change detected — proactively verifying path.');
+      
+      // If we are currently "connected", verify the device is still reachable 
+      // on the new network interface.
+      if (state.value != null || _connectedIp != null) {
+        _performHeartbeat();
+      }
+    });
+
     // ── Startup: begin pre-connection discovery ───────────────────────────────
     _startDiscoveryPoller();
 
@@ -152,6 +169,10 @@ class ConfigViewModel extends _$ConfigViewModel {
   /// Identical to cold-start discovery behavior.
   void restartDiscovery() {
     _log.info('Manual retry requested — restarting discovery.');
+    
+    // Ensure we are bound to WiFi (important for AP mode static probing)
+    ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
     ref.read(discoveryServiceProvider).resetFoundState();
     _heartbeatTimer?.cancel();
     _startDiscoveryPoller();
@@ -230,7 +251,11 @@ class ConfigViewModel extends _$ConfigViewModel {
   /// - starts the low-frequency keepalive heartbeat
   Future<void> _onDeviceFound(String ip) async {
     if (!ref.mounted) return;
-    _log.info('Device found at $ip — fetching config.');
+    _log.info('Device found at $ip — ensuring WiFi bind and fetching config.');
+    
+    // Ensure we are bound to WiFi so we can actually reach the device (e.g. 10.0.0.1)
+    ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
     _connectedIp = ip;
     _probeIp = ip;
     _missedHeartbeats = 0;
@@ -274,6 +299,13 @@ class ConfigViewModel extends _$ConfigViewModel {
 
     try {
       final service = ref.read(deviceConfigServiceProvider);
+      
+      // Ensure we are bound to WiFi if we have a connected device
+      // This heals the connection handle if a network 'blip' unbound the process.
+      if (_connectedIp != null) {
+        await ref.read(connectivityServiceProvider.notifier).ensureBound();
+      }
+      
       final candidates = <String>{
         ?_connectedIp,
         'elrs_rx.local',
@@ -338,6 +370,9 @@ class ConfigViewModel extends _$ConfigViewModel {
   Future<void> _refreshConfig(String ip, {CancelToken? cancelToken}) async {
     final service = ref.read(deviceConfigServiceProvider);
     try {
+      // Ensure we are bound to WiFi
+      await ref.read(connectivityServiceProvider.notifier).ensureBound();
+      
       final config = await service.fetchConfig(ip, cancelToken: cancelToken);
       if (!ref.mounted) return;
 
@@ -345,6 +380,7 @@ class ConfigViewModel extends _$ConfigViewModel {
       ref.read(targetIpProvider.notifier).updateIp(ip);
       state = AsyncValue.data(config.copyWith(activeIp: ip));
     } catch (e) {
+      _log.warning('Failed to fetch config from $ip: $e');
       if (!ref.mounted) return;
       state = AsyncValue.error(e, StackTrace.current);
     }
@@ -354,6 +390,10 @@ class ConfigViewModel extends _$ConfigViewModel {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       final service = ref.read(deviceConfigServiceProvider);
+      
+      // Ensure we are bound to WiFi
+      await ref.read(connectivityServiceProvider.notifier).ensureBound();
+      
       final config = await service.fetchConfig(ip);
       ref.read(targetIpProvider.notifier).updateIp(ip);
       return config.copyWith(activeIp: ip);
@@ -407,11 +447,19 @@ class ConfigViewModel extends _$ConfigViewModel {
 
   Future<void> _saveOptions(String ip, Map<String, dynamic> options) async {
     final service = ref.read(deviceConfigServiceProvider);
+    
+    // Ensure we are bound to WiFi
+    await ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
     await service.saveOptions(ip, options);
   }
 
   Future<void> reboot(String ip) async {
     final service = ref.read(deviceConfigServiceProvider);
+    
+    // Ensure we are bound to WiFi
+    await ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
     await service.reboot(ip);
   }
 }

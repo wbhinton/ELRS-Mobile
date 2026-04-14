@@ -265,7 +265,7 @@ class FlashingController extends _$FlashingController {
         }
       }
       // 2. Re-bind to WiFi to restore local connectivity state
-      await ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
+      await ref.read(connectivityServiceProvider.notifier).ensureBound();
     }
   }
 
@@ -587,7 +587,7 @@ class FlashingController extends _$FlashingController {
       });
     } finally {
       // Restore connectivity binding and release wake lock.
-      await ref.read(connectivityServiceProvider.notifier).autoBindIfWiFi();
+      await ref.read(connectivityServiceProvider.notifier).ensureBound();
       await WakelockPlus.disable();
     }
   }

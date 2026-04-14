@@ -63,11 +63,24 @@ class MainActivity : FlutterFragmentActivity() {
                         result.error("RELEASE_FAILED", e.message, null)
                     }
                 }
+                "isWiFiValidated" -> {
+                    result.success(isWiFiValidated())
+                }
                 else -> {
                     result.notImplemented()
                 }
             }
         }
+    }
+
+    private fun isWiFiValidated(): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val activeNetwork = connectivityManager?.activeNetwork ?: return false
+            val caps = connectivityManager?.getNetworkCapabilities(activeNetwork) ?: return false
+            return caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) && 
+                   caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        }
+        return false // Fallback for older Android (be conservative)
     }
 
     private fun bindProcessToWiFi(result: MethodChannel.Result) {

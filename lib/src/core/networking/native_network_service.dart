@@ -70,4 +70,15 @@ class NativeNetworkService {
       _log.warning('Failed to release multicast lock: $e');
     }
   }
+
+  /// Checks if the current WiFi connection has internet access (Validated).
+  Future<bool> isWiFiValidated() async {
+    if (Platform.isIOS) return true; // iOS doesn't have a direct equivalent here
+    try {
+      final bool validated = await _channel.invokeMethod('isWiFiValidated');
+      return validated;
+    } on Exception catch (_) {
+      return false;
+    }
+  }
 }

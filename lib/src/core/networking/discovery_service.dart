@@ -12,17 +12,37 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:nsd/nsd.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../analytics/analytics_service.dart';
-import 'native_network_service.dart';
+import 'connectivity_service.dart';
+import '../../features/flashing/state/flashing_provider.dart';
 
 part 'discovery_service.g.dart';
 
 @Riverpod(keepAlive: true)
 DiscoveryService discoveryService(Ref ref) {
-  return DiscoveryService(ref);
+  final service = DiscoveryService(ref);
+
+  // ── Connectivity: proactive discovery ────────────────────────────────────
+  // Automatically restart the mDNS scan whenever the network interface changes.
+  // This ensures we pick up the device at its new IP (e.g. Home WiFi vs AP) 
+  // without requiring a manual "Retry" click.
+  ref.listen<AsyncValue<List<ConnectivityResult>>>(
+    connectivityServiceProvider, 
+    (previous, next) {
+      if (ref.read(isFlashingProvider)) return;
+      
+      final results = next.value ?? [];
+      if (results.contains(ConnectivityResult.wifi)) {
+        service.restartScan();
+      }
+    }
+  );
+
+  return service;
 }
 
 class DiscoveryService {
@@ -50,47 +70,41 @@ class DiscoveryService {
     _isScanning = true;
 
     _log.info('Discovery Service started (nsd).');
-
+    _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Started');
+      
+    // Attempt nsd discovery with SocketException suppression
     try {
-      if (Platform.isAndroid) {
-        await _ref?.read(nativeNetworkServiceProvider).acquireMulticastLock();
-        await _ref?.read(nativeNetworkServiceProvider).bindProcessToWiFi();
-      }
-      
-      _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Started');
-      
-      // Attempt nsd discovery with SocketException suppression
-      try {
-        _discovery = await startDiscovery('_http._tcp', ipLookupType: IpLookupType.any);
-        _discovery?.addListener(() {
-          if (_hasFoundDevice) return;
-          
-          for (final service in _discovery?.services ?? []) {
-            final name = service.name?.toLowerCase() ?? '';
-            if (name.contains('elrs') || name.contains('expresslrs')) {
-              final host = service.addresses?.firstOrNull?.address;
-              if (host != null) {
-                _log.info('ELRS device found via nsd at host: $host');
-                _hasFoundDevice = true;
-                _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found', {
-                  'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
-                  'method': 'nsd'
-                });
-                _ipController.add(host);
-                break;
-              }
+      _discovery = await startDiscovery('_http._tcp', ipLookupType: IpLookupType.any);
+      _discovery?.addListener(() {
+        if (_hasFoundDevice) return;
+        
+        for (final service in _discovery?.services ?? []) {
+          final name = service.name?.toLowerCase() ?? '';
+          if (name.contains('elrs') || name.contains('expresslrs')) {
+            final addresses = service.addresses;
+            final host = (addresses != null && addresses.isNotEmpty) 
+                ? addresses.first.address 
+                : null;
+            if (host != null) {
+              _log.info('ELRS device found via nsd at host: $host');
+              _hasFoundDevice = true;
+              _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found', {
+                'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
+                'method': 'nsd'
+              });
+              _ipController.add(host);
+              break;
             }
           }
-        });
-      } on SocketException catch (e) {
-        // Suppress SocketException (errno = 101 / errno = 48) — reset scanning flag
-        // so the startScan() guard doesn't permanently block future scan attempts.
-        _log.warning('mDNS scan failed (SocketException): $e. Resetting scan state; will resume when Wi-Fi is restored.');
-        _isScanning = false;
-      }
-
+        }
+      });
+    } on SocketException catch (e) {
+      // Suppress SocketException (errno = 101 / errno = 48) — reset scanning flag
+      // so the startScan() guard doesn't permanently block future scan attempts.
+      _log.warning('mDNS scan failed (SocketException): $e. Resetting scan state; will resume when Wi-Fi is restored.');
+      _isScanning = false;
     } catch (e) {
-      _log.warning('Discovery failed: $e');
+      _log.warning('Discovery failed to start: $e');
       _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Failed', {'error': e.toString()});
     }
   }
@@ -115,11 +129,6 @@ class DiscoveryService {
     _isScanning = false;
     _hasFoundDevice = false;
     _ipController.add(null);
-
-    if (Platform.isAndroid) {
-      await _ref?.read(nativeNetworkServiceProvider).releaseMulticastLock();
-      await _ref?.read(nativeNetworkServiceProvider).unbindProcess();
-    }
   }
 
   /// Resets the found-device flag so the mDNS listener can fire again
