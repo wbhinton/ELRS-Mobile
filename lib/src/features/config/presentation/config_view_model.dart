@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/connection_repository.dart';
 import '../../../core/networking/device_dio.dart';
+import '../../../core/networking/connectivity_service.dart';
 import '../../../core/networking/discovery_service.dart';
 import '../../../core/storage/persistence_service.dart';
 import '../../flashing/state/flashing_provider.dart';
@@ -20,50 +21,122 @@ DeviceConfigService deviceConfigService(Ref ref) {
 
 @riverpod
 class ConfigViewModel extends _$ConfigViewModel {
+  // ── Timers ──────────────────────────────────────────────────────────────────
+  /// Low-frequency keepalive timer, runs only while a device is connected.
   Timer? _heartbeatTimer;
+
+  /// Aggressive pre-connection poller (3s). Probes static fallback addresses
+  /// (10.0.0.1, .local hostnames) until a device is found, then stops.
+  Timer? _discoveryPollTimer;
+
+  // ── Subscriptions & state ────────────────────────────────────────────────────
   StreamSubscription? _discoverySub;
-  String? _lastDiscoveredIp;
+  String? _connectedIp; // confirmed live IP we are currently heartbeating
   String? _manualIp;
-  String? _probeIp; // The IP we are currently trying or failed on
+  String? _probeIp; // IP currently being probed (for UI diagnostics)
+
   int _missedHeartbeats = 0;
   bool _isHeartbeating = false;
+
+  /// True during the grace window immediately after a successful flash.
+  /// Prevents the missed-heartbeat counter from triggering a premature
+  /// "disconnected" state while the device is rebooting (~60 seconds).
+  bool _inPostFlashGrace = false;
+
   CancelToken? _heartbeatCancelToken;
+
   static const int _maxMissedHeartbeats = 3;
+  static const Duration _discoveryPollInterval = Duration(seconds: 3);
+
+  /// How long to hold "connecting" state after a flash before giving up.
+  /// The ELRS device takes ~60 seconds to re-enter Wi-Fi mode after a flash,
+  /// so 75 seconds provides a comfortable buffer.
+  static const Duration _postFlashGraceDuration = Duration(seconds: 75);
+
   static final _log = Logger('ConfigViewModel');
 
   @override
   FutureOr<RuntimeConfig?> build() async {
     ref.onDispose(() {
       _heartbeatTimer?.cancel();
+      _discoveryPollTimer?.cancel();
       _discoverySub?.cancel();
     });
 
-    // Load manual IP
+    // Load manual IP override from persistent storage
     final storage = await ref.read(persistenceServiceProvider.future);
     _manualIp = storage.loadManualIp();
 
-    // Start discovery scan if not started
+    // ── mDNS: event-driven, always running ──────────────────────────────────
+    // nsd opens a multicast DNS socket and passively listens. When the ELRS
+    // device advertises its _http._tcp record, this fires within 1–3 seconds
+    // with no timer required on our end.
     final discoveryService = ref.read(discoveryServiceProvider);
     discoveryService.startScan();
 
     _discoverySub = discoveryService.targetIpStream.listen((ip) {
       if (ip != null) {
-        _lastDiscoveredIp = ip;
+        _onDeviceFound(ip); // fast path — no poll timer delay
+      }
+    });
+
+    // ── Flash state transitions ───────────────────────────────────────────────
+    ref.listen(isFlashingProvider, (previous, next) {
+      if (next == true) {
+        // Silence all probing while the binary is uploading to prevent
+        // socket contention on the device's Wi-Fi stack.
+        _log.info(
+          'Flashing started — silencing heartbeat and discovery timers.',
+        );
+        _heartbeatCancelToken?.cancel('Flashing started');
+        _heartbeatCancelToken = null;
+        _heartbeatTimer?.cancel();
+        _discoveryPollTimer?.cancel();
+      } else if (previous == true && next == false) {
+        // Flash succeeded — device will now reboot and be unreachable for
+        // ~60 seconds. Clear stale config immediately, enter grace period,
+        // and start aggressive discovery so we reconnect the instant the
+        // device comes back online.
+        _log.info(
+          'Flash complete — clearing config and entering '
+          '${_postFlashGraceDuration.inSeconds}s post-flash grace period.',
+        );
+        _inPostFlashGrace = true;
+        state = const AsyncValue.data(null);
+        _connectedIp = null;
+        ref.read(discoveryServiceProvider).resetFoundState();
+        _startDiscoveryPoller();
+
+        // Auto-expire the grace period if the device never comes back.
+        Future.delayed(_postFlashGraceDuration, () {
+          if (_inPostFlashGrace) {
+            _inPostFlashGrace = false;
+            _log.info(
+              'Post-flash grace period expired — device did not reconnect.',
+            );
+          }
+        });
+      }
+    });
+
+    // ── Connectivity: proactive reconnection ──────────────────────────────────
+    // Listen for Wi-Fi changes and proactively trigger a heartbeat to verify 
+    // the path. This eliminates the "Ghost Connection" by forcing a check 
+    // immediately when the phone switches networks.
+    ref.listen(connectivityServiceProvider, (previous, next) {
+      if (ref.read(isFlashingProvider)) return;
+
+      _log.info('Connectivity change detected — proactively verifying path.');
+      
+      // If we are currently "connected", verify the device is still reachable 
+      // on the new network interface.
+      if (state.value != null || _connectedIp != null) {
         _performHeartbeat();
       }
     });
 
-    // Listen for flashing status to cancel heartbeats immediately
-    ref.listen(isFlashingProvider, (previous, next) {
-      if (next == true) {
-        _log.info('Flashing started. Cancelling in-flight heartbeats...');
-        _heartbeatCancelToken?.cancel('Flashing started');
-        _heartbeatCancelToken = null;
-      }
-    });
-
-    _startHeartbeat();
-    _performHeartbeat();
+    // ── Startup: begin pre-connection discovery ───────────────────────────────
+    _startDiscoveryPoller();
 
     return null;
   }
@@ -77,7 +150,6 @@ class ConfigViewModel extends _$ConfigViewModel {
     if (!ref.mounted) return;
     await storage.saveManualIp(ip);
 
-    // Explicitly transition to loading
     if (!ref.mounted) return;
     state = const AsyncValue.loading();
     try {
@@ -87,88 +159,220 @@ class ConfigViewModel extends _$ConfigViewModel {
     }
   }
 
+  // ── Discovery: pre-connection phase ─────────────────────────────────────────
+
+  /// Restarts the full pre-connection discovery flow.
+  ///
+  /// Called by the UI "Retry" button. Resets the mDNS found-state so the nsd
+  /// listener can fire again on the next device advertisement, then restarts
+  /// the aggressive 3-second poller for static fallback addresses.
+  /// Identical to cold-start discovery behavior.
+  void restartDiscovery() {
+    _log.info('Manual retry requested — restarting discovery.');
+    
+    // Ensure we are bound to WiFi (important for AP mode static probing)
+    ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
+    ref.read(discoveryServiceProvider).resetFoundState();
+    _heartbeatTimer?.cancel();
+    _startDiscoveryPoller();
+  }
+
+  /// Starts the aggressive pre-connection discovery poller (3-second interval).
+  ///
+  /// Probes static fallback addresses in parallel via [_probeFallbackAddresses].
+  /// Also fires immediately on start so first contact happens within milliseconds,
+  /// not after the first 3-second tick.
+  ///
+  /// The poller cancels itself once [state.value] is non-null (connected), and
+  /// is restarted when the device disconnects or the app re-enters the
+  /// pre-connection phase after a flash.
+  void _startDiscoveryPoller() {
+    _discoveryPollTimer?.cancel();
+    _probeFallbackAddresses(); // probe immediately, don't wait for first tick
+    _discoveryPollTimer = Timer.periodic(_discoveryPollInterval, (_) {
+      if (ref.read(isFlashingProvider)) return;
+      if (state.value != null) {
+        // Already connected — poller's job is done.
+        _discoveryPollTimer?.cancel();
+        return;
+      }
+      _probeFallbackAddresses();
+    });
+  }
+
+  /// Probes [elrs_rx.local], [elrs_tx.local], [10.0.0.1], and [_manualIp]
+  /// (if set) in parallel. The first address to respond triggers [_onDeviceFound].
+  ///
+  /// Uses [Future.any] on a fixed, known set of addresses — racing is safe here
+  /// because all candidates are static targets we control. mDNS-discovered IPs
+  /// are handled by the stream listener, not this method.
+  Future<void> _probeFallbackAddresses() async {
+    if (_isHeartbeating) return;
+    if (ref.read(isFlashingProvider)) return;
+    _isHeartbeating = true;
+    _heartbeatCancelToken = CancelToken();
+
+    final candidates = <String>{
+      'elrs_rx.local',
+      'elrs_tx.local',
+      '10.0.0.1',
+      if (_manualIp != null && _manualIp!.isNotEmpty) _manualIp!,
+    };
+
+    try {
+      final service = ref.read(deviceConfigServiceProvider);
+      final ip = await Future.any(
+        candidates.map((candidate) async {
+          _probeIp = candidate;
+          final alive = await service.probeDeviceHead(
+            candidate,
+            cancelToken: _heartbeatCancelToken,
+          );
+          if (alive) return candidate;
+          throw Exception('No response from $candidate');
+        }),
+      );
+      if (!ref.mounted) return;
+      await _onDeviceFound(ip);
+    } catch (_) {
+      // No device found on this tick — poller will retry in 3 seconds.
+    } finally {
+      _isHeartbeating = false;
+    }
+  }
+
+  /// Shared success handler invoked by both the mDNS stream listener and the
+  /// fallback discovery poller whenever a live device is confirmed.
+  ///
+  /// Transitions from pre-connection → post-connection:
+  /// - cancels the discovery poller
+  /// - fetches full device config (if not already loaded)
+  /// - starts the low-frequency keepalive heartbeat
+  Future<void> _onDeviceFound(String ip) async {
+    if (!ref.mounted) return;
+    _log.info('Device found at $ip — ensuring WiFi bind and fetching config.');
+    
+    // Ensure we are bound to WiFi so we can actually reach the device (e.g. 10.0.0.1)
+    ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
+    _connectedIp = ip;
+    _probeIp = ip;
+    _missedHeartbeats = 0;
+    _inPostFlashGrace = false; // exit grace period on successful reconnect
+    _discoveryPollTimer?.cancel();
+
+    if (state.value == null) {
+      await _refreshConfig(ip, cancelToken: _heartbeatCancelToken);
+    }
+    _startHeartbeat();
+  }
+
+  // ── Heartbeat: post-connection phase ─────────────────────────────────────────
+
+  /// Starts the low-frequency post-connection keepalive (10-second interval).
+  ///
+  /// Only called after [_onDeviceFound] confirms a connection. Probes the
+  /// known-good IP plus redundant fallback addresses for DHCP resilience.
   void _startHeartbeat() {
     _heartbeatTimer?.cancel();
     _heartbeatTimer = Timer.periodic(
-      const Duration(seconds: 3),
+      const Duration(seconds: 10),
       (_) => _performHeartbeat(),
     );
   }
 
+  /// Post-connection keepalive heartbeat.
+  ///
+  /// Probes [_connectedIp] (the confirmed live IP), [elrs_rx.local],
+  /// [elrs_tx.local], and [10.0.0.1] in parallel for DHCP resilience.
+  /// On 3 consecutive misses, declares the device lost and restarts the
+  /// pre-connection discovery poller.
+  ///
+  /// During [_inPostFlashGrace], missed probes are silently swallowed — the
+  /// device is rebooting and will re-advertise via mDNS when ready.
   Future<void> _performHeartbeat() async {
+    if (ref.read(isFlashingProvider)) return;
     if (_isHeartbeating) return;
-    
-    // Silence UI during Flash to prevent network contention
-    final isFlashing = ref.read(isFlashingProvider);
-    if (isFlashing) return;
-
     _isHeartbeating = true;
     _heartbeatCancelToken = CancelToken();
+
     try {
       final service = ref.read(deviceConfigServiceProvider);
-
-      // Priority: 1. Manual IP (if set), 2. Discovery targets (AP, Hostnames, Discovered mDNS)
-      final ips = [
-        '10.0.0.1',
+      
+      // Ensure we are bound to WiFi if we have a connected device
+      // This heals the connection handle if a network 'blip' unbound the process.
+      if (_connectedIp != null) {
+        await ref.read(connectivityServiceProvider.notifier).ensureBound();
+      }
+      
+      final candidates = <String>{
+        ?_connectedIp,
         'elrs_rx.local',
         'elrs_tx.local',
-        ...[_manualIp, _lastDiscoveredIp].nonNulls.where((s) => s.isNotEmpty),
-      ];
+        '10.0.0.1',
+        if (_manualIp != null && _manualIp!.isNotEmpty) _manualIp!,
+      };
 
-      final uniqueIps = ips.toSet().toList();
-      if (uniqueIps.isEmpty) return;
-
-      try {
-        final successfulIp = await Future.any(
-          uniqueIps.map((ip) async {
-            _probeIp = ip;
-            // Pulse probe (HEAD request, 1s timeout)
-            final alive = await service.probeDeviceHead(
-              ip,
-              cancelToken: _heartbeatCancelToken,
-            );
-            if (alive) return ip;
-
-            throw Exception('Probe failed for $ip');
-          }),
-        );
-
-        if (!ref.mounted) return;
-
-        // A device was successfully found concurrently
-        _probeIp = successfulIp;
-        _missedHeartbeats = 0; // Reset on any success
-        
-        // Only fetch the heavy JSON configuration if we aren't already loaded!
-        // Pulling the full configuration payload every 3 seconds causes ESP heap exhaustion.
-        if (state.value == null) {
-          await _refreshConfig(successfulIp, cancelToken: _heartbeatCancelToken);
-        }
-      } catch (e) {
-        if (!ref.mounted) return;
-
-        // If we reach here, no device was found on any priority IP
-        _missedHeartbeats++;
-
-        if (_missedHeartbeats >= _maxMissedHeartbeats) {
-          if (state.value != null || state.isLoading) {
-            state = const AsyncValue.data(null);
-          }
-        } else {
-          // Log missed heartbeat but preserve state
-          _log.info(
-            'Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). Preserving last good state.',
+      final ip = await Future.any(
+        candidates.map((candidate) async {
+          final alive = await service.probeDeviceHead(
+            candidate,
+            cancelToken: _heartbeatCancelToken,
           );
+          if (alive) return candidate;
+          throw Exception('No response from $candidate');
+        }),
+      );
+
+      if (!ref.mounted) return;
+      _missedHeartbeats = 0;
+      _connectedIp = ip; // update in case DHCP reassigned the address
+    } catch (_) {
+      if (!ref.mounted) return;
+
+      // During the post-flash grace period the device is rebooting — don't
+      // count misses or drop state. The mDNS listener will call _onDeviceFound
+      // automatically when the device comes back online.
+      if (_inPostFlashGrace) {
+        _log.info(
+          'Post-flash grace: device rebooting — suppressing miss count.',
+        );
+        return;
+      }
+
+      _missedHeartbeats++;
+      if (_missedHeartbeats >= _maxMissedHeartbeats) {
+        _log.info(
+          'Device lost after $_maxMissedHeartbeats missed heartbeats. '
+          'Returning to discovery.',
+        );
+        if (state.value != null || state.isLoading) {
+          state = const AsyncValue.data(null);
         }
+        _connectedIp = null;
+        _heartbeatTimer?.cancel();
+        ref.read(discoveryServiceProvider).resetFoundState();
+        _startDiscoveryPoller(); // back to pre-connection phase
+      } else {
+        _log.info(
+          'Heartbeat missed ($_missedHeartbeats/$_maxMissedHeartbeats). '
+          'Preserving last good state.',
+        );
       }
     } finally {
       _isHeartbeating = false;
     }
   }
 
+  // ── Config operations ────────────────────────────────────────────────────────
+
   Future<void> _refreshConfig(String ip, {CancelToken? cancelToken}) async {
     final service = ref.read(deviceConfigServiceProvider);
     try {
+      // Ensure we are bound to WiFi
+      await ref.read(connectivityServiceProvider.notifier).ensureBound();
+      
       final config = await service.fetchConfig(ip, cancelToken: cancelToken);
       if (!ref.mounted) return;
 
@@ -176,6 +380,7 @@ class ConfigViewModel extends _$ConfigViewModel {
       ref.read(targetIpProvider.notifier).updateIp(ip);
       state = AsyncValue.data(config.copyWith(activeIp: ip));
     } catch (e) {
+      _log.warning('Failed to fetch config from $ip: $e');
       if (!ref.mounted) return;
       state = AsyncValue.error(e, StackTrace.current);
     }
@@ -185,6 +390,10 @@ class ConfigViewModel extends _$ConfigViewModel {
     state = const AsyncValue.loading();
     final result = await AsyncValue.guard(() async {
       final service = ref.read(deviceConfigServiceProvider);
+      
+      // Ensure we are bound to WiFi
+      await ref.read(connectivityServiceProvider.notifier).ensureBound();
+      
       final config = await service.fetchConfig(ip);
       ref.read(targetIpProvider.notifier).updateIp(ip);
       return config.copyWith(activeIp: ip);
@@ -238,11 +447,19 @@ class ConfigViewModel extends _$ConfigViewModel {
 
   Future<void> _saveOptions(String ip, Map<String, dynamic> options) async {
     final service = ref.read(deviceConfigServiceProvider);
+    
+    // Ensure we are bound to WiFi
+    await ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
     await service.saveOptions(ip, options);
   }
 
   Future<void> reboot(String ip) async {
     final service = ref.read(deviceConfigServiceProvider);
+    
+    // Ensure we are bound to WiFi
+    await ref.read(connectivityServiceProvider.notifier).ensureBound();
+    
     await service.reboot(ip);
   }
 }

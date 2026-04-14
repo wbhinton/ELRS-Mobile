@@ -206,7 +206,7 @@ class HardwareStatusCard extends ConsumerWidget {
                 onPressed: () {
                   ref
                       .read(configViewModelProvider.notifier)
-                      .fetchConfig('10.0.0.1');
+                      .restartDiscovery();
                 },
                 icon: const Icon(Icons.refresh),
                 label: const Text('Retry'),

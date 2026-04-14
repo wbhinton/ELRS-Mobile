@@ -13,7 +13,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'discovery_service.dart';
 import 'native_network_service.dart';
 
 part 'connectivity_service.g.dart';
@@ -28,6 +27,8 @@ class ConnectivityService extends _$ConnectivityService {
   }
 
   Future<bool>? _bindingFuture;
+  bool _isBound = false;
+  bool _lockAcquired = false;
 
   /// Binds the app process to the current WiFi interface.
   /// Returns true if successful.
@@ -43,8 +44,14 @@ class ConnectivityService extends _$ConnectivityService {
     for (var i = 0; i < retries; i++) {
       _log.info('Binding attempt ${i + 1}...');
       try {
-        await ref.read(nativeNetworkServiceProvider).bindProcessToWiFi().timeout(const Duration(seconds: 4));
-        // We assume success if no exception, though the native side logs detail.
+        final native = ref.read(nativeNetworkServiceProvider);
+        
+        await native.bindProcessToWiFi().timeout(const Duration(seconds: 4));
+        _isBound = true;
+        
+        await native.acquireMulticastLock();
+        _lockAcquired = true;
+        
         return true;
       } catch (e) {
         _log.warning('Binding attempt ${i + 1} failed: $e');
@@ -56,10 +63,33 @@ class ConnectivityService extends _$ConnectivityService {
     return false;
   }
 
-  /// Unbinds the app from any specific interface, reverting to OS defaults.
+  /// Unbinds the process and releases locks.
   Future<void> unbind() async {
-    _log.info('Explicitly unbinding process...');
-    await ref.read(nativeNetworkServiceProvider).unbindProcess();
+    _log.info('Explicitly unbinding process and releasing locks...');
+    final native = ref.read(nativeNetworkServiceProvider);
+    await native.releaseMulticastLock();
+    _lockAcquired = false;
+    await native.unbindProcess();
+    _isBound = false;
+  }
+
+  /// Executes an action with the process guaranteed to be unbound from any
+  /// local-only interfaces. This ensures the request can use the system's 
+  /// best available internet route (e.g. cellular fallback).
+  Future<T> withInternetAccess<T>(Future<T> Function() action) async {
+    if (_isBound) {
+      _log.info('Temporarily unbinding for internet access...');
+      await unbind();
+    }
+    return await action();
+  }
+
+  /// Ensures the process is bound to WiFi and the multicast lock is acquired.
+  /// Does NOT trigger a discovery scan restart.
+  Future<void> ensureBound() async {
+    if (_isBound && _lockAcquired) return;
+    _log.info('Ensuring process is bound to WiFi...');
+    await bindToWiFi();
   }
 
   /// Attempts to bind the app to WiFi if we are connected to one.
@@ -75,18 +105,33 @@ class ConnectivityService extends _$ConnectivityService {
 
     // If we have any network connections, try to bind to WiFi
     // This handles the case where WiFi has no internet but we're still connected
-    if (results.isNotEmpty) {
-      _log.info('We have network connections, attempting bind...');
-      final success = await bindToWiFi();
-      if (!success) {
-        _log.warning('Auto-bind failed after retries.');
-      } else {
-        _log.info('Auto-bind succeeded. Restarting mDNS sockets on new interface...');
-        ref.read(discoveryServiceProvider).restartScan();
+    if (results.contains(ConnectivityResult.wifi)) {
+      _log.info('WiFi detected, assessing internet capability...');
+      
+      final native = ref.read(nativeNetworkServiceProvider);
+      await native.acquireMulticastLock();
+      _lockAcquired = true;
+
+      // Smart Auto-Bind: 
+      // Only bind automatically if the WiFi LACKS internet (not validated).
+      // This makes AP Mode "Just Work" (like an app reboot) while keeping 
+      // Home WiFi open for internet (Artifactory/GitHub).
+      final isInternetAvailable = await native.isWiFiValidated();
+      if (!isInternetAvailable && !_isBound) {
+        _log.info('WiFi lacks internet (AP Mode), triggering automatic bind...');
+        await bindToWiFi();
+      } else if (isInternetAvailable && _isBound) {
+        _log.info('WiFi has internet (Home Mode), ensuring process is unbound...');
+        await unbind();
       }
-    } else {
-      _log.info('No network connections detected, unbinding...');
-      await unbind();
+    } else if (results.isEmpty || !results.contains(ConnectivityResult.wifi)) {
+      // ONLY unbind if we truly lost WiFi. 
+      // This prevents ConnectivityResult.mobile from unbinding a WiFi AP (10.0.0.1) 
+      // that lacks internet access during subtle OS network assessments.
+      _log.info('WiFi connection lost or none detected, unbinding...');
+      if (_isBound || _lockAcquired) {
+        await unbind();
+      }
     }
   }
 }
