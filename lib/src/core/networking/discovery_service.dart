@@ -84,8 +84,10 @@ class DiscoveryService {
           }
         });
       } on SocketException catch (e) {
-        // Specifically catch and suppress SocketException (errno = 101) per requirement
-        _log.warning('mDNS scan failed due to network unreachable: $e. Scan will resume when Wi-Fi is restored.');
+        // Suppress SocketException (errno = 101 / errno = 48) — reset scanning flag
+        // so the startScan() guard doesn't permanently block future scan attempts.
+        _log.warning('mDNS scan failed (SocketException): $e. Resetting scan state; will resume when Wi-Fi is restored.');
+        _isScanning = false;
       }
 
       // Retry mechanism: fallback to 10.0.0.1 after 5 seconds if not found
@@ -110,17 +112,28 @@ class DiscoveryService {
   }
 
   Future<void> stopScan() async {
-    _isScanning = false;
+    // Cancel the retry timer immediately to prevent further scan attempts.
     _retryTimer?.cancel();
-    
+
+    // Await full teardown of the nsd discovery session before resetting the
+    // scanning flag. This prevents restartScan()'s startScan() call from
+    // re-entering while the underlying UDP port (5353) is still bound,
+    // which would trigger errno = 48 (Address already in use) on iOS/iPadOS.
     if (_discovery != null) {
-      await stopDiscovery(_discovery!);
-      _discovery = null;
+      try {
+        await stopDiscovery(_discovery!);
+      } catch (e) {
+        _log.warning('Error stopping nsd discovery session: $e');
+      } finally {
+        _discovery = null;
+      }
     }
-    
+
+    // Only mark scanning as stopped after the socket is fully released.
+    _isScanning = false;
     _hasFoundDevice = false;
     _ipController.add(null);
-    
+
     if (Platform.isAndroid) {
       await _ref?.read(nativeNetworkServiceProvider).releaseMulticastLock();
       await _ref?.read(nativeNetworkServiceProvider).unbindProcess();
