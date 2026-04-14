@@ -131,15 +131,46 @@ class DeviceConfigService {
 
   /// Reboots the device.
   /// Performs a POST request to `http://<ip>/reboot`.
+  ///
+  /// A successful reboot causes the hardware to immediately sever the Wi-Fi
+  /// connection, which Dio surfaces as a [DioException]. These "expected drop"
+  /// errors are treated as success and swallowed silently. Any other
+  /// [DioException] (e.g., wrong IP, pre-flight timeout) is still rethrown.
   Future<void> reboot(String ip) async {
     try {
       final response = await _dio.post('http://$ip/reboot');
       if (response.statusCode != 200 && response.statusCode != 204) {
         throw Exception('Failed to reboot device. Status code: ${response.statusCode}');
       }
+    } on DioException catch (e) {
+      if (_isExpectedRebootSocketDrop(e)) {
+        _log.info('Caught expected socket drop during reboot to $ip');
+        return;
+      }
+      throw Exception('Failed to reboot device at $ip: $e');
     } catch (e) {
       throw Exception('Failed to reboot device at $ip: $e');
     }
+  }
+
+  /// Returns `true` when a [DioException] represents the hardware violently
+  /// severing the connection after receiving a reboot command.
+  ///
+  /// These errors map to errno values such as:
+  /// - 103 — ECONNABORTED  (Software caused connection abort)
+  /// - 104 — ECONNRESET    (Connection reset by peer)
+  /// - 32  — EPIPE         (Broken pipe)
+  /// - 111 — ECONNREFUSED  (Connection refused — device already down)
+  bool _isExpectedRebootSocketDrop(DioException e) {
+    final description = e.toString().toLowerCase();
+    const expectedFragments = [
+      'software caused connection abort',
+      'connection closed before full header was received',
+      'connection reset by peer',
+      'broken pipe',
+      'connection refused',
+    ];
+    return expectedFragments.any(description.contains);
   }
 
   /// Normalizes V3 firmware JSON payloads to match the V4 structure.
