@@ -32,7 +32,6 @@ class DiscoveryService {
   static final _log = Logger('DiscoveryService');
   
   Discovery? _discovery;
-  Timer? _retryTimer;
 
   DiscoveryService([this._ref]);
 
@@ -90,21 +89,6 @@ class DiscoveryService {
         _isScanning = false;
       }
 
-      // Retry mechanism: fallback to 10.0.0.1 after 5 seconds if not found
-      int retries = 0;
-      _retryTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (_hasFoundDevice || retries >= 5) {
-          timer.cancel();
-          if (!_hasFoundDevice) {
-             _log.info('No mDNS device found within 5s, falling back to 10.0.0.1');
-             _ref?.read(analyticsServiceProvider).trackEvent('mDNS Fallback Triggered');
-             _ipController.add('10.0.0.1');
-          }
-          return;
-        }
-        retries++;
-      });
-      
     } catch (e) {
       _log.warning('Discovery failed: $e');
       _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Failed', {'error': e.toString()});
@@ -112,8 +96,6 @@ class DiscoveryService {
   }
 
   Future<void> stopScan() async {
-    // Cancel the retry timer immediately to prevent further scan attempts.
-    _retryTimer?.cancel();
 
     // Await full teardown of the nsd discovery session before resetting the
     // scanning flag. This prevents restartScan()'s startScan() call from
@@ -138,5 +120,13 @@ class DiscoveryService {
       await _ref?.read(nativeNetworkServiceProvider).releaseMulticastLock();
       await _ref?.read(nativeNetworkServiceProvider).unbindProcess();
     }
+  }
+
+  /// Resets the found-device flag so the mDNS listener can fire again
+  /// after a device disconnects or reboots — without tearing down the
+  /// entire nsd session.
+  void resetFoundState() {
+    _hasFoundDevice = false;
+    _log.info('mDNS found-state reset — listening for new device advertisements.');
   }
 }
