@@ -90,7 +90,7 @@ class ConfigViewModel extends _$ConfigViewModel {
   void _startHeartbeat() {
     _heartbeatTimer?.cancel();
     _heartbeatTimer = Timer.periodic(
-      const Duration(seconds: 3),
+      const Duration(seconds: 10),
       (_) => _performHeartbeat(),
     );
   }
