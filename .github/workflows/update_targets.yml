@@ -8,6 +8,9 @@ on:
   schedule:
     - cron: '0 0 * * 0' # Optional: Also run automatically once a week
 
+permissions:
+  contents: write
+
 jobs:
   update-targets:
     runs-on: ubuntu-latest
