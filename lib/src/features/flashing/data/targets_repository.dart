@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:logging/logging.dart';
 import '../domain/target_definition.dart';
 import '../../../core/storage/firmware_cache_service.dart';
@@ -14,25 +15,40 @@ class TargetsRepository {
 
   Future<List<TargetDefinition>> fetchTargets() async {
     try {
+      // Tier 1: Network & Cache Save
       final response = await _dio.get(
         'https://raw.githubusercontent.com/ExpressLRS/targets/master/targets.json',
         options: Options(responseType: ResponseType.plain),
       );
 
       final jsonString = response.data as String;
-      // Cache the successful response. Using 'master' as version since we fetch from master
-      await _cacheService.saveTargetJson('master', jsonString);
+      // Cache the successful response as 'latest'
+      await _cacheService.saveTargetJson('latest', jsonString);
 
       return await compute(_parseTargets, jsonString);
-    } catch (e) {
-      _log.warning('Failed to fetch targets online: $e. Checking cache...');
-      // Allow fallback to cache
-      final cachedJson = await _cacheService.getCachedTargetJson('master');
+    } on DioException catch (e) {
+      _log.warning('Network fetch failed ($e). Attempting to load from cache...');
+      
+      // Tier 2: Cache Load
+      final cachedJson = await _cacheService.getCachedTargetJson('latest');
       if (cachedJson != null && cachedJson.isNotEmpty) {
+        _log.info('Successfully loaded targets from cache.');
         return await compute(_parseTargets, cachedJson);
       }
 
-      throw Exception('Failed to fetch targets and no cache available: $e');
+      // Tier 3: Asset Fallback
+      _log.warning('No cached targets available. Falling back to bundled assets...');
+      try {
+        final bundleJson = await rootBundle.loadString('assets/targets.json');
+        _log.info('Successfully loaded targets from bundled assets.');
+        return await compute(_parseTargets, bundleJson);
+      } catch (assetError) {
+        _log.severe('Failed to load bundled targets: $assetError');
+        throw Exception('Failed to fetch targets from network, cache, and bundle.');
+      }
+    } catch (e) {
+      _log.severe('Unexpected error during target fetching: $e');
+      rethrow;
     }
   }
 

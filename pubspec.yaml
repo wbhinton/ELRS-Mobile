@@ -103,6 +103,7 @@ flutter:
   assets:
     - assets/docs/
     - assets/lua/elrs.lua
+    - assets/targets.json
     - icons/elrs_mobile.png
     - icons/elrs_mobile_foreground.svg
   
