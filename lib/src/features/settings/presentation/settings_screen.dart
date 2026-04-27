@@ -357,7 +357,7 @@ class SettingsScreen extends HookConsumerWidget {
               controller: descController,
               maxLines: 3,
               decoration: const InputDecoration(
-                hintText: 'Describe what happened (optional)',
+                hintText: 'Please describe the issue you are experiencing...',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -368,13 +368,21 @@ class SettingsScreen extends HookConsumerWidget {
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              final desc = descController.text.trim();
-              Navigator.pop(context);
-              _submitReport(context, state, desc, ref);
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: descController,
+            builder: (context, value, child) {
+              final isEnabled = value.text.trim().isNotEmpty;
+              return ElevatedButton(
+                onPressed: isEnabled
+                    ? () async {
+                        final desc = descController.text.trim();
+                        Navigator.pop(context);
+                        _submitReport(context, state, desc, ref);
+                      }
+                    : null,
+                child: const Text('Proceed'),
+              );
             },
-            child: const Text('Proceed'),
           ),
         ],
       ),
