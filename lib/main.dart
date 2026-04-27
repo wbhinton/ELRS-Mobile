@@ -10,6 +10,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -31,13 +32,14 @@ Future<void> main() async {
     ));
   });
 
-  WidgetsFlutterBinding.ensureInitialized();
+  SentryWidgetsFlutterBinding.ensureInitialized();
   
   // Create a container to access providers before the app starts
   final container = ProviderContainer();
   
   const String sentryDsn = String.fromEnvironment('SENTRY_DSN');
-  debugPrint('[Sentry] DSN loaded: ${sentryDsn.isNotEmpty ? "YES ✓" : "NO — check dart-defines"}');
+  print('Sentry DSN: ${sentryDsn.isNotEmpty ? "SET" : "NOT SET"}');
+  print('Sentry Init: Attempting to start...');
 
   // Pre-initialize Aptabase during the boot sequence.
   // This ensures the SDK state is ready even before the user opts-in to tracking.
@@ -52,6 +54,7 @@ Future<void> main() async {
       (options) {
         options.dsn = sentryDsn;
         options.tracesSampleRate = 1.0;
+        options.debug = kDebugMode;
       },
       appRunner: () => runApp(
         UncontrolledProviderScope(

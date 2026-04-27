@@ -428,6 +428,7 @@ class SettingsScreen extends HookConsumerWidget {
             : 'User Feedback: Manual Debug Report',
         level: SentryLevel.info,
         withScope: (scope) {
+          scope.transaction = 'Manual Debug Report';
           scope.setTag('user-report', 'manual');
           scope.setTag('app.version', state.appVersion);
           scope.setTag('app.expert_mode', state.expertMode.toString());
@@ -447,10 +448,10 @@ class SettingsScreen extends HookConsumerWidget {
             state.homeWifiSsid.isNotEmpty.toString(),
           );
         },
-      );
+      ).timeout(const Duration(seconds: 10));
 
       if (context.mounted && !dialogDismissed) {
-        Navigator.pop(context); // Hide loading dialog
+        Navigator.of(context, rootNavigator: true).pop(); // Hide loading dialog
 
         final msg = id != SentryId.empty()
             ? 'Submitted! Event ID: ${id.toString().substring(0, 8)}…'
@@ -466,7 +467,7 @@ class SettingsScreen extends HookConsumerWidget {
       }
     } catch (e) {
       if (context.mounted && !dialogDismissed) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to submit: $e'),
