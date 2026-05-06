@@ -1,0 +1,35 @@
+name: Update Targets JSON
+
+on:
+  push:
+    branches:
+      - main
+      - development # Adjust this to match your active working branches
+  schedule:
+    - cron: '0 0 * * 0' # Optional: Also run automatically once a week
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  update-targets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Fetch Latest targets.json
+        # Pulls the live target list directly from the ExpressLRS master branch
+        run: curl -sL https://raw.githubusercontent.com/ExpressLRS/targets/master/targets.json -o assets/targets.json
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/targets.json
+          # The command will quietly succeed if there are no changes, or commit the new file if it was updated
+          git commit -m "chore: auto-update assets/targets.json from upstream" || echo "No changes to commit"
+          git push

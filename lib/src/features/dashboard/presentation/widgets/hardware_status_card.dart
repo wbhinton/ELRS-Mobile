@@ -338,7 +338,7 @@ class _ManualIpDialogState extends State<_ManualIpDialog> {
               ? 'Invalid IPv4 address'
               : null,
         ),
-        keyboardType: TextInputType.number,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
       actions: [
         TextButton(

@@ -357,7 +357,7 @@ class SettingsScreen extends HookConsumerWidget {
               controller: descController,
               maxLines: 3,
               decoration: const InputDecoration(
-                hintText: 'Describe what happened (optional)',
+                hintText: 'Please describe the issue you are experiencing...',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -368,13 +368,21 @@ class SettingsScreen extends HookConsumerWidget {
             onPressed: () => Navigator.pop(context),
             child: const Text('Cancel'),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              final desc = descController.text.trim();
-              Navigator.pop(context);
-              _submitReport(context, state, desc, ref);
+          ValueListenableBuilder<TextEditingValue>(
+            valueListenable: descController,
+            builder: (context, value, child) {
+              final isEnabled = value.text.trim().isNotEmpty;
+              return ElevatedButton(
+                onPressed: isEnabled
+                    ? () async {
+                        final desc = descController.text.trim();
+                        Navigator.pop(context);
+                        _submitReport(context, state, desc, ref);
+                      }
+                    : null,
+                child: const Text('Proceed'),
+              );
             },
-            child: const Text('Proceed'),
           ),
         ],
       ),
@@ -420,6 +428,7 @@ class SettingsScreen extends HookConsumerWidget {
             : 'User Feedback: Manual Debug Report',
         level: SentryLevel.info,
         withScope: (scope) {
+          scope.transaction = 'Manual Debug Report';
           scope.setTag('user-report', 'manual');
           scope.setTag('app.version', state.appVersion);
           scope.setTag('app.expert_mode', state.expertMode.toString());
@@ -439,10 +448,10 @@ class SettingsScreen extends HookConsumerWidget {
             state.homeWifiSsid.isNotEmpty.toString(),
           );
         },
-      );
+      ).timeout(const Duration(seconds: 10));
 
       if (context.mounted && !dialogDismissed) {
-        Navigator.pop(context); // Hide loading dialog
+        Navigator.of(context, rootNavigator: true).pop(); // Hide loading dialog
 
         final msg = id != SentryId.empty()
             ? 'Submitted! Event ID: ${id.toString().substring(0, 8)}…'
@@ -458,7 +467,7 @@ class SettingsScreen extends HookConsumerWidget {
       }
     } catch (e) {
       if (context.mounted && !dialogDismissed) {
-        Navigator.pop(context);
+        Navigator.of(context, rootNavigator: true).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to submit: $e'),
