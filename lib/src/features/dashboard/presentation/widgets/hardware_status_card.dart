@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import '../../../config/domain/runtime_config_model.dart';
 import '../../../config/presentation/config_view_model.dart';
 import '../../../../elrs_mappings.dart';
@@ -302,43 +304,100 @@ class _ManualIpDialog extends StatefulWidget {
 
 class _ManualIpDialogState extends State<_ManualIpDialog> {
   late TextEditingController _controller;
+  late FocusNode _ipFocusNode;
   bool _isValid = false;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialIp ?? '');
+    _ipFocusNode = FocusNode();
     _validate(_controller.text);
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _ipFocusNode.dispose();
     super.dispose();
   }
 
   void _validate(String value) {
-    final regex = RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$');
+    final regex = RegExp(r'^((25[1-5]|(2[1-4]|1\d|[1-9]|)\d)\.?\b){4}$');
     setState(() {
       _isValid = regex.hasMatch(value);
     });
+  }
+
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      nextFocus: false, 
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _ipFocusNode,
+          displayArrows: false,
+          toolbarAlignment: MainAxisAlignment.center,
+          toolbarButtons: [
+            (node) {
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  _controller.text = '10.0.0.1';
+                  _validate(_controller.text);
+                  node.unfocus();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Text("AP MODE (10.0.0.1)", 
+                    style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)),
+                ),
+              );
+            },
+            (node) {
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  _controller.text += '.';
+                  _validate(_controller.text);
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                  child: Text(".", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                ),
+              );
+            },
+          ],
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Manual IP Override'),
-      content: TextField(
-        controller: _controller,
-        onChanged: _validate,
-        decoration: InputDecoration(
-          hintText: 'e.g. 10.0.0.1',
-          labelText: 'Device IP Address',
-          errorText: _controller.text.isNotEmpty && !_isValid
-              ? 'Invalid IPv4 address'
-              : null,
+      content: SizedBox(
+        width: double.maxFinite,
+        child: KeyboardActions(
+          config: _buildConfig(context),
+          isDialog: true, // Optimizes the wrapper for use inside an AlertDialog
+          disableScroll: true, // Prevents unnecessary scrolling in a small dialog
+          child: TextField(
+            controller: _controller,
+            focusNode: _ipFocusNode,
+            onChanged: _validate,
+            decoration: InputDecoration(
+              hintText: 'e.g. 10.0.0.1',
+              labelText: 'Device IP Address',
+              errorText: _controller.text.isNotEmpty && !_isValid ? 'Invalid IPv4 address' : null,
+            ),
+            keyboardType: TextInputType.number,
+          ),
         ),
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
       actions: [
         TextButton(

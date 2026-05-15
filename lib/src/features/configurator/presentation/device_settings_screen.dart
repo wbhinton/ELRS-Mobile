@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import '../../config/presentation/config_view_model.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/analytics/analytics_service.dart';
@@ -18,10 +19,12 @@ class DeviceSettingsScreen extends ConsumerStatefulWidget {
 class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
   late final WebViewController _controller;
   bool _isLoading = true;
+  int? _androidSdkVersion;
 
   @override
   void initState() {
     super.initState();
+    _initAndroidVersion();
 
     // Fallback to default ELRS IP if not found
     final ip = ref.read(configViewModelProvider.notifier).probeIp ?? '10.0.0.1';
@@ -61,14 +64,31 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
       ..loadRequest(Uri.parse('http://$ip/'));
   }
 
+  Future<void> _initAndroidVersion() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      if (mounted) {
+        setState(() {
+          _androidSdkVersion = androidInfo.version.sdkInt;
+        });
+      }
+    }
+  }
+
   Widget _buildWebView() {
     if (Platform.isAndroid) {
-      return WebViewWidget.fromPlatformCreationParams(
-        params: AndroidWebViewWidgetCreationParams(
-          controller: _controller.platform,
-          displayWithHybridComposition: false, // Fallback to TextureView to avoid MediaTek driver crashes
-        ),
-      );
+      if (_androidSdkVersion == null) {
+        // Still loading Android version info, so we wait before attaching the WebView.
+        return const SizedBox.shrink();
+      }
+      if (_androidSdkVersion! < 29) { // Android 10 is API 29
+        return WebViewWidget.fromPlatformCreationParams(
+          params: AndroidWebViewWidgetCreationParams(
+            controller: _controller.platform,
+            displayWithHybridComposition: false, // Fallback for older Android (MediaTek protection)
+          ),
+        );
+      }
     }
     return WebViewWidget(controller: _controller);
   }
