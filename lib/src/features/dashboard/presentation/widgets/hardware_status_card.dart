@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import '../../../config/domain/runtime_config_model.dart';
@@ -343,6 +344,7 @@ class _ManualIpDialogState extends State<_ManualIpDialog> {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
+                  HapticFeedback.lightImpact();
                   _controller.text = '10.0.0.1';
                   _validate(_controller.text);
                   node.unfocus();
@@ -358,6 +360,7 @@ class _ManualIpDialogState extends State<_ManualIpDialog> {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
+                  HapticFeedback.lightImpact();
                   _controller.text += '.';
                   _validate(_controller.text);
                 },
