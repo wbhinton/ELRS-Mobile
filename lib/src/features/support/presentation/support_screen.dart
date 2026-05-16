@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,65 +10,119 @@ class SupportScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Help & Support'),
-          bottom: const TabBar(
-            isScrollable: true,
-            tabs: [
-              Tab(text: 'Flashing Guide'),
-              Tab(text: 'FAQ'),
-              Tab(text: 'Resources'),
-            ],
-          ),
+    final tabController = useTabController(initialLength: 3);
+    useListenable(tabController);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Help & Support'),
+      ),
+      body: FutureBuilder<String>(
+        future: useMemoized(
+          () => DefaultAssetBundle.of(context).loadString('assets/docs/app_faq.md'),
         ),
-        body: FutureBuilder<String>(
-          future: DefaultAssetBundle.of(context)
-              .loadString('assets/docs/app_faq.md'),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Error loading help content: ${snapshot.error}'));
-            }
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error loading help content: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            final content = snapshot.data!;
-            final mainParts = content.split('---');
-            final walkthroughRaw = mainParts.isNotEmpty ? mainParts[0] : '';
-            final faqRaw = mainParts.length > 1 ? mainParts[1] : '';
+          final content = snapshot.data!;
+          final mainParts = content.split('---');
+          final walkthroughRaw = mainParts.isNotEmpty ? mainParts[0] : '';
+          final faqRaw = mainParts.length > 1 ? mainParts[1] : '';
 
-            List<Map<String, String>> parseSections(String rawText) {
-              final sections = <Map<String, String>>[];
-              final chunks = rawText.split('## ');
-              for (int i = 1; i < chunks.length; i++) {
-                final lines = chunks[i].split('\n');
-                final title = lines.first.trim();
-                final body = lines.sublist(1).join('\n').trim();
-                sections.add({'title': title, 'body': body});
+          List<Map<String, String>> parseSections(String rawText) {
+            final sections = <Map<String, String>>[];
+            final chunks = rawText.split('## ');
+            for (int i = 1; i < chunks.length; i++) {
+              final lines = chunks[i].split('\n');
+              final title = lines.first.trim();
+              final body = lines.sublist(1).join('\n').trim();
+              sections.add({'title': title, 'body': body});
+            }
+            return sections;
+          }
+
+          final walkthroughSteps = parseSections(walkthroughRaw);
+          final faqItems = parseSections(faqRaw);
+
+          final tabViews = [
+            _SupportContentList(
+              sections: walkthroughSteps,
+              initialOpen: 0,
+            ),
+            _SupportContentList(
+              sections: faqItems,
+            ),
+            _ResourcesTab(ref: ref),
+          ];
+
+          return OrientationBuilder(
+            builder: (context, orientation) {
+              if (orientation == Orientation.landscape) {
+                return Row(
+                  children: [
+                    NavigationRail(
+                      selectedIndex: tabController.index,
+                      onDestinationSelected: (int index) {
+                        tabController.animateTo(index);
+                      },
+                      labelType: NavigationRailLabelType.all,
+                      destinations: const [
+                        NavigationRailDestination(
+                          icon: Icon(Icons.menu_book_outlined),
+                          selectedIcon: Icon(Icons.menu_book),
+                          label: Text('Guide'),
+                        ),
+                        NavigationRailDestination(
+                          icon: Icon(Icons.question_answer_outlined),
+                          selectedIcon: Icon(Icons.question_answer),
+                          label: Text('FAQ'),
+                        ),
+                        NavigationRailDestination(
+                          icon: Icon(Icons.public_outlined),
+                          selectedIcon: Icon(Icons.public),
+                          label: Text('Resources'),
+                        ),
+                      ],
+                    ),
+                    const VerticalDivider(thickness: 1, width: 1),
+                    Expanded(
+                      child: TabBarView(
+                        controller: tabController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: tabViews,
+                      ),
+                    ),
+                  ],
+                );
               }
-              return sections;
-            }
 
-            final walkthroughSteps = parseSections(walkthroughRaw);
-            final faqItems = parseSections(faqRaw);
-
-            return TabBarView(
-              children: [
-                _SupportContentList(
-                  sections: walkthroughSteps,
-                  initialOpen: 0,
-                ),
-                _SupportContentList(
-                  sections: faqItems,
-                ),
-                _ResourcesTab(ref: ref),
-              ],
-            );
-          },
-        ),
+              return Column(
+                children: [
+                  TabBar(
+                    controller: tabController,
+                    isScrollable: true,
+                    tabs: const [
+                      Tab(text: 'Flashing Guide'),
+                      Tab(text: 'FAQ'),
+                      Tab(text: 'Resources'),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: tabController,
+                      children: tabViews,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }

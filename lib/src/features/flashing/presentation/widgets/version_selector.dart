@@ -120,7 +120,7 @@ class VersionSelector extends HookConsumerWidget {
             border: OutlineInputBorder(),
             helperText: 'Select the ELRS version to flash',
           ),
-          value: supportedVersions.contains(selectedVersion)
+          initialValue: supportedVersions.contains(selectedVersion)
               ? selectedVersion
               : null,
           items: supportedVersions.map((version) {

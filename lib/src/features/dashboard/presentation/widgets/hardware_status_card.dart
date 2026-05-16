@@ -379,7 +379,12 @@ class _ManualIpDialogState extends State<_ManualIpDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Manual IP Override'),
+      scrollable: true,
+      title: const FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.centerLeft,
+        child: Text('Manual IP Override'),
+      ),
       content: SizedBox(
         width: double.maxFinite,
         child: KeyboardActions(
