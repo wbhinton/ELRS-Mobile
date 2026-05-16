@@ -47,26 +47,21 @@ Future<void> main() async {
     debugPrint('[Main] Analytics initialization failed: $e');
   });
 
+  // Instantly paint the UI without waiting for Sentry's heavy native initializers
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: const App(),
+    ),
+  );
+
   if (sentryDsn.isNotEmpty) {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = sentryDsn;
-        // Performance monitoring disabled entirely per user preference to focus purely on errors
-        options.debug = kDebugMode;
-      },
-      appRunner: () => runApp(
-        UncontrolledProviderScope(
-          container: container,
-          child: const App(),
-        ),
-      ),
-    );
-  } else {
-    runApp(
-      UncontrolledProviderScope(
-        container: container,
-        child: const App(),
-      ),
-    );
+    SentryFlutter.init((options) {
+      options.dsn = sentryDsn;
+      // Performance monitoring disabled entirely per user preference to focus purely on errors
+      options.debug = kDebugMode;
+    }).catchError((e) {
+      debugPrint('[Main] Sentry initialization failed: $e');
+    });
   }
 }

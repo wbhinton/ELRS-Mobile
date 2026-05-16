@@ -41,21 +41,23 @@ class DashboardScreen extends HookConsumerWidget {
             Positioned(
               bottom: -70,
               right: -70,
-              child: Opacity(
-                opacity: 0.2,
-                child: ImageFiltered(
-                  imageFilter: ImageFilter.blur(
-                    sigmaX: 4.0,
-                    sigmaY: 4.0,
-                    tileMode: TileMode.decal,
-                  ),
-                  child: SvgPicture.asset(
-                    'icons/elrs_mobile_foreground.svg',
-                    width: isTablet ? 500 : 350,
-                    // ignore: deprecated_member_use
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primary.withValues(alpha: 0.5),
+              child: RepaintBoundary(
+                child: Opacity(
+                  opacity: 0.2,
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(
+                      sigmaX: 4.0,
+                      sigmaY: 4.0,
+                      tileMode: TileMode.decal,
+                    ),
+                    child: SvgPicture.asset(
+                      'icons/elrs_mobile_foreground.svg',
+                      width: isTablet ? 500 : 350,
+                      // ignore: deprecated_member_use
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.5),
+                    ),
                   ),
                 ),
               ),
