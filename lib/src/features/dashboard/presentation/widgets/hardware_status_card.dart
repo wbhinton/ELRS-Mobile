@@ -75,7 +75,9 @@ class HardwareStatusCard extends ConsumerWidget {
         key: const ValueKey('searching'),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: _PulsingRingIcon(),
+          child: RepaintBoundary(
+            child: _PulsingRingIcon(),
+          ),
         ),
       );
     }

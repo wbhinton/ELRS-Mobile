@@ -46,6 +46,7 @@ class FirmwareManagerScreen extends HookConsumerWidget {
             child: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
+                    itemExtent: 72.0,
                     itemCount: state.availableVersions.length,
                     itemBuilder: (context, index) {
                       final version = state.availableVersions[index];
