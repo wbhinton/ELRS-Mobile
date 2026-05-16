@@ -308,7 +308,11 @@ class SettingsScreen extends HookConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Clear Firmware Cache?'),
+        title: const FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text('Clear Firmware Cache?'),
+        ),
         content: const Text(
           'This will delete all downloaded firmware zip files. '
           'You will need to re-download them if you want to flash offline.',
@@ -343,7 +347,12 @@ class SettingsScreen extends HookConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Submit Debug Report'),
+        title: const FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text('Submit Debug Report'),
+        ),
+        scrollable: true,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,6 +367,7 @@ class SettingsScreen extends HookConsumerWidget {
               maxLines: 3,
               decoration: const InputDecoration(
                 hintText: 'Please describe the issue you are experiencing...',
+                hintMaxLines: 3,
                 border: OutlineInputBorder(),
               ),
             ),
@@ -564,12 +574,18 @@ class SettingsScreen extends HookConsumerWidget {
             context: context,
             builder: (context) => StatefulBuilder(
               builder: (context, setState) => AlertDialog(
-                title: Text('Edit $title'),
+                title: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text('Edit $title'),
+                ),
+                scrollable: true,
                 content: TextField(
                   controller: textController,
                   obscureText: obscureText,
                   decoration: InputDecoration(
                     hintText: 'Enter $title',
+                    hintMaxLines: 2,
                     suffixIcon: isSecret
                         ? IconButton(
                             icon: Icon(

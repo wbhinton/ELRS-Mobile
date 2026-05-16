@@ -72,6 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Container(
         width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF1E1E1E), Color(0xFF121212)],
@@ -79,59 +80,98 @@ class _SplashScreenState extends State<SplashScreen>
             end: Alignment.bottomCenter,
           ),
         ),
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: Column(
-            children: [
-              // Top (Flex 2): Empty space for balance.
-              const Spacer(flex: 2),
+        child: SafeArea(
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                // 1. LANDSCAPE LAYOUT (For AX12 Tablet)
+                if (orientation == Orientation.landscape) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Left Side: Scaled-down Logo
+                      SvgPicture.asset(
+                        'icons/elrs_mobile_foreground.svg',
+                        height: 120, // Smaller to fit landscape height
+                        width: 120,
+                      ),
+                      const SizedBox(width: 48),
+                      // Right Side: Loading and Text
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'ELRS Mobile',
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              letterSpacing: 1.2,
+                              shadows: [
+                                const Shadow(color: Color(0xFF00E5FF), blurRadius: 10),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'INDEPENDENT CONFIGURATION TOOL',
+                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: const Color(0xFF02569B),
+                              letterSpacing: 2.5,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          const SizedBox(
+                            width: 200,
+                            child: LinearProgressIndicator(
+                              backgroundColor: Colors.black26,
+                              color: Color(0xFF00E5FF),
+                              minHeight: 2,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          const Text(
+                            'Not an official ExpressLRS product.\nCompatible with 3.x/4.x firmware.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.grey, fontSize: 10),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
 
-              // Center (Flex 3)
-              Expanded(
-                flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                // 2. STANDARD PORTRAIT LAYOUT (For Smartphones)
+                return Column(
                   children: [
+                    const Spacer(flex: 2),
                     _buildLogo(),
                     const SizedBox(height: 24),
-                    // App Name
                     Text(
-                      'ELRS Mobile', // Or 'ELRS Manager'
+                      'ELRS Mobile',
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontFamily:
-                            'Roboto', // Replace with desired sans-serif if needed
+                        fontFamily: 'Roboto',
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
                         letterSpacing: 1.2,
                         shadows: [
-                          const Shadow(
-                            color: Color(0xFF00E5FF),
-                            blurRadius: 10,
-                          ),
+                          const Shadow(color: Color(0xFF00E5FF), blurRadius: 10),
                         ],
                       ),
                     ),
                     const SizedBox(height: 8),
-                    // Tagline
                     Text(
                       'INDEPENDENT CONFIGURATION TOOL',
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: const Color(0xFF02569B), // Flutter Blue
+                        color: const Color(0xFF02569B),
                         letterSpacing: 2.5,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ],
-                ),
-              ),
-
-              // Bottom (Flex 1)
-              Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // Loading Indicator
+                    const Spacer(flex: 2),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 64.0),
                       child: LinearProgressIndicator(
@@ -141,7 +181,6 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // Legal Disclaimer
                     const Text(
                       'Not an official ExpressLRS product.\nCompatible with 3.x/4.x firmware.',
                       textAlign: TextAlign.center,
@@ -149,14 +188,12 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 16),
                   ],
-                ),
-              ),
-            ],
+                );
+              },
+            ),
           ),
         ),
       ),
-      // Version Info in the corner
-      // Version Info in the corner
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(top: 16.0),
