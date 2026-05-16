@@ -383,6 +383,10 @@ class SettingsScreen extends HookConsumerWidget {
             builder: (context, value, child) {
               final isEnabled = value.text.trim().isNotEmpty;
               return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
                 onPressed: isEnabled
                     ? () async {
                         final desc = descController.text.trim();

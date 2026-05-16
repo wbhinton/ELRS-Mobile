@@ -57,9 +57,10 @@ class AppTheme {
         backgroundColor: surface,
         elevation: 0,
         centerTitle: true,
+        toolbarHeight: 48,
         titleTextStyle: TextStyle(
           color: Colors.white,
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),

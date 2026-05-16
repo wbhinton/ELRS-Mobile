@@ -66,169 +66,209 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Row(
+        child: OrientationBuilder(
+          builder: (context, orientation) {
+            final headerContent = Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.settings),
-                SizedBox(width: 8),
+                Row(
+                  children: [
+                    const Icon(Icons.settings),
+                    const SizedBox(width: 8),
+                    Text('Firmware Options', style: Theme.of(context).textTheme.titleLarge),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 Text(
-                  'Device Options',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  'Configure binding and network credentials.',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                 ),
               ],
-            ),
-            const SizedBox(height: 16),
+            );
 
-            // Firmware Version
-            const VersionSelector(),
-            const SizedBox(height: 16),
+            final formContent = Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Firmware Version
+                const VersionSelector(),
+                const SizedBox(height: 16),
 
-            // Bind Phrase
-            TextFormField(
-              controller: _bindPhraseController,
-              decoration: InputDecoration(
-                labelText: 'Binding Phrase',
-                helperText: 'Your unique binding phrase',
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (autosavingField == 'bindPhrase')
-                      const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
-                          size: 20,
+                // Bind Phrase
+                TextFormField(
+                  controller: _bindPhraseController,
+                  decoration: InputDecoration(
+                    labelText: 'Binding Phrase',
+                    helperText: 'Your unique binding phrase',
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (autosavingField == 'bindPhrase')
+                          const Padding(
+                            padding: EdgeInsets.only(right: 8.0),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                              size: 20,
+                            ),
+                          ),
+                        IconButton(
+                          icon: Icon(
+                            _obscureBindPhrase
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureBindPhrase = !_obscureBindPhrase;
+                            });
+                          },
                         ),
-                      ),
-                    IconButton(
-                      icon: Icon(
-                        _obscureBindPhrase
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureBindPhrase = !_obscureBindPhrase;
-                        });
-                      },
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              onChanged: (value) => ref
-                  .read(flashingControllerProvider.notifier)
-                  .setBindPhrase(value),
-              obscureText: _obscureBindPhrase,
-            ),
-            const SizedBox(height: 16),
-
-            // Wifi SSID
-            TextFormField(
-              controller: _wifiSsidController,
-              decoration: InputDecoration(
-                labelText: 'WiFi SSID',
-                suffixIcon: autosavingField == 'wifiSsid'
-                    ? const Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 20,
-                      )
-                    : null,
-              ),
-              onChanged: (value) => ref
-                  .read(flashingControllerProvider.notifier)
-                  .setWifiSsid(value),
-            ),
-            const SizedBox(height: 16),
-
-            // Wifi Password
-            TextFormField(
-              controller: _wifiPasswordController,
-              decoration: InputDecoration(
-                labelText: 'WiFi Password',
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (autosavingField == 'wifiPassword')
-                      const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
-                          size: 20,
-                        ),
-                      ),
-                    IconButton(
-                      icon: Icon(
-                        _obscureWifiPassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureWifiPassword = !_obscureWifiPassword;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              onChanged: (value) => ref
-                  .read(flashingControllerProvider.notifier)
-                  .setWifiPassword(value),
-              obscureText: _obscureWifiPassword,
-            ),
-            const SizedBox(height: 16),
-
-            // Regulatory Domain
-            Builder(
-              builder: (context) {
-                final is2G4Only =
-                    target != null && target.is2400Mhz && !target.isDualBand;
-                int currentDomainId = regulatoryDomain;
-
-                if (is2G4Only && currentDomainId > 1) {
-                  currentDomainId = 0;
-                }
-
-                final List<DropdownMenuItem<int>> domainItems = is2G4Only
-                    ? const [
-                        DropdownMenuItem(value: 0, child: Text('ISM (2.4GHz)')),
-                        DropdownMenuItem(
-                          value: 1,
-                          child: Text('EU CE (2.4GHz LBT)'),
-                        ),
-                      ]
-                    : const [
-                        DropdownMenuItem(value: 0, child: Text('AU (915MHz)')),
-                        DropdownMenuItem(value: 1, child: Text('FCC (915MHz)')),
-                        DropdownMenuItem(value: 2, child: Text('EU (868MHz)')),
-                        DropdownMenuItem(value: 3, child: Text('IN (866MHz)')),
-                        DropdownMenuItem(value: 4, child: Text('AU (433MHz)')),
-                        DropdownMenuItem(value: 5, child: Text('EU (433MHz)')),
-                        DropdownMenuItem(value: 6, child: Text('US (433MHz)')),
-                      ];
-
-                return DropdownButtonFormField<int>(
-                  decoration: const InputDecoration(
-                    labelText: 'Regulatory Domain',
                   ),
-                  initialValue: currentDomainId,
-                  items: domainItems,
-                  onChanged: (value) {
-                    if (value != null) {
-                      ref
-                          .read(flashingControllerProvider.notifier)
-                          .setRegulatoryDomain(value);
+                  onChanged: (value) => ref
+                      .read(flashingControllerProvider.notifier)
+                      .setBindPhrase(value),
+                  obscureText: _obscureBindPhrase,
+                ),
+                const SizedBox(height: 16),
+
+                // Wifi SSID
+                TextFormField(
+                  controller: _wifiSsidController,
+                  decoration: InputDecoration(
+                    labelText: 'WiFi SSID',
+                    suffixIcon: autosavingField == 'wifiSsid'
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 20,
+                          )
+                        : null,
+                  ),
+                  onChanged: (value) => ref
+                      .read(flashingControllerProvider.notifier)
+                      .setWifiSsid(value),
+                ),
+                const SizedBox(height: 16),
+
+                // Wifi Password
+                TextFormField(
+                  controller: _wifiPasswordController,
+                  decoration: InputDecoration(
+                    labelText: 'WiFi Password',
+                    suffixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (autosavingField == 'wifiPassword')
+                          const Padding(
+                            padding: EdgeInsets.only(right: 8.0),
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.green,
+                              size: 20,
+                            ),
+                          ),
+                        IconButton(
+                          icon: Icon(
+                            _obscureWifiPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureWifiPassword = !_obscureWifiPassword;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  onChanged: (value) => ref
+                      .read(flashingControllerProvider.notifier)
+                      .setWifiPassword(value),
+                  obscureText: _obscureWifiPassword,
+                ),
+                const SizedBox(height: 16),
+
+                // Regulatory Domain
+                Builder(
+                  builder: (context) {
+                    final is2G4Only =
+                        target != null && target.is2400Mhz && !target.isDualBand;
+                    int currentDomainId = regulatoryDomain;
+
+                    if (is2G4Only && currentDomainId > 1) {
+                      currentDomainId = 0;
                     }
+
+                    final List<DropdownMenuItem<int>> domainItems = is2G4Only
+                        ? const [
+                            DropdownMenuItem(value: 0, child: Text('ISM (2.4GHz)')),
+                            DropdownMenuItem(
+                              value: 1,
+                              child: Text('EU CE (2.4GHz LBT)'),
+                            ),
+                          ]
+                        : const [
+                            DropdownMenuItem(value: 0, child: Text('AU (915MHz)')),
+                            DropdownMenuItem(value: 1, child: Text('FCC (915MHz)')),
+                            DropdownMenuItem(value: 2, child: Text('EU (868MHz)')),
+                            DropdownMenuItem(value: 3, child: Text('IN (866MHz)')),
+                            DropdownMenuItem(value: 4, child: Text('AU (433MHz)')),
+                            DropdownMenuItem(value: 5, child: Text('EU (433MHz)')),
+                            DropdownMenuItem(value: 6, child: Text('US (433MHz)')),
+                          ];
+
+                    return DropdownButtonFormField<int>(
+                      decoration: const InputDecoration(
+                        labelText: 'Regulatory Domain',
+                      ),
+                      initialValue: currentDomainId,
+                      items: domainItems,
+                      onChanged: (value) {
+                        if (value != null) {
+                          ref
+                              .read(flashingControllerProvider.notifier)
+                              .setRegulatoryDomain(value);
+                        }
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          ],
+                ),
+              ],
+            );
+
+            // LANDSCAPE SPLIT-SCREEN LAYOUT
+            if (orientation == Orientation.landscape) {
+              return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(flex: 1, child: headerContent),
+                  const SizedBox(width: 24),
+                  Expanded(
+                    flex: 2,
+                    child: SingleChildScrollView(
+                      child: formContent,
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            // STANDARD PORTRAIT LAYOUT
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                headerContent,
+                const SizedBox(height: 16),
+                formContent,
+              ],
+            );
+          },
         ),
       ),
     );

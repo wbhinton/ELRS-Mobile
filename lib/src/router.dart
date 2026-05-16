@@ -16,9 +16,6 @@ part 'router.g.dart';
 GoRouter goRouter(Ref ref) {
   return GoRouter(
     initialLocation: '/',
-    observers: [
-      SentryNavigatorObserver(), // Automatically tracks screen routing
-    ],
     routes: [
       GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
       GoRoute(

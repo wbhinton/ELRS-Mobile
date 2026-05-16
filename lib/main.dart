@@ -41,19 +41,17 @@ Future<void> main() async {
   print('Sentry DSN: ${sentryDsn.isNotEmpty ? "SET" : "NOT SET"}');
   print('Sentry Init: Attempting to start...');
 
-  // Pre-initialize Aptabase during the boot sequence.
-  // This ensures the SDK state is ready even before the user opts-in to tracking.
-  try {
-    await container.read(analyticsServiceProvider).init();
-  } catch (e) {
+  // Pre-initialize Aptabase asynchronously during the boot sequence.
+  // We do not 'await' this call so the Splash Screen can render immediately on slow hardware.
+  container.read(analyticsServiceProvider).init().catchError((e) {
     debugPrint('[Main] Analytics initialization failed: $e');
-  }
+  });
 
   if (sentryDsn.isNotEmpty) {
     await SentryFlutter.init(
       (options) {
         options.dsn = sentryDsn;
-        options.tracesSampleRate = 1.0;
+        // Performance monitoring disabled entirely per user preference to focus purely on errors
         options.debug = kDebugMode;
       },
       appRunner: () => runApp(
