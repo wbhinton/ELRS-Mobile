@@ -227,7 +227,12 @@ class DeviceConfigService {
     for (final key in metadataKeys) {
       if (config.containsKey(key)) {
         if (key == 'reg_domain') {
-          settings['domain'] = config[key];
+          final val = config[key];
+          settings['reg_domain'] = val;
+          final parsed = int.tryParse(val.toString());
+          if (parsed != null) {
+            settings['domain'] = parsed;
+          }
         } else {
           settings[key] = config[key];
         }
@@ -245,19 +250,31 @@ class DeviceConfigService {
     if (data['options'] is Map<String, dynamic>) {
       final options = data['options'] as Map<String, dynamic>;
       if (options.containsKey('reg_domain')) {
-        options['domain'] = options['reg_domain'];
+        final val = options['reg_domain'];
+        final parsed = int.tryParse(val?.toString() ?? '');
+        if (parsed != null) {
+          options['domain'] = parsed;
+        }
       }
     }
     if (data['settings'] is Map<String, dynamic>) {
       final settings = data['settings'] as Map<String, dynamic>;
       if (settings.containsKey('reg_domain')) {
-        settings['domain'] = settings['reg_domain'];
+        final val = settings['reg_domain'];
+        final parsed = int.tryParse(val?.toString() ?? '');
+        if (parsed != null) {
+          settings['domain'] = parsed;
+        }
       }
     }
     if (data['config'] is Map<String, dynamic>) {
       final config = data['config'] as Map<String, dynamic>;
       if (config.containsKey('reg_domain')) {
-        config['domain'] = config['reg_domain'];
+        final val = config['reg_domain'];
+        final parsed = int.tryParse(val?.toString() ?? '');
+        if (parsed != null) {
+          config['domain'] = parsed;
+        }
       }
     }
   }

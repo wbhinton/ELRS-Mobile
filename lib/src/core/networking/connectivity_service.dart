@@ -29,6 +29,7 @@ class ConnectivityService extends _$ConnectivityService {
   Future<bool>? _bindingFuture;
   bool _isBound = false;
   bool _lockAcquired = false;
+  bool _isAutoBinding = false;
 
   /// Binds the app process to the current WiFi interface.
   /// Returns true if successful.
@@ -94,44 +95,53 @@ class ConnectivityService extends _$ConnectivityService {
 
   /// Attempts to bind the app to WiFi if we are connected to one.
   Future<void> autoBindIfWiFi() async {
-    final results = await Connectivity().checkConnectivity();
-    _log.info('Check results: $results (length: ${results.length})');
-    _log.info(
-      'Contains wifi: ${results.contains(ConnectivityResult.wifi)}',
-    );
-    _log.info(
-      'Contains cellular: ${results.contains(ConnectivityResult.mobile)}',
-    );
+    if (_isAutoBinding) return;
+    _isAutoBinding = true;
 
-    // If we have any network connections, try to bind to WiFi
-    // This handles the case where WiFi has no internet but we're still connected
-    if (results.contains(ConnectivityResult.wifi)) {
-      _log.info('WiFi detected, assessing internet capability...');
-      
-      final native = ref.read(nativeNetworkServiceProvider);
-      await native.acquireMulticastLock();
-      _lockAcquired = true;
+    try {
+      final results = await Connectivity().checkConnectivity();
+      _log.info('Check results: $results (length: ${results.length})');
+      _log.info(
+        'Contains wifi: ${results.contains(ConnectivityResult.wifi)}',
+      );
+      _log.info(
+        'Contains cellular: ${results.contains(ConnectivityResult.mobile)}',
+      );
 
-      // Smart Auto-Bind: 
-      // Only bind automatically if the WiFi LACKS internet (not validated).
-      // This makes AP Mode "Just Work" (like an app reboot) while keeping 
-      // Home WiFi open for internet (Artifactory/GitHub).
-      final isInternetAvailable = await native.isWiFiValidated();
-      if (!isInternetAvailable && !_isBound) {
-        _log.info('WiFi lacks internet (AP Mode), triggering automatic bind...');
-        await bindToWiFi();
-      } else if (isInternetAvailable && _isBound) {
-        _log.info('WiFi has internet (Home Mode), ensuring process is unbound...');
-        await unbind();
+      // If we have any network connections, try to bind to WiFi
+      // This handles the case where WiFi has no internet but we're still connected
+      if (results.contains(ConnectivityResult.wifi)) {
+        _log.info('WiFi detected, assessing internet capability...');
+        
+        final native = ref.read(nativeNetworkServiceProvider);
+        if (!_lockAcquired) {
+          await native.acquireMulticastLock();
+          _lockAcquired = true;
+        }
+
+        // Smart Auto-Bind: 
+        // Only bind automatically if the WiFi LACKS internet (not validated).
+        // This makes AP Mode "Just Work" (like an app reboot) while keeping 
+        // Home WiFi open for internet (Artifactory/GitHub).
+        final isInternetAvailable = await native.isWiFiValidated();
+        if (!isInternetAvailable && !_isBound) {
+          _log.info('WiFi lacks internet (AP Mode), triggering automatic bind...');
+          await bindToWiFi();
+        } else if (isInternetAvailable && _isBound) {
+          _log.info('WiFi has internet (Home Mode), ensuring process is unbound...');
+          await unbind();
+        }
+      } else if (results.isEmpty || !results.contains(ConnectivityResult.wifi)) {
+        // ONLY unbind if we truly lost WiFi. 
+        // This prevents ConnectivityResult.mobile from unbinding a WiFi AP (10.0.0.1) 
+        // that lacks internet access during subtle OS network assessments.
+        _log.info('WiFi connection lost or none detected, unbinding...');
+        if (_isBound || _lockAcquired) {
+          await unbind();
+        }
       }
-    } else if (results.isEmpty || !results.contains(ConnectivityResult.wifi)) {
-      // ONLY unbind if we truly lost WiFi. 
-      // This prevents ConnectivityResult.mobile from unbinding a WiFi AP (10.0.0.1) 
-      // that lacks internet access during subtle OS network assessments.
-      _log.info('WiFi connection lost or none detected, unbinding...');
-      if (_isBound || _lockAcquired) {
-        await unbind();
-      }
+    } finally {
+      _isAutoBinding = false;
     }
   }
 }

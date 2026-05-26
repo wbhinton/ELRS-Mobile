@@ -173,7 +173,7 @@ class ConfigViewModel extends _$ConfigViewModel {
     // Ensure we are bound to WiFi (important for AP mode static probing)
     ref.read(connectivityServiceProvider.notifier).ensureBound();
     
-    ref.read(discoveryServiceProvider).resetFoundState();
+    ref.read(discoveryServiceProvider).restartScan();
     _heartbeatTimer?.cancel();
     _startDiscoveryPoller();
   }

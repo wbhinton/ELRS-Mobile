@@ -137,5 +137,30 @@ class DiscoveryService {
   void resetFoundState() {
     _hasFoundDevice = false;
     _log.info('mDNS found-state reset — listening for new device advertisements.');
+
+    // If we already have active services in the current nsd session, check them
+    // immediately to avoid the "ignored cache" issue where the listener doesn't fire.
+    final services = _discovery?.services;
+    if (services != null && services.isNotEmpty) {
+      for (final service in services) {
+        final name = service.name?.toLowerCase() ?? '';
+        if (name.contains('elrs') || name.contains('expresslrs')) {
+          final addresses = service.addresses;
+          final host = (addresses != null && addresses.isNotEmpty)
+              ? addresses.first.address
+              : null;
+          if (host != null) {
+            _log.info('mDNS found-state reset: Found cached device in services list at host: $host');
+            _hasFoundDevice = true;
+            _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found (Cached)', {
+              'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
+              'method': 'nsd'
+            });
+            _ipController.add(host);
+            break;
+          }
+        }
+      }
+    }
   }
 }
