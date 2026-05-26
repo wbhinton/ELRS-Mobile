@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ip_address_input/ip_address_input.dart';
+import 'package:ip_address_keypad/ip_address_keypad.dart';
 import '../../../config/domain/runtime_config_model.dart';
 import '../../../config/presentation/config_view_model.dart';
 import '../../../config/domain/elrs_mappings.dart';

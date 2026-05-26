@@ -66,8 +66,7 @@ dependencies:
   aptabase_flutter: ^0.4.1
   flutter_markdown: ^0.7.5
   keyboard_actions: ^4.2.1
-  ip_address_input:
-    path: ./packages/ip_address_input
+  ip_address_keypad: ^1.0.0
 
 dev_dependencies:
   flutter_test:

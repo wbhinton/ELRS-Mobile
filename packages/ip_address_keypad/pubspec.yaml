@@ -1,4 +1,4 @@
-name: ip_address_input
+name: ip_address_keypad
 description: "A custom IP address input with an inline numeric keypad."
 version: 0.0.1
 publish_to: 'none'

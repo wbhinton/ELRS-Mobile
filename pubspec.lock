@@ -599,13 +599,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  ip_address_input:
+  ip_address_keypad:
     dependency: "direct main"
     description:
-      path: "packages/ip_address_input"
-      relative: true
-    source: path
-    version: "0.0.1"
+      name: ip_address_keypad
+      sha256: d2cb610b8503871efd2f8a816f2426ec3504c693c0a25809f0ac10ef2fbdafb3
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   jni:
     dependency: transitive
     description:
