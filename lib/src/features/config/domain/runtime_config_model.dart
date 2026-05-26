@@ -1,6 +1,7 @@
 import 'package:binary/binary.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../utils/frequency_validator.dart';
+import 'elrs_mappings.dart';
 
 part 'runtime_config_model.freezed.dart';
 part 'runtime_config_model.g.dart';
@@ -36,6 +37,11 @@ abstract class ElrsSettings with _$ElrsSettings {
     @JsonKey(name: 'has_serial_pins') bool? hasSerialPins,
     @JsonKey(name: 'device_id') int? deviceId,
     int? domain,
+    @JsonKey(name: 'reg_domain') String? regDomain,
+    @JsonKey(name: 'reg_domain_high') String? regDomainHigh,
+    @JsonKey(name: 'reg_domain_low') String? regDomainLow,
+    @JsonKey(name: 'has_high_band') bool? hasHighBand,
+    @JsonKey(name: 'has_low_band') bool? hasLowBand,
   }) = _ElrsSettings;
 
   factory ElrsSettings.fromJson(Map<String, dynamic> json) =>
@@ -96,10 +102,51 @@ extension RuntimeConfigX on RuntimeConfig {
   /// write-path (e.g. before saving settings) where strict enforcement
   /// is appropriate.
   int get frequencyBand {
+    final name = effectiveProductName.toLowerCase();
+    final tgt = effectiveTarget.toLowerCase();
+    final mod = (settings.moduleType ?? '').toLowerCase();
+    
+    if (name.contains('2400') || name.contains('2.4') || name.contains('2g4') || name.contains('2,4') ||
+        tgt.contains('2400') || tgt.contains('2.4') || tgt.contains('2g4') || tgt.contains('2,4') ||
+        mod.contains('2400') || mod.contains('2.4') || mod.contains('2g4') || mod.contains('2,4')) {
+      return 2400;
+    }
+    if (name.contains('900') || name.contains('915') || name.contains('868') || name.contains('433') ||
+        tgt.contains('900') || tgt.contains('915') || tgt.contains('868') || tgt.contains('433') ||
+        mod.contains('900') || mod.contains('915') || mod.contains('868') || mod.contains('433')) {
+      return 900;
+    }
+
     final rawModelId = config.modelId ?? 0;
     // Bit 7 of modelId is the 2.4 GHz capability flag (ground truth).
     final is2G4 = Uint16(rawModelId).nthBit(7);
     return is2G4 ? 2400 : 900;
+  }
+
+  String get regulatoryDomainLabel {
+    // 1. V4 Explicit Band String Formatting 
+    if (settings.hasLowBand == true && settings.hasHighBand == true) {
+      return '${settings.regDomainLow ?? ''}/${settings.regDomainHigh ?? ''}';
+    }
+    if (settings.hasLowBand == true && settings.regDomainLow != null) {
+      return settings.regDomainLow!;
+    }
+    if (settings.hasHighBand == true && settings.regDomainHigh != null) {
+      return settings.regDomainHigh!;
+    }
+
+    // 2. V3 String Formatting
+    if (settings.regDomain != null) {
+      return settings.regDomain!;
+    }
+
+    // 3. Fallback to integer index ONLY for Sub-GHz devices
+    final rawDomainIndex = options.domain ?? settings.domain;
+    if (rawDomainIndex != null && frequencyBand == 900) {
+      return ElrsMappings.domains900[rawDomainIndex] ?? 'Unknown';
+    }
+
+    return 'Unknown';
   }
 
   String get effectiveProductName {

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ip_address_keypad/ip_address_keypad.dart';
 import '../../../config/domain/runtime_config_model.dart';
 import '../../../config/presentation/config_view_model.dart';
-import '../../../config/domain/elrs_mappings.dart';
 import '../../../flashing/presentation/flashing_controller.dart';
 
 class HardwareStatusCard extends ConsumerWidget {
@@ -95,9 +94,7 @@ class HardwareStatusCard extends ConsumerWidget {
           deviceProduct != 'ELRS Device' &&
           selectedTarget.name != deviceProduct;
 
-      final rawDomainIndex = config.options.domain ?? config.settings.domain ?? 0;
-      final freqBand = config.frequencyBand;
-      final domainLabel = ElrsMappings.getDomainLabel(rawDomainIndex, freqBand);
+      final domainLabel = config.regulatoryDomainLabel;
 
       return Row(
         key: const ValueKey('connected'),
@@ -135,7 +132,7 @@ class HardwareStatusCard extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    if (config.options.domain != null || config.settings.domain != null)
+                    if (domainLabel != 'Unknown')
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 6,

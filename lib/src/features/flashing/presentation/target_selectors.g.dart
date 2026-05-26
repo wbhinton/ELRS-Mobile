@@ -49,7 +49,7 @@ final class AvailableDeviceTypesProvider
 }
 
 String _$availableDeviceTypesHash() =>
-    r'5bd93a6cda77b8f9b62a5ec453f9409bc3e37332';
+    r'7f3fc074b24cae664cb5c5e588df4e4675dc2469';
 
 @ProviderFor(availableVendors)
 final availableVendorsProvider = AvailableVendorsProvider._();
@@ -90,7 +90,7 @@ final class AvailableVendorsProvider
   }
 }
 
-String _$availableVendorsHash() => r'7960899ffedc00ca283027ac8cefeb8a20f6e7b1';
+String _$availableVendorsHash() => r'df0a255679c6d785c75ba3d264dd569708c408fb';
 
 @ProviderFor(availableFrequencies)
 final availableFrequenciesProvider = AvailableFrequenciesProvider._();
@@ -132,7 +132,7 @@ final class AvailableFrequenciesProvider
 }
 
 String _$availableFrequenciesHash() =>
-    r'e82b2b7d91cc49b98f433368fb89fb92bffa7f8e';
+    r'8d61b0acdf9ae56c4d3077a1c42324fbc91890ae';
 
 @ProviderFor(availableTargetsList)
 final availableTargetsListProvider = AvailableTargetsListProvider._();
@@ -180,4 +180,4 @@ final class AvailableTargetsListProvider
 }
 
 String _$availableTargetsListHash() =>
-    r'6c9462429f174bdb784b7ad3ec770c2440828c95';
+    r'a2f6962ee04c2ba372400b495da71ea555665e1f';

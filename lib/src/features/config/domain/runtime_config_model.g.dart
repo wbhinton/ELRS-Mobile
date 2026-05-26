@@ -43,6 +43,11 @@ _ElrsSettings _$ElrsSettingsFromJson(Map<String, dynamic> json) =>
       hasSerialPins: json['has_serial_pins'] as bool?,
       deviceId: (json['device_id'] as num?)?.toInt(),
       domain: (json['domain'] as num?)?.toInt(),
+      regDomain: json['reg_domain'] as String?,
+      regDomainHigh: json['reg_domain_high'] as String?,
+      regDomainLow: json['reg_domain_low'] as String?,
+      hasHighBand: json['has_high_band'] as bool?,
+      hasLowBand: json['has_low_band'] as bool?,
     );
 
 Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
@@ -54,6 +59,11 @@ Map<String, dynamic> _$ElrsSettingsToJson(_ElrsSettings instance) =>
       'has_serial_pins': instance.hasSerialPins,
       'device_id': instance.deviceId,
       'domain': instance.domain,
+      'reg_domain': instance.regDomain,
+      'reg_domain_high': instance.regDomainHigh,
+      'reg_domain_low': instance.regDomainLow,
+      'has_high_band': instance.hasHighBand,
+      'has_low_band': instance.hasLowBand,
     };
 
 _ElrsOptions _$ElrsOptionsFromJson(Map<String, dynamic> json) => _ElrsOptions(

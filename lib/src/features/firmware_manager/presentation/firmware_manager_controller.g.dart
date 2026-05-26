@@ -42,7 +42,7 @@ final class FirmwareManagerControllerProvider
 }
 
 String _$firmwareManagerControllerHash() =>
-    r'2f6ba6b1d0706f3511306704acdf1e87e309f0da';
+    r'5c64aae7b117e2175c6e17a3fdac7668399824a3';
 
 abstract class _$FirmwareManagerController
     extends $Notifier<FirmwareManagerState> {

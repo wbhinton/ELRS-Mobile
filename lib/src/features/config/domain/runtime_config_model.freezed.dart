@@ -350,7 +350,7 @@ $ElrsConfigCopyWith<$Res> get config {
 /// @nodoc
 mixin _$ElrsSettings {
 
-@JsonKey(name: 'product_name') String? get productName; String? get version; String? get target;@JsonKey(name: 'module-type') String? get moduleType;@JsonKey(name: 'has_serial_pins') bool? get hasSerialPins;@JsonKey(name: 'device_id') int? get deviceId; int? get domain;
+@JsonKey(name: 'product_name') String? get productName; String? get version; String? get target;@JsonKey(name: 'module-type') String? get moduleType;@JsonKey(name: 'has_serial_pins') bool? get hasSerialPins;@JsonKey(name: 'device_id') int? get deviceId; int? get domain;@JsonKey(name: 'reg_domain') String? get regDomain;@JsonKey(name: 'reg_domain_high') String? get regDomainHigh;@JsonKey(name: 'reg_domain_low') String? get regDomainLow;@JsonKey(name: 'has_high_band') bool? get hasHighBand;@JsonKey(name: 'has_low_band') bool? get hasLowBand;
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -363,16 +363,16 @@ $ElrsSettingsCopyWith<ElrsSettings> get copyWith => _$ElrsSettingsCopyWithImpl<E
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.regDomain, regDomain) || other.regDomain == regDomain)&&(identical(other.regDomainHigh, regDomainHigh) || other.regDomainHigh == regDomainHigh)&&(identical(other.regDomainLow, regDomainLow) || other.regDomainLow == regDomainLow)&&(identical(other.hasHighBand, hasHighBand) || other.hasHighBand == hasHighBand)&&(identical(other.hasLowBand, hasLowBand) || other.hasLowBand == hasLowBand));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain);
+int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain,regDomain,regDomainHigh,regDomainLow,hasHighBand,hasLowBand);
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain)';
+  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain, regDomain: $regDomain, regDomainHigh: $regDomainHigh, regDomainLow: $regDomainLow, hasHighBand: $hasHighBand, hasLowBand: $hasLowBand)';
 }
 
 
@@ -383,7 +383,7 @@ abstract mixin class $ElrsSettingsCopyWith<$Res>  {
   factory $ElrsSettingsCopyWith(ElrsSettings value, $Res Function(ElrsSettings) _then) = _$ElrsSettingsCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins,@JsonKey(name: 'device_id') int? deviceId, int? domain
+@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins,@JsonKey(name: 'device_id') int? deviceId, int? domain,@JsonKey(name: 'reg_domain') String? regDomain,@JsonKey(name: 'reg_domain_high') String? regDomainHigh,@JsonKey(name: 'reg_domain_low') String? regDomainLow,@JsonKey(name: 'has_high_band') bool? hasHighBand,@JsonKey(name: 'has_low_band') bool? hasLowBand
 });
 
 
@@ -400,7 +400,7 @@ class _$ElrsSettingsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? deviceId = freezed,Object? domain = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? deviceId = freezed,Object? domain = freezed,Object? regDomain = freezed,Object? regDomainHigh = freezed,Object? regDomainLow = freezed,Object? hasHighBand = freezed,Object? hasLowBand = freezed,}) {
   return _then(_self.copyWith(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
@@ -409,7 +409,12 @@ as String?,moduleType: freezed == moduleType ? _self.moduleType : moduleType // 
 as String?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
 as bool?,deviceId: freezed == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
 as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,regDomain: freezed == regDomain ? _self.regDomain : regDomain // ignore: cast_nullable_to_non_nullable
+as String?,regDomainHigh: freezed == regDomainHigh ? _self.regDomainHigh : regDomainHigh // ignore: cast_nullable_to_non_nullable
+as String?,regDomainLow: freezed == regDomainLow ? _self.regDomainLow : regDomainLow // ignore: cast_nullable_to_non_nullable
+as String?,hasHighBand: freezed == hasHighBand ? _self.hasHighBand : hasHighBand // ignore: cast_nullable_to_non_nullable
+as bool?,hasLowBand: freezed == hasLowBand ? _self.hasLowBand : hasLowBand // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -494,10 +499,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain, @JsonKey(name: 'reg_domain')  String? regDomain, @JsonKey(name: 'reg_domain_high')  String? regDomainHigh, @JsonKey(name: 'reg_domain_low')  String? regDomainLow, @JsonKey(name: 'has_high_band')  bool? hasHighBand, @JsonKey(name: 'has_low_band')  bool? hasLowBand)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ElrsSettings() when $default != null:
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain,_that.regDomain,_that.regDomainHigh,_that.regDomainLow,_that.hasHighBand,_that.hasLowBand);case _:
   return orElse();
 
 }
@@ -515,10 +520,10 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain, @JsonKey(name: 'reg_domain')  String? regDomain, @JsonKey(name: 'reg_domain_high')  String? regDomainHigh, @JsonKey(name: 'reg_domain_low')  String? regDomainLow, @JsonKey(name: 'has_high_band')  bool? hasHighBand, @JsonKey(name: 'has_low_band')  bool? hasLowBand)  $default,) {final _that = this;
 switch (_that) {
 case _ElrsSettings():
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain,_that.regDomain,_that.regDomainHigh,_that.regDomainLow,_that.hasHighBand,_that.hasLowBand);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -535,10 +540,10 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'product_name')  String? productName,  String? version,  String? target, @JsonKey(name: 'module-type')  String? moduleType, @JsonKey(name: 'has_serial_pins')  bool? hasSerialPins, @JsonKey(name: 'device_id')  int? deviceId,  int? domain, @JsonKey(name: 'reg_domain')  String? regDomain, @JsonKey(name: 'reg_domain_high')  String? regDomainHigh, @JsonKey(name: 'reg_domain_low')  String? regDomainLow, @JsonKey(name: 'has_high_band')  bool? hasHighBand, @JsonKey(name: 'has_low_band')  bool? hasLowBand)?  $default,) {final _that = this;
 switch (_that) {
 case _ElrsSettings() when $default != null:
-return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain);case _:
+return $default(_that.productName,_that.version,_that.target,_that.moduleType,_that.hasSerialPins,_that.deviceId,_that.domain,_that.regDomain,_that.regDomainHigh,_that.regDomainLow,_that.hasHighBand,_that.hasLowBand);case _:
   return null;
 
 }
@@ -550,7 +555,7 @@ return $default(_that.productName,_that.version,_that.target,_that.moduleType,_t
 @JsonSerializable()
 
 class _ElrsSettings implements ElrsSettings {
-  const _ElrsSettings({@JsonKey(name: 'product_name') this.productName, this.version, this.target, @JsonKey(name: 'module-type') this.moduleType, @JsonKey(name: 'has_serial_pins') this.hasSerialPins, @JsonKey(name: 'device_id') this.deviceId, this.domain});
+  const _ElrsSettings({@JsonKey(name: 'product_name') this.productName, this.version, this.target, @JsonKey(name: 'module-type') this.moduleType, @JsonKey(name: 'has_serial_pins') this.hasSerialPins, @JsonKey(name: 'device_id') this.deviceId, this.domain, @JsonKey(name: 'reg_domain') this.regDomain, @JsonKey(name: 'reg_domain_high') this.regDomainHigh, @JsonKey(name: 'reg_domain_low') this.regDomainLow, @JsonKey(name: 'has_high_band') this.hasHighBand, @JsonKey(name: 'has_low_band') this.hasLowBand});
   factory _ElrsSettings.fromJson(Map<String, dynamic> json) => _$ElrsSettingsFromJson(json);
 
 @override@JsonKey(name: 'product_name') final  String? productName;
@@ -560,6 +565,11 @@ class _ElrsSettings implements ElrsSettings {
 @override@JsonKey(name: 'has_serial_pins') final  bool? hasSerialPins;
 @override@JsonKey(name: 'device_id') final  int? deviceId;
 @override final  int? domain;
+@override@JsonKey(name: 'reg_domain') final  String? regDomain;
+@override@JsonKey(name: 'reg_domain_high') final  String? regDomainHigh;
+@override@JsonKey(name: 'reg_domain_low') final  String? regDomainLow;
+@override@JsonKey(name: 'has_high_band') final  bool? hasHighBand;
+@override@JsonKey(name: 'has_low_band') final  bool? hasLowBand;
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
@@ -574,16 +584,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.regDomain, regDomain) || other.regDomain == regDomain)&&(identical(other.regDomainHigh, regDomainHigh) || other.regDomainHigh == regDomainHigh)&&(identical(other.regDomainLow, regDomainLow) || other.regDomainLow == regDomainLow)&&(identical(other.hasHighBand, hasHighBand) || other.hasHighBand == hasHighBand)&&(identical(other.hasLowBand, hasLowBand) || other.hasLowBand == hasLowBand));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain);
+int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain,regDomain,regDomainHigh,regDomainLow,hasHighBand,hasLowBand);
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain)';
+  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain, regDomain: $regDomain, regDomainHigh: $regDomainHigh, regDomainLow: $regDomainLow, hasHighBand: $hasHighBand, hasLowBand: $hasLowBand)';
 }
 
 
@@ -594,7 +604,7 @@ abstract mixin class _$ElrsSettingsCopyWith<$Res> implements $ElrsSettingsCopyWi
   factory _$ElrsSettingsCopyWith(_ElrsSettings value, $Res Function(_ElrsSettings) _then) = __$ElrsSettingsCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins,@JsonKey(name: 'device_id') int? deviceId, int? domain
+@JsonKey(name: 'product_name') String? productName, String? version, String? target,@JsonKey(name: 'module-type') String? moduleType,@JsonKey(name: 'has_serial_pins') bool? hasSerialPins,@JsonKey(name: 'device_id') int? deviceId, int? domain,@JsonKey(name: 'reg_domain') String? regDomain,@JsonKey(name: 'reg_domain_high') String? regDomainHigh,@JsonKey(name: 'reg_domain_low') String? regDomainLow,@JsonKey(name: 'has_high_band') bool? hasHighBand,@JsonKey(name: 'has_low_band') bool? hasLowBand
 });
 
 
@@ -611,7 +621,7 @@ class __$ElrsSettingsCopyWithImpl<$Res>
 
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? deviceId = freezed,Object? domain = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? deviceId = freezed,Object? domain = freezed,Object? regDomain = freezed,Object? regDomainHigh = freezed,Object? regDomainLow = freezed,Object? hasHighBand = freezed,Object? hasLowBand = freezed,}) {
   return _then(_ElrsSettings(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
@@ -620,7 +630,12 @@ as String?,moduleType: freezed == moduleType ? _self.moduleType : moduleType // 
 as String?,hasSerialPins: freezed == hasSerialPins ? _self.hasSerialPins : hasSerialPins // ignore: cast_nullable_to_non_nullable
 as bool?,deviceId: freezed == deviceId ? _self.deviceId : deviceId // ignore: cast_nullable_to_non_nullable
 as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,regDomain: freezed == regDomain ? _self.regDomain : regDomain // ignore: cast_nullable_to_non_nullable
+as String?,regDomainHigh: freezed == regDomainHigh ? _self.regDomainHigh : regDomainHigh // ignore: cast_nullable_to_non_nullable
+as String?,regDomainLow: freezed == regDomainLow ? _self.regDomainLow : regDomainLow // ignore: cast_nullable_to_non_nullable
+as String?,hasHighBand: freezed == hasHighBand ? _self.hasHighBand : hasHighBand // ignore: cast_nullable_to_non_nullable
+as bool?,hasLowBand: freezed == hasLowBand ? _self.hasLowBand : hasLowBand // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 

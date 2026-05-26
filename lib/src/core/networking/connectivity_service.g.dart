@@ -35,7 +35,7 @@ final class ConnectivityServiceProvider
 }
 
 String _$connectivityServiceHash() =>
-    r'a5b786990ae8c3480fc3323a21c34d26391c564b';
+    r'f6b8719d04e26c040fc872240448f5a7e866b187';
 
 abstract class _$ConnectivityService
     extends $StreamNotifier<List<ConnectivityResult>> {

@@ -69,6 +69,7 @@ class DeviceConfigService {
         
         if (data is Map<String, dynamic>) {
           _normalizeV3Config(data);
+          _normalizeConfigDomains(data);
           return RuntimeConfig.fromJson(data);
         } else {
           throw Exception('Invalid data format received from $ip');
@@ -88,6 +89,9 @@ class DeviceConfigService {
     try {
       final payload = Map<String, dynamic>.from(options);
       payload['customised'] = true;
+      if (payload.containsKey('domain')) {
+        payload['reg_domain'] = payload['domain'];
+      }
 
       final response = await _dio.post(
         'http://$ip/options.json',
@@ -111,9 +115,25 @@ class DeviceConfigService {
   /// Performs a POST request to `http://<ip>/config`.
   Future<void> saveConfig(String ip, Map<String, dynamic> config) async {
     try {
+      final payload = Map<String, dynamic>.from(config);
+      if (payload['settings'] is Map<String, dynamic>) {
+        final settings = Map<String, dynamic>.from(payload['settings'] as Map<String, dynamic>);
+        if (settings.containsKey('domain')) {
+          settings['reg_domain'] = settings['domain'];
+        }
+        payload['settings'] = settings;
+      }
+      if (payload['config'] is Map<String, dynamic>) {
+        final cfg = Map<String, dynamic>.from(payload['config'] as Map<String, dynamic>);
+        if (cfg.containsKey('domain')) {
+          cfg['reg_domain'] = cfg['domain'];
+        }
+        payload['config'] = cfg;
+      }
+
       final response = await _dio.post(
         'http://$ip/config',
-        data: config,
+        data: payload,
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -206,13 +226,39 @@ class DeviceConfigService {
     final settings = <String, dynamic>{};
     for (final key in metadataKeys) {
       if (config.containsKey(key)) {
-        settings[key] = config[key];
+        if (key == 'reg_domain') {
+          settings['domain'] = config[key];
+        } else {
+          settings[key] = config[key];
+        }
       }
     }
 
     if (settings.isNotEmpty) {
       data['settings'] = settings;
       _log.info('V3 normalization: hoisted ${settings.keys.toList()} into settings block');
+    }
+  }
+
+  /// Normalizes reg_domain to domain across config, settings, and options sub-maps for both V3 and V4.
+  void _normalizeConfigDomains(Map<String, dynamic> data) {
+    if (data['options'] is Map<String, dynamic>) {
+      final options = data['options'] as Map<String, dynamic>;
+      if (options.containsKey('reg_domain')) {
+        options['domain'] = options['reg_domain'];
+      }
+    }
+    if (data['settings'] is Map<String, dynamic>) {
+      final settings = data['settings'] as Map<String, dynamic>;
+      if (settings.containsKey('reg_domain')) {
+        settings['domain'] = settings['reg_domain'];
+      }
+    }
+    if (data['config'] is Map<String, dynamic>) {
+      final config = data['config'] as Map<String, dynamic>;
+      if (config.containsKey('reg_domain')) {
+        config['domain'] = config['reg_domain'];
+      }
     }
   }
 }
