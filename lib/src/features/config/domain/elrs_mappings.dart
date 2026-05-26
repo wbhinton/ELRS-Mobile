@@ -1,6 +1,6 @@
 class ElrsMappings {
-  // Regulatory Domains
-  static const Map<int, String> domains = {
+  // Regulatory Domains — 900 MHz band
+  static const Map<int, String> domains900 = {
     0: 'AU915',
     1: 'FCC915',
     2: 'EU868',
@@ -10,6 +10,21 @@ class ElrsMappings {
     6: 'US433',
     7: 'US433-Wide',
   };
+
+  // Regulatory Domains — 2.4 GHz band
+  static const Map<int, String> domains2400 = {
+    0: 'ISM_2400',
+    1: 'EU_CE_2400',
+  };
+
+  /// Returns the string label for a regulatory domain index based on the hardware frequency band.
+  static String getDomainLabel(int index, int frequencyBand) {
+    if (frequencyBand == 2400) {
+      return domains2400[index] ?? 'Unknown';
+    } else {
+      return domains900[index] ?? 'Unknown';
+    }
+  }
 
   // VBind (Binding Storage)
   static const Map<int, String> vbind = {

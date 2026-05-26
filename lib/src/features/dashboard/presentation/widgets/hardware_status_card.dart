@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import '../../../config/domain/runtime_config_model.dart';
 import '../../../config/presentation/config_view_model.dart';
-import '../../../../elrs_mappings.dart';
+import '../../../config/domain/elrs_mappings.dart';
 import '../../../flashing/presentation/flashing_controller.dart';
 
 class HardwareStatusCard extends ConsumerWidget {
@@ -96,6 +96,10 @@ class HardwareStatusCard extends ConsumerWidget {
           deviceProduct != 'ELRS Device' &&
           selectedTarget.name != deviceProduct;
 
+      final rawDomainIndex = config.options.domain ?? config.settings.domain ?? 0;
+      final freqBand = config.frequencyBand;
+      final domainLabel = ElrsMappings.getDomainLabel(rawDomainIndex, freqBand);
+
       return Row(
         key: const ValueKey('connected'),
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +136,7 @@ class HardwareStatusCard extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    if (config.options.domain != null)
+                    if (config.options.domain != null || config.settings.domain != null)
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 6,
@@ -146,12 +150,7 @@ class HardwareStatusCard extends ConsumerWidget {
                           ),
                         ),
                         child: Text(
-                          getDomainLabel(
-                            config.options.domain ?? 0,
-                            config.frequencyBand == 900
-                                ? FrequencyCategory.freq900MHz
-                                : FrequencyCategory.freq2400MHz,
-                          ),
+                          domainLabel,
                           style: const TextStyle(
                             fontSize: 10,
                             color: Colors.orange,
