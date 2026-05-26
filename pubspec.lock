@@ -603,10 +603,10 @@ packages:
     dependency: "direct main"
     description:
       name: ip_address_keypad
-      sha256: d2cb610b8503871efd2f8a816f2426ec3504c693c0a25809f0ac10ef2fbdafb3
+      sha256: b2990cdbc55824a890060c91e39b82e9cedd606e1c8f05eed1f2a22e9ed175b9
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   jni:
     dependency: transitive
     description:
