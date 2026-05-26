@@ -599,6 +599,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  ip_address_input:
+    dependency: "direct main"
+    description:
+      path: "packages/ip_address_input"
+      relative: true
+    source: path
+    version: "0.0.1"
   jni:
     dependency: transitive
     description:

@@ -1,0 +1,12 @@
+name: ip_address_input
+description: "A custom IP address input with an inline numeric keypad."
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
