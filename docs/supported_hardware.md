@@ -1,7 +1,7 @@
 # Supported Hardware
 
 ## Supported Platforms
-- **Supported:** All ESP8285, ESP32, ESP32-C3, and ESP32-S3 Wi-Fi capable receivers and transmitters.
+- **Supported:** All ESP8285, ESP32, ESP32-C3, and ESP32-S3 Wi-Fi capable receivers and transmitters (ExpressLRS v3.x and v4.x only, v2.x is not supported).
 - **Legacy Support (STM32):** Hardware using STM32 chips (e.g. FrSky R9, early Ghost) is supported for **Binary Building only**.
     - **Expert Mode Required:** These targets are hidden by default and require enabling **Expert Mode** in Settings.
     - **No OTA Support:** STM32 hardware does not support Wi-Fi OTA flashing via the mobile app. You must build the binary in-app and flash manually via STLink or Betaflight Passthrough.
@@ -9,12 +9,126 @@
 
 ## Tested Hardware
 The following hardware targets have been explicitly tested with ELRS Mobile:
-- BETAFPV SuperP 14Ch 900MHz RX
+- AXIS Thor 2.4GHz RX
+- BAYCKRC 2.4GHz Nano RX
+- BAYCKRC 900/2400 Dual Band Gemini RX
+- BAYCKRC 900MHz Dual Core RX
+- BAYCKRC 900MHz Nano RX
+- BAYCKRC C3 900/2400 Dual Band 100mW Gemini RX
+- BAYCKRC C3 900/2400 Dual Band 100mw 6PWM RX
+- BAYCKRC C3 900/2400 Dual Band Nano RX
+- BAYCKRC UR1000 Dual Band RX
+- BETAFPV 2.4GHz 1W Micro TX
+- BETAFPV 2.4GHz AIO RX
+- BETAFPV 2.4GHz Lite RX
+- BETAFPV 2.4GHz LiteRadio 3 Pro
+- BETAFPV 2.4GHz Micro TX
+- BETAFPV 2.4GHz Nano RX
+- BETAFPV 900MHz Micro TX
+- BETAFPV 900MHz Micro TX V2
+- BETAFPV 900MHz Nano RX
 - BETAFPV PWM 2.4GHz RX
+- BETAFPV SuperD 2.4GHz RX
+- BETAFPV SuperD 900MHz RX
+- BETAFPV SuperG 2.4GHz Gemini TX
 - BETAFPV SuperP 14Ch 2.4GHz RX
-- RadioMaster XR1 Dual Band RX
-- RadioMaster XR4 Dual Band True Diversity RX
+- BETAFPV SuperP 14Ch 900MHz RX
+- BETAFPV SuperX Nano RX
+- DAKEFPV Nano 2.4GHz RX
+- EMAX OLED 2.4GHz TX
+- EMAX OLED 900MHz TX
+- Flywoo EL24E TCXO 2.4GHz RX
+- Flywoo EL24P TCXO 2.4GHz RX
+- Foxeer 900MHz True Diversity RX
+- Foxeer Lite 2.4GHz RX
+- GEPRC 900/2400 Gemini Xrossband RX
+- GEPRC C3 900/2400 Gemini Xrossband RX
+- GEPRC LINKFLOW 900/2400 Dual-Band TX
+- GEPRC Nano 2.4GHz PA100 RX
+- GEPRC Nano 900MHz RX
+- GEPRC Nano(SE) 2.4GHz RX
+- Generic ESP32C3 PWM 2.4Ghz RX
+- Generic ESP8285 2.4Ghz RX
+- Generic ESP8285 5xPWM 2.4Ghz RX
+- Generic ESP8285 6xPWM 2.4Ghz RX
+- Generic ESP8285 7xPWM 2.4Ghz RX
+- HGLRC Hermes 2.4GHz RX
 - HappyModel EP Dual 2.4GHz RX
+- HappyModel EP1/EP2 2.4GHz RX
+- HappyModel EPW5 2.4GHz PWM RX
+- HappyModel EPW6 2.4GHz PWM RX
+- HappyModel EPW6 PWM RX
+- HappyModel ES24 2.4GHz TX
+- HappyModel ES24 Pro 2.4GHz TX
+- HappyModel ES24 Slim Pro 2.4GHz TX
+- HappyModel ES900 Dual RX
+- HappyModel ES900 RX
+- HappyModel ES900 TX
+- HelloRadio HR7E 2.4GHz Diversity+7xPWM RX
+- HelloRadio HR8E 2.4GHz Diversity+8xPWM RX
+- JHEMCU 2.4GHz Lite RX
+- Jumper AION Bumblebee 2.4GHz TX
+- Jumper AION Mini 2.4GHz RX
+- Jumper AION Nano 2.4GHz TX
+- Jumper AION T-14 900M TX
+- Jumper AION T-15 2.4GHz TX
+- Jumper AION T-20 2.4GHz TX
+- Jumper AION T-20 2.4GHz V2 TX
+- Jumper AION T-Lite 2.4GHz TX
+- Jumper AION T-Pro 2.4GHz TX
+- MATEK R24-D 2.4GHz RX
+- MATEK R24-P PWM 2.4GHz RX
+- NamimnoRC Flash OLED 2.4GHz TX
+- NewBeeDrone 2.4Ghz RaceSpec RX
+- OMPHOBBY OFS3+ 2.4 GHz RX
+- RadioMaster AX12 2.4/900 TX
+- RadioMaster BR1 900Mz RX
+- RadioMaster BR3 Diversity 900Mz RX
+- RadioMaster Bandit Micro 900MHz TX
+- RadioMaster Boxer Internal 2.4GHz TX
+- RadioMaster DBR4-TD True Diversity Dual Band RX
+- RadioMaster ER3C-i 2.4GHz PWM RX
+- RadioMaster ER4 2.4GHz PWM RX
+- RadioMaster ER5A/C 2.4GHz PWM RX
+- RadioMaster ER5A/C V2 2.4GHz PWM RX
+- RadioMaster ER5C-i 2.4GHz PWM RX
+- RadioMaster ER6 2.4GHz Diversity+6xPWM RX
+- RadioMaster ER6-G 2.4GHz Diversity+6xPWM RX
+- RadioMaster ER6-GV 2.4GHz Diversity+6xPWM+Vario RX
+- RadioMaster ER8 2.4GHz Diversity+8xPWM RX
+- RadioMaster ER8-G 2.4GHz Diversity+8xPWM RX
+- RadioMaster ER8-GV 2.4GHz Diversity+8xPWM+Vario RX
+- RadioMaster GX12 2.4/900 TX
+- RadioMaster MT12 Internal 2.4GHz TX
+- RadioMaster Nomad 2.4/900 TX
+- RadioMaster Pocket Internal 2.4GHz TX
+- RadioMaster RP1 2.4GHz RX
+- RadioMaster RP2 2.4GHz RX
+- RadioMaster RP3 Diversity 2.4GHz RX
+- RadioMaster RP4TD True Diversity 2.4GHz RX
+- RadioMaster RP4TD-M True Diversity 2.4GHz RX
+- RadioMaster Ranger 2.4GHz TX
+- RadioMaster Ranger Micro 2.4GHz TX
+- RadioMaster Ranger Nano 2.4GHz TX
+- RadioMaster T8L Internal 2.4GHz TX
+- RadioMaster TX12 Internal 2.4GHz TX
+- RadioMaster TX15 2.4/900 TX
+- RadioMaster TX16S Internal 2.4GHz TX
+- RadioMaster TX16S MK3 Internal TX
+- RadioMaster XR1 Dual Band RX
+- RadioMaster XR2 2.4GHz RX
+- RadioMaster XR3 Dual Band Diversity RX
+- RadioMaster XR4 Dual Band True Diversity RX
+- RadioMaster Zorro Internal 2.4GHz TX
+- Radiomaster Nexus-XR True Diversity 2.4GHz RX
+- Radiomaster RP3-H Diversity 2.4GHz RX
+- SkyGuy Nano 2.4GHz RX
+- SpeedyBee Nano 2.4GHz RX
+- TuneRC 2.4G nano PA RX
+- iFlight 2.4GHz 250mW Diversity RX
+- iFlight 2.4GHz Nano RX
+- iFlight 900MHz Nano RX
+- iFlight 900MHz RX
 
 ## Tested Binaries
 The internal firmware assembler has been functionally verified against the official ExpressLRS compiler outputs for the following targets:
