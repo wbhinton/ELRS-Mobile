@@ -83,5 +83,7 @@
 	<string>ELRS Mobile requires access to your photo library to allow you to select and upload custom firmware or configuration files.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>ELRS Mobile requires camera access to scan QR codes for quick device configuration and pairing.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ELRS Mobile requires location access to obtain the current WiFi network name (SSID) for connecting to ExpressLRS hardware.</string>
 </dict>
 </plist>
