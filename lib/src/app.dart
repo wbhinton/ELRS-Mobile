@@ -33,6 +33,16 @@ class _AppContent extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(goRouterProvider);
+    final lifecycleState = useAppLifecycleState();
+
+    // Clean up keyboard focus when the app drops into background to prevent ghost notifications
+    useEffect(() {
+      if (lifecycleState == AppLifecycleState.paused ||
+          lifecycleState == AppLifecycleState.inactive) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      }
+      return null;
+    }, [lifecycleState]);
 
     // Application Startup
     useEffect(() {

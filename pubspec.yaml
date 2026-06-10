@@ -113,7 +113,6 @@ dependency_overrides:
   http: ^1.6.0
   package_info_plus: ^9.0.0
   device_info_plus: ^11.1.2
-  connectivity_plus: ^6.1.1
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

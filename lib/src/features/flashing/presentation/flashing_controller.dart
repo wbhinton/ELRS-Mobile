@@ -232,6 +232,9 @@ class FlashingController extends _$FlashingController {
         bytes: payload.bytes,
       );
 
+      // Give native presentation controllers time to settle down
+      await Future.delayed(const Duration(milliseconds: 300));
+
       if (result != null) {
         state = state.copyWith(
           status: FlashingStatus.downloadSuccess,
