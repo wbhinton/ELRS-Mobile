@@ -47,7 +47,7 @@ class ConnectivityService extends _$ConnectivityService {
       try {
         final native = ref.read(nativeNetworkServiceProvider);
         
-        await native.bindProcessToWiFi().timeout(const Duration(seconds: 4));
+        await native.bindProcessToWiFi().timeout(const Duration(seconds: 8));
         _isBound = true;
         
         await native.acquireMulticastLock();
@@ -56,8 +56,19 @@ class ConnectivityService extends _$ConnectivityService {
         return true;
       } catch (e) {
         _log.warning('Binding attempt ${i + 1} failed: $e');
+        
+        // Clean up native state and callbacks immediately to prevent parallel OS socket binding conflicts
+        try {
+          final native = ref.read(nativeNetworkServiceProvider);
+          await native.releaseMulticastLock();
+          _lockAcquired = false;
+          await native.unbindProcess();
+          _isBound = false;
+        } catch (_) {}
+
         if (i < retries - 1) {
-          await Future.delayed(const Duration(milliseconds: 500));
+          // Give the native platform channel time to breathe and clear memory hooks
+          await Future.delayed(const Duration(seconds: 2));
         }
       }
     }

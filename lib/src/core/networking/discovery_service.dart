@@ -67,6 +67,15 @@ class DiscoveryService {
 
   Future<void> startScan() async {
     if (_isScanning || _discovery != null) return;
+
+    // Guard Clause: Only scan if connected to Wi-Fi to prevent cellular socket crashes
+    final connectivityAsync = _ref?.read(connectivityServiceProvider);
+    final results = connectivityAsync?.value ?? [];
+    if (!results.contains(ConnectivityResult.wifi)) {
+      _log.warning('Aborting NSD startup: Device is not on local Wi-Fi.');
+      return;
+    }
+
     _isScanning = true;
 
     _log.info('Discovery Service started (nsd).');
