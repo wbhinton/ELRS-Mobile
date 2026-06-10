@@ -602,4 +602,18 @@ class FlashingController extends _$FlashingController {
       progress: 0.0,
     );
   }
+
+  Future<void> forceUpdate() async {
+    try {
+      state = state.copyWith(status: FlashingStatus.uploading);
+      final repo = ref.read(deviceRepositoryProvider);
+      await repo.confirmForceUpdate();
+      state = state.copyWith(status: FlashingStatus.success);
+    } catch (e) {
+      state = state.copyWith(
+        status: FlashingStatus.error,
+        errorMessage: 'Force update failed: $e',
+      );
+    }
+  }
 }
