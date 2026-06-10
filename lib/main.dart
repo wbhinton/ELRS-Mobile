@@ -38,8 +38,8 @@ Future<void> main() async {
   final container = ProviderContainer();
   
   const String sentryDsn = String.fromEnvironment('SENTRY_DSN');
-  print('Sentry DSN: ${sentryDsn.isNotEmpty ? "SET" : "NOT SET"}');
-  print('Sentry Init: Attempting to start...');
+  debugPrint('Sentry DSN: ${sentryDsn.isNotEmpty ? "SET" : "NOT SET"}');
+  debugPrint('Sentry Init: Attempting to start...');
 
   // Pre-initialize Aptabase asynchronously during the boot sequence.
   // We do not 'await' this call so the Splash Screen can render immediately on slow hardware.

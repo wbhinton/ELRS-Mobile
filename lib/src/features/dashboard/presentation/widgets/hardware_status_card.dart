@@ -51,7 +51,7 @@ class HardwareStatusCard extends ConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.settings),
-                  onPressed: () => _showIpDialog(context, ref, manualIp),
+                  onPressed: () => _showIpDialog(context, manualIp),
                   tooltip: 'Manual Connection',
                 ),
               ],
@@ -217,10 +217,10 @@ class HardwareStatusCard extends ConsumerWidget {
     );
   }
 
-  void _showIpDialog(BuildContext context, WidgetRef ref, String? currentIp) {
+  void _showIpDialog(BuildContext context, String? currentIp) {
     showDialog(
       context: context,
-      builder: (context) => _ManualIpDialog(initialIp: currentIp, ref: ref),
+      builder: (context) => _ManualIpDialog(initialIp: currentIp),
     );
   }
 }
@@ -289,17 +289,16 @@ class _PulsingRingIconState extends State<_PulsingRingIcon>
   }
 }
 
-class _ManualIpDialog extends StatefulWidget {
+class _ManualIpDialog extends ConsumerStatefulWidget {
   final String? initialIp;
-  final WidgetRef ref;
 
-  const _ManualIpDialog({this.initialIp, required this.ref});
+  const _ManualIpDialog({this.initialIp});
 
   @override
-  _ManualIpDialogState createState() => _ManualIpDialogState();
+  ConsumerState<_ManualIpDialog> createState() => _ManualIpDialogState();
 }
 
-class _ManualIpDialogState extends State<_ManualIpDialog> {
+class _ManualIpDialogState extends ConsumerState<_ManualIpDialog> {
   String _ipAddress = '';
   bool _isValid = false;
 
@@ -344,7 +343,7 @@ class _ManualIpDialogState extends State<_ManualIpDialog> {
         ElevatedButton(
           onPressed: _isValid
               ? () {
-                  widget.ref
+                  ref
                       .read(configViewModelProvider.notifier)
                       .setManualIp(_ipAddress);
                   Navigator.pop(context);
