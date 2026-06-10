@@ -70,6 +70,21 @@ class DeviceConfigService {
         if (data is Map<String, dynamic>) {
           _normalizeV3Config(data);
           _normalizeConfigDomains(data);
+          
+          // Normalize vbind to prevent TypeError on older firmware
+          if (data.containsKey('config') && data['config'] is Map) {
+            final configMap = data['config'] as Map<String, dynamic>;
+            if (configMap.containsKey('vbind')) {
+              final vbindVal = configMap['vbind'];
+              if (vbindVal is bool) {
+                configMap['vbind'] = vbindVal ? 1 : 0;
+              } else if (vbindVal is String) {
+                if (vbindVal.toLowerCase() == 'true') configMap['vbind'] = 1;
+                if (vbindVal.toLowerCase() == 'false') configMap['vbind'] = 0;
+              }
+            }
+          }
+
           return RuntimeConfig.fromJson(data);
         } else {
           throw Exception('Invalid data format received from $ip');
