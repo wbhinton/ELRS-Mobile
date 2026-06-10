@@ -35,9 +35,17 @@ DiscoveryService discoveryService(Ref ref) {
     (previous, next) {
       if (ref.read(isFlashingProvider)) return;
       
-      final results = next.value ?? [];
-      if (results.contains(ConnectivityResult.wifi)) {
+      final prevResults = previous?.value ?? [];
+      final nextResults = next.value ?? [];
+      
+      final hadWifi = prevResults.contains(ConnectivityResult.wifi);
+      final hasWifi = nextResults.contains(ConnectivityResult.wifi);
+      
+      // Only act on actual transitions of Wi-Fi state
+      if (hasWifi && !hadWifi) {
         service.restartScan();
+      } else if (!hasWifi && hadWifi) {
+        service.stopScan();
       }
     }
   );
@@ -52,27 +60,57 @@ class DiscoveryService {
   static final _log = Logger('DiscoveryService');
   
   Discovery? _discovery;
+  Future<void>? _pendingOperation;
 
   DiscoveryService([this._ref]);
 
   Stream<String?> get targetIpStream => _ipController.stream;
   bool _isScanning = false;
 
-  Future<void> restartScan() async {
-    _log.info('Restarting discovery scan...');
-    await stopScan();
-    await Future.delayed(const Duration(milliseconds: 200));
-    await startScan();
+  /// Serializes operations sequentially to prevent concurrent socket binding races
+  Future<void> _runOperation(Future<void> Function() operation) async {
+    final previousOp = _pendingOperation;
+    final completer = Completer<void>();
+    _pendingOperation = completer.future;
+
+    try {
+      if (previousOp != null) {
+        await previousOp;
+      }
+      await operation();
+    } finally {
+      completer.complete();
+      if (_pendingOperation == completer.future) {
+        _pendingOperation = null;
+      }
+    }
   }
 
-  Future<void> startScan() async {
+  Future<void> restartScan() {
+    return _runOperation(() async {
+      _log.info('Restarting discovery scan...');
+      await _stopScan();
+      await Future.delayed(const Duration(milliseconds: 200));
+      await _startScan();
+    });
+  }
+
+  Future<void> startScan() {
+    return _runOperation(() => _startScan());
+  }
+
+  Future<void> stopScan() {
+    return _runOperation(() => _stopScan());
+  }
+
+  Future<void> _startScan() async {
     if (_isScanning || _discovery != null) return;
 
     // Guard Clause: Only scan if connected to Wi-Fi to prevent cellular socket crashes
     final connectivityAsync = _ref?.read(connectivityServiceProvider);
     final results = connectivityAsync?.value ?? [];
     if (!results.contains(ConnectivityResult.wifi)) {
-      _log.warning('Aborting NSD startup: Device is not on local Wi-Fi.');
+      _log.warning('Aborting mDNS startup: Device is not on local Wi-Fi.');
       return;
     }
 
@@ -118,8 +156,7 @@ class DiscoveryService {
     }
   }
 
-  Future<void> stopScan() async {
-
+  Future<void> _stopScan() async {
     // Await full teardown of the nsd discovery session before resetting the
     // scanning flag. This prevents restartScan()'s startScan() call from
     // re-entering while the underlying UDP port (5353) is still bound,
