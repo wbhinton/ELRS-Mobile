@@ -25,6 +25,7 @@ The easiest way to get started with ELRS Mobile is by installing it from your de
 
 ### 1. Install the App
 - **Android (Google Play):** [Get it on Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile).
+  - *Want to try the latest features early? Join the [Google Play Beta Program](https://play.google.com/apps/testing/io.datarx.elrsmobile).*
 - **Android (GitHub Store):** [Download on GitHub Store](https://github.com/OpenHub-Store/Github-Store).
 - **iOS (App Store):** [Download on the App Store](https://apps.apple.com/us/app/elrs-mobile/id6760490014).
 - **Alternative (Android Only):** Download the raw `.apk` from the [Releases Page](https://github.com/wbhinton/ELRS-Mobile/releases).
