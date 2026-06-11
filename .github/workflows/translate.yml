@@ -33,6 +33,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Patch arb_translate model mapping
+        run: |
+          sed -i "s/'\${model.key}-latest'/model.key/g" $HOME/.pub-cache/hosted/pub.dev/arb_translate-1.1.0/lib/src/translation_delegates/gemini_translation_delegate.dart
+
       - name: Run Translate Script
         env:
           ARB_TRANSLATE_API_KEY: ${{ secrets.ARB_TRANSLATE_API_KEY }}
