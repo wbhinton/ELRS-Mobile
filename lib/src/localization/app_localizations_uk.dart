@@ -338,4 +338,43 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get disclaimerUnderstand => 'Я розумію';
+
+  @override
+  String get optionsTitle => 'Параметри прошивки';
+
+  @override
+  String get optionsSubtitle => 'Налаштуйте біндинг та мережеві облікові дані.';
+
+  @override
+  String get wifiPasswordLabel => 'Пароль Wi-Fi';
+
+  @override
+  String get regulatoryDomainLabel => 'Регуляторний домен';
+
+  @override
+  String get regDomainIsm => 'ISM (2.4 ГГц)';
+
+  @override
+  String get regDomainEuLbt => 'ЄС CE (2.4 ГГц LBT)';
+
+  @override
+  String get regDomainAu915 => 'AU (915 МГц)';
+
+  @override
+  String get regDomainFcc915 => 'FCC (915 МГц)';
+
+  @override
+  String get regDomainEu868 => 'ЄС (868 МГц)';
+
+  @override
+  String get regDomainIn866 => 'IN (866 МГц)';
+
+  @override
+  String get regDomainAu433 => 'AU (433 МГц)';
+
+  @override
+  String get regDomainEu433 => 'ЄС (433 МГц)';
+
+  @override
+  String get regDomainUs433 => 'США (433 МГц)';
 }

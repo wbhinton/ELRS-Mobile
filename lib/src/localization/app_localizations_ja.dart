@@ -323,4 +323,43 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get disclaimerUnderstand => '承知しました';
+
+  @override
+  String get optionsTitle => 'ファームウェア設定';
+
+  @override
+  String get optionsSubtitle => 'バインディングとネットワーク認証情報を設定します。';
+
+  @override
+  String get wifiPasswordLabel => 'Wi-Fiパスワード';
+
+  @override
+  String get regulatoryDomainLabel => '規制ドメイン';
+
+  @override
+  String get regDomainIsm => 'ISM (2.4GHz)';
+
+  @override
+  String get regDomainEuLbt => 'EU CE (2.4GHz LBT)';
+
+  @override
+  String get regDomainAu915 => 'AU (915MHz)';
+
+  @override
+  String get regDomainFcc915 => 'FCC (915MHz)';
+
+  @override
+  String get regDomainEu868 => 'EU (868MHz)';
+
+  @override
+  String get regDomainIn866 => 'IN (866MHz)';
+
+  @override
+  String get regDomainAu433 => 'AU (433MHz)';
+
+  @override
+  String get regDomainEu433 => 'EU (433MHz)';
+
+  @override
+  String get regDomainUs433 => 'US (433MHz)';
 }

@@ -96,5 +96,18 @@
   "disclaimerLiability": "Deweloperzy nie ponoszą odpowiedzialności za żadne uszkodzenia, utratę danych ani niesprawne działanie sprzętu wynikające z użycia tej aplikacji, w tym między innymi za uszkodzone (zbrickowane) odbiorniki, nadajniki lub kontrolery lotu.",
   "disclaimerAgreement": "Korzystając z tej aplikacji, potwierdzasz, że rozumiesz ryzyko flashowania niestandardowego oprogramowania układowego i akceptujesz pełną odpowiedzialność za swój sprzęt.",
   "disclaimerVerification": "Zawsze weryfikuj cel i wersję oprogramowania układowego przed flashowaniem. Jeśli to możliwe, zachowaj kopię oryginalnego oprogramowania.",
-  "disclaimerUnderstand": "Rozumiem"
+  "disclaimerUnderstand": "Rozumiem",
+  "optionsTitle": "Opcje oprogramowania układowego",
+  "optionsSubtitle": "Skonfiguruj parowanie i dane uwierzytelniające sieci.",
+  "wifiPasswordLabel": "Hasło WiFi",
+  "regulatoryDomainLabel": "Domena regulacyjna",
+  "regDomainIsm": "ISM (2.4GHz)",
+  "regDomainEuLbt": "UE CE (2.4GHz LBT)",
+  "regDomainAu915": "AU (915MHz)",
+  "regDomainFcc915": "FCC (915MHz)",
+  "regDomainEu868": "UE (868MHz)",
+  "regDomainIn866": "IN (866MHz)",
+  "regDomainAu433": "AU (433MHz)",
+  "regDomainEu433": "UE (433MHz)",
+  "regDomainUs433": "US (433MHz)"
 }

@@ -96,5 +96,18 @@
   "disclaimerLiability": "Gli sviluppatori non sono responsabili per eventuali danni, perdita di dati o hardware non funzionante derivanti dall'uso di questa applicazione, inclusi ma non limitati a ricevitori, trasmettitori o controllori di volo danneggiati in modo irreparabile.",
   "disclaimerAgreement": "Utilizzando questa app, confermi di aver compreso i rischi del flashing di firmware personalizzati e accetti la piena responsabilità per il tuo hardware.",
   "disclaimerVerification": "Verifica sempre il dispositivo di destinazione e la versione del firmware prima del flashing. Se possibile, conserva una copia del firmware originale.",
-  "disclaimerUnderstand": "Ho Capito"
+  "disclaimerUnderstand": "Ho Capito",
+  "optionsTitle": "Opzioni Firmware",
+  "optionsSubtitle": "Configura l'associazione e le credenziali di rete.",
+  "wifiPasswordLabel": "Password WiFi",
+  "regulatoryDomainLabel": "Dominio Normativo",
+  "regDomainIsm": "ISM (2.4GHz)",
+  "regDomainEuLbt": "UE CE (2.4GHz LBT)",
+  "regDomainAu915": "AU (915MHz)",
+  "regDomainFcc915": "FCC (915MHz)",
+  "regDomainEu868": "UE (868MHz)",
+  "regDomainIn866": "IN (866MHz)",
+  "regDomainAu433": "AU (433MHz)",
+  "regDomainEu433": "UE (433MHz)",
+  "regDomainUs433": "USA (433MHz)"
 }

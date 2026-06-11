@@ -335,4 +335,44 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get disclaimerUnderstand => 'Ich verstehe';
+
+  @override
+  String get optionsTitle => 'Firmware-Optionen';
+
+  @override
+  String get optionsSubtitle =>
+      'Bindung und Netzwerkanmeldeinformationen konfigurieren.';
+
+  @override
+  String get wifiPasswordLabel => 'WLAN-Passwort';
+
+  @override
+  String get regulatoryDomainLabel => 'Regulierungsbereich';
+
+  @override
+  String get regDomainIsm => 'ISM (2,4 GHz)';
+
+  @override
+  String get regDomainEuLbt => 'EU CE (2,4 GHz LBT)';
+
+  @override
+  String get regDomainAu915 => 'AU (915 MHz)';
+
+  @override
+  String get regDomainFcc915 => 'FCC (915 MHz)';
+
+  @override
+  String get regDomainEu868 => 'EU (868 MHz)';
+
+  @override
+  String get regDomainIn866 => 'IN (866 MHz)';
+
+  @override
+  String get regDomainAu433 => 'AU (433 MHz)';
+
+  @override
+  String get regDomainEu433 => 'EU (433 MHz)';
+
+  @override
+  String get regDomainUs433 => 'US (433 MHz)';
 }

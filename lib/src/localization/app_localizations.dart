@@ -5,16 +5,23 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_cs.dart';
 import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_id.dart';
 import 'app_localizations_it.dart';
 import 'app_localizations_ja.dart';
 import 'app_localizations_ko.dart';
+import 'app_localizations_nl.dart';
 import 'app_localizations_pl.dart';
 import 'app_localizations_pt.dart';
+import 'app_localizations_ru.dart';
+import 'app_localizations_sv.dart';
+import 'app_localizations_th.dart';
 import 'app_localizations_uk.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -102,16 +109,23 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('cs'),
     Locale('de'),
     Locale('en'),
     Locale('es'),
     Locale('fr'),
+    Locale('id'),
     Locale('it'),
     Locale('ja'),
     Locale('ko'),
+    Locale('nl'),
     Locale('pl'),
     Locale('pt'),
+    Locale('ru'),
+    Locale('sv'),
+    Locale('th'),
     Locale('uk'),
+    Locale('zh'),
   ];
 
   /// Label for the unique passkey used to generate the UID for radio transmitter/receiver binding. Related to CRITICAL-003 logic consolidation.
@@ -699,6 +713,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'I Understand'**
   String get disclaimerUnderstand;
+
+  /// No description provided for @optionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware Options'**
+  String get optionsTitle;
+
+  /// No description provided for @optionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure binding and network credentials.'**
+  String get optionsSubtitle;
+
+  /// No description provided for @wifiPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'WiFi Password'**
+  String get wifiPasswordLabel;
+
+  /// No description provided for @regulatoryDomainLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Regulatory Domain'**
+  String get regulatoryDomainLabel;
+
+  /// No description provided for @regDomainIsm.
+  ///
+  /// In en, this message translates to:
+  /// **'ISM (2.4GHz)'**
+  String get regDomainIsm;
+
+  /// No description provided for @regDomainEuLbt.
+  ///
+  /// In en, this message translates to:
+  /// **'EU CE (2.4GHz LBT)'**
+  String get regDomainEuLbt;
+
+  /// No description provided for @regDomainAu915.
+  ///
+  /// In en, this message translates to:
+  /// **'AU (915MHz)'**
+  String get regDomainAu915;
+
+  /// No description provided for @regDomainFcc915.
+  ///
+  /// In en, this message translates to:
+  /// **'FCC (915MHz)'**
+  String get regDomainFcc915;
+
+  /// No description provided for @regDomainEu868.
+  ///
+  /// In en, this message translates to:
+  /// **'EU (868MHz)'**
+  String get regDomainEu868;
+
+  /// No description provided for @regDomainIn866.
+  ///
+  /// In en, this message translates to:
+  /// **'IN (866MHz)'**
+  String get regDomainIn866;
+
+  /// No description provided for @regDomainAu433.
+  ///
+  /// In en, this message translates to:
+  /// **'AU (433MHz)'**
+  String get regDomainAu433;
+
+  /// No description provided for @regDomainEu433.
+  ///
+  /// In en, this message translates to:
+  /// **'EU (433MHz)'**
+  String get regDomainEu433;
+
+  /// No description provided for @regDomainUs433.
+  ///
+  /// In en, this message translates to:
+  /// **'US (433MHz)'**
+  String get regDomainUs433;
 }
 
 class _AppLocalizationsDelegate
@@ -712,16 +804,23 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) => <String>[
+    'cs',
     'de',
     'en',
     'es',
     'fr',
+    'id',
     'it',
     'ja',
     'ko',
+    'nl',
     'pl',
     'pt',
+    'ru',
+    'sv',
+    'th',
     'uk',
+    'zh',
   ].contains(locale.languageCode);
 
   @override
@@ -731,6 +830,8 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'cs':
+      return AppLocalizationsCs();
     case 'de':
       return AppLocalizationsDe();
     case 'en':
@@ -739,18 +840,30 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEs();
     case 'fr':
       return AppLocalizationsFr();
+    case 'id':
+      return AppLocalizationsId();
     case 'it':
       return AppLocalizationsIt();
     case 'ja':
       return AppLocalizationsJa();
     case 'ko':
       return AppLocalizationsKo();
+    case 'nl':
+      return AppLocalizationsNl();
     case 'pl':
       return AppLocalizationsPl();
     case 'pt':
       return AppLocalizationsPt();
+    case 'ru':
+      return AppLocalizationsRu();
+    case 'sv':
+      return AppLocalizationsSv();
+    case 'th':
+      return AppLocalizationsTh();
     case 'uk':
       return AppLocalizationsUk();
+    case 'zh':
+      return AppLocalizationsZh();
   }
 
   throw FlutterError(

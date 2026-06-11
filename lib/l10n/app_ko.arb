@@ -96,5 +96,18 @@
   "disclaimerLiability": "개발자는 본 애플리케이션 사용으로 인해 발생하는 어떠한 손상, 데이터 손실, 또는 하드웨어 오작동(예: 벽돌이 된 수신기, 송신기, 비행 컨트롤러 등)에 대해 책임지지 않습니다.",
   "disclaimerAgreement": "본 앱을 사용함으로써 귀하는 커스텀 펌웨어 플래싱의 위험성을 이해하고, 귀하의 하드웨어에 대한 전적인 책임을 수락함을 확인합니다.",
   "disclaimerVerification": "플래싱 전에 항상 대상 장치와 펌웨어 버전을 확인하십시오. 가능한 경우 원본 펌웨어를 백업해 두십시오.",
-  "disclaimerUnderstand": "이해했습니다"
+  "disclaimerUnderstand": "이해했습니다",
+  "optionsTitle": "펌웨어 옵션",
+  "optionsSubtitle": "바인딩 및 네트워크 자격 증명을 구성합니다.",
+  "wifiPasswordLabel": "WiFi 비밀번호",
+  "regulatoryDomainLabel": "규제 도메인",
+  "regDomainIsm": "ISM (2.4GHz)",
+  "regDomainEuLbt": "EU CE (2.4GHz LBT)",
+  "regDomainAu915": "AU (915MHz)",
+  "regDomainFcc915": "FCC (915MHz)",
+  "regDomainEu868": "EU (868MHz)",
+  "regDomainIn866": "IN (866MHz)",
+  "regDomainAu433": "AU (433MHz)",
+  "regDomainEu433": "EU (433MHz)",
+  "regDomainUs433": "US (433MHz)"
 }

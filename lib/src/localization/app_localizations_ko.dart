@@ -321,4 +321,43 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get disclaimerUnderstand => '이해했습니다';
+
+  @override
+  String get optionsTitle => '펌웨어 옵션';
+
+  @override
+  String get optionsSubtitle => '바인딩 및 네트워크 자격 증명을 구성합니다.';
+
+  @override
+  String get wifiPasswordLabel => 'WiFi 비밀번호';
+
+  @override
+  String get regulatoryDomainLabel => '규제 도메인';
+
+  @override
+  String get regDomainIsm => 'ISM (2.4GHz)';
+
+  @override
+  String get regDomainEuLbt => 'EU CE (2.4GHz LBT)';
+
+  @override
+  String get regDomainAu915 => 'AU (915MHz)';
+
+  @override
+  String get regDomainFcc915 => 'FCC (915MHz)';
+
+  @override
+  String get regDomainEu868 => 'EU (868MHz)';
+
+  @override
+  String get regDomainIn866 => 'IN (866MHz)';
+
+  @override
+  String get regDomainAu433 => 'AU (433MHz)';
+
+  @override
+  String get regDomainEu433 => 'EU (433MHz)';
+
+  @override
+  String get regDomainUs433 => 'US (433MHz)';
 }

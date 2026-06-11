@@ -96,5 +96,18 @@
   "disclaimerLiability": "開発者は、本アプリケーションの使用に起因するいかなる損害、データ損失、またはハードウェアの不具合（例：動作不能になったレシーバー、トランスミッター、フライトコントローラーなど）に対して、一切の責任を負いません。",
   "disclaimerAgreement": "本アプリを使用することにより、カスタムファームウェアのフラッシュに伴うリスクを理解し、ご自身のハードウェアに対する全責任を受け入れることに同意したものとします。",
   "disclaimerVerification": "フラッシュする前に、必ず対象とファームウェアのバージョンを確認してください。可能な場合は、元のファームウェアの記録を保管してください。",
-  "disclaimerUnderstand": "承知しました"
+  "disclaimerUnderstand": "承知しました",
+  "optionsTitle": "ファームウェア設定",
+  "optionsSubtitle": "バインディングとネットワーク認証情報を設定します。",
+  "wifiPasswordLabel": "Wi-Fiパスワード",
+  "regulatoryDomainLabel": "規制ドメイン",
+  "regDomainIsm": "ISM (2.4GHz)",
+  "regDomainEuLbt": "EU CE (2.4GHz LBT)",
+  "regDomainAu915": "AU (915MHz)",
+  "regDomainFcc915": "FCC (915MHz)",
+  "regDomainEu868": "EU (868MHz)",
+  "regDomainIn866": "IN (866MHz)",
+  "regDomainAu433": "AU (433MHz)",
+  "regDomainEu433": "EU (433MHz)",
+  "regDomainUs433": "US (433MHz)"
 }

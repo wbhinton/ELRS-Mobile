@@ -96,5 +96,18 @@
   "disclaimerLiability": "Die Entwickler sind nicht verantwortlich für Schäden, Datenverlust oder nicht funktionsfähige Hardware, die aus der Nutzung dieser Anwendung resultieren, einschließlich, aber nicht beschränkt auf „gebrickte“ Empfänger, Sender oder Flugsteuerungen.",
   "disclaimerAgreement": "Durch die Nutzung dieser App bestätigen Sie, dass Sie die Risiken des Flashens von benutzerdefinierter Firmware verstehen und die volle Verantwortung für Ihre Hardware übernehmen.",
   "disclaimerVerification": "Verifizieren Sie immer das Ziel und die Firmware-Version vor dem Flashen. Bewahren Sie, wenn möglich, eine Kopie Ihrer Original-Firmware auf.",
-  "disclaimerUnderstand": "Ich verstehe"
+  "disclaimerUnderstand": "Ich verstehe",
+  "optionsTitle": "Firmware-Optionen",
+  "optionsSubtitle": "Bindung und Netzwerkanmeldeinformationen konfigurieren.",
+  "wifiPasswordLabel": "WLAN-Passwort",
+  "regulatoryDomainLabel": "Regulierungsbereich",
+  "regDomainIsm": "ISM (2,4 GHz)",
+  "regDomainEuLbt": "EU CE (2,4 GHz LBT)",
+  "regDomainAu915": "AU (915 MHz)",
+  "regDomainFcc915": "FCC (915 MHz)",
+  "regDomainEu868": "EU (868 MHz)",
+  "regDomainIn866": "IN (866 MHz)",
+  "regDomainAu433": "AU (433 MHz)",
+  "regDomainEu433": "EU (433 MHz)",
+  "regDomainUs433": "US (433 MHz)"
 }

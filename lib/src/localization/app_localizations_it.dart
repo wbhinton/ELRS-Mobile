@@ -335,4 +335,44 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get disclaimerUnderstand => 'Ho Capito';
+
+  @override
+  String get optionsTitle => 'Opzioni Firmware';
+
+  @override
+  String get optionsSubtitle =>
+      'Configura l\'associazione e le credenziali di rete.';
+
+  @override
+  String get wifiPasswordLabel => 'Password WiFi';
+
+  @override
+  String get regulatoryDomainLabel => 'Dominio Normativo';
+
+  @override
+  String get regDomainIsm => 'ISM (2.4GHz)';
+
+  @override
+  String get regDomainEuLbt => 'UE CE (2.4GHz LBT)';
+
+  @override
+  String get regDomainAu915 => 'AU (915MHz)';
+
+  @override
+  String get regDomainFcc915 => 'FCC (915MHz)';
+
+  @override
+  String get regDomainEu868 => 'UE (868MHz)';
+
+  @override
+  String get regDomainIn866 => 'IN (866MHz)';
+
+  @override
+  String get regDomainAu433 => 'AU (433MHz)';
+
+  @override
+  String get regDomainEu433 => 'UE (433MHz)';
+
+  @override
+  String get regDomainUs433 => 'USA (433MHz)';
 }

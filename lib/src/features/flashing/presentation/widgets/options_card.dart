@@ -38,6 +38,8 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     // Listen to state changes to update controllers when data loads
     ref.listen(flashingControllerProvider, (previous, next) {
       if (previous?.bindPhrase != next.bindPhrase &&
@@ -77,12 +79,17 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   children: [
                     const Icon(Icons.settings),
                     const SizedBox(width: 8),
-                    Text('Firmware Options', style: Theme.of(context).textTheme.titleLarge),
+                    Expanded(
+                      child: Text(
+                        l10n.optionsTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Configure binding and network credentials.',
+                  l10n.optionsSubtitle,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                 ),
               ],
@@ -100,7 +107,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                 TextFormField(
                   controller: _bindPhraseController,
                   decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.bindingPhraseLabel,
+                    labelText: l10n.bindingPhraseLabel,
                     helperText: 'Your unique binding phrase',
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -140,7 +147,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                 TextFormField(
                   controller: _wifiSsidController,
                   decoration: InputDecoration(
-                    labelText: AppLocalizations.of(context)!.networkSsidLabel,
+                    labelText: l10n.networkSsidLabel,
                     suffixIcon: autosavingField == 'wifiSsid'
                         ? const Icon(
                             Icons.check_circle,
@@ -159,7 +166,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                 TextFormField(
                   controller: _wifiPasswordController,
                   decoration: InputDecoration(
-                    labelText: 'WiFi Password',
+                    labelText: l10n.wifiPasswordLabel,
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -206,26 +213,27 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                     }
 
                     final List<DropdownMenuItem<int>> domainItems = is2G4Only
-                        ? const [
-                            DropdownMenuItem(value: 0, child: Text('ISM (2.4GHz)')),
+                        ? [
+                            DropdownMenuItem(value: 0, child: Text(l10n.regDomainIsm)),
                             DropdownMenuItem(
                               value: 1,
-                              child: Text('EU CE (2.4GHz LBT)'),
+                              child: Text(l10n.regDomainEuLbt),
                             ),
                           ]
-                        : const [
-                            DropdownMenuItem(value: 0, child: Text('AU (915MHz)')),
-                            DropdownMenuItem(value: 1, child: Text('FCC (915MHz)')),
-                            DropdownMenuItem(value: 2, child: Text('EU (868MHz)')),
-                            DropdownMenuItem(value: 3, child: Text('IN (866MHz)')),
-                            DropdownMenuItem(value: 4, child: Text('AU (433MHz)')),
-                            DropdownMenuItem(value: 5, child: Text('EU (433MHz)')),
-                            DropdownMenuItem(value: 6, child: Text('US (433MHz)')),
+                        : [
+                            DropdownMenuItem(value: 0, child: Text(l10n.regDomainAu915)),
+                            DropdownMenuItem(value: 1, child: Text(l10n.regDomainFcc915)),
+                            DropdownMenuItem(value: 2, child: Text(l10n.regDomainEu868)),
+                            DropdownMenuItem(value: 3, child: Text(l10n.regDomainIn866)),
+                            DropdownMenuItem(value: 4, child: Text(l10n.regDomainAu433)),
+                            DropdownMenuItem(value: 5, child: Text(l10n.regDomainEu433)),
+                            DropdownMenuItem(value: 6, child: Text(l10n.regDomainUs433)),
                           ];
 
                     return DropdownButtonFormField<int>(
-                      decoration: const InputDecoration(
-                        labelText: 'Regulatory Domain',
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        labelText: l10n.regulatoryDomainLabel,
                       ),
                       initialValue: currentDomainId,
                       items: domainItems,

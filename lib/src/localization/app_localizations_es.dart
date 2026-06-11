@@ -334,4 +334,44 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get disclaimerUnderstand => 'Entiendo';
+
+  @override
+  String get optionsTitle => 'Opciones de Firmware';
+
+  @override
+  String get optionsSubtitle =>
+      'Configure la vinculación y las credenciales de red.';
+
+  @override
+  String get wifiPasswordLabel => 'Contraseña de WiFi';
+
+  @override
+  String get regulatoryDomainLabel => 'Dominio Regulatorio';
+
+  @override
+  String get regDomainIsm => 'ISM (2.4GHz)';
+
+  @override
+  String get regDomainEuLbt => 'UE CE (2.4GHz LBT)';
+
+  @override
+  String get regDomainAu915 => 'AU (915MHz)';
+
+  @override
+  String get regDomainFcc915 => 'FCC (915MHz)';
+
+  @override
+  String get regDomainEu868 => 'UE (868MHz)';
+
+  @override
+  String get regDomainIn866 => 'IN (866MHz)';
+
+  @override
+  String get regDomainAu433 => 'AU (433MHz)';
+
+  @override
+  String get regDomainEu433 => 'UE (433MHz)';
+
+  @override
+  String get regDomainUs433 => 'EE. UU. (433MHz)';
 }

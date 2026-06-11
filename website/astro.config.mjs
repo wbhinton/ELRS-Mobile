@@ -31,6 +31,13 @@ export default defineConfig({
         it: { label: 'Italiano', lang: 'it' },
         pl: { label: 'Polski', lang: 'pl' },
         ko: { label: '한국어', lang: 'ko' },
+        ru: { label: 'Русский', lang: 'ru' },
+        nl: { label: 'Nederlands', lang: 'nl' },
+        cs: { label: 'Čeština', lang: 'cs' },
+        th: { label: 'ไทย', lang: 'th' },
+        sv: { label: 'Svenska', lang: 'sv' },
+        id: { label: 'Bahasa Indonesia', lang: 'id' },
+        zh: { label: '简体中文', lang: 'zh' },
       },
       head: [
         {

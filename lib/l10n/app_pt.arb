@@ -96,5 +96,18 @@
   "disclaimerLiability": "Os desenvolvedores não são responsáveis por quaisquer danos, perda de dados ou hardware não funcional resultantes do uso desta aplicação, incluindo, mas não se limitando a, receptores, transmissores ou controladores de voo danificados (bricked).",
   "disclaimerAgreement": "Ao usar este aplicativo, você confirma que entende os riscos de flashar firmware personalizado e aceita total responsabilidade pelo seu hardware.",
   "disclaimerVerification": "Sempre verifique o alvo e a versão do firmware antes de flashar. Mantenha um registro do seu firmware original, se possível.",
-  "disclaimerUnderstand": "Compreendo"
+  "disclaimerUnderstand": "Compreendo",
+  "optionsTitle": "Opções de Firmware",
+  "optionsSubtitle": "Configure a ligação (binding) e as credenciais de rede.",
+  "wifiPasswordLabel": "Senha do Wi-Fi",
+  "regulatoryDomainLabel": "Domínio Regulatório",
+  "regDomainIsm": "ISM (2.4GHz)",
+  "regDomainEuLbt": "UE CE (2.4GHz LBT)",
+  "regDomainAu915": "AU (915MHz)",
+  "regDomainFcc915": "FCC (915MHz)",
+  "regDomainEu868": "UE (868MHz)",
+  "regDomainIn866": "IN (866MHz)",
+  "regDomainAu433": "AU (433MHz)",
+  "regDomainEu433": "UE (433MHz)",
+  "regDomainUs433": "EUA (433MHz)"
 }
