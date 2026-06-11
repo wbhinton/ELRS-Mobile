@@ -13,13 +13,24 @@ class SupportScreen extends HookConsumerWidget {
     final tabController = useTabController(initialLength: 3);
     useListenable(tabController);
 
+    Future<String> loadFaqContent() async {
+      final locale = Localizations.localeOf(context).languageCode;
+      final localizedPath = 'assets/docs/app_faq_$locale.md';
+      try {
+        return await DefaultAssetBundle.of(context).loadString(localizedPath);
+      } catch (_) {
+        return await DefaultAssetBundle.of(context).loadString('assets/docs/app_faq.md');
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Help & Support'),
       ),
       body: FutureBuilder<String>(
         future: useMemoized(
-          () => DefaultAssetBundle.of(context).loadString('assets/docs/app_faq.md'),
+          loadFaqContent,
+          [Localizations.localeOf(context).languageCode],
         ),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
