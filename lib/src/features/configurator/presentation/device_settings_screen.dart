@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -24,9 +26,11 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
   @override
   void initState() {
     super.initState();
+    _initWebView();
     _initAndroidVersion();
+  }
 
-    // Fallback to default ELRS IP if not found
+  void _initWebView() {
     final ip = ref.read(configViewModelProvider.notifier).probeIp ?? '10.0.0.1';
 
     // Track Webview Usage
@@ -65,7 +69,7 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
   }
 
   Future<void> _initAndroidVersion() async {
-    if (Platform.isAndroid) {
+    if (!kIsWeb && Platform.isAndroid) {
       final androidInfo = await DeviceInfoPlugin().androidInfo;
       if (mounted) {
         setState(() {
@@ -76,7 +80,7 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
   }
 
   Widget _buildWebView() {
-    if (Platform.isAndroid) {
+    if (!kIsWeb && Platform.isAndroid) {
       if (_androidSdkVersion == null) {
         // Still loading Android version info, so we wait before attaching the WebView.
         return const SizedBox.shrink();
@@ -95,9 +99,10 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Device Configuration'),
+        title: Text(l10n.deviceConfigLabel),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),

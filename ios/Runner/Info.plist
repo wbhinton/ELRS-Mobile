@@ -6,6 +6,19 @@
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>de</string>
+		<string>es</string>
+		<string>fr</string>
+		<string>ja</string>
+		<string>uk</string>
+		<string>pt</string>
+		<string>it</string>
+		<string>pl</string>
+		<string>ko</string>
+	</array>
 	<key>CFBundleDisplayName</key>
 	<string>ELRS Mobile</string>
 	<key>CFBundleExecutable</key>

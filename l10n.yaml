@@ -1,0 +1,9 @@
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-class: AppLocalizations
+output-dir: lib/src/localization
+
+# arb_translate configuration
+arb-translate-model-provider: gemini
+arb-translate-model: gemini-1.5-flash
+arb-translate-context: "This is a highly technical offline mobile utility application used by remote RC flight pilots for flashing firmware and configuring ExpressLRS radio telemetry hardware receivers and transmitter modules over local Wi-Fi and serial links."

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../flashing_controller.dart';
 import 'version_selector.dart';
 
@@ -99,7 +100,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                 TextFormField(
                   controller: _bindPhraseController,
                   decoration: InputDecoration(
-                    labelText: 'Binding Phrase',
+                    labelText: AppLocalizations.of(context)!.bindingPhraseLabel,
                     helperText: 'Your unique binding phrase',
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -139,7 +140,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                 TextFormField(
                   controller: _wifiSsidController,
                   decoration: InputDecoration(
-                    labelText: 'WiFi SSID',
+                    labelText: AppLocalizations.of(context)!.networkSsidLabel,
                     suffixIcon: autosavingField == 'wifiSsid'
                         ? const Icon(
                             Icons.check_circle,

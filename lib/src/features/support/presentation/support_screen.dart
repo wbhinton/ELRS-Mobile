@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,14 +13,26 @@ class SupportScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = useTabController(initialLength: 3);
     useListenable(tabController);
+    final l10n = AppLocalizations.of(context)!;
+
+    Future<String> loadFaqContent() async {
+      final locale = Localizations.localeOf(context).languageCode;
+      final localizedPath = 'assets/docs/app_faq_$locale.md';
+      try {
+        return await DefaultAssetBundle.of(context).loadString(localizedPath);
+      } catch (_) {
+        return await DefaultAssetBundle.of(context).loadString('assets/docs/app_faq.md');
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Help & Support'),
+        title: Text(l10n.helpSupportLabel),
       ),
       body: FutureBuilder<String>(
         future: useMemoized(
-          () => DefaultAssetBundle.of(context).loadString('assets/docs/app_faq.md'),
+          loadFaqContent,
+          [Localizations.localeOf(context).languageCode],
         ),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -71,21 +84,21 @@ class SupportScreen extends HookConsumerWidget {
                         tabController.animateTo(index);
                       },
                       labelType: NavigationRailLabelType.all,
-                      destinations: const [
+                      destinations: [
                         NavigationRailDestination(
-                          icon: Icon(Icons.menu_book_outlined),
-                          selectedIcon: Icon(Icons.menu_book),
-                          label: Text('Guide'),
+                          icon: const Icon(Icons.menu_book_outlined),
+                          selectedIcon: const Icon(Icons.menu_book),
+                          label: Text(l10n.tabFlashingGuide),
                         ),
                         NavigationRailDestination(
-                          icon: Icon(Icons.question_answer_outlined),
-                          selectedIcon: Icon(Icons.question_answer),
-                          label: Text('FAQ'),
+                          icon: const Icon(Icons.question_answer_outlined),
+                          selectedIcon: const Icon(Icons.question_answer),
+                          label: Text(l10n.tabFaq),
                         ),
                         NavigationRailDestination(
-                          icon: Icon(Icons.public_outlined),
-                          selectedIcon: Icon(Icons.public),
-                          label: Text('Resources'),
+                          icon: const Icon(Icons.public_outlined),
+                          selectedIcon: const Icon(Icons.public),
+                          label: Text(l10n.tabResources),
                         ),
                       ],
                     ),
@@ -106,10 +119,10 @@ class SupportScreen extends HookConsumerWidget {
                   TabBar(
                     controller: tabController,
                     isScrollable: true,
-                    tabs: const [
-                      Tab(text: 'Flashing Guide'),
-                      Tab(text: 'FAQ'),
-                      Tab(text: 'Resources'),
+                    tabs: [
+                      Tab(text: l10n.tabFlashingGuide),
+                      Tab(text: l10n.tabFaq),
+                      Tab(text: l10n.tabResources),
                     ],
                   ),
                   Expanded(
@@ -134,6 +147,7 @@ class _ResourcesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final titleStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
           color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.bold,
@@ -153,19 +167,19 @@ class _ResourcesTab extends StatelessWidget {
                     Icons.chat_bubble_outline,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  title: Text('Community & Support', style: titleStyle),
+                  title: Text(l10n.resourceCommunitySupport, style: titleStyle),
                 );
               },
               body: Column(
                 children: [
                   ListTile(
-                    title: const Text('Discord Community'),
-                    subtitle: const Text('Join the ELRS Discord'),
+                    title: Text(l10n.resourceDiscordCommunity),
+                    subtitle: Text(l10n.resourceJoinDiscord),
                     leading: const Icon(Icons.chat),
                     onTap: () => _launchUrl('https://discord.gg/expresslrs'),
                   ),
                   ListTile(
-                    title: const Text('GitHub Repository'),
+                    title: Text(l10n.resourceGithubRepo),
                     subtitle: const Text('https://github.com/wbhinton/ELRS-Mobile'),
                     leading: const Icon(Icons.code),
                     onTap: () => _launchUrl('https://github.com/wbhinton/ELRS-Mobile'),
@@ -181,7 +195,7 @@ class _ResourcesTab extends StatelessWidget {
                     Icons.build_circle_outlined,
                     color: Colors.orange,
                   ),
-                  title: Text('Flash Recovery', style: titleStyle),
+                  title: Text(l10n.resourceFlashRecovery, style: titleStyle),
                 );
               },
               body: Padding(
@@ -189,30 +203,30 @@ class _ResourcesTab extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'If your device appears unresponsive after a failed flash:',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Text(
+                      l10n.resourceDeviceUnresponsiveInfo,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 12),
-                    const _RecoveryStep(
+                    _RecoveryStep(
                       number: '1',
-                      text: 'Hold the BOOT button while plugging in via USB to enter bootloader mode.',
+                      text: l10n.resourceRecoveryStep1,
                     ),
-                    const _RecoveryStep(
+                    _RecoveryStep(
                       number: '2',
-                      text: 'Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.',
+                      text: l10n.resourceRecoveryStep2,
                     ),
-                    const _RecoveryStep(
+                    _RecoveryStep(
                       number: '3',
-                      text: 'For WiFi-capable devices, hold BOOT for 60 seconds to trigger WiFi Hotspot recovery mode.',
+                      text: l10n.resourceRecoveryStep3,
                     ),
-                    const _RecoveryStep(
+                    _RecoveryStep(
                       number: '4',
-                      text: 'Join #help on the ELRS Discord — the community can usually recover any device.',
+                      text: l10n.resourceRecoveryStep4,
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Joshua Bardwell\'s unbricking guide is highly recommended:',
+                      l10n.resourceBardwellGuideRecommended,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic),
                     ),
                     const SizedBox(height: 12),
@@ -222,12 +236,12 @@ class _ResourcesTab extends StatelessWidget {
                       children: [
                         OutlinedButton.icon(
                           icon: const Icon(Icons.open_in_new, size: 16),
-                          label: const Text('Web Flasher'),
+                          label: Text(l10n.resourceWebFlasherButton),
                           onPressed: () => _launchUrl('https://expresslrs.github.io/web-flasher/'),
                         ),
                         OutlinedButton.icon(
                           icon: const Icon(Icons.play_circle_outline, size: 16),
-                          label: const Text('Recovery Video'),
+                          label: Text(l10n.resourceRecoveryVideoButton),
                           onPressed: () => _launchUrl('https://www.youtube.com/watch?v=TzAaYg47TSU'),
                         ),
                       ],
@@ -244,28 +258,23 @@ class _ResourcesTab extends StatelessWidget {
                     Icons.warning_amber_rounded,
                     color: Colors.amber,
                   ),
-                  title: Text('Legal & Liability', style: titleStyle),
+                  title: Text(l10n.resourceLegalLiability, style: titleStyle),
                 );
               },
               body: Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                 child: Column(
                   children: [
-                    const Text(
-                      'ELRS Mobile is provided as-is, without warranty of any kind. '
-                      'The developers are not responsible for any damage, data loss, or '
-                      'non-functional hardware resulting from the use of this application, '
-                      'including but not limited to bricked receivers, transmitters, or '
-                      'flight controllers.\n\n'
-                      'By using this app you accept full responsibility for your hardware.',
-                      style: TextStyle(height: 1.5),
+                    Text(
+                      l10n.resourceLiabilityDisclaimerText,
+                      style: const TextStyle(height: 1.5),
                     ),
                     const SizedBox(height: 8),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: TextButton.icon(
                         icon: const Icon(Icons.open_in_new, size: 16),
-                        label: const Text('View Full Disclaimer'),
+                        label: Text(l10n.resourceViewFullDisclaimerButton),
                         onPressed: () => showDisclaimerDialog(context, ref, barrierDismissible: true),
                       ),
                     ),
@@ -331,7 +340,6 @@ class _SupportContentList extends StatelessWidget {
     );
   }
 }
-
 
 class _RecoveryStep extends StatelessWidget {
   const _RecoveryStep({required this.number, required this.text});

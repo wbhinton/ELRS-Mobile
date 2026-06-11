@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ip_address_keypad/ip_address_keypad.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../../../config/domain/runtime_config_model.dart';
 import '../../../config/presentation/config_view_model.dart';
 import '../../../flashing/presentation/flashing_controller.dart';
@@ -52,7 +53,7 @@ class HardwareStatusCard extends ConsumerWidget {
                 IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () => _showIpDialog(context, manualIp),
-                  tooltip: 'Manual Connection',
+                  tooltip: AppLocalizations.of(context)!.manualConnectionLabel,
                 ),
               ],
             ),
@@ -126,7 +127,7 @@ class HardwareStatusCard extends ConsumerWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
-                      'Connected: ${config.activeIp ?? 'Unknown IP'}',
+                      AppLocalizations.of(context)!.connectedLabel(config.activeIp ?? 'Unknown IP'),
                       style: const TextStyle(
                         color: Colors.teal,
                         fontWeight: FontWeight.w500,
@@ -195,7 +196,7 @@ class HardwareStatusCard extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'No Device Found',
+                AppLocalizations.of(context)!.noDeviceFoundLabel,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: Colors.grey[600],
                   fontWeight: FontWeight.bold,
@@ -208,7 +209,7 @@ class HardwareStatusCard extends ConsumerWidget {
                       .restartDiscovery();
                 },
                 icon: const Icon(Icons.refresh),
-                label: const Text('Retry'),
+                label: Text(AppLocalizations.of(context)!.retryLabel),
               ),
             ],
           ),
@@ -320,10 +321,10 @@ class _ManualIpDialogState extends ConsumerState<_ManualIpDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const FittedBox(
+      title: FittedBox(
         fit: BoxFit.scaleDown,
         alignment: Alignment.centerLeft,
-        child: Text('Manual IP Override'),
+        child: Text(AppLocalizations.of(context)!.manualIpOverrideLabel),
       ),
       content: SizedBox(
         width: double.maxFinite,
@@ -338,7 +339,7 @@ class _ManualIpDialogState extends ConsumerState<_ManualIpDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context)!.cancelLabel),
         ),
         ElevatedButton(
           onPressed: _isValid
@@ -349,7 +350,7 @@ class _ManualIpDialogState extends ConsumerState<_ManualIpDialog> {
                   Navigator.pop(context);
                 }
               : null,
-          child: const Text('Connect'),
+          child: Text(AppLocalizations.of(context)!.connectLabel),
         ),
       ],
     );
@@ -415,7 +416,9 @@ class _MatchStatusIndicator extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         Text(
-          isMatched ? 'Matched' : 'Mismatch',
+          isMatched
+              ? AppLocalizations.of(context)!.matchedLabel
+              : AppLocalizations.of(context)!.mismatchLabel,
           style: TextStyle(
             color: isMatched ? Colors.green : Colors.orange,
             fontWeight: FontWeight.bold,

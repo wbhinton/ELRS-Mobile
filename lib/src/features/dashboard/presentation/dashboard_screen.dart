@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../../../core/presentation/responsive_layout.dart';
 import '../../settings/presentation/settings_controller.dart';
 import '../../settings/presentation/disclaimer_dialog.dart';
@@ -19,6 +20,7 @@ class DashboardScreen extends HookConsumerWidget {
     final disclaimerAccepted = settingsState.disclaimerAccepted;
     final isLoaded = settingsState.isLoaded;
     final isTablet = ResponsiveLayout.isTablet(context);
+    final l10n = AppLocalizations.of(context)!;
 
     // Show disclaimer once on first launch, after the settings have loaded.
     useEffect(() {
@@ -76,31 +78,31 @@ class DashboardScreen extends HookConsumerWidget {
                   crossAxisSpacing: 16.0,
                   children: [
                     DashboardCard(
-                      title: 'Flash Device',
+                      title: l10n.flashDeviceLabel,
                       icon: Icons.system_update,
                       color: Colors.teal,
                       onTap: () => context.push('/flashing'),
                     ),
                     DashboardCard(
-                      title: 'Device Config',
+                      title: l10n.deviceConfigLabel,
                       icon: Icons.build,
                       color: Colors.blue,
                       onTap: () => context.push('/device_config'),
                     ),
                     DashboardCard(
-                      title: 'Firmware Manager',
+                      title: l10n.firmwareManagerLabel,
                       icon: Icons.folder_special,
                       color: Colors.orange,
                       onTap: () => context.push('/firmware_manager'),
                     ),
                     DashboardCard(
-                      title: 'Settings',
+                      title: l10n.settingsLabel,
                       icon: Icons.settings,
                       color: Colors.grey,
                       onTap: () => context.push('/settings'),
                     ),
                     DashboardCard(
-                      title: 'Help & Support',
+                      title: l10n.helpSupportLabel,
                       icon: Icons.help_outline,
                       color: Colors.purple,
                       onTap: () => context.push('/support'),

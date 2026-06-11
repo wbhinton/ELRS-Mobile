@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LegalNoticeScreen extends StatelessWidget {
@@ -6,69 +7,68 @@ class LegalNoticeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Legal & License')),
+      appBar: AppBar(title: Text(l10n.legalLicenseLabel)),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           Text(
-            'Legal Notice',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            l10n.legalNoticeSectionTitle,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
-            'ELRS Mobile is a free and open-source (FOSS) project developed independently by Weston Hinton. '
-            'This project is not an official product of ExpressLRS LLC and is not officially supported, endorsed, or certified by the ExpressLRS development team.',
-            style: TextStyle(fontSize: 16),
+            l10n.legalNoticeSectionText,
+            style: const TextStyle(fontSize: 16),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
-            'Trademark Notice',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            l10n.trademarkNoticeSectionTitle,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
-            'ExpressLRS and the ExpressLRS logo are trademarks of ExpressLRS LLC. Use of these marks is for descriptive and compatibility purposes only. '
-            'For the official ExpressLRS configurator and documentation, please visit expresslrs.org.',
-            style: TextStyle(fontSize: 16),
+            l10n.trademarkNoticeSectionText,
+            style: const TextStyle(fontSize: 16),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
-            'Official Support',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            l10n.officialSupportSectionTitle,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
-            'Support the official ExpressLRS project: ',
-            style: TextStyle(fontSize: 16),
+            l10n.officialSupportSectionText,
+            style: const TextStyle(fontSize: 16),
           ),
           InkWell(
             onTap: () => _launchUrl(
               'https://opencollective.com/expresslrs/donate?interval=oneTime&amount=20&name=&legalName=&email=',
             ),
-            child: const Text(
-              'Donate via Open Collective',
-              style: TextStyle(
+            child: Text(
+              l10n.donateOpenCollectiveLabel,
+              style: const TextStyle(
                 fontSize: 16,
                 color: Colors.blue,
                 decoration: TextDecoration.underline,
               ),
             ),
           ),
-          SizedBox(height: 24),
-          Divider(),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
+          const Divider(),
+          const SizedBox(height: 24),
           Text(
-            'Software License',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            l10n.softwareLicenseSectionTitle,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
-            'This project is licensed under the GNU General Public License v3.0.',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            l10n.gplv3NoticeText,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
-          SizedBox(height: 16),
-          _GPLText(),
+          const SizedBox(height: 16),
+          const _GPLText(),
         ],
       ),
     );
@@ -87,21 +87,33 @@ class _GPLText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      '                    GNU GENERAL PUBLIC LICENSE\n'
-      '                       Version 3, 29 June 2007\n'
-      '\n'
-      ' Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>\n'
-      ' Everyone is permitted to copy and distribute verbatim copies\n'
-      ' of this license document, but changing it is not allowed.\n'
-      '\n'
-      '                            Preamble\n'
-      '\n'
-      '  The GNU General Public License is a free, copyleft license for\n'
-      'software and other kinds of works.\n'
-      '...\n'
-      '[Full license text abbreviated for brevity in UI, referring to LICENSE file or providing scrollable view]',
-      style: TextStyle(fontFamily: 'monospace', fontSize: 12),
+    return FutureBuilder<String>(
+      future: DefaultAssetBundle.of(context).loadString('assets/docs/LICENSE'),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error loading license: ${snapshot.error}');
+        }
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Container(
+          height: 300,
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Text(
+              snapshot.data!,
+              style: const TextStyle(fontFamily: 'monospace', fontSize: 12),
+            ),
+          ),
+        );
+      },
     );
   }
 }

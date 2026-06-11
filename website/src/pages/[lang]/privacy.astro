@@ -1,0 +1,21 @@
+---
+import PrivacyPage from "../../components/PrivacyPage.astro";
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "de" } },
+    { params: { lang: "es" } },
+    { params: { lang: "fr" } },
+    { params: { lang: "ja" } },
+    { params: { lang: "uk" } },
+    { params: { lang: "pt" } },
+    { params: { lang: "it" } },
+    { params: { lang: "pl" } },
+    { params: { lang: "ko" } },
+  ];
+}
+
+const { lang } = Astro.params;
+---
+
+<PrivacyPage lang={lang} />
