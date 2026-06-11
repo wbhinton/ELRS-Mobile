@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'firmware_manager_controller.dart';
@@ -12,6 +13,7 @@ class FirmwareManagerScreen extends HookConsumerWidget {
     final state = ref.watch(firmwareManagerControllerProvider);
     final controller = ref.read(firmwareManagerControllerProvider.notifier);
     final settings = ref.watch(settingsControllerProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     useEffect(() {
       Future.microtask(() => controller.load());
@@ -20,7 +22,7 @@ class FirmwareManagerScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firmware Manager'),
+        title: Text(l10n.firmwareManagerLabel),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),

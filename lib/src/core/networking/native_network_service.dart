@@ -11,6 +11,7 @@
 // GNU General Public License for more details.
 
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -29,7 +30,7 @@ class NativeNetworkService {
   /// Binds the entire app process to the WiFi network even if it lacks internet access.
   /// This prevents the OS from routing traffic to 10.0.0.1 over cellular.
   Future<void> bindProcessToWiFi() async {
-    if (Platform.isIOS) return;
+    if (kIsWeb || Platform.isIOS) return;
     try {
       await _channel.invokeMethod('bindProcessToWiFi');
       _log.info('Process bound to WiFi interface');
@@ -40,7 +41,7 @@ class NativeNetworkService {
 
   /// Unbinds the process from the specific network, returning to default OS routing.
   Future<void> unbindProcess() async {
-    if (Platform.isIOS) return;
+    if (kIsWeb || Platform.isIOS) return;
     try {
       await _channel.invokeMethod('unbindProcess');
       _log.info('Process unbound from specific interface');
@@ -51,7 +52,7 @@ class NativeNetworkService {
 
   /// Acquires a multicast lock on Android to allow mDNS discovery.
   Future<void> acquireMulticastLock() async {
-    if (Platform.isIOS) return;
+    if (kIsWeb || Platform.isIOS) return;
     try {
       await _channel.invokeMethod('acquireMulticastLock');
       _log.info('Multicast lock acquired');
@@ -62,7 +63,7 @@ class NativeNetworkService {
 
   /// Releases the multicast lock.
   Future<void> releaseMulticastLock() async {
-    if (Platform.isIOS) return;
+    if (kIsWeb || Platform.isIOS) return;
     try {
       await _channel.invokeMethod('releaseMulticastLock');
       _log.info('Multicast lock released');
@@ -73,7 +74,7 @@ class NativeNetworkService {
 
   /// Checks if the current WiFi connection has internet access (Validated).
   Future<bool> isWiFiValidated() async {
-    if (Platform.isIOS) return true; // iOS doesn't have a direct equivalent here
+    if (kIsWeb || Platform.isIOS) return true; // iOS doesn't have a direct equivalent here
     try {
       final bool validated = await _channel.invokeMethod('isWiFiValidated');
       return validated;
@@ -82,3 +83,4 @@ class NativeNetworkService {
     }
   }
 }
+

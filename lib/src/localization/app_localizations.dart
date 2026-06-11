@@ -487,6 +487,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System Default'**
   String get languageOverrideSystemDefault;
+
+  /// No description provided for @legalNoticeSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Notice'**
+  String get legalNoticeSectionTitle;
+
+  /// No description provided for @legalNoticeSectionText.
+  ///
+  /// In en, this message translates to:
+  /// **'ELRS Mobile is a free and open-source (FOSS) project developed independently by Weston Hinton. This project is not an official product of ExpressLRS LLC and is not officially supported, endorsed, or certified by the ExpressLRS development team.'**
+  String get legalNoticeSectionText;
+
+  /// No description provided for @trademarkNoticeSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trademark Notice'**
+  String get trademarkNoticeSectionTitle;
+
+  /// No description provided for @trademarkNoticeSectionText.
+  ///
+  /// In en, this message translates to:
+  /// **'ExpressLRS and the ExpressLRS logo are trademarks of ExpressLRS LLC. Use of these marks is for descriptive and compatibility purposes only. For the official ExpressLRS configurator and documentation, please visit expresslrs.org.'**
+  String get trademarkNoticeSectionText;
+
+  /// No description provided for @officialSupportSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Official Support'**
+  String get officialSupportSectionTitle;
+
+  /// No description provided for @officialSupportSectionText.
+  ///
+  /// In en, this message translates to:
+  /// **'Support the official ExpressLRS project: '**
+  String get officialSupportSectionText;
+
+  /// No description provided for @donateOpenCollectiveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate via Open Collective'**
+  String get donateOpenCollectiveLabel;
+
+  /// No description provided for @softwareLicenseSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Software License'**
+  String get softwareLicenseSectionTitle;
+
+  /// No description provided for @gplv3NoticeText.
+  ///
+  /// In en, this message translates to:
+  /// **'This project is licensed under the GNU General Public License v3.0.'**
+  String get gplv3NoticeText;
+
+  /// No description provided for @tabFlashingGuide.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashing Guide'**
+  String get tabFlashingGuide;
+
+  /// No description provided for @tabFaq.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get tabFaq;
+
+  /// No description provided for @tabResources.
+  ///
+  /// In en, this message translates to:
+  /// **'Resources'**
+  String get tabResources;
+
+  /// No description provided for @resourceCommunitySupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Community & Support'**
+  String get resourceCommunitySupport;
+
+  /// No description provided for @resourceDiscordCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Discord Community'**
+  String get resourceDiscordCommunity;
+
+  /// No description provided for @resourceJoinDiscord.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the ELRS Discord'**
+  String get resourceJoinDiscord;
+
+  /// No description provided for @resourceGithubRepo.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub Repository'**
+  String get resourceGithubRepo;
+
+  /// No description provided for @resourceFlashRecovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash Recovery'**
+  String get resourceFlashRecovery;
+
+  /// No description provided for @resourceDeviceUnresponsiveInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'If your device appears unresponsive after a failed flash:'**
+  String get resourceDeviceUnresponsiveInfo;
+
+  /// No description provided for @resourceRecoveryStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the BOOT button while plugging in via USB to enter bootloader mode.'**
+  String get resourceRecoveryStep1;
+
+  /// No description provided for @resourceRecoveryStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.'**
+  String get resourceRecoveryStep2;
+
+  /// No description provided for @resourceRecoveryStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'For WiFi-capable devices, hold BOOT for 60 seconds to trigger WiFi Hotspot recovery mode.'**
+  String get resourceRecoveryStep3;
+
+  /// No description provided for @resourceRecoveryStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Join #help on the ELRS Discord — the community can usually recover any device.'**
+  String get resourceRecoveryStep4;
+
+  /// No description provided for @resourceBardwellGuideRecommended.
+  ///
+  /// In en, this message translates to:
+  /// **'Joshua Bardwell\'s unbricking guide is highly recommended:'**
+  String get resourceBardwellGuideRecommended;
+
+  /// No description provided for @resourceWebFlasherButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Flasher'**
+  String get resourceWebFlasherButton;
+
+  /// No description provided for @resourceRecoveryVideoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery Video'**
+  String get resourceRecoveryVideoButton;
+
+  /// No description provided for @resourceLegalLiability.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal & Liability'**
+  String get resourceLegalLiability;
+
+  /// No description provided for @resourceLiabilityDisclaimerText.
+  ///
+  /// In en, this message translates to:
+  /// **'ELRS Mobile is provided as-is, without warranty of any kind. The developers are not responsible for any damage, data loss, or non-functional hardware resulting from the use of this application, including but not limited to bricked receivers, transmitters, or flight controllers.\n\nBy using this app you accept full responsibility for your hardware.'**
+  String get resourceLiabilityDisclaimerText;
+
+  /// No description provided for @resourceViewFullDisclaimerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'View Full Disclaimer'**
+  String get resourceViewFullDisclaimerButton;
 }
 
 class _AppLocalizationsDelegate

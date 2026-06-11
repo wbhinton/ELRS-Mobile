@@ -218,4 +218,102 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get languageOverrideSystemDefault => 'За замовчуванням системи';
+
+  @override
+  String get legalNoticeSectionTitle => 'Правова інформація';
+
+  @override
+  String get legalNoticeSectionText =>
+      'ELRS Mobile — це безкоштовний проєкт із відкритим вихідним кодом (FOSS), розроблений незалежно Вестоном Гінтоном. Цей проєкт не є офіційним продуктом ExpressLRS LLC і не підтримується, не схвалюється та не сертифікується офіційно командою розробників ExpressLRS.';
+
+  @override
+  String get trademarkNoticeSectionTitle =>
+      'Повідомлення про торговельну марку';
+
+  @override
+  String get trademarkNoticeSectionText =>
+      'ExpressLRS та логотип ExpressLRS є торговельними марками ExpressLRS LLC. Використання цих марок призначене лише для описових цілей та цілей сумісності. Щоб отримати офіційний конфігуратор та документацію ExpressLRS, будь ласка, відвідайте expresslrs.org.';
+
+  @override
+  String get officialSupportSectionTitle => 'Офіційна підтримка';
+
+  @override
+  String get officialSupportSectionText =>
+      'Підтримайте офіційний проєкт ExpressLRS: ';
+
+  @override
+  String get donateOpenCollectiveLabel => 'Пожертвувати через Open Collective';
+
+  @override
+  String get softwareLicenseSectionTitle =>
+      'Ліцензія на програмне забезпечення';
+
+  @override
+  String get gplv3NoticeText =>
+      'Цей проєкт ліцензовано за ліцензією GNU General Public License v3.0.';
+
+  @override
+  String get tabFlashingGuide => 'Посібник із прошивки';
+
+  @override
+  String get tabFaq => 'ЧаПи';
+
+  @override
+  String get tabResources => 'Ресурси';
+
+  @override
+  String get resourceCommunitySupport => 'Спільнота та підтримка';
+
+  @override
+  String get resourceDiscordCommunity => 'Спільнота Discord';
+
+  @override
+  String get resourceJoinDiscord => 'Приєднатися до Discord ELRS';
+
+  @override
+  String get resourceGithubRepo => 'Репозиторій GitHub';
+
+  @override
+  String get resourceFlashRecovery => 'Відновлення прошивки';
+
+  @override
+  String get resourceDeviceUnresponsiveInfo =>
+      'Якщо ваш пристрій не реагує після невдалої прошивки:';
+
+  @override
+  String get resourceRecoveryStep1 =>
+      'Утримуйте кнопку BOOT під час підключення через USB, щоб увійти в режим завантажувача.';
+
+  @override
+  String get resourceRecoveryStep2 =>
+      'Використайте ELRS Web Flasher на expresslrs.org/flasher для повторної прошивки через USB/UART.';
+
+  @override
+  String get resourceRecoveryStep3 =>
+      'Для пристроїв із підтримкою Wi-Fi утримуйте BOOT протягом 60 секунд, щоб активувати режим відновлення точки доступу Wi-Fi.';
+
+  @override
+  String get resourceRecoveryStep4 =>
+      'Приєднайтеся до каналу #help у Discord ELRS — спільнота зазвичай може відновити будь-який пристрій.';
+
+  @override
+  String get resourceBardwellGuideRecommended =>
+      'Настійно рекомендується посібник Джошуа Бардвелла з розблокування пристроїв:';
+
+  @override
+  String get resourceWebFlasherButton => 'Веб-прошивальник';
+
+  @override
+  String get resourceRecoveryVideoButton => 'Відео з відновлення';
+
+  @override
+  String get resourceLegalLiability => 'Правові питання та відповідальність';
+
+  @override
+  String get resourceLiabilityDisclaimerText =>
+      'ELRS Mobile надається «як є», без будь-яких гарантій. Розробники не несуть відповідальності за будь-які пошкодження, втрату даних або непрацююче обладнання, що виникли внаслідок використання цієї програми, включаючи, але не обмежуючись, непрацюючі приймачі, передавачі або польотні контролери.\n\nВикористовуючи цей додаток, ви берете на себе повну відповідальність за своє обладнання.';
+
+  @override
+  String get resourceViewFullDisclaimerButton =>
+      'Переглянути повну відмову від відповідальності';
 }

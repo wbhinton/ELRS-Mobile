@@ -215,4 +215,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languageOverrideSystemDefault => 'System Default';
+
+  @override
+  String get legalNoticeSectionTitle => 'Legal Notice';
+
+  @override
+  String get legalNoticeSectionText =>
+      'ELRS Mobile is a free and open-source (FOSS) project developed independently by Weston Hinton. This project is not an official product of ExpressLRS LLC and is not officially supported, endorsed, or certified by the ExpressLRS development team.';
+
+  @override
+  String get trademarkNoticeSectionTitle => 'Trademark Notice';
+
+  @override
+  String get trademarkNoticeSectionText =>
+      'ExpressLRS and the ExpressLRS logo are trademarks of ExpressLRS LLC. Use of these marks is for descriptive and compatibility purposes only. For the official ExpressLRS configurator and documentation, please visit expresslrs.org.';
+
+  @override
+  String get officialSupportSectionTitle => 'Official Support';
+
+  @override
+  String get officialSupportSectionText =>
+      'Support the official ExpressLRS project: ';
+
+  @override
+  String get donateOpenCollectiveLabel => 'Donate via Open Collective';
+
+  @override
+  String get softwareLicenseSectionTitle => 'Software License';
+
+  @override
+  String get gplv3NoticeText =>
+      'This project is licensed under the GNU General Public License v3.0.';
+
+  @override
+  String get tabFlashingGuide => 'Flashing Guide';
+
+  @override
+  String get tabFaq => 'FAQ';
+
+  @override
+  String get tabResources => 'Resources';
+
+  @override
+  String get resourceCommunitySupport => 'Community & Support';
+
+  @override
+  String get resourceDiscordCommunity => 'Discord Community';
+
+  @override
+  String get resourceJoinDiscord => 'Join the ELRS Discord';
+
+  @override
+  String get resourceGithubRepo => 'GitHub Repository';
+
+  @override
+  String get resourceFlashRecovery => 'Flash Recovery';
+
+  @override
+  String get resourceDeviceUnresponsiveInfo =>
+      'If your device appears unresponsive after a failed flash:';
+
+  @override
+  String get resourceRecoveryStep1 =>
+      'Hold the BOOT button while plugging in via USB to enter bootloader mode.';
+
+  @override
+  String get resourceRecoveryStep2 =>
+      'Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.';
+
+  @override
+  String get resourceRecoveryStep3 =>
+      'For WiFi-capable devices, hold BOOT for 60 seconds to trigger WiFi Hotspot recovery mode.';
+
+  @override
+  String get resourceRecoveryStep4 =>
+      'Join #help on the ELRS Discord — the community can usually recover any device.';
+
+  @override
+  String get resourceBardwellGuideRecommended =>
+      'Joshua Bardwell\'s unbricking guide is highly recommended:';
+
+  @override
+  String get resourceWebFlasherButton => 'Web Flasher';
+
+  @override
+  String get resourceRecoveryVideoButton => 'Recovery Video';
+
+  @override
+  String get resourceLegalLiability => 'Legal & Liability';
+
+  @override
+  String get resourceLiabilityDisclaimerText =>
+      'ELRS Mobile is provided as-is, without warranty of any kind. The developers are not responsible for any damage, data loss, or non-functional hardware resulting from the use of this application, including but not limited to bricked receivers, transmitters, or flight controllers.\n\nBy using this app you accept full responsibility for your hardware.';
+
+  @override
+  String get resourceViewFullDisclaimerButton => 'View Full Disclaimer';
 }

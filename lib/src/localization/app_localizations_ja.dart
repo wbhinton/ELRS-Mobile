@@ -208,4 +208,98 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get languageOverrideSystemDefault => 'システムデフォルト';
+
+  @override
+  String get legalNoticeSectionTitle => '法的通知';
+
+  @override
+  String get legalNoticeSectionText =>
+      'ELRS Mobileは、Weston Hintonによって独立して開発された自由でオープンソース（FOSS）プロジェクトです。本プロジェクトはExpressLRS LLCの公式製品ではなく、ExpressLRS開発チームによって公式にサポート、承認、または認定されているものではありません。';
+
+  @override
+  String get trademarkNoticeSectionTitle => '商標について';
+
+  @override
+  String get trademarkNoticeSectionText =>
+      'ExpressLRSおよびExpressLRSロゴは、ExpressLRS LLCの商標です。これらの商標の使用は、記述および互換性の目的のみに限定されます。公式のExpressLRSコンフィギュレーターおよびドキュメントについては、expresslrs.orgをご覧ください。';
+
+  @override
+  String get officialSupportSectionTitle => '公式サポート';
+
+  @override
+  String get officialSupportSectionText => '公式のExpressLRSプロジェクトをサポートする: ';
+
+  @override
+  String get donateOpenCollectiveLabel => 'Open Collectiveで寄付する';
+
+  @override
+  String get softwareLicenseSectionTitle => 'ソフトウェアライセンス';
+
+  @override
+  String get gplv3NoticeText =>
+      '本プロジェクトはGNU General Public License v3.0の下でライセンスされています。';
+
+  @override
+  String get tabFlashingGuide => 'ファームウェア書き込みガイド';
+
+  @override
+  String get tabFaq => 'よくある質問';
+
+  @override
+  String get tabResources => 'リソース';
+
+  @override
+  String get resourceCommunitySupport => 'コミュニティとサポート';
+
+  @override
+  String get resourceDiscordCommunity => 'Discordコミュニティ';
+
+  @override
+  String get resourceJoinDiscord => 'ELRS Discordに参加する';
+
+  @override
+  String get resourceGithubRepo => 'GitHubリポジトリ';
+
+  @override
+  String get resourceFlashRecovery => 'ファームウェア書き込みの復旧';
+
+  @override
+  String get resourceDeviceUnresponsiveInfo =>
+      'デバイスがファームウェア書き込み失敗後に反応しなくなった場合:';
+
+  @override
+  String get resourceRecoveryStep1 =>
+      'USBを接続する際にBOOTボタンを押したままにして、ブートローダーモードに入ります。';
+
+  @override
+  String get resourceRecoveryStep2 =>
+      'expresslrs.org/flasher のELRS Web Flasherを使用して、USB/UART経由でファームウェアを再書き込みします。';
+
+  @override
+  String get resourceRecoveryStep3 =>
+      'WiFi対応デバイスの場合、BOOTボタンを60秒間押し続けて、WiFiホットスポット復旧モードをトリガーします。';
+
+  @override
+  String get resourceRecoveryStep4 =>
+      'ELRS Discordの#helpチャンネルに参加してください — コミュニティは通常、どのようなデバイスでも復旧できます。';
+
+  @override
+  String get resourceBardwellGuideRecommended =>
+      'Joshua Bardwell氏のunbrickingガイドを強くお勧めします:';
+
+  @override
+  String get resourceWebFlasherButton => 'Web Flasher';
+
+  @override
+  String get resourceRecoveryVideoButton => '復旧ビデオ';
+
+  @override
+  String get resourceLegalLiability => '法的責任';
+
+  @override
+  String get resourceLiabilityDisclaimerText =>
+      'ELRS Mobileは、いかなる種類の保証もなく「現状有姿」で提供されます。開発者は、本アプリケーションの使用によって生じた、受信機、送信機、フライトコントローラーの破損、データの損失、または機能不全のハードウェアを含むがこれに限定されない、いかなる損害についても責任を負いません。\n\nこのアプリを使用することにより、お客様はご自身のハードウェアに対する全責任を負うものとします。';
+
+  @override
+  String get resourceViewFullDisclaimerButton => '免責事項全文を表示';
 }
