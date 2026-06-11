@@ -71,15 +71,28 @@ async function translateUi() {
   const uiData = JSON.parse(fs.readFileSync(uiFile, 'utf8'));
   const englishKeys = uiData.en;
 
+  if (!uiData._hashes) {
+    uiData._hashes = {};
+  }
+
   for (const locale of targetLocales) {
     if (!uiData[locale]) {
       uiData[locale] = {};
     }
+    if (!uiData._hashes[locale]) {
+      uiData._hashes[locale] = {};
+    }
 
     const missingKeys = {};
     for (const key of Object.keys(englishKeys)) {
-      if (!uiData[locale][key]) {
-        missingKeys[key] = englishKeys[key];
+      const sourceVal = englishKeys[key];
+      const sourceHash = crypto.createHash('md5').update(sourceVal).digest('hex');
+      
+      const existingTranslation = uiData[locale][key];
+      const existingHash = uiData._hashes[locale][key];
+      
+      if (!existingTranslation || existingHash !== sourceHash) {
+        missingKeys[key] = sourceVal;
       }
     }
 
@@ -107,6 +120,9 @@ async function translateUi() {
       for (const key of Object.keys(missingKeys)) {
         if (translatedKeys[key]) {
           uiData[locale][key] = translatedKeys[key];
+          
+          const sourceHash = crypto.createHash('md5').update(englishKeys[key]).digest('hex');
+          uiData._hashes[locale][key] = sourceHash;
         } else {
           // Fallback
           uiData[locale][key] = missingKeys[key];

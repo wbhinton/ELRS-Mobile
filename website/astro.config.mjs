@@ -8,13 +8,6 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   site: 'https://elrsmobile.com',
   base: '/',
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'de', 'es', 'fr', 'ja', 'uk'],
-    routing: {
-      prefixDefaultLocale: false,
-    }
-  },
   integrations: [
     tailwind(),
     starlight({
