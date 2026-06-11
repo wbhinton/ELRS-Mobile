@@ -1,0 +1,32 @@
+{
+  "@@locale": "en",
+  "bindingPhraseLabel": "Binding Phrase",
+  "@bindingPhraseLabel": {
+    "description": "Label for the unique passkey used to generate the UID for radio transmitter/receiver binding. Related to CRITICAL-003 logic consolidation."
+  },
+  "networkSsidLabel": "WiFi SSID",
+  "@networkSsidLabel": {
+    "description": "The name of the wireless network used for OTA (Over-The-Air) flashing."
+  },
+  "flashingButtonLabel": "Flash",
+  "@flashingButtonLabel": {
+    "description": "Action button to begin writing firmware to the target device. Do not translate as 'light flash'."
+  },
+  "packetRateLabel": "Packet Rate",
+  "@packetRateLabel": {
+    "description": "RF performance setting (Hz). Do not translate technical units or abbreviations."
+  },
+  "baudRateLabel": "Baud Rate",
+  "@baudRateLabel": {
+    "description": "Serial communication speed in bits per second. Do not translate the word 'Baud'."
+  },
+  "brandUpdateMessage": "Updating {expressLRS} firmware on {radioMaster} or {betaFPV} hardware...",
+  "@brandUpdateMessage": {
+    "description": "Status message for firmware updates with immutable brand placeholders.",
+    "placeholders": {
+      "expressLRS": { "type": "String" },
+      "radioMaster": { "type": "String" },
+      "betaFPV": { "type": "String" }
+    }
+  }
+}

@@ -13,6 +13,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'router.dart';
 import 'core/networking/connectivity_service.dart';
@@ -66,6 +67,8 @@ class _AppContent extends HookConsumerWidget {
       themeMode: ThemeMode.dark,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
