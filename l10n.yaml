@@ -5,6 +5,6 @@ output-dir: lib/src/localization
 
 # arb_translate configuration
 arb-translate-model-provider: custom
-arb-translate-custom-model-provider-base-url: "https://generativelanguage.googleapis.com/v1beta/openai/"
+arb-translate-custom-model-provider-base-url: "https://generativelanguage.googleapis.com/v1beta/openai"
 arb-translate-custom-model: "gemini-1.5-flash"
 arb-translate-context: "This is a highly technical offline mobile utility application used by remote RC flight pilots for flashing firmware and configuring ExpressLRS radio telemetry hardware receivers and transmitter modules over local Wi-Fi and serial links."
