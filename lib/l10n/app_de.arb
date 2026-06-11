@@ -90,5 +90,11 @@
   "resourceRecoveryVideoButton": "Wiederherstellungsvideo",
   "resourceLegalLiability": "Recht & Haftung",
   "resourceLiabilityDisclaimerText": "ELRS Mobile wird 'wie besehen' und ohne jegliche Gewährleistung bereitgestellt. Die Entwickler sind nicht verantwortlich für Schäden, Datenverlust oder nicht funktionierende Hardware, die aus der Nutzung dieser Anwendung resultieren, einschließlich, aber nicht beschränkt auf 'gebrickte' Empfänger, Sender oder Flugsteuerungen.\n\nDurch die Nutzung dieser App übernehmen Sie die volle Verantwortung für Ihre Hardware.",
-  "resourceViewFullDisclaimerButton": "Vollständigen Haftungsausschluss anzeigen"
+  "resourceViewFullDisclaimerButton": "Vollständigen Haftungsausschluss anzeigen",
+  "disclaimerTitle": "Nutzung auf eigene Gefahr",
+  "disclaimerHeader": "ELRS Mobile wird wie besehen und ohne jegliche Gewährleistung zur Verfügung gestellt.",
+  "disclaimerLiability": "Die Entwickler sind nicht verantwortlich für Schäden, Datenverlust oder nicht funktionsfähige Hardware, die aus der Nutzung dieser Anwendung resultieren, einschließlich, aber nicht beschränkt auf „gebrickte“ Empfänger, Sender oder Flugsteuerungen.",
+  "disclaimerAgreement": "Durch die Nutzung dieser App bestätigen Sie, dass Sie die Risiken des Flashens von benutzerdefinierter Firmware verstehen und die volle Verantwortung für Ihre Hardware übernehmen.",
+  "disclaimerVerification": "Verifizieren Sie immer das Ziel und die Firmware-Version vor dem Flashen. Bewahren Sie, wenn möglich, eine Kopie Ihrer Original-Firmware auf.",
+  "disclaimerUnderstand": "Ich verstehe"
 }

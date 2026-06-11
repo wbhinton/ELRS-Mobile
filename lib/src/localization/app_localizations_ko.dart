@@ -300,4 +300,25 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get resourceViewFullDisclaimerButton => '전체 면책 조항 보기';
+
+  @override
+  String get disclaimerTitle => '사용자 책임';
+
+  @override
+  String get disclaimerHeader => 'ELRS 모바일은 어떠한 종류의 보증도 없이 현상 그대로 제공됩니다.';
+
+  @override
+  String get disclaimerLiability =>
+      '개발자는 본 애플리케이션 사용으로 인해 발생하는 어떠한 손상, 데이터 손실, 또는 하드웨어 오작동(예: 벽돌이 된 수신기, 송신기, 비행 컨트롤러 등)에 대해 책임지지 않습니다.';
+
+  @override
+  String get disclaimerAgreement =>
+      '본 앱을 사용함으로써 귀하는 커스텀 펌웨어 플래싱의 위험성을 이해하고, 귀하의 하드웨어에 대한 전적인 책임을 수락함을 확인합니다.';
+
+  @override
+  String get disclaimerVerification =>
+      '플래싱 전에 항상 대상 장치와 펌웨어 버전을 확인하십시오. 가능한 경우 원본 펌웨어를 백업해 두십시오.';
+
+  @override
+  String get disclaimerUnderstand => '이해했습니다';
 }

@@ -310,4 +310,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resourceViewFullDisclaimerButton => 'View Full Disclaimer';
+
+  @override
+  String get disclaimerTitle => 'Use at Your Own Risk';
+
+  @override
+  String get disclaimerHeader =>
+      'ELRS Mobile is provided as-is, without warranty of any kind.';
+
+  @override
+  String get disclaimerLiability =>
+      'The developers are not responsible for any damage, data loss, or non-functional hardware resulting from the use of this application, including but not limited to bricked receivers, transmitters, or flight controllers.';
+
+  @override
+  String get disclaimerAgreement =>
+      'By using this app you confirm that you understand the risks of flashing custom firmware and accept full responsibility for your hardware.';
+
+  @override
+  String get disclaimerVerification =>
+      'Always verify the target and firmware version before flashing. Keep a record of your original firmware if possible.';
+
+  @override
+  String get disclaimerUnderstand => 'I Understand';
 }

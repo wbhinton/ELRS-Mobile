@@ -312,4 +312,26 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get resourceViewFullDisclaimerButton =>
       'Ver Descargo de Responsabilidad Completo';
+
+  @override
+  String get disclaimerTitle => 'Uso Bajo Su Propio Riesgo';
+
+  @override
+  String get disclaimerHeader =>
+      'ELRS Mobile se proporciona tal cual, sin garantía de ningún tipo.';
+
+  @override
+  String get disclaimerLiability =>
+      'Los desarrolladores no se hacen responsables de ningún daño, pérdida de datos o hardware que deje de funcionar como resultado del uso de esta aplicación, incluyendo, entre otros, receptores, transmisores o controladores de vuelo inutilizados.';
+
+  @override
+  String get disclaimerAgreement =>
+      'Al usar esta aplicación, usted confirma que entiende los riesgos de flashear firmware personalizado y acepta la responsabilidad total por su hardware.';
+
+  @override
+  String get disclaimerVerification =>
+      'Verifique siempre el objetivo y la versión del firmware antes de flashear. Conserve un registro de su firmware original si es posible.';
+
+  @override
+  String get disclaimerUnderstand => 'Entiendo';
 }

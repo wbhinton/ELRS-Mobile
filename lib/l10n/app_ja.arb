@@ -90,5 +90,11 @@
   "resourceRecoveryVideoButton": "復旧ビデオ",
   "resourceLegalLiability": "法的責任",
   "resourceLiabilityDisclaimerText": "ELRS Mobileは、いかなる種類の保証もなく「現状有姿」で提供されます。開発者は、本アプリケーションの使用によって生じた、受信機、送信機、フライトコントローラーの破損、データの損失、または機能不全のハードウェアを含むがこれに限定されない、いかなる損害についても責任を負いません。\n\nこのアプリを使用することにより、お客様はご自身のハードウェアに対する全責任を負うものとします。",
-  "resourceViewFullDisclaimerButton": "免責事項全文を表示"
+  "resourceViewFullDisclaimerButton": "免責事項全文を表示",
+  "disclaimerTitle": "自己責任でご使用ください",
+  "disclaimerHeader": "ELRSモバイルは現状有姿で提供され、いかなる保証もありません。",
+  "disclaimerLiability": "開発者は、本アプリケーションの使用に起因するいかなる損害、データ損失、またはハードウェアの不具合（例：動作不能になったレシーバー、トランスミッター、フライトコントローラーなど）に対して、一切の責任を負いません。",
+  "disclaimerAgreement": "本アプリを使用することにより、カスタムファームウェアのフラッシュに伴うリスクを理解し、ご自身のハードウェアに対する全責任を受け入れることに同意したものとします。",
+  "disclaimerVerification": "フラッシュする前に、必ず対象とファームウェアのバージョンを確認してください。可能な場合は、元のファームウェアの記録を保管してください。",
+  "disclaimerUnderstand": "承知しました"
 }

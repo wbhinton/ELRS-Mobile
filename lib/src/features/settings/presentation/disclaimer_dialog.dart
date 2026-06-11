@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../presentation/settings_controller.dart';
 
 /// Shows the disclaimer dialog. Pass [onAccepted] to be notified when the
@@ -24,40 +25,36 @@ class _DisclaimerDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef widgetRef) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AlertDialog(
       icon: const Icon(
         Icons.warning_amber_rounded,
         size: 40,
         color: Colors.amber,
       ),
-      title: const Text('Use at Your Own Risk'),
-      content: const SingleChildScrollView(
+      title: Text(l10n.disclaimerTitle),
+      content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'ELRS Mobile is provided as-is, without warranty of any kind.',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              l10n.disclaimerHeader,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
-              'The developers are not responsible for any damage, data loss, or '
-              'non-functional hardware resulting from the use of this application, '
-              'including but not limited to bricked receivers, transmitters, or '
-              'flight controllers.',
+              l10n.disclaimerLiability,
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
-              'By using this app you confirm that you understand the risks of '
-              'flashing custom firmware and accept full responsibility for your '
-              'hardware.',
+              l10n.disclaimerAgreement,
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
-              'Always verify the target and firmware version before flashing. '
-              'Keep a record of your original firmware if possible.',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              l10n.disclaimerVerification,
+              style: const TextStyle(fontStyle: FontStyle.italic),
             ),
           ],
         ),
@@ -70,7 +67,7 @@ class _DisclaimerDialog extends ConsumerWidget {
                 .acceptDisclaimer();
             if (context.mounted) Navigator.of(context).pop();
           },
-          child: const Text('I Understand'),
+          child: Text(l10n.disclaimerUnderstand),
         ),
       ],
     );

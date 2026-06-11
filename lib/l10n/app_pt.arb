@@ -90,5 +90,11 @@
   "resourceRecoveryVideoButton": "Vídeo de Recuperação",
   "resourceLegalLiability": "Questões Legais e Responsabilidade",
   "resourceLiabilityDisclaimerText": "O ELRS Mobile é fornecido como está, sem garantia de qualquer tipo. Os desenvolvedores não são responsáveis por quaisquer danos, perda de dados ou hardware não funcional resultantes do uso desta aplicação, incluindo, entre outros, recetores, transmissores ou controladores de voo 'brickados'.\n\nAo usar esta aplicação, aceita total responsabilidade pelo seu hardware.",
-  "resourceViewFullDisclaimerButton": "Ver Aviso Legal Completo"
+  "resourceViewFullDisclaimerButton": "Ver Aviso Legal Completo",
+  "disclaimerTitle": "Uso por Sua Conta e Risco",
+  "disclaimerHeader": "O ELRS Mobile é fornecido como está, sem garantia de qualquer tipo.",
+  "disclaimerLiability": "Os desenvolvedores não são responsáveis por quaisquer danos, perda de dados ou hardware não funcional resultantes do uso desta aplicação, incluindo, mas não se limitando a, receptores, transmissores ou controladores de voo danificados (bricked).",
+  "disclaimerAgreement": "Ao usar este aplicativo, você confirma que entende os riscos de flashar firmware personalizado e aceita total responsabilidade pelo seu hardware.",
+  "disclaimerVerification": "Sempre verifique o alvo e a versão do firmware antes de flashar. Mantenha um registro do seu firmware original, se possível.",
+  "disclaimerUnderstand": "Compreendo"
 }

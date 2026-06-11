@@ -663,6 +663,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Full Disclaimer'**
   String get resourceViewFullDisclaimerButton;
+
+  /// No description provided for @disclaimerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at Your Own Risk'**
+  String get disclaimerTitle;
+
+  /// No description provided for @disclaimerHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'ELRS Mobile is provided as-is, without warranty of any kind.'**
+  String get disclaimerHeader;
+
+  /// No description provided for @disclaimerLiability.
+  ///
+  /// In en, this message translates to:
+  /// **'The developers are not responsible for any damage, data loss, or non-functional hardware resulting from the use of this application, including but not limited to bricked receivers, transmitters, or flight controllers.'**
+  String get disclaimerLiability;
+
+  /// No description provided for @disclaimerAgreement.
+  ///
+  /// In en, this message translates to:
+  /// **'By using this app you confirm that you understand the risks of flashing custom firmware and accept full responsibility for your hardware.'**
+  String get disclaimerAgreement;
+
+  /// No description provided for @disclaimerVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Always verify the target and firmware version before flashing. Keep a record of your original firmware if possible.'**
+  String get disclaimerVerification;
+
+  /// No description provided for @disclaimerUnderstand.
+  ///
+  /// In en, this message translates to:
+  /// **'I Understand'**
+  String get disclaimerUnderstand;
 }
 
 class _AppLocalizationsDelegate

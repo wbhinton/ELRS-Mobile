@@ -302,4 +302,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get resourceViewFullDisclaimerButton => '免責事項全文を表示';
+
+  @override
+  String get disclaimerTitle => '自己責任でご使用ください';
+
+  @override
+  String get disclaimerHeader => 'ELRSモバイルは現状有姿で提供され、いかなる保証もありません。';
+
+  @override
+  String get disclaimerLiability =>
+      '開発者は、本アプリケーションの使用に起因するいかなる損害、データ損失、またはハードウェアの不具合（例：動作不能になったレシーバー、トランスミッター、フライトコントローラーなど）に対して、一切の責任を負いません。';
+
+  @override
+  String get disclaimerAgreement =>
+      '本アプリを使用することにより、カスタムファームウェアのフラッシュに伴うリスクを理解し、ご自身のハードウェアに対する全責任を受け入れることに同意したものとします。';
+
+  @override
+  String get disclaimerVerification =>
+      'フラッシュする前に、必ず対象とファームウェアのバージョンを確認してください。可能な場合は、元のファームウェアの記録を保管してください。';
+
+  @override
+  String get disclaimerUnderstand => '承知しました';
 }

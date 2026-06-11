@@ -90,5 +90,11 @@
   "resourceRecoveryVideoButton": "Film o odzyskiwaniu",
   "resourceLegalLiability": "Aspekty prawne i odpowiedzialność",
   "resourceLiabilityDisclaimerText": "ELRS Mobile jest dostarczane w stanie, w jakim się znajduje, bez jakiejkolwiek gwarancji. Twórcy nie ponoszą odpowiedzialności za jakiekolwiek szkody, utratę danych ani nieprawidłowo działający sprzęt wynikające z użycia tej aplikacji, w tym między innymi za „uceglone” odbiorniki, nadajniki lub kontrolery lotu.\n\nKorzystając z tej aplikacji, akceptujesz pełną odpowiedzialność za swój sprzęt.",
-  "resourceViewFullDisclaimerButton": "Zobacz pełne wyłączenie odpowiedzialności"
+  "resourceViewFullDisclaimerButton": "Zobacz pełne wyłączenie odpowiedzialności",
+  "disclaimerTitle": "Używasz na własne ryzyko",
+  "disclaimerHeader": "Aplikacja ELRS Mobile jest dostarczana w stanie, w jakim jest, bez jakiejkolwiek gwarancji.",
+  "disclaimerLiability": "Deweloperzy nie ponoszą odpowiedzialności za żadne uszkodzenia, utratę danych ani niesprawne działanie sprzętu wynikające z użycia tej aplikacji, w tym między innymi za uszkodzone (zbrickowane) odbiorniki, nadajniki lub kontrolery lotu.",
+  "disclaimerAgreement": "Korzystając z tej aplikacji, potwierdzasz, że rozumiesz ryzyko flashowania niestandardowego oprogramowania układowego i akceptujesz pełną odpowiedzialność za swój sprzęt.",
+  "disclaimerVerification": "Zawsze weryfikuj cel i wersję oprogramowania układowego przed flashowaniem. Jeśli to możliwe, zachowaj kopię oryginalnego oprogramowania.",
+  "disclaimerUnderstand": "Rozumiem"
 }

@@ -316,4 +316,26 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get resourceViewFullDisclaimerButton =>
       'Переглянути повну відмову від відповідальності';
+
+  @override
+  String get disclaimerTitle => 'Використання на власний ризик';
+
+  @override
+  String get disclaimerHeader =>
+      'ELRS Mobile надається «як є», без жодних гарантій.';
+
+  @override
+  String get disclaimerLiability =>
+      'Розробники не несуть відповідальності за будь-які пошкодження, втрату даних або несправне обладнання, що виникли внаслідок використання цієї програми, включаючи, але не обмежуючись, непрацездатні приймачі, передавачі або польотні контролери.';
+
+  @override
+  String get disclaimerAgreement =>
+      'Використовуючи цю програму, ви підтверджуєте, що розумієте ризики прошивки стороннього програмного забезпечення та приймаєте повну відповідальність за своє обладнання.';
+
+  @override
+  String get disclaimerVerification =>
+      'Завжди перевіряйте цільовий пристрій та версію прошивки перед оновленням. Збережіть копію оригінальної прошивки, якщо це можливо.';
+
+  @override
+  String get disclaimerUnderstand => 'Я розумію';
 }
