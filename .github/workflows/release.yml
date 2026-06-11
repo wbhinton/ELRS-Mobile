@@ -18,8 +18,66 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
 
 jobs:
+  translate:
+    name: Translate App and Docs
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Patch arb_translate model mapping
+        run: |
+          python3 -c "import os; p = os.path.expanduser('~/.pub-cache/hosted/pub.dev/arb_translate-1.1.0/lib/src/translation_delegates/gemini_translation_delegate.dart'); c = open(p).read().replace('Model.gemini15Pro || Model.gemini15Flash => \'\\${model.key}-latest\'', 'Model.gemini15Pro => \'gemini-2.5-pro\', Model.gemini15Flash => \'gemini-2.5-flash\''); open(p, 'w').write(c)"
+
+      - name: Run Translate Script
+        env:
+          ARB_TRANSLATE_API_KEY: ${{ secrets.ARB_TRANSLATE_API_KEY }}
+        run: ./scripts/translate.sh
+
+      - name: Upload Translation Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: translations-artifact
+          path: |
+            lib/l10n/
+            lib/src/localization/
+            assets/docs/
+            website/src/i18n/
+            website/src/content/docs/
+
+      - name: Commit and Push Translations to Main
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add lib/l10n/
+          git add lib/src/localization/
+          git add assets/docs/
+          git add website/src/i18n/
+          git add website/src/content/docs/
+          git commit -m "chore(l10n): auto-generate translations [skip ci]" || echo "No changes to commit"
+          git push origin HEAD:main
+
   build:
     name: Build APK and Release
+    needs: translate
+    if: always() && (needs.translate.result == 'success' || needs.translate.result == 'skipped')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -43,8 +101,15 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build APK and App Bundle
-        run: |
+      - name: Download Translations (Tags Only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v4
+        with:
+          name: translations-artifact
+
+      - name: Rebuild Localization
+        run: flutter gen-l10n
+
       - name: Build APK and App Bundle
         run: |
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
@@ -113,7 +178,7 @@ jobs:
           
           # Escaping for JSON string
           ESCAPED_CONTENT=$(echo "$JSON_CONTENT" | jq -aRs .)
-
+ 
           # Update Gist using GitHub API
           curl -sfSL \
             -X PATCH \
@@ -125,6 +190,8 @@ jobs:
 
   build-ios:
     name: Build & Distribute iOS
+    needs: translate
+    if: always() && (needs.translate.result == 'success' || needs.translate.result == 'skipped')
     runs-on: macos-latest
     permissions:
       contents: write
@@ -145,6 +212,15 @@ jobs:
 
       - name: Get dependencies
         run: flutter pub get
+
+      - name: Download Translations (Tags Only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v4
+        with:
+          name: translations-artifact
+
+      - name: Rebuild Localization
+        run: flutter gen-l10n
 
       - name: Update CocoaPods Specs
         working-directory: ios
@@ -175,8 +251,6 @@ jobs:
           echo "Installed Identities:"
           security find-identity -v -p codesigning $KEYCHAIN_PATH
 
-      - name: Build IPA
-        run: |
       - name: Build IPA
         run: |
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
