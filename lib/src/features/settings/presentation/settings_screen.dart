@@ -140,6 +140,10 @@ class SettingsScreen extends HookConsumerWidget {
                       const DropdownMenuItem(value: 'fr', child: Text('Français')),
                       const DropdownMenuItem(value: 'ja', child: Text('日本語')),
                       const DropdownMenuItem(value: 'uk', child: Text('Українська')),
+                      const DropdownMenuItem(value: 'pt', child: Text('Português')),
+                      const DropdownMenuItem(value: 'it', child: Text('Italiano')),
+                      const DropdownMenuItem(value: 'pl', child: Text('Polski')),
+                      const DropdownMenuItem(value: 'ko', child: Text('한국어')),
                     ],
                   ),
                 ),
@@ -659,6 +663,10 @@ class SettingsScreen extends HookConsumerWidget {
       case 'fr': return 'Français';
       case 'ja': return '日本語';
       case 'uk': return 'Українська';
+      case 'pt': return 'Português';
+      case 'it': return 'Italiano';
+      case 'pl': return 'Polski';
+      case 'ko': return '한국어';
       default: return code;
     }
   }

@@ -27,6 +27,10 @@ export default defineConfig({
         fr: { label: 'Français', lang: 'fr' },
         ja: { label: '日本語', lang: 'ja' },
         uk: { label: 'Українська', lang: 'uk' },
+        pt: { label: 'Português', lang: 'pt' },
+        it: { label: 'Italiano', lang: 'it' },
+        pl: { label: 'Polski', lang: 'pl' },
+        ko: { label: '한국어', lang: 'ko' },
       },
       head: [
         {

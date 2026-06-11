@@ -10,7 +10,7 @@ if (!apiKey) {
   process.exit(0);
 }
 
-const targetLocales = ['de', 'es', 'fr', 'ja', 'uk'];
+const targetLocales = ['de', 'es', 'fr', 'ja', 'uk', 'pt', 'it', 'pl', 'ko'];
 
 // Paths
 const docsDir = path.join(__dirname, '../src/content/docs/guides');
