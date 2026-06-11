@@ -25,6 +25,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool disclaimerAccepted,
     @Default(true) bool shareAnalytics,
     @Default(false) bool isLoaded,
+    String? appLocale,
     String? bindPhraseError,
     String? wifiSsidError,
     String? wifiPasswordError,
@@ -56,6 +57,7 @@ class SettingsController extends _$SettingsController {
       appVersion: '${info.version}+${info.buildNumber}',
       disclaimerAccepted: persistence.hasAcceptedDisclaimer(),
       shareAnalytics: prefs.getBool('shareAnalytics') ?? true,
+      appLocale: prefs.getString('appLocale'),
       isLoaded: true,
     );
   }
@@ -148,5 +150,15 @@ class SettingsController extends _$SettingsController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('shareAnalytics', value);
     state = state.copyWith(shareAnalytics: value);
+  }
+
+  Future<void> setAppLocale(String? localeCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (localeCode == null) {
+      await prefs.remove('appLocale');
+    } else {
+      await prefs.setString('appLocale', localeCode);
+    }
+    state = state.copyWith(appLocale: localeCode);
   }
 }

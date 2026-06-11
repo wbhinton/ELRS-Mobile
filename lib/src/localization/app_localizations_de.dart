@@ -211,4 +211,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notSetLabel => 'Nicht festgelegt';
+
+  @override
+  String get languageOverrideLabel => 'Sprache';
+
+  @override
+  String get languageOverrideSystemDefault => 'Systemstandard';
 }

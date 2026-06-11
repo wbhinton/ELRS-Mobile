@@ -88,5 +88,7 @@
   "proceedLabel": "Proceed",
   "submittingReportProgress": "Submitting report…",
   "saveLabel": "Save",
-  "notSetLabel": "Not set"
+  "notSetLabel": "Not set",
+  "languageOverrideLabel": "Language",
+  "languageOverrideSystemDefault": "System Default"
 }

@@ -212,4 +212,10 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get notSetLabel => 'Не встановлено';
+
+  @override
+  String get languageOverrideLabel => 'Мова';
+
+  @override
+  String get languageOverrideSystemDefault => 'За замовчуванням системи';
 }

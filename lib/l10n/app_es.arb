@@ -60,5 +60,7 @@
   "proceedLabel": "Continuar",
   "submittingReportProgress": "Enviando informe…",
   "saveLabel": "Guardar",
-  "notSetLabel": "No configurado"
+  "notSetLabel": "No configurado",
+  "languageOverrideLabel": "Idioma",
+  "languageOverrideSystemDefault": "Predeterminado del sistema"
 }

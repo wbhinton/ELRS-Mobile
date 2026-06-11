@@ -60,5 +60,7 @@
   "proceedLabel": "Продовжити",
   "submittingReportProgress": "Надсилання звіту…",
   "saveLabel": "Зберегти",
-  "notSetLabel": "Не встановлено"
+  "notSetLabel": "Не встановлено",
+  "languageOverrideLabel": "Мова",
+  "languageOverrideSystemDefault": "За замовчуванням системи"
 }

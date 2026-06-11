@@ -35,6 +35,7 @@ class _AppContent extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(goRouterProvider);
     final lifecycleState = useAppLifecycleState();
+    final appLocale = ref.watch(settingsControllerProvider.select((s) => s.appLocale));
 
     // Clean up keyboard focus when the app drops into background to prevent ghost notifications
     useEffect(() {
@@ -69,6 +70,7 @@ class _AppContent extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: appLocale != null ? Locale(appLocale) : null,
     );
   }
 }

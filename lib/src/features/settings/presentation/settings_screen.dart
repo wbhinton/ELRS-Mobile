@@ -120,6 +120,30 @@ class SettingsScreen extends HookConsumerWidget {
                   isVisibleNotifier: showWifiPassword,
                 ),
                 ListTile(
+                  title: Text(l10n.languageOverrideLabel),
+                  subtitle: Text(state.appLocale == null
+                      ? l10n.languageOverrideSystemDefault
+                      : _getLocaleName(state.appLocale!)),
+                  trailing: DropdownButton<String?>(
+                    value: state.appLocale,
+                    onChanged: (val) {
+                      controller.setAppLocale(val);
+                    },
+                    items: [
+                      DropdownMenuItem(
+                        value: null,
+                        child: Text(l10n.languageOverrideSystemDefault),
+                      ),
+                      const DropdownMenuItem(value: 'en', child: Text('English')),
+                      const DropdownMenuItem(value: 'de', child: Text('Deutsch')),
+                      const DropdownMenuItem(value: 'es', child: Text('Español')),
+                      const DropdownMenuItem(value: 'fr', child: Text('Français')),
+                      const DropdownMenuItem(value: 'ja', child: Text('日本語')),
+                      const DropdownMenuItem(value: 'uk', child: Text('Українська')),
+                    ],
+                  ),
+                ),
+                ListTile(
                   title: Text(l10n.manageCachedFirmwareLabel),
                   subtitle: Text(l10n.downloadOrDeleteOfflineFirmwareLabel),
                   leading: const Icon(Icons.sd_storage),
@@ -625,6 +649,18 @@ class SettingsScreen extends HookConsumerWidget {
     }
 
     return buildTile(false);
+  }
+
+  String _getLocaleName(String code) {
+    switch (code) {
+      case 'en': return 'English';
+      case 'de': return 'Deutsch';
+      case 'es': return 'Español';
+      case 'fr': return 'Français';
+      case 'ja': return '日本語';
+      case 'uk': return 'Українська';
+      default: return code;
+    }
   }
 }
 

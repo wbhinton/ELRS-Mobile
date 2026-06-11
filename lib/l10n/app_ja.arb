@@ -60,5 +60,7 @@
   "proceedLabel": "続行",
   "submittingReportProgress": "レポートを送信中…",
   "saveLabel": "保存",
-  "notSetLabel": "未設定"
+  "notSetLabel": "未設定",
+  "languageOverrideLabel": "言語",
+  "languageOverrideSystemDefault": "システムデフォルト"
 }

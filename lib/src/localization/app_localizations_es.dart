@@ -210,4 +210,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notSetLabel => 'No configurado';
+
+  @override
+  String get languageOverrideLabel => 'Idioma';
+
+  @override
+  String get languageOverrideSystemDefault => 'Predeterminado del sistema';
 }

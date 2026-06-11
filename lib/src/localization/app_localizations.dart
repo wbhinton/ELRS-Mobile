@@ -475,6 +475,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not set'**
   String get notSetLabel;
+
+  /// No description provided for @languageOverrideLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageOverrideLabel;
+
+  /// No description provided for @languageOverrideSystemDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get languageOverrideSystemDefault;
 }
 
 class _AppLocalizationsDelegate

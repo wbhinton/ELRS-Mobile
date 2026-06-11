@@ -202,4 +202,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get notSetLabel => '未設定';
+
+  @override
+  String get languageOverrideLabel => '言語';
+
+  @override
+  String get languageOverrideSystemDefault => 'システムデフォルト';
 }
