@@ -20,6 +20,9 @@ dart run arb_translate
 echo "Running markdown translation for assets..."
 node "$(dirname "$0")/translate_markdown.js"
 
+echo "Running website translation (Astro docs & UI)..."
+node "$(dirname "$0")/../website/scripts/translate_astro.cjs"
+
 echo "Running flutter gen-l10n..."
 flutter gen-l10n
 

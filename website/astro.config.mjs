@@ -8,6 +8,13 @@ import tailwind from '@astrojs/tailwind';
 export default defineConfig({
   site: 'https://elrsmobile.com',
   base: '/',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'de', 'es', 'fr', 'ja', 'uk'],
+    routing: {
+      prefixDefaultLocale: false,
+    }
+  },
   integrations: [
     tailwind(),
     starlight({
@@ -17,6 +24,17 @@ export default defineConfig({
         src: './src/assets/logo.png',
       },
       favicon: '/favicon.png',
+      locales: {
+        root: {
+          label: 'English',
+          lang: 'en',
+        },
+        de: { label: 'Deutsch', lang: 'de' },
+        es: { label: 'Español', lang: 'es' },
+        fr: { label: 'Français', lang: 'fr' },
+        ja: { label: '日本語', lang: 'ja' },
+        uk: { label: 'Українська', lang: 'uk' },
+      },
       head: [
         {
           tag: 'script',

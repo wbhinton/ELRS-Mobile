@@ -1,0 +1,205 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ui from "../i18n/ui.json";
+
+interface Props {
+	lang: string;
+}
+
+const { lang } = Astro.props;
+
+// Helper to look up keys safely
+function t(key: keyof typeof ui.en): string {
+  const dictionary = (ui as any)[lang] || ui.en;
+  return dictionary[key] || (ui.en as any)[key];
+}
+
+const homePath = lang === 'en' ? '/' : `/${lang}/`;
+const privacyPath = lang === 'en' ? '/privacy' : `/${lang}/privacy`;
+---
+
+<Layout title={`${t("privacy.title_main")} ${t("privacy.title_sub")} - ELRS Mobile`} lang={lang}>
+	<main>
+		<header>
+			<h1>{t("privacy.title_main")} <span class="text-gradient">{t("privacy.title_sub")}</span></h1>
+			<p class="tagline">{t("privacy.last_updated")}</p>
+		</header>
+
+		<section class="content">
+			<p>{t("privacy.p1")}</p>
+
+			<h2>{t("privacy.sec1_title")}</h2>
+
+			<h3>{t("privacy.sec1_local_title")}</h3>
+			<p>{t("privacy.sec1_local_desc")}</p>
+			<ul>
+				<li>
+					<strong>{t("privacy.sec1_local_wifi")}</strong>: {t("privacy.sec1_local_wifi_desc")}
+				</li>
+				<li>
+					<strong>{t("privacy.sec1_local_phrase")}</strong>: {t("privacy.sec1_local_phrase_desc")}
+				</li>
+				<li>
+					<strong>{t("privacy.sec1_local_regulatory")}</strong>: {t("privacy.sec1_local_regulatory_desc")}
+				</li>
+				<li>
+					<strong>{t("privacy.sec1_local_cache")}</strong>: {t("privacy.sec1_local_cache_desc")}
+				</li>
+			</ul>
+			<p>
+				<strong>{t("privacy.sec1_local_warning")}</strong>
+			</p>
+
+			<h3>{t("privacy.sec1_analytics_title")}</h3>
+			<p>
+				{t("privacy.sec1_analytics_desc1")}<strong>{t("privacy.sec1_analytics_desc1_bold")}</strong>{t("privacy.sec1_analytics_desc1_end")}
+			</p>
+			<ul>
+				<li>
+					<strong>{t("privacy.sec1_analytics_sentry")}</strong>: {t("privacy.sec1_analytics_sentry_desc")}
+				</li>
+				<li>
+					<strong>{t("privacy.sec1_analytics_aptabase")}</strong>: {t("privacy.sec1_analytics_aptabase_desc")}
+				</li>
+			</ul>
+			<p>
+				{t("privacy.sec1_analytics_desc2_1")}<strong>{t("privacy.sec1_analytics_desc2_bold")}</strong>{t("privacy.sec1_analytics_desc2_2")}<strong>{t("privacy.sec1_analytics_desc2_never_bold")}</strong>{t("privacy.sec1_analytics_desc2_3")}
+			</p>
+
+			<h3>{t("privacy.sec1_downloads_title")}</h3>
+			<p>
+				{t("privacy.sec1_downloads_desc_1")}<strong>{t("privacy.sec1_downloads_desc_bold1")}</strong>{t("privacy.sec1_downloads_desc_and")}<strong>{t("privacy.sec1_downloads_desc_bold2")}</strong>{t("privacy.sec1_downloads_desc_2")}
+			</p>
+
+			<h2>{t("privacy.sec2_title")}</h2>
+			<p>{t("privacy.sec2_desc")}</p>
+			<ul>
+				<li>
+					<strong>{t("privacy.sec2_perm1_bold")}</strong>: {t("privacy.sec2_perm1_desc")}
+				</li>
+				<li>
+					<strong>{t("privacy.sec2_perm2_bold")}</strong>: {t("privacy.sec2_perm2_desc")}<strong>{t("privacy.sec2_perm2_not_bold")}</strong>{t("privacy.sec2_perm2_end")}
+				</li>
+				<li>
+					<strong>{t("privacy.sec2_perm3_bold")}</strong>: {t("privacy.sec2_perm3_desc")}
+				</li>
+			</ul>
+
+			<h2>{t("privacy.sec3_title")}</h2>
+			<p>{t("privacy.sec3_desc")}</p>
+
+			<h2>{t("privacy.sec4_title")}</h2>
+			<p>{t("privacy.sec4_desc")}</p>
+
+			<h2>{t("privacy.sec5_title")}</h2>
+			<p>
+				{t("privacy.sec5_desc_1")}<a href="https://discord.gg/expresslrs">{t("privacy.sec5_discord_label")}</a>{t("privacy.sec5_desc_or")}<a href="https://github.com/ExpressLRS/ExpressLRS">{t("privacy.sec5_github_label")}</a>{t("privacy.sec5_desc_dot")}
+			</p>
+		</section>
+
+		<div class="back-link">
+			<a href={homePath} class="button secondary">{t("privacy.back_home")}</a>
+		</div>
+
+		<footer>
+			<p>{t("footer.copy")}</p>
+			<p><a href={privacyPath}>{t("privacy.policy_link")}</a></p>
+		</footer>
+	</main>
+</Layout>
+
+<style>
+	header {
+		text-align: center;
+		padding: 4rem 0;
+	}
+	h1 {
+		font-size: 3rem;
+		font-weight: 800;
+		margin: 0;
+	}
+	.text-gradient {
+		background-image: linear-gradient(45deg, var(--primary), #ffffff);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.tagline {
+		font-size: 1.2rem;
+		color: var(--text-muted);
+		margin-top: 1rem;
+	}
+	.content {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 2rem 0;
+	}
+	h2 {
+		font-size: 2rem;
+		color: var(--primary);
+		margin-top: 2.5rem;
+		margin-bottom: 1rem;
+		border-bottom: 1px solid var(--surface);
+		padding-bottom: 0.5rem;
+	}
+	h3 {
+		font-size: 1.5rem;
+		margin-top: 2rem;
+		margin-bottom: 0.8rem;
+	}
+	p {
+		font-size: 1.1rem;
+		line-height: 1.6;
+		margin-bottom: 1.5rem;
+		color: var(--text-muted);
+	}
+	ul {
+		margin-bottom: 1.5rem;
+		padding-left: 1.5rem;
+		color: var(--text-muted);
+	}
+	li {
+		margin-bottom: 0.5rem;
+	}
+	strong {
+		color: var(--text);
+	}
+	.back-link {
+		text-align: center;
+		margin-top: 3rem;
+	}
+	.button {
+		padding: 0.8rem 2rem;
+		border-radius: 8px;
+		text-decoration: none;
+		font-weight: bold;
+		transition: transform 0.2s, background 0.2s;
+		display: inline-block;
+	}
+	.button:hover {
+		transform: translateY(-2px);
+	}
+	.button.secondary {
+		border: 1px solid var(--primary);
+		color: var(--primary);
+	}
+	footer {
+		text-align: center;
+		padding: 2rem 0;
+		margin-top: 4rem;
+		border-top: 1px solid var(--surface);
+		color: var(--text-muted);
+		font-size: 0.9rem;
+	}
+	footer p {
+		margin-bottom: 0.5rem;
+	}
+	a {
+		color: var(--primary);
+		text-decoration: none;
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+</style>
