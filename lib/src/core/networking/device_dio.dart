@@ -25,8 +25,11 @@ Dio localDio(Ref ref) {
   final dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10), // Shorter timeout for local
-      receiveTimeout: const Duration(seconds: 30),
+      // Increased from 10s to 30s to allow ESP hardware more time to accept OTA connections
+      connectTimeout: const Duration(seconds: 30),
+      // Generous 2-minute timeouts to ensure the physical binary upload completes on slow field Wi-Fi
+      receiveTimeout: const Duration(seconds: 120), 
+      sendTimeout: const Duration(seconds: 120),
       headers: {
         'User-Agent': 'ELRSMobile/1.0',
       },

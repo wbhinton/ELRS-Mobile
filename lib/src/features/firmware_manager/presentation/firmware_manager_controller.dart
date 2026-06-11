@@ -97,35 +97,42 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       // 1. Fetch Hash
       final hash = await firmwareRepo.fetchHashForVersion(version);
 
-      // 2. Download Firmware Zip
-      final firmwareBytes = await firmwareRepo.downloadArtifact(
-        hash,
-        'firmware.zip',
-        onReceiveProgress: (received, total) {
-          if (total != -1) {
-            // 50% progress allocated to firmware zip
-            final progress = (received / total) * 0.5;
-            state = state.copyWith(
-              downloadProgress: {...state.downloadProgress, version: progress},
-            );
-          }
-        },
-      );
+      double firmwareProgress = 0.0;
+      double hardwareProgress = 0.0;
 
-      // 3. Download Hardware Zip (from fixed URL)
-      final hardwareBytes = await firmwareRepo.downloadHardwareZip(
-        onReceiveProgress: (received, total) {
-          if (total != -1) {
-            // 50% to 100% progress allocated to hardware zip
-            final progress = 0.5 + ((received / total) * 0.5);
-            state = state.copyWith(
-              downloadProgress: {...state.downloadProgress, version: progress},
-            );
-          }
-        },
-      );
+      void updateProgress() {
+        final totalProgress = (firmwareProgress * 0.5) + (hardwareProgress * 0.5);
+        state = state.copyWith(
+          downloadProgress: {...state.downloadProgress, version: totalProgress},
+        );
+      }
 
-      // 4. Save both to cache
+      // 2. Download both concurrently
+      final results = await Future.wait([
+        firmwareRepo.downloadArtifact(
+          hash,
+          'firmware.zip',
+          onReceiveProgress: (received, total) {
+            if (total != -1) {
+              firmwareProgress = received / total;
+              updateProgress();
+            }
+          },
+        ),
+        firmwareRepo.downloadHardwareZip(
+          onReceiveProgress: (received, total) {
+            if (total != -1) {
+              hardwareProgress = received / total;
+              updateProgress();
+            }
+          },
+        ),
+      ]);
+
+      final firmwareBytes = results[0];
+      final hardwareBytes = results[1];
+
+      // 3. Save both to cache
       await cacheService.saveZip(version, firmwareBytes);
       await cacheService.saveHardwareZip(version, hardwareBytes);
 

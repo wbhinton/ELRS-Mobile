@@ -26,46 +26,39 @@ class FlashingScreen extends HookConsumerWidget {
     final configAsync = ref.watch(configViewModelProvider);
     final isConnected = configAsync.hasValue && configAsync.value != null;
 
-    // Listen for mismatch state to show dialog
-    ref.listen<FlashingStatus>(
-      flashingControllerProvider.select((s) => s.status),
+    // Listen for flashing state events
+    ref.listen<FlashingState>(
+      flashingControllerProvider,
       (previous, next) {
-        if (next == FlashingStatus.mismatch) {
+        if (next.status == FlashingStatus.mismatch) {
           showDialog(
             context: context,
             barrierDismissible: false,
             builder: (context) => AlertDialog(
-              icon: const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 48),
               title: const Text('Target Mismatch'),
-              content: Text(
-                state.errorMessage ??
-                    'The selected firmware does not match this device.',
-              ),
+              content: const Text(
+                  'The firmware target you selected does not match the hardware '
+                  'target currently installed on this device. Are you sure you want to force this update?'),
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.of(context).pop();
                     ref.read(flashingControllerProvider.notifier).resetStatus();
                   },
-                  child: const Text('CANCEL'),
+                  child: const Text('Cancel'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    ref
-                        .read(flashingControllerProvider.notifier)
-                        .flash(force: true);
+                    Navigator.of(context).pop();
+                    ref.read(flashingControllerProvider.notifier).forceUpdate();
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                  ),
-                  child: const Text('FLASH ANYWAY'),
+                  child: const Text('Flash Anyway', style: TextStyle(color: Colors.red)),
                 ),
               ],
             ),
           );
-        } else if (next == FlashingStatus.error &&
-            state.errorMessage == 'NO_BIND_PHRASE') {
+        } else if (next.status == FlashingStatus.error &&
+            next.errorMessage == 'NO_BIND_PHRASE') {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -90,11 +83,11 @@ class FlashingScreen extends HookConsumerWidget {
               ],
             ),
           );
-        } else if (next == FlashingStatus.success) {
+        } else if (next.status == FlashingStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Flashing completed successfully!')),
           );
-        } else if (next == FlashingStatus.downloadSuccess) {
+        } else if (next.status == FlashingStatus.downloadSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Firmware saved successfully!')),
           );
