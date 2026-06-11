@@ -8,7 +8,6 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/wbhinton/ELRS-Mobile/release.yml?branch=main&style=flat-square)](https://github.com/wbhinton/ELRS-Mobile/actions)
 [![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=flat-square&logo=Flutter&logoColor=white)](https://flutter.dev)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat-square)](https://www.gnu.org/licenses/gpl-3.0)
-[![GitHub Store](https://raw.githubusercontent.com/OpenHub-Store/Github-Store/main/media-resources/ghs_download_badge.png)](https://github.com/OpenHub-Store/Github-Store)
 
 # ExpressLRS Mobile
 
