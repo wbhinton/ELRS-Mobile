@@ -209,6 +209,20 @@ class FlashingController extends _$FlashingController {
       final connectivity = ref.read(connectivityServiceProvider.notifier);
       await connectivity.unbind();
 
+      final version = state.selectedVersion!;
+      final cacheService = ref.read(firmwareCacheServiceProvider);
+      final firmwareRepo = ref.read(firmwareRepositoryProvider);
+
+      // Download both zips concurrently
+      final results = await Future.wait([
+        firmwareRepo.downloadFirmwareZip(version),
+        firmwareRepo.downloadHardwareZip(),
+      ]);
+
+      // Save to local storage (results[0] is firmware, results[1] is hardware)
+      await cacheService.saveZip(version, results[0]);
+      await cacheService.saveHardwareZip(version, results[1]);
+
       final payload = await _buildFinalPayload();
 
       state = state.copyWith(status: FlashingStatus.patching, progress: 0.5);
@@ -250,13 +264,22 @@ class FlashingController extends _$FlashingController {
         state = state.copyWith(status: FlashingStatus.idle, progress: 0.0);
       }
     } catch (e) {
+      String msg = 'Failed to download firmware: $e';
+      final errStr = e.toString().toLowerCase();
+      
+      if (errStr.contains('connection error') || 
+          errStr.contains('connection refused') || 
+          errStr.contains('failed host lookup')) {
+        msg = 'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.';
+      }
+
       state = state.copyWith(
         status: FlashingStatus.error,
-        errorMessage: e.toString(),
+        errorMessage: msg,
         progress: 0.0,
       );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Download Error', {
-        'error': e.toString(),
+        'error': msg,
       });
     } finally {
       // Step C (Cleanup): Delete temporary file
@@ -273,6 +296,18 @@ class FlashingController extends _$FlashingController {
   }
 
   Future<({Uint8List bytes, String filename})> _prepareFirmware() async {
+    final version = state.selectedVersion!;
+    final cacheService = ref.read(firmwareCacheServiceProvider);
+    final firmwareRepo = ref.read(firmwareRepositoryProvider);
+
+    // Self-heal incomplete legacy caches
+    final hasHardware = await cacheService.hasCachedHardwareZip(version);
+    if (!hasHardware) {
+      state = state.copyWith(status: FlashingStatus.downloading);
+      final hardwareBytes = await firmwareRepo.downloadHardwareZip();
+      await cacheService.saveHardwareZip(version, hardwareBytes);
+    }
+
     FirmwareData firmwareData;
 
     final target = state.selectedTarget;
@@ -290,7 +325,6 @@ class FlashingController extends _$FlashingController {
     }
 
     // Check for cached version
-    final cacheService = ref.read(firmwareCacheServiceProvider);
     final cachedZip = await cacheService.getZipFile(state.selectedVersion!);
 
     if (cachedZip != null) {
@@ -561,7 +595,14 @@ class FlashingController extends _$FlashingController {
       });
     } catch (e) {
       ref.read(isFlashingProvider.notifier).setFlashing(false);
-      final errorMsg = e.toString();
+      String errorMsg = e.toString();
+      final errStr = errorMsg.toLowerCase();
+
+      if (errStr.contains('connection error') || 
+          errStr.contains('connection refused') || 
+          errStr.contains('failed host lookup')) {
+        errorMsg = 'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.';
+      }
 
       if (errorMsg.contains('mismatch')) {
         state = state.copyWith(
