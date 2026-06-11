@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../../../core/presentation/responsive_layout.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_master_detail.dart';
@@ -17,6 +18,7 @@ class SettingsScreen extends HookConsumerWidget {
     final state = ref.watch(settingsControllerProvider);
     final showBindPhrase = useValueNotifier(false);
     final showWifiPassword = useValueNotifier(false);
+    final l10n = AppLocalizations.of(context)!;
 
     useEffect(() {
       Future.microtask(() => controller.loadSettings());
@@ -24,28 +26,28 @@ class SettingsScreen extends HookConsumerWidget {
     }, []);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(l10n.settingsLabel)),
       body: SettingsMasterDetail(
         masterBuilder: (context, selected, onSelected) => ListView(
           children: [
             _buildSidebarItem(
               context,
               icon: Icons.flash_on,
-              title: 'Flashing & WiFi',
+              title: l10n.flashingWifiCategoryLabel,
               selected: selected == SettingsCategory.flashing,
               onTap: () => onSelected(SettingsCategory.flashing),
             ),
             _buildSidebarItem(
               context,
               icon: Icons.info_outline,
-              title: 'About & Support',
+              title: l10n.aboutSupportCategoryLabel,
               selected: selected == SettingsCategory.about,
               onTap: () => onSelected(SettingsCategory.about),
             ),
             _buildSidebarItem(
               context,
               icon: Icons.settings_suggest,
-              title: 'Advanced',
+              title: l10n.advancedCategoryLabel,
               selected: selected == SettingsCategory.advanced,
               onTap: () => onSelected(SettingsCategory.advanced),
             ),
@@ -61,9 +63,9 @@ class SettingsScreen extends HookConsumerWidget {
             ),
             children: [
               if (!isTablet || selected == SettingsCategory.flashing) ...[
-                _buildSectionHeader(context, 'Flashing Defaults'),
+                _buildSectionHeader(context, l10n.flashingDefaultsSectionLabel),
                 ListTile(
-                  title: const Text('Default 2.4GHz Domain'),
+                  title: Text(l10n.default24GHzDomainLabel),
                   subtitle: Text(_getDomainLabel2400(state.defaultDomain2400)),
                   trailing: DropdownButton<int>(
                     value: state.defaultDomain2400,
@@ -77,7 +79,7 @@ class SettingsScreen extends HookConsumerWidget {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Default Sub-GHz Domain'),
+                  title: Text(l10n.defaultSubGHzDomainLabel),
                   subtitle: Text(_getDomainLabel900(state.defaultDomain900)),
                   trailing: DropdownButton<int>(
                     value: state.defaultDomain900,
@@ -97,7 +99,7 @@ class SettingsScreen extends HookConsumerWidget {
                 ),
                 _buildEditDialogTile(
                   context,
-                  title: 'Global Binding Phrase',
+                  title: l10n.globalBindingPhraseLabel,
                   currentValue: state.globalBindPhrase,
                   onSaved: (val) => controller.setGlobalBindPhrase(val),
                   isSecret: true,
@@ -105,27 +107,27 @@ class SettingsScreen extends HookConsumerWidget {
                 ),
                 _buildEditDialogTile(
                   context,
-                  title: 'Home WiFi SSID',
+                  title: l10n.homeWifiSsidLabel,
                   currentValue: state.homeWifiSsid,
                   onSaved: (val) => controller.setHomeWifiSsid(val),
                 ),
                 _buildEditDialogTile(
                   context,
-                  title: 'Home WiFi Password',
+                  title: l10n.homeWifiPasswordLabel,
                   currentValue: state.homeWifiPassword,
                   onSaved: (val) => controller.setHomeWifiPassword(val),
                   isSecret: true,
                   isVisibleNotifier: showWifiPassword,
                 ),
                 ListTile(
-                  title: const Text('Manage Cached Firmware'),
-                  subtitle: const Text('Download or delete offline firmware'),
+                  title: Text(l10n.manageCachedFirmwareLabel),
+                  subtitle: Text(l10n.downloadOrDeleteOfflineFirmwareLabel),
                   leading: const Icon(Icons.sd_storage),
                   trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () => context.push('/firmware_manager'),
                 ),
                 ListTile(
-                  title: const Text('Max Cached Versions'),
+                  title: Text(l10n.maxCachedVersionsLabel),
                   subtitle: Text('${state.maxCachedVersions} versions'),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -154,28 +156,28 @@ class SettingsScreen extends HookConsumerWidget {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Clear Firmware Cache'),
-                  subtitle: const Text('Delete all downloaded firmware files'),
+                  title: Text(l10n.clearFirmwareCacheLabel),
+                  subtitle: Text(l10n.deleteAllDownloadedFirmwareFilesLabel),
                   leading: const Icon(Icons.delete_sweep, color: Colors.red),
                   trailing: TextButton(
                     onPressed: () => _showClearCacheDialog(context, controller),
-                    child: const Text(
-                      'CLEAR',
-                      style: TextStyle(color: Colors.red),
+                    child: Text(
+                      l10n.clearLabel,
+                      style: const TextStyle(color: Colors.red),
                     ),
                   ),
                 ),
               ],
               if (!isTablet || selected == SettingsCategory.about) ...[
-                _buildSectionHeader(context, 'About'),
+                _buildSectionHeader(context, l10n.aboutSectionLabel),
                 ListTile(
-                  title: const Text('App Version'),
+                  title: Text(l10n.appVersionLabel),
                   subtitle: Text(state.appVersion),
                   leading: const Icon(Icons.info_outline),
                 ),
                 ListTile(
-                  title: const Text('Legal & License'),
-                  subtitle: const Text('Standard disclaimer and GPLv3 License'),
+                  title: Text(l10n.legalLicenseLabel),
+                  subtitle: Text(l10n.standardDisclaimerAndGplv3Label),
                   leading: const Icon(Icons.gavel_outlined),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () => context.push('/legal'),
@@ -183,13 +185,11 @@ class SettingsScreen extends HookConsumerWidget {
               ],
               if (!isTablet || selected == SettingsCategory.advanced) ...[
                 if (state.developerMode) ...[
-                  _buildSectionHeader(context, 'Developer'),
-                  const ListTile(title: Text('Developer Mode Enabled')),
+                  _buildSectionHeader(context, l10n.developerSectionLabel),
+                  ListTile(title: Text(l10n.developerModeEnabledLabel)),
                   ListTile(
-                    title: const Text('Test Sentry Error Capture'),
-                    subtitle: const Text(
-                      'Sends a test exception to Sentry — check the dashboard',
-                    ),
+                    title: Text(l10n.testSentryErrorCaptureLabel),
+                    subtitle: Text(l10n.testSentryErrorCaptureSubtitle),
                     leading: const Icon(
                       Icons.science,
                       color: Colors.deepPurple,
@@ -215,29 +215,24 @@ class SettingsScreen extends HookConsumerWidget {
                     },
                   ),
                 ],
-                _buildSectionHeader(context, 'Advanced'),
+                _buildSectionHeader(context, l10n.advancedCategoryLabel),
                 SwitchListTile(
-                  title: const Text('Share Analytics'),
-                  subtitle: const Text(
-                    'Help improve the app by sharing anonymous usage data',
-                  ),
+                  title: Text(l10n.shareAnalyticsLabel),
+                  subtitle: Text(l10n.shareAnalyticsSubtitle),
                   value: state.shareAnalytics,
                   onChanged: (val) => controller.setShareAnalytics(val),
                 ),
                 SwitchListTile(
-                  title: const Text('Expert Mode'),
-                  subtitle: const Text(
-                    'Enable advanced firmware handling and downloads',
-                  ),
+                  title: Text(l10n.expertModeLabel),
+                  subtitle: Text(l10n.expertModeSubtitle),
                   value: state.expertMode,
                   onChanged: (val) => controller.toggleExpertMode(),
                 ),
                 if (state.expertMode) ...[
                   const Divider(),
                   ListTile(
-                    title: const Text('Export ELRS Lua Script'),
-                    subtitle:
-                        const Text('Save elrs.lua for EdgeTX/OpenTX radios'),
+                    title: Text(l10n.exportElrsLuaScriptLabel),
+                    subtitle: Text(l10n.exportElrsLuaScriptSubtitle),
                     leading: const Icon(Icons.code, color: Colors.blue),
                     trailing: const Icon(Icons.save_alt),
                     onTap: () async {
@@ -260,10 +255,8 @@ class SettingsScreen extends HookConsumerWidget {
                     },
                   ),
                   ListTile(
-                    title: const Text('Submit Debug Report to Sentry'),
-                    subtitle: const Text(
-                      'Help us fix bugs by sharing anonymous system logs',
-                    ),
+                    title: Text(l10n.submitDebugReportLabel),
+                    subtitle: Text(l10n.submitDebugReportSubtitle),
                     leading: const Icon(Icons.bug_report, color: Colors.orange),
                     trailing: const Icon(Icons.send),
                     onTap: () => _showPrivacyGuard(context, state, ref),
@@ -305,22 +298,20 @@ class SettingsScreen extends HookConsumerWidget {
     BuildContext context,
     SettingsController controller,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const FittedBox(
+        title: FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
-          child: Text('Clear Firmware Cache?'),
+          child: Text(l10n.clearFirmwareCacheTitle),
         ),
-        content: const Text(
-          'This will delete all downloaded firmware zip files. '
-          'You will need to re-download them if you want to flash offline.',
-        ),
+        content: Text(l10n.clearFirmwareCacheMessage),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('CANCEL'),
+            child: Text(l10n.cancelLabel),
           ),
           TextButton(
             style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -328,10 +319,10 @@ class SettingsScreen extends HookConsumerWidget {
               controller.clearCache();
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Firmware cache cleared')),
+                SnackBar(content: Text(l10n.clearFirmwareCacheLabel)),
               );
             },
-            child: const Text('CLEAR ALL'),
+            child: Text(l10n.clearAllLabel),
           ),
         ],
       ),
@@ -344,31 +335,29 @@ class SettingsScreen extends HookConsumerWidget {
     WidgetRef ref,
   ) {
     final descController = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const FittedBox(
+        title: FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.centerLeft,
-          child: Text('Submit Debug Report'),
+          child: Text(l10n.submitDebugReportTitle),
         ),
         scrollable: true,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'This will send your device info and app logs to Sentry for debugging. '
-              'No personal info like Binding Phrases or WiFi passwords will be included.',
-            ),
+            Text(l10n.submitDebugReportMessage),
             const SizedBox(height: 16),
             TextField(
               controller: descController,
               maxLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Please describe the issue you are experiencing...',
+              decoration: InputDecoration(
+                hintText: l10n.describeIssueHint,
                 hintMaxLines: 3,
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             ),
           ],
@@ -376,7 +365,7 @@ class SettingsScreen extends HookConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancelLabel),
           ),
           ValueListenableBuilder<TextEditingValue>(
             valueListenable: descController,
@@ -394,7 +383,7 @@ class SettingsScreen extends HookConsumerWidget {
                         _submitReport(context, state, desc, ref);
                       }
                     : null,
-                child: const Text('Proceed'),
+                child: Text(l10n.proceedLabel),
               );
             },
           ),
@@ -411,16 +400,17 @@ class SettingsScreen extends HookConsumerWidget {
   ) async {
     // Track whether user cancelled so we don't pop an already-popped dialog.
     var dialogDismissed = false;
+    final l10n = AppLocalizations.of(context)!;
 
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        content: const Row(
+        content: Row(
           children: [
-            CircularProgressIndicator(),
-            SizedBox(width: 20),
-            Expanded(child: Text('Submitting report…')),
+            const CircularProgressIndicator(),
+            const SizedBox(width: 20),
+            Expanded(child: Text(l10n.submittingReportProgress)),
           ],
         ),
         actions: [
@@ -429,7 +419,7 @@ class SettingsScreen extends HookConsumerWidget {
               dialogDismissed = true;
               Navigator.pop(ctx);
             },
-            child: const Text('Cancel'),
+            child: Text(l10n.cancelLabel),
           ),
         ],
       ),
@@ -547,9 +537,10 @@ class SettingsScreen extends HookConsumerWidget {
     bool isSecret = false,
     ValueNotifier<bool>? isVisibleNotifier,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     Widget buildTile(bool isVisible) {
       final subtitle = currentValue.isEmpty
-          ? 'Not set'
+          ? l10n.notSetLabel
           : (isSecret && !isVisible ? '••••••••' : currentValue);
 
       return ListTile(
@@ -609,14 +600,14 @@ class SettingsScreen extends HookConsumerWidget {
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
+                    child: Text(l10n.cancelLabel),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       onSaved(textController.text);
                       Navigator.pop(context);
                     },
-                    child: const Text('Save'),
+                    child: Text(l10n.saveLabel),
                   ),
                 ],
               ),

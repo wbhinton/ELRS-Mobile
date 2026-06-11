@@ -145,6 +145,336 @@ abstract class AppLocalizations {
     String radioMaster,
     String betaFPV,
   );
+
+  /// No description provided for @flashDeviceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash Device'**
+  String get flashDeviceLabel;
+
+  /// No description provided for @deviceConfigLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Config'**
+  String get deviceConfigLabel;
+
+  /// No description provided for @firmwareManagerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware Manager'**
+  String get firmwareManagerLabel;
+
+  /// No description provided for @settingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsLabel;
+
+  /// No description provided for @helpSupportLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Support'**
+  String get helpSupportLabel;
+
+  /// No description provided for @noDeviceFoundLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No Device Found'**
+  String get noDeviceFoundLabel;
+
+  /// No description provided for @retryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryLabel;
+
+  /// No description provided for @manualConnectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Connection'**
+  String get manualConnectionLabel;
+
+  /// No description provided for @manualIpOverrideLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual IP Override'**
+  String get manualIpOverrideLabel;
+
+  /// No description provided for @connectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get connectLabel;
+
+  /// No description provided for @cancelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelLabel;
+
+  /// No description provided for @matchedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Matched'**
+  String get matchedLabel;
+
+  /// No description provided for @mismatchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mismatch'**
+  String get mismatchLabel;
+
+  /// No description provided for @connectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected: {ip}'**
+  String connectedLabel(String ip);
+
+  /// No description provided for @flashingWifiCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashing & WiFi'**
+  String get flashingWifiCategoryLabel;
+
+  /// No description provided for @aboutSupportCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'About & Support'**
+  String get aboutSupportCategoryLabel;
+
+  /// No description provided for @advancedCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get advancedCategoryLabel;
+
+  /// No description provided for @flashingDefaultsSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashing Defaults'**
+  String get flashingDefaultsSectionLabel;
+
+  /// No description provided for @default24GHzDomainLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default 2.4GHz Domain'**
+  String get default24GHzDomainLabel;
+
+  /// No description provided for @defaultSubGHzDomainLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default Sub-GHz Domain'**
+  String get defaultSubGHzDomainLabel;
+
+  /// No description provided for @globalBindingPhraseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Global Binding Phrase'**
+  String get globalBindingPhraseLabel;
+
+  /// No description provided for @homeWifiSsidLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Home WiFi SSID'**
+  String get homeWifiSsidLabel;
+
+  /// No description provided for @homeWifiPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Home WiFi Password'**
+  String get homeWifiPasswordLabel;
+
+  /// No description provided for @manageCachedFirmwareLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Cached Firmware'**
+  String get manageCachedFirmwareLabel;
+
+  /// No description provided for @downloadOrDeleteOfflineFirmwareLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Download or delete offline firmware'**
+  String get downloadOrDeleteOfflineFirmwareLabel;
+
+  /// No description provided for @maxCachedVersionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Cached Versions'**
+  String get maxCachedVersionsLabel;
+
+  /// No description provided for @clearFirmwareCacheLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Firmware Cache'**
+  String get clearFirmwareCacheLabel;
+
+  /// No description provided for @deleteAllDownloadedFirmwareFilesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all downloaded firmware files'**
+  String get deleteAllDownloadedFirmwareFilesLabel;
+
+  /// No description provided for @clearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CLEAR'**
+  String get clearLabel;
+
+  /// No description provided for @aboutSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutSectionLabel;
+
+  /// No description provided for @appVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersionLabel;
+
+  /// No description provided for @legalLicenseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal & License'**
+  String get legalLicenseLabel;
+
+  /// No description provided for @standardDisclaimerAndGplv3Label.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard disclaimer and GPLv3 License'**
+  String get standardDisclaimerAndGplv3Label;
+
+  /// No description provided for @developerSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer'**
+  String get developerSectionLabel;
+
+  /// No description provided for @developerModeEnabledLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer Mode Enabled'**
+  String get developerModeEnabledLabel;
+
+  /// No description provided for @testSentryErrorCaptureLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Sentry Error Capture'**
+  String get testSentryErrorCaptureLabel;
+
+  /// No description provided for @testSentryErrorCaptureSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sends a test exception to Sentry — check the dashboard'**
+  String get testSentryErrorCaptureSubtitle;
+
+  /// No description provided for @shareAnalyticsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Analytics'**
+  String get shareAnalyticsLabel;
+
+  /// No description provided for @shareAnalyticsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help improve the app by sharing anonymous usage data'**
+  String get shareAnalyticsSubtitle;
+
+  /// No description provided for @expertModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert Mode'**
+  String get expertModeLabel;
+
+  /// No description provided for @expertModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable advanced firmware handling and downloads'**
+  String get expertModeSubtitle;
+
+  /// No description provided for @exportElrsLuaScriptLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Export ELRS Lua Script'**
+  String get exportElrsLuaScriptLabel;
+
+  /// No description provided for @exportElrsLuaScriptSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save elrs.lua for EdgeTX/OpenTX radios'**
+  String get exportElrsLuaScriptSubtitle;
+
+  /// No description provided for @submitDebugReportLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Debug Report to Sentry'**
+  String get submitDebugReportLabel;
+
+  /// No description provided for @submitDebugReportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help us fix bugs by sharing anonymous system logs'**
+  String get submitDebugReportSubtitle;
+
+  /// No description provided for @clearFirmwareCacheTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Firmware Cache?'**
+  String get clearFirmwareCacheTitle;
+
+  /// No description provided for @clearFirmwareCacheMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will delete all downloaded firmware zip files. You will need to re-download them if you want to flash offline.'**
+  String get clearFirmwareCacheMessage;
+
+  /// No description provided for @clearAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CLEAR ALL'**
+  String get clearAllLabel;
+
+  /// No description provided for @submitDebugReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Debug Report'**
+  String get submitDebugReportTitle;
+
+  /// No description provided for @submitDebugReportMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will send your device info and app logs to Sentry for debugging. No personal info like Binding Phrases or WiFi passwords will be included.'**
+  String get submitDebugReportMessage;
+
+  /// No description provided for @describeIssueHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Please describe the issue you are experiencing...'**
+  String get describeIssueHint;
+
+  /// No description provided for @proceedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed'**
+  String get proceedLabel;
+
+  /// No description provided for @submittingReportProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting report…'**
+  String get submittingReportProgress;
+
+  /// No description provided for @saveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveLabel;
+
+  /// No description provided for @notSetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSetLabel;
 }
 
 class _AppLocalizationsDelegate
