@@ -9,19 +9,19 @@ class AppLocalizationsUk extends AppLocalizations {
   AppLocalizationsUk([String locale = 'uk']) : super(locale);
 
   @override
-  String get bindingPhraseLabel => 'Binding Phrase';
+  String get bindingPhraseLabel => 'Фраза прив\'язки';
 
   @override
-  String get networkSsidLabel => 'WiFi SSID';
+  String get networkSsidLabel => 'SSID Wi-Fi';
 
   @override
-  String get flashingButtonLabel => 'Flash';
+  String get flashingButtonLabel => 'Прошити';
 
   @override
-  String get packetRateLabel => 'Packet Rate';
+  String get packetRateLabel => 'Частота пакетів';
 
   @override
-  String get baudRateLabel => 'Baud Rate';
+  String get baudRateLabel => 'Швидкість Бод';
 
   @override
   String brandUpdateMessage(
@@ -29,6 +29,6 @@ class AppLocalizationsUk extends AppLocalizations {
     String radioMaster,
     String betaFPV,
   ) {
-    return 'Updating $expressLRS firmware on $radioMaster or $betaFPV hardware...';
+    return 'Оновлення прошивки $expressLRS на обладнанні $radioMaster або $betaFPV...';
   }
 }

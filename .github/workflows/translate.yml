@@ -35,7 +35,7 @@ jobs:
 
       - name: Patch arb_translate model mapping
         run: |
-          sed -i "s/'\${model.key}-latest'/model.key/g" $HOME/.pub-cache/hosted/pub.dev/arb_translate-1.1.0/lib/src/translation_delegates/gemini_translation_delegate.dart
+          sed -i "s/Model.gemini15Pro || Model.gemini15Flash => '\${model.key}-latest'/Model.gemini15Pro => 'gemini-2.5-pro', Model.gemini15Flash => 'gemini-2.5-flash'/g" $HOME/.pub-cache/hosted/pub.dev/arb_translate-1.1.0/lib/src/translation_delegates/gemini_translation_delegate.dart
 
       - name: Run Translate Script
         env:

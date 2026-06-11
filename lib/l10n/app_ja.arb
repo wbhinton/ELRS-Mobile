@@ -1,3 +1,9 @@
 {
-  "@@locale": "ja"
+  "@@locale": "ja",
+  "bindingPhraseLabel": "バインディングフレーズ",
+  "networkSsidLabel": "Wi-Fi SSID",
+  "flashingButtonLabel": "フラッシュ",
+  "packetRateLabel": "パケットレート",
+  "baudRateLabel": "ボーレート",
+  "brandUpdateMessage": "{radioMaster} または {betaFPV} ハードウェアの {expressLRS} ファームウェアを更新しています..."
 }

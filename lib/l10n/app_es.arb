@@ -1,3 +1,9 @@
 {
-  "@@locale": "es"
+  "@@locale": "es",
+  "bindingPhraseLabel": "Frase de Vinculación",
+  "networkSsidLabel": "SSID de WiFi",
+  "flashingButtonLabel": "Flashear",
+  "packetRateLabel": "Tasa de Paquetes",
+  "baudRateLabel": "Tasa de Baudios",
+  "brandUpdateMessage": "Actualizando firmware de {expressLRS} en hardware {radioMaster} o {betaFPV}..."
 }

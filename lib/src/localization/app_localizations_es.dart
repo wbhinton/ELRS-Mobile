@@ -9,19 +9,19 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get bindingPhraseLabel => 'Binding Phrase';
+  String get bindingPhraseLabel => 'Frase de Vinculación';
 
   @override
-  String get networkSsidLabel => 'WiFi SSID';
+  String get networkSsidLabel => 'SSID de WiFi';
 
   @override
-  String get flashingButtonLabel => 'Flash';
+  String get flashingButtonLabel => 'Flashear';
 
   @override
-  String get packetRateLabel => 'Packet Rate';
+  String get packetRateLabel => 'Tasa de Paquetes';
 
   @override
-  String get baudRateLabel => 'Baud Rate';
+  String get baudRateLabel => 'Tasa de Baudios';
 
   @override
   String brandUpdateMessage(
@@ -29,6 +29,6 @@ class AppLocalizationsEs extends AppLocalizations {
     String radioMaster,
     String betaFPV,
   ) {
-    return 'Updating $expressLRS firmware on $radioMaster or $betaFPV hardware...';
+    return 'Actualizando firmware de $expressLRS en hardware $radioMaster o $betaFPV...';
   }
 }

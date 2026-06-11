@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const crypto = require('crypto');
 
 const apiKey = process.env.ARB_TRANSLATE_API_KEY || process.env.GEMINI_API_KEY;
 
@@ -12,6 +13,10 @@ if (!apiKey) {
 const targetLocales = ['de', 'es', 'fr', 'ja', 'uk'];
 const sourceFile = path.join(__dirname, '../assets/docs/app_faq.md');
 const content = fs.readFileSync(sourceFile, 'utf8');
+
+// Compute MD5 hash of the source file content
+const sourceHash = crypto.createHash('md5').update(content).digest('hex');
+const hashMarker = `<!-- source_hash: ${sourceHash} -->`;
 
 function translate(text, targetLang) {
   return new Promise((resolve, reject) => {
@@ -25,7 +30,7 @@ function translate(text, targetLang) {
 
     const options = {
       hostname: 'generativelanguage.googleapis.com',
-      path: `/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      path: `/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,10 +64,22 @@ function translate(text, targetLang) {
 async function run() {
   for (const locale of targetLocales) {
     const targetFile = path.join(__dirname, `../assets/docs/app_faq_${locale}.md`);
+    
+    // Check if target file already exists and has matching hash marker
+    if (fs.existsSync(targetFile)) {
+      const existingContent = fs.readFileSync(targetFile, 'utf8');
+      if (existingContent.includes(hashMarker)) {
+        console.log(`FAQ translation for ${locale} is up to date (hash matches). Skipping.`);
+        continue;
+      }
+    }
+
     console.log(`Translating FAQ to ${locale}...`);
     try {
       const translated = await translate(content, locale);
-      fs.writeFileSync(targetFile, translated, 'utf8');
+      // Append the hash marker to the translated file
+      const finalContent = `${translated}\n\n${hashMarker}`;
+      fs.writeFileSync(targetFile, finalContent, 'utf8');
       console.log(`Saved translated FAQ to ${targetFile}`);
     } catch (e) {
       console.error(`Failed to translate FAQ to ${locale}:`, e);
@@ -71,3 +88,4 @@ async function run() {
 }
 
 run();
+

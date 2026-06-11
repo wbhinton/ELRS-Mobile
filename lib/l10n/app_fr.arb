@@ -1,3 +1,9 @@
 {
-  "@@locale": "fr"
+  "@@locale": "fr",
+  "bindingPhraseLabel": "Phrase d'appairage",
+  "networkSsidLabel": "SSID Wi-Fi",
+  "flashingButtonLabel": "Flasher",
+  "packetRateLabel": "Taux de paquets",
+  "baudRateLabel": "Débit Baud",
+  "brandUpdateMessage": "Mise à jour du firmware {expressLRS} sur le matériel {radioMaster} ou {betaFPV}..."
 }

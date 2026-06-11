@@ -1,3 +1,9 @@
 {
-  "@@locale": "uk"
+  "@@locale": "uk",
+  "bindingPhraseLabel": "Фраза прив'язки",
+  "networkSsidLabel": "SSID Wi-Fi",
+  "flashingButtonLabel": "Прошити",
+  "packetRateLabel": "Частота пакетів",
+  "baudRateLabel": "Швидкість Бод",
+  "brandUpdateMessage": "Оновлення прошивки {expressLRS} на обладнанні {radioMaster} або {betaFPV}..."
 }

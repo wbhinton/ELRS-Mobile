@@ -1,3 +1,9 @@
 {
-  "@@locale": "de"
+  "@@locale": "de",
+  "bindingPhraseLabel": "Bindungsphrase",
+  "networkSsidLabel": "WLAN-SSID",
+  "flashingButtonLabel": "Flashen",
+  "packetRateLabel": "Paketrate",
+  "baudRateLabel": "Baudrate",
+  "brandUpdateMessage": "Aktualisiere {expressLRS}-Firmware auf {radioMaster}- oder {betaFPV}-Hardware..."
 }
