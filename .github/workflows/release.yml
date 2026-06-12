@@ -44,7 +44,21 @@ jobs:
 
       - name: Patch arb_translate model mapping
         run: |
-          python3 -c "import os; p = os.path.expanduser('~/.pub-cache/hosted/pub.dev/arb_translate-1.1.0/lib/src/translation_delegates/gemini_translation_delegate.dart'); c = open(p).read().replace('Model.gemini15Pro || Model.gemini15Flash => \'\\${model.key}-latest\'', 'Model.gemini15Pro => \'gemini-2.5-pro\', Model.gemini15Flash => \'gemini-2.5-flash\''); open(p, 'w').write(c)"
+          cat << 'EOF' > patch.py
+          import os
+          path = os.path.expanduser('~/.pub-cache/hosted/pub.dev/arb_translate-1.1.0/lib/src/translation_delegates/gemini_translation_delegate.dart')
+          if os.path.exists(path):
+              content = open(path).read()
+              old_str = "Model.gemini15Pro || Model.gemini15Flash => '${model.key}-latest'"
+              new_str = "Model.gemini15Pro => 'gemini-2.5-pro', Model.gemini15Flash => 'gemini-2.5-flash'"
+              content = content.replace(old_str, new_str)
+              open(path, 'w').write(content)
+              print("Patched arb_translate successfully.")
+          else:
+              print("Warning: path not found:", path)
+          EOF
+          python3 patch.py
+          rm patch.py
 
       - name: Run Translate Script
         env:
