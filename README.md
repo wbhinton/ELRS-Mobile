@@ -46,6 +46,14 @@ The easiest way to get started with ELRS Mobile is by installing it from your de
 > [!TIP]
 > **Pro-Tip:** ELRS Mobile natively handles forced routing, ensuring your phone doesn't silently switch back to 5G/LTE when it realizes the ELRS hotspot has no internet. This completely eliminates the most common "connected but can't see the receiver" issue out in the field.
 
+---
+
+### 🌐 Internationalization & Localized Support (Beta)
+
+ELRS Mobile supports dynamic locale switching and manual language overrides in settings. All non-English languages are currently in **Beta Testing**:
+
+* **Beta Locales:** German (`de`), Spanish (`es`), French (`fr`), Japanese (`ja`), Ukrainian (`uk`), Portuguese (`pt`), Italian (`it`), Polish (`pl`), Korean (`ko`), Russian (`ru`), Dutch (`nl`), Czech (`cs`), Thai (`th`), Swedish (`sv`), Indonesian (`id`), and Simplified Chinese (`zh`).
+
 --------------------------------------------------------------------------------
 **Demo Video**
 
