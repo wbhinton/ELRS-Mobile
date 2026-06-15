@@ -350,6 +350,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get wifiPasswordLabel => 'Hasło WiFi';
 
   @override
+  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+
+  @override
   String get regulatoryDomainLabel => 'Domena regulacyjna';
 
   @override

@@ -16,6 +16,7 @@ class PersistenceService {
   static const _keyManualIp = 'manual_ip';
   static const _keyDisclaimerAccepted = 'disclaimer_accepted';
   static const _keyMigrationDone = 'security_migration_v1_done';
+  static const _keyWifiOnInterval = 'flashing_wifi_on_interval';
 
   /// Migrates sensitive data from SharedPreferences to SecureStorage once.
   Future<void> migrateIfNeeded() async {
@@ -81,6 +82,14 @@ class PersistenceService {
 
   Future<void> setDisclaimerAccepted() async {
     await _prefs.setBool(_keyDisclaimerAccepted, true);
+  }
+
+  Future<void> setWifiOnInterval(int value) async {
+    await _prefs.setInt(_keyWifiOnInterval, value);
+  }
+
+  int getWifiOnInterval() {
+    return _prefs.getInt(_keyWifiOnInterval) ?? 60;
   }
 }
 

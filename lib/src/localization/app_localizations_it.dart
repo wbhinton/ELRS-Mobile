@@ -347,6 +347,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get wifiPasswordLabel => 'Password WiFi';
 
   @override
+  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+
+  @override
   String get regulatoryDomainLabel => 'Dominio Normativo';
 
   @override

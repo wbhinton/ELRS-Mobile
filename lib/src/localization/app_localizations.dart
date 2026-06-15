@@ -732,6 +732,12 @@ abstract class AppLocalizations {
   /// **'WiFi Password'**
   String get wifiPasswordLabel;
 
+  /// Time in seconds before the device enters WiFi mode if no connection is found.
+  ///
+  /// In en, this message translates to:
+  /// **'WiFi Auto-On Interval'**
+  String get wifiOnIntervalLabel;
+
   /// No description provided for @regulatoryDomainLabel.
   ///
   /// In en, this message translates to:

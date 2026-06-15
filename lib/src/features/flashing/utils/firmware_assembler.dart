@@ -62,6 +62,7 @@ class FirmwareAssembler {
     String wifiPassword = '',
     int? flashDiscriminator,
     int? domain,
+    int? wifiOnInterval,
     required bool isTx,
   }) {
     final builder = BytesBuilder();
@@ -92,7 +93,7 @@ class FirmwareAssembler {
       'flash-discriminator':
           flashDiscriminator ??
           Uint32.fromWrapped(DateTime.now().millisecondsSinceEpoch).toInt(),
-      'wifi-on-interval': 60,
+      'wifi-on-interval': wifiOnInterval ?? 60,
     };
 
     if (isTx) {

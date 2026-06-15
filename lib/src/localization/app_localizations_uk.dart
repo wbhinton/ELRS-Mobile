@@ -349,6 +349,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get wifiPasswordLabel => 'Пароль Wi-Fi';
 
   @override
+  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+
+  @override
   String get regulatoryDomainLabel => 'Регуляторний домен';
 
   @override

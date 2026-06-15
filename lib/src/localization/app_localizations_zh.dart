@@ -327,6 +327,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get wifiPasswordLabel => 'WiFi 密码';
 
   @override
+  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+
+  @override
   String get regulatoryDomainLabel => '监管区域';
 
   @override

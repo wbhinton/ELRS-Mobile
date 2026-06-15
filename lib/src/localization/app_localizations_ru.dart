@@ -345,6 +345,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get wifiPasswordLabel => 'Пароль WiFi';
 
   @override
+  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+
+  @override
   String get regulatoryDomainLabel => 'Региональные настройки';
 
   @override

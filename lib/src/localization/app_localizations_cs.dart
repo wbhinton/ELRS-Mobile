@@ -345,6 +345,9 @@ class AppLocalizationsCs extends AppLocalizations {
   String get wifiPasswordLabel => 'Heslo k WiFi';
 
   @override
+  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+
+  @override
   String get regulatoryDomainLabel => 'Regulační doména';
 
   @override

@@ -119,6 +119,16 @@ class SettingsScreen extends HookConsumerWidget {
                   isSecret: true,
                   isVisibleNotifier: showWifiPassword,
                 ),
+                _buildEditDialogTile(
+                  context,
+                  title: l10n.wifiOnIntervalLabel,
+                  currentValue: state.wifiOnInterval.toString(),
+                  keyboardType: TextInputType.number,
+                  onSaved: (val) {
+                    final parsed = int.tryParse(val) ?? 60;
+                    controller.setWifiOnInterval(parsed);
+                  },
+                ),
                 ListTile(
                   title: Text(l10n.languageOverrideLabel),
                   subtitle: Text(state.appLocale == null
@@ -571,6 +581,7 @@ class SettingsScreen extends HookConsumerWidget {
     required Function(String) onSaved,
     bool isSecret = false,
     ValueNotifier<bool>? isVisibleNotifier,
+    TextInputType? keyboardType,
   }) {
     final l10n = AppLocalizations.of(context)!;
     Widget buildTile(bool isVisible) {
@@ -613,6 +624,7 @@ class SettingsScreen extends HookConsumerWidget {
                 content: TextField(
                   controller: textController,
                   obscureText: obscureText,
+                  keyboardType: keyboardType,
                   decoration: InputDecoration(
                     hintText: 'Enter $title',
                     hintMaxLines: 2,

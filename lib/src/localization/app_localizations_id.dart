@@ -342,6 +342,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get wifiPasswordLabel => 'Kata Sandi WiFi';
 
   @override
+  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+
+  @override
   String get regulatoryDomainLabel => 'Domain Regulasi';
 
   @override

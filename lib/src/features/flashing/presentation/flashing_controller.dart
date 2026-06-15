@@ -57,6 +57,7 @@ abstract class FlashingState with _$FlashingState {
     @Default('') String wifiSsid,
     @Default('') String wifiPassword,
     @Default(0) int regulatoryDomain,
+    @Default(60) int wifiOnInterval,
     String? autosavingField,
     String? bindPhraseError,
     String? wifiSsidError,
@@ -78,6 +79,9 @@ class FlashingController extends _$FlashingController {
       if (previous?.homeWifiPassword != next.homeWifiPassword) {
         state = state.copyWith(wifiPassword: next.homeWifiPassword);
       }
+      if (previous?.wifiOnInterval != next.wifiOnInterval) {
+        state = state.copyWith(wifiOnInterval: next.wifiOnInterval);
+      }
     });
 
     // Initialize with current settings values
@@ -88,6 +92,7 @@ class FlashingController extends _$FlashingController {
       wifiSsid: settings.homeWifiSsid,
       wifiPassword: settings.homeWifiPassword,
       regulatoryDomain: settings.defaultDomain2400, // Default initialization
+      wifiOnInterval: settings.wifiOnInterval,
     );
   }
 
@@ -178,6 +183,11 @@ class FlashingController extends _$FlashingController {
 
   Future<void> setRegulatoryDomain(int id) async {
     state = state.copyWith(regulatoryDomain: id);
+  }
+
+  void setWifiOnInterval(int value) {
+    state = state.copyWith(wifiOnInterval: value);
+    _triggerAutosaveFeedback('wifiOnInterval');
   }
 
   void _triggerAutosaveFeedback(String field) {
@@ -380,6 +390,7 @@ class FlashingController extends _$FlashingController {
         wifiSsid: state.wifiSsid,
         wifiPassword: state.wifiPassword,
         regulatoryDomain: state.regulatoryDomain,
+        wifiOnInterval: state.wifiOnInterval,
       );
 
       final patcher = ref.read(firmwarePatcherProvider);
@@ -467,6 +478,7 @@ class FlashingController extends _$FlashingController {
       wifiPassword: state.wifiPassword,
       platform: state.selectedTarget!.platform,
       domain: finalDomain,
+      wifiOnInterval: state.wifiOnInterval,
       isTx: isTx,
     );
   }

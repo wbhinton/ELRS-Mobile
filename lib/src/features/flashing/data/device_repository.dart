@@ -119,6 +119,7 @@ class DeviceRepository {
     String? wifiPassword,
     String? platform,
     int? domain,
+    int? wifiOnInterval,
     bool isTx = false,
   }) async {
     Uint8List dataToUpload;
@@ -148,6 +149,7 @@ class DeviceRepository {
         wifiSsid: wifiSsid ?? '',
         wifiPassword: wifiPassword ?? '',
         domain: domain,
+        wifiOnInterval: wifiOnInterval,
         isTx: isTx,
       );
       // Unified firmware is always a .bin before compression
@@ -210,6 +212,7 @@ class DeviceRepository {
     String? wifiPassword,
     String? platform,
     int? domain,
+    int? wifiOnInterval,
     bool force = false,
     bool isTx = false,
   }) async {
@@ -225,6 +228,7 @@ class DeviceRepository {
         wifiPassword: wifiPassword,
         platform: platform,
         domain: domain,
+        wifiOnInterval: wifiOnInterval,
         isTx: isTx,
       );
 

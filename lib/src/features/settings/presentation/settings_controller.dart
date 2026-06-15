@@ -25,6 +25,7 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool disclaimerAccepted,
     @Default(true) bool shareAnalytics,
     @Default(false) bool isLoaded,
+    @Default(60) int wifiOnInterval,
     String? appLocale,
     String? bindPhraseError,
     String? wifiSsidError,
@@ -58,6 +59,7 @@ class SettingsController extends _$SettingsController {
       disclaimerAccepted: persistence.hasAcceptedDisclaimer(),
       shareAnalytics: prefs.getBool('shareAnalytics') ?? true,
       appLocale: prefs.getString('appLocale'),
+      wifiOnInterval: persistence.getWifiOnInterval(),
       isLoaded: true,
     );
   }
@@ -160,5 +162,11 @@ class SettingsController extends _$SettingsController {
       await prefs.setString('appLocale', localeCode);
     }
     state = state.copyWith(appLocale: localeCode);
+  }
+
+  Future<void> setWifiOnInterval(int value) async {
+    final persistence = await ref.read(persistenceServiceProvider.future);
+    await persistence.setWifiOnInterval(value);
+    state = state.copyWith(wifiOnInterval: value);
   }
 }

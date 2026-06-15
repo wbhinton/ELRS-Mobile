@@ -15,6 +15,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
   late TextEditingController _bindPhraseController;
   late TextEditingController _wifiSsidController;
   late TextEditingController _wifiPasswordController;
+  late TextEditingController _wifiOnIntervalController;
 
   @override
   void initState() {
@@ -23,6 +24,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
     _bindPhraseController = TextEditingController(text: state.bindPhrase);
     _wifiSsidController = TextEditingController(text: state.wifiSsid);
     _wifiPasswordController = TextEditingController(text: state.wifiPassword);
+    _wifiOnIntervalController = TextEditingController(text: state.wifiOnInterval.toString());
   }
 
   bool _obscureBindPhrase = true;
@@ -33,6 +35,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
     _bindPhraseController.dispose();
     _wifiSsidController.dispose();
     _wifiPasswordController.dispose();
+    _wifiOnIntervalController.dispose();
     super.dispose();
   }
 
@@ -53,6 +56,10 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
       if (previous?.wifiPassword != next.wifiPassword &&
           _wifiPasswordController.text != next.wifiPassword) {
         _wifiPasswordController.text = next.wifiPassword;
+      }
+      if (previous?.wifiOnInterval != next.wifiOnInterval &&
+          _wifiOnIntervalController.text != next.wifiOnInterval.toString()) {
+        _wifiOnIntervalController.text = next.wifiOnInterval.toString();
       }
     });
 
@@ -198,6 +205,29 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                       .read(flashingControllerProvider.notifier)
                       .setWifiPassword(value),
                   obscureText: _obscureWifiPassword,
+                ),
+                const SizedBox(height: 16),
+ 
+                // Wifi On Interval
+                TextFormField(
+                  controller: _wifiOnIntervalController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: l10n.wifiOnIntervalLabel,
+                    suffixIcon: autosavingField == 'wifiOnInterval'
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 20,
+                          )
+                        : null,
+                  ),
+                  onChanged: (value) {
+                    final parsed = int.tryParse(value) ?? 60;
+                    ref
+                        .read(flashingControllerProvider.notifier)
+                        .setWifiOnInterval(parsed);
+                  },
                 ),
                 const SizedBox(height: 16),
 

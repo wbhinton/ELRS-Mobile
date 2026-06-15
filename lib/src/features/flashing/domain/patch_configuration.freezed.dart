@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PatchConfiguration {
 
- String get bindPhrase; String? get wifiSsid; String? get wifiPassword; int? get regulatoryDomain; int? get domain; List<int>? get uid;
+ String get bindPhrase; String? get wifiSsid; String? get wifiPassword; int? get regulatoryDomain; int? get domain; int? get wifiOnInterval; List<int>? get uid;
 /// Create a copy of PatchConfiguration
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PatchConfigurationCopyWith<PatchConfiguration> get copyWith => _$PatchConfigura
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatchConfiguration&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.domain, domain) || other.domain == domain)&&const DeepCollectionEquality().equals(other.uid, uid));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatchConfiguration&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&const DeepCollectionEquality().equals(other.uid, uid));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,domain,const DeepCollectionEquality().hash(uid));
+int get hashCode => Object.hash(runtimeType,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,domain,wifiOnInterval,const DeepCollectionEquality().hash(uid));
 
 @override
 String toString() {
-  return 'PatchConfiguration(bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, domain: $domain, uid: $uid)';
+  return 'PatchConfiguration(bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, domain: $domain, wifiOnInterval: $wifiOnInterval, uid: $uid)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PatchConfigurationCopyWith<$Res>  {
   factory $PatchConfigurationCopyWith(PatchConfiguration value, $Res Function(PatchConfiguration) _then) = _$PatchConfigurationCopyWithImpl;
 @useResult
 $Res call({
- String bindPhrase, String? wifiSsid, String? wifiPassword, int? regulatoryDomain, int? domain, List<int>? uid
+ String bindPhrase, String? wifiSsid, String? wifiPassword, int? regulatoryDomain, int? domain, int? wifiOnInterval, List<int>? uid
 });
 
 
@@ -62,13 +62,14 @@ class _$PatchConfigurationCopyWithImpl<$Res>
 
 /// Create a copy of PatchConfiguration
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? bindPhrase = null,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? regulatoryDomain = freezed,Object? domain = freezed,Object? uid = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? bindPhrase = null,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? regulatoryDomain = freezed,Object? domain = freezed,Object? wifiOnInterval = freezed,Object? uid = freezed,}) {
   return _then(_self.copyWith(
 bindPhrase: null == bindPhrase ? _self.bindPhrase : bindPhrase // ignore: cast_nullable_to_non_nullable
 as String,wifiSsid: freezed == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast_nullable_to_non_nullable
 as String?,wifiPassword: freezed == wifiPassword ? _self.wifiPassword : wifiPassword // ignore: cast_nullable_to_non_nullable
 as String?,regulatoryDomain: freezed == regulatoryDomain ? _self.regulatoryDomain : regulatoryDomain // ignore: cast_nullable_to_non_nullable
 as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as int?,wifiOnInterval: freezed == wifiOnInterval ? _self.wifiOnInterval : wifiOnInterval // ignore: cast_nullable_to_non_nullable
 as int?,uid: freezed == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as List<int>?,
   ));
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String bindPhrase,  String? wifiSsid,  String? wifiPassword,  int? regulatoryDomain,  int? domain,  List<int>? uid)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String bindPhrase,  String? wifiSsid,  String? wifiPassword,  int? regulatoryDomain,  int? domain,  int? wifiOnInterval,  List<int>? uid)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PatchConfiguration() when $default != null:
-return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulatoryDomain,_that.domain,_that.uid);case _:
+return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulatoryDomain,_that.domain,_that.wifiOnInterval,_that.uid);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String bindPhrase,  String? wifiSsid,  String? wifiPassword,  int? regulatoryDomain,  int? domain,  List<int>? uid)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String bindPhrase,  String? wifiSsid,  String? wifiPassword,  int? regulatoryDomain,  int? domain,  int? wifiOnInterval,  List<int>? uid)  $default,) {final _that = this;
 switch (_that) {
 case _PatchConfiguration():
-return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulatoryDomain,_that.domain,_that.uid);case _:
+return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulatoryDomain,_that.domain,_that.wifiOnInterval,_that.uid);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String bindPhrase,  String? wifiSsid,  String? wifiPassword,  int? regulatoryDomain,  int? domain,  List<int>? uid)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String bindPhrase,  String? wifiSsid,  String? wifiPassword,  int? regulatoryDomain,  int? domain,  int? wifiOnInterval,  List<int>? uid)?  $default,) {final _that = this;
 switch (_that) {
 case _PatchConfiguration() when $default != null:
-return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulatoryDomain,_that.domain,_that.uid);case _:
+return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulatoryDomain,_that.domain,_that.wifiOnInterval,_that.uid);case _:
   return null;
 
 }
@@ -211,7 +212,7 @@ return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulat
 
 
 class _PatchConfiguration implements PatchConfiguration {
-  const _PatchConfiguration({required this.bindPhrase, this.wifiSsid, this.wifiPassword, this.regulatoryDomain, this.domain, final  List<int>? uid}): _uid = uid;
+  const _PatchConfiguration({required this.bindPhrase, this.wifiSsid, this.wifiPassword, this.regulatoryDomain, this.domain, this.wifiOnInterval, final  List<int>? uid}): _uid = uid;
   
 
 @override final  String bindPhrase;
@@ -219,6 +220,7 @@ class _PatchConfiguration implements PatchConfiguration {
 @override final  String? wifiPassword;
 @override final  int? regulatoryDomain;
 @override final  int? domain;
+@override final  int? wifiOnInterval;
  final  List<int>? _uid;
 @override List<int>? get uid {
   final value = _uid;
@@ -239,16 +241,16 @@ _$PatchConfigurationCopyWith<_PatchConfiguration> get copyWith => __$PatchConfig
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatchConfiguration&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.domain, domain) || other.domain == domain)&&const DeepCollectionEquality().equals(other._uid, _uid));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatchConfiguration&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&const DeepCollectionEquality().equals(other._uid, _uid));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,domain,const DeepCollectionEquality().hash(_uid));
+int get hashCode => Object.hash(runtimeType,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,domain,wifiOnInterval,const DeepCollectionEquality().hash(_uid));
 
 @override
 String toString() {
-  return 'PatchConfiguration(bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, domain: $domain, uid: $uid)';
+  return 'PatchConfiguration(bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, domain: $domain, wifiOnInterval: $wifiOnInterval, uid: $uid)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$PatchConfigurationCopyWith<$Res> implements $PatchConfigu
   factory _$PatchConfigurationCopyWith(_PatchConfiguration value, $Res Function(_PatchConfiguration) _then) = __$PatchConfigurationCopyWithImpl;
 @override @useResult
 $Res call({
- String bindPhrase, String? wifiSsid, String? wifiPassword, int? regulatoryDomain, int? domain, List<int>? uid
+ String bindPhrase, String? wifiSsid, String? wifiPassword, int? regulatoryDomain, int? domain, int? wifiOnInterval, List<int>? uid
 });
 
 
@@ -276,13 +278,14 @@ class __$PatchConfigurationCopyWithImpl<$Res>
 
 /// Create a copy of PatchConfiguration
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? bindPhrase = null,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? regulatoryDomain = freezed,Object? domain = freezed,Object? uid = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? bindPhrase = null,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? regulatoryDomain = freezed,Object? domain = freezed,Object? wifiOnInterval = freezed,Object? uid = freezed,}) {
   return _then(_PatchConfiguration(
 bindPhrase: null == bindPhrase ? _self.bindPhrase : bindPhrase // ignore: cast_nullable_to_non_nullable
 as String,wifiSsid: freezed == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast_nullable_to_non_nullable
 as String?,wifiPassword: freezed == wifiPassword ? _self.wifiPassword : wifiPassword // ignore: cast_nullable_to_non_nullable
 as String?,regulatoryDomain: freezed == regulatoryDomain ? _self.regulatoryDomain : regulatoryDomain // ignore: cast_nullable_to_non_nullable
 as int?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
+as int?,wifiOnInterval: freezed == wifiOnInterval ? _self.wifiOnInterval : wifiOnInterval // ignore: cast_nullable_to_non_nullable
 as int?,uid: freezed == uid ? _self._uid : uid // ignore: cast_nullable_to_non_nullable
 as List<int>?,
   ));

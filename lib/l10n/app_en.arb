@@ -128,6 +128,10 @@
   "optionsTitle": "Firmware Options",
   "optionsSubtitle": "Configure binding and network credentials.",
   "wifiPasswordLabel": "WiFi Password",
+  "wifiOnIntervalLabel": "WiFi Auto-On Interval",
+  "@wifiOnIntervalLabel": {
+    "description": "Time in seconds before the device enters WiFi mode if no connection is found."
+  },
   "regulatoryDomainLabel": "Regulatory Domain",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "EU CE (2.4GHz LBT)",
