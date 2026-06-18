@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
@@ -15,11 +16,19 @@ class FlashingScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useEffect(() {
-      // Load saved options on mount
+      // Lock orientation to prevent autoDispose teardowns during flash
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+      
       Future.microtask(
         () => ref.read(flashingControllerProvider.notifier).loadSavedOptions(),
       );
-      return null;
+      
+      return () {
+        // Restore standard rotation when leaving the screen
+        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+      };
     }, []);
 
     final state = ref.watch(flashingControllerProvider);

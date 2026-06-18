@@ -62,6 +62,7 @@ abstract class FlashingState with _$FlashingState {
     String? bindPhraseError,
     String? wifiSsidError,
     String? wifiPasswordError,
+    Uint8List? cachedPayload, // NEW: Retain binary across lifecycles
   }) = _FlashingState;
 }
 
@@ -405,6 +406,11 @@ class FlashingController extends _$FlashingController {
   }
 
   Future<({Uint8List bytes, String filename})> _buildFinalPayload() async {
+    // Return cached bytes immediately if already compiled to prevent duplicates
+    if (state.cachedPayload != null) {
+      return (bytes: state.cachedPayload!, filename: 'firmware.gz');
+    }
+
     final firmware = await _prepareFirmware();
     final finalBytes = firmware.bytes;
     final filename = firmware.filename;
@@ -467,7 +473,7 @@ class FlashingController extends _$FlashingController {
 
     final deviceRepo = ref.read(deviceRepositoryProvider);
     final isTx = state.selectedTarget?.deviceType == 'TX';
-    return await deviceRepo.buildFirmwarePayload(
+    final payload = await deviceRepo.buildFirmwarePayload(
       finalBytes,
       filename,
       productName: productName,
@@ -481,6 +487,10 @@ class FlashingController extends _$FlashingController {
       wifiOnInterval: state.wifiOnInterval,
       isTx: isTx,
     );
+
+    // Save to persistent state before returning
+    state = state.copyWith(cachedPayload: payload.bytes);
+    return payload;
   }
 
   Future<void> flash({
@@ -653,6 +663,7 @@ class FlashingController extends _$FlashingController {
       status: FlashingStatus.idle,
       errorMessage: null,
       progress: 0.0,
+      cachedPayload: null,
     );
   }
 
