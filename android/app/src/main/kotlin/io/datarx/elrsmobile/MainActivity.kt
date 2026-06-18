@@ -7,6 +7,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import android.os.Build
+import android.content.Intent
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -25,6 +26,19 @@ class MainActivity : FlutterFragmentActivity() {
         super.onCreate(savedInstanceState)
         // Enable edge-to-edge display
         enableEdgeToEdge()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data)
+        } catch (e: Exception) {
+            println("NATIVE: Caught exception in onActivityResult: ${e.message}")
+            if (e is NullPointerException || e.message?.contains("getStringExtra") == true) {
+                // Suppress to prevent crash from buggy plugins when intent data is null
+            } else {
+                throw e
+            }
+        }
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
