@@ -61,3 +61,6 @@ upload-keystore.jks
 
 # rp1
 .rp1/
+# pixi environments
+.pixi/*
+!.pixi/config.toml
