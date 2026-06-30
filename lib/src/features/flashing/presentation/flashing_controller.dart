@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:logging/logging.dart';
 
 import '../application/firmware_patcher.dart';
 import '../domain/patch_configuration.dart';
@@ -69,6 +70,8 @@ abstract class FlashingState with _$FlashingState {
 
 @Riverpod(keepAlive: true)
 class FlashingController extends _$FlashingController {
+  static final _log = Logger('FlashingController');
+
   @override
   FlashingState build() {
     ref.listen(settingsControllerProvider, (previous, next) {
@@ -376,18 +379,65 @@ class FlashingController extends _$FlashingController {
     }
   }
 
+  Future<void> buildAndSaveLocal() async {
+    if (state.selectedTarget == null || state.selectedVersion == null) {
+      state = state.copyWith(
+        errorMessage: 'Please select a target and version.',
+      );
+      return;
+    }
+
+    state = state.copyWith(
+      status: FlashingStatus.downloading,
+      progress: 0.0,
+      errorMessage: null,
+    );
+
+    try {
+      final payload = await _buildFinalPayload();
+
+      state = state.copyWith(status: FlashingStatus.patching, progress: 0.5);
+
+      final targetName = state.selectedTarget!.name
+          .replaceAll(' ', '_')
+          .replaceAll('/', '_')
+          .replaceAll('\\', '_');
+      final extension = payload.filename.endsWith('.gz') ? '.gz' : '.bin';
+      final downloadName = 'ELRS_${targetName}_Firmware$extension';
+
+      final dir = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/$downloadName');
+      await file.writeAsBytes(payload.bytes);
+
+      state = state.copyWith(
+        status: FlashingStatus.success,
+        progress: 1.0,
+      );
+
+      ref.read(analyticsServiceProvider).trackEvent('Firmware Built and Saved Local', {
+        'target': state.selectedTarget?.name ?? 'Unknown',
+        'version': state.selectedVersion ?? 'Unknown',
+      });
+      debugPrint('Firmware saved successfully to ${file.path}');
+    } catch (e) {
+      state = state.copyWith(
+        status: FlashingStatus.error,
+        errorMessage: 'Failed to build and save firmware locally: $e',
+        progress: 0.0,
+      );
+      ref.read(analyticsServiceProvider).trackEvent('Firmware Build and Save Local Error', {
+        'error': e.toString(),
+      });
+    }
+  }
+
   Future<({Uint8List bytes, String filename})> _prepareFirmware() async {
     final version = state.selectedVersion!;
     final cacheService = ref.read(firmwareCacheServiceProvider);
     final firmwareRepo = ref.read(firmwareRepositoryProvider);
 
-    // Self-heal incomplete legacy caches
-    final hasHardware = await cacheService.hasCachedHardwareZip(version);
-    if (!hasHardware) {
-      state = state.copyWith(status: FlashingStatus.downloading);
-      final hardwareBytes = await firmwareRepo.downloadHardwareZip();
-      await cacheService.saveHardwareZip(version, hardwareBytes);
-    }
+    final cachedZip = await cacheService.getZipFile(version);
+    final cachedHardwareZip = await cacheService.getHardwareZipFile(version);
 
     FirmwareData firmwareData;
 
@@ -405,10 +455,8 @@ class FlashingController extends _$FlashingController {
       }
     }
 
-    // Check for cached version
-    final cachedZip = await cacheService.getZipFile(state.selectedVersion!);
-
-    if (cachedZip != null) {
+    if (cachedZip != null && cachedHardwareZip != null) {
+      _log.info('Building firmware from local cache for version $version');
       state = state.copyWith(status: FlashingStatus.downloading, progress: 0.1);
       final zipBytes = await cachedZip.readAsBytes();
 
@@ -422,6 +470,15 @@ class FlashingController extends _$FlashingController {
             isLbt: isLbt,
           );
     } else {
+      _log.info('Cache missing or incomplete. Self-healing / downloading from Artifactory...');
+      state = state.copyWith(status: FlashingStatus.downloading);
+      // Self-heal incomplete legacy caches
+      final hasHardware = cachedHardwareZip != null;
+      if (!hasHardware) {
+        final hardwareBytes = await firmwareRepo.downloadHardwareZip();
+        await cacheService.saveHardwareZip(version, hardwareBytes);
+      }
+
       // Download from Artifactory
       firmwareData = await ref
           .read(firmwareRepositoryProvider)
