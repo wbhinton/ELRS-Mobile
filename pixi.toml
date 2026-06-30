@@ -1,0 +1,13 @@
+[workspace]
+channels = ["conda-forge"]
+name = "ELRS-Mobile"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+dev = { cmd = "npm run dev", cwd = "website" }
+build = { cmd = "npm run build", cwd = "website" }
+preview = { cmd = "npm run preview", cwd = "website" }
+
+[dependencies]
+nodejs = ">=26.3.1,<26.4"

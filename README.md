@@ -85,6 +85,12 @@ For detailed instructions and technical information, please refer to the documen
 - **[Development & Auditing](https://elrsmobile.com/development)**: Information for developers regarding firmware auditing and byte-perfect matches.
 
 --------------------------------------------------------------------------------
+## Media & Tutorials
+
+* [Joshua Bardwell - Flash ELRS from your phone? OFFLINE!](https://www.youtube.com/watch?v=UqGi2g3P3Kw) — A comprehensive review of ELRS mobile showing offline firmware flashing.
+* [Painless360 - ELRS Mobile: Update your ELRS device offline at the field using your phone!](https://www.youtube.com/watch?v=Dc9BJZtZLP8) — An excellent procedural walkthrough of the user experience and offline bench configuration.
+
+--------------------------------------------------------------------------------
 ## 💬 Community & Support
 - **Discord:** Join the [ExpressLRS Discord](https://discord.gg/expresslrs) and find me in the `#general` channel.
 - **Bug Reports:** Please use the [GitHub Issue Tracker](https://github.com/wbhinton/ELRS-Mobile/issues) for technical bugs.
