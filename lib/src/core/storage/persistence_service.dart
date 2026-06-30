@@ -1,6 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
+import '../../features/flashing/domain/flashing_profile.dart';
 
 part 'persistence_service.g.dart';
 
@@ -17,31 +19,80 @@ class PersistenceService {
   static const _keyDisclaimerAccepted = 'disclaimer_accepted';
   static const _keyMigrationDone = 'security_migration_v1_done';
   static const _keyWifiOnInterval = 'flashing_wifi_on_interval';
+  static const _keyProfiles = 'flashing_profiles';
+  static const _keyActiveProfileId = 'active_profile_id';
 
   /// Migrates sensitive data from SharedPreferences to SecureStorage once.
   Future<void> migrateIfNeeded() async {
-    if (_prefs.getBool(_keyMigrationDone) ?? false) return;
+    if (!(_prefs.getBool(_keyMigrationDone) ?? false)) {
+      final oldPhrase = _prefs.getString(_keyBindPhrase);
+      final oldSsid = _prefs.getString(_keyWifiSsid);
+      final oldPass = _prefs.getString(_keyWifiPassword);
 
-    final oldPhrase = _prefs.getString(_keyBindPhrase);
-    final oldSsid = _prefs.getString(_keyWifiSsid);
-    final oldPass = _prefs.getString(_keyWifiPassword);
+      if (oldPhrase != null) {
+        await _secure.write(key: _keyBindPhrase, value: oldPhrase);
+      }
+      if (oldSsid != null) {
+        await _secure.write(key: _keyWifiSsid, value: oldSsid);
+      }
+      if (oldPass != null) {
+        await _secure.write(key: _keyWifiPassword, value: oldPass);
+      }
 
-    if (oldPhrase != null) {
-      await _secure.write(key: _keyBindPhrase, value: oldPhrase);
+      // Clean up old plain-text data
+      await _prefs.remove(_keyBindPhrase);
+      await _prefs.remove(_keyWifiSsid);
+      await _prefs.remove(_keyWifiPassword);
+
+      await _prefs.setBool(_keyMigrationDone, true);
     }
-    if (oldSsid != null) {
-      await _secure.write(key: _keyWifiSsid, value: oldSsid);
-    }
-    if (oldPass != null) {
-      await _secure.write(key: _keyWifiPassword, value: oldPass);
-    }
 
-    // Clean up old plain-text data
-    await _prefs.remove(_keyBindPhrase);
-    await _prefs.remove(_keyWifiSsid);
-    await _prefs.remove(_keyWifiPassword);
+    final existingProfiles = await getProfiles();
+    if (existingProfiles.isEmpty) {
+      final legacyPhrase = await _secure.read(key: _keyBindPhrase) ?? '';
+      final legacySsid = await _secure.read(key: _keyWifiSsid) ?? '';
+      final legacyPass = await _secure.read(key: _keyWifiPassword) ?? '';
 
-    await _prefs.setBool(_keyMigrationDone, true);
+      final defaultProfile = FlashingProfile(
+        id: 'default',
+        name: 'Default Profile',
+        bindPhrase: legacyPhrase,
+        wifiSsid: legacySsid,
+        wifiPassword: legacyPass,
+        defaultDomain2400: _prefs.getInt('defaultDomain2400') ?? 0,
+        defaultDomain900: _prefs.getInt('defaultDomain900') ?? 1,
+      );
+
+      await saveProfiles([defaultProfile]);
+      await setActiveProfileId('default');
+    }
+  }
+
+  Future<void> saveProfiles(List<FlashingProfile> profiles) async {
+    final jsonList = profiles.map((p) => p.toJson()).toList();
+    final jsonString = json.encode(jsonList);
+    await _secure.write(key: _keyProfiles, value: jsonString);
+  }
+
+  Future<List<FlashingProfile>> getProfiles() async {
+    final jsonString = await _secure.read(key: _keyProfiles);
+    if (jsonString == null || jsonString.isEmpty) {
+      return [];
+    }
+    try {
+      final List<dynamic> jsonList = json.decode(jsonString);
+      return jsonList.map((j) => FlashingProfile.fromJson(j as Map<String, dynamic>)).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<void> setActiveProfileId(String id) async {
+    await _secure.write(key: _keyActiveProfileId, value: id);
+  }
+
+  Future<String?> getActiveProfileId() async {
+    return await _secure.read(key: _keyActiveProfileId);
   }
 
   Future<void> saveManualIp(String ip) async {
@@ -103,3 +154,4 @@ Future<PersistenceService> persistenceService(Ref ref) async {
   await service.migrateIfNeeded();
   return service;
 }
+

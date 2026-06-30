@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../flashing_controller.dart';
 import 'version_selector.dart';
+import 'package:elrs_mobile/src/features/settings/presentation/settings_controller.dart';
 
 class OptionsCard extends ConsumerStatefulWidget {
   const OptionsCard({super.key});
@@ -106,6 +107,53 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Flashing Profile Selection & Action Row
+                Consumer(
+                  builder: (context, ref, child) {
+                    final settings = ref.watch(settingsControllerProvider);
+                    final activeId = settings.activeProfileId;
+                    final profiles = settings.profiles;
+
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            value: activeId,
+                            decoration: const InputDecoration(
+                              labelText: 'Flashing Profile',
+                              icon: Icon(Icons.account_circle),
+                            ),
+                            items: profiles.map((p) {
+                              return DropdownMenuItem<String>(
+                                value: p.id,
+                                child: Text(p.name),
+                              );
+                            }).toList(),
+                            onChanged: (id) {
+                              if (id != null) {
+                                ref.read(settingsControllerProvider.notifier).setActiveProfile(id);
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        IconButton(
+                          icon: const Icon(Icons.add),
+                          tooltip: 'Add Profile',
+                          onPressed: () => _showAddProfileDialog(context, ref),
+                        ),
+                        if (profiles.length > 1)
+                          IconButton(
+                            icon: const Icon(Icons.delete_outline),
+                            tooltip: 'Delete Profile',
+                            onPressed: () => _showDeleteProfileDialog(context, ref, activeId, profiles),
+                          ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+
                 // Firmware Version
                 const VersionSelector(),
                 const SizedBox(height: 16),
@@ -265,7 +313,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                       decoration: InputDecoration(
                         labelText: l10n.regulatoryDomainLabel,
                       ),
-                      initialValue: currentDomainId,
+                      value: currentDomainId,
                       items: domainItems,
                       onChanged: (value) {
                         if (value != null) {
@@ -310,6 +358,82 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
           },
         ),
       ),
+    );
+  }
+
+  void _showAddProfileDialog(BuildContext context, WidgetRef ref) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Add Flashing Profile'),
+          content: TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              hintText: 'Profile Name (e.g., My Quads)',
+            ),
+            autofocus: true,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final name = controller.text.trim();
+                if (name.isNotEmpty) {
+                  ref.read(settingsControllerProvider.notifier).createProfile(name);
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteProfileDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String? activeId,
+    List<dynamic> profiles,
+  ) {
+    if (activeId == null) return;
+    final activeProfile = profiles.firstWhere(
+      (p) => p.id == activeId,
+      orElse: () => null,
+    );
+    if (activeProfile == null) return;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Delete Profile'),
+          content: Text('Are you sure you want to delete the profile "${activeProfile.name}"?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.error,
+                foregroundColor: Theme.of(context).colorScheme.onError,
+              ),
+              onPressed: () {
+                ref.read(settingsControllerProvider.notifier).deleteProfile(activeId);
+                Navigator.pop(context);
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

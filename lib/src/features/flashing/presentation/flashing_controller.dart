@@ -7,6 +7,7 @@ import '../application/firmware_patcher.dart';
 import '../domain/patch_configuration.dart';
 import '../data/firmware_repository.dart';
 import '../data/device_repository.dart';
+import '../domain/flashing_profile.dart';
 
 import '../../../core/storage/firmware_cache_service.dart';
 import '../domain/target_definition.dart';
@@ -71,15 +72,28 @@ class FlashingController extends _$FlashingController {
   @override
   FlashingState build() {
     ref.listen(settingsControllerProvider, (previous, next) {
-      if (previous?.globalBindPhrase != next.globalBindPhrase) {
-        state = state.copyWith(bindPhrase: next.globalBindPhrase);
+      final prevActive = previous?.profiles.firstWhere(
+        (p) => p.id == previous.activeProfileId,
+        orElse: () => const FlashingProfile(id: '', name: ''),
+      );
+      final nextActive = next.profiles.firstWhere(
+        (p) => p.id == next.activeProfileId,
+        orElse: () => const FlashingProfile(id: '', name: ''),
+      );
+
+      if (prevActive != nextActive) {
+        final is2G4 = state.selectedTarget?.is2400Mhz ?? true;
+        final regDomain = is2G4 ? nextActive.defaultDomain2400 : nextActive.defaultDomain900;
+
+        state = state.copyWith(
+          bindPhrase: nextActive.bindPhrase,
+          wifiSsid: nextActive.wifiSsid,
+          wifiPassword: nextActive.wifiPassword,
+          regulatoryDomain: regDomain,
+        );
       }
-      if (previous?.homeWifiSsid != next.homeWifiSsid) {
-        state = state.copyWith(wifiSsid: next.homeWifiSsid);
-      }
-      if (previous?.homeWifiPassword != next.homeWifiPassword) {
-        state = state.copyWith(wifiPassword: next.homeWifiPassword);
-      }
+      
+      // Still listen to global wifiOnInterval
       if (previous?.wifiOnInterval != next.wifiOnInterval) {
         state = state.copyWith(wifiOnInterval: next.wifiOnInterval);
       }
@@ -87,26 +101,36 @@ class FlashingController extends _$FlashingController {
 
     // Initialize with current settings values
     final settings = ref.read(settingsControllerProvider);
+    final activeProfile = settings.profiles.firstWhere(
+      (p) => p.id == settings.activeProfileId,
+      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+    );
+    final initialRegDomain = activeProfile.defaultDomain2400;
 
     return FlashingState(
-      bindPhrase: settings.globalBindPhrase,
-      wifiSsid: settings.homeWifiSsid,
-      wifiPassword: settings.homeWifiPassword,
-      regulatoryDomain: settings.defaultDomain2400, // Default initialization
+      bindPhrase: activeProfile.bindPhrase,
+      wifiSsid: activeProfile.wifiSsid,
+      wifiPassword: activeProfile.wifiPassword,
+      regulatoryDomain: initialRegDomain,
       wifiOnInterval: settings.wifiOnInterval,
     );
   }
 
   Future<void> loadSavedOptions() async {
-    final persistence = await ref.read(persistenceServiceProvider.future);
-    final bindPhrase = await persistence.getBindPhrase();
-    final wifiSsid = await persistence.getWifiSsid();
-    final wifiPassword = await persistence.getWifiPassword();
+    final settings = ref.read(settingsControllerProvider);
+    final activeProfile = settings.profiles.firstWhere(
+      (p) => p.id == settings.activeProfileId,
+      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+    );
+
+    final is2G4 = state.selectedTarget?.is2400Mhz ?? true;
+    final regDomain = is2G4 ? activeProfile.defaultDomain2400 : activeProfile.defaultDomain900;
 
     state = state.copyWith(
-      bindPhrase: bindPhrase,
-      wifiSsid: wifiSsid,
-      wifiPassword: wifiPassword,
+      bindPhrase: activeProfile.bindPhrase,
+      wifiSsid: activeProfile.wifiSsid,
+      wifiPassword: activeProfile.wifiPassword,
+      regulatoryDomain: regDomain,
     );
   }
 
@@ -142,7 +166,19 @@ class FlashingController extends _$FlashingController {
       updatedVersion = null;
     }
 
-    state = state.copyWith(selectedTarget: target, selectedVersion: updatedVersion);
+    final settings = ref.read(settingsControllerProvider);
+    final activeProfile = settings.profiles.firstWhere(
+      (p) => p.id == settings.activeProfileId,
+      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+    );
+    final is2G4 = target?.is2400Mhz ?? true;
+    final regDomain = is2G4 ? activeProfile.defaultDomain2400 : activeProfile.defaultDomain900;
+
+    state = state.copyWith(
+      selectedTarget: target,
+      selectedVersion: updatedVersion,
+      regulatoryDomain: regDomain,
+    );
   }
 
   void selectVersion(String? version) {
@@ -153,8 +189,13 @@ class FlashingController extends _$FlashingController {
     final error = ValidationUtils.validateBindPhrase(value);
     state = state.copyWith(bindPhrase: value, bindPhraseError: error);
     if (error == null) {
-      final persistence = await ref.read(persistenceServiceProvider.future);
-      await persistence.setBindPhrase(value);
+      final settings = ref.read(settingsControllerProvider);
+      final activeProfile = settings.profiles.firstWhere(
+        (p) => p.id == settings.activeProfileId,
+        orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      );
+      final updatedProfile = activeProfile.copyWith(bindPhrase: value);
+      await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
       _triggerAutosaveFeedback('bindPhrase');
     }
   }
@@ -163,8 +204,13 @@ class FlashingController extends _$FlashingController {
     final error = ValidationUtils.validateSsid(value);
     state = state.copyWith(wifiSsid: value, wifiSsidError: error);
     if (error == null) {
-      final persistence = await ref.read(persistenceServiceProvider.future);
-      await persistence.setWifiSsid(value);
+      final settings = ref.read(settingsControllerProvider);
+      final activeProfile = settings.profiles.firstWhere(
+        (p) => p.id == settings.activeProfileId,
+        orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      );
+      final updatedProfile = activeProfile.copyWith(wifiSsid: value);
+      await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
       _triggerAutosaveFeedback('wifiSsid');
     }
   }
@@ -173,8 +219,13 @@ class FlashingController extends _$FlashingController {
     final error = ValidationUtils.validatePassword(value);
     state = state.copyWith(wifiPassword: value, wifiPasswordError: error);
     if (error == null || value.isEmpty) {
-      final persistence = await ref.read(persistenceServiceProvider.future);
-      await persistence.setWifiPassword(value);
+      final settings = ref.read(settingsControllerProvider);
+      final activeProfile = settings.profiles.firstWhere(
+        (p) => p.id == settings.activeProfileId,
+        orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      );
+      final updatedProfile = activeProfile.copyWith(wifiPassword: value);
+      await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
       _triggerAutosaveFeedback('wifiPassword');
       if (value.isEmpty) {
         state = state.copyWith(wifiPasswordError: null);
@@ -184,6 +235,16 @@ class FlashingController extends _$FlashingController {
 
   Future<void> setRegulatoryDomain(int id) async {
     state = state.copyWith(regulatoryDomain: id);
+    final is2G4 = state.selectedTarget?.is2400Mhz ?? true;
+    final settings = ref.read(settingsControllerProvider);
+    final activeProfile = settings.profiles.firstWhere(
+      (p) => p.id == settings.activeProfileId,
+      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+    );
+    final updatedProfile = is2G4
+        ? activeProfile.copyWith(defaultDomain2400: id)
+        : activeProfile.copyWith(defaultDomain900: id);
+    await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
   }
 
   void setWifiOnInterval(int value) {
