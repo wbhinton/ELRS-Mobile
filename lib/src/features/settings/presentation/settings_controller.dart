@@ -76,7 +76,7 @@ class SettingsController extends _$SettingsController {
       disclaimerAccepted: persistence.hasAcceptedDisclaimer(),
       shareAnalytics: prefs.getBool('shareAnalytics') ?? true,
       appLocale: prefs.getString('appLocale'),
-      wifiOnInterval: persistence.getWifiOnInterval(),
+      wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
       profiles: profiles,
       activeProfileId: effectiveActiveId,
       isLoaded: true,
@@ -89,6 +89,7 @@ class SettingsController extends _$SettingsController {
       name: name,
       defaultDomain2400: state.defaultDomain2400,
       defaultDomain900: state.defaultDomain900,
+      wifiOnInterval: state.wifiOnInterval,
     );
 
     final updatedProfiles = [...state.profiles, newProfile];
@@ -102,6 +103,7 @@ class SettingsController extends _$SettingsController {
       globalBindPhrase: newProfile.bindPhrase,
       homeWifiSsid: newProfile.wifiSsid,
       homeWifiPassword: newProfile.wifiPassword,
+      wifiOnInterval: newProfile.wifiOnInterval == 0 ? 60 : newProfile.wifiOnInterval,
     );
   }
 
@@ -118,6 +120,7 @@ class SettingsController extends _$SettingsController {
       globalBindPhrase: profile.bindPhrase,
       homeWifiSsid: profile.wifiSsid,
       homeWifiPassword: profile.wifiPassword,
+      wifiOnInterval: profile.wifiOnInterval == 0 ? 60 : profile.wifiOnInterval,
     );
   }
 
@@ -145,6 +148,7 @@ class SettingsController extends _$SettingsController {
       globalBindPhrase: activeProfile.bindPhrase,
       homeWifiSsid: activeProfile.wifiSsid,
       homeWifiPassword: activeProfile.wifiPassword,
+      wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
     );
   }
 
@@ -162,6 +166,7 @@ class SettingsController extends _$SettingsController {
       globalBindPhrase: activeProfile.bindPhrase,
       homeWifiSsid: activeProfile.wifiSsid,
       homeWifiPassword: activeProfile.wifiPassword,
+      wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
     );
   }
 
@@ -280,5 +285,11 @@ class SettingsController extends _$SettingsController {
     final persistence = await ref.read(persistenceServiceProvider.future);
     await persistence.setWifiOnInterval(value);
     state = state.copyWith(wifiOnInterval: value);
+    final activeProfile = state.profiles.firstWhere(
+      (p) => p.id == state.activeProfileId,
+      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+    );
+    final updatedProfile = activeProfile.copyWith(wifiOnInterval: value);
+    await updateActiveProfile(updatedProfile);
   }
 }

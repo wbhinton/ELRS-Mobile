@@ -29,113 +29,115 @@ class SupportScreen extends HookConsumerWidget {
       appBar: AppBar(
         title: Text(l10n.helpSupportLabel),
       ),
-      body: FutureBuilder<String>(
-        future: useMemoized(
-          loadFaqContent,
-          [Localizations.localeOf(context).languageCode],
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(child: Text('Error loading help content: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          final content = snapshot.data!;
-          final mainParts = content.split('---');
-          final walkthroughRaw = mainParts.isNotEmpty ? mainParts[0] : '';
-          final faqRaw = mainParts.length > 1 ? mainParts[1] : '';
-
-          List<Map<String, String>> parseSections(String rawText) {
-            final sections = <Map<String, String>>[];
-            final chunks = rawText.split('## ');
-            for (int i = 1; i < chunks.length; i++) {
-              final lines = chunks[i].split('\n');
-              final title = lines.first.trim();
-              final body = lines.sublist(1).join('\n').trim();
-              sections.add({'title': title, 'body': body});
+      body: SafeArea(
+        child: FutureBuilder<String>(
+          future: useMemoized(
+            loadFaqContent,
+            [Localizations.localeOf(context).languageCode],
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(child: Text('Error loading help content: ${snapshot.error}'));
             }
-            return sections;
-          }
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          final walkthroughSteps = parseSections(walkthroughRaw);
-          final faqItems = parseSections(faqRaw);
+            final content = snapshot.data!;
+            final mainParts = content.split('---');
+            final walkthroughRaw = mainParts.isNotEmpty ? mainParts[0] : '';
+            final faqRaw = mainParts.length > 1 ? mainParts[1] : '';
 
-          final tabViews = [
-            _SupportContentList(
-              sections: walkthroughSteps,
-              initialOpen: 0,
-            ),
-            _SupportContentList(
-              sections: faqItems,
-            ),
-            _ResourcesTab(ref: ref),
-          ];
+            List<Map<String, String>> parseSections(String rawText) {
+              final sections = <Map<String, String>>[];
+              final chunks = rawText.split('## ');
+              for (int i = 1; i < chunks.length; i++) {
+                final lines = chunks[i].split('\n');
+                final title = lines.first.trim();
+                final body = lines.sublist(1).join('\n').trim();
+                sections.add({'title': title, 'body': body});
+              }
+              return sections;
+            }
 
-          return OrientationBuilder(
-            builder: (context, orientation) {
-              if (orientation == Orientation.landscape) {
-                return Row(
+            final walkthroughSteps = parseSections(walkthroughRaw);
+            final faqItems = parseSections(faqRaw);
+
+            final tabViews = [
+              _SupportContentList(
+                sections: walkthroughSteps,
+                initialOpen: 0,
+              ),
+              _SupportContentList(
+                sections: faqItems,
+              ),
+              _ResourcesTab(ref: ref),
+            ];
+
+            return OrientationBuilder(
+              builder: (context, orientation) {
+                if (orientation == Orientation.landscape) {
+                  return Row(
+                    children: [
+                      NavigationRail(
+                        selectedIndex: tabController.index,
+                        onDestinationSelected: (int index) {
+                          tabController.animateTo(index);
+                        },
+                        labelType: NavigationRailLabelType.all,
+                        destinations: [
+                          NavigationRailDestination(
+                            icon: const Icon(Icons.menu_book_outlined),
+                            selectedIcon: const Icon(Icons.menu_book),
+                            label: Text(l10n.tabFlashingGuide),
+                          ),
+                          NavigationRailDestination(
+                            icon: const Icon(Icons.question_answer_outlined),
+                            selectedIcon: const Icon(Icons.question_answer),
+                            label: Text(l10n.tabFaq),
+                          ),
+                          NavigationRailDestination(
+                            icon: const Icon(Icons.public_outlined),
+                            selectedIcon: const Icon(Icons.public),
+                            label: Text(l10n.tabResources),
+                          ),
+                        ],
+                      ),
+                      const VerticalDivider(thickness: 1, width: 1),
+                      Expanded(
+                        child: TabBarView(
+                          controller: tabController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: tabViews,
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return Column(
                   children: [
-                    NavigationRail(
-                      selectedIndex: tabController.index,
-                      onDestinationSelected: (int index) {
-                        tabController.animateTo(index);
-                      },
-                      labelType: NavigationRailLabelType.all,
-                      destinations: [
-                        NavigationRailDestination(
-                          icon: const Icon(Icons.menu_book_outlined),
-                          selectedIcon: const Icon(Icons.menu_book),
-                          label: Text(l10n.tabFlashingGuide),
-                        ),
-                        NavigationRailDestination(
-                          icon: const Icon(Icons.question_answer_outlined),
-                          selectedIcon: const Icon(Icons.question_answer),
-                          label: Text(l10n.tabFaq),
-                        ),
-                        NavigationRailDestination(
-                          icon: const Icon(Icons.public_outlined),
-                          selectedIcon: const Icon(Icons.public),
-                          label: Text(l10n.tabResources),
-                        ),
+                    TabBar(
+                      controller: tabController,
+                      isScrollable: true,
+                      tabs: [
+                        Tab(text: l10n.tabFlashingGuide),
+                        Tab(text: l10n.tabFaq),
+                        Tab(text: l10n.tabResources),
                       ],
                     ),
-                    const VerticalDivider(thickness: 1, width: 1),
                     Expanded(
                       child: TabBarView(
                         controller: tabController,
-                        physics: const NeverScrollableScrollPhysics(),
                         children: tabViews,
                       ),
                     ),
                   ],
                 );
-              }
-
-              return Column(
-                children: [
-                  TabBar(
-                    controller: tabController,
-                    isScrollable: true,
-                    tabs: [
-                      Tab(text: l10n.tabFlashingGuide),
-                      Tab(text: l10n.tabFaq),
-                      Tab(text: l10n.tabResources),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      controller: tabController,
-                      children: tabViews,
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-        },
+              },
+            );
+          },
+        ),
       ),
     );
   }

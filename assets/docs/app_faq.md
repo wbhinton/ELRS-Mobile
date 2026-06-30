@@ -15,7 +15,7 @@
 1. **Navigate to Flash Device:** From the main Dashboard, select **Flash Device**.
 2. **Target Selection:** Use the cascading dropdowns to select the vendor and specific hardware target.
 3. **Version Selection:** Choose an available firmware version from your offline repository.
-4. **Configuration:** Enter your custom credentials. The application persists the WiFi SSID, WiFi Password, and Binding Phrase in local storage so you don't have to re-enter them.
+4. **Configuration & Profiles:** Choose or create a **Flashing Profile** (e.g., "My Quads", "Race Spec") to load your custom credentials. The application persists the Wi-Fi SSID, Wi-Fi Password, Binding Phrase, Regulatory Domain, and Auto-On intervals in these named profiles so you don't have to re-enter them when switching between different setups.
 5. **Build & Flash:** Tap **FLASH**. The system patches the binary with your local credentials and uploads it.
 * **Crucial:** Always wait for the success confirmation and for the device LED to resume blinking before unplugging!
 
@@ -25,6 +25,15 @@
 
 ## Do I need an internet connection or cellular service to flash firmware?
 No. ELRS Mobile features **100% Offline Flashing**. As long as you have previously downloaded the firmware version via the Firmware Manager while on home Wi-Fi, the app can dynamically assemble and flash the firmware completely offline.
+
+## What are Flashing Profiles and how do I use them?
+Flashing Profiles allow you to save and switch between multiple flashing configurations (e.g., "My Quads", "Stock / Factory Reset", "Race Spec"). Each profile securely stores its own binding phrase, Wi-Fi SSID, Wi-Fi password, regulatory domains, and Wi-Fi auto-on interval.
+
+To use them:
+1. Tap the **+** (Add) icon next to the "Flashing Profile" dropdown in the **Configuration Options** card.
+2. Name your new profile and customize the settings. Edits are auto-saved instantly.
+3. Select any profile from the dropdown to automatically swap all parameters.
+4. To delete a profile, select it and tap the trash/delete icon (must have at least two profiles to delete one).
 
 ## I get a "Not enough space" error when flashing my ESP8285 receiver.
 ESP8285 chips (like those found on many AIO boards) only have 1MB of total physical storage. Updating directly to a major release (like from 3.x to 4.x) over Wi-Fi can run out of dual-partition space because the incoming file is too large to unpack alongside the currently running firmware. 

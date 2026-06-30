@@ -4,6 +4,7 @@ import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../flashing_controller.dart';
 import 'version_selector.dart';
 import 'package:elrs_mobile/src/features/settings/presentation/settings_controller.dart';
+import 'package:elrs_mobile/src/features/flashing/domain/flashing_profile.dart';
 
 class OptionsCard extends ConsumerStatefulWidget {
   const OptionsCard({super.key});
@@ -44,23 +45,18 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Listen to state changes to update controllers when data loads
-    ref.listen(flashingControllerProvider, (previous, next) {
-      if (previous?.bindPhrase != next.bindPhrase &&
-          _bindPhraseController.text != next.bindPhrase) {
-        _bindPhraseController.text = next.bindPhrase;
-      }
-      if (previous?.wifiSsid != next.wifiSsid &&
-          _wifiSsidController.text != next.wifiSsid) {
-        _wifiSsidController.text = next.wifiSsid;
-      }
-      if (previous?.wifiPassword != next.wifiPassword &&
-          _wifiPasswordController.text != next.wifiPassword) {
-        _wifiPasswordController.text = next.wifiPassword;
-      }
-      if (previous?.wifiOnInterval != next.wifiOnInterval &&
-          _wifiOnIntervalController.text != next.wifiOnInterval.toString()) {
-        _wifiOnIntervalController.text = next.wifiOnInterval.toString();
+    // Listen to settings changes to detect when the active profile switches
+    ref.listen(settingsControllerProvider.select((s) => s.activeProfileId), (previous, next) {
+      if (previous != next) {
+        final settings = ref.read(settingsControllerProvider);
+        final activeProfile = settings.profiles.firstWhere(
+          (p) => p.id == next,
+          orElse: () => FlashingProfile(id: 'default', name: 'Default Profile'),
+        );
+        _bindPhraseController.text = activeProfile.bindPhrase;
+        _wifiSsidController.text = activeProfile.wifiSsid;
+        _wifiPasswordController.text = activeProfile.wifiPassword;
+        _wifiOnIntervalController.text = (activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval).toString();
       }
     });
 
@@ -118,7 +114,8 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                       children: [
                         Expanded(
                           child: DropdownButtonFormField<String>(
-                            value: activeId,
+                            key: ValueKey(activeId),
+                            initialValue: activeId,
                             decoration: const InputDecoration(
                               labelText: 'Flashing Profile',
                               icon: Icon(Icons.account_circle),
@@ -309,11 +306,12 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                           ];
 
                     return DropdownButtonFormField<int>(
+                      key: ValueKey('${target?.name}_$currentDomainId'),
                       isExpanded: true,
                       decoration: InputDecoration(
                         labelText: l10n.regulatoryDomainLabel,
                       ),
-                      value: currentDomainId,
+                      initialValue: currentDomainId,
                       items: domainItems,
                       onChanged: (value) {
                         if (value != null) {

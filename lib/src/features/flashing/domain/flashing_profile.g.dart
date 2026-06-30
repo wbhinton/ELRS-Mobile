@@ -15,6 +15,7 @@ _FlashingProfile _$FlashingProfileFromJson(Map<String, dynamic> json) =>
       wifiPassword: json['wifiPassword'] as String? ?? '',
       defaultDomain2400: (json['defaultDomain2400'] as num?)?.toInt() ?? 0,
       defaultDomain900: (json['defaultDomain900'] as num?)?.toInt() ?? 1,
+      wifiOnInterval: (json['wifiOnInterval'] as num?)?.toInt() ?? 60,
     );
 
 Map<String, dynamic> _$FlashingProfileToJson(_FlashingProfile instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$FlashingProfileToJson(_FlashingProfile instance) =>
       'wifiPassword': instance.wifiPassword,
       'defaultDomain2400': instance.defaultDomain2400,
       'defaultDomain900': instance.defaultDomain900,
+      'wifiOnInterval': instance.wifiOnInterval,
     };

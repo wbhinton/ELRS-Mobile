@@ -108,14 +108,16 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
           onPressed: () => context.pop(),
         ),
       ),
-      body: Stack(
-        children: [
-          _buildWebView(),
-          if (_isLoading)
-            const Center(
-              child: CircularProgressIndicator(color: Color(0xFF00E5FF)),
-            ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            _buildWebView(),
+            if (_isLoading)
+              const Center(
+                child: CircularProgressIndicator(color: Color(0xFF00E5FF)),
+              ),
+          ],
+        ),
       ),
     );
   }

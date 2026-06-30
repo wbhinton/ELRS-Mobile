@@ -13,6 +13,7 @@ abstract class FlashingProfile with _$FlashingProfile {
     @Default('') String wifiPassword,
     @Default(0) int defaultDomain2400,
     @Default(1) int defaultDomain900,
+    @Default(60) int wifiOnInterval,
   }) = _FlashingProfile;
 
   factory FlashingProfile.fromJson(Map<String, dynamic> json) => _$FlashingProfileFromJson(json);

@@ -10,66 +10,68 @@ class LegalNoticeScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.legalLicenseLabel)),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          Text(
-            l10n.legalNoticeSectionTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.legalNoticeSectionText,
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.trademarkNoticeSectionTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.trademarkNoticeSectionText,
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.officialSupportSectionTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.officialSupportSectionText,
-            style: const TextStyle(fontSize: 16),
-          ),
-          InkWell(
-            onTap: () => _launchUrl(
-              'https://opencollective.com/expresslrs/donate?interval=oneTime&amount=20&name=&legalName=&email=',
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: [
+            Text(
+              l10n.legalNoticeSectionTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            child: Text(
-              l10n.donateOpenCollectiveLabel,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
+            const SizedBox(height: 8),
+            Text(
+              l10n.legalNoticeSectionText,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.trademarkNoticeSectionTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.trademarkNoticeSectionText,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.officialSupportSectionTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.officialSupportSectionText,
+              style: const TextStyle(fontSize: 16),
+            ),
+            InkWell(
+              onTap: () => _launchUrl(
+                'https://opencollective.com/expresslrs/donate?interval=oneTime&amount=20&name=&legalName=&email=',
+              ),
+              child: Text(
+                l10n.donateOpenCollectiveLabel,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 24),
-          const Divider(),
-          const SizedBox(height: 24),
-          Text(
-            l10n.softwareLicenseSectionTitle,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.gplv3NoticeText,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(height: 16),
-          const _GPLText(),
-        ],
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 24),
+            Text(
+              l10n.softwareLicenseSectionTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.gplv3NoticeText,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 16),
+            const _GPLText(),
+          ],
+        ),
       ),
     );
   }

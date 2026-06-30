@@ -27,290 +27,292 @@ class SettingsScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsLabel)),
-      body: SettingsMasterDetail(
-        masterBuilder: (context, selected, onSelected) => ListView(
-          children: [
-            _buildSidebarItem(
-              context,
-              icon: Icons.flash_on,
-              title: l10n.flashingWifiCategoryLabel,
-              selected: selected == SettingsCategory.flashing,
-              onTap: () => onSelected(SettingsCategory.flashing),
-            ),
-            _buildSidebarItem(
-              context,
-              icon: Icons.info_outline,
-              title: l10n.aboutSupportCategoryLabel,
-              selected: selected == SettingsCategory.about,
-              onTap: () => onSelected(SettingsCategory.about),
-            ),
-            _buildSidebarItem(
-              context,
-              icon: Icons.settings_suggest,
-              title: l10n.advancedCategoryLabel,
-              selected: selected == SettingsCategory.advanced,
-              onTap: () => onSelected(SettingsCategory.advanced),
-            ),
-          ],
-        ),
-        detailBuilder: (context, selected) {
-          final isTablet = ResponsiveLayout.isTablet(context);
-
-          return ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: isTablet ? 32.0 : 0.0,
-              vertical: 8.0,
-            ),
+      body: SafeArea(
+        child: SettingsMasterDetail(
+          masterBuilder: (context, selected, onSelected) => ListView(
             children: [
-              if (!isTablet || selected == SettingsCategory.flashing) ...[
-                _buildSectionHeader(context, l10n.flashingDefaultsSectionLabel),
-                ListTile(
-                  title: Text(l10n.default24GHzDomainLabel),
-                  subtitle: Text(_getDomainLabel2400(state.defaultDomain2400)),
-                  trailing: DropdownButton<int>(
-                    value: state.defaultDomain2400,
-                    onChanged: (val) {
-                      if (val != null) controller.setDefaultDomain2400(val);
-                    },
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('ISM')),
-                      DropdownMenuItem(value: 1, child: Text('EU CE LBT')),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  title: Text(l10n.defaultSubGHzDomainLabel),
-                  subtitle: Text(_getDomainLabel900(state.defaultDomain900)),
-                  trailing: DropdownButton<int>(
-                    value: state.defaultDomain900,
-                    onChanged: (val) {
-                      if (val != null) controller.setDefaultDomain900(val);
-                    },
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('AU915')),
-                      DropdownMenuItem(value: 1, child: Text('FCC915')),
-                      DropdownMenuItem(value: 2, child: Text('EU868')),
-                      DropdownMenuItem(value: 3, child: Text('IN866')),
-                      DropdownMenuItem(value: 4, child: Text('AU433')),
-                      DropdownMenuItem(value: 5, child: Text('EU433')),
-                      DropdownMenuItem(value: 6, child: Text('US433')),
-                    ],
-                  ),
-                ),
-                _buildEditDialogTile(
-                  context,
-                  title: l10n.globalBindingPhraseLabel,
-                  currentValue: state.globalBindPhrase,
-                  onSaved: (val) => controller.setGlobalBindPhrase(val),
-                  isSecret: true,
-                  isVisibleNotifier: showBindPhrase,
-                ),
-                _buildEditDialogTile(
-                  context,
-                  title: l10n.homeWifiSsidLabel,
-                  currentValue: state.homeWifiSsid,
-                  onSaved: (val) => controller.setHomeWifiSsid(val),
-                ),
-                _buildEditDialogTile(
-                  context,
-                  title: l10n.homeWifiPasswordLabel,
-                  currentValue: state.homeWifiPassword,
-                  onSaved: (val) => controller.setHomeWifiPassword(val),
-                  isSecret: true,
-                  isVisibleNotifier: showWifiPassword,
-                ),
-                _buildEditDialogTile(
-                  context,
-                  title: l10n.wifiOnIntervalLabel,
-                  currentValue: state.wifiOnInterval.toString(),
-                  keyboardType: TextInputType.number,
-                  onSaved: (val) {
-                    final parsed = int.tryParse(val) ?? 60;
-                    controller.setWifiOnInterval(parsed);
-                  },
-                ),
-                ListTile(
-                  title: Text(l10n.languageOverrideLabel),
-                  subtitle: Text(state.appLocale == null
-                      ? l10n.languageOverrideSystemDefault
-                      : _getLocaleName(state.appLocale!)),
-                  trailing: DropdownButton<String?>(
-                    value: state.appLocale,
-                    onChanged: (val) {
-                      controller.setAppLocale(val);
-                    },
-                    items: [
-                      DropdownMenuItem(
-                        value: null,
-                        child: Text(l10n.languageOverrideSystemDefault),
-                      ),
-                      const DropdownMenuItem(value: 'en', child: Text('English')),
-                      const DropdownMenuItem(value: 'de', child: Text('Deutsch')),
-                      const DropdownMenuItem(value: 'es', child: Text('Español')),
-                      const DropdownMenuItem(value: 'fr', child: Text('Français')),
-                      const DropdownMenuItem(value: 'ja', child: Text('日本語')),
-                      const DropdownMenuItem(value: 'uk', child: Text('Українська')),
-                      const DropdownMenuItem(value: 'pt', child: Text('Português')),
-                      const DropdownMenuItem(value: 'it', child: Text('Italiano')),
-                      const DropdownMenuItem(value: 'pl', child: Text('Polski')),
-                      const DropdownMenuItem(value: 'ko', child: Text('한국어')),
-                      const DropdownMenuItem(value: 'ru', child: Text('Русский')),
-                      const DropdownMenuItem(value: 'nl', child: Text('Nederlands')),
-                      const DropdownMenuItem(value: 'cs', child: Text('Čeština')),
-                      const DropdownMenuItem(value: 'th', child: Text('ไทย')),
-                      const DropdownMenuItem(value: 'sv', child: Text('Svenska')),
-                      const DropdownMenuItem(value: 'id', child: Text('Bahasa Indonesia')),
-                      const DropdownMenuItem(value: 'zh', child: Text('简体中文')),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  title: Text(l10n.manageCachedFirmwareLabel),
-                  subtitle: Text(l10n.downloadOrDeleteOfflineFirmwareLabel),
-                  leading: const Icon(Icons.sd_storage),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () => context.push('/firmware_manager'),
-                ),
-                ListTile(
-                  title: Text(l10n.maxCachedVersionsLabel),
-                  subtitle: Text('${state.maxCachedVersions} versions'),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.remove),
-                        onPressed: state.maxCachedVersions > 1
-                            ? () => controller.setMaxCachedVersions(
-                                state.maxCachedVersions - 1,
-                              )
-                            : null,
-                      ),
-                      Text(
-                        '${state.maxCachedVersions}',
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.add),
-                        onPressed: state.maxCachedVersions < 10
-                            ? () => controller.setMaxCachedVersions(
-                                state.maxCachedVersions + 1,
-                              )
-                            : null,
-                      ),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  title: Text(l10n.clearFirmwareCacheLabel),
-                  subtitle: Text(l10n.deleteAllDownloadedFirmwareFilesLabel),
-                  leading: const Icon(Icons.delete_sweep, color: Colors.red),
-                  trailing: TextButton(
-                    onPressed: () => _showClearCacheDialog(context, controller),
-                    child: Text(
-                      l10n.clearLabel,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ),
-              ],
-              if (!isTablet || selected == SettingsCategory.about) ...[
-                _buildSectionHeader(context, l10n.aboutSectionLabel),
-                ListTile(
-                  title: Text(l10n.appVersionLabel),
-                  subtitle: Text(state.appVersion),
-                  leading: const Icon(Icons.info_outline),
-                ),
-                ListTile(
-                  title: Text(l10n.legalLicenseLabel),
-                  subtitle: Text(l10n.standardDisclaimerAndGplv3Label),
-                  leading: const Icon(Icons.gavel_outlined),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () => context.push('/legal'),
-                ),
-              ],
-              if (!isTablet || selected == SettingsCategory.advanced) ...[
-                if (state.developerMode) ...[
-                  _buildSectionHeader(context, l10n.developerSectionLabel),
-                  ListTile(title: Text(l10n.developerModeEnabledLabel)),
-                  ListTile(
-                    title: Text(l10n.testSentryErrorCaptureLabel),
-                    subtitle: Text(l10n.testSentryErrorCaptureSubtitle),
-                    leading: const Icon(
-                      Icons.science,
-                      color: Colors.deepPurple,
-                    ),
-                    trailing: const Icon(Icons.send),
-                    onTap: () async {
-                      final id = await Sentry.captureException(
-                        Exception('Sentry test exception — ignore'),
-                        stackTrace: StackTrace.current,
-                        withScope: (scope) => scope.setTag('test', 'true'),
-                      );
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Sent! Event ID: ${id.toString().substring(0, 8)}…',
-                            ),
-                            backgroundColor: Colors.deepPurple,
-                            duration: const Duration(seconds: 6),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ],
-                _buildSectionHeader(context, l10n.advancedCategoryLabel),
-                SwitchListTile(
-                  title: Text(l10n.shareAnalyticsLabel),
-                  subtitle: Text(l10n.shareAnalyticsSubtitle),
-                  value: state.shareAnalytics,
-                  onChanged: (val) => controller.setShareAnalytics(val),
-                ),
-                SwitchListTile(
-                  title: Text(l10n.expertModeLabel),
-                  subtitle: Text(l10n.expertModeSubtitle),
-                  value: state.expertMode,
-                  onChanged: (val) => controller.toggleExpertMode(),
-                ),
-                if (state.expertMode) ...[
-                  const Divider(),
-                  ListTile(
-                    title: Text(l10n.exportElrsLuaScriptLabel),
-                    subtitle: Text(l10n.exportElrsLuaScriptSubtitle),
-                    leading: const Icon(Icons.code, color: Colors.blue),
-                    trailing: const Icon(Icons.save_alt),
-                    onTap: () async {
-                      try {
-                        await LuaExportUtils.exportElrsLuaScript();
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('elrs.lua saved to device!'),
-                            ),
-                          );
-                        }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to save script: $e')),
-                          );
-                        }
-                      }
-                    },
-                  ),
-                  ListTile(
-                    title: Text(l10n.submitDebugReportLabel),
-                    subtitle: Text(l10n.submitDebugReportSubtitle),
-                    leading: const Icon(Icons.bug_report, color: Colors.orange),
-                    trailing: const Icon(Icons.send),
-                    onTap: () => _showPrivacyGuard(context, state, ref),
-                  ),
-                ],
-              ],
+              _buildSidebarItem(
+                context,
+                icon: Icons.flash_on,
+                title: l10n.flashingWifiCategoryLabel,
+                selected: selected == SettingsCategory.flashing,
+                onTap: () => onSelected(SettingsCategory.flashing),
+              ),
+              _buildSidebarItem(
+                context,
+                icon: Icons.info_outline,
+                title: l10n.aboutSupportCategoryLabel,
+                selected: selected == SettingsCategory.about,
+                onTap: () => onSelected(SettingsCategory.about),
+              ),
+              _buildSidebarItem(
+                context,
+                icon: Icons.settings_suggest,
+                title: l10n.advancedCategoryLabel,
+                selected: selected == SettingsCategory.advanced,
+                onTap: () => onSelected(SettingsCategory.advanced),
+              ),
             ],
-          );
-        },
+          ),
+          detailBuilder: (context, selected) {
+            final isTablet = ResponsiveLayout.isTablet(context);
+
+            return ListView(
+              padding: EdgeInsets.symmetric(
+                horizontal: isTablet ? 32.0 : 0.0,
+                vertical: 8.0,
+              ),
+              children: [
+                if (!isTablet || selected == SettingsCategory.flashing) ...[
+                  _buildSectionHeader(context, l10n.flashingDefaultsSectionLabel),
+                  ListTile(
+                    title: Text(l10n.default24GHzDomainLabel),
+                    subtitle: Text(_getDomainLabel2400(state.defaultDomain2400)),
+                    trailing: DropdownButton<int>(
+                      value: state.defaultDomain2400,
+                      onChanged: (val) {
+                        if (val != null) controller.setDefaultDomain2400(val);
+                      },
+                      items: const [
+                        DropdownMenuItem(value: 0, child: Text('ISM')),
+                        DropdownMenuItem(value: 1, child: Text('EU CE LBT')),
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(l10n.defaultSubGHzDomainLabel),
+                    subtitle: Text(_getDomainLabel900(state.defaultDomain900)),
+                    trailing: DropdownButton<int>(
+                      value: state.defaultDomain900,
+                      onChanged: (val) {
+                        if (val != null) controller.setDefaultDomain900(val);
+                      },
+                      items: const [
+                        DropdownMenuItem(value: 0, child: Text('AU915')),
+                        DropdownMenuItem(value: 1, child: Text('FCC915')),
+                        DropdownMenuItem(value: 2, child: Text('EU868')),
+                        DropdownMenuItem(value: 3, child: Text('IN866')),
+                        DropdownMenuItem(value: 4, child: Text('AU433')),
+                        DropdownMenuItem(value: 5, child: Text('EU433')),
+                        DropdownMenuItem(value: 6, child: Text('US433')),
+                      ],
+                    ),
+                  ),
+                  _buildEditDialogTile(
+                    context,
+                    title: l10n.globalBindingPhraseLabel,
+                    currentValue: state.globalBindPhrase,
+                    onSaved: (val) => controller.setGlobalBindPhrase(val),
+                    isSecret: true,
+                    isVisibleNotifier: showBindPhrase,
+                  ),
+                  _buildEditDialogTile(
+                    context,
+                    title: l10n.homeWifiSsidLabel,
+                    currentValue: state.homeWifiSsid,
+                    onSaved: (val) => controller.setHomeWifiSsid(val),
+                  ),
+                  _buildEditDialogTile(
+                    context,
+                    title: l10n.homeWifiPasswordLabel,
+                    currentValue: state.homeWifiPassword,
+                    onSaved: (val) => controller.setHomeWifiPassword(val),
+                    isSecret: true,
+                    isVisibleNotifier: showWifiPassword,
+                  ),
+                  _buildEditDialogTile(
+                    context,
+                    title: l10n.wifiOnIntervalLabel,
+                    currentValue: state.wifiOnInterval.toString(),
+                    keyboardType: TextInputType.number,
+                    onSaved: (val) {
+                      final parsed = int.tryParse(val) ?? 60;
+                      controller.setWifiOnInterval(parsed);
+                    },
+                  ),
+                  ListTile(
+                    title: Text(l10n.languageOverrideLabel),
+                    subtitle: Text(state.appLocale == null
+                        ? l10n.languageOverrideSystemDefault
+                        : _getLocaleName(state.appLocale!)),
+                    trailing: DropdownButton<String?>(
+                      value: state.appLocale,
+                      onChanged: (val) {
+                        controller.setAppLocale(val);
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          value: null,
+                          child: Text(l10n.languageOverrideSystemDefault),
+                        ),
+                        const DropdownMenuItem(value: 'en', child: Text('English')),
+                        const DropdownMenuItem(value: 'de', child: Text('Deutsch')),
+                        const DropdownMenuItem(value: 'es', child: Text('Español')),
+                        const DropdownMenuItem(value: 'fr', child: Text('Français')),
+                        const DropdownMenuItem(value: 'ja', child: Text('日本語')),
+                        const DropdownMenuItem(value: 'uk', child: Text('Українська')),
+                        const DropdownMenuItem(value: 'pt', child: Text('Português')),
+                        const DropdownMenuItem(value: 'it', child: Text('Italiano')),
+                        const DropdownMenuItem(value: 'pl', child: Text('Polski')),
+                        const DropdownMenuItem(value: 'ko', child: Text('한국어')),
+                        const DropdownMenuItem(value: 'ru', child: Text('Русский')),
+                        const DropdownMenuItem(value: 'nl', child: Text('Nederlands')),
+                        const DropdownMenuItem(value: 'cs', child: Text('Čeština')),
+                        const DropdownMenuItem(value: 'th', child: Text('ไทย')),
+                        const DropdownMenuItem(value: 'sv', child: Text('Svenska')),
+                        const DropdownMenuItem(value: 'id', child: Text('Bahasa Indonesia')),
+                        const DropdownMenuItem(value: 'zh', child: Text('简体中文')),
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(l10n.manageCachedFirmwareLabel),
+                    subtitle: Text(l10n.downloadOrDeleteOfflineFirmwareLabel),
+                    leading: const Icon(Icons.sd_storage),
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    onTap: () => context.push('/firmware_manager'),
+                  ),
+                  ListTile(
+                    title: Text(l10n.maxCachedVersionsLabel),
+                    subtitle: Text('${state.maxCachedVersions} versions'),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: state.maxCachedVersions > 1
+                              ? () => controller.setMaxCachedVersions(
+                                  state.maxCachedVersions - 1,
+                                )
+                              : null,
+                        ),
+                        Text(
+                          '${state.maxCachedVersions}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.add),
+                          onPressed: state.maxCachedVersions < 10
+                              ? () => controller.setMaxCachedVersions(
+                                  state.maxCachedVersions + 1,
+                                )
+                              : null,
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(l10n.clearFirmwareCacheLabel),
+                    subtitle: Text(l10n.deleteAllDownloadedFirmwareFilesLabel),
+                    leading: const Icon(Icons.delete_sweep, color: Colors.red),
+                    trailing: TextButton(
+                      onPressed: () => _showClearCacheDialog(context, controller),
+                      child: Text(
+                        l10n.clearLabel,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                ],
+                if (!isTablet || selected == SettingsCategory.about) ...[
+                  _buildSectionHeader(context, l10n.aboutSectionLabel),
+                  ListTile(
+                    title: Text(l10n.appVersionLabel),
+                    subtitle: Text(state.appVersion),
+                    leading: const Icon(Icons.info_outline),
+                  ),
+                  ListTile(
+                    title: Text(l10n.legalLicenseLabel),
+                    subtitle: Text(l10n.standardDisclaimerAndGplv3Label),
+                    leading: const Icon(Icons.gavel_outlined),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                    onTap: () => context.push('/legal'),
+                  ),
+                ],
+                if (!isTablet || selected == SettingsCategory.advanced) ...[
+                  if (state.developerMode) ...[
+                    _buildSectionHeader(context, l10n.developerSectionLabel),
+                    ListTile(title: Text(l10n.developerModeEnabledLabel)),
+                    ListTile(
+                      title: Text(l10n.testSentryErrorCaptureLabel),
+                      subtitle: Text(l10n.testSentryErrorCaptureSubtitle),
+                      leading: const Icon(
+                        Icons.science,
+                        color: Colors.deepPurple,
+                      ),
+                      trailing: const Icon(Icons.send),
+                      onTap: () async {
+                        final id = await Sentry.captureException(
+                          Exception('Sentry test exception — ignore'),
+                          stackTrace: StackTrace.current,
+                          withScope: (scope) => scope.setTag('test', 'true'),
+                        );
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Sent! Event ID: ${id.toString().substring(0, 8)}…',
+                              ),
+                              backgroundColor: Colors.deepPurple,
+                              duration: const Duration(seconds: 6),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                  _buildSectionHeader(context, l10n.advancedCategoryLabel),
+                  SwitchListTile(
+                    title: Text(l10n.shareAnalyticsLabel),
+                    subtitle: Text(l10n.shareAnalyticsSubtitle),
+                    value: state.shareAnalytics,
+                    onChanged: (val) => controller.setShareAnalytics(val),
+                  ),
+                  SwitchListTile(
+                    title: Text(l10n.expertModeLabel),
+                    subtitle: Text(l10n.expertModeSubtitle),
+                    value: state.expertMode,
+                    onChanged: (val) => controller.toggleExpertMode(),
+                  ),
+                  if (state.expertMode) ...[
+                    const Divider(),
+                    ListTile(
+                      title: Text(l10n.exportElrsLuaScriptLabel),
+                      subtitle: Text(l10n.exportElrsLuaScriptSubtitle),
+                      leading: const Icon(Icons.code, color: Colors.blue),
+                      trailing: const Icon(Icons.save_alt),
+                      onTap: () async {
+                        try {
+                          await LuaExportUtils.exportElrsLuaScript();
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('elrs.lua saved to device!'),
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Failed to save script: $e')),
+                            );
+                          }
+                        }
+                      },
+                    ),
+                    ListTile(
+                      title: Text(l10n.submitDebugReportLabel),
+                      subtitle: Text(l10n.submitDebugReportSubtitle),
+                      leading: const Icon(Icons.bug_report, color: Colors.orange),
+                      trailing: const Icon(Icons.send),
+                      onTap: () => _showPrivacyGuard(context, state, ref),
+                    ),
+                  ],
+                ],
+              ],
+            );
+          },
+        ),
       ),
     );
   }

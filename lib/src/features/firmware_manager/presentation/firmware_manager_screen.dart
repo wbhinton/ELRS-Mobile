@@ -30,52 +30,54 @@ class FirmwareManagerScreen extends HookConsumerWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          _buildStorageHeader(context, state, settings.maxCachedVersions),
-          if (state.errorMessage != null)
-            Container(
-              color: Colors.red.withValues(alpha: 0.1),
-              width: double.infinity,
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                state.errorMessage!,
-                style: const TextStyle(color: Colors.red),
-                textAlign: TextAlign.center,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildStorageHeader(context, state, settings.maxCachedVersions),
+            if (state.errorMessage != null)
+              Container(
+                color: Colors.red.withValues(alpha: 0.1),
+                width: double.infinity,
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  state.errorMessage!,
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-          Expanded(
-            child: state.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-                    itemExtent: 72.0,
-                    itemCount: state.availableVersions.length,
-                    itemBuilder: (context, index) {
-                      final version = state.availableVersions[index];
-                      final isCached = state.cachedVersions.contains(version);
-                      final progress = state.downloadProgress[version];
+            Expanded(
+              child: state.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemExtent: 72.0,
+                      itemCount: state.availableVersions.length,
+                      itemBuilder: (context, index) {
+                        final version = state.availableVersions[index];
+                        final isCached = state.cachedVersions.contains(version);
+                        final progress = state.downloadProgress[version];
 
-                      return ListTile(
-                        title: Text('Version $version'),
-                        subtitle: isCached
-                            ? const Text('Ready for offline use')
-                            : null,
-                        leading: Icon(
-                          Icons.dns,
-                          color: isCached ? Colors.green : Colors.grey,
-                        ),
-                        trailing: _buildTrailingAction(
-                          context,
-                          version,
-                          isCached,
-                          progress,
-                          controller,
-                        ),
-                      );
-                    },
-                  ),
-          ),
-        ],
+                        return ListTile(
+                          title: Text('Version $version'),
+                          subtitle: isCached
+                              ? const Text('Ready for offline use')
+                              : null,
+                          leading: Icon(
+                            Icons.dns,
+                            color: isCached ? Colors.green : Colors.grey,
+                          ),
+                          trailing: _buildTrailingAction(
+                            context,
+                            version,
+                            isCached,
+                            progress,
+                            controller,
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

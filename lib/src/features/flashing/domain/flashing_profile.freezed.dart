@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FlashingProfile {
 
- String get id; String get name; String get bindPhrase; String get wifiSsid; String get wifiPassword; int get defaultDomain2400; int get defaultDomain900;
+ String get id; String get name; String get bindPhrase; String get wifiSsid; String get wifiPassword; int get defaultDomain2400; int get defaultDomain900; int get wifiOnInterval;
 /// Create a copy of FlashingProfile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FlashingProfileCopyWith<FlashingProfile> get copyWith => _$FlashingProfileCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FlashingProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.defaultDomain2400, defaultDomain2400) || other.defaultDomain2400 == defaultDomain2400)&&(identical(other.defaultDomain900, defaultDomain900) || other.defaultDomain900 == defaultDomain900));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FlashingProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.defaultDomain2400, defaultDomain2400) || other.defaultDomain2400 == defaultDomain2400)&&(identical(other.defaultDomain900, defaultDomain900) || other.defaultDomain900 == defaultDomain900)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,bindPhrase,wifiSsid,wifiPassword,defaultDomain2400,defaultDomain900);
+int get hashCode => Object.hash(runtimeType,id,name,bindPhrase,wifiSsid,wifiPassword,defaultDomain2400,defaultDomain900,wifiOnInterval);
 
 @override
 String toString() {
-  return 'FlashingProfile(id: $id, name: $name, bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, defaultDomain2400: $defaultDomain2400, defaultDomain900: $defaultDomain900)';
+  return 'FlashingProfile(id: $id, name: $name, bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, defaultDomain2400: $defaultDomain2400, defaultDomain900: $defaultDomain900, wifiOnInterval: $wifiOnInterval)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $FlashingProfileCopyWith<$Res>  {
   factory $FlashingProfileCopyWith(FlashingProfile value, $Res Function(FlashingProfile) _then) = _$FlashingProfileCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String bindPhrase, String wifiSsid, String wifiPassword, int defaultDomain2400, int defaultDomain900
+ String id, String name, String bindPhrase, String wifiSsid, String wifiPassword, int defaultDomain2400, int defaultDomain900, int wifiOnInterval
 });
 
 
@@ -65,7 +65,7 @@ class _$FlashingProfileCopyWithImpl<$Res>
 
 /// Create a copy of FlashingProfile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? bindPhrase = null,Object? wifiSsid = null,Object? wifiPassword = null,Object? defaultDomain2400 = null,Object? defaultDomain900 = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? bindPhrase = null,Object? wifiSsid = null,Object? wifiPassword = null,Object? defaultDomain2400 = null,Object? defaultDomain900 = null,Object? wifiOnInterval = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -74,6 +74,7 @@ as String,wifiSsid: null == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast
 as String,wifiPassword: null == wifiPassword ? _self.wifiPassword : wifiPassword // ignore: cast_nullable_to_non_nullable
 as String,defaultDomain2400: null == defaultDomain2400 ? _self.defaultDomain2400 : defaultDomain2400 // ignore: cast_nullable_to_non_nullable
 as int,defaultDomain900: null == defaultDomain900 ? _self.defaultDomain900 : defaultDomain900 // ignore: cast_nullable_to_non_nullable
+as int,wifiOnInterval: null == wifiOnInterval ? _self.wifiOnInterval : wifiOnInterval // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -159,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String bindPhrase,  String wifiSsid,  String wifiPassword,  int defaultDomain2400,  int defaultDomain900)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String bindPhrase,  String wifiSsid,  String wifiPassword,  int defaultDomain2400,  int defaultDomain900,  int wifiOnInterval)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FlashingProfile() when $default != null:
-return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.defaultDomain2400,_that.defaultDomain900);case _:
+return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.defaultDomain2400,_that.defaultDomain900,_that.wifiOnInterval);case _:
   return orElse();
 
 }
@@ -180,10 +181,10 @@ return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String bindPhrase,  String wifiSsid,  String wifiPassword,  int defaultDomain2400,  int defaultDomain900)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String bindPhrase,  String wifiSsid,  String wifiPassword,  int defaultDomain2400,  int defaultDomain900,  int wifiOnInterval)  $default,) {final _that = this;
 switch (_that) {
 case _FlashingProfile():
-return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.defaultDomain2400,_that.defaultDomain900);case _:
+return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.defaultDomain2400,_that.defaultDomain900,_that.wifiOnInterval);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +201,10 @@ return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String bindPhrase,  String wifiSsid,  String wifiPassword,  int defaultDomain2400,  int defaultDomain900)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String bindPhrase,  String wifiSsid,  String wifiPassword,  int defaultDomain2400,  int defaultDomain900,  int wifiOnInterval)?  $default,) {final _that = this;
 switch (_that) {
 case _FlashingProfile() when $default != null:
-return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.defaultDomain2400,_that.defaultDomain900);case _:
+return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.defaultDomain2400,_that.defaultDomain900,_that.wifiOnInterval);case _:
   return null;
 
 }
@@ -215,7 +216,7 @@ return $default(_that.id,_that.name,_that.bindPhrase,_that.wifiSsid,_that.wifiPa
 @JsonSerializable()
 
 class _FlashingProfile implements FlashingProfile {
-  const _FlashingProfile({required this.id, required this.name, this.bindPhrase = '', this.wifiSsid = '', this.wifiPassword = '', this.defaultDomain2400 = 0, this.defaultDomain900 = 1});
+  const _FlashingProfile({required this.id, required this.name, this.bindPhrase = '', this.wifiSsid = '', this.wifiPassword = '', this.defaultDomain2400 = 0, this.defaultDomain900 = 1, this.wifiOnInterval = 60});
   factory _FlashingProfile.fromJson(Map<String, dynamic> json) => _$FlashingProfileFromJson(json);
 
 @override final  String id;
@@ -225,6 +226,7 @@ class _FlashingProfile implements FlashingProfile {
 @override@JsonKey() final  String wifiPassword;
 @override@JsonKey() final  int defaultDomain2400;
 @override@JsonKey() final  int defaultDomain900;
+@override@JsonKey() final  int wifiOnInterval;
 
 /// Create a copy of FlashingProfile
 /// with the given fields replaced by the non-null parameter values.
@@ -239,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FlashingProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.defaultDomain2400, defaultDomain2400) || other.defaultDomain2400 == defaultDomain2400)&&(identical(other.defaultDomain900, defaultDomain900) || other.defaultDomain900 == defaultDomain900));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FlashingProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.defaultDomain2400, defaultDomain2400) || other.defaultDomain2400 == defaultDomain2400)&&(identical(other.defaultDomain900, defaultDomain900) || other.defaultDomain900 == defaultDomain900)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,bindPhrase,wifiSsid,wifiPassword,defaultDomain2400,defaultDomain900);
+int get hashCode => Object.hash(runtimeType,id,name,bindPhrase,wifiSsid,wifiPassword,defaultDomain2400,defaultDomain900,wifiOnInterval);
 
 @override
 String toString() {
-  return 'FlashingProfile(id: $id, name: $name, bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, defaultDomain2400: $defaultDomain2400, defaultDomain900: $defaultDomain900)';
+  return 'FlashingProfile(id: $id, name: $name, bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, defaultDomain2400: $defaultDomain2400, defaultDomain900: $defaultDomain900, wifiOnInterval: $wifiOnInterval)';
 }
 
 
@@ -259,7 +261,7 @@ abstract mixin class _$FlashingProfileCopyWith<$Res> implements $FlashingProfile
   factory _$FlashingProfileCopyWith(_FlashingProfile value, $Res Function(_FlashingProfile) _then) = __$FlashingProfileCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String bindPhrase, String wifiSsid, String wifiPassword, int defaultDomain2400, int defaultDomain900
+ String id, String name, String bindPhrase, String wifiSsid, String wifiPassword, int defaultDomain2400, int defaultDomain900, int wifiOnInterval
 });
 
 
@@ -276,7 +278,7 @@ class __$FlashingProfileCopyWithImpl<$Res>
 
 /// Create a copy of FlashingProfile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? bindPhrase = null,Object? wifiSsid = null,Object? wifiPassword = null,Object? defaultDomain2400 = null,Object? defaultDomain900 = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? bindPhrase = null,Object? wifiSsid = null,Object? wifiPassword = null,Object? defaultDomain2400 = null,Object? defaultDomain900 = null,Object? wifiOnInterval = null,}) {
   return _then(_FlashingProfile(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
@@ -285,6 +287,7 @@ as String,wifiSsid: null == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast
 as String,wifiPassword: null == wifiPassword ? _self.wifiPassword : wifiPassword // ignore: cast_nullable_to_non_nullable
 as String,defaultDomain2400: null == defaultDomain2400 ? _self.defaultDomain2400 : defaultDomain2400 // ignore: cast_nullable_to_non_nullable
 as int,defaultDomain900: null == defaultDomain900 ? _self.defaultDomain900 : defaultDomain900 // ignore: cast_nullable_to_non_nullable
+as int,wifiOnInterval: null == wifiOnInterval ? _self.wifiOnInterval : wifiOnInterval // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

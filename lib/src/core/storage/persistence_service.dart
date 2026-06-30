@@ -61,6 +61,7 @@ class PersistenceService {
         wifiPassword: legacyPass,
         defaultDomain2400: _prefs.getInt('defaultDomain2400') ?? 0,
         defaultDomain900: _prefs.getInt('defaultDomain900') ?? 1,
+        wifiOnInterval: _prefs.getInt(_keyWifiOnInterval) ?? 60,
       );
 
       await saveProfiles([defaultProfile]);

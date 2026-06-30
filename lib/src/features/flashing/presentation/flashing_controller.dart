@@ -90,6 +90,7 @@ class FlashingController extends _$FlashingController {
           wifiSsid: nextActive.wifiSsid,
           wifiPassword: nextActive.wifiPassword,
           regulatoryDomain: regDomain,
+          wifiOnInterval: nextActive.wifiOnInterval == 0 ? 60 : nextActive.wifiOnInterval,
         );
       }
       
@@ -112,7 +113,7 @@ class FlashingController extends _$FlashingController {
       wifiSsid: activeProfile.wifiSsid,
       wifiPassword: activeProfile.wifiPassword,
       regulatoryDomain: initialRegDomain,
-      wifiOnInterval: settings.wifiOnInterval,
+      wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
     );
   }
 
@@ -131,6 +132,7 @@ class FlashingController extends _$FlashingController {
       wifiSsid: activeProfile.wifiSsid,
       wifiPassword: activeProfile.wifiPassword,
       regulatoryDomain: regDomain,
+      wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
     );
   }
 
@@ -247,8 +249,15 @@ class FlashingController extends _$FlashingController {
     await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
   }
 
-  void setWifiOnInterval(int value) {
+  Future<void> setWifiOnInterval(int value) async {
     state = state.copyWith(wifiOnInterval: value);
+    final settings = ref.read(settingsControllerProvider);
+    final activeProfile = settings.profiles.firstWhere(
+      (p) => p.id == settings.activeProfileId,
+      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+    );
+    final updatedProfile = activeProfile.copyWith(wifiOnInterval: value);
+    await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
     _triggerAutosaveFeedback('wifiOnInterval');
   }
 

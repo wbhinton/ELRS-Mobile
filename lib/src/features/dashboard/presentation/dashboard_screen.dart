@@ -36,82 +36,84 @@ class DashboardScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('ELRS Mobile')),
-      body: ResponsiveLayout(
-        child: Stack(
-          children: [
-            // Blurred background logo
-            Positioned(
-              bottom: -70,
-              right: -70,
-              child: RepaintBoundary(
-                child: Opacity(
-                  opacity: 0.2,
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(
-                      sigmaX: 4.0,
-                      sigmaY: 4.0,
-                      tileMode: TileMode.decal,
-                    ),
-                    child: SvgPicture.asset(
-                      'icons/elrs_mobile_foreground.svg',
-                      width: isTablet ? 500 : 350,
-                      // ignore: deprecated_member_use
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.primary.withValues(alpha: 0.5),
+      body: SafeArea(
+        child: ResponsiveLayout(
+          child: Stack(
+            children: [
+              // Blurred background logo
+              Positioned(
+                bottom: -70,
+                right: -70,
+                child: RepaintBoundary(
+                  child: Opacity(
+                    opacity: 0.2,
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(
+                        sigmaX: 4.0,
+                        sigmaY: 4.0,
+                        tileMode: TileMode.decal,
+                      ),
+                      child: SvgPicture.asset(
+                        'icons/elrs_mobile_foreground.svg',
+                        width: isTablet ? 500 : 350,
+                        // ignore: deprecated_member_use
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.5),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            // Main Content
-            ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: [
-                HardwareStatusCard(),
-                const SizedBox(height: 16),
-                GridView.count(
-                  crossAxisCount: isTablet ? 3 : 2,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  mainAxisSpacing: 16.0,
-                  crossAxisSpacing: 16.0,
-                  children: [
-                    DashboardCard(
-                      title: l10n.flashDeviceLabel,
-                      icon: Icons.system_update,
-                      color: Colors.teal,
-                      onTap: () => context.push('/flashing'),
-                    ),
-                    DashboardCard(
-                      title: l10n.deviceConfigLabel,
-                      icon: Icons.build,
-                      color: Colors.blue,
-                      onTap: () => context.push('/device_config'),
-                    ),
-                    DashboardCard(
-                      title: l10n.firmwareManagerLabel,
-                      icon: Icons.folder_special,
-                      color: Colors.orange,
-                      onTap: () => context.push('/firmware_manager'),
-                    ),
-                    DashboardCard(
-                      title: l10n.settingsLabel,
-                      icon: Icons.settings,
-                      color: Colors.grey,
-                      onTap: () => context.push('/settings'),
-                    ),
-                    DashboardCard(
-                      title: l10n.helpSupportLabel,
-                      icon: Icons.help_outline,
-                      color: Colors.purple,
-                      onTap: () => context.push('/support'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+              // Main Content
+              ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  HardwareStatusCard(),
+                  const SizedBox(height: 16),
+                  GridView.count(
+                    crossAxisCount: isTablet ? 3 : 2,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: 16.0,
+                    crossAxisSpacing: 16.0,
+                    children: [
+                      DashboardCard(
+                        title: l10n.flashDeviceLabel,
+                        icon: Icons.system_update,
+                        color: Colors.teal,
+                        onTap: () => context.push('/flashing'),
+                      ),
+                      DashboardCard(
+                        title: l10n.deviceConfigLabel,
+                        icon: Icons.build,
+                        color: Colors.blue,
+                        onTap: () => context.push('/device_config'),
+                      ),
+                      DashboardCard(
+                        title: l10n.firmwareManagerLabel,
+                        icon: Icons.folder_special,
+                        color: Colors.orange,
+                        onTap: () => context.push('/firmware_manager'),
+                      ),
+                      DashboardCard(
+                        title: l10n.settingsLabel,
+                        icon: Icons.settings,
+                        color: Colors.grey,
+                        onTap: () => context.push('/settings'),
+                      ),
+                      DashboardCard(
+                        title: l10n.helpSupportLabel,
+                        icon: Icons.help_outline,
+                        color: Colors.purple,
+                        onTap: () => context.push('/support'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -14,7 +14,7 @@
 ## Phase 3: Flashing Firmware
 1. From the Dashboard, select **Flash Device**.
 2. **Select your Hardware:** Use the cascading dropdowns to select your Device Type (e.g., RX), Vendor (e.g., RadioMaster), Frequency (e.g., 2.4GHz), and Target.
-3. **Configure Options:** Set your custom Binding Phrase, Wi-Fi credentials, and Regulatory Domain.
+3. **Configure Options & Profiles:** Set your custom Binding Phrase, Wi-Fi credentials, and Regulatory Domain. You can save these parameters into named **Flashing Profiles** (e.g., "My Quads", "Race Spec") at the top of the configuration card to easily switch between different configurations without re-entering them.
 4. Tap **FLASH**. The app will assemble the binary and push it to the device. Wait for the success confirmation and for the LED on your device to resume blinking before unplugging!
 
 ## Special Case: Legacy STM32 Hardware

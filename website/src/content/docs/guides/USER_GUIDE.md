@@ -52,8 +52,15 @@ For power users or those who prefer manual management, visit our [GitHub Release
 ### Phase 3: Flashing Firmware
 1. From the Dashboard, select **Flash Device**.
 2. **Select your Hardware:** Use the cascading dropdowns to select your Device Type, Vendor, Frequency, and Target.
-3. **Configure Options:** Set your custom Binding Phrase, Wi-Fi credentials, and Regulatory Domain.
+3. **Configure Options & Profiles:** Select a **Flashing Profile** (or tap the **+** button to add a new named profile) to load your credentials. Customize the Binding Phrase, Wi-Fi SSID, Wi-Fi password, regulatory domains, and Wi-Fi auto-on interval.
 4. Tap **FLASH**. The app will assemble the binary locally and push it to the device.
+
+### 📋 Managing Flashing Profiles
+If you have multiple drones or radio setups with different configuration requirements (e.g., different binding phrases or regulatory domains), you can use named **Flashing Profiles** to save and switch configurations:
+* **Add a Profile**: Tap the **+** icon next to the "Flashing Profile" dropdown, type a name, and hit Add.
+* **Auto-Saving**: Any changes to the active profile's credentials (binding phrase, SSID, password, domain, or interval) are saved automatically in real-time.
+* **Switch Profiles**: Simply select a profile from the dropdown to instantly load its stored settings.
+* **Delete a Profile**: To clean up, select the profile from the dropdown and tap the trash/delete icon (you must have at least two profiles to delete one).
 
 ---
 
