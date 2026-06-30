@@ -289,34 +289,52 @@ class FlashingController extends _$FlashingController {
 
     File? tempFile;
     try {
-      // 1. Unbind process to permit mobile data for Artifactory download
-      final connectivity = ref.read(connectivityServiceProvider.notifier);
-      await connectivity.unbind();
-
       final version = state.selectedVersion!;
       final cacheService = ref.read(firmwareCacheServiceProvider);
       final firmwareRepo = ref.read(firmwareRepositoryProvider);
 
-      // Download both zips concurrently
-      final results = await Future.wait([
-        firmwareRepo.downloadFirmwareZip(version),
-        firmwareRepo.downloadHardwareZip(),
-      ]);
+      final cachedZip = await cacheService.getZipFile(version);
+      final cachedHardwareZip = await cacheService.getHardwareZipFile(version);
 
-      // Save to local storage (results[0] is firmware, results[1] is hardware)
-      await cacheService.saveZip(version, results[0]);
-      await cacheService.saveHardwareZip(version, results[1]);
+      if (cachedZip == null || cachedHardwareZip == null) {
+        // Cache missing or incomplete. Fallback to network download.
+        // 1. Unbind process to permit mobile data for Artifactory download
+        final connectivity = ref.read(connectivityServiceProvider.notifier);
+        await connectivity.unbind();
+
+        // Download both zips concurrently
+        final results = await Future.wait([
+          firmwareRepo.downloadFirmwareZip(version),
+          firmwareRepo.downloadHardwareZip(),
+        ]);
+
+        // Save to local storage (results[0] is firmware, results[1] is hardware)
+        await cacheService.saveZip(version, results[0]);
+        await cacheService.saveHardwareZip(version, results[1]);
+      } else {
+        _log.info('Using locally cached zip files for offline download');
+      }
 
       final payload = await _buildFinalPayload();
 
       state = state.copyWith(status: FlashingStatus.patching, progress: 0.5);
+
+      final settingsState = ref.read(settingsControllerProvider);
+      final activeProfile = settingsState.profiles.firstWhere(
+        (p) => p.id == settingsState.activeProfileId,
+        orElse: () => const FlashingProfile(id: '', name: ''),
+      );
+
+      final profilePart = activeProfile.name.trim().isNotEmpty
+          ? '_${activeProfile.name.trim().replaceAll(' ', '_').replaceAll('/', '_').replaceAll('\\', '_')}'
+          : '';
 
       final targetName = state.selectedTarget!.name
           .replaceAll(' ', '_')
           .replaceAll('/', '_') // Sanitize slashes (e.g. 2.4/900)
           .replaceAll('\\', '_');
       final extension = payload.filename.endsWith('.gz') ? '.gz' : '.bin';
-      final downloadName = 'ELRS_${targetName}_Firmware$extension';
+      final downloadName = 'ELRS_${targetName}${profilePart}_Firmware$extension';
 
       // Step A (Temp Storage): Save to app's temporary directory
       final tempDir = await getTemporaryDirectory();
@@ -375,59 +393,11 @@ class FlashingController extends _$FlashingController {
         }
       }
       // 2. Re-bind to WiFi to restore local connectivity state
-      await ref.read(connectivityServiceProvider.notifier).ensureBound();
-    }
-  }
-
-  Future<void> buildAndSaveLocal() async {
-    if (state.selectedTarget == null || state.selectedVersion == null) {
-      state = state.copyWith(
-        errorMessage: 'Please select a target and version.',
-      );
-      return;
-    }
-
-    state = state.copyWith(
-      status: FlashingStatus.downloading,
-      progress: 0.0,
-      errorMessage: null,
-    );
-
-    try {
-      final payload = await _buildFinalPayload();
-
-      state = state.copyWith(status: FlashingStatus.patching, progress: 0.5);
-
-      final targetName = state.selectedTarget!.name
-          .replaceAll(' ', '_')
-          .replaceAll('/', '_')
-          .replaceAll('\\', '_');
-      final extension = payload.filename.endsWith('.gz') ? '.gz' : '.bin';
-      final downloadName = 'ELRS_${targetName}_Firmware$extension';
-
-      final dir = await getDownloadsDirectory() ?? await getApplicationDocumentsDirectory();
-      final file = File('${dir.path}/$downloadName');
-      await file.writeAsBytes(payload.bytes);
-
-      state = state.copyWith(
-        status: FlashingStatus.success,
-        progress: 1.0,
-      );
-
-      ref.read(analyticsServiceProvider).trackEvent('Firmware Built and Saved Local', {
-        'target': state.selectedTarget?.name ?? 'Unknown',
-        'version': state.selectedVersion ?? 'Unknown',
-      });
-      debugPrint('Firmware saved successfully to ${file.path}');
-    } catch (e) {
-      state = state.copyWith(
-        status: FlashingStatus.error,
-        errorMessage: 'Failed to build and save firmware locally: $e',
-        progress: 0.0,
-      );
-      ref.read(analyticsServiceProvider).trackEvent('Firmware Build and Save Local Error', {
-        'error': e.toString(),
-      });
+      try {
+        await ref.read(connectivityServiceProvider.notifier).ensureBound();
+      } catch (e) {
+        debugPrint('Warning: Failed to re-bind connectivity: $e');
+      }
     }
   }
 

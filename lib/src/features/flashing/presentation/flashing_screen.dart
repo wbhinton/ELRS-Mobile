@@ -234,75 +234,49 @@ class FlashingScreen extends HookConsumerWidget {
                   ),
                 ),
 
-              Row(
-                children: [
-                  if (settings.expertMode) ...[
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: (state.status == FlashingStatus.idle ||
-                                state.status == FlashingStatus.error ||
-                                state.status == FlashingStatus.success ||
-                                state.status == FlashingStatus.downloadSuccess ||
-                                state.status == FlashingStatus.mismatch)
-                            ? () => ref
-                                  .read(flashingControllerProvider.notifier)
-                                  .buildAndSaveLocal()
-                            : null,
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                        ),
-                        child: const Text('BUILD & SAVE LOCAL'),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                  ],
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: (isConnected &&
-                              !isStm32 &&
-                              (state.status == FlashingStatus.idle ||
-                                  state.status == FlashingStatus.error ||
-                                  state.status == FlashingStatus.success ||
-                                  state.status == FlashingStatus.downloadSuccess ||
-                                  state.status == FlashingStatus.mismatch))
-                          ? () {
-                              if (state.status == FlashingStatus.success) {
-                                ref
-                                    .read(flashingControllerProvider.notifier)
-                                    .resetStatus();
-                              } else if (state.status == FlashingStatus.mismatch) {
-                                // Re-trigger mismatch dialog if they click the button again
-                                ref
-                                    .read(flashingControllerProvider.notifier)
-                                    .resetStatus();
-                                Future.microtask(
-                                  () => ref
-                                      .read(flashingControllerProvider.notifier)
-                                      .flash(),
-                                );
-                              } else {
-                                ref.read(flashingControllerProvider.notifier).flash();
-                              }
-                            }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        backgroundColor: state.status == FlashingStatus.success
-                            ? Colors.green
-                            : null,
-                      ),
-                      child: Text(
-                        !isConnected
-                            ? 'WAITING FOR DEVICE...'
-                            : isStm32
-                                ? 'OTA UNAVAILABLE'
-                                : state.status == FlashingStatus.success
-                                    ? 'DONE'
-                                    : AppLocalizations.of(context)!.flashingButtonLabel.toUpperCase(),
-                      ),
-                    ),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: (isConnected &&
+                        !isStm32 &&
+                        (state.status == FlashingStatus.idle ||
+                            state.status == FlashingStatus.error ||
+                            state.status == FlashingStatus.success ||
+                            state.status == FlashingStatus.downloadSuccess ||
+                            state.status == FlashingStatus.mismatch))
+                    ? () {
+                        if (state.status == FlashingStatus.success) {
+                          ref
+                              .read(flashingControllerProvider.notifier)
+                              .resetStatus();
+                        } else if (state.status == FlashingStatus.mismatch) {
+                          // Re-trigger mismatch dialog if they click the button again
+                          ref
+                              .read(flashingControllerProvider.notifier)
+                              .resetStatus();
+                          Future.microtask(
+                            () => ref
+                                .read(flashingControllerProvider.notifier)
+                                .flash(),
+                          );
+                        } else {
+                          ref.read(flashingControllerProvider.notifier).flash();
+                        }
+                      }
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  backgroundColor: state.status == FlashingStatus.success
+                      ? Colors.green
+                      : null,
+                ),
+                child: Text(
+                  !isConnected
+                      ? 'WAITING FOR DEVICE...'
+                      : isStm32
+                          ? 'OTA UNAVAILABLE'
+                          : state.status == FlashingStatus.success
+                              ? 'DONE'
+                              : AppLocalizations.of(context)!.flashingButtonLabel.toUpperCase(),
+                ),
               ),
             ],
           ),
