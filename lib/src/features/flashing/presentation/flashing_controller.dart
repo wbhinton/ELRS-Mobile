@@ -29,6 +29,8 @@ import '../../../core/networking/connectivity_service.dart';
 import '../../../core/analytics/analytics_service.dart';
 import '../../config/presentation/config_view_model.dart';
 import '../../config/domain/runtime_config_model.dart';
+import '../../config/presentation/device_editor_view_model.dart';
+import '../data/targets_provider.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
@@ -137,6 +139,33 @@ class FlashingController extends _$FlashingController {
       regulatoryDomain: regDomain,
       wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
     );
+  }
+
+  Future<void> autoSelectFromConnectedDevice() async {
+    // Only auto-select if nothing is currently selected
+    if (state.selectedTarget != null) return;
+
+    final config = ref.read(deviceEditorProvider);
+    if (config == null || config.target == null || config.target!.isEmpty) return;
+
+    try {
+      final targets = await ref.read(targetsProvider.future);
+      // Find the target where the parsed name or product code matches the connected device
+      final match = targets.firstWhere((t) => 
+          t.name.toLowerCase() == config.target!.toLowerCase() ||
+          t.productCode?.toLowerCase() == config.target!.toLowerCase() ||
+          t.priorTargetName?.toLowerCase() == config.target!.toLowerCase());
+
+      state = state.copyWith(
+        selectedDeviceType: match.deviceType,
+        selectedVendor: match.vendor,
+        selectedFrequency: match.frequencyType,
+        selectedTarget: match,
+      );
+      _log.info('Auto-selected target: ${match.name}');
+    } catch (e) {
+      _log.warning('Could not auto-select target for: ${config.target}');
+    }
   }
 
   void selectDeviceType(String? type) {

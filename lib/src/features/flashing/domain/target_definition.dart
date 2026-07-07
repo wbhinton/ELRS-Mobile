@@ -40,6 +40,7 @@ abstract class TargetDefinition with _$TargetDefinition {
     @JsonKey(name: 'device_type') @Default('RX') String deviceType,
     @JsonKey(name: 'frequency_type') @Default('2.4GHz') String frequencyType,
     @JsonKey(name: 'min_version') String? minVersion,
+    @JsonKey(name: 'prior_target_name') String? priorTargetName,
   }) = _TargetDefinition;
 
   factory TargetDefinition.fromJson(Map<String, dynamic> json) =>

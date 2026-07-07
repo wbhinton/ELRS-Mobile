@@ -21,9 +21,10 @@ class FlashingScreen extends HookConsumerWidget {
         DeviceOrientation.portraitUp,
       ]);
       
-      Future.microtask(
-        () => ref.read(flashingControllerProvider.notifier).loadSavedOptions(),
-      );
+      Future.microtask(() {
+        ref.read(flashingControllerProvider.notifier).loadSavedOptions();
+        ref.read(flashingControllerProvider.notifier).autoSelectFromConnectedDevice();
+      });
       
       return () {
         // Restore standard rotation when leaving the screen
