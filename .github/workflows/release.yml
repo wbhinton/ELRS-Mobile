@@ -207,7 +207,7 @@ jobs:
   build-ios:
     name: Build & Distribute iOS
     needs: translate
-    if: always() && (needs.translate.result == 'success' || needs.translate.result == 'skipped')
+    if: always() && (needs.translate.result == 'success' || needs.translate.result == 'skipped') && github.ref != 'refs/heads/development'
     runs-on: macos-latest
     permissions:
       contents: write
