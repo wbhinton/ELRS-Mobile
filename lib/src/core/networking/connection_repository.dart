@@ -24,7 +24,7 @@ class TargetIp extends _$TargetIp {
     return null;
   }
 
-  void updateIp(String newIp) {
+  void updateIp(String? newIp) {
     if (state != newIp) {
       _log.info('Target IP updated to $newIp');
       state = newIp;

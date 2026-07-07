@@ -47,7 +47,7 @@ final class LocalDioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$localDioHash() => r'd95d8e5e7263488116452ab5bbb58833df04866e';
+String _$localDioHash() => r'0e415cca46cdd88e9cddad59f1b215558463a5c4';
 
 @ProviderFor(internetDio)
 final internetDioProvider = InternetDioProvider._();

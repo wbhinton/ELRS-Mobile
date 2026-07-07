@@ -126,6 +126,9 @@ class ConfigViewModel extends _$ConfigViewModel {
     ref.listen(connectivityServiceProvider, (previous, next) {
       if (ref.read(isFlashingProvider)) return;
 
+      // Clear the stale IP state so the Firmware Manager knows we disconnected from the RX
+      ref.invalidate(targetIpProvider);
+
       _log.info('Connectivity change detected — proactively verifying path.');
       
       // If we are currently "connected", verify the device is still reachable 
@@ -347,6 +350,7 @@ class ConfigViewModel extends _$ConfigViewModel {
           'Device lost after $_maxMissedHeartbeats missed heartbeats. '
           'Returning to discovery.',
         );
+        ref.invalidate(targetIpProvider);
         if (state.value != null || state.isLoading) {
           state = const AsyncValue.data(null);
         }
