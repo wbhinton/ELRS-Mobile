@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'flashing_controller.dart';
 import '../../settings/presentation/settings_controller.dart';
 import '../../config/presentation/config_view_model.dart';
+import '../../config/domain/runtime_config_model.dart';
 
 class FlashingScreen extends HookConsumerWidget {
   const FlashingScreen({super.key});
@@ -36,6 +37,17 @@ class FlashingScreen extends HookConsumerWidget {
     final settings = ref.watch(settingsControllerProvider);
     final configAsync = ref.watch(configViewModelProvider);
     final isConnected = configAsync.hasValue && configAsync.value != null;
+
+    ref.listen<AsyncValue<RuntimeConfig?>>(
+      configViewModelProvider,
+      (previous, next) {
+        if (next.hasValue && next.value != null) {
+          ref
+              .read(flashingControllerProvider.notifier)
+              .autoSelectFromConnectedDevice();
+        }
+      },
+    );
 
     // Listen for flashing state events
     ref.listen<FlashingState>(

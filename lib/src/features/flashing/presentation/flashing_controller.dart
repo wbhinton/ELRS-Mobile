@@ -29,7 +29,6 @@ import '../../../core/networking/connectivity_service.dart';
 import '../../../core/analytics/analytics_service.dart';
 import '../../config/presentation/config_view_model.dart';
 import '../../config/domain/runtime_config_model.dart';
-import '../../config/presentation/device_editor_view_model.dart';
 import '../data/targets_provider.dart';
 
 part 'flashing_controller.freezed.dart';
@@ -145,8 +144,9 @@ class FlashingController extends _$FlashingController {
     // Only auto-select if nothing is currently selected in the UI
     if (state.selectedTarget != null) return;
 
-    final config = ref.read(deviceEditorProvider);
-    if (config == null) return;
+    final configState = ref.read(configViewModelProvider);
+    if (!configState.hasValue || configState.value == null) return;
+    final config = configState.value!;
 
     // ELRS V3/V4 uses product_name, fallback to effectiveProductName
     final deviceName = config.effectiveProductName;
