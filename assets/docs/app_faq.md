@@ -62,6 +62,6 @@ Yes. By going into **Settings** and enabling **Expert Mode**, you unlock the abi
 This is especially useful if you want to flash the device manually using a dedicated hardware programmer (like an STLink or FTDI adapter).
 
 ## I am getting a "Target Mismatch" error. What should I do?
-A target mismatch error occurs when the hardware target you selected in the app does not match the target of the firmware currently running on the device
+A target mismatch error occurs when the hardware target you selected in the app does not match the target of the firmware currently running on the device.
 
-Currently the app doesn't support flashing a different target than the one currently running on the device. 
+To prevent accidental damage, the app will warn you if a mismatch is detected. However, if you are sure that the selected target is correct (for example, if you are converting a device to a different firmware variant or correcting a previous incorrect flash), you can tap **FORCE FLASH** in the mismatch dialog to override the check and proceed with the flash. 

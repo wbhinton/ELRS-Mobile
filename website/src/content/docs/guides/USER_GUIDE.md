@@ -55,6 +55,20 @@ For power users or those who prefer manual management, visit our [GitHub Release
 3. **Configure Options & Profiles:** Select a **Flashing Profile** (or tap the **+** button to add a new named profile) to load your credentials. Customize the Binding Phrase, Wi-Fi SSID, Wi-Fi password, regulatory domains, and Wi-Fi auto-on interval.
 4. Tap **FLASH**. The app will assemble the binary locally and push it to the device.
 
+<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
+  <div class="flex items-center gap-3 mb-2">
+    <div class="p-2 rounded-lg bg-primary/10 text-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
+      </svg>
+    </div>
+    <span class="text-lg font-bold text-primary tracking-tight">Target Mismatch Warning</span>
+  </div>
+  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
+    If the app detects a hardware target mismatch between your selection and the connected device, it will warn you to prevent accidental damage. If you are certain you have the correct target (e.g. recovering from a bad flash or migrating between target definitions), click <strong>FORCE FLASH</strong> in the warning dialog to bypass the check.
+  </p>
+</div>
+
 ### 📋 Managing Flashing Profiles
 If you have multiple drones or radio setups with different configuration requirements (e.g., different binding phrases or regulatory domains), you can use named **Flashing Profiles** to save and switch configurations:
 * **Add a Profile**: Tap the **+** icon next to the "Flashing Profile" dropdown, type a name, and hit Add.
