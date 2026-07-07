@@ -46,25 +46,27 @@ class FlashingScreen extends HookConsumerWidget {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => AlertDialog(
-              title: const Text('Target Mismatch'),
+            builder: (dialogContext) => AlertDialog(
+              title: const Text('Target Mismatch', style: TextStyle(color: Colors.orange)),
               content: const Text(
-                  'The firmware target you selected does not match the hardware '
-                  'target currently installed on this device. Are you sure you want to force this update?'),
+                'The selected firmware target does not match the hardware currently '
+                'running on the device. Are you sure you want to force flash?',
+              ),
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pop(dialogContext);
                     ref.read(flashingControllerProvider.notifier).resetStatus();
                   },
-                  child: const Text('Cancel'),
+                  child: const Text('CANCEL'),
                 ),
-                ElevatedButton(
+                TextButton(
+                  style: TextButton.styleFrom(foregroundColor: Colors.red),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pop(dialogContext);
                     ref.read(flashingControllerProvider.notifier).forceUpdate();
                   },
-                  child: const Text('Flash Anyway', style: TextStyle(color: Colors.red)),
+                  child: const Text('FORCE FLASH'),
                 ),
               ],
             ),

@@ -363,7 +363,7 @@ class FlashingController extends _$FlashingController {
           .replaceAll('/', '_') // Sanitize slashes (e.g. 2.4/900)
           .replaceAll('\\', '_');
       final extension = payload.filename.endsWith('.gz') ? '.gz' : '.bin';
-      final downloadName = 'ELRS_${targetName}${profilePart}_Firmware$extension';
+      final downloadName = 'ELRS_$targetName${profilePart}_Firmware$extension';
 
       // Step A (Temp Storage): Save to app's temporary directory
       final tempDir = await getTemporaryDirectory();
