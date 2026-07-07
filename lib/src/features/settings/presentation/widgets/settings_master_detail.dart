@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/presentation/responsive_layout.dart';
 
-enum SettingsCategory { flashing, about, advanced }
+enum SettingsCategory { profiles, storage, advanced, about }
 
 class SettingsMasterDetail extends StatefulWidget {
   const SettingsMasterDetail({
@@ -24,13 +24,13 @@ class SettingsMasterDetail extends StatefulWidget {
 }
 
 class _SettingsMasterDetailState extends State<SettingsMasterDetail> {
-  SettingsCategory _selectedCategory = SettingsCategory.flashing;
+  SettingsCategory _selectedCategory = SettingsCategory.profiles;
 
   @override
   Widget build(BuildContext context) {
     if (!ResponsiveLayout.isTablet(context)) {
       // Mobile sees everything as one list
-      return widget.detailBuilder(context, SettingsCategory.flashing);
+      return widget.detailBuilder(context, SettingsCategory.profiles);
     }
 
     return Row(
