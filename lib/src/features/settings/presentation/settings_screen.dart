@@ -8,6 +8,7 @@ import '../../../core/presentation/responsive_layout.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_master_detail.dart';
 import '../../../core/utils/lua_export_utils.dart';
+import '../../flashing/domain/flashing_profile.dart';
 
 class SettingsScreen extends HookConsumerWidget {
   const SettingsScreen({super.key});
@@ -519,6 +520,9 @@ class SettingsScreen extends HookConsumerWidget {
     ValueNotifier<bool> showWifiPassword,
   ) {
     final l10n = AppLocalizations.of(context)!;
+    final activeId = state.activeProfileId;
+    final profiles = state.profiles;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -530,50 +534,46 @@ class SettingsScreen extends HookConsumerWidget {
               children: [
                 Text("Profiles & Network", style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 16),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final settings = ref.watch(settingsControllerProvider);
-                    final activeId = settings.activeProfileId;
-                    final profiles = settings.profiles;
-
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButtonFormField<String>(
-                            key: ValueKey(activeId),
-                            initialValue: activeId,
-                            decoration: const InputDecoration(
-                              labelText: 'Flashing Profile',
-                              icon: Icon(Icons.account_circle),
-                            ),
-                            items: profiles.map((p) {
-                              return DropdownMenuItem<String>(
-                                value: p.id,
-                                child: Text(p.name),
-                              );
-                            }).toList(),
-                            onChanged: (id) {
-                              if (id != null) {
-                                ref.read(settingsControllerProvider.notifier).setActiveProfile(id);
-                              }
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        key: ValueKey(activeId),
+                        initialValue: activeId,
+                        decoration: const InputDecoration(
+                          labelText: 'Flashing Profile',
+                          icon: Icon(Icons.account_circle),
+                        ),
+                        items: profiles.map((p) {
+                          return DropdownMenuItem<String>(
+                            value: p.id,
+                            child: Text(p.name),
+                          );
+                        }).toList(),
+                        onChanged: (id) {
+                          if (id != null) {
+                            controller.setActiveProfile(id);
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      tooltip: 'Add Profile',
+                      onPressed: () => _showAddProfileDialog(context, ref),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      tooltip: 'Delete Profile',
+                      onPressed: profiles.length <= 1
+                          ? null
+                          : () {
+                              final activeProfile = profiles.firstWhere((p) => p.id == activeId);
+                              _showDeleteProfileDialog(context, ref, activeProfile);
                             },
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        IconButton(
-                          icon: const Icon(Icons.add),
-                          tooltip: 'Add Profile',
-                          onPressed: () => _showAddProfileDialog(context, ref),
-                        ),
-                        if (profiles.length > 1)
-                          IconButton(
-                            icon: const Icon(Icons.delete_outline),
-                            tooltip: 'Delete Profile',
-                            onPressed: () => _showDeleteProfileDialog(context, ref, activeId, profiles),
-                          ),
-                      ],
-                    );
-                  },
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 _buildEditDialogTile(
@@ -977,7 +977,7 @@ class SettingsScreen extends HookConsumerWidget {
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Add'),
+              child: const Text('Save'),
             ),
           ],
         );
@@ -988,22 +988,13 @@ class SettingsScreen extends HookConsumerWidget {
   void _showDeleteProfileDialog(
     BuildContext context,
     WidgetRef ref,
-    String? activeId,
-    List<dynamic> profiles,
+    FlashingProfile activeProfile,
   ) {
-    if (activeId == null) return;
-    final activeProfile = profiles.firstWhere(
-      (p) => p.id == activeId,
-      orElse: () => null,
-    );
-    if (activeProfile == null) return;
-
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete Profile'),
-          content: Text('Are you sure you want to delete the profile "${activeProfile.name}"?'),
+          title: Text('Delete ${activeProfile.name}?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -1015,7 +1006,7 @@ class SettingsScreen extends HookConsumerWidget {
                 foregroundColor: Theme.of(context).colorScheme.onError,
               ),
               onPressed: () {
-                ref.read(settingsControllerProvider.notifier).deleteProfile(activeId);
+                ref.read(settingsControllerProvider.notifier).deleteProfile(activeProfile.id);
                 Navigator.pop(context);
               },
               child: const Text('Delete'),
