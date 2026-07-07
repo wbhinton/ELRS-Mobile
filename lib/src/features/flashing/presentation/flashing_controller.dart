@@ -87,17 +87,21 @@ class FlashingController extends _$FlashingController {
 
       if (prevActive != nextActive) {
         final is2G4 = state.selectedTarget?.is2400Mhz ?? true;
-        final regDomain = is2G4 ? nextActive.defaultDomain2400 : nextActive.defaultDomain900;
+        final regDomain = is2G4
+            ? nextActive.defaultDomain2400
+            : nextActive.defaultDomain900;
 
         state = state.copyWith(
           bindPhrase: nextActive.bindPhrase,
           wifiSsid: nextActive.wifiSsid,
           wifiPassword: nextActive.wifiPassword,
           regulatoryDomain: regDomain,
-          wifiOnInterval: nextActive.wifiOnInterval == 0 ? 60 : nextActive.wifiOnInterval,
+          wifiOnInterval: nextActive.wifiOnInterval == 0
+              ? 60
+              : nextActive.wifiOnInterval,
         );
       }
-      
+
       // Still listen to global wifiOnInterval
       if (previous?.wifiOnInterval != next.wifiOnInterval) {
         state = state.copyWith(wifiOnInterval: next.wifiOnInterval);
@@ -108,7 +112,8 @@ class FlashingController extends _$FlashingController {
     final settings = ref.read(settingsControllerProvider);
     final activeProfile = settings.profiles.firstWhere(
       (p) => p.id == settings.activeProfileId,
-      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      orElse: () =>
+          const FlashingProfile(id: 'default', name: 'Default Profile'),
     );
     final initialRegDomain = activeProfile.defaultDomain2400;
 
@@ -117,7 +122,9 @@ class FlashingController extends _$FlashingController {
       wifiSsid: activeProfile.wifiSsid,
       wifiPassword: activeProfile.wifiPassword,
       regulatoryDomain: initialRegDomain,
-      wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
+      wifiOnInterval: activeProfile.wifiOnInterval == 0
+          ? 60
+          : activeProfile.wifiOnInterval,
     );
   }
 
@@ -125,18 +132,23 @@ class FlashingController extends _$FlashingController {
     final settings = ref.read(settingsControllerProvider);
     final activeProfile = settings.profiles.firstWhere(
       (p) => p.id == settings.activeProfileId,
-      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      orElse: () =>
+          const FlashingProfile(id: 'default', name: 'Default Profile'),
     );
 
     final is2G4 = state.selectedTarget?.is2400Mhz ?? true;
-    final regDomain = is2G4 ? activeProfile.defaultDomain2400 : activeProfile.defaultDomain900;
+    final regDomain = is2G4
+        ? activeProfile.defaultDomain2400
+        : activeProfile.defaultDomain900;
 
     state = state.copyWith(
       bindPhrase: activeProfile.bindPhrase,
       wifiSsid: activeProfile.wifiSsid,
       wifiPassword: activeProfile.wifiPassword,
       regulatoryDomain: regDomain,
-      wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
+      wifiOnInterval: activeProfile.wifiOnInterval == 0
+          ? 60
+          : activeProfile.wifiOnInterval,
     );
   }
 
@@ -154,13 +166,15 @@ class FlashingController extends _$FlashingController {
 
     try {
       final targets = await ref.read(targetsProvider.future);
-      
+
       // Find the target where the parsed name matches the connected device
       TargetDefinition? match;
       try {
-        match = targets.firstWhere((t) => 
-            t.name.toLowerCase() == deviceName.toLowerCase() ||
-            (t.productCode != null && t.productCode!.toLowerCase() == deviceName.toLowerCase())
+        match = targets.firstWhere(
+          (t) =>
+              t.name.toLowerCase() == deviceName.toLowerCase() ||
+              (t.productCode != null &&
+                  t.productCode!.toLowerCase() == deviceName.toLowerCase()),
         );
       } catch (_) {
         // Catch StateError if no match is found in the iterable
@@ -217,10 +231,13 @@ class FlashingController extends _$FlashingController {
     final settings = ref.read(settingsControllerProvider);
     final activeProfile = settings.profiles.firstWhere(
       (p) => p.id == settings.activeProfileId,
-      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      orElse: () =>
+          const FlashingProfile(id: 'default', name: 'Default Profile'),
     );
     final is2G4 = target?.is2400Mhz ?? true;
-    final regDomain = is2G4 ? activeProfile.defaultDomain2400 : activeProfile.defaultDomain900;
+    final regDomain = is2G4
+        ? activeProfile.defaultDomain2400
+        : activeProfile.defaultDomain900;
 
     state = state.copyWith(
       selectedTarget: target,
@@ -240,10 +257,13 @@ class FlashingController extends _$FlashingController {
       final settings = ref.read(settingsControllerProvider);
       final activeProfile = settings.profiles.firstWhere(
         (p) => p.id == settings.activeProfileId,
-        orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+        orElse: () =>
+            const FlashingProfile(id: 'default', name: 'Default Profile'),
       );
       final updatedProfile = activeProfile.copyWith(bindPhrase: value);
-      await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
+      await ref
+          .read(settingsControllerProvider.notifier)
+          .updateActiveProfile(updatedProfile);
       _triggerAutosaveFeedback('bindPhrase');
     }
   }
@@ -255,10 +275,13 @@ class FlashingController extends _$FlashingController {
       final settings = ref.read(settingsControllerProvider);
       final activeProfile = settings.profiles.firstWhere(
         (p) => p.id == settings.activeProfileId,
-        orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+        orElse: () =>
+            const FlashingProfile(id: 'default', name: 'Default Profile'),
       );
       final updatedProfile = activeProfile.copyWith(wifiSsid: value);
-      await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
+      await ref
+          .read(settingsControllerProvider.notifier)
+          .updateActiveProfile(updatedProfile);
       _triggerAutosaveFeedback('wifiSsid');
     }
   }
@@ -270,10 +293,13 @@ class FlashingController extends _$FlashingController {
       final settings = ref.read(settingsControllerProvider);
       final activeProfile = settings.profiles.firstWhere(
         (p) => p.id == settings.activeProfileId,
-        orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+        orElse: () =>
+            const FlashingProfile(id: 'default', name: 'Default Profile'),
       );
       final updatedProfile = activeProfile.copyWith(wifiPassword: value);
-      await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
+      await ref
+          .read(settingsControllerProvider.notifier)
+          .updateActiveProfile(updatedProfile);
       _triggerAutosaveFeedback('wifiPassword');
       if (value.isEmpty) {
         state = state.copyWith(wifiPasswordError: null);
@@ -287,12 +313,15 @@ class FlashingController extends _$FlashingController {
     final settings = ref.read(settingsControllerProvider);
     final activeProfile = settings.profiles.firstWhere(
       (p) => p.id == settings.activeProfileId,
-      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      orElse: () =>
+          const FlashingProfile(id: 'default', name: 'Default Profile'),
     );
     final updatedProfile = is2G4
         ? activeProfile.copyWith(defaultDomain2400: id)
         : activeProfile.copyWith(defaultDomain900: id);
-    await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
+    await ref
+        .read(settingsControllerProvider.notifier)
+        .updateActiveProfile(updatedProfile);
   }
 
   Future<void> setWifiOnInterval(int value) async {
@@ -300,10 +329,13 @@ class FlashingController extends _$FlashingController {
     final settings = ref.read(settingsControllerProvider);
     final activeProfile = settings.profiles.firstWhere(
       (p) => p.id == settings.activeProfileId,
-      orElse: () => const FlashingProfile(id: 'default', name: 'Default Profile'),
+      orElse: () =>
+          const FlashingProfile(id: 'default', name: 'Default Profile'),
     );
     final updatedProfile = activeProfile.copyWith(wifiOnInterval: value);
-    await ref.read(settingsControllerProvider.notifier).updateActiveProfile(updatedProfile);
+    await ref
+        .read(settingsControllerProvider.notifier)
+        .updateActiveProfile(updatedProfile);
     _triggerAutosaveFeedback('wifiOnInterval');
   }
 
@@ -411,11 +443,12 @@ class FlashingController extends _$FlashingController {
     } catch (e) {
       String msg = 'Failed to download firmware: $e';
       final errStr = e.toString().toLowerCase();
-      
-      if (errStr.contains('connection error') || 
-          errStr.contains('connection refused') || 
+
+      if (errStr.contains('connection error') ||
+          errStr.contains('connection refused') ||
           errStr.contains('failed host lookup')) {
-        msg = 'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.';
+        msg =
+            'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.';
       }
 
       state = state.copyWith(
@@ -483,7 +516,9 @@ class FlashingController extends _$FlashingController {
             isLbt: isLbt,
           );
     } else {
-      _log.info('Cache missing or incomplete. Self-healing / downloading from Artifactory...');
+      _log.info(
+        'Cache missing or incomplete. Self-healing / downloading from Artifactory...',
+      );
       state = state.copyWith(status: FlashingStatus.downloading);
       // Self-heal incomplete legacy caches
       final hasHardware = cachedHardwareZip != null;
@@ -679,25 +714,21 @@ class FlashingController extends _$FlashingController {
       final deviceConfig = configState.value!;
       final deviceProductName = deviceConfig.effectiveProductName;
       final selectedProductName =
-          state.selectedTarget!.config['product_name'] as String?
-          ?? state.selectedTarget!.name;
+          state.selectedTarget!.config['product_name'] as String? ??
+          state.selectedTarget!.name;
 
       // Normalize for comparison
       final normalizedDevice = deviceProductName.toLowerCase().trim();
       final normalizedSelected = selectedProductName.toLowerCase().trim();
 
-      final isMismatch = normalizedDevice != normalizedSelected &&
-          normalizedDevice != 'elrs device'; // Skip check if device didn't report a name
+      final isMismatch =
+          normalizedDevice != normalizedSelected &&
+          normalizedDevice !=
+              'elrs device'; // Skip check if device didn't report a name
 
       if (isMismatch) {
         state = state.copyWith(
           status: FlashingStatus.mismatch,
-          errorMessage:
-              'Target mismatch: The connected device identifies as '
-              '"$deviceProductName", but you selected '
-              '"$selectedProductName".\n\n'
-              'Flashing mismatched firmware can brick your device. '
-              'Are you sure you want to continue?',
         );
         return;
       }
@@ -714,7 +745,7 @@ class FlashingController extends _$FlashingController {
 
     // Silence UI heartbeat
     ref.read(isFlashingProvider.notifier).setFlashing(true);
-    
+
     // Give heartbeats a chance to cancel and the ESP to settle
     await Future.delayed(const Duration(milliseconds: 300));
 
@@ -748,7 +779,9 @@ class FlashingController extends _$FlashingController {
         'firmware_flash_success',
         1,
         attributes: {
-          'target': SentryAttribute.string(state.selectedTarget?.name ?? 'unknown'),
+          'target': SentryAttribute.string(
+            state.selectedTarget?.name ?? 'unknown',
+          ),
         },
       );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Flashed', {
@@ -756,14 +789,19 @@ class FlashingController extends _$FlashingController {
         'version': state.selectedVersion ?? 'Unknown',
       });
     } catch (e) {
-      ref.read(isFlashingProvider.notifier).setFlashing(false);
-      String errorMsg = e.toString();
+      var errorMsg = e.toString();
       final errStr = errorMsg.toLowerCase();
 
-      if (errStr.contains('connection error') || 
-          errStr.contains('connection refused') || 
+      // Keep the flashing lock active on mismatch to block background polling from clearing the upload
+      if (!errStr.contains('mismatch')) {
+        ref.read(isFlashingProvider.notifier).setFlashing(false);
+      }
+
+      if (errStr.contains('connection error') ||
+          errStr.contains('connection refused') ||
           errStr.contains('failed host lookup')) {
-        errorMsg = 'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.';
+        errorMsg =
+            'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.';
       }
 
       if (errorMsg.contains('mismatch')) {
@@ -783,9 +821,7 @@ class FlashingController extends _$FlashingController {
       Sentry.metrics.count(
         'firmware_flash_failure',
         1,
-        attributes: {
-          'error': SentryAttribute.string(state.status.toString()),
-        },
+        attributes: {'error': SentryAttribute.string(state.status.toString())},
       );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Flash Error', {
         'errorType': state.status.toString(),
@@ -799,6 +835,7 @@ class FlashingController extends _$FlashingController {
   }
 
   void resetStatus() {
+    ref.read(isFlashingProvider.notifier).setFlashing(false);
     state = state.copyWith(
       status: FlashingStatus.idle,
       errorMessage: null,
@@ -811,13 +848,44 @@ class FlashingController extends _$FlashingController {
     try {
       state = state.copyWith(status: FlashingStatus.uploading);
       final repo = ref.read(deviceRepositoryProvider);
+      final payload = await _buildFinalPayload();
+
+      // 1. Re-fill the ESP's OTA buffer!
+      // Because the user took time to read the warning dialog, the ESP's
+      // 10-second idle timer expired and cleared the firmware from RAM.
+      try {
+        await repo.flashFirmware(
+          payload.bytes,
+          payload.filename,
+          onSendProgress: (sent, total) {
+            if (total > 0) {
+              state = state.copyWith(progress: sent / total);
+            }
+          },
+        );
+      } catch (e) {
+        // We EXPECT it to throw a mismatch exception here because we just
+        // re-uploaded the mismatched file. We swallow it and proceed!
+        if (e.toString().contains('mismatch')) {
+          _log.info(
+            'Caught expected mismatch during buffer refill. Proceeding to force commit...',
+          );
+        } else {
+          rethrow; // If it's a different network error, abort.
+        }
+      }
+
+      // 2. The buffer is now full and fresh. Immediately confirm the force update!
       await repo.confirmForceUpdate();
+
       state = state.copyWith(status: FlashingStatus.success);
     } catch (e) {
       state = state.copyWith(
         status: FlashingStatus.error,
         errorMessage: 'Force update failed: $e',
       );
+    } finally {
+      ref.read(isFlashingProvider.notifier).setFlashing(false);
     }
   }
 }

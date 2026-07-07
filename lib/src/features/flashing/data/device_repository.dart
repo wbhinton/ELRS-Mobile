@@ -55,9 +55,10 @@ class DeviceRepository {
       _ref?.read(analyticsServiceProvider).trackEvent('Device Connected');
       return RuntimeConfig.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
-      _ref?.read(analyticsServiceProvider).trackEvent('Device Connection Failed', {
-        'error': e.toString(),
-      });
+      _ref?.read(analyticsServiceProvider).trackEvent(
+        'Device Connection Failed',
+        {'error': e.toString()},
+      );
       throw Exception('Failed to fetch config: $e');
     }
   }
@@ -68,7 +69,9 @@ class DeviceRepository {
     try {
       final expectedUid = BindingPhraseUtils.generateUid(phrase);
       await _dio.post('/config', data: {'uid': expectedUid});
-      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'Bind Phrase'});
+      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {
+        'setting': 'Bind Phrase',
+      });
     } catch (e) {
       throw Exception('Failed to update binding phrase: $e');
     }
@@ -82,7 +85,9 @@ class DeviceRepository {
         '/config',
         data: {'wifi-ssid': ssid, 'wifi-password': password},
       );
-      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {'setting': 'WiFi'});
+      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {
+        'setting': 'WiFi',
+      });
     } catch (e) {
       throw Exception('Failed to update WiFi: $e');
     }
@@ -297,40 +302,23 @@ class DeviceRepository {
   Future<void> confirmForceUpdate() async {
     try {
       _log.info('Sending manual action=confirm to /forceupdate...');
+      final formData = FormData.fromMap({
+        'action': 'confirm',
+      });
 
-      final formData = FormData.fromMap({'action': 'confirm'});
-
-      final evaluatedLength = formData.length;
-
-      final response = await _dio.post(
+      await _dio.post(
         '/forceupdate',
         data: formData,
-        options: Options(
-          headers: {Headers.contentLengthHeader: evaluatedLength},
-        ),
       );
-
-      final responseData = response.data;
-      if (responseData is Map<String, dynamic> &&
-          responseData['status'] != 'ok') {
-        throw Exception('Force update failed: ${responseData['msg']}');
-      }
-      _log.info('Force update successful!');
     } on DioException catch (e) {
-      final errStr = e.toString();
-      if (errStr.contains('Software caused connection abort') ||
-          errStr.contains(
-            'Connection closed before full header was received',
-          ) ||
-          errStr.contains('Connection reset by peer')) {
-        _log.info(
-          'ESP32 successfully forced and rebooted! Caught expected socket drop.',
-        );
+      // A successful force flash causes an immediate hardware reboot.
+      if (_isExpectedRebootSocketDrop(e)) {
+        _log.info('Caught expected socket drop during force update reboot');
         return;
       }
-      throw Exception('Failed to force update: $e');
+      throw Exception('Force update rejected: $e');
     } catch (e) {
-      throw Exception('Failed to force update: $e');
+      throw Exception('Force update rejected: $e');
     }
   }
 

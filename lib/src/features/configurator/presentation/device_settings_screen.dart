@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:file_selector/file_selector.dart';
 import '../../config/presentation/config_view_model.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/analytics/analytics_service.dart';
@@ -66,6 +67,24 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
         ),
       )
       ..loadRequest(Uri.parse('http://$ip/'));
+
+    // Provide a bridge for the HTML <input type="file"> on Android
+    if (_controller.platform is AndroidWebViewController) {
+      (_controller.platform as AndroidWebViewController).setOnShowFileSelector(
+        (FileSelectorParams params) async {
+          const typeGroup = XTypeGroup(
+            label: 'Firmware Binaries',
+            extensions: ['bin', 'gz'],
+          );
+          final file = await openFile(acceptedTypeGroups: [typeGroup]);
+          
+          if (file != null) {
+            return [file.path];
+          }
+          return [];
+        },
+      );
+    }
   }
 
   Future<void> _initAndroidVersion() async {
