@@ -11,6 +11,7 @@ on:
       - 'ios/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
+      - '.github/workflows/**'
     tags:
       - 'v*' # Trigger on version tags like v1.0.0
   workflow_dispatch: # Allow manual trigger from GitHub Actions UI
