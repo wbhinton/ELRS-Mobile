@@ -202,6 +202,8 @@ class FlashingController extends _$FlashingController {
       selectedVendor: null,
       selectedFrequency: null,
       selectedTarget: null,
+      status: FlashingStatus.idle,
+      errorMessage: null,
     );
   }
 
@@ -210,11 +212,18 @@ class FlashingController extends _$FlashingController {
       selectedVendor: vendor,
       selectedFrequency: null,
       selectedTarget: null,
+      status: FlashingStatus.idle,
+      errorMessage: null,
     );
   }
 
   void selectFrequency(String? freq) {
-    state = state.copyWith(selectedFrequency: freq, selectedTarget: null);
+    state = state.copyWith(
+      selectedFrequency: freq,
+      selectedTarget: null,
+      status: FlashingStatus.idle,
+      errorMessage: null,
+    );
   }
 
   void selectTarget(TargetDefinition? target) {
@@ -243,6 +252,8 @@ class FlashingController extends _$FlashingController {
       selectedTarget: target,
       selectedVersion: updatedVersion,
       regulatoryDomain: regDomain,
+      status: FlashingStatus.idle,
+      errorMessage: null,
     );
   }
 
