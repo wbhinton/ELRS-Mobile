@@ -292,4 +292,12 @@ class SettingsController extends _$SettingsController {
     final updatedProfile = activeProfile.copyWith(wifiOnInterval: value);
     await updateActiveProfile(updatedProfile);
   }
+
+  void clearErrors() {
+    state = state.copyWith(
+      bindPhraseError: null,
+      wifiSsidError: null,
+      wifiPasswordError: null,
+    );
+  }
 }

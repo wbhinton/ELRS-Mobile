@@ -69,6 +69,15 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
     final target = ref.watch(
       flashingControllerProvider.select((s) => s.selectedTarget),
     );
+    final bindPhraseError = ref.watch(
+      flashingControllerProvider.select((s) => s.bindPhraseError),
+    );
+    final wifiSsidError = ref.watch(
+      flashingControllerProvider.select((s) => s.wifiSsidError),
+    );
+    final wifiPasswordError = ref.watch(
+      flashingControllerProvider.select((s) => s.wifiPasswordError),
+    );
 
     return Card(
       child: Padding(
@@ -161,6 +170,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   decoration: InputDecoration(
                     labelText: l10n.bindingPhraseLabel,
                     helperText: 'Your unique binding phrase',
+                    errorText: bindPhraseError,
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -200,6 +210,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   controller: _wifiSsidController,
                   decoration: InputDecoration(
                     labelText: l10n.networkSsidLabel,
+                    errorText: wifiSsidError,
                     suffixIcon: autosavingField == 'wifiSsid'
                         ? const Icon(
                             Icons.check_circle,
@@ -219,6 +230,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   controller: _wifiPasswordController,
                   decoration: InputDecoration(
                     labelText: l10n.wifiPasswordLabel,
+                    errorText: wifiPasswordError,
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

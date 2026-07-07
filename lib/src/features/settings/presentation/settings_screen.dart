@@ -98,30 +98,37 @@ class SettingsScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  _buildEditDialogTile(
+                   _buildEditDialogTile(
                     context,
+                    ref,
                     title: l10n.globalBindingPhraseLabel,
                     currentValue: state.globalBindPhrase,
                     onSaved: (val) => controller.setGlobalBindPhrase(val),
                     isSecret: true,
                     isVisibleNotifier: showBindPhrase,
+                    errorSelector: (s) => s.bindPhraseError,
                   ),
                   _buildEditDialogTile(
                     context,
+                    ref,
                     title: l10n.homeWifiSsidLabel,
                     currentValue: state.homeWifiSsid,
                     onSaved: (val) => controller.setHomeWifiSsid(val),
+                    errorSelector: (s) => s.wifiSsidError,
                   ),
                   _buildEditDialogTile(
                     context,
+                    ref,
                     title: l10n.homeWifiPasswordLabel,
                     currentValue: state.homeWifiPassword,
                     onSaved: (val) => controller.setHomeWifiPassword(val),
                     isSecret: true,
                     isVisibleNotifier: showWifiPassword,
+                    errorSelector: (s) => s.wifiPasswordError,
                   ),
                   _buildEditDialogTile(
                     context,
+                    ref,
                     title: l10n.wifiOnIntervalLabel,
                     currentValue: state.wifiOnInterval.toString(),
                     keyboardType: TextInputType.number,
@@ -577,13 +584,15 @@ class SettingsScreen extends HookConsumerWidget {
 
 
   Widget _buildEditDialogTile(
-    BuildContext context, {
+    BuildContext context,
+    WidgetRef ref, {
     required String title,
     required String currentValue,
     required Function(String) onSaved,
     bool isSecret = false,
     ValueNotifier<bool>? isVisibleNotifier,
     TextInputType? keyboardType,
+    String? Function(SettingsState)? errorSelector,
   }) {
     final l10n = AppLocalizations.of(context)!;
     Widget buildTile(bool isVisible) {
@@ -610,56 +619,78 @@ class SettingsScreen extends HookConsumerWidget {
           ],
         ),
         onTap: () {
+          ref.read(settingsControllerProvider.notifier).clearErrors();
           final textController = TextEditingController(text: currentValue);
           bool obscureText = isSecret && !isVisible;
+          bool hasBeenEdited = false;
 
           showDialog(
             context: context,
-            builder: (context) => StatefulBuilder(
-              builder: (context, setState) => AlertDialog(
-                title: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Text('Edit $title'),
-                ),
-                scrollable: true,
-                content: TextField(
-                  controller: textController,
-                  obscureText: obscureText,
-                  keyboardType: keyboardType,
-                  decoration: InputDecoration(
-                    hintText: 'Enter $title',
-                    hintMaxLines: 2,
-                    suffixIcon: isSecret
-                        ? IconButton(
-                            icon: Icon(
-                              obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                obscureText = !obscureText;
-                              });
-                            },
-                          )
-                        : null,
+            builder: (context) => Consumer(
+              builder: (context, ref, child) {
+                final settingsState = ref.watch(settingsControllerProvider);
+                final errorText = hasBeenEdited ? null : errorSelector?.call(settingsState);
+
+                return StatefulBuilder(
+                  builder: (context, setState) => AlertDialog(
+                    title: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text('Edit $title'),
+                    ),
+                    scrollable: true,
+                    content: TextField(
+                      controller: textController,
+                      obscureText: obscureText,
+                      keyboardType: keyboardType,
+                      onChanged: (val) {
+                        if (!hasBeenEdited) {
+                          setState(() {
+                            hasBeenEdited = true;
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Enter $title',
+                        hintMaxLines: 2,
+                        errorText: errorText,
+                        suffixIcon: isSecret
+                            ? IconButton(
+                                icon: Icon(
+                                  obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    obscureText = !obscureText;
+                                  });
+                                },
+                              )
+                            : null,
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(l10n.cancelLabel),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          hasBeenEdited = false;
+                          onSaved(textController.text);
+                          final updatedState = ref.read(settingsControllerProvider);
+                          final updatedError = errorSelector?.call(updatedState);
+                          if (updatedError == null) {
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: Text(l10n.saveLabel),
+                      ),
+                    ],
                   ),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(l10n.cancelLabel),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      onSaved(textController.text);
-                      Navigator.pop(context);
-                    },
-                    child: Text(l10n.saveLabel),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           );
         },

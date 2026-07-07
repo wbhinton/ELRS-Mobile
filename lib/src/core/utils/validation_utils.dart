@@ -1,9 +1,7 @@
 class ValidationUtils {
-  /// Validates WiFi SSID according to IEEE 802.11 (1-32 octets).
+  /// Validates WiFi SSID according to IEEE 802.11. Allows empty for Hotspot mode.
   static String? validateSsid(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'SSID cannot be empty';
-    }
+    if (value == null || value.isEmpty) return null; 
     if (value.length > 32) {
       return 'SSID must be 32 characters or less';
     }
@@ -11,11 +9,8 @@ class ValidationUtils {
   }
 
   /// Validates WiFi Password.
-  /// ELRS supports open networks (empty) or WPA2 (8-63 chars).
   static String? validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return null; // Open network
-    }
+    if (value == null || value.isEmpty) return null; // Open network
     if (value.length < 8) {
       return 'Password must be at least 8 characters';
     }
@@ -25,11 +20,8 @@ class ValidationUtils {
     return null;
   }
 
-  /// Validates ExpressLRS Binding Phrase.
+  /// Validates ExpressLRS Binding Phrase. Allows empty for traditional binding.
   static String? validateBindPhrase(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Binding Phrase cannot be empty';
-    }
-    return null;
+    return null; 
   }
 }
