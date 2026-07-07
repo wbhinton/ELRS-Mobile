@@ -142,29 +142,43 @@ class FlashingController extends _$FlashingController {
   }
 
   Future<void> autoSelectFromConnectedDevice() async {
-    // Only auto-select if nothing is currently selected
+    // Only auto-select if nothing is currently selected in the UI
     if (state.selectedTarget != null) return;
 
     final config = ref.read(deviceEditorProvider);
-    if (config == null || config.target == null || config.target!.isEmpty) return;
+    if (config == null) return;
+
+    // ELRS V3/V4 uses product_name, fallback to effectiveProductName
+    final deviceName = config.effectiveProductName;
+    if (deviceName == 'Unknown Device' || deviceName.isEmpty) return;
 
     try {
       final targets = await ref.read(targetsProvider.future);
-      // Find the target where the parsed name or product code matches the connected device
-      final match = targets.firstWhere((t) => 
-          t.name.toLowerCase() == config.target!.toLowerCase() ||
-          t.productCode?.toLowerCase() == config.target!.toLowerCase() ||
-          t.priorTargetName?.toLowerCase() == config.target!.toLowerCase());
+      
+      // Find the target where the parsed name matches the connected device
+      TargetDefinition? match;
+      try {
+        match = targets.firstWhere((t) => 
+            t.name.toLowerCase() == deviceName.toLowerCase() ||
+            (t.productCode != null && t.productCode!.toLowerCase() == deviceName.toLowerCase())
+        );
+      } catch (_) {
+        // Catch StateError if no match is found in the iterable
+      }
 
-      state = state.copyWith(
-        selectedDeviceType: match.deviceType,
-        selectedVendor: match.vendor,
-        selectedFrequency: match.frequencyType,
-        selectedTarget: match,
-      );
-      _log.info('Auto-selected target: ${match.name}');
+      if (match != null) {
+        state = state.copyWith(
+          selectedDeviceType: match.deviceType,
+          selectedVendor: match.vendor,
+          selectedFrequency: match.frequencyType,
+          selectedTarget: match,
+        );
+        _log.info('Auto-selected target: ${match.name}');
+      } else {
+        _log.warning('No matching target found for device name: $deviceName');
+      }
     } catch (e) {
-      _log.warning('Could not auto-select target for: ${config.target}');
+      _log.warning('Could not auto-select target, Error: $e');
     }
   }
 
