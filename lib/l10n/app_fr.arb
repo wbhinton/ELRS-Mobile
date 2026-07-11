@@ -100,6 +100,7 @@
   "optionsTitle": "Options du micrologiciel",
   "optionsSubtitle": "Configurez la liaison et les identifiants réseau.",
   "wifiPasswordLabel": "Mot de passe Wi-Fi",
+  "wifiOnIntervalLabel": "Intervalle d'activation automatique du Wi-Fi",
   "regulatoryDomainLabel": "Domaine réglementaire",
   "regDomainIsm": "ISM (2,4 GHz)",
   "regDomainEuLbt": "UE CE (2,4 GHz LBT)",

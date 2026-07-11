@@ -100,6 +100,7 @@
   "optionsTitle": "Firmware-Optionen",
   "optionsSubtitle": "Bindung und Netzwerkanmeldeinformationen konfigurieren.",
   "wifiPasswordLabel": "WLAN-Passwort",
+  "wifiOnIntervalLabel": "WLAN Auto-Ein-Intervall",
   "regulatoryDomainLabel": "Regulierungsbereich",
   "regDomainIsm": "ISM (2,4 GHz)",
   "regDomainEuLbt": "EU CE (2,4 GHz LBT)",

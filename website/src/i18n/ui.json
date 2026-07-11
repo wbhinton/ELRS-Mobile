@@ -151,8 +151,8 @@
     "demo.title": "Sehen Sie es in Aktion",
     "demo.subtitle": "Schnelles OTA-Flashen aus dem lokalen Cache.",
     "demo.video_title": "ELRS Mobile Flashing Demo",
-    "video_guides.title": "Video-Anleitungen der Community",
-    "video_guides.subtitle": "Sehen Sie sich Schritt-für-Schritt-Anleitungen von Branchenexperten an, wie Sie Ihre Hardware direkt am Flugfeld komplett offline flashen und tunen.",
+    "video_guides.title": "Community-Videoanleitungen",
+    "video_guides.subtitle": "Sehen Sie sich Schritt-für-Schritt-Anleitungen von Branchenexperten an, wie Sie Ihre Hardware auf dem Flugfeld komplett offline flashen und abstimmen können.",
     "get_started.title": "Erste Schritte",
     "get_started.subtitle": "Wählen Sie Ihre Plattform und steigen Sie ein.",
     "get_started.google_play_badge": "Produktion",
@@ -271,7 +271,7 @@
     "demo.subtitle": "Flasheo OTA rápido desde caché local.",
     "demo.video_title": "Demostración de Flasheo de ELRS Mobile",
     "video_guides.title": "Guías de Video de la Comunidad",
-    "video_guides.subtitle": "Vea tutoriales paso a paso de expertos de la industria sobre cómo flashear y ajustar su hardware en la línea de vuelo completamente fuera de línea.",
+    "video_guides.subtitle": "Mira tutoriales paso a paso de expertos de la industria sobre cómo flashear y ajustar tu hardware en la línea de vuelo completamente sin conexión.",
     "get_started.title": "Empezar",
     "get_started.subtitle": "Elige tu plataforma y únete al vuelo.",
     "get_started.google_play_badge": "Producción",
@@ -390,7 +390,7 @@
     "demo.subtitle": "Flash OTA rapide depuis le cache local.",
     "demo.video_title": "Démo de Flash ELRS Mobile",
     "video_guides.title": "Guides Vidéo de la Communauté",
-    "video_guides.subtitle": "Regardez des tutoriels étape par étape d'experts de l'industrie pour savoir comment flasher et régler votre matériel sur le terrain complètement hors ligne.",
+    "video_guides.subtitle": "Regardez des tutoriels étape par étape d'experts du secteur sur la façon de flasher et de régler votre matériel sur la ligne de vol complètement hors ligne.",
     "get_started.title": "Commencer",
     "get_started.subtitle": "Choisissez votre plateforme et rejoignez le vol.",
     "get_started.google_play_badge": "Production",
@@ -508,8 +508,8 @@
     "demo.title": "動作を見る",
     "demo.subtitle": "ローカルキャッシュからの迅速なOTAフラッシュ。",
     "demo.video_title": "ELRS Mobile フラッシュデモ",
-    "video_guides.title": "コミュニティ動画ガイド",
-    "video_guides.subtitle": "業界の専門家によるステップバイステップのチュートリアル動画で、飛行現場で完全にオフラインでハードウェアをフラッシュおよび調整する方法をご覧ください。",
+    "video_guides.title": "コミュニティビデオガイド",
+    "video_guides.subtitle": "業界の専門家によるステップバイステップのチュートリアルで、フライトラインで完全にオフラインでハードウェアのフラッシュとチューニングを行う方法をご覧ください。",
     "get_started.title": "始める",
     "get_started.subtitle": "プラットフォームを選択して、フライトに参加しましょう。",
     "get_started.google_play_badge": "製品版",
@@ -709,7 +709,9 @@
     "hero.play_beta_blurb": "Користувач Android? Спробуйте найновіші функції раніше, приєднавшись до",
     "hero.play_beta_link": "Google Play Beta Program",
     "hero.testflight_beta_blurb": "Користувач iOS? Спробуйте найновіші функції раніше, приєднавшись до",
-    "hero.testflight_beta_link": "Apple TestFlight Beta"
+    "hero.testflight_beta_link": "Apple TestFlight Beta",
+    "video_guides.title": "Відеогайди спільноти",
+    "video_guides.subtitle": "Перегляньте покрокові посібники від експертів галузі про те, як прошивати та налаштовувати ваше обладнання на місці польотів повністю офлайн."
   },
   "_hashes": {
     "de": {
@@ -827,7 +829,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "es": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -944,7 +948,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "fr": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1061,7 +1067,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "ja": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1178,7 +1186,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "uk": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1295,7 +1305,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "pt": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1412,7 +1424,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "it": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1529,7 +1543,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "pl": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1646,7 +1662,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "ko": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1763,7 +1781,9 @@
       "hero.play_beta_blurb": "314b6d1be60af16023e423be7e883a78",
       "hero.play_beta_link": "ae04315be982c0d1d4a79a82c9ce0dd9",
       "hero.testflight_beta_blurb": "70961f18dc4581067f3b9ca3ae5e984f",
-      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9"
+      "hero.testflight_beta_link": "06a1fe574ddbe2fdc5f4322bca00b7c9",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "ru": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1880,7 +1900,9 @@
       "privacy.sec5_github_label": "cf08730d37f83da9e97ca3262bf7072d",
       "privacy.sec5_desc_dot": "5058f1af8388633f609cadb75a75dc9d",
       "privacy.back_home": "0fa120954896a44560312a731f297425",
-      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5"
+      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "nl": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1997,7 +2019,9 @@
       "privacy.sec5_github_label": "cf08730d37f83da9e97ca3262bf7072d",
       "privacy.sec5_desc_dot": "5058f1af8388633f609cadb75a75dc9d",
       "privacy.back_home": "0fa120954896a44560312a731f297425",
-      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5"
+      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "cs": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2114,7 +2138,9 @@
       "privacy.sec5_github_label": "cf08730d37f83da9e97ca3262bf7072d",
       "privacy.sec5_desc_dot": "5058f1af8388633f609cadb75a75dc9d",
       "privacy.back_home": "0fa120954896a44560312a731f297425",
-      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5"
+      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "th": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2231,7 +2257,9 @@
       "privacy.sec5_github_label": "cf08730d37f83da9e97ca3262bf7072d",
       "privacy.sec5_desc_dot": "5058f1af8388633f609cadb75a75dc9d",
       "privacy.back_home": "0fa120954896a44560312a731f297425",
-      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5"
+      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "sv": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2348,7 +2376,9 @@
       "privacy.sec5_github_label": "cf08730d37f83da9e97ca3262bf7072d",
       "privacy.sec5_desc_dot": "5058f1af8388633f609cadb75a75dc9d",
       "privacy.back_home": "0fa120954896a44560312a731f297425",
-      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5"
+      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "id": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2465,7 +2495,9 @@
       "privacy.sec5_github_label": "cf08730d37f83da9e97ca3262bf7072d",
       "privacy.sec5_desc_dot": "5058f1af8388633f609cadb75a75dc9d",
       "privacy.back_home": "0fa120954896a44560312a731f297425",
-      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5"
+      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     },
     "zh": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2582,7 +2614,9 @@
       "privacy.sec5_github_label": "cf08730d37f83da9e97ca3262bf7072d",
       "privacy.sec5_desc_dot": "5058f1af8388633f609cadb75a75dc9d",
       "privacy.back_home": "0fa120954896a44560312a731f297425",
-      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5"
+      "privacy.policy_link": "fa2ead697d9998cbc65c81384e6533d5",
+      "video_guides.title": "8096b7d6dbc52881ccec418092232004",
+      "video_guides.subtitle": "ba5466c3e98b5150afe037cfb2f98075"
     }
   },
   "pt": {
@@ -2700,7 +2734,9 @@
     "hero.play_beta_blurb": "Usuário Android? Experimente os recursos mais recentes antecipadamente, juntando-se ao",
     "hero.play_beta_link": "Google Play Beta Program",
     "hero.testflight_beta_blurb": "Usuário iOS? Experimente os recursos mais recentes antecipadamente, juntando-se ao",
-    "hero.testflight_beta_link": "Apple TestFlight Beta"
+    "hero.testflight_beta_link": "Apple TestFlight Beta",
+    "video_guides.title": "Guias em Vídeo da Comunidade",
+    "video_guides.subtitle": "Assista a tutoriais passo a passo de especialistas da indústria sobre como fazer o flash e sintonizar seu hardware na linha de voo, completamente offline."
   },
   "it": {
     "nav.hardware": "Hardware",
@@ -2817,7 +2853,9 @@
     "hero.play_beta_blurb": "Utente Android? Prova le ultime funzionalità in anticipo unendoti al",
     "hero.play_beta_link": "Google Play Beta Program",
     "hero.testflight_beta_blurb": "Utente iOS? Prova le ultime funzionalità in anticipo unendoti al",
-    "hero.testflight_beta_link": "Apple TestFlight Beta"
+    "hero.testflight_beta_link": "Apple TestFlight Beta",
+    "video_guides.title": "Guide Video della Community",
+    "video_guides.subtitle": "Guarda tutorial passo-passo da esperti del settore su come flashare e sintonizzare il tuo hardware sulla linea di volo completamente offline."
   },
   "pl": {
     "nav.hardware": "Sprzęt",
@@ -2934,7 +2972,9 @@
     "hero.play_beta_blurb": "Użytkownik Androida? Wypróbuj najnowsze funkcje wcześniej, dołączając do",
     "hero.play_beta_link": "Google Play Beta Program",
     "hero.testflight_beta_blurb": "Użytkownik iOS? Wypróbuj najnowsze funkcje wcześniej, dołączając do",
-    "hero.testflight_beta_link": "Apple TestFlight Beta"
+    "hero.testflight_beta_link": "Apple TestFlight Beta",
+    "video_guides.title": "Wideoprzewodniki Społeczności",
+    "video_guides.subtitle": "Oglądaj samouczki krok po kroku od ekspertów branżowych, jak flashować i stroić swój sprzęt na linii lotu, całkowicie offline."
   },
   "ko": {
     "nav.hardware": "하드웨어",
@@ -3051,7 +3091,9 @@
     "hero.play_beta_blurb": "Android 사용자이신가요? 다음 프로그램에 참여하여 최신 기능을 먼저 사용해보세요:",
     "hero.play_beta_link": "Google Play Beta Program",
     "hero.testflight_beta_blurb": "iOS 사용자이신가요? 다음 프로그램에 참여하여 최신 기능을 먼저 사용해보세요:",
-    "hero.testflight_beta_link": "Apple TestFlight Beta"
+    "hero.testflight_beta_link": "Apple TestFlight Beta",
+    "video_guides.title": "커뮤니티 비디오 가이드",
+    "video_guides.subtitle": "비행 현장에서 하드웨어를 플래시하고 튜닝하는 방법에 대한 업계 전문가의 단계별 튜토리얼을 완전히 오프라인으로 시청하세요."
   },
   "ru": {
     "nav.hardware": "Оборудование",
@@ -3168,7 +3210,9 @@
     "privacy.sec5_github_label": "репозиторий GitHub",
     "privacy.sec5_desc_dot": ".",
     "privacy.back_home": "← На главную",
-    "privacy.policy_link": "Политика конфиденциальности"
+    "privacy.policy_link": "Политика конфиденциальности",
+    "video_guides.title": "Видеогайды от сообщества",
+    "video_guides.subtitle": "Смотрите пошаговые руководства от экспертов отрасли о том, как прошить и настроить ваше оборудование на полетной полосе полностью офлайн."
   },
   "nl": {
     "nav.hardware": "Hardware",
@@ -3285,7 +3329,9 @@
     "privacy.sec5_github_label": "GitHub Repository",
     "privacy.sec5_desc_dot": ".",
     "privacy.back_home": "← Terug naar Home",
-    "privacy.policy_link": "Privacybeleid"
+    "privacy.policy_link": "Privacybeleid",
+    "video_guides.title": "Community Videogidsen",
+    "video_guides.subtitle": "Bekijk stapsgewijze tutorials van experts uit de branche over hoe je je hardware moet flashen en afstellen aan de flight line, volledig offline."
   },
   "cs": {
     "nav.hardware": "Hardware",
@@ -3402,7 +3448,9 @@
     "privacy.sec5_github_label": "GitHub Repozitáře",
     "privacy.sec5_desc_dot": ".",
     "privacy.back_home": "← Zpět na domovskou stránku",
-    "privacy.policy_link": "Zásady ochrany soukromí"
+    "privacy.policy_link": "Zásady ochrany soukromí",
+    "video_guides.title": "Komunitní video návody",
+    "video_guides.subtitle": "Sledujte podrobné návody od odborníků z oboru, jak flashovat a ladit váš hardware přímo na letové dráze, a to zcela offline."
   },
   "th": {
     "nav.hardware": "ฮาร์ดแวร์",
@@ -3519,7 +3567,9 @@
     "privacy.sec5_github_label": "GitHub Repository ของเรา",
     "privacy.sec5_desc_dot": ".",
     "privacy.back_home": "← กลับหน้าแรก",
-    "privacy.policy_link": "นโยบายความเป็นส่วนตัว"
+    "privacy.policy_link": "นโยบายความเป็นส่วนตัว",
+    "video_guides.title": "คู่มือวิดีโอจากชุมชน",
+    "video_guides.subtitle": "รับชมวิดีโอแนะนำทีละขั้นตอนจากผู้เชี่ยวชาญในวงการเกี่ยวกับวิธีการแฟลชและจูนฮาร์ดแวร์ของคุณที่จุดบินแบบออฟไลน์โดยสมบูรณ์"
   },
   "sv": {
     "nav.hardware": "Hårdvara",
@@ -3636,7 +3686,9 @@
     "privacy.sec5_github_label": "GitHub-arkiv",
     "privacy.sec5_desc_dot": ".",
     "privacy.back_home": "← Tillbaka till startsidan",
-    "privacy.policy_link": "Integritetspolicy"
+    "privacy.policy_link": "Integritetspolicy",
+    "video_guides.title": "Videoguider från communityn",
+    "video_guides.subtitle": "Titta på steg-för-steg-guider från branschexperter om hur du flashar och justerar din hårdvara vid flyglinjen, helt offline."
   },
   "id": {
     "nav.hardware": "Hardware",
@@ -3753,7 +3805,9 @@
     "privacy.sec5_github_label": "Repositori GitHub",
     "privacy.sec5_desc_dot": " kami.",
     "privacy.back_home": "← Kembali ke Beranda",
-    "privacy.policy_link": "Kebijakan Privasi"
+    "privacy.policy_link": "Kebijakan Privasi",
+    "video_guides.title": "Panduan Video Komunitas",
+    "video_guides.subtitle": "Tonton tutorial langkah demi langkah dari pakar industri tentang cara mem-flash dan menyetel perangkat keras Anda di jalur penerbangan sepenuhnya offline."
   },
   "zh": {
     "nav.hardware": "硬件",
@@ -3870,6 +3924,8 @@
     "privacy.sec5_github_label": "GitHub 仓库",
     "privacy.sec5_desc_dot": "。",
     "privacy.back_home": "← 返回主页",
-    "privacy.policy_link": "隐私政策"
+    "privacy.policy_link": "隐私政策",
+    "video_guides.title": "社区视频指南",
+    "video_guides.subtitle": "观看行业专家提供的分步教程，了解如何在飞行场地完全离线地刷写和调试您的硬件。"
   }
 }

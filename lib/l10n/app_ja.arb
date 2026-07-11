@@ -100,6 +100,7 @@
   "optionsTitle": "ファームウェア設定",
   "optionsSubtitle": "バインディングとネットワーク認証情報を設定します。",
   "wifiPasswordLabel": "Wi-Fiパスワード",
+  "wifiOnIntervalLabel": "Wi-Fi自動オン間隔",
   "regulatoryDomainLabel": "規制ドメイン",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "EU CE (2.4GHz LBT)",

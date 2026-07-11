@@ -100,6 +100,7 @@
   "optionsTitle": "Opzioni Firmware",
   "optionsSubtitle": "Configura l'associazione e le credenziali di rete.",
   "wifiPasswordLabel": "Password WiFi",
+  "wifiOnIntervalLabel": "Intervallo di accensione automatica WiFi",
   "regulatoryDomainLabel": "Dominio Normativo",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "UE CE (2.4GHz LBT)",

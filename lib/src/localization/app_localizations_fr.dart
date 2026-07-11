@@ -349,7 +349,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get wifiPasswordLabel => 'Mot de passe Wi-Fi';
 
   @override
-  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+  String get wifiOnIntervalLabel =>
+      'Intervalle d\'activation automatique du Wi-Fi';
 
   @override
   String get regulatoryDomainLabel => 'Domaine réglementaire';

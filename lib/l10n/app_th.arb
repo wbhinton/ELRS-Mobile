@@ -100,6 +100,7 @@
   "optionsTitle": "ตัวเลือกเฟิร์มแวร์",
   "optionsSubtitle": "กำหนดค่าการผูก (binding) และข้อมูลประจำตัวเครือข่าย",
   "wifiPasswordLabel": "รหัสผ่าน WiFi",
+  "wifiOnIntervalLabel": "ระยะเวลาเปิด WiFi อัตโนมัติ",
   "regulatoryDomainLabel": "โดเมนกำกับดูแล",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "EU CE (2.4GHz LBT)",

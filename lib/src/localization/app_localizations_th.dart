@@ -344,7 +344,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get wifiPasswordLabel => 'รหัสผ่าน WiFi';
 
   @override
-  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+  String get wifiOnIntervalLabel => 'ระยะเวลาเปิด WiFi อัตโนมัติ';
 
   @override
   String get regulatoryDomainLabel => 'โดเมนกำกับดูแล';

@@ -100,6 +100,7 @@
   "optionsTitle": "Параметры прошивки",
   "optionsSubtitle": "Настройте привязку и сетевые учетные данные.",
   "wifiPasswordLabel": "Пароль WiFi",
+  "wifiOnIntervalLabel": "Интервал авто-включения Wi-Fi",
   "regulatoryDomainLabel": "Региональные настройки",
   "regDomainIsm": "ISM (2.4ГГц)",
   "regDomainEuLbt": "ЕС CE (2.4ГГц LBT)",

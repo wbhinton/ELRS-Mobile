@@ -100,6 +100,7 @@
   "optionsTitle": "Opsi Firmware",
   "optionsSubtitle": "Konfigurasi pengikatan dan kredensial jaringan.",
   "wifiPasswordLabel": "Kata Sandi WiFi",
+  "wifiOnIntervalLabel": "Interval Nyala Otomatis WiFi",
   "regulatoryDomainLabel": "Domain Regulasi",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "EU CE (2.4GHz LBT)",

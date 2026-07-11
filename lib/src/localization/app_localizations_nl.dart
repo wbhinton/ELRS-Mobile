@@ -344,7 +344,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get wifiPasswordLabel => 'Wifi-wachtwoord';
 
   @override
-  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+  String get wifiOnIntervalLabel => 'WiFi automatische inschakelinterval';
 
   @override
   String get regulatoryDomainLabel => 'Regelgevingsdomein';

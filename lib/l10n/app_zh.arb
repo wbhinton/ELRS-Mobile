@@ -100,6 +100,7 @@
   "optionsTitle": "固件选项",
   "optionsSubtitle": "配置绑定和网络凭据。",
   "wifiPasswordLabel": "WiFi 密码",
+  "wifiOnIntervalLabel": "Wi-Fi 自动开启间隔",
   "regulatoryDomainLabel": "监管区域",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "欧盟 CE (2.4GHz LBT)",

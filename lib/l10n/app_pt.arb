@@ -100,6 +100,7 @@
   "optionsTitle": "Opções de Firmware",
   "optionsSubtitle": "Configure a ligação (binding) e as credenciais de rede.",
   "wifiPasswordLabel": "Senha do Wi-Fi",
+  "wifiOnIntervalLabel": "Intervalo de Ativação Automática do Wi-Fi",
   "regulatoryDomainLabel": "Domínio Regulatório",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "UE CE (2.4GHz LBT)",

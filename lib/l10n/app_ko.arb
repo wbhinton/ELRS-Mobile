@@ -100,6 +100,7 @@
   "optionsTitle": "펌웨어 옵션",
   "optionsSubtitle": "바인딩 및 네트워크 자격 증명을 구성합니다.",
   "wifiPasswordLabel": "WiFi 비밀번호",
+  "wifiOnIntervalLabel": "와이파이 자동 켜짐 간격",
   "regulatoryDomainLabel": "규제 도메인",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "EU CE (2.4GHz LBT)",

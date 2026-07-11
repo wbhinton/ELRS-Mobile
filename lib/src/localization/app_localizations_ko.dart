@@ -332,7 +332,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get wifiPasswordLabel => 'WiFi 비밀번호';
 
   @override
-  String get wifiOnIntervalLabel => 'WiFi Auto-On Interval';
+  String get wifiOnIntervalLabel => '와이파이 자동 켜짐 간격';
 
   @override
   String get regulatoryDomainLabel => '규제 도메인';

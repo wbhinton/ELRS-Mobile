@@ -100,6 +100,7 @@
   "optionsTitle": "Opcje oprogramowania układowego",
   "optionsSubtitle": "Skonfiguruj parowanie i dane uwierzytelniające sieci.",
   "wifiPasswordLabel": "Hasło WiFi",
+  "wifiOnIntervalLabel": "Interwał automatycznego włączania Wi-Fi",
   "regulatoryDomainLabel": "Domena regulacyjna",
   "regDomainIsm": "ISM (2.4GHz)",
   "regDomainEuLbt": "UE CE (2.4GHz LBT)",

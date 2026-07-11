@@ -100,6 +100,7 @@
   "optionsTitle": "Параметри прошивки",
   "optionsSubtitle": "Налаштуйте біндинг та мережеві облікові дані.",
   "wifiPasswordLabel": "Пароль Wi-Fi",
+  "wifiOnIntervalLabel": "Інтервал автоввімкнення Wi-Fi",
   "regulatoryDomainLabel": "Регуляторний домен",
   "regDomainIsm": "ISM (2.4 ГГц)",
   "regDomainEuLbt": "ЄС CE (2.4 ГГц LBT)",
