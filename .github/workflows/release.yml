@@ -141,6 +141,9 @@ jobs:
         with:
           xcode-version: '26.0'
 
+      - name: Download iOS Platform SDK
+        run: xcodebuild -downloadPlatform iOS
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
