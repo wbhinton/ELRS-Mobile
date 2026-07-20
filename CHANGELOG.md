@@ -1,4 +1,4 @@
-## [v1.0.41-rc1] - 2026-07-11
+## [v1.0.41] - 2026-07-20
 
 ## ExpressLRS Mobile App - Changelog
 
