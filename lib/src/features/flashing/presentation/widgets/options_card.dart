@@ -410,11 +410,11 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
     BuildContext context,
     WidgetRef ref,
     String? activeId,
-    List<dynamic> profiles,
+    List<FlashingProfile> profiles,
   ) {
     if (activeId == null) return;
-    final activeProfile = profiles.firstWhere(
-      (p) => p.id == activeId,
+    final activeProfile = profiles.cast<FlashingProfile?>().firstWhere(
+      (p) => p?.id == activeId,
       orElse: () => null,
     );
     if (activeProfile == null) return;
