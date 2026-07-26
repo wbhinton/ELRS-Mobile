@@ -1,6 +1,6 @@
 ---
 title: "ข้อกำหนดทางเทคนิค"
-slug: technical_spec
+slug: th/technical_spec
 sidebar:
   order: 5
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Vývojová příručka"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: cs/development
 sidebar:
   order: 2
 ---

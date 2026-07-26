@@ -1,6 +1,6 @@
 ---
 title: "Технічна архітектура"
-slug: technical_architecture
+slug: uk/technical_architecture
 sidebar:
   order: 6
 ---

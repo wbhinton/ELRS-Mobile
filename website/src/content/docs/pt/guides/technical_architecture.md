@@ -1,6 +1,6 @@
 ---
 title: "Arquitetura Técnica"
-slug: technical_architecture
+slug: pt/technical_architecture
 sidebar:
   order: 6
 ---

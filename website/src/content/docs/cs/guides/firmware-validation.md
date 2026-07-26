@@ -1,7 +1,7 @@
 ---
 title: "Nástroje pro validaci firmwaru"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: cs/firmware-validation
 sidebar:
   order: 3
 ---

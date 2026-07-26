@@ -1,6 +1,6 @@
 ---
 title: "Spécification technique"
-slug: technical_spec
+slug: fr/technical_spec
 sidebar:
   order: 5
 ---

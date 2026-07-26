@@ -1,6 +1,6 @@
 ---
 title: "支援的硬件"
-slug: supported_hardware
+slug: zh/supported_hardware
 sidebar:
   order: 4
 ---

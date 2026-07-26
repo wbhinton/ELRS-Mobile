@@ -1,6 +1,6 @@
 ---
 title: "Stödd Hårdvara"
-slug: supported_hardware
+slug: sv/supported_hardware
 sidebar:
   order: 4
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Инструменты валидации прошивки"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: ru/firmware-validation
 sidebar:
   order: 3
 ---

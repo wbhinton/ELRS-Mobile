@@ -1,6 +1,6 @@
 ---
 title: "사용자 가이드"
-slug: user_guide
+slug: ko/user_guide
 sidebar:
   order: 1
 ---

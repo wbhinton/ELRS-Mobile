@@ -1,6 +1,6 @@
 ---
 title: "技术架构"
-slug: technical_architecture
+slug: zh/technical_architecture
 sidebar:
   order: 6
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Поддерживаемое оборудование"
-slug: supported_hardware
+slug: ru/supported_hardware
 sidebar:
   order: 4
 ---

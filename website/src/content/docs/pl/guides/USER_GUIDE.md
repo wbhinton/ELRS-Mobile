@@ -1,6 +1,6 @@
 ---
 title: "Instrukcja obsługi"
-slug: user_guide
+slug: pl/user_guide
 sidebar:
   order: 1
 ---

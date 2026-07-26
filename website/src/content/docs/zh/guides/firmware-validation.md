@@ -1,7 +1,7 @@
 ---
 title: "固件验证工具"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: zh/firmware-validation
 sidebar:
   order: 3
 ---

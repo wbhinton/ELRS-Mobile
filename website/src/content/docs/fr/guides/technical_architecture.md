@@ -1,6 +1,6 @@
 ---
 title: "Architecture Technique"
-slug: technical_architecture
+slug: fr/technical_architecture
 sidebar:
   order: 6
 ---

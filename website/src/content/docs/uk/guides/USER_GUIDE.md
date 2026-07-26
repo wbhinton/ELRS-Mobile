@@ -1,6 +1,6 @@
 ---
 title: "Посібник користувача"
-slug: user_guide
+slug: uk/user_guide
 sidebar:
   order: 1
 ---

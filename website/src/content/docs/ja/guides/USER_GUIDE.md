@@ -1,6 +1,6 @@
 ---
 title: "ユーザーガイド"
-slug: user_guide
+slug: ja/user_guide
 sidebar:
   order: 1
 ---

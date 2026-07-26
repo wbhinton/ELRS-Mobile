@@ -1,6 +1,6 @@
 ---
 title: "技术规格"
-slug: technical_spec
+slug: zh/technical_spec
 sidebar:
   order: 5
 ---

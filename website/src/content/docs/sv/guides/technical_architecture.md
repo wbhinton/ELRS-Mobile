@@ -1,6 +1,6 @@
 ---
 title: "Teknisk Arkitektur"
-slug: technical_architecture
+slug: sv/technical_architecture
 sidebar:
   order: 6
 ---

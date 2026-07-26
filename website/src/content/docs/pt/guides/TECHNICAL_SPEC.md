@@ -1,6 +1,6 @@
 ---
 title: "Especificação Técnica"
-slug: technical_spec
+slug: pt/technical_spec
 sidebar:
   order: 5
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Gebruikershandleiding"
-slug: user_guide
+slug: nl/user_guide
 sidebar:
   order: 1
 ---

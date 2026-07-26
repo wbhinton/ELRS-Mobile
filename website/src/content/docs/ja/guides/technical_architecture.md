@@ -1,6 +1,6 @@
 ---
 title: "技術アーキテクチャ"
-slug: technical_architecture
+slug: ja/technical_architecture
 sidebar:
   order: 6
 ---

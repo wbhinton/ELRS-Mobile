@@ -78,6 +78,15 @@ const schema = JSON.stringify({
 			</div>
 		</nav>
 		<slot />
+		<script is:inline src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+		<script is:inline>
+			kofiWidgetOverlay.draw('wbhinton', {
+				'type': 'floating-chat',
+				'floating-chat.donateButton.text': 'Support me',
+				'floating-chat.donateButton.background-color': '#FFB114',
+				'floating-chat.donateButton.text-color': '#fff'
+			});
+		</script>
 	</body>
 </html>
 

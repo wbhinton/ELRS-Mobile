@@ -1,6 +1,6 @@
 ---
 title: "Arsitektur Teknis"
-slug: technical_architecture
+slug: id/technical_architecture
 sidebar:
   order: 6
 ---

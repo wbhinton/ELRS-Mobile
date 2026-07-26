@@ -1,6 +1,6 @@
 ---
 title: "Perangkat Keras Didukung"
-slug: supported_hardware
+slug: id/supported_hardware
 sidebar:
   order: 4
 ---

@@ -1,7 +1,7 @@
 ---
 title: "개발 가이드"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: ko/development
 sidebar:
   order: 2
 ---

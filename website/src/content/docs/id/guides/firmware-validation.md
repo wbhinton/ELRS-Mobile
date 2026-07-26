@@ -1,7 +1,7 @@
 ---
 title: "Alat Validasi Firmware"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: id/firmware-validation
 sidebar:
   order: 3
 ---

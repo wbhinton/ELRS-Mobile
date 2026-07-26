@@ -1,6 +1,6 @@
 ---
 title: "Підтримуване обладнання"
-slug: supported_hardware
+slug: uk/supported_hardware
 sidebar:
   order: 4
 ---

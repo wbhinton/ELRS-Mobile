@@ -1,6 +1,6 @@
 ---
 title: "Matériel pris en charge"
-slug: supported_hardware
+slug: fr/supported_hardware
 sidebar:
   order: 4
 ---

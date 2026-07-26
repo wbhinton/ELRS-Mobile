@@ -197,8 +197,11 @@ async function translateDocs() {
         // Translate Body
         const translatedBody = await translateText(mdBody, locale, 'markdown document body');
 
-        // Construct target frontmatter replacing only title
+        // Construct target frontmatter replacing only title and updating slug if present
         let targetYaml = rawYaml.replace(/^title:\s*(.+)$/m, `title: ${JSON.stringify(translatedTitle)}`);
+        if (targetYaml.includes('slug:')) {
+          targetYaml = targetYaml.replace(/^slug:\s*(.+)$/m, `slug: ${locale}/$1`);
+        }
         
         const finalContent = `---\n${targetYaml}\n---\n\n${translatedBody}\n\n${hashMarker}`;
         fs.writeFileSync(destPath, finalContent, 'utf8');

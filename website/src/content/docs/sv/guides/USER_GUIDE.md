@@ -1,6 +1,6 @@
 ---
 title: "Användarguide"
-slug: user_guide
+slug: sv/user_guide
 sidebar:
   order: 1
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Ondersteunde Hardware"
-slug: supported_hardware
+slug: nl/supported_hardware
 sidebar:
   order: 4
 ---

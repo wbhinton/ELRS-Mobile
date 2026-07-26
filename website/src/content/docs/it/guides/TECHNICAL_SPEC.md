@@ -1,6 +1,6 @@
 ---
 title: "Specifiche Tecniche"
-slug: technical_spec
+slug: it/technical_spec
 sidebar:
   order: 5
 ---

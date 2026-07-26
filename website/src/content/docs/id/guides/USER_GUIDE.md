@@ -1,6 +1,6 @@
 ---
 title: "Panduan Pengguna"
-slug: user_guide
+slug: id/user_guide
 sidebar:
   order: 1
 ---

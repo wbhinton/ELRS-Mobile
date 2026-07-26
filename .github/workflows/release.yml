@@ -142,7 +142,9 @@ jobs:
           xcode-version: '26.0'
 
       - name: Download iOS Platform SDK
-        run: xcodebuild -downloadPlatform iOS
+        run: |
+          xcrun simctl list > /dev/null
+          xcodebuild -downloadPlatform iOS
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2

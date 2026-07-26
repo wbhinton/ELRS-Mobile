@@ -1,7 +1,7 @@
 ---
 title: "Guida allo Sviluppo"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: it/development
 sidebar:
   order: 2
 ---

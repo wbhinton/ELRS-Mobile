@@ -1,6 +1,6 @@
 ---
 title: "Hardware Suportado"
-slug: supported_hardware
+slug: pt/supported_hardware
 sidebar:
   order: 4
 ---

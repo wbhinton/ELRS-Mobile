@@ -1,6 +1,6 @@
 ---
 title: "Unterstützte Hardware"
-slug: supported_hardware
+slug: de/supported_hardware
 sidebar:
   order: 4
 ---

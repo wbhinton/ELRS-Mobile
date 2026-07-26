@@ -95,6 +95,7 @@ For detailed instructions and technical information, please refer to the documen
 - **Discord:** Join the [ExpressLRS Discord](https://discord.gg/expresslrs) and find me in the `#general` channel.
 - **Bug Reports:** Please use the [GitHub Issue Tracker](https://github.com/wbhinton/ELRS-Mobile/issues) for technical bugs.
 - **Feedback:** Feel free to open a [Discussion](https://github.com/wbhinton/ELRS-Mobile/discussions) for feature requests!
+- **Support:** If you find the app helpful and want to support further development: [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/H3E123WV0P)
 
 --------------------------------------------------------------------------------
 *License & Attribution*

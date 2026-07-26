@@ -1,7 +1,7 @@
 ---
 title: "Utvecklingsguide"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: sv/development
 sidebar:
   order: 2
 ---

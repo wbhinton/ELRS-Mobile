@@ -1,7 +1,7 @@
 ---
 title: "เครื่องมือตรวจสอบความถูกต้องของเฟิร์มแวร์"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: th/firmware-validation
 sidebar:
   order: 3
 ---

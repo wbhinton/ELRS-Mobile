@@ -1,7 +1,7 @@
 ---
 title: "Panduan Pengembangan"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: id/development
 sidebar:
   order: 2
 ---

@@ -1,6 +1,6 @@
 ---
 title: "지원되는 하드웨어"
-slug: supported_hardware
+slug: ko/supported_hardware
 sidebar:
   order: 4
 ---

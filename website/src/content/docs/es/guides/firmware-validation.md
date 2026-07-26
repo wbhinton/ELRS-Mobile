@@ -1,7 +1,7 @@
 ---
 title: "Herramientas de Validación de Firmware"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: es/firmware-validation
 sidebar:
   order: 3
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Руководство пользователя"
-slug: user_guide
+slug: ru/user_guide
 sidebar:
   order: 1
 ---

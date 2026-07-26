@@ -1,6 +1,6 @@
 ---
 title: "用户指南"
-slug: user_guide
+slug: zh/user_guide
 sidebar:
   order: 1
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Spesifikasi Teknis"
-slug: technical_spec
+slug: id/technical_spec
 sidebar:
   order: 5
 ---

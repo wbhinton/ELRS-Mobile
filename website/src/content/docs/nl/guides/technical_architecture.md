@@ -1,6 +1,6 @@
 ---
 title: "Technische Architectuur"
-slug: technical_architecture
+slug: nl/technical_architecture
 sidebar:
   order: 6
 ---

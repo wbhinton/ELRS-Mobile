@@ -1,6 +1,6 @@
 ---
 title: "Uživatelská příručka"
-slug: user_guide
+slug: cs/user_guide
 sidebar:
   order: 1
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Obsługiwany sprzęt"
-slug: supported_hardware
+slug: pl/supported_hardware
 sidebar:
   order: 4
 ---

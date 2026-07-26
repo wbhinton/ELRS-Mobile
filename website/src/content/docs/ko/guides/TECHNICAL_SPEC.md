@@ -1,6 +1,6 @@
 ---
 title: "기술 사양"
-slug: technical_spec
+slug: ko/technical_spec
 sidebar:
   order: 5
 ---

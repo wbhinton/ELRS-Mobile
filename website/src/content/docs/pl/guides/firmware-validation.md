@@ -1,7 +1,7 @@
 ---
 title: "Narzędzia walidacji oprogramowania układowego"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: pl/firmware-validation
 sidebar:
   order: 3
 ---

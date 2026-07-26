@@ -1,6 +1,6 @@
 ---
 title: "Технічна специфікація"
-slug: technical_spec
+slug: uk/technical_spec
 sidebar:
   order: 5
 ---

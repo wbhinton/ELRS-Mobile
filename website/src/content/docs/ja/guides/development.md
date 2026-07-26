@@ -1,7 +1,7 @@
 ---
 title: "開発ガイド"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: ja/development
 sidebar:
   order: 2
 ---

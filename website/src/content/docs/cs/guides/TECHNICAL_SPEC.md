@@ -1,6 +1,6 @@
 ---
 title: "Technická specifikace"
-slug: technical_spec
+slug: cs/technical_spec
 sidebar:
   order: 5
 ---

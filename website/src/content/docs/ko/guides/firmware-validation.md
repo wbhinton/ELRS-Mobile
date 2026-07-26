@@ -1,7 +1,7 @@
 ---
 title: "펌웨어 검증 도구"
 description: Detailed documentation for the ExpressLRS Logic Validator and Ground Truth Auditor.
-slug: firmware-validation
+slug: ko/firmware-validation
 sidebar:
   order: 3
 ---

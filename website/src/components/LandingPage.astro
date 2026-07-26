@@ -311,8 +311,13 @@ const localizedPath = (path: string) => {
 			<div class="text-[0.7rem] max-w-3xl mx-auto my-6 opacity-60 leading-relaxed">
 				{t("footer.trademark")}
 			</div>
-			<div class="mt-6 px-6 py-3 bg-primary/5 rounded-full inline-block">
-				{t("footer.support")} <a href="https://opencollective.com/expresslrs/donate" class="text-primary font-bold no-underline hover:underline ml-2">{t("footer.donate")}</a>
+			<div class="mt-6 flex flex-wrap justify-center gap-4 text-xs md:text-sm">
+				<div class="px-6 py-3 bg-white/5 rounded-full inline-block">
+					Support ELRS Mobile: <a href="https://ko-fi.com/H3E123WV0P" target="_blank" rel="noopener" class="text-primary font-bold no-underline hover:underline ml-2" onclick="gtag('event', 'kofi_support_click', { 'location': 'footer' });">Buy me a coffee</a>
+				</div>
+				<div class="px-6 py-3 bg-primary/5 rounded-full inline-block">
+					{t("footer.support")} <a href="https://opencollective.com/expresslrs/donate" target="_blank" rel="noopener" class="text-primary font-bold no-underline hover:underline ml-2" onclick="gtag('event', 'elrs_donation_click', { 'location': 'footer' });">{t("footer.donate")}</a>
+				</div>
 			</div>
 		</footer>
 	</main>

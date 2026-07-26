@@ -1,7 +1,7 @@
 ---
 title: "Guide de développement"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: fr/development
 sidebar:
   order: 2
 ---

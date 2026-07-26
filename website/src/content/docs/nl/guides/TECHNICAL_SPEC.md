@@ -1,6 +1,6 @@
 ---
 title: "Technische Specificatie"
-slug: technical_spec
+slug: nl/technical_spec
 sidebar:
   order: 5
 ---

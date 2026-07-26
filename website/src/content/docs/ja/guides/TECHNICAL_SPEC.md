@@ -1,6 +1,6 @@
 ---
 title: "技術仕様"
-slug: technical_spec
+slug: ja/technical_spec
 sidebar:
   order: 5
 ---

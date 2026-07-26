@@ -1,6 +1,6 @@
 ---
 title: "Guía del usuario"
-slug: user_guide
+slug: es/user_guide
 sidebar:
   order: 1
 ---

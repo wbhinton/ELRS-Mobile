@@ -56,6 +56,27 @@ export default defineConfig({
 						gtag('config', 'G-8X6YE82V0S');
 					`,
         },
+        {
+          tag: 'script',
+          attrs: {
+            src: 'https://storage.ko-fi.com/cdn/scripts/overlay-widget.js',
+          },
+        },
+        {
+          tag: 'script',
+          content: `
+            window.addEventListener('DOMContentLoaded', () => {
+              if (typeof kofiWidgetOverlay !== 'undefined') {
+                kofiWidgetOverlay.draw('wbhinton', {
+                  'type': 'floating-chat',
+                  'floating-chat.donateButton.text': 'Support me',
+                  'floating-chat.donateButton.background-color': '#FFB114',
+                  'floating-chat.donateButton.text-color': '#fff'
+                });
+              }
+            });
+          `,
+        },
       ],
       social: [
         {

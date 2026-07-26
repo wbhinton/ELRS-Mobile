@@ -1,6 +1,6 @@
 ---
 title: "ฮาร์ดแวร์ที่รองรับ"
-slug: supported_hardware
+slug: th/supported_hardware
 sidebar:
   order: 4
 ---

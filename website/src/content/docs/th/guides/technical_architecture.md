@@ -1,6 +1,6 @@
 ---
 title: "สถาปัตยกรรมทางเทคนิค"
-slug: technical_architecture
+slug: th/technical_architecture
 sidebar:
   order: 6
 ---

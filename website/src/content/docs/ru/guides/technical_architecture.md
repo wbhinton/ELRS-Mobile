@@ -1,6 +1,6 @@
 ---
 title: "Техническая архитектура"
-slug: technical_architecture
+slug: ru/technical_architecture
 sidebar:
   order: 6
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Guia de Desenvolvimento"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: pt/development
 sidebar:
   order: 2
 ---

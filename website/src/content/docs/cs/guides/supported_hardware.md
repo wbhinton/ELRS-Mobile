@@ -1,6 +1,6 @@
 ---
 title: "Podporovaný hardware"
-slug: supported_hardware
+slug: cs/supported_hardware
 sidebar:
   order: 4
 ---

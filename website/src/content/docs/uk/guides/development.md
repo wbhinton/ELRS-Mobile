@@ -1,7 +1,7 @@
 ---
 title: "Посібник розробника"
 description: Getting started with the ELRS Mobile codebase, project architecture, and developer workflows.
-slug: development
+slug: uk/development
 sidebar:
   order: 2
 ---

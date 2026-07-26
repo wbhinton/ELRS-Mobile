@@ -1,6 +1,6 @@
 ---
 title: "Hardware compatible"
-slug: supported_hardware
+slug: es/supported_hardware
 sidebar:
   order: 4
 ---

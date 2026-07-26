@@ -1,6 +1,6 @@
 ---
 title: "対応ハードウェア"
-slug: supported_hardware
+slug: ja/supported_hardware
 sidebar:
   order: 4
 ---
