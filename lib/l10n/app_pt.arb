@@ -39,6 +39,8 @@
   "appVersionLabel": "Versão da Aplicação",
   "legalLicenseLabel": "Informação Legal e Licença",
   "standardDisclaimerAndGplv3Label": "Aviso legal padrão e Licença GPLv3",
+  "supportDevelopmentLabel": "Apoiar o Desenvolvimento",
+  "supportDevelopmentSubtitle": "Apoie o desenvolvedor via Ko-fi",
   "developerSectionLabel": "Programador",
   "developerModeEnabledLabel": "Modo de Programador Ativado",
   "testSentryErrorCaptureLabel": "Testar Captura de Erros Sentry",

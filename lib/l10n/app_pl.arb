@@ -39,6 +39,8 @@
   "appVersionLabel": "Wersja aplikacji",
   "legalLicenseLabel": "Informacje prawne i licencja",
   "standardDisclaimerAndGplv3Label": "Standardowe wyłączenie odpowiedzialności i licencja GPLv3",
+  "supportDevelopmentLabel": "Wsparcie rozwoju",
+  "supportDevelopmentSubtitle": "Wesprzyj dewelopera przez Ko-fi",
   "developerSectionLabel": "Deweloper",
   "developerModeEnabledLabel": "Tryb dewelopera włączony",
   "testSentryErrorCaptureLabel": "Testuj przechwytywanie błędów Sentry",

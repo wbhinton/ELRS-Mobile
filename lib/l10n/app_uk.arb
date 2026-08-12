@@ -39,6 +39,8 @@
   "appVersionLabel": "Версія програми",
   "legalLicenseLabel": "Юридична інформація та ліцензія",
   "standardDisclaimerAndGplv3Label": "Стандартна відмова від відповідальності та ліцензія GPLv3",
+  "supportDevelopmentLabel": "Підтримати розробку",
+  "supportDevelopmentSubtitle": "Підтримати розробника через Ko-fi",
   "developerSectionLabel": "Розробник",
   "developerModeEnabledLabel": "Режим розробника увімкнено",
   "testSentryErrorCaptureLabel": "Протестувати захоплення помилок Sentry",

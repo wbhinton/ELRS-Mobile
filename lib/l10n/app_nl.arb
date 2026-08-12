@@ -39,6 +39,8 @@
   "appVersionLabel": "Appversie",
   "legalLicenseLabel": "Juridisch en licentie",
   "standardDisclaimerAndGplv3Label": "Standaard disclaimer en GPLv3-licentie",
+  "supportDevelopmentLabel": "Ondersteun de ontwikkeling",
+  "supportDevelopmentSubtitle": "Ondersteun de ontwikkelaar via Ko-fi",
   "developerSectionLabel": "Ontwikkelaar",
   "developerModeEnabledLabel": "Ontwikkelaarsmodus ingeschakeld",
   "testSentryErrorCaptureLabel": "Test Sentry foutregistratie",

@@ -138,6 +138,12 @@ class AppLocalizationsCs extends AppLocalizations {
       'Standardní prohlášení a licence GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'Podpora vývoje';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Podpořte vývojáře přes Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Vývojář';
 
   @override

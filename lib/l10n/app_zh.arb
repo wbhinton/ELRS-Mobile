@@ -39,6 +39,8 @@
   "appVersionLabel": "应用版本",
   "legalLicenseLabel": "法律与许可",
   "standardDisclaimerAndGplv3Label": "标准免责声明和 GPLv3 许可证",
+  "supportDevelopmentLabel": "支持开发",
+  "supportDevelopmentSubtitle": "通过 Ko-fi 支持开发者",
   "developerSectionLabel": "开发者",
   "developerModeEnabledLabel": "开发者模式已启用",
   "testSentryErrorCaptureLabel": "测试 Sentry 错误捕获",

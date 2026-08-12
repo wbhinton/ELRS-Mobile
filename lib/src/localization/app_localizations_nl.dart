@@ -138,6 +138,13 @@ class AppLocalizationsNl extends AppLocalizations {
       'Standaard disclaimer en GPLv3-licentie';
 
   @override
+  String get supportDevelopmentLabel => 'Ondersteun de ontwikkeling';
+
+  @override
+  String get supportDevelopmentSubtitle =>
+      'Ondersteun de ontwikkelaar via Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Ontwikkelaar';
 
   @override

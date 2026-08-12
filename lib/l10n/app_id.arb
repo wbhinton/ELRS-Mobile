@@ -39,6 +39,8 @@
   "appVersionLabel": "Versi Aplikasi",
   "legalLicenseLabel": "Hukum & Lisensi",
   "standardDisclaimerAndGplv3Label": "Penyangkalan standar dan Lisensi GPLv3",
+  "supportDevelopmentLabel": "Dukung Pengembangan",
+  "supportDevelopmentSubtitle": "Dukung pengembang melalui Ko-fi",
   "developerSectionLabel": "Pengembang",
   "developerModeEnabledLabel": "Mode Pengembang Diaktifkan",
   "testSentryErrorCaptureLabel": "Uji Pengambilan Kesalahan Sentry",

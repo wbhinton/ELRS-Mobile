@@ -139,6 +139,12 @@ class AppLocalizationsPl extends AppLocalizations {
       'Standardowe wyłączenie odpowiedzialności i licencja GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'Wsparcie rozwoju';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Wesprzyj dewelopera przez Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Deweloper';
 
   @override

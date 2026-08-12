@@ -39,6 +39,8 @@
   "appVersionLabel": "アプリのバージョン",
   "legalLicenseLabel": "法律情報とライセンス",
   "standardDisclaimerAndGplv3Label": "標準免責事項とGPLv3ライセンス",
+  "supportDevelopmentLabel": "開発支援",
+  "supportDevelopmentSubtitle": "Ko-fiで開発者を支援",
   "developerSectionLabel": "開発者向け",
   "developerModeEnabledLabel": "開発者モード有効",
   "testSentryErrorCaptureLabel": "Sentryエラーキャプチャのテスト",

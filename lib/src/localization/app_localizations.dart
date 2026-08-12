@@ -366,6 +366,18 @@ abstract class AppLocalizations {
   /// **'Standard disclaimer and GPLv3 License'**
   String get standardDisclaimerAndGplv3Label;
 
+  /// No description provided for @supportDevelopmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Development'**
+  String get supportDevelopmentLabel;
+
+  /// No description provided for @supportDevelopmentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support the developer via Ko-fi'**
+  String get supportDevelopmentSubtitle;
+
   /// No description provided for @developerSectionLabel.
   ///
   /// In en, this message translates to:

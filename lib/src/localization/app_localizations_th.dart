@@ -137,6 +137,12 @@ class AppLocalizationsTh extends AppLocalizations {
       'ข้อความปฏิเสธความรับผิดชอบมาตรฐานและใบอนุญาต GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'สนับสนุนการพัฒนา';
+
+  @override
+  String get supportDevelopmentSubtitle => 'สนับสนุนผู้พัฒนาผ่าน Ko-fi';
+
+  @override
   String get developerSectionLabel => 'นักพัฒนา';
 
   @override

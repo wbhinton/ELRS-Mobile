@@ -138,6 +138,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Descargo de responsabilidad estándar y Licencia GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'Apoyar el desarrollo';
+
+  @override
+  String get supportDevelopmentSubtitle =>
+      'Apoya al desarrollador a través de Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Desarrollador';
 
   @override

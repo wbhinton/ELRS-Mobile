@@ -137,6 +137,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Стандартное уведомление об отказе от ответственности и лицензия GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'Поддержать разработку';
+
+  @override
+  String get supportDevelopmentSubtitle =>
+      'Поддержите разработчика через Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Разработчик';
 
   @override

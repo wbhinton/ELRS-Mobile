@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/presentation/responsive_layout.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_master_detail.dart';
@@ -942,12 +943,26 @@ class SettingsScreen extends HookConsumerWidget {
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () => context.push('/legal'),
                 ),
+                ListTile(
+                  title: Text(l10n.supportDevelopmentLabel),
+                  subtitle: Text(l10n.supportDevelopmentSubtitle),
+                  leading: const Icon(Icons.coffee, color: Color(0xFFFF5E5B)),
+                  trailing: const Icon(Icons.open_in_new, size: 16),
+                  onTap: () => _launchUrl('https://ko-fi.com/H3E123WV0P'),
+                ),
               ],
             ),
           ),
         ),
       ],
     );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 
   void _showAddProfileDialog(BuildContext context, WidgetRef ref) {

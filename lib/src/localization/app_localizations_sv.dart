@@ -138,6 +138,12 @@ class AppLocalizationsSv extends AppLocalizations {
       'Standardfriskrivning och GPLv3-licens';
 
   @override
+  String get supportDevelopmentLabel => 'Stöd utvecklingen';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Stöd utvecklaren via Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Utvecklare';
 
   @override

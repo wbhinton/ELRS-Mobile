@@ -134,6 +134,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get standardDisclaimerAndGplv3Label => '标准免责声明和 GPLv3 许可证';
 
   @override
+  String get supportDevelopmentLabel => '支持开发';
+
+  @override
+  String get supportDevelopmentSubtitle => '通过 Ko-fi 支持开发者';
+
+  @override
   String get developerSectionLabel => '开发者';
 
   @override

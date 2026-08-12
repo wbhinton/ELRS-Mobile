@@ -137,6 +137,12 @@ class AppLocalizationsId extends AppLocalizations {
       'Penyangkalan standar dan Lisensi GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'Dukung Pengembangan';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Dukung pengembang melalui Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Pengembang';
 
   @override

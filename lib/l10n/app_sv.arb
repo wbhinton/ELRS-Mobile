@@ -39,6 +39,8 @@
   "appVersionLabel": "Appversion",
   "legalLicenseLabel": "Juridiskt & licens",
   "standardDisclaimerAndGplv3Label": "Standardfriskrivning och GPLv3-licens",
+  "supportDevelopmentLabel": "Stöd utvecklingen",
+  "supportDevelopmentSubtitle": "Stöd utvecklaren via Ko-fi",
   "developerSectionLabel": "Utvecklare",
   "developerModeEnabledLabel": "Utvecklarläge aktiverat",
   "testSentryErrorCaptureLabel": "Testa Sentry-felinsamling",

@@ -134,6 +134,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get standardDisclaimerAndGplv3Label => '표준 면책 조항 및 GPLv3 라이선스';
 
   @override
+  String get supportDevelopmentLabel => '개발 지원';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Ko-fi를 통해 개발자를 지원하세요';
+
+  @override
   String get developerSectionLabel => '개발자';
 
   @override

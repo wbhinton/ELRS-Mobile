@@ -137,6 +137,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Standard disclaimer and GPLv3 License';
 
   @override
+  String get supportDevelopmentLabel => 'Support Development';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Support the developer via Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Developer';
 
   @override

@@ -39,6 +39,8 @@
   "appVersionLabel": "Verze aplikace",
   "legalLicenseLabel": "Právní informace a licence",
   "standardDisclaimerAndGplv3Label": "Standardní prohlášení a licence GPLv3",
+  "supportDevelopmentLabel": "Podpora vývoje",
+  "supportDevelopmentSubtitle": "Podpořte vývojáře přes Ko-fi",
   "developerSectionLabel": "Vývojář",
   "developerModeEnabledLabel": "Režim vývojáře povolen",
   "testSentryErrorCaptureLabel": "Test zachycení chyb Sentry",

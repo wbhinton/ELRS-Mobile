@@ -39,6 +39,8 @@
   "appVersionLabel": "เวอร์ชันแอป",
   "legalLicenseLabel": "กฎหมายและใบอนุญาต",
   "standardDisclaimerAndGplv3Label": "ข้อความปฏิเสธความรับผิดชอบมาตรฐานและใบอนุญาต GPLv3",
+  "supportDevelopmentLabel": "สนับสนุนการพัฒนา",
+  "supportDevelopmentSubtitle": "สนับสนุนผู้พัฒนาผ่าน Ko-fi",
   "developerSectionLabel": "นักพัฒนา",
   "developerModeEnabledLabel": "เปิดใช้งานโหมดนักพัฒนา",
   "testSentryErrorCaptureLabel": "ทดสอบการจับข้อผิดพลาด Sentry",

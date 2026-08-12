@@ -67,6 +67,8 @@
   "appVersionLabel": "App Version",
   "legalLicenseLabel": "Legal & License",
   "standardDisclaimerAndGplv3Label": "Standard disclaimer and GPLv3 License",
+  "supportDevelopmentLabel": "Support Development",
+  "supportDevelopmentSubtitle": "Support the developer via Ko-fi",
   "developerSectionLabel": "Developer",
   "developerModeEnabledLabel": "Developer Mode Enabled",
   "testSentryErrorCaptureLabel": "Test Sentry Error Capture",

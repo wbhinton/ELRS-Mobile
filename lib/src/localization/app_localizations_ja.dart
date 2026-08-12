@@ -135,6 +135,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get standardDisclaimerAndGplv3Label => '標準免責事項とGPLv3ライセンス';
 
   @override
+  String get supportDevelopmentLabel => '開発支援';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Ko-fiで開発者を支援';
+
+  @override
   String get developerSectionLabel => '開発者向け';
 
   @override

@@ -137,6 +137,12 @@ class AppLocalizationsPt extends AppLocalizations {
       'Aviso legal padrão e Licença GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'Apoiar o Desenvolvimento';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Apoie o desenvolvedor via Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Programador';
 
   @override

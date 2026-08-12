@@ -138,6 +138,12 @@ class AppLocalizationsUk extends AppLocalizations {
       'Стандартна відмова від відповідальності та ліцензія GPLv3';
 
   @override
+  String get supportDevelopmentLabel => 'Підтримати розробку';
+
+  @override
+  String get supportDevelopmentSubtitle => 'Підтримати розробника через Ko-fi';
+
+  @override
   String get developerSectionLabel => 'Розробник';
 
   @override
