@@ -1,3 +1,12 @@
+## [v1.0.42] - 2026-08-12
+
+### New Features
+
+*   **Support Link:** Added a Ko-fi support link in the Settings screen ("About & Legal" category) to allow users to support the development of the application.
+*   **Localization:** Auto-translated support link labels across all supported languages (cs, de, es, fr, id, it, ja, ko, nl, pl, pt, ru, sv, th, uk, zh).
+
+---
+
 ## [v1.0.41] - 2026-07-20
 
 ## ExpressLRS Mobile App - Changelog
