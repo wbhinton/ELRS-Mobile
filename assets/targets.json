@@ -1813,6 +1813,20 @@
                 "firmware": "Unified_ESP8285_900_RX",
                 "prior_target_name": "DIY_900_RX_ESP8285_SX127x"
             },
+            "nanov3": {
+                "product_name": "GEPRC Nano 900MHz V3 RX",
+                "lua_name": "GEPRC Nano V3 RX",
+                "layout_file": "Generic C3 LR1121.json",
+                "overlay": {
+                    "power_default": 3,
+                    "power_values_dual": null,
+                    "power_lna_gain": 0
+                },
+                "upload_methods": ["uart", "wifi", "betaflight"],
+                "min_version": "3.6.0",
+                "platform": "esp32-c3",
+                "firmware": "Unified_ESP32C3_LR1121_RX"
+            },
             "dual": {
                 "product_name": "GEPRC True Diversity 900MHz RX",
                 "lua_name": "GEPRC Dual RX",
@@ -2284,6 +2298,15 @@
                 "product_name": "HelloRadio IntV12 2.4/900 TX",
                 "lua_name": "HR V12 S-Band",
                 "layout_file": "HelloRadio V12.json",
+                "upload_methods": ["etx", "wifi"],
+                "min_version": "3.6.0",
+                "platform": "esp32",
+                "firmware": "Unified_ESP32_LR1121_TX"
+            },
+            "v15": {
+                "product_name": "HelloRadio IntV15 2.4/900 TX",
+                "lua_name": "HR V15 X-Band",
+                "layout_file": "HelloRadio V15.json",
                 "upload_methods": ["etx", "wifi"],
                 "min_version": "3.6.0",
                 "platform": "esp32",
@@ -3271,7 +3294,7 @@
                 "prior_target_name": "RadioMaster_Zorro_2400_TX"
             },
             "tx16s": {
-                "product_name": "RadioMaster TX16S Internal 2.4GHz TX",
+                "product_name": "RadioMaster TX16S MK2 Internal 2.4GHz TX",
                 "lua_name": "RM TX16S",
                 "layout_file": "Radiomaster TX16S 2400.json",
                 "upload_methods": ["uart", "wifi", "etx"],
@@ -3281,7 +3304,7 @@
                 "prior_target_name": "RadioMaster_TX16S_2400_TX"
             },
             "tx12": {
-                "product_name": "RadioMaster TX12 Internal 2.4GHz TX",
+                "product_name": "RadioMaster TX12 MK2 Internal 2.4GHz TX",
                 "lua_name": "RM TX12",
                 "layout_file": "Radiomaster Zorro.json",
                 "upload_methods": ["uart", "wifi", "etx"],
@@ -4076,6 +4099,22 @@
                 "min_version": "3.5.0",
                 "platform": "esp32-c3",
                 "firmware": "Unified_ESP32C3_2400_RX"
+            }
+        },
+        "rx_900": {
+            "upoint_900_nano_rx": {
+                "product_name": "UPOINT Nano 900M RX",
+                "lua_name": "UPOINT 900 Nano",
+                "layout_file": "Generic C3 900.json",
+                "overlay": {
+                    "led_rgb": -1,
+                    "led_rgb_isgrb": null,
+                    "led": 8
+                },
+                "upload_methods": ["uart", "wifi", "betaflight"],
+                "min_version": "3.5.0",
+                "platform": "esp32-c3",
+                "firmware": "Unified_ESP32C3_900_RX"
             }
         }
     },
