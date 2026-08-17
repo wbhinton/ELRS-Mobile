@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:logging/logging.dart';
 
@@ -786,15 +785,6 @@ class FlashingController extends _$FlashingController {
 
       ref.read(isFlashingProvider.notifier).setFlashing(false);
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);
-      Sentry.metrics.count(
-        'firmware_flash_success',
-        1,
-        attributes: {
-          'target': SentryAttribute.string(
-            state.selectedTarget?.name ?? 'unknown',
-          ),
-        },
-      );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Flashed', {
         'target': state.selectedTarget?.name ?? 'Unknown',
         'version': state.selectedVersion ?? 'Unknown',
@@ -829,11 +819,6 @@ class FlashingController extends _$FlashingController {
           progress: 0.0,
         );
       }
-      Sentry.metrics.count(
-        'firmware_flash_failure',
-        1,
-        attributes: {'error': SentryAttribute.string(state.status.toString())},
-      );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Flash Error', {
         'errorType': state.status.toString(),
         'error': errorMsg,

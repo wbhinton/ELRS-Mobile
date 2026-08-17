@@ -144,20 +144,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get supportDevelopmentSubtitle => 'Підтримати розробника через Ko-fi';
 
   @override
-  String get developerSectionLabel => 'Розробник';
-
-  @override
-  String get developerModeEnabledLabel => 'Режим розробника увімкнено';
-
-  @override
-  String get testSentryErrorCaptureLabel =>
-      'Протестувати захоплення помилок Sentry';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Надсилає тестову виняткову ситуацію до Sentry — перевірте панель приладів';
-
-  @override
   String get shareAnalyticsLabel => 'Поділитися аналітикою';
 
   @override

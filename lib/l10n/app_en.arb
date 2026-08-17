@@ -24,9 +24,15 @@
   "@brandUpdateMessage": {
     "description": "Status message for firmware updates with immutable brand placeholders.",
     "placeholders": {
-      "expressLRS": { "type": "String" },
-      "radioMaster": { "type": "String" },
-      "betaFPV": { "type": "String" }
+      "expressLRS": {
+        "type": "String"
+      },
+      "radioMaster": {
+        "type": "String"
+      },
+      "betaFPV": {
+        "type": "String"
+      }
     }
   },
   "flashDeviceLabel": "Flash Device",
@@ -45,7 +51,9 @@
   "connectedLabel": "Connected: {ip}",
   "@connectedLabel": {
     "placeholders": {
-      "ip": { "type": "String" }
+      "ip": {
+        "type": "String"
+      }
     }
   },
   "flashingWifiCategoryLabel": "Flashing & WiFi",
@@ -69,10 +77,6 @@
   "standardDisclaimerAndGplv3Label": "Standard disclaimer and GPLv3 License",
   "supportDevelopmentLabel": "Support Development",
   "supportDevelopmentSubtitle": "Support the developer via Ko-fi",
-  "developerSectionLabel": "Developer",
-  "developerModeEnabledLabel": "Developer Mode Enabled",
-  "testSentryErrorCaptureLabel": "Test Sentry Error Capture",
-  "testSentryErrorCaptureSubtitle": "Sends a test exception to Sentry — check the dashboard",
   "shareAnalyticsLabel": "Share Analytics",
   "shareAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data",
   "expertModeLabel": "Expert Mode",
@@ -145,4 +149,3 @@
   "regDomainEu433": "EU (433MHz)",
   "regDomainUs433": "US (433MHz)"
 }
-

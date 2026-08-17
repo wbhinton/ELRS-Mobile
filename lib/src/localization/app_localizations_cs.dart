@@ -144,19 +144,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get supportDevelopmentSubtitle => 'Podpořte vývojáře přes Ko-fi';
 
   @override
-  String get developerSectionLabel => 'Vývojář';
-
-  @override
-  String get developerModeEnabledLabel => 'Režim vývojáře povolen';
-
-  @override
-  String get testSentryErrorCaptureLabel => 'Test zachycení chyb Sentry';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Odešle testovací výjimku do Sentry — zkontrolujte řídicí panel';
-
-  @override
   String get shareAnalyticsLabel => 'Sdílet analýzy';
 
   @override

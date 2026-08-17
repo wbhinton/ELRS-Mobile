@@ -146,19 +146,6 @@ class AppLocalizationsDe extends AppLocalizations {
       'Unterstütze den Entwickler über Ko-fi';
 
   @override
-  String get developerSectionLabel => 'Entwickler';
-
-  @override
-  String get developerModeEnabledLabel => 'Entwicklermodus aktiviert';
-
-  @override
-  String get testSentryErrorCaptureLabel => 'Sentry-Fehlererfassung testen';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Sendet eine Testausnahme an Sentry – prüfen Sie das Dashboard';
-
-  @override
   String get shareAnalyticsLabel => 'Analysedaten teilen';
 
   @override

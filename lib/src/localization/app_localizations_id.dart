@@ -143,19 +143,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get supportDevelopmentSubtitle => 'Dukung pengembang melalui Ko-fi';
 
   @override
-  String get developerSectionLabel => 'Pengembang';
-
-  @override
-  String get developerModeEnabledLabel => 'Mode Pengembang Diaktifkan';
-
-  @override
-  String get testSentryErrorCaptureLabel => 'Uji Pengambilan Kesalahan Sentry';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Mengirim pengecualian uji ke Sentry — periksa dasbor';
-
-  @override
   String get shareAnalyticsLabel => 'Bagikan Analitik';
 
   @override

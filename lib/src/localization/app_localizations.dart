@@ -378,30 +378,6 @@ abstract class AppLocalizations {
   /// **'Support the developer via Ko-fi'**
   String get supportDevelopmentSubtitle;
 
-  /// No description provided for @developerSectionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Developer'**
-  String get developerSectionLabel;
-
-  /// No description provided for @developerModeEnabledLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Developer Mode Enabled'**
-  String get developerModeEnabledLabel;
-
-  /// No description provided for @testSentryErrorCaptureLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Test Sentry Error Capture'**
-  String get testSentryErrorCaptureLabel;
-
-  /// No description provided for @testSentryErrorCaptureSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sends a test exception to Sentry — check the dashboard'**
-  String get testSentryErrorCaptureSubtitle;
-
   /// No description provided for @shareAnalyticsLabel.
   ///
   /// In en, this message translates to:

@@ -16,7 +16,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:logging/logging.dart';
 import 'package:nsd/nsd.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../analytics/analytics_service.dart';
 import 'connectivity_service.dart';
 import '../../features/flashing/state/flashing_provider.dart';
 
@@ -117,7 +116,6 @@ class DiscoveryService {
     _isScanning = true;
 
     _log.info('Discovery Service started (nsd).');
-    _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Started');
       
     // Attempt nsd discovery with SocketException suppression
     try {
@@ -135,10 +133,6 @@ class DiscoveryService {
             if (host != null) {
               _log.info('ELRS device found via nsd at host: $host');
               _hasFoundDevice = true;
-              _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found', {
-                'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
-                'method': 'nsd'
-              });
               _ipController.add(host);
               break;
             }
@@ -152,7 +146,6 @@ class DiscoveryService {
       _isScanning = false;
     } catch (e) {
       _log.warning('Discovery failed to start: $e');
-      _ref?.read(analyticsServiceProvider).trackEvent('mDNS Scan Failed', {'error': e.toString()});
     }
   }
 
@@ -198,10 +191,6 @@ class DiscoveryService {
           if (host != null) {
             _log.info('mDNS found-state reset: Found cached device in services list at host: $host');
             _hasFoundDevice = true;
-            _ref?.read(analyticsServiceProvider).trackEvent('mDNS Device Found (Cached)', {
-              'connection_type': host == '10.0.0.1' ? 'Access Point' : 'Home WiFi',
-              'method': 'nsd'
-            });
             _ipController.add(host);
             break;
           }

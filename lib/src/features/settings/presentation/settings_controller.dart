@@ -13,7 +13,6 @@ part 'settings_controller.g.dart';
 @freezed
 abstract class SettingsState with _$SettingsState {
   const factory SettingsState({
-    @Default(false) bool developerMode,
     @Default(false) bool forceMobileData,
     @Default(0) int defaultDomain2400,
     @Default(1) int defaultDomain900,
@@ -63,7 +62,6 @@ class SettingsController extends _$SettingsController {
     );
 
     state = state.copyWith(
-      developerMode: prefs.getBool('developerMode') ?? false,
       forceMobileData: prefs.getBool('forceMobileData') ?? false,
       defaultDomain2400: prefs.getInt('defaultDomain2400') ?? 0,
       defaultDomain900: prefs.getInt('defaultDomain900') ?? 1,
@@ -168,13 +166,6 @@ class SettingsController extends _$SettingsController {
       homeWifiPassword: activeProfile.wifiPassword,
       wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
     );
-  }
-
-  Future<void> toggleDeveloperMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    final newValue = !state.developerMode;
-    await prefs.setBool('developerMode', newValue);
-    state = state.copyWith(developerMode: newValue);
   }
 
   Future<void> setForceMobileData(bool value) async {

@@ -144,19 +144,6 @@ class AppLocalizationsSv extends AppLocalizations {
   String get supportDevelopmentSubtitle => 'Stöd utvecklaren via Ko-fi';
 
   @override
-  String get developerSectionLabel => 'Utvecklare';
-
-  @override
-  String get developerModeEnabledLabel => 'Utvecklarläge aktiverat';
-
-  @override
-  String get testSentryErrorCaptureLabel => 'Testa Sentry-felinsamling';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Skickar ett testundantag till Sentry – kontrollera instrumentpanelen';
-
-  @override
   String get shareAnalyticsLabel => 'Dela analysdata';
 
   @override

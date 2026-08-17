@@ -140,18 +140,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get supportDevelopmentSubtitle => '通过 Ko-fi 支持开发者';
 
   @override
-  String get developerSectionLabel => '开发者';
-
-  @override
-  String get developerModeEnabledLabel => '开发者模式已启用';
-
-  @override
-  String get testSentryErrorCaptureLabel => '测试 Sentry 错误捕获';
-
-  @override
-  String get testSentryErrorCaptureSubtitle => '向 Sentry 发送一个测试异常 — 请检查仪表盘';
-
-  @override
   String get shareAnalyticsLabel => '分享分析数据';
 
   @override

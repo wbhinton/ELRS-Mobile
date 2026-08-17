@@ -11,7 +11,6 @@
 // GNU General Public License for more details.
 
 import 'dart:typed_data';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
@@ -43,22 +42,10 @@ class DeviceRepository {
   /// Fetches the current configuration from the device.
   /// Endpoint: GET /config
   Future<RuntimeConfig> fetchConfig() async {
-    final stopwatch = Stopwatch()..start();
     try {
       final response = await _dio.get('/config');
-      stopwatch.stop();
-      Sentry.metrics.distribution(
-        'config_fetch_latency',
-        stopwatch.elapsedMilliseconds.toDouble(),
-        unit: SentryMetricUnit.millisecond,
-      );
-      _ref?.read(analyticsServiceProvider).trackEvent('Device Connected');
       return RuntimeConfig.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
-      _ref?.read(analyticsServiceProvider).trackEvent(
-        'Device Connection Failed',
-        {'error': e.toString()},
-      );
       throw Exception('Failed to fetch config: $e');
     }
   }

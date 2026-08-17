@@ -145,20 +145,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get supportDevelopmentSubtitle => 'Wesprzyj dewelopera przez Ko-fi';
 
   @override
-  String get developerSectionLabel => 'Deweloper';
-
-  @override
-  String get developerModeEnabledLabel => 'Tryb dewelopera włączony';
-
-  @override
-  String get testSentryErrorCaptureLabel =>
-      'Testuj przechwytywanie błędów Sentry';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Wysyła wyjątek testowy do Sentry — sprawdź panel sterowania';
-
-  @override
   String get shareAnalyticsLabel => 'Udostępnij dane analityczne';
 
   @override

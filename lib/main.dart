@@ -60,6 +60,27 @@ Future<void> main() async {
       options.dsn = sentryDsn;
       // Performance monitoring disabled entirely per user preference to focus purely on errors
       options.debug = kDebugMode;
+      
+      // Sample 50% of captured errors to save event quota in stable maturity
+      options.sampleRate = 0.5;
+
+      // Filter out expected, benign network/socket drops that occur during device reboots or disconnects
+      options.beforeSend = (event, hint) {
+        final throwable = event.throwable;
+        if (throwable != null) {
+          final errStr = throwable.toString().toLowerCase();
+          if (errStr.contains('software caused connection abort') ||
+              errStr.contains('connection closed before full header') ||
+              errStr.contains('connection reset by peer') ||
+              errStr.contains('broken pipe') ||
+              errStr.contains('connection refused') ||
+              errStr.contains('socketexception') ||
+              errStr.contains('handshake failed')) {
+            return null; // Ignore network/socket errors
+          }
+        }
+        return event;
+      };
     }).catchError((e) {
       debugPrint('[Main] Sentry initialization failed: $e');
     });

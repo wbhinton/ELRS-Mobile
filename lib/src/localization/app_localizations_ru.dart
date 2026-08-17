@@ -144,19 +144,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Поддержите разработчика через Ko-fi';
 
   @override
-  String get developerSectionLabel => 'Разработчик';
-
-  @override
-  String get developerModeEnabledLabel => 'Режим разработчика включен';
-
-  @override
-  String get testSentryErrorCaptureLabel => 'Тест перехвата ошибок Sentry';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Отправляет тестовое исключение в Sentry — проверьте панель управления';
-
-  @override
   String get shareAnalyticsLabel => 'Делиться аналитикой';
 
   @override

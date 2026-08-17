@@ -143,19 +143,6 @@ class AppLocalizationsTh extends AppLocalizations {
   String get supportDevelopmentSubtitle => 'สนับสนุนผู้พัฒนาผ่าน Ko-fi';
 
   @override
-  String get developerSectionLabel => 'นักพัฒนา';
-
-  @override
-  String get developerModeEnabledLabel => 'เปิดใช้งานโหมดนักพัฒนา';
-
-  @override
-  String get testSentryErrorCaptureLabel => 'ทดสอบการจับข้อผิดพลาด Sentry';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'ส่งข้อยกเว้นทดสอบไปยัง Sentry — ตรวจสอบแดชบอร์ด';
-
-  @override
   String get shareAnalyticsLabel => 'แชร์ข้อมูลวิเคราะห์';
 
   @override

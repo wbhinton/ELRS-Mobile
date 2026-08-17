@@ -140,19 +140,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get supportDevelopmentSubtitle => 'Ko-fi를 통해 개발자를 지원하세요';
 
   @override
-  String get developerSectionLabel => '개발자';
-
-  @override
-  String get developerModeEnabledLabel => '개발자 모드 활성화됨';
-
-  @override
-  String get testSentryErrorCaptureLabel => 'Sentry 오류 캡처 테스트';
-
-  @override
-  String get testSentryErrorCaptureSubtitle =>
-      'Sentry에 테스트 예외를 보냅니다 — 대시보드를 확인하세요';
-
-  @override
   String get shareAnalyticsLabel => '분석 공유';
 
   @override

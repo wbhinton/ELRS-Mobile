@@ -283,7 +283,6 @@ class SettingsScreen extends HookConsumerWidget {
           scope.setTag('user-report', 'manual');
           scope.setTag('app.version', state.appVersion);
           scope.setTag('app.expert_mode', state.expertMode.toString());
-          scope.setTag('app.developer_mode', state.developerMode.toString());
           scope.setTag('app.domain_2400', state.defaultDomain2400.toString());
           scope.setTag('app.domain_900', state.defaultDomain900.toString());
           scope.setTag(
@@ -852,16 +851,16 @@ class SettingsScreen extends HookConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Diagnostics", style: Theme.of(context).textTheme.titleMedium),
-                const SizedBox(height: 8),
-                if (state.expertMode) ...[
+        if (state.expertMode) ...[
+          const SizedBox(height: 16),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Diagnostics", style: Theme.of(context).textTheme.titleMedium),
+                  const SizedBox(height: 8),
                   ListTile(
                     title: Text(l10n.submitDebugReportLabel),
                     subtitle: Text(l10n.submitDebugReportSubtitle),
@@ -869,48 +868,11 @@ class SettingsScreen extends HookConsumerWidget {
                     trailing: const Icon(Icons.send),
                     onTap: () => _showPrivacyGuard(context, state, ref),
                   ),
-                  const Divider(),
                 ],
-                SwitchListTile(
-                  title: const Text("Developer Mode"),
-                  subtitle: const Text("Enables testing features and diagnostic logging"),
-                  value: state.developerMode,
-                  onChanged: (val) => controller.toggleDeveloperMode(),
-                ),
-                if (state.developerMode) ...[
-                  const Divider(),
-                  ListTile(
-                    title: Text(l10n.testSentryErrorCaptureLabel),
-                    subtitle: Text(l10n.testSentryErrorCaptureSubtitle),
-                    leading: const Icon(
-                      Icons.science,
-                      color: Colors.deepPurple,
-                    ),
-                    trailing: const Icon(Icons.send),
-                    onTap: () async {
-                      final id = await Sentry.captureException(
-                        Exception('Sentry test exception — ignore'),
-                        stackTrace: StackTrace.current,
-                        withScope: (scope) => scope.setTag('test', 'true'),
-                      );
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Sent! Event ID: ${id.toString().substring(0, 8)}…',
-                            ),
-                            backgroundColor: Colors.deepPurple,
-                            duration: const Duration(seconds: 6),
-                          ),
-                        );
-                      }
-                    },
-                  ),
-                ],
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ],
     );
   }
