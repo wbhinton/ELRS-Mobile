@@ -1,3 +1,14 @@
+## [v1.0.43-rc1] - 2026-08-17
+
+### ExpressLRS Mobile App Changelog
+
+#### Improvements
+
+*   **Enhanced Privacy and Streamlined Experience:** We've removed internal developer features and telemetry collection. This change means the app no longer sends usage data, enhancing your privacy, and focuses the app on core functionality for a cleaner experience.
+*   **Always Up-to-Date Hardware Support:** The app now automatically updates its internal list of supported ExpressLRS hardware and firmware targets directly from the official sources. This ensures that you always have access to the very latest options for flashing your devices without needing to wait for a new app version from the app store.
+
+---
+
 ## [v1.0.42] - 2026-08-12
 
 ### New Features
