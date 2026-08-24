@@ -28,7 +28,16 @@ class SettingsScreen extends HookConsumerWidget {
     }, []);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsLabel)),
+      appBar: AppBar(
+        title: Text(l10n.settingsLabel),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            tooltip: l10n.languageOverrideLabel,
+            onPressed: () => _showLanguageSelectionDialog(context, state, controller),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SettingsMasterDetail(
           masterBuilder: (context, selected, onSelected) => ListView(
@@ -509,6 +518,83 @@ class SettingsScreen extends HookConsumerWidget {
       case 'zh': return '简体中文';
       default: return code;
     }
+  }
+
+  void _showLanguageSelectionDialog(
+    BuildContext context,
+    SettingsState state,
+    SettingsController controller,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    final locales = <String?>[
+      null,
+      'en',
+      'de',
+      'es',
+      'fr',
+      'ja',
+      'uk',
+      'pt',
+      'it',
+      'pl',
+      'ko',
+      'ru',
+      'nl',
+      'cs',
+      'th',
+      'sv',
+      'id',
+      'zh',
+    ];
+
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Row(
+          children: [
+            const Icon(Icons.language),
+            const SizedBox(width: 8),
+            Expanded(child: Text(l10n.languageOverrideLabel)),
+          ],
+        ),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: locales.length,
+            itemBuilder: (context, index) {
+              final localeCode = locales[index];
+              final isSelected = state.appLocale == localeCode;
+              final title = localeCode == null
+                  ? l10n.languageOverrideSystemDefault
+                  : _getLocaleName(localeCode);
+
+              return ListTile(
+                title: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                trailing: isSelected
+                    ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+                    : null,
+                onTap: () {
+                  controller.setAppLocale(localeCode);
+                  Navigator.pop(ctx);
+                },
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(l10n.cancelLabel),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildProfilesCategory(
