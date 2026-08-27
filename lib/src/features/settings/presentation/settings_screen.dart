@@ -516,6 +516,9 @@ class SettingsScreen extends HookConsumerWidget {
       case 'sv': return 'Svenska';
       case 'id': return 'Bahasa Indonesia';
       case 'zh': return '简体中文';
+      case 'nb':
+      case 'no':
+        return 'Norsk';
       default: return code;
     }
   }
@@ -545,6 +548,7 @@ class SettingsScreen extends HookConsumerWidget {
       'sv',
       'id',
       'zh',
+      'nb',
     ];
 
     showDialog(
@@ -865,6 +869,7 @@ class SettingsScreen extends HookConsumerWidget {
                       const DropdownMenuItem(value: 'sv', child: Text('Svenska')),
                       const DropdownMenuItem(value: 'id', child: Text('Bahasa Indonesia')),
                       const DropdownMenuItem(value: 'zh', child: Text('简体中文')),
+                      const DropdownMenuItem(value: 'nb', child: Text('Norsk')),
                     ],
                   ),
                 ),

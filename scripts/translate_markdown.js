@@ -10,7 +10,7 @@ if (!apiKey) {
   process.exit(0);
 }
 
-const targetLocales = ['de', 'es', 'fr', 'ja', 'uk', 'pt', 'it', 'pl', 'ko', 'ru', 'nl', 'cs', 'th', 'sv', 'id', 'zh'];
+const targetLocales = ['de', 'es', 'fr', 'ja', 'uk', 'pt', 'it', 'pl', 'ko', 'ru', 'nl', 'cs', 'th', 'sv', 'id', 'zh', 'nb'];
 const sourceFile = path.join(__dirname, '../assets/docs/app_faq.md');
 const content = fs.readFileSync(sourceFile, 'utf8');
 

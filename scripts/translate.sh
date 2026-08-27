@@ -1,15 +1,28 @@
 #!/bin/bash
 set -e
 
-# Load local API key if the environment variable isn't already set
+# Load from .env or .env.local if present and variable not set
 if [ -z "$ARB_TRANSLATE_API_KEY" ]; then
-  # Check if a local config file or parameter was passed
+  ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+  if [ -f "$ROOT_DIR/.env" ]; then
+    set -a
+    source "$ROOT_DIR/.env"
+    set +a
+  elif [ -f "$ROOT_DIR/.env.local" ]; then
+    set -a
+    source "$ROOT_DIR/.env.local"
+    set +a
+  fi
+fi
+
+# Check if a parameter was passed as fallback
+if [ -z "$ARB_TRANSLATE_API_KEY" ]; then
   if [ -n "$1" ]; then
     export ARB_TRANSLATE_API_KEY="$1"
   else
     echo "Warning: ARB_TRANSLATE_API_KEY environment variable is not set."
     echo "Usage: ./scripts/translate.sh <YOUR_GEMINI_API_KEY>"
-    echo "Or run: export ARB_TRANSLATE_API_KEY=\"YOUR_KEY\" && ./scripts/translate.sh"
+    echo "Or add ARB_TRANSLATE_API_KEY=YOUR_KEY to .env in project root."
     exit 1
   fi
 fi
