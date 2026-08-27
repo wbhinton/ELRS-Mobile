@@ -1,0 +1,7 @@
+{
+  "sandbox": {
+    "allowed_paths": [
+      "~/.rp1"
+    ]
+  }
+}

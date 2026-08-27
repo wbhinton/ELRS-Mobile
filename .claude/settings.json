@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "~/.rp1"
+    ],
+    "allow": [
+      "Read(~/.rp1/**)",
+      "Edit(~/.rp1/**)"
+    ]
+  },
+  "sandbox": {
+    "filesystem": {
+      "allowWrite": [
+        "~/.rp1"
+      ]
+    }
+  }
+}

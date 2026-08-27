@@ -65,3 +65,15 @@ upload-keystore.jks
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+
+# rp1:start:v0.7.1
+!.rp1/
+.rp1/*
+!.rp1/project_id
+!.rp1/config/
+!.rp1/config/**
+!.rp1/context/
+!.rp1/context/**
+.rp1/context/meta.json
+.rp1/settings.toml
+# rp1:end:v0.7.1

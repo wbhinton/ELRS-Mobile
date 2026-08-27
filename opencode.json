@@ -1,0 +1,7 @@
+{
+  "permission": {
+    "external_directory": {
+      "~/.rp1/**": "allow"
+    }
+  }
+}

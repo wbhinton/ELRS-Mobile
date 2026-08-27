@@ -28,6 +28,7 @@ class SettingsScreen extends HookConsumerWidget {
     }, []);
 
     return Scaffold(
+      appBar: AppBar(title: Text(l10n.settingsLabel)),
       appBar: AppBar(
         title: Text(l10n.settingsLabel),
         actions: [
