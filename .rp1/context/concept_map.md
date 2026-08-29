@@ -63,7 +63,7 @@ Whether a device operates at 900 MHz or 2400 MHz. Resolved heuristically from pr
 Implementation: `lib/src/features/config/utils/frequency_validator.dart`, `runtime_config_model.dart`.
 
 ### Firmware Release / Version
-An ExpressLRS version string (`>= 3.0.0`, incl. 4.x). Enumerated from the Artifactory `index.json` (version -> commit hash); each downloadable as `firmware.zip` and `hardware.zip` per commit hash.
+An ExpressLRS version string (`>= 3.3.0`, incl. 4.x). Enumerated from the Artifactory `index.json` (version -> commit hash); each downloadable as `firmware.zip` and `hardware.zip` per commit hash.
 Implementation: `lib/src/features/flashing/data/releases_repository.dart`.
 
 ### BitList

@@ -16,7 +16,7 @@ sidebar:
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> เป้าหมายที่เป็น ESP8285, ESP32, ESP32-C3 และ ESP32-S3 ทั้งหมด</li>
       <li class="flex gap-2"><span>•</span> เครื่องรับและเครื่องส่งที่รองรับ Wi-Fi</li>
-      <li class="flex gap-2"><span>•</span> ELRS เวอร์ชัน 3.x และ 4.x</li>
+      <li class="flex gap-2"><span>•</span> ELRS เวอร์ชัน 3.3.x และ 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">

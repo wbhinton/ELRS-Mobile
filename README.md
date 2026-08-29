@@ -38,8 +38,7 @@ The easiest way to get started with ELRS Mobile is by installing it from your de
 
 
 **Key Features**
-- 100% Offline Flashing: Prepare for the field using the Firmware Manager. The app caches complete firmware releases (firmware.zip and hardware.zip directly from Artifactory), allowing you to dynamically assemble and flash firmware targets without an internet connection.
-- Mobile-First Workflow: No USB cables, no Python environments, no driver issues. Connect to your receiver or transmitter's Wi-Fi hotspot and flash directly from your phone.
+- 100% Offline Flashing: Prepare for the field using the Firmware Manager. The app caches complete firmware releases (firmware.zip and hardware.zip directly from Artifactory, supporting ExpressLRS v3.3.x–v4.x), allowing you to dynamically assemble and flash firmware targets without an internet connection.
 - Device Configurator & Native WebUI: Automatically discover devices on your network via mDNS. View live hardware status, configure PWM pins, adjust Model Match, or instantly access the device's native ELRS WebUI through the app's embedded WebView.
 - Smart Hardware Resolution: Features an intuitive cascading selection system (Device Type ➔ Vendor ➔ Frequency ➔ Target) ensuring you always build the correct payload for your hardware.
 

@@ -16,7 +16,7 @@ sidebar:
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> 所有 ESP8285, ESP32, ESP32-C3 和 ESP32-S3 目标</li>
       <li class="flex gap-2"><span>•</span> 支持 Wi-Fi 的接收器和发射器</li>
-      <li class="flex gap-2"><span>•</span> ELRS 3.x 和 4.x 版本</li>
+      <li class="flex gap-2"><span>•</span> ELRS 3.3.x 和 4.x 版本</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">

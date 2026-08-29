@@ -16,7 +16,7 @@ sidebar:
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> Toutes les cibles ESP8285, ESP32, ESP32-C3 et ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Récepteurs et émetteurs compatibles Wi-Fi</li>
-      <li class="flex gap-2"><span>•</span> Versions 3.x et 4.x d'ELRS</li>
+      <li class="flex gap-2"><span>•</span> Versions 3.3.x et 4.x d'ELRS</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">

@@ -1,5 +1,5 @@
 // Copyright (C) 2026  Weston Hinton [wbhinton@gmail.com]
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -32,32 +32,44 @@ class ReleasesRepository {
     try {
       // Use Artifactory Index to ensure we only list versions we can actually download.
       // Index URL: https://artifactory.expresslrs.org/ExpressLRS/index.json
-      final response = await _ref.read(connectivityServiceProvider.notifier).withInternetAccess(() {
-        return _dio.get('https://artifactory.expresslrs.org/ExpressLRS/index.json');
-      });
-      
+      final response = await _ref
+          .read(connectivityServiceProvider.notifier)
+          .withInternetAccess(() {
+            return _dio.get(
+              'https://artifactory.expresslrs.org/ExpressLRS/index.json',
+            );
+          });
+
       // key = version string, value = hash
       final Map<String, dynamic> tags = response.data['tags'];
-      
-      // Filter for versions >= 3.0.0 (including 4.x)
+
+      // Filter for versions >= 3.3.0 (including 4.x)
+      // Versions prior to 3.3.0 lack unified firmware support and cannot be used with ELRS Mobile.
       // Sort descending (newest first)
       final versions = tags.keys.where((tag) {
         final clean = tag.startsWith('v') ? tag.substring(1) : tag;
-        // Basic check: starts with digit and >= 3
         if (clean.isEmpty) return false;
-        final major = int.tryParse(clean.split('.')[0]);
-        return major != null && major >= 3;
+        final parts = clean.split('.');
+        final major = int.tryParse(parts[0]);
+        if (major == null || major < 3) return false;
+        if (major == 3) {
+          final minor = parts.length > 1 ? int.tryParse(parts[1]) : null;
+          if (minor == null || minor < 3) return false;
+        }
+        return true;
       }).toList();
-      
+
       // Sort using SemVer-ish logic
       versions.sort((a, b) {
-         return _compareVersions(b, a); // Descending
+        return _compareVersions(b, a); // Descending
       });
-      
+
       return versions;
     } catch (e) {
-       _log.warning('Offline or Artifactory unreachable. Fallback to cache may be available.');
-       rethrow; // Provider will handle the error and fallback to cache
+      _log.warning(
+        'Offline or Artifactory unreachable. Fallback to cache may be available.',
+      );
+      rethrow; // Provider will handle the error and fallback to cache
     }
   }
 
@@ -65,10 +77,10 @@ class ReleasesRepository {
     // quick semver compare
     final p1 = v1.startsWith('v') ? v1.substring(1) : v1;
     final p2 = v2.startsWith('v') ? v2.substring(1) : v2;
-    
+
     final parts1 = p1.split('.').map((e) => int.tryParse(e) ?? 0).toList();
     final parts2 = p2.split('.').map((e) => int.tryParse(e) ?? 0).toList();
-    
+
     for (var i = 0; i < 3; i++) {
       final n1 = i < parts1.length ? parts1[i] : 0;
       final n2 = i < parts2.length ? parts2[i] : 0;
@@ -92,9 +104,11 @@ Future<List<String>> releases(Ref ref) async {
     _log.warning('Failed to fetch releases ($e). Checking cache...');
     final cacheService = ref.read(firmwareCacheServiceProvider);
     final cached = await cacheService.getCachedVersions();
-    
+
     if (cached.isEmpty) {
-      throw Exception('No versions available (Offline & Cache Empty). Details: $e');
+      throw Exception(
+        'No versions available (Offline & Cache Empty). Details: $e',
+      );
     }
     return cached;
   }

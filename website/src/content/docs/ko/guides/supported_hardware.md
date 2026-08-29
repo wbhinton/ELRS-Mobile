@@ -16,7 +16,7 @@ sidebar:
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> 모든 ESP8285, ESP32, ESP32-C3, ESP32-S3 타겟</li>
       <li class="flex gap-2"><span>•</span> Wi-Fi를 지원하는 수신기 및 송신기</li>
-      <li class="flex gap-2"><span>•</span> ELRS 버전 3.x 및 4.x</li>
+      <li class="flex gap-2"><span>•</span> ELRS 버전 3.3.x 및 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
