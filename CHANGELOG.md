@@ -1,3 +1,18 @@
+## [v1.0.43] - 2026-08-31
+
+### New Features
+
+*   **Quick Language Selection:** Added a dedicated language button in the Settings screen top navigation bar for immediate access to language switching across all 18 supported languages.
+*   **Norwegian Language Support:** Added full Norwegian (Norsk Bokmål) localization support across the app UI, in-app guides, and website.
+
+### Improvements
+
+*   **Always Up-to-Date Hardware Support:** The app automatically syncs internal target definitions with upstream ExpressLRS releases.
+*   **Enhanced Privacy & Experience:** Streamlined core functionality and improved reliability during firmware assembly and flashing.
+*   **Translation Pipeline:** Enhanced automated translation workflows and local secret management.
+
+---
+
 ## [v1.0.43-rc1] - 2026-08-17
 
 ### ExpressLRS Mobile App Changelog
