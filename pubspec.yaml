@@ -62,7 +62,7 @@ dependencies:
   webview_flutter_android: ^4.1.0
   sentry_flutter: ^9.11.0
   wakelock_plus: ^1.4.0
-  flutter_secure_storage: ^9.2.2
+  flutter_secure_storage: ^10.3.4
   flutter_svg: ^2.2.3
   path: ^1.9.1
   aptabase_flutter: ^0.4.1

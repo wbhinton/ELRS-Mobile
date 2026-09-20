@@ -149,7 +149,7 @@ class PersistenceService {
 Future<PersistenceService> persistenceService(Ref ref) async {
   final prefs = await SharedPreferences.getInstance();
   const secure = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
   );
   final service = PersistenceService(prefs, secure);
   await service.migrateIfNeeded();
