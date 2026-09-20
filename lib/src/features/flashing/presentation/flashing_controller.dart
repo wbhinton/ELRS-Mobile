@@ -844,35 +844,44 @@ class FlashingController extends _$FlashingController {
     try {
       state = state.copyWith(status: FlashingStatus.uploading);
       final repo = ref.read(deviceRepositoryProvider);
-      final payload = await _buildFinalPayload();
 
-      // 1. Re-fill the ESP's OTA buffer!
-      // Because the user took time to read the warning dialog, the ESP's
-      // 10-second idle timer expired and cleared the firmware from RAM.
+      // 1. The mismatched firmware is already sitting in the device's OTA
+      // write buffer from the initial /update attempt. The ExpressLRS
+      // firmware protocol (unchanged from 3.1.0 through 4.1.0, and what its
+      // own WebUI does) confirms those bytes directly via /forceupdate with
+      // no re-upload, so try that first.
       try {
-        await repo.flashFirmware(
-          payload.bytes,
-          payload.filename,
-          onSendProgress: (sent, total) {
-            if (total > 0) {
-              state = state.copyWith(progress: sent / total);
-            }
-          },
-        );
+        await repo.confirmForceUpdate();
       } catch (e) {
-        // We EXPECT it to throw a mismatch exception here because we just
-        // re-uploaded the mismatched file. We swallow it and proceed!
-        if (e.toString().contains('mismatch')) {
-          _log.info(
-            'Caught expected mismatch during buffer refill. Proceeding to force commit...',
+        // 2. Fallback for a device whose buffer didn't survive (e.g. a
+        // dropped connection): re-upload once, then confirm again.
+        _log.warning(
+          'Direct force-confirm failed ($e) — falling back to re-upload before confirming.',
+        );
+        final payload = await _buildFinalPayload();
+        try {
+          await repo.flashFirmware(
+            payload.bytes,
+            payload.filename,
+            onSendProgress: (sent, total) {
+              if (total > 0) {
+                state = state.copyWith(progress: sent / total);
+              }
+            },
           );
-        } else {
-          rethrow; // If it's a different network error, abort.
+        } catch (e2) {
+          // We EXPECT it to throw a mismatch exception here because we just
+          // re-uploaded the mismatched file. We swallow it and proceed!
+          if (e2.toString().contains('mismatch')) {
+            _log.info(
+              'Caught expected mismatch during buffer refill. Proceeding to force commit...',
+            );
+          } else {
+            rethrow; // If it's a different network error, abort.
+          }
         }
+        await repo.confirmForceUpdate();
       }
-
-      // 2. The buffer is now full and fresh. Immediately confirm the force update!
-      await repo.confirmForceUpdate();
 
       state = state.copyWith(status: FlashingStatus.success);
     } catch (e) {

@@ -21,6 +21,11 @@ class DeviceConfigService {
   DeviceConfigService(this._dio);
 
   /// Probes the device with a lightweight GET request for hardware metadata to securely verify heartbeat.
+  ///
+  /// `/hardware.json` only exists on unified-target firmware (3.2.x+ with
+  /// unified build flags, unconditional from ~4.x on). Pre-3.1.0 firmware
+  /// (e.g. 3.0.1) never serves it, so falls back to [probeDevice], which
+  /// hits `/` — present on every ExpressLRS firmware version.
   Future<bool> probeDeviceHead(String ip, {CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
@@ -31,10 +36,11 @@ class DeviceConfigService {
           receiveTimeout: const Duration(seconds: 2),
         ),
       );
-      return response.statusCode == 200;
+      if (response.statusCode == 200) return true;
     } catch (e) {
-      return false;
+      // Fall through to the universal probe below.
     }
+    return probeDevice(ip, cancelToken: cancelToken);
   }
 
   /// Probes the device to see if it's alive and responding.
@@ -57,6 +63,11 @@ class DeviceConfigService {
 
   /// Fetches the current configuration from the device.
   /// Performs a GET request to `http://<ip>/config`.
+  ///
+  /// `/config` was only added in firmware 3.1.0. On 3.0.x it 404s, so this
+  /// falls back to [_fetchLegacyConfig], which reconstructs an equivalent
+  /// config from `/target` (and best-effort `/mode.json`) — the endpoints
+  /// 3.0.x firmware actually serves.
   Future<RuntimeConfig> fetchConfig(String ip, {CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
@@ -66,11 +77,11 @@ class DeviceConfigService {
       if (response.statusCode == 200) {
         final data = response.data;
         _log.info('Raw Device Config JSON: $data');
-        
+
         if (data is Map<String, dynamic>) {
           _normalizeV3Config(data);
           _normalizeConfigDomains(data);
-          
+
           // Normalize vbind to prevent TypeError on older firmware
           if (data.containsKey('config') && data['config'] is Map) {
             final configMap = data['config'] as Map<String, dynamic>;
@@ -92,9 +103,73 @@ class DeviceConfigService {
       } else {
         throw Exception('Failed to fetch config. Status code: ${response.statusCode}');
       }
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        _log.info('$ip has no /config endpoint — trying legacy fallback (pre-3.1.0 firmware).');
+        return _fetchLegacyConfig(ip, cancelToken: cancelToken);
+      }
+      throw Exception('Failed to reach device at $ip: $e');
     } catch (e) {
       throw Exception('Failed to reach device at $ip: $e');
     }
+  }
+
+  /// Reconstructs a [RuntimeConfig] for firmware older than 3.1.0, which
+  /// predates the unified `/config` endpoint.
+  ///
+  /// `/target` (present in every version through at least 3.2.1) reports
+  /// `product_name`, `version`, `target`, and `reg_domain` — enough to
+  /// populate [RuntimeConfigX.effectiveProductName] with the device's real
+  /// product name so the Target Mismatch Guard compares against actual data
+  /// instead of leaving the device stuck "disconnected". `/mode.json`
+  /// (removed once `/config` landed, ~3.2.x) is merged in best-effort for
+  /// `modelid`/`uid` where still available.
+  Future<RuntimeConfig> _fetchLegacyConfig(String ip, {CancelToken? cancelToken}) async {
+    final targetResponse = await _dio.get(
+      'http://$ip/target',
+      cancelToken: cancelToken,
+    );
+    final targetData = targetResponse.data;
+    if (targetData is! Map<String, dynamic>) {
+      throw Exception('Invalid /target response from $ip');
+    }
+
+    final data = <String, dynamic>{
+      'product_name': targetData['product_name'],
+      'version': targetData['version'],
+      'target': targetData['target'],
+      'settings': {
+        'product_name': targetData['product_name'],
+        'target': targetData['target'],
+        'reg_domain': targetData['reg_domain'],
+      },
+    };
+
+    try {
+      final modeResponse = await _dio.get(
+        'http://$ip/mode.json',
+        cancelToken: cancelToken,
+        options: Options(
+          sendTimeout: const Duration(seconds: 2),
+          receiveTimeout: const Duration(seconds: 2),
+        ),
+      );
+      final modeData = modeResponse.data;
+      if (modeData is Map<String, dynamic>) {
+        data['config'] = {
+          if (modeData['modelid'] != null) 'modelid': modeData['modelid'],
+          if (modeData['forcetlm'] != null) 'force-tlm': modeData['forcetlm'],
+        };
+        if (modeData['uid'] is List) {
+          data['options'] = {'uid': modeData['uid']};
+        }
+      }
+    } catch (_) {
+      // /mode.json is gone by ~3.2.x — /target alone is enough to unblock flashing.
+    }
+
+    _normalizeConfigDomains(data);
+    return RuntimeConfig.fromJson(data);
   }
 
   /// Saves the updated options to the device.
