@@ -1,29 +1,107 @@
-name: Build and Release
+name: Build & Release
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'lib/**'
-      - 'android/**'
-      - 'ios/**'
-      - 'pubspec.yaml'
-      - 'pubspec.lock'
-      - '.github/workflows/**'
     tags:
-      - 'v*' # Trigger on version tags like v1.0.0
-  workflow_dispatch: # Allow manual trigger from GitHub Actions UI
+      - 'v*' # Triggers on all version tags (v1.0.44, v1.0.44-rc1, v1.0.44-beta1, etc.)
+  workflow_dispatch:
+    inputs:
+      custom_version:
+        description: 'Custom Version (leave empty to read from tag or pubspec.yaml, e.g. 1.0.44-rc1)'
+        required: false
+        default: ''
+      custom_build_number:
+        description: 'Custom Build Number (leave empty to read from pubspec.yaml or run_number)'
+        required: false
+        default: ''
+      play_store_track:
+        description: 'Google Play Track'
+        required: true
+        type: choice
+        options:
+          - internal
+          - beta
+          - production
+        default: internal
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
 
 jobs:
-  build:
-    name: Build APK and Release
+  prepare:
+    name: Prepare Release Metadata
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    outputs:
+      version: ${{ steps.metadata.outputs.version }}
+      build_number: ${{ steps.metadata.outputs.build_number }}
+      tag_name: ${{ steps.metadata.outputs.tag_name }}
+      is_prerelease: ${{ steps.metadata.outputs.is_prerelease }}
+      play_store_track: ${{ steps.metadata.outputs.play_store_track }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine Version, Build Number, and Release Type
+        id: metadata
+        run: |
+          # 1. Parse pubspec.yaml version and build number
+          PUBSPEC_VERSION_FULL=$(grep '^version: ' pubspec.yaml | sed 's/version: //;s/"//g;s/'\''//g;s/ //g')
+          PUBSPEC_NAME=$(echo "$PUBSPEC_VERSION_FULL" | cut -d'+' -f1)
+          PUBSPEC_BUILD=$(echo "$PUBSPEC_VERSION_FULL" | cut -s -d'+' -f2)
+
+          # 2. Determine Version
+          if [[ -n "${{ inputs.custom_version }}" ]]; then
+            VERSION="${{ inputs.custom_version }}"
+          elif [[ "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          else
+            VERSION="$PUBSPEC_NAME"
+          fi
+
+          # 3. Determine Build Number (versionCode)
+          if [[ -n "${{ inputs.custom_build_number }}" ]]; then
+            BUILD_NUMBER="${{ inputs.custom_build_number }}"
+          elif [[ -n "$PUBSPEC_BUILD" ]]; then
+            BUILD_NUMBER="$PUBSPEC_BUILD"
+          else
+            BUILD_NUMBER="${{ github.run_number }}"
+          fi
+
+          TAG_NAME="v$VERSION"
+
+          # 4. Check if Pre-Release / Release Candidate
+          if [[ "$VERSION" =~ -(rc|beta|alpha|dev) ]] || [[ "$TAG_NAME" =~ -(rc|beta|alpha|dev) ]]; then
+            IS_PRERELEASE="true"
+          else
+            IS_PRERELEASE="false"
+          fi
+
+          # 5. Determine Google Play Track
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            PLAY_TRACK="${{ inputs.play_store_track }}"
+          else
+            # For automatic tag triggers: internal track for RC/beta, internal for production (promote manually or configure)
+            PLAY_TRACK="internal"
+          fi
+
+          echo "=========================================="
+          echo "Resolved Version:      $VERSION"
+          echo "Resolved Build Number: $BUILD_NUMBER"
+          echo "Resolved Tag Name:     $TAG_NAME"
+          echo "Is Pre-Release:        $IS_PRERELEASE"
+          echo "Google Play Track:     $PLAY_TRACK"
+          echo "=========================================="
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+          echo "play_store_track=$PLAY_TRACK" >> $GITHUB_OUTPUT
+
+  build-android:
+    name: Build Android (APK & AAB) & Deploy Play Store
+    needs: prepare
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,88 +127,53 @@ jobs:
 
       - name: Build APK and App Bundle
         run: |
-          if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
-          else
-            VERSION="0.0.0-ci-${{ github.run_number }}"
-          fi
-          BUILD_NUMBER=${{ github.run_number }}
+          VERSION="${{ needs.prepare.outputs.version }}"
+          BUILD_NUMBER="${{ needs.prepare.outputs.build_number }}"
+
           printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
+
+          echo "Building APK for version $VERSION ($BUILD_NUMBER)..."
           flutter build apk --release \
-            --build-name=$VERSION \
-            --build-number=$BUILD_NUMBER \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER" \
             --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+
+          echo "Building AppBundle for version $VERSION ($BUILD_NUMBER)..."
           flutter build appbundle --release \
-            --build-name=$VERSION \
-            --build-number=$BUILD_NUMBER \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER" \
             --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-          
-          mv build/app/outputs/flutter-apk/app-release.apk "ELRS-Mobile-${{ github.ref_name }}.apk"
-          mv build/app/outputs/bundle/release/app-release.aab "ELRS-Mobile-${{ github.ref_name }}.aab"
+
+          mv build/app/outputs/flutter-apk/app-release.apk "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.apk"
+          mv build/app/outputs/bundle/release/app-release.aab "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.aab"
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-builds
+          path: |
+            ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.apk
+            ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.aab
+
       - name: Upload to Google Play
-        if: startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/development'
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
           packageName: io.datarx.elrsmobile
-          releaseFiles: ELRS-Mobile-${{ github.ref_name }}.aab
-          track: internal
+          releaseFiles: "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.aab"
+          track: ${{ needs.prepare.outputs.play_store_track }}
           status: completed
         env:
           NODE_OPTIONS: "--no-deprecation"
 
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ELRS-Mobile-${{ github.ref_name }}.apk
-            ELRS-Mobile-${{ github.ref_name }}.aab
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update Version Gist
-        if: startsWith(github.ref, 'refs/tags/v') && success()
-        run: |
-          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
-          GIST_FILE="version.json"
-          
-          # Create JSON content
-          JSON_CONTENT=$(cat <<EOF
-          {
-            "version": "$VERSION",
-            "url": "https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
-          }
-          EOF
-          )
-          
-          # Escaping for JSON string
-          ESCAPED_CONTENT=$(echo "$JSON_CONTENT" | jq -aRs .)
- 
-          # Update Gist using GitHub API
-          curl -sfSL \
-            -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GIST_TOKEN }}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/gists/${{ secrets.GIST_ID }}" \
-            -d "{\"files\":{\"$GIST_FILE\":{\"content\":$ESCAPED_CONTENT}}}"
-
   build-ios:
-    name: Build & Distribute iOS
-    if: github.ref != 'refs/heads/development'
+    name: Build iOS (IPA) & Deploy TestFlight
+    needs: prepare
     runs-on: macos-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -138,7 +181,7 @@ jobs:
       - name: Select Xcode Version
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '26.0'
+          xcode-version: '16.0'
 
       - name: Download iOS Platform SDK
         run: |
@@ -163,66 +206,106 @@ jobs:
 
       - name: Install Apple Certificate and Provisioning Profile
         run: |
-          # 1. Create temporary keychain
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
           KEYCHAIN_PASSWORD=$(openssl rand -base64 24)
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
-          # 2. Import certificate
           echo "${{ secrets.P12_BASE64 }}" | base64 --decode > $RUNNER_TEMP/dist.p12
           security import $RUNNER_TEMP/dist.p12 -k $KEYCHAIN_PATH -P "${{ secrets.P12_PASSWORD }}" -A -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
-          # 3. Import provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
           
-          # Add keychain to search list (CRITICAL for codesign)
           security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | sed 's/\"//g')
-          
-          # Diagnostic: Check visibility
-          echo "Installed Identities:"
           security find-identity -v -p codesigning $KEYCHAIN_PATH
 
       - name: Build IPA
         run: |
-          if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
-          else
-            VERSION="0.0.0-ci-${{ github.run_number }}"
-          fi
-          BUILD_NUMBER=${{ github.run_number }}
-          
-          # Build IPA and export for App Store
+          VERSION="${{ needs.prepare.outputs.version }}"
+          BUILD_NUMBER="${{ needs.prepare.outputs.build_number }}"
+
+          echo "Building IPA for version $VERSION ($BUILD_NUMBER)..."
           flutter build ipa --release \
-            --build-name=$VERSION \
-            --build-number=$BUILD_NUMBER \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER" \
             --export-options-plist=ios/ExportOptions.plist \
             --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
 
-          mv build/ios/ipa/*.ipa "ELRS-Mobile-${{ github.ref_name }}.ipa"
+          mv build/ios/ipa/*.ipa "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.ipa"
 
-      - name: Upload to App Store Connect
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          path: "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.ipa"
+
+      - name: Upload to App Store Connect (TestFlight)
         run: |
-          # Create API key file for xcrun
           mkdir -p ~/.appstoreconnect/private_keys
           printf "%s" "${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}.p8
           
           xcrun altool --upload-app \
             --type ios \
-            --file "ELRS-Mobile-${{ github.ref_name }}.ipa" \
+            --file "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.ipa" \
             --apiKey ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }} \
             --apiIssuer ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
 
-      - name: Upload iOS IPA to GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
+  publish-release:
+    name: Publish GitHub Release & Assets
+    needs: [prepare, build-android, build-ios]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Android Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-builds
+
+      - name: Download iOS Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-build
+
+      - name: Create GitHub Release
+        id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          files: ELRS-Mobile-${{ github.ref_name }}.ipa
+          tag_name: ${{ needs.prepare.outputs.tag_name }}
+          name: ${{ needs.prepare.outputs.is_prerelease == 'true' && format('Release Candidate {0}', needs.prepare.outputs.tag_name) || format('Release {0}', needs.prepare.outputs.tag_name) }}
           draft: false
-          prerelease: false
+          prerelease: ${{ needs.prepare.outputs.is_prerelease == 'true' }}
+          generate_release_notes: true
+          files: |
+            ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.apk
+            ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.aab
+            ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.ipa
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Version Gist (Production Only)
+        if: ${{ needs.prepare.outputs.is_prerelease == 'false' && success() }}
+        run: |
+          VERSION="${{ needs.prepare.outputs.version }}"
+          GIST_FILE="version.json"
+          
+          JSON_CONTENT=$(cat <<EOF
+          {
+            "version": "$VERSION",
+            "url": "https://github.com/${{ github.repository }}/releases/tag/${{ needs.prepare.outputs.tag_name }}"
+          }
+          EOF
+          )
+          
+          ESCAPED_CONTENT=$(echo "$JSON_CONTENT" | jq -aRs .)
+          
+          curl -sfSL \
+            -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GIST_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/gists/${{ secrets.GIST_ID }}" \
+            -d "{\"files\":{\"$GIST_FILE\":{\"content\":$ESCAPED_CONTENT}}}"
