@@ -1,0 +1,269 @@
+name: Build & Deploy Release Candidate
+
+on:
+  push:
+    tags:
+      - 'v*-rc*' # Trigger ONLY when pushing an RC tag like v1.0.44-rc1
+  workflow_dispatch:
+    inputs:
+      custom_version:
+        description: 'Custom RC Version (leave empty to read from pubspec.yaml, e.g., 1.0.44-rc1)'
+        required: false
+        default: ''
+      custom_build_number:
+        description: 'Custom Build Number (leave empty to read from pubspec.yaml or github.run_number)'
+        required: false
+        default: ''
+      upload_play_store:
+        description: 'Upload Android AAB to Google Play Internal track'
+        type: boolean
+        default: true
+      upload_app_store:
+        description: 'Upload iOS IPA to App Store Connect / TestFlight'
+        type: boolean
+        default: true
+      create_github_prerelease:
+        description: 'Create a GitHub Pre-Release with APK, AAB, and IPA'
+        type: boolean
+        default: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
+
+jobs:
+  resolve-version:
+    name: Resolve Version & Build Number
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version_step.outputs.version }}
+      build_number: ${{ steps.version_step.outputs.build_number }}
+      tag_name: ${{ steps.version_step.outputs.tag_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine Version and Build Number
+        id: version_step
+        run: |
+          # 1. Parse pubspec.yaml version and build number (e.g. 1.0.44-rc1+45)
+          PUBSPEC_VERSION_FULL=$(grep '^version: ' pubspec.yaml | sed 's/version: //;s/"//g;s/'\''//g;s/ //g')
+          PUBSPEC_NAME=$(echo "$PUBSPEC_VERSION_FULL" | cut -d'+' -f1)
+          PUBSPEC_BUILD=$(echo "$PUBSPEC_VERSION_FULL" | cut -s -d'+' -f2)
+
+          # If custom version input is supplied, use it; otherwise check tag or pubspec
+          if [[ -n "${{ inputs.custom_version }}" ]]; then
+            VERSION="${{ inputs.custom_version }}"
+          elif [[ "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          else
+            VERSION="$PUBSPEC_NAME"
+          fi
+
+          # If custom build number is supplied, use it; otherwise use pubspec build number or github.run_number
+          if [[ -n "${{ inputs.custom_build_number }}" ]]; then
+            BUILD_NUMBER="${{ inputs.custom_build_number }}"
+          elif [[ -n "$PUBSPEC_BUILD" ]]; then
+            BUILD_NUMBER="$PUBSPEC_BUILD"
+          else
+            BUILD_NUMBER="${{ github.run_number }}"
+          fi
+
+          TAG_NAME="v$VERSION"
+
+          echo "Resolved Version: $VERSION"
+          echo "Resolved Build Number: $BUILD_NUMBER"
+          echo "Resolved Tag: $TAG_NAME"
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "build_number=$BUILD_NUMBER" >> $GITHUB_OUTPUT
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+
+  build-android:
+    name: Build Android (APK & AAB) & Deploy Play Store
+    needs: resolve-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Rebuild Localization
+        run: flutter gen-l10n
+
+      - name: Build APK and App Bundle
+        run: |
+          VERSION="${{ needs.resolve-version.outputs.version }}"
+          BUILD_NUMBER="${{ needs.resolve-version.outputs.build_number }}"
+
+          printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
+
+          echo "Building APK for version $VERSION ($BUILD_NUMBER)..."
+          flutter build apk --release \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER" \
+            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+
+          echo "Building AppBundle for version $VERSION ($BUILD_NUMBER)..."
+          flutter build appbundle --release \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER" \
+            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+
+          mv build/app/outputs/flutter-apk/app-release.apk "ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.apk"
+          mv build/app/outputs/bundle/release/app-release.aab "ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.aab"
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-builds
+          path: |
+            ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.apk
+            ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.aab
+
+      - name: Upload to Google Play (Internal Track)
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.upload_play_store }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          packageName: io.datarx.elrsmobile
+          releaseFiles: "ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.aab"
+          track: internal
+          status: completed
+        env:
+          NODE_OPTIONS: "--no-deprecation"
+
+  build-ios:
+    name: Build iOS (IPA) & Deploy TestFlight
+    needs: resolve-version
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode Version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.0'
+
+      - name: Download iOS Platform SDK
+        run: |
+          xcrun simctl list > /dev/null
+          xcodebuild -downloadPlatform iOS
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Rebuild Localization
+        run: flutter gen-l10n
+
+      - name: Update CocoaPods Specs
+        working-directory: ios
+        run: pod repo update || true
+
+      - name: Install Apple Certificate and Provisioning Profile
+        run: |
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          KEYCHAIN_PASSWORD=$(openssl rand -base64 24)
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          echo "${{ secrets.P12_BASE64 }}" | base64 --decode > $RUNNER_TEMP/dist.p12
+          security import $RUNNER_TEMP/dist.p12 -k $KEYCHAIN_PATH -P "${{ secrets.P12_PASSWORD }}" -A -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "${{ secrets.PROVISIONING_PROFILE_BASE64 }}" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/distribution.mobileprovision
+          
+          security list-keychains -d user -s $KEYCHAIN_PATH $(security list-keychains -d user | sed 's/\"//g')
+          security find-identity -v -p codesigning $KEYCHAIN_PATH
+
+      - name: Build IPA
+        run: |
+          VERSION="${{ needs.resolve-version.outputs.version }}"
+          BUILD_NUMBER="${{ needs.resolve-version.outputs.build_number }}"
+
+          echo "Building IPA for version $VERSION ($BUILD_NUMBER)..."
+          flutter build ipa --release \
+            --build-name="$VERSION" \
+            --build-number="$BUILD_NUMBER" \
+            --export-options-plist=ios/ExportOptions.plist \
+            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+
+          mv build/ios/ipa/*.ipa "ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.ipa"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build
+          path: "ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.ipa"
+
+      - name: Upload to App Store Connect (TestFlight)
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.upload_app_store }}
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          printf "%s" "${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}.p8
+          
+          xcrun altool --upload-app \
+            --type ios \
+            --file "ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.ipa" \
+            --apiKey ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }} \
+            --apiIssuer ${{ secrets.APP_STORE_CONNECT_API_ISSUER_ID }}
+
+  create-prerelease:
+    name: Create GitHub Pre-Release
+    needs: [resolve-version, build-android, build-ios]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.create_github_prerelease }}
+    steps:
+      - name: Download Android Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-builds
+
+      - name: Download iOS Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-build
+
+      - name: Publish GitHub Pre-Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.resolve-version.outputs.tag_name }}
+          name: "Release Candidate ${{ needs.resolve-version.outputs.tag_name }}"
+          draft: false
+          prerelease: true
+          generate_release_notes: true
+          files: |
+            ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.apk
+            ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.aab
+            ELRS-Mobile-${{ needs.resolve-version.outputs.tag_name }}.ipa
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
