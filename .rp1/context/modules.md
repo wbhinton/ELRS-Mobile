@@ -9,7 +9,7 @@ strictness: strict
 # Module & Component Breakdown
 
 **Project**: ELRS Mobile
-**Analysis Date**: 2026-08-27
+**Analysis Date**: 2026-09-21
 **Modules Analyzed**: ~22 (feature slices + core directories + app shell + vendored package)
 
 ## Feature Modules (`lib/src/features/`)
@@ -20,12 +20,14 @@ strictness: strict
 **Key components**: `presentation/flashing_controller.dart`, `application/firmware_patcher.dart`, `utils/firmware_assembler.dart`, `utils/unified_firmware_builder.dart`, `utils/stm32_firmware_patcher.dart`, `utils/target_resolver.dart`, `utils/hardware_config_merger.dart`, `data/device_repository.dart`, `data/firmware_repository.dart`, `data/releases_repository.dart`, `data/targets_repository.dart`, `domain/target_definition.dart`, `domain/flashing_profile.dart`, `domain/patch_configuration.dart`, `state/flashing_provider.dart` (`isFlashingProvider`).
 **Public API**: providers `flashingControllerProvider`, `firmwarePatcherProvider`, `targetsProvider`, `isFlashingProvider`, `deviceRepositoryProvider`, `targetsRepositoryProvider`; screen `FlashingScreen (/flashing)`; static I/O-free utils.
 **Contract**: consumers interact via Riverpod providers; other modules must set `isFlashing` to suspend discovery/heartbeat during a flash.
+**Recent changes**: `ReleasesRepository` raised the minimum offered firmware version from `>= 3.0.0` to `>= 3.3.0` (pre-3.3.0 firmware lacks unified-build support). `FlashingController`'s target-mismatch force-flash now calls `confirmForceUpdate()` directly first (the mismatched bytes are still in the device's OTA buffer from the initial `/update`), falling back to a full re-upload-then-confirm only if that fails — cuts a redundant network round trip on the common force-flash path.
 
 ### config (`features/config/`)
 **Purpose**: live device configuration — connect to a flashed device, heartbeat/probe it, read and write runtime ELRS settings (domain, power, model mappings), frequency-safety validation.
 **Complexity**: High (~13 files, ~1.2k LOC).
 **Key components**: `presentation/config_view_model.dart`, `presentation/device_editor_view_model.dart`, `services/device_config_service.dart`, `domain/runtime_config_model.dart`, `domain/elrs_mappings.dart`, `utils/frequency_validator.dart`.
 **Public API**: providers `configViewModelProvider`, `deviceConfigServiceProvider`; domain `RuntimeConfig`, `ElrsMappings`, `FrequencyValidator`. Depends on `core/networking` for transport.
+**Recent changes**: `DeviceConfigService` gained a legacy-firmware compatibility layer — `probeDeviceHead` falls back to the universal `probeDevice('/')` when `/hardware.json` (3.2.x+ only) fails, and `fetchConfig` falls back to a new `_fetchLegacyConfig()` that reconstructs a `RuntimeConfig` from `/target` + best-effort `/mode.json` when `/config` (3.1.0+) 404s. This lets the app read/identify devices on firmware as old as ~3.0.x even though flashing/downloads remain gated to `>= 3.3.0`.
 
 ### firmware_manager (`features/firmware_manager/`)
 **Purpose**: manage the local firmware cache — list available vs cached versions, download with progress, report and clear cache size.
@@ -36,6 +38,7 @@ strictness: strict
 **Purpose**: app settings screen and state — app locale/language selection, disclaimer/legal acceptance, Wi-Fi-on interval, flashing profiles, Expert Mode, analytics opt-in.
 **Complexity**: Medium (~8 files, ~1.6k LOC — largest single presentation surface).
 **Key components**: `presentation/settings_controller.dart`, `presentation/settings_screen.dart`, `presentation/widgets/settings_master_detail.dart`, `presentation/disclaimer_dialog.dart`, `presentation/legal_notice_screen.dart`.
+**Recent changes**: `settings_screen.dart` added Norwegian Bokmål (`nb`/`no` -> "Norsk") to the language dialog list and dropdown.
 
 ### dashboard (`features/dashboard/`)
 **Purpose**: post-connection home screen showing device status and quick-action navigation cards.
@@ -48,7 +51,7 @@ strictness: strict
 **Purpose**: app self-update check controller. Legacy Gist-based check is now stubbed (store distribution). Key: `presentation/update_controller.dart`, `domain/update_state.dart`.
 
 ### splash / support (`features/splash/`, `features/support/`)
-**Purpose**: `splash_screen.dart` — startup route (`/`), timed hand-off to Dashboard. `support_screen.dart` — help walkthrough, FAQ, community/recovery links, localized with fallback.
+**Purpose**: `splash_screen.dart` — startup route (`/`), timed hand-off to Dashboard; disclaimer text now reads "Compatible with 3.3.x/4.x firmware" (was "3.x/4.x"), matching the `ReleasesRepository` minimum-version bump. `support_screen.dart` — help walkthrough, FAQ, community/recovery links, localized with fallback (new `assets/docs/app_faq_nb.md`).
 
 ## Core Modules (`lib/src/core/`)
 
@@ -62,6 +65,7 @@ strictness: strict
 **Purpose**: persistence — `SharedPreferences` + `flutter_secure_storage` wrapper with a one-time sensitive-data migration, and an on-disk firmware/hardware-zip + targets-JSON cache.
 **Complexity**: Medium (~4 files, ~430 LOC). Key: `persistence_service.dart`, `firmware_cache_service.dart`.
 **Contract**: single choke point for prefs/secrets and the on-disk firmware cache.
+**Recent changes**: `flutter_secure_storage` bumped `^9.2.2` -> `^10.3.4` (start of a cipher migration per commit e2401d5); `persistence_service.dart`'s secure-storage init dropped the explicit `AndroidOptions(encryptedSharedPreferences: true)` in favor of v10's `AndroidOptions()` defaults. The Apple-platform plugin was also renamed `flutter_secure_storage_macos` -> `flutter_secure_storage_darwin` (see `macos/Flutter/GeneratedPluginRegistrant.swift`).
 
 ### core/utils (`core/utils/`)
 **Purpose**: cross-feature helpers — `binding_phrase_utils.dart` (phrase -> UID MD5), `lua_export_utils.dart` (file-picker export), `validation_utils.dart` (SSID/password checks), `bytes_builder_extension.dart`.
@@ -72,7 +76,7 @@ strictness: strict
 ## Support Modules
 
 ### localization (`lib/l10n/*.arb`, `lib/src/localization/`)
-Generated `AppLocalizations` for ~18 locales plus ARB sources; `arb_translate` (Gemini) performs machine translation in CI. Largest module by raw LOC (~7k, generated).
+Generated `AppLocalizations` for 18 locales plus ARB sources; `arb_translate` (Gemini) performs machine translation in CI. Largest module by raw LOC (~7k, generated). Norwegian Bokmål (`nb`) added: new `app_nb.arb`, `AppLocalizationsNb` delegate registered in `app_localizations.dart`, and a Norwegian FAQ asset (`assets/docs/app_faq_nb.md`).
 
 ### App shell (`lib/`, `lib/src/`)
 `main.dart` (entrypoint, Logger + Sentry breadcrumbs, `ProviderContainer`), `src/app.dart` (`UncontrolledProviderScope` + `MaterialApp.router` + lifecycle bootstrap), `src/router.dart` (go_router table for 8 routes), `src/bit_list.dart` (immutable bit view).
@@ -82,23 +86,26 @@ Generated `AppLocalizations` for ~18 locales plus ARB sources; `arb_translate` (
 Vendored local Flutter package — numeric IP-address input widget/keypad, consumed for manual device IP entry (~280 LOC).
 
 ### Non-app assets
-`website/` (separate Astro marketing/docs site), `firmware_testing/` (Python `audit_tool.py` + Dart `logic_validator.dart` for byte-match verification against the Web Flasher), `scripts/` (changelog generation, markdown translation), `assets/lua/elrs.lua` (bundled Lua template).
+`website/` (separate Astro marketing/docs site — hero subtitle and supported-hardware doc across all locales now state a "3.3.x/4.x" firmware floor, matching the app), `firmware_testing/` (Python `audit_tool.py` + Dart `logic_validator.dart` for byte-match verification against the Web Flasher), `scripts/` (changelog generation, markdown translation), `assets/lua/elrs.lua` (bundled Lua template).
+
+### platform_shells (`android/`, `ios/`, `macos/` native glue)
+Android `MainActivity.kt`, iOS `AppDelegate.swift`/`SceneDelegate.swift`, macOS `GeneratedPluginRegistrant.swift`. Android build tooling bumped to Gradle 9.3.1 with the modern `kotlin { compilerOptions { jvmTarget } }` DSL (migrated off deprecated `kotlinOptions`); macOS registrant regenerated for the `flutter_secure_storage_darwin` plugin rename. Release pipeline (`.github/workflows/release.yml`) unified onto a single `v*`-tag/`workflow_dispatch`-triggered workflow (was split across a development-branch push trigger and a separate RC workflow).
 
 ## Key Components Reference
 
 | Component | File | Role |
 |-----------|------|------|
-| `FlashingController` | `features/flashing/presentation/flashing_controller.dart` | Riverpod Notifier orchestrating the end-to-end flash pipeline and `FlashingState`; holds wakelock, silences heartbeat, detects post-upload mismatch |
+| `FlashingController` | `features/flashing/presentation/flashing_controller.dart` | Riverpod Notifier orchestrating the end-to-end flash pipeline and `FlashingState`; holds wakelock, silences heartbeat, detects post-upload mismatch; force-flash now confirms the buffered OTA payload directly before falling back to re-upload |
 | `FirmwarePatcher` | `features/flashing/application/firmware_patcher.dart` | Chooses STM32 (bit-packing) vs ESP (assembled later) path; derives UID |
 | `Stm32FirmwarePatcher` | `features/flashing/utils/stm32_firmware_patcher.dart` | Static util writing 6-byte UID + `Uint8` domain into STM32 firmware via `ByteData`; bounds checks reported to Sentry |
 | `FirmwareAssembler` / `UnifiedFirmwareBuilder` | `features/flashing/utils/` | Append fixed-width product-name (128 B) / lua-name (16 B) / options-JSON (512 B) / layout-JSON (2048 B) blocks to trimmed firmware |
 | `TargetResolver` / `HardwareConfigMerger` | `features/flashing/utils/` | Extract base layout from `hardware.zip` (RX/TX folder heuristics), shallow-merge target overlay |
 | `FirmwareRepository` | `features/flashing/data/firmware_repository.dart` | Download firmware artifacts/zips from Artifactory (Dio), unpack archives |
-| `ReleasesRepository` | `features/flashing/data/releases_repository.dart` | List downloadable versions from the Artifactory index; offline/cache fallback |
+| `ReleasesRepository` | `features/flashing/data/releases_repository.dart` | List downloadable versions from the Artifactory index (now filtered to `>= 3.3.0`); offline/cache fallback |
 | `DeviceRepository` | `features/flashing/data/device_repository.dart` | Device HTTP: `POST /update` multipart, read `hardware.json`/config, `/reboot`, `/forceupdate`; integrates assembler + analytics |
 | `TargetsRepository` | `features/flashing/data/targets_repository.dart` | Fetch `targets.json` (GitHub raw), cache it, parse off-isolate via `compute`, tiered cache/asset fallback |
 | `ConfigViewModel` | `features/config/presentation/config_view_model.dart` | Live device connection lifecycle: heartbeat timer, aggressive discovery poller, manual IP, probe diagnostics, `RuntimeConfig` read/write |
-| `DeviceConfigService` | `features/config/services/device_config_service.dart` | Low-level device HTTP (probe, config GET/POST) with short timeouts + `CancelToken`; V3->V4 normalization |
+| `DeviceConfigService` | `features/config/services/device_config_service.dart` | Low-level device HTTP (probe, config GET/POST) with short timeouts + `CancelToken`; V3->V4 normalization; legacy-firmware fallback (`/target`+`/mode.json`) for pre-3.1.0 devices |
 | `FrequencyValidator` | `features/config/utils/frequency_validator.dart` | Rejects a 2.4 GHz-capable model reporting a sub-GHz frequency (`modelId` bit 7) |
 | `DiscoveryService` | `core/networking/discovery_service.dart` | mDNS/NSD scanning; serialized start/stop/restart (UDP 5353 rebind guard); auto-restart on Wi-Fi transitions; skips while `isFlashing` |
 | `device_dio` / `SequentialRequestInterceptor` | `core/networking/device_dio.dart` | Dio client forcing strictly sequential requests to protect the ESP8285 web server |

@@ -48,6 +48,10 @@ Implementation: `lib/src/features/flashing/utils/target_resolver.dart`, `lib/src
 On-device (app documents directory) store of downloaded `firmware.zip`, `hardware.zip`, and targets JSON per version. A version is listed only when **both** zips exist; supports oldest-first eviction, size reporting, and a `latest` fallback for targets JSON.
 Implementation: `lib/src/core/storage/firmware_cache_service.dart`.
 
+### Legacy Config Reconstruction
+For firmware older than 3.1.0 (which predates the unified `/config` endpoint and returns 404), `DeviceConfigService._fetchLegacyConfig` reconstructs a `RuntimeConfig` from `/target` (`product_name`, `version`, `target`, `reg_domain`) plus a best-effort merge of `/mode.json` (`modelid`, `force-tlm`, `uid`) for firmware where that endpoint still exists (removed ~3.2.x). Exists so `RuntimeConfigX.effectiveProductName` can feed the Target Mismatch Guard real device data instead of leaving very old devices stuck "disconnected" — flashing/downloads remain gated to firmware `>= 3.3.0` regardless.
+Implementation: `lib/src/features/config/services/device_config_service.dart`.
+
 ## Technical Concepts
 
 ### UID / Binding Phrase
@@ -77,6 +81,13 @@ Implementation: `lib/src/features/flashing/data/device_repository.dart`.
 ### PWM Mapping
 Per-output-pin assignment of an input RC channel plus an output mode (50 Hz–400 Hz, DSHOT300, On/Off, Serial TX/RX). Sent as the `config.pwm` array indexed by pin.
 Implementation: `lib/src/features/config/domain/elrs_mappings.dart`.
+
+## New / Refined Concepts (2026-09-21)
+
+- **Legacy Firmware Fallback Chain** — a probe/config-fetch fallback ladder for pre-3.1.0 devices: `probeDeviceHead` tries `/hardware.json` (unified firmware only) then falls back to the universal `/` probe; `fetchConfig` tries `/config` (added 3.1.0) then falls back to `_fetchLegacyConfig` via `/target` + optional `/mode.json` on a 404.
+- **Target Mismatch Guard** — compares a device's actual effective product name/target against the user's selected flashing target and blocks/flags flashing on mismatch; the legacy-config path exists specifically to feed this guard real data for old firmware instead of leaving it unresolved.
+- **Direct Force-Confirm** (refined) — on a mismatch override, ExpressLRS firmware (3.1.0-4.1.0) retains the mismatched firmware already sitting in the device's OTA write buffer from the initial `/update` attempt, so `FlashingController` now calls `confirmForceUpdate()` directly first with no re-upload; only on failure (e.g. dropped connection) does it fall back to re-uploading and confirming again. Supersedes the prior assumption that the buffer always needed a re-upload.
+- **Unified Firmware Version Floor** (confirmed, wording tightened) — versions before 3.3.0 lack unified firmware support and are excluded from `ReleasesRepository`'s downloadable list (`major < 3`, or `major == 3` with `minor < 3`); STM32 legacy targets remain compatible only with 3.3.x (not 4.x+).
 
 ## Key Relationships
 
@@ -137,6 +148,7 @@ Implementation: `lib/src/features/config/domain/elrs_mappings.dart`.
 - **wifi-on-interval** — seconds after boot the device keeps its Wi-Fi AP active before disabling it; a flashing/config parameter.
 - **freqIndex** — domain-list index within the active band (not a band selector); defaults to 0 regardless of band.
 - **Expert Mode** — opt-in settings toggle revealing STM32 targets, raw binary download, Lua export, and debug reporting.
+- **Secure Storage Cipher Migration** — `flutter_secure_storage` upgraded `9.x -> 10.x`; `PersistenceService`'s `AndroidOptions` dropped the explicit `encryptedSharedPreferences: true` flag (v10 changes Android's default cipher/storage backend), part of an in-progress cipher migration alongside the existing plaintext-to-secure-storage one-time migration.
 
 ## Cross-References
 

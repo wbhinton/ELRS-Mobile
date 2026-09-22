@@ -9,7 +9,7 @@ strictness: strict
 # Implementation Patterns
 
 **Project**: ELRS Mobile (Flutter / Dart)
-**Last Updated**: 2026-08-27
+**Last Updated**: 2026-09-21
 
 ## Naming & Organization
 
@@ -33,13 +33,14 @@ Evidence: `lib/src/features/flashing/domain/target_definition.dart:6-48`, `lib/s
 **Strategy**: exception-based (no `Result`/`Either`). Repository/service methods wrap `try/catch` and rethrow `Exception('Failed to ...: $e')` with a contextual message; low-level cause appended via interpolation. Predicate probes (`probeDevice`) swallow errors and return `bool`.
 **Propagation**: catch at the data/service boundary, re-wrap, bubble to the controller which stores `errorMessage` in Freezed state. `rethrow` when the caller needs the original type (`DioException`). Tiered fallback on failure (network -> cache -> bundled asset).
 **Expected-error-as-success**: `DioException`s matching known connection-drop fragments after `/update`, `/forceupdate`, `/reboot` are treated as success (the device reboots and severs Wi-Fi).
+**Firmware-version-gated endpoint fallback** (new): probe/fetch the modern device endpoint first, catch its specific failure mode (404/`DioException`), and reconstruct equivalent data from legacy endpoints known to exist on older firmware, rather than failing outright — `DeviceConfigService.probeDeviceHead`/`fetchConfig` fall back to `probeDevice`/`_fetchLegacyConfig` for pre-3.1.0/3.2.x firmware. Mirrored in `FlashingController`'s mismatch-recovery flow: try the fast/direct operation (`confirmForceUpdate()`) first, catch and fall back to the slower path (re-upload-then-confirm) only on failure.
 
 Evidence: `lib/src/features/flashing/data/targets_repository.dart:16-53`, `lib/src/features/config/services/device_config_service.dart:174-209`
 
 ## Validation & Boundaries
 
 **Location**: two layers — form-input validation in `*Utils`/`*Validator` static methods returning `String?` (null = valid, Flutter `FormField` convention); and defensive runtime normalization of external device JSON before model parsing.
-**Method**: manual length/range checks (`ValidationUtils.validateSsid`/`validatePassword`). Firmware-version schema drift handled by hand-written normalizers that hoist/rename keys (V3 `settings` block, `reg_domain` -> `domain`, `vbind` bool/string -> int) so the Freezed model sees one shape. Hardware-safety asserts throw (`FrequencyValidator`).
+**Method**: manual length/range checks (`ValidationUtils.validateSsid`/`validatePassword`). Firmware-version schema drift handled by hand-written normalizers that hoist/rename keys (V3 `settings` block, `reg_domain` -> `domain`, `vbind` bool/string -> int) so the Freezed model sees one shape. Hardware-safety asserts throw (`FrequencyValidator`). New: firmware-version compatibility shims reconstruct a full `RuntimeConfig`-shaped map from older device endpoints (`/target` + best-effort `/mode.json`) when the modern `/config` endpoint 404s, documented inline with the firmware-version range each fallback targets.
 
 Evidence: `lib/src/core/utils/validation_utils.dart:1-27`, `lib/src/features/config/services/device_config_service.dart:60-98,211-295`
 
@@ -61,8 +62,8 @@ Evidence: `test/localization_overflow_test.dart:1-60`
 
 ## I/O & Integration
 
-**Storage**: no SQL DB. `SharedPreferences` for non-sensitive prefs + one-time migration flags; `FlutterSecureStorage` (`AndroidOptions(encryptedSharedPreferences: true)`) for bind phrase, Wi-Fi creds, and the JSON-encoded `FlashingProfile` list. `PersistenceService` owns all key constants (`static const _keyXxx`) and runs `migrateIfNeeded()` at provider creation. Firmware/targets archives cached on disk via `FirmwareCacheService`.
-**HTTP clients**: Dio, two injected instances — `internetDioProvider` for public endpoints, `localDioProvider` for the LAN device (`http://<ip>/`). Short (~2 s) `sendTimeout`/`receiveTimeout` for device probes; `responseType: bytes`/`plain` for downloads; `CancelToken` threaded through device calls. Large JSON parsed off-isolate via `compute(_parseTargets, ...)`. External hosts hardcoded (`artifactory.expresslrs.org`, `raw.githubusercontent.com`).
+**Storage**: no SQL DB. `SharedPreferences` for non-sensitive prefs + one-time migration flags; `FlutterSecureStorage` (bumped `^9.2.2` -> `^10.3.4`, on Android now `AndroidOptions()` defaults rather than an explicit `encryptedSharedPreferences: true` flag — cipher migration in progress) for bind phrase, Wi-Fi creds, and the JSON-encoded `FlashingProfile` list. `PersistenceService` owns all key constants (`static const _keyXxx`) and runs `migrateIfNeeded()` at provider creation. Firmware/targets archives cached on disk via `FirmwareCacheService`.
+**HTTP clients**: Dio, two injected instances — `internetDioProvider` for public endpoints, `localDioProvider` for the LAN device (`http://<ip>/`). Short (~2 s) `sendTimeout`/`receiveTimeout` for device probes; `responseType: bytes`/`plain` for downloads; `CancelToken` threaded through device calls. Large JSON parsed off-isolate via `compute(_parseTargets, ...)`. External hosts hardcoded (`artifactory.expresslrs.org`, `raw.githubusercontent.com`). Device-endpoint comments now document exactly which firmware versions serve which endpoint (`/hardware.json` 3.2.x+, `/config` since 3.1.0, `/target`+`/mode.json` pre-3.1.0).
 **Resilience**: tiered fallback (network -> on-disk cache -> bundled asset); forced `Content-Length` to bypass chunked upload encoding on flash.
 
 Evidence: `lib/src/core/storage/persistence_service.dart:9-70,148-157`, `lib/src/features/flashing/data/firmware_repository.dart:35-98`

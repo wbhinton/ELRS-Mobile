@@ -2,18 +2,18 @@
   "strategy": "parallel-map-reduce",
   "repo_type": "single-project",
   "monorepo_projects": [],
-  "generated_at": "2026-08-27T15:36:29Z",
-  "git_commit": "5649a82678086517bc726b62d428b832013b1636",
-  "files_analyzed": 60,
+  "generated_at": "2026-09-21T13:04:00Z",
+  "git_commit": "f7829694bd41081855407df5d58ac0da4a2ba493",
+  "files_analyzed": 61,
   "languages": ["Dart", "TypeScript", "Python"],
   "metrics": {
-    "modules": 22,
+    "modules": 23,
     "components": 25,
-    "concepts": 24
+    "concepts": 28
   },
-  "build_strategy": "full_scan",
-  "total_files_scanned": 381,
-  "high_value_files": 60,
+  "build_strategy": "wide_reconcile",
+  "total_files_scanned": 592,
+  "high_value_files": 61,
   "documentation_files": 14,
   "languages_detected": {
     "Dart": {
@@ -30,8 +30,8 @@
     }
   },
   "coverage_metrics": {
-    "concepts_documented": 24,
-    "modules_covered": 22,
+    "concepts_documented": 28,
+    "modules_covered": 23,
     "apis_documented": 0
   },
   "quality_indicators": {
@@ -52,9 +52,9 @@
     }
   },
   "incremental_updates": {
-    "last_incremental_date": "",
-    "files_changed_since_last": 0,
-    "sections_updated": [],
+    "last_incremental_date": "2026-09-21T13:04:00Z",
+    "files_changed_since_last": 54,
+    "sections_updated": ["architecture.md", "concept_map.md", "interaction-model.md", "modules.md", "patterns.md", "index.md"],
     "full_scan_required": false
   }
 }

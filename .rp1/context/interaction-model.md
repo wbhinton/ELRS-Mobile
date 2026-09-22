@@ -9,8 +9,8 @@ strictness: strict
 # ELRS Mobile - Interaction Model
 
 **Project**: ELRS Mobile
-**Analysis Date**: 2026-08-27
-**Surfaces**: Mobile app (Android/iOS), embedded device WebView, marketing/docs website
+**Analysis Date**: 2026-09-21
+**Surfaces**: Mobile app (Android/iOS/macOS), embedded device WebView, marketing/docs website
 
 ## Experience Principles
 
@@ -19,7 +19,8 @@ strictness: strict
 - **Outdoor / sunlight readability** — thicker progress bars (`minHeight: 6`), a bright cyan accent (`#00E5FF`), bold uppercased status text, dark theme throughout.
 - **Guarded destructive actions** — every irreversible step is gated by an explicit confirmation: non-dismissible first-launch legal disclaimer, target-mismatch force-flash, empty-binding-phrase, and cache/profile deletion dialogs.
 - **Progressive disclosure via Expert Mode** — STM32/legacy targets, raw binary download, Lua export, and debug reporting are hidden until enabled in Settings.
-- **Flash-lifecycle resilience** — during flashing the app locks orientation to portrait (prevents provider `autoDispose` teardown), silences heartbeat/discovery timers, and runs an aggressive post-flash reconnection grace period while the device reboots.
+- **Flash-lifecycle resilience with a trust-the-buffer optimization** — during flashing the app locks orientation to portrait (prevents provider `autoDispose` teardown), silences heartbeat/discovery timers, and runs an aggressive post-flash reconnection grace period while the device reboots. On a target-mismatch force-flash, the app no longer assumes the device's OTA buffer went stale — it calls `confirmForceUpdate()` directly first (the mismatched bytes are still sitting in the buffer from the initial `/update`, matching the ExpressLRS WebUI's own behavior), falling back to a full re-upload-then-confirm only if the direct confirm fails. Net effect: a force flash after the warning dialog resolves in one network round trip instead of two in the common case.
+- **Narrowed minimum supported firmware line, surfaced everywhere the range is quoted** — the advertised firmware compatibility floor moved from a broad "3.x" to the specific "3.3.x" (paired with "4.x") across the splash screen tagline, the website hero subtitle in every locale, the supported-hardware doc, and the STM32 usage-instructions caveat — a consistent, deliberate cross-surface tightening rather than drift.
 - **Reusable named configuration profiles** — binding phrase, Wi-Fi credentials, regulatory domains, and Wi-Fi-on interval bundle into named Flashing Profiles so users switch whole configurations instead of re-entering fields.
 - **Delegate device configuration to the device's own UI** — per-device parameter editing is not reimplemented natively; the app embeds the ExpressLRS web UI served by the device inside a locked WebView.
 
@@ -31,6 +32,7 @@ strictness: strict
 | Power user / Expert | Mobile app with Expert Mode; external tools (STLink, Betaflight passthrough) | Flash legacy STM32 hardware, download patched binary, export Lua script, submit debug reports | Settings -> Expert Mode |
 | Radio / tablet user (landscape) | Mobile app landscape layouts | Use on a wide display such as an AX12-class radio touchscreen | Any screen, landscape orientation |
 | New / prospective user | Website docs (Astro/Starlight), in-app Support screen, community links | Install the app, learn the flashing and recovery workflow | External browser; Dashboard -> Help & Support |
+| Norwegian-speaking user (new) | Mobile app (language selector, localized UI strings, FAQ) | Use the app and its FAQ content in Norwegian Bokmål rather than falling back to English | Settings -> language picker ("Norsk") |
 
 ## Primary Actions
 
@@ -50,7 +52,7 @@ strictness: strict
 **Role**: host the device's own embedded ExpressLRS web configuration UI. **Primary actions**: interact with the device web UI (parameters, PWM mapping, OTA via device page), pick a firmware `.bin`/`.gz` via the native file-selector bridge (Android). **Constraint**: navigation locked to the device IP; external navigation blocked.
 
 ### Settings (`/settings`)
-**Role**: manage profiles, network defaults, storage limits, preferences, Expert/diagnostic tools. **Primary actions**: select/add/delete a Flashing Profile; edit binding phrase, Wi-Fi SSID/password, Wi-Fi-on interval; set default regulatory domains; adjust max cached versions; clear the firmware cache; toggle analytics sharing; toggle Expert Mode; change the language override; export Lua / submit debug report (Expert).
+**Role**: manage profiles, network defaults, storage limits, preferences, Expert/diagnostic tools. **Primary actions**: select/add/delete a Flashing Profile; edit binding phrase, Wi-Fi SSID/password, Wi-Fi-on interval; set default regulatory domains; adjust max cached versions; clear the firmware cache; toggle analytics sharing; toggle Expert Mode; change the language override (now including Norsk/`nb`); export Lua / submit debug report (Expert).
 
 ### Help & Support (`/support`)
 **Role**: in-app walkthrough, FAQ, community/recovery links. **Primary actions**: read the tabbed Flashing Guide / FAQ / Resources (TabBar portrait, NavigationRail landscape), expand recovery steps, launch external links (Discord, GitHub, web-flasher, recovery video), view the full disclaimer.
@@ -78,14 +80,14 @@ strictness: strict
 ## Feedback Loops
 
 - **Flash progress and completion** — tap FLASH with a connected device -> progress bar advances through downloading/patching/uploading, status text updates -> success snackbar + green "Device is rebooting" + button relabels to DONE -> device auto-reconnects after reboot (Dashboard card animates back to Connected).
-- **Target mismatch guard** — flash attempted while selected target != connected product -> non-dismissible "Target Mismatch" dialog with CANCEL / red FORCE FLASH; cancel resets status, force calls `forceUpdate()`.
+- **Target mismatch guard / force-flash** — flash attempted while selected target != connected product -> non-dismissible "Target Mismatch" dialog with CANCEL / red FORCE FLASH; cancel resets status. On FORCE FLASH, the controller now calls `confirmForceUpdate()` directly first (trusting the device's existing OTA buffer), falling back to re-upload-then-confirm only if that throws — same visible progress-bar/status behavior on the fallback path.
 - **Missing binding phrase guard** — flash attempted with no phrase (`NO_BIND_PHRASE`) -> "No Binding Phrase" dialog with CANCEL / PROCEED; PROCEED re-flashes with `ignoreMissingBindPhrase`.
 - **First-launch disclaimer gate** — settings loaded with `disclaimerAccepted == false` -> non-dismissible disclaimer over the Dashboard; must accept to proceed.
 - **Discovery retry** — tap Retry on "No Device Found" -> `restartDiscovery()` resets mDNS found-state and relaunches full pre-connection discovery; card returns to scanning.
 - **Manual IP override** — tap the gear icon on the hardware card -> dialog with a custom numeric IP keypad; Connect enabled only when the address matches the IPv4 regex; `setManualIp` adds the address to the probe candidate list.
 - **Firmware cache management** — tap download/delete on a version row -> trailing swaps to a spinner during download, then to green "Ready for offline use" or back to the download icon; storage header bar and count update.
 - **Post-flash auto-reconnect** — flash completes and the device reboots -> heartbeat/discovery timers resume in an aggressive grace period -> on reconnect the hardware card animates back to Connected, otherwise "device did not reconnect" is logged.
-- **Language override selection** — tap the language icon (Settings / Flashing AppBar) -> dialog lists locales with a check on the active one -> selection applies an app-locale override; Support/FAQ content reloads localized (fallback to the default asset).
+- **Language override selection** — tap the language icon (Settings / Flashing AppBar) -> dialog lists locales with a check on the active one -> selection applies an app-locale override; Support/FAQ content reloads localized (fallback to the default asset). Now includes `nb` (Norsk) end-to-end: language dialog, dropdown, `AppLocalizationsNb` delegate, and a Norwegian FAQ asset.
 - **Clear cache confirmation** — tap "Clear firmware cache" -> confirmation dialog -> snackbar confirming the cache was cleared.
 
 ## Accessibility & Discoverability
@@ -108,6 +110,7 @@ strictness: strict
 | Flash delivery method by platform | Flashing screen vs external tools | Standard targets flash OTA in-app; STM32 targets disable OTA and require a downloaded patched binary flashed via STLink or Betaflight passthrough | STM32 hardware has no OTA capability |
 | Onboarding / walkthrough content | Website docs vs in-app Support | Website carries install/app-store links + the canonical phased flashing guide; in-app Support mirrors the phased walkthrough + FAQ + recovery, localized with fallback | Website serves acquisition; in-app serves offline field reference |
 | Update checking | Mobile app vs app stores | Legacy in-app Gist-based update check is now a no-op; app updates handled entirely by the stores | App is distributed via Google Play and the App Store |
+| Advertised minimum firmware version | Splash screen, website (all locales), website docs, in-app usage instructions | All surfaces quoting a supported firmware range moved in lockstep from "3.x" to "3.3.x" (paired with "4.x") | Reflects a real minimum-supported firmware floor below which OTA/patching is not guaranteed; kept consistent everywhere the claim appears |
 
 ## Related KB Links
 
