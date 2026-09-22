@@ -12,6 +12,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
+import '../../../core/networking/expected_reboot_drop.dart';
 import '../domain/runtime_config_model.dart';
 
 class DeviceConfigService {
@@ -253,7 +254,7 @@ class DeviceConfigService {
         throw Exception('Failed to reboot device. Status code: ${response.statusCode}');
       }
     } on DioException catch (e) {
-      if (_isExpectedRebootSocketDrop(e)) {
+      if (isExpectedRebootSocketDrop(e)) {
         _log.info('Caught expected socket drop during reboot to $ip');
         return;
       }
@@ -261,26 +262,6 @@ class DeviceConfigService {
     } catch (e) {
       throw Exception('Failed to reboot device at $ip: $e');
     }
-  }
-
-  /// Returns `true` when a [DioException] represents the hardware violently
-  /// severing the connection after receiving a reboot command.
-  ///
-  /// These errors map to errno values such as:
-  /// - 103 — ECONNABORTED  (Software caused connection abort)
-  /// - 104 — ECONNRESET    (Connection reset by peer)
-  /// - 32  — EPIPE         (Broken pipe)
-  /// - 111 — ECONNREFUSED  (Connection refused — device already down)
-  bool _isExpectedRebootSocketDrop(DioException e) {
-    final description = e.toString().toLowerCase();
-    const expectedFragments = [
-      'software caused connection abort',
-      'connection closed before full header was received',
-      'connection reset by peer',
-      'broken pipe',
-      'connection refused',
-    ];
-    return expectedFragments.any(description.contains);
   }
 
   /// Normalizes V3 firmware JSON payloads to match the V4 structure.

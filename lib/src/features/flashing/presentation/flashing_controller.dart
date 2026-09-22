@@ -779,8 +779,12 @@ class FlashingController extends _$FlashingController {
       await deviceRepo.flashFirmware(
         payload.bytes,
         payload.filename,
-        force: force,
         isTx: isTx,
+        onSendProgress: (sent, total) {
+          if (total > 0) {
+            state = state.copyWith(progress: sent / total);
+          }
+        },
       );
 
       ref.read(isFlashingProvider.notifier).setFlashing(false);

@@ -17,6 +17,7 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
+import '../../../core/networking/expected_reboot_drop.dart';
 import '../../config/domain/runtime_config_model.dart';
 import '../../../core/utils/binding_phrase_utils.dart';
 import '../../../core/analytics/analytics_service.dart';
@@ -205,7 +206,6 @@ class DeviceRepository {
     String? platform,
     int? domain,
     int? wifiOnInterval,
-    bool force = false,
     bool isTx = false,
   }) async {
     try {
@@ -250,6 +250,7 @@ class DeviceRepository {
             _log.info(
               'Upload Progress: ${(sent / total * 100).toStringAsFixed(1)}%',
             );
+            onSendProgress?.call(sent, total);
           },
         );
 
@@ -264,7 +265,7 @@ class DeviceRepository {
         }
         _log.info('Flash successful!');
       } on DioException catch (e) {
-        if (_isExpectedRebootSocketDrop(e)) {
+        if (isExpectedRebootSocketDrop(e)) {
           _log.info(
             'Device successfully updated and rebooted! Caught expected socket drop.',
           );
@@ -275,14 +276,6 @@ class DeviceRepository {
     } catch (e) {
       throw Exception('Failed to flash firmware: $e');
     }
-  }
-
-  bool _isExpectedRebootSocketDrop(DioException e) {
-    final errStr = e.toString().toLowerCase();
-    return errStr.contains('software caused connection abort') ||
-        errStr.contains('connection closed before full header was received') ||
-        errStr.contains('connection reset by peer') ||
-        errStr.contains('broken pipe');
   }
 
   /// Confirms a forced update after a target mismatch using Dio.
@@ -299,7 +292,7 @@ class DeviceRepository {
       );
     } on DioException catch (e) {
       // A successful force flash causes an immediate hardware reboot.
-      if (_isExpectedRebootSocketDrop(e)) {
+      if (isExpectedRebootSocketDrop(e)) {
         _log.info('Caught expected socket drop during force update reboot');
         return;
       }
