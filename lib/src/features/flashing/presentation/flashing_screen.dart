@@ -183,14 +183,18 @@ class FlashingScreen extends HookConsumerWidget {
                 Column(
                   children: [
                     LinearProgressIndicator(
-                      value: state.progress,
+                      // Finalizing has no progress signal from the device —
+                      // show an indeterminate bar instead of a stalled 100%.
+                      value: state.status == FlashingStatus.finalizing
+                          ? null
+                          : state.progress,
                       minHeight: 6, // Slightly thicker for better outdoor visibility
                       color: const Color(0xFF00E5FF), // Bright Cyan
                       backgroundColor: Colors.grey.withValues(alpha: 0.3), // Neutral dark track
                       borderRadius: BorderRadius.circular(4), // Rounded edges
                     ),
                     const SizedBox(height: 8),
-                    Text(state.status.name.toUpperCase()),
+                    Text(_flashingStatusLabel(context, state.status)),
                     const SizedBox(height: 16),
                   ],
                 ),
@@ -298,5 +302,29 @@ class FlashingScreen extends HookConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+String _flashingStatusLabel(BuildContext context, FlashingStatus status) {
+  final l10n = AppLocalizations.of(context)!;
+  switch (status) {
+    case FlashingStatus.locating:
+      return l10n.flashingStatusLocating.toUpperCase();
+    case FlashingStatus.unpacking:
+      return l10n.flashingStatusUnpacking.toUpperCase();
+    case FlashingStatus.downloading:
+      return l10n.flashingStatusDownloading.toUpperCase();
+    case FlashingStatus.building:
+      return l10n.flashingStatusBuilding.toUpperCase();
+    case FlashingStatus.uploading:
+      return l10n.flashingStatusUploading.toUpperCase();
+    case FlashingStatus.finalizing:
+      return l10n.flashingStatusFinalizing.toUpperCase();
+    case FlashingStatus.idle:
+    case FlashingStatus.success:
+    case FlashingStatus.downloadSuccess:
+    case FlashingStatus.error:
+    case FlashingStatus.mismatch:
+      return status.name.toUpperCase();
   }
 }

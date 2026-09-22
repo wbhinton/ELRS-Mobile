@@ -18,6 +18,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get flashingButtonLabel => 'Gravar Firmware';
 
   @override
+  String get flashingStatusLocating => 'Locating Firmware';
+
+  @override
+  String get flashingStatusUnpacking => 'Unpacking Firmware';
+
+  @override
+  String get flashingStatusDownloading => 'Downloading Firmware';
+
+  @override
+  String get flashingStatusBuilding => 'Building Firmware';
+
+  @override
+  String get flashingStatusUploading => 'Uploading to Device';
+
+  @override
+  String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
+
+  @override
   String get packetRateLabel => 'Taxa de Pacotes';
 
   @override

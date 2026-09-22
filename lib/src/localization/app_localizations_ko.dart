@@ -18,6 +18,24 @@ class AppLocalizationsKo extends AppLocalizations {
   String get flashingButtonLabel => '플래시';
 
   @override
+  String get flashingStatusLocating => 'Locating Firmware';
+
+  @override
+  String get flashingStatusUnpacking => 'Unpacking Firmware';
+
+  @override
+  String get flashingStatusDownloading => 'Downloading Firmware';
+
+  @override
+  String get flashingStatusBuilding => 'Building Firmware';
+
+  @override
+  String get flashingStatusUploading => 'Uploading to Device';
+
+  @override
+  String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
+
+  @override
   String get packetRateLabel => '패킷 전송률';
 
   @override

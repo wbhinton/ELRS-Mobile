@@ -148,6 +148,42 @@ abstract class AppLocalizations {
   /// **'Flash'**
   String get flashingButtonLabel;
 
+  /// Progress label shown briefly while the app checks whether the firmware is already cached locally, before deciding whether to unpack it from cache or download it. This app is designed for fully offline use, so this is normally instantaneous.
+  ///
+  /// In en, this message translates to:
+  /// **'Locating Firmware'**
+  String get flashingStatusLocating;
+
+  /// Progress label shown while firmware is being extracted from the locally cached archive. This is the normal, offline path most users hit — do not translate as network activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpacking Firmware'**
+  String get flashingStatusUnpacking;
+
+  /// Progress label shown only when the firmware is NOT already cached locally and must be fetched over the network. This is the fallback/rare path, not the normal offline flow — do not use this label for reading cached files.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading Firmware'**
+  String get flashingStatusDownloading;
+
+  /// Progress label shown while the firmware binary is being patched/assembled with the user's settings (binding phrase, WiFi, regulatory domain) before upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Building Firmware'**
+  String get flashingStatusBuilding;
+
+  /// Progress label shown while the firmware is being transferred to the device over WiFi.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading to Device'**
+  String get flashingStatusUploading;
+
+  /// Progress label shown after the upload finishes, while the device erases/writes its flash memory. There is no progress signal from the device during this step, so this message tells the user the app has not frozen.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing to Device — Please Wait'**
+  String get flashingStatusFinalizing;
+
   /// RF performance setting (Hz). Do not translate technical units or abbreviations.
   ///
   /// In en, this message translates to:

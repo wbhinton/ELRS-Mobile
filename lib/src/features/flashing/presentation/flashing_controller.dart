@@ -35,9 +35,12 @@ part 'flashing_controller.g.dart';
 
 enum FlashingStatus {
   idle,
+  locating,
+  unpacking,
   downloading,
-  patching,
+  building,
   uploading,
+  finalizing,
   success,
   downloadSuccess,
   error,
@@ -71,6 +74,12 @@ abstract class FlashingState with _$FlashingState {
 @Riverpod(keepAlive: true)
 class FlashingController extends _$FlashingController {
   static final _log = Logger('FlashingController');
+
+  // The device write/verify/reboot that happens after the upload finishes
+  // has no progress signal of its own, so the upload phase is capped below
+  // 1.0 and the remainder is shown as an indeterminate "finalizing" step.
+  static const _uploadRangeStart = 0.66;
+  static const _uploadRangeEnd = 0.95;
 
   @override
   FlashingState build() {
@@ -367,7 +376,7 @@ class FlashingController extends _$FlashingController {
     }
 
     state = state.copyWith(
-      status: FlashingStatus.downloading,
+      status: FlashingStatus.locating,
       progress: 0.0,
       errorMessage: null,
     );
@@ -383,6 +392,8 @@ class FlashingController extends _$FlashingController {
 
       if (cachedZip == null || cachedHardwareZip == null) {
         // Cache missing or incomplete. Fallback to network download.
+        state = state.copyWith(status: FlashingStatus.downloading);
+
         // 1. Unbind process to permit mobile data for Artifactory download
         final connectivity = ref.read(connectivityServiceProvider.notifier);
         await connectivity.unbind();
@@ -402,7 +413,7 @@ class FlashingController extends _$FlashingController {
 
       final payload = await _buildFinalPayload();
 
-      state = state.copyWith(status: FlashingStatus.patching, progress: 0.5);
+      state = state.copyWith(status: FlashingStatus.building, progress: 0.5);
 
       final settingsState = ref.read(settingsControllerProvider);
       final activeProfile = settingsState.profiles.firstWhere(
@@ -513,7 +524,7 @@ class FlashingController extends _$FlashingController {
 
     if (cachedZip != null && cachedHardwareZip != null) {
       _log.info('Building firmware from local cache for version $version');
-      state = state.copyWith(status: FlashingStatus.downloading, progress: 0.1);
+      state = state.copyWith(status: FlashingStatus.unpacking, progress: 0.1);
       final zipBytes = await cachedZip.readAsBytes();
 
       firmwareData = await ref
@@ -559,7 +570,7 @@ class FlashingController extends _$FlashingController {
           );
     }
 
-    state = state.copyWith(status: FlashingStatus.patching, progress: 0.33);
+    state = state.copyWith(status: FlashingStatus.building, progress: 0.33);
 
     Uint8List finalBytes;
 
@@ -678,6 +689,22 @@ class FlashingController extends _$FlashingController {
     return payload;
   }
 
+  void _onUploadProgress(int sent, int total) {
+    if (total <= 0) return;
+    if (sent >= total) {
+      // All bytes handed off to the device — it now erases/writes flash
+      // and reboots before responding, with no progress signal of its own.
+      state = state.copyWith(status: FlashingStatus.finalizing);
+    } else {
+      state = state.copyWith(
+        status: FlashingStatus.uploading,
+        progress:
+            _uploadRangeStart +
+            (sent / total) * (_uploadRangeEnd - _uploadRangeStart),
+      );
+    }
+  }
+
   Future<void> flash({
     bool force = false,
     bool ignoreMissingBindPhrase = false,
@@ -745,7 +772,7 @@ class FlashingController extends _$FlashingController {
     }
 
     state = state.copyWith(
-      status: FlashingStatus.downloading,
+      status: FlashingStatus.locating,
       progress: 0.0,
       errorMessage: null,
     );
@@ -767,7 +794,10 @@ class FlashingController extends _$FlashingController {
 
       final payload = await _buildFinalPayload();
 
-      state = state.copyWith(status: FlashingStatus.uploading, progress: 0.66);
+      state = state.copyWith(
+        status: FlashingStatus.uploading,
+        progress: _uploadRangeStart,
+      );
 
       // 2. RE-BIND to WiFi interface to ensure the upload reaches 10.0.0.1
       await connectivity.bindToWiFi();
@@ -780,11 +810,7 @@ class FlashingController extends _$FlashingController {
         payload.bytes,
         payload.filename,
         isTx: isTx,
-        onSendProgress: (sent, total) {
-          if (total > 0) {
-            state = state.copyWith(progress: sent / total);
-          }
-        },
+        onSendProgress: _onUploadProgress,
       );
 
       ref.read(isFlashingProvider.notifier).setFlashing(false);
@@ -867,11 +893,7 @@ class FlashingController extends _$FlashingController {
           await repo.flashFirmware(
             payload.bytes,
             payload.filename,
-            onSendProgress: (sent, total) {
-              if (total > 0) {
-                state = state.copyWith(progress: sent / total);
-              }
-            },
+            onSendProgress: _onUploadProgress,
           );
         } catch (e2) {
           // We EXPECT it to throw a mismatch exception here because we just
