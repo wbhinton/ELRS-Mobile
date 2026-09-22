@@ -12,7 +12,6 @@
 
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
-import '../../../core/networking/expected_reboot_drop.dart';
 import '../domain/runtime_config_model.dart';
 
 class DeviceConfigService {
@@ -171,97 +170,6 @@ class DeviceConfigService {
 
     _normalizeConfigDomains(data);
     return RuntimeConfig.fromJson(data);
-  }
-
-  /// Saves the updated options to the device.
-  /// Performs a POST request to `http://<ip>/options.json`.
-  /// Adds 'customised': true to the payload.
-  Future<void> saveOptions(String ip, Map<String, dynamic> options) async {
-    try {
-      final payload = Map<String, dynamic>.from(options);
-      payload['customised'] = true;
-      if (payload.containsKey('domain')) {
-        payload['reg_domain'] = payload['domain'];
-      }
-
-      final response = await _dio.post(
-        'http://$ip/options.json',
-        data: payload,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        throw Exception('Failed to save options. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to save options to $ip: $e');
-    }
-  }
-
-  /// Saves the updated config to the device.
-  /// Performs a POST request to `http://<ip>/config`.
-  Future<void> saveConfig(String ip, Map<String, dynamic> config) async {
-    try {
-      final payload = Map<String, dynamic>.from(config);
-      if (payload['settings'] is Map<String, dynamic>) {
-        final settings = Map<String, dynamic>.from(payload['settings'] as Map<String, dynamic>);
-        if (settings.containsKey('domain')) {
-          settings['reg_domain'] = settings['domain'];
-        }
-        payload['settings'] = settings;
-      }
-      if (payload['config'] is Map<String, dynamic>) {
-        final cfg = Map<String, dynamic>.from(payload['config'] as Map<String, dynamic>);
-        if (cfg.containsKey('domain')) {
-          cfg['reg_domain'] = cfg['domain'];
-        }
-        payload['config'] = cfg;
-      }
-
-      final response = await _dio.post(
-        'http://$ip/config',
-        data: payload,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        throw Exception('Failed to save config. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to save config to $ip: $e');
-    }
-  }
-
-  /// Reboots the device.
-  /// Performs a POST request to `http://<ip>/reboot`.
-  ///
-  /// A successful reboot causes the hardware to immediately sever the Wi-Fi
-  /// connection, which Dio surfaces as a [DioException]. These "expected drop"
-  /// errors are treated as success and swallowed silently. Any other
-  /// [DioException] (e.g., wrong IP, pre-flight timeout) is still rethrown.
-  Future<void> reboot(String ip) async {
-    try {
-      final response = await _dio.post('http://$ip/reboot');
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        throw Exception('Failed to reboot device. Status code: ${response.statusCode}');
-      }
-    } on DioException catch (e) {
-      if (isExpectedRebootSocketDrop(e)) {
-        _log.info('Caught expected socket drop during reboot to $ip');
-        return;
-      }
-      throw Exception('Failed to reboot device at $ip: $e');
-    } catch (e) {
-      throw Exception('Failed to reboot device at $ip: $e');
-    }
   }
 
   /// Normalizes V3 firmware JSON payloads to match the V4 structure.

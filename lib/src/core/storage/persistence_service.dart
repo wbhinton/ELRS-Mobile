@@ -116,16 +116,8 @@ class PersistenceService {
     await _secure.write(key: _keyWifiSsid, value: value);
   }
 
-  Future<String> getWifiSsid() async {
-    return await _secure.read(key: _keyWifiSsid) ?? '';
-  }
-
   Future<void> setWifiPassword(String value) async {
     await _secure.write(key: _keyWifiPassword, value: value);
-  }
-
-  Future<String> getWifiPassword() async {
-    return await _secure.read(key: _keyWifiPassword) ?? '';
   }
 
   bool hasAcceptedDisclaimer() {
@@ -138,10 +130,6 @@ class PersistenceService {
 
   Future<void> setWifiOnInterval(int value) async {
     await _prefs.setInt(_keyWifiOnInterval, value);
-  }
-
-  int getWifiOnInterval() {
-    return _prefs.getInt(_keyWifiOnInterval) ?? 60;
   }
 }
 

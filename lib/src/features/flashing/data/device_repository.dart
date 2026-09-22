@@ -18,9 +18,6 @@ import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
 import '../../../core/networking/expected_reboot_drop.dart';
-import '../../config/domain/runtime_config_model.dart';
-import '../../../core/utils/binding_phrase_utils.dart';
-import '../../../core/analytics/analytics_service.dart';
 import '../utils/firmware_assembler.dart';
 
 part 'device_repository.g.dart';
@@ -28,69 +25,14 @@ part 'device_repository.g.dart';
 @riverpod
 DeviceRepository deviceRepository(Ref ref) {
   final dio = ref.watch(localDioProvider);
-  return DeviceRepository(dio, ref);
+  return DeviceRepository(dio);
 }
 
 class DeviceRepository {
   final Dio _dio;
-  final Ref? _ref;
   static final _log = Logger('DeviceRepository');
 
-  DeviceRepository(this._dio, [this._ref]);
-
-  Dio get dio => _dio;
-
-  /// Fetches the current configuration from the device.
-  /// Endpoint: GET /config
-  Future<RuntimeConfig> fetchConfig() async {
-    try {
-      final response = await _dio.get('/config');
-      return RuntimeConfig.fromJson(response.data as Map<String, dynamic>);
-    } catch (e) {
-      throw Exception('Failed to fetch config: $e');
-    }
-  }
-
-  /// Updates the binding phrase.
-  /// Generates the UID and sends it to /config.
-  Future<void> updateBindingPhrase(String phrase) async {
-    try {
-      final expectedUid = BindingPhraseUtils.generateUid(phrase);
-      await _dio.post('/config', data: {'uid': expectedUid});
-      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {
-        'setting': 'Bind Phrase',
-      });
-    } catch (e) {
-      throw Exception('Failed to update binding phrase: $e');
-    }
-  }
-
-  /// Updates the Home WiFi credentials.
-  /// Endpoint: POST /config
-  Future<void> updateWifi(String ssid, String password) async {
-    try {
-      await _dio.post(
-        '/config',
-        data: {'wifi-ssid': ssid, 'wifi-password': password},
-      );
-      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {
-        'setting': 'WiFi',
-      });
-    } catch (e) {
-      throw Exception('Failed to update WiFi: $e');
-    }
-  }
-
-  /// Fetches the hardware definition from the device.
-  /// Endpoint: GET /hardware.json
-  Future<Map<String, dynamic>> fetchHardware() async {
-    try {
-      final response = await _dio.get('/hardware.json');
-      return response.data as Map<String, dynamic>;
-    } catch (e) {
-      throw Exception('Failed to fetch hardware info: $e');
-    }
-  }
+  DeviceRepository(this._dio);
 
   /// Flashes the firmware to the device.
   /// Endpoint: POST /update
@@ -100,7 +42,7 @@ class DeviceRepository {
   ///
   /// Optional parameters for Unified Firmware Building (ESP only):
   /// [productName], [luaName], [uid], [hardwareLayout], [wifiSsid], [wifiPassword].
-  /// If [hardwareLayout] is provided, the firmware will be built using UnifiedFirmwareBuilder.
+  /// If [hardwareLayout] is provided, the firmware will be built using [FirmwareAssembler].
   Future<({Uint8List bytes, String filename})> buildFirmwarePayload(
     Uint8List firmwareData,
     String filename, {
@@ -157,7 +99,7 @@ class DeviceRepository {
       filenameToUpload = filename;
     }
 
-    // Targeted Compression Logic (Task 3)
+    // Targeted Compression Logic
     if (platform == 'esp8285') {
       _log.info('Compressing firmware for ESP8285...');
       final compressed = GZipEncoder().encode(dataToUpload);
@@ -302,47 +244,4 @@ class DeviceRepository {
     }
   }
 
-  /// Updates the Model Match configuration.
-  /// Endpoint: POST /config
-  ///
-  /// [modelId] is the ID (0-63). 255 usually means off in ELRS context,
-  /// but we'll stick to the user request.
-  /// [enabled] determines if model match is active.
-  Future<void> updateModelMatch(int modelId, bool enabled) async {
-    try {
-      // Structure based on ELRS config API.
-      // For MVP, sending flat JSON keys as requested.
-      // Real ELRS uses a more complex structure, but this is the requested contract.
-      await _dio.post(
-        '/config',
-        data: {'modelid': modelId, 'modelMatch': enabled},
-      );
-    } catch (e) {
-      throw Exception('Failed to update model match: $e');
-    }
-  }
-
-  /// Sets the PWM output mapping.
-  /// Endpoint: POST /config
-  ///
-  /// [mapping] maps Output Pin Index (0-based) to Input Channel Index.
-  /// The payload sent is {'pwm': [ch_for_pin0, ch_for_pin1, ...]}
-  Future<void> setPwmMapping(Map<int, int> mapping) async {
-    try {
-      if (mapping.isEmpty) return;
-
-      final maxIndex = mapping.keys.reduce((a, b) => a > b ? a : b);
-      final List<int> pwm = List.filled(maxIndex + 1, 0);
-
-      mapping.forEach((pin, channel) {
-        if (pin >= 0 && pin < pwm.length) {
-          pwm[pin] = channel;
-        }
-      });
-
-      await _dio.post('/config', data: {'pwm': pwm});
-    } catch (e) {
-      throw Exception('Failed to set PWM mapping: $e');
-    }
-  }
 }

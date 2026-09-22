@@ -62,13 +62,11 @@ Example JSON structure:
 ## State Management
 The system employs a reactive architecture:
 - **`ConfigViewModel`**: Manages the live connection state, heartbeat logic, and IP discovery.
-- **`DeviceEditorViewModel`**: Houses the draft state of a device's configuration, enabling multi-step edits with final "save/cancel" logic.
 - **`FlashingController`**: Orchestrates firmware downloads, local binary patching, and the XH-over-HTTP upload process.
 
 ## Mapping Layer
-The following tables define the mapping between integer identifiers used in the API and their human-readable equivalents.
+`ElrsMappings.domains900` maps the 900 MHz regulatory domain index used in the API to its human-readable label:
 
-### Regulatory Domains
 | ID | Label | Description |
 | :--- | :--- | :--- |
 | 0 | AU915 | Australia/New Zealand 915MHz |
@@ -79,16 +77,6 @@ The following tables define the mapping between integer identifiers used in the 
 | 5 | EU433 | European 433MHz |
 | 6 | US433 | North American 433MHz |
 | 7 | US433-Wide | North American Wide 433MHz |
-
-
-## Advanced Mappings
-
-### VBind (Binding Storage)
-Determines how the binding phrase is stored on the device.
-- **0: Persistent**: Saved to flash memory (standard).
-- **1: Volatile**: Cleared on power cycle.
-- **2: Returnable**: Used for loaner gear.
-- **3: Administered**: Used in multi-pilot fleet environments.
 
 
 ## Persistence Layer
