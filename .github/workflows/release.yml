@@ -23,6 +23,15 @@ on:
           - beta
           - production
         default: internal
+      platforms:
+        description: 'Platforms to build (e.g. ios alone to retry a failed iOS build without re-uploading Android)'
+        required: true
+        type: choice
+        options:
+          - both
+          - android
+          - ios
+        default: both
 
 jobs:
   prepare:
@@ -34,6 +43,8 @@ jobs:
       tag_name: ${{ steps.metadata.outputs.tag_name }}
       is_prerelease: ${{ steps.metadata.outputs.is_prerelease }}
       play_store_track: ${{ steps.metadata.outputs.play_store_track }}
+      build_android: ${{ steps.metadata.outputs.build_android }}
+      build_ios: ${{ steps.metadata.outputs.build_ios }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -81,12 +92,20 @@ jobs:
             PLAY_TRACK="internal"
           fi
 
+          # 6. Platforms: tag pushes build both; manual runs can pick one
+          PLATFORMS="${{ inputs.platforms }}"
+          [[ -z "$PLATFORMS" ]] && PLATFORMS="both"
+          [[ "$PLATFORMS" != "ios" ]] && BUILD_ANDROID="true" || BUILD_ANDROID="false"
+          [[ "$PLATFORMS" != "android" ]] && BUILD_IOS="true" || BUILD_IOS="false"
+
           echo "=========================================="
           echo "Resolved Version:      $VERSION"
           echo "Resolved Build Number: $BUILD_NUMBER"
           echo "Resolved Tag Name:     $TAG_NAME"
           echo "Is Pre-Release:        $IS_PRERELEASE"
           echo "Google Play Track:     $PLAY_TRACK"
+          echo "Build Android:         $BUILD_ANDROID"
+          echo "Build iOS:             $BUILD_IOS"
           echo "=========================================="
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
@@ -94,10 +113,13 @@ jobs:
           echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
           echo "play_store_track=$PLAY_TRACK" >> $GITHUB_OUTPUT
+          echo "build_android=$BUILD_ANDROID" >> $GITHUB_OUTPUT
+          echo "build_ios=$BUILD_IOS" >> $GITHUB_OUTPUT
 
   build-android:
     name: Build Android (APK & AAB) & Deploy Play Store
     needs: prepare
+    if: needs.prepare.outputs.build_android == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -170,6 +192,7 @@ jobs:
   build-ios:
     name: Build iOS (IPA) & Deploy TestFlight
     needs: prepare
+    if: needs.prepare.outputs.build_ios == 'true'
     runs-on: macos-latest
     steps:
       - name: Checkout code
@@ -255,16 +278,26 @@ jobs:
   publish-release:
     name: Publish GitHub Release & Assets
     needs: [prepare, build-android, build-ios]
+    # Publish when every selected platform built; a deselected one is
+    # "skipped", and only the files that were built get attached.
+    if: >-
+      !cancelled() &&
+      needs.prepare.result == 'success' &&
+      needs.build-android.result != 'failure' &&
+      needs.build-ios.result != 'failure' &&
+      (needs.build-android.result == 'success' || needs.build-ios.result == 'success')
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Download Android Artifacts
+        if: needs.build-android.result == 'success'
         uses: actions/download-artifact@v8
         with:
           name: android-builds
 
       - name: Download iOS Artifacts
+        if: needs.build-ios.result == 'success'
         uses: actions/download-artifact@v8
         with:
           name: ios-build
