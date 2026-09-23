@@ -2,26 +2,26 @@
   "strategy": "parallel-map-reduce",
   "repo_type": "single-project",
   "monorepo_projects": [],
-  "generated_at": "2026-09-21T13:04:00Z",
-  "git_commit": "f7829694bd41081855407df5d58ac0da4a2ba493",
-  "files_analyzed": 61,
+  "generated_at": "2026-09-22T00:00:00Z",
+  "git_commit": "5c622fb3c188080dd8812339cc9df44f15b1a76e",
+  "files_analyzed": 64,
   "languages": ["Dart", "TypeScript", "Python"],
   "metrics": {
-    "modules": 23,
+    "modules": 20,
     "components": 25,
-    "concepts": 28
+    "concepts": 27
   },
   "build_strategy": "wide_reconcile",
-  "total_files_scanned": 592,
-  "high_value_files": 61,
+  "total_files_scanned": 533,
+  "high_value_files": 34,
   "documentation_files": 14,
   "languages_detected": {
     "Dart": {
-      "files": 116,
+      "files": 106,
       "lines": 0
     },
     "TypeScript/Astro": {
-      "files": 0,
+      "files": 7,
       "lines": 0
     },
     "Python": {
@@ -30,8 +30,8 @@
     }
   },
   "coverage_metrics": {
-    "concepts_documented": 28,
-    "modules_covered": 23,
+    "concepts_documented": 27,
+    "modules_covered": 20,
     "apis_documented": 0
   },
   "quality_indicators": {
@@ -52,8 +52,8 @@
     }
   },
   "incremental_updates": {
-    "last_incremental_date": "2026-09-21T13:04:00Z",
-    "files_changed_since_last": 54,
+    "last_incremental_date": "2026-09-22T00:00:00Z",
+    "files_changed_since_last": 64,
     "sections_updated": ["architecture.md", "concept_map.md", "interaction-model.md", "modules.md", "patterns.md", "index.md"],
     "full_scan_required": false
   }

@@ -9,14 +9,14 @@ strictness: strict
 # Implementation Patterns
 
 **Project**: ELRS Mobile (Flutter / Dart)
-**Last Updated**: 2026-09-21
+**Last Updated**: 2026-09-22
 
 ## Naming & Organization
 
 **Files**: `snake_case.dart`. Feature-first layout: `lib/src/features/<feature>/{domain,data,application,services,state,presentation,utils}` plus `lib/src/core/{networking,storage,theme,utils,analytics,presentation}`. Freezed (`*.freezed.dart`) and Riverpod codegen (`*.g.dart`) siblings via `part` directives.
 **Classes**: `PascalCase`, role-suffixed — `*Repository`, `*Service`, `*Controller`, `*ViewModel`, `*Utils`, `*Validator`.
 **Functions**: `lowerCamelCase`; verb-prefixed async methods (`fetchConfig`, `downloadFirmware`, `probeDevice`, `restartScan`). Private helpers underscore-prefixed (`_normalizeV3Config`, `_parseTargets`).
-**Imports**: relative within `lib/src` (`../../core/...`); `package:` for third-party. GPL-3.0 header block on core/feature source (domain models often omit it).
+**Imports**: relative within `lib/src` (`../../core/...`); `package:` for third-party. GPL-3.0 header block is **inconsistently applied**: present on ~16 of 55 non-generated core/feature files (networking, storage, most repositories, `legal_notice_screen.dart`), absent from most of the presentation/controller layer and domain models — treat as opportunistic, not a house rule, when auditing.
 
 Evidence: `lib/src/features/flashing/data/targets_repository.dart:1-14`, `lib/src/features/config/services/device_config_service.dart:13-21`
 
@@ -32,7 +32,7 @@ Evidence: `lib/src/features/flashing/domain/target_definition.dart:6-48`, `lib/s
 
 **Strategy**: exception-based (no `Result`/`Either`). Repository/service methods wrap `try/catch` and rethrow `Exception('Failed to ...: $e')` with a contextual message; low-level cause appended via interpolation. Predicate probes (`probeDevice`) swallow errors and return `bool`.
 **Propagation**: catch at the data/service boundary, re-wrap, bubble to the controller which stores `errorMessage` in Freezed state. `rethrow` when the caller needs the original type (`DioException`). Tiered fallback on failure (network -> cache -> bundled asset).
-**Expected-error-as-success**: `DioException`s matching known connection-drop fragments after `/update`, `/forceupdate`, `/reboot` are treated as success (the device reboots and severs Wi-Fi).
+**Expected-error-as-success**: `DioException`s matching known connection-drop fragments after `/update`, `/forceupdate`, `/reboot` are treated as success (the device reboots and severs Wi-Fi). This predicate was de-duplicated this cycle into a shared `isExpectedRebootSocketDrop(DioException)` helper (`lib/src/core/networking/expected_reboot_drop.dart`), replacing two copies that had drifted independently in `DeviceRepository` and `DeviceConfigService` — prefer this shared module over re-inlining the fragment list when adding new reboot-adjacent calls.
 **Firmware-version-gated endpoint fallback** (new): probe/fetch the modern device endpoint first, catch its specific failure mode (404/`DioException`), and reconstruct equivalent data from legacy endpoints known to exist on older firmware, rather than failing outright — `DeviceConfigService.probeDeviceHead`/`fetchConfig` fall back to `probeDevice`/`_fetchLegacyConfig` for pre-3.1.0/3.2.x firmware. Mirrored in `FlashingController`'s mismatch-recovery flow: try the fast/direct operation (`confirmForceUpdate()`) first, catch and fall back to the slower path (re-upload-then-confirm) only on failure.
 
 Evidence: `lib/src/features/flashing/data/targets_repository.dart:16-53`, `lib/src/features/config/services/device_config_service.dart:174-209`
@@ -46,7 +46,7 @@ Evidence: `lib/src/core/utils/validation_utils.dart:1-27`, `lib/src/features/con
 
 ## Observability
 
-**Logging**: `package:logging` throughout — one `static final _log = Logger('ClassName')` per class; levels info/warning/severe. Services log request URLs, byte counts, fallback transitions, and suppressed "expected" errors. `debugPrint` only in `AnalyticsService`.
+**Logging**: `package:logging` throughout — one `static final _log = Logger('ClassName')` per class; levels info/warning/severe. Services log request URLs, byte counts, fallback transitions, and suppressed "expected" errors. `debugPrint` is **not** confined to `AnalyticsService` — also used in `main.dart`, `flashing_controller.dart`, `device_settings_screen.dart`, and `lua_export_utils.dart` (5 files, 16 call sites), typically for early-bootstrap or dev-only diagnostics before/outside the `Logger` lifecycle; `Logger`-based logging remains the dominant convention elsewhere.
 **Metrics**: product analytics via Aptabase (`AnalyticsService.trackEvent`), gated on the `shareAnalytics` opt-in with lazy init; failures logged and dropped, never thrown. No app performance metrics.
 **Tracing / crash reporting**: Sentry (`sentry_flutter`) — `SentryWidgetsFlutterBinding` in `main.dart`, `Sentry.init()` after first frame when `--dart-define SENTRY_DSN` is set (opt-in; 50% sample rate; benign socket errors filtered). Log records piped to `Sentry.addBreadcrumb`; `Stm32FirmwarePatcher` / `FirmwareAssembler` report bounds-check violations. No request/correlation IDs.
 
@@ -59,6 +59,12 @@ Evidence: `lib/main.dart:20-45`, `lib/src/core/analytics/analytics_service.dart:
 **Levels**: widget tests only — `testWidgets` + `tester.runAsync`, a parametrized loop over `AppLocalizations.supportedLocales` with a small forced `tester.view.physicalSize` to catch layout overflow.
 
 Evidence: `test/localization_overflow_test.dart:1-60`
+
+## UI Status Labeling
+
+Status-driven UI text is localized via `AppLocalizations.of(context)!`, never hardcoded English or raw enum names — a `switch` over the status enum maps each value to an ARB-defined string (e.g. `flashing_screen.dart:310+` maps `FlashingStatus.{locating,unpacking,downloading,building,uploading,finalizing}` to per-phase localized labels). `FlashingStatus` was reworked this cycle from a coarse enum into these granular phases specifically so progress text reflects the real operation; follow the same enum-plus-switch-plus-ARB-key shape for new multi-phase async flows rather than interpolating English strings.
+
+Evidence: `lib/src/features/flashing/presentation/flashing_controller.dart:36-47`, `lib/src/features/flashing/presentation/flashing_screen.dart:297,310-326`
 
 ## I/O & Integration
 
@@ -87,3 +93,7 @@ Evidence: `lib/src/features/flashing/data/firmware_repository.dart:214-218`, `li
 ## Code Generation
 
 `build_runner` pipeline: `freezed`, `json_serializable`, `riverpod_generator`; `*.freezed.dart` / `*.g.dart` committed. `pubspec.yaml` `flutter: generate: true`; `l10n.yaml` + `arb_translate` generate `AppLocalizations` and machine-translate ARB files in CI.
+
+## Hygiene: Dead Code
+
+A broad dead-code sweep landed this cycle (whole `features/updates/` module, `DeviceEditorViewModel`, `ConnectionStatusBadge`, `discovery_provider.dart`, `unified_firmware_builder.dart`, three unused barrel `index.dart` files, the unwired vendored `packages/ip_address_keypad/`, several dead methods). Treat this as a completed cleanup pass, not an ongoing problem signal — re-audit for new accumulation rather than assuming the codebase still carries this debt.
