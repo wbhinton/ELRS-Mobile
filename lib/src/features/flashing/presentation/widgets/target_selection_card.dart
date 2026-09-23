@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/target_definition.dart';
 import '../flashing_controller.dart';
@@ -9,6 +10,7 @@ class TargetSelectionCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final deviceTypes = ref.watch(availableDeviceTypesProvider);
     final vendors = ref.watch(availableVendorsProvider);
     final frequencies = ref.watch(availableFrequenciesProvider);
@@ -33,13 +35,16 @@ class TargetSelectionCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
-                Icon(Icons.developer_board),
-                SizedBox(width: 8),
+                const Icon(Icons.developer_board),
+                const SizedBox(width: 8),
                 Text(
-                  'Target Selection',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  l10n.targetSelectionTitle,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -47,7 +52,7 @@ class TargetSelectionCard extends ConsumerWidget {
 
             // 1. Device Type Dropdown
             DropdownButtonFormField<String>(
-              decoration: const InputDecoration(labelText: 'Device Type'),
+              decoration: InputDecoration(labelText: l10n.deviceTypeLabel),
               initialValue: selectedDeviceType,
               items: deviceTypes.map((type) {
                 return DropdownMenuItem(value: type, child: Text(type));
@@ -62,7 +67,7 @@ class TargetSelectionCard extends ConsumerWidget {
 
             // 2. Vendor Dropdown
             DropdownButtonFormField<String>(
-              decoration: const InputDecoration(labelText: 'Device Vendor'),
+              decoration: InputDecoration(labelText: l10n.deviceVendorLabel),
               initialValue: selectedVendor,
               items: vendors.map((vendor) {
                 return DropdownMenuItem(value: vendor, child: Text(vendor));
@@ -79,8 +84,8 @@ class TargetSelectionCard extends ConsumerWidget {
 
             // 3. Frequency Dropdown
             DropdownButtonFormField<String>(
-              decoration: const InputDecoration(
-                labelText: 'Regulatory & Frequency',
+              decoration: InputDecoration(
+                labelText: l10n.regulatoryFrequencyLabel,
               ),
               initialValue: selectedFrequency,
               items: frequencies.map((freq) {
@@ -98,7 +103,7 @@ class TargetSelectionCard extends ConsumerWidget {
 
             // 4. Device Target Dropdown
             DropdownButtonFormField<TargetDefinition>(
-              decoration: const InputDecoration(labelText: 'Device Target'),
+              decoration: InputDecoration(labelText: l10n.deviceTargetLabel),
               initialValue: selectedTarget,
               items: selectedFrequency == null
                   ? []

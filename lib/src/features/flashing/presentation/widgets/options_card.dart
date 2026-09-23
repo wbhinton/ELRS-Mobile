@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../flashing_controller.dart';
+import '../../../../core/utils/validation_utils.dart';
 import 'version_selector.dart';
 import 'package:elrs_mobile/src/features/settings/presentation/settings_controller.dart';
 import 'package:elrs_mobile/src/features/flashing/domain/flashing_profile.dart';
@@ -125,9 +126,9 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                           child: DropdownButtonFormField<String>(
                             key: ValueKey(activeId),
                             initialValue: activeId,
-                            decoration: const InputDecoration(
-                              labelText: 'Flashing Profile',
-                              icon: Icon(Icons.account_circle),
+                            decoration: InputDecoration(
+                              labelText: l10n.flashingProfileLabel,
+                              icon: const Icon(Icons.account_circle),
                             ),
                             items: profiles.map((p) {
                               return DropdownMenuItem<String>(
@@ -145,13 +146,13 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                         const SizedBox(width: 8),
                         IconButton(
                           icon: const Icon(Icons.add),
-                          tooltip: 'Add Profile',
+                          tooltip: l10n.addProfileTooltip,
                           onPressed: () => _showAddProfileDialog(context, ref),
                         ),
                         if (profiles.length > 1)
                           IconButton(
                             icon: const Icon(Icons.delete_outline),
-                            tooltip: 'Delete Profile',
+                            tooltip: l10n.deleteProfileTooltip,
                             onPressed: () => _showDeleteProfileDialog(context, ref, activeId, profiles),
                           ),
                       ],
@@ -169,8 +170,8 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   controller: _bindPhraseController,
                   decoration: InputDecoration(
                     labelText: l10n.bindingPhraseLabel,
-                    helperText: 'Your unique binding phrase',
-                    errorText: bindPhraseError,
+                    helperText: l10n.bindingPhraseHelper,
+                    errorText: bindPhraseError?.message(l10n),
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -210,7 +211,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   controller: _wifiSsidController,
                   decoration: InputDecoration(
                     labelText: l10n.networkSsidLabel,
-                    errorText: wifiSsidError,
+                    errorText: wifiSsidError?.message(l10n),
                     suffixIcon: autosavingField == 'wifiSsid'
                         ? const Icon(
                             Icons.check_circle,
@@ -230,7 +231,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   controller: _wifiPasswordController,
                   decoration: InputDecoration(
                     labelText: l10n.wifiPasswordLabel,
-                    errorText: wifiPasswordError,
+                    errorText: wifiPasswordError?.message(l10n),
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -373,22 +374,21 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
 
   void _showAddProfileDialog(BuildContext context, WidgetRef ref) {
     final controller = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add Flashing Profile'),
+          title: Text(l10n.addProfileTitle),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(
-              hintText: 'Profile Name (e.g., My Quads)',
-            ),
+            decoration: InputDecoration(hintText: l10n.profileNameHint),
             autofocus: true,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancelLabel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -398,7 +398,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Add'),
+              child: Text(l10n.addLabel),
             ),
           ],
         );
@@ -419,16 +419,17 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
     );
     if (activeProfile == null) return;
 
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete Profile'),
-          content: Text('Are you sure you want to delete the profile "${activeProfile.name}"?'),
+          title: Text(l10n.deleteProfileTitle),
+          content: Text(l10n.deleteProfileMessage(activeProfile.name)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancelLabel),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -439,7 +440,7 @@ class _OptionsCardState extends ConsumerState<OptionsCard> {
                 ref.read(settingsControllerProvider.notifier).deleteProfile(activeId);
                 Navigator.pop(context);
               },
-              child: const Text('Delete'),
+              child: Text(l10n.deleteLabel),
             ),
           ],
         );

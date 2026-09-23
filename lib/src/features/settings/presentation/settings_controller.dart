@@ -26,9 +26,9 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool isLoaded,
     @Default(60) int wifiOnInterval,
     String? appLocale,
-    String? bindPhraseError,
-    String? wifiSsidError,
-    String? wifiPasswordError,
+    FieldValidationError? bindPhraseError,
+    FieldValidationError? wifiSsidError,
+    FieldValidationError? wifiPasswordError,
     @Default([]) List<FlashingProfile> profiles,
     String? activeProfileId,
   }) = _SettingsState;

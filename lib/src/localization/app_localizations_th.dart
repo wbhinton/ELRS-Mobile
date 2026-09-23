@@ -386,4 +386,165 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'Firmware Saved';
+
+  @override
+  String get flashErrorNoTarget => 'Please select a target device.';
+
+  @override
+  String get flashErrorNoVersion => 'Please select a firmware version.';
+
+  @override
+  String get flashErrorNoDevice => 'Cannot flash: no ELRS device connected.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Incompatible chip: this firmware is built for $targetChip, but the connected device is $deviceChip. Select a target for the same chip.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.';
+
+  @override
+  String get flashErrorFlashFailed => 'Flashing failed.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'The device disconnected before confirming the flash, so it may not have completed. This happens if it loses power or restarts mid-flash, and occasionally on a weak WiFi link after a successful flash. Check the firmware version in Device Config, and flash again if it hasn\'t changed.';
+
+  @override
+  String get flashErrorDownloadFailed => 'Failed to download firmware.';
+
+  @override
+  String get validationSsidTooLong => 'SSID must be 32 characters or less';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Password must be at least 8 characters';
+
+  @override
+  String get validationPasswordTooLong =>
+      'Password must be 63 characters or less';
+
+  @override
+  String get targetMismatchTitle => 'Target Mismatch';
+
+  @override
+  String get targetMismatchMessage =>
+      'The selected firmware target does not match the hardware currently running on the device. Are you sure you want to force flash?';
+
+  @override
+  String get forceFlashLabel => 'Force Flash';
+
+  @override
+  String get noBindPhraseTitle => 'No Binding Phrase';
+
+  @override
+  String get noBindPhraseMessage =>
+      'No binding phrase set. Proceed with the default (empty)?';
+
+  @override
+  String get flashSuccessSnackbar => 'Flashing completed successfully!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Firmware saved successfully!';
+
+  @override
+  String get flashSuccessMessage => 'Flashing Successful! Device is rebooting.';
+
+  @override
+  String get stm32OtaWarning =>
+      'STM32 Target Selected: OTA flashing is not supported for this hardware. You can build and save this firmware locally to flash manually via STLink or Betaflight Passthrough.';
+
+  @override
+  String get downloadBinaryLabel => 'Download Binary';
+
+  @override
+  String get waitingForDeviceLabel => 'Waiting for Device...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA Unavailable';
+
+  @override
+  String get doneLabel => 'Done';
+
+  @override
+  String get targetSelectionTitle => 'Target Selection';
+
+  @override
+  String get deviceTypeLabel => 'Device Type';
+
+  @override
+  String get deviceVendorLabel => 'Device Vendor';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Regulatory & Frequency';
+
+  @override
+  String get deviceTargetLabel => 'Device Target';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'No firmware downloaded. Go to Firmware Manager';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Hardware requires v$version or newer.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton => 'Download Compatible Firmware';
+
+  @override
+  String get firmwareVersionLabel => 'Firmware Version';
+
+  @override
+  String get firmwareVersionHelper => 'Select the ELRS version to flash';
+
+  @override
+  String get cachedBadge => '(Cached)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Error loading versions: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Flashing Profile';
+
+  @override
+  String get addProfileTooltip => 'Add Profile';
+
+  @override
+  String get deleteProfileTooltip => 'Delete Profile';
+
+  @override
+  String get bindingPhraseHelper => 'Your unique binding phrase';
+
+  @override
+  String get addProfileTitle => 'Add Flashing Profile';
+
+  @override
+  String get profileNameHint => 'Profile Name (e.g., My Quads)';
+
+  @override
+  String get addLabel => 'Add';
+
+  @override
+  String get deleteProfileTitle => 'Delete Profile';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Are you sure you want to delete the profile \"$name\"?';
+  }
+
+  @override
+  String get deleteLabel => 'Delete';
 }

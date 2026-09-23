@@ -823,6 +823,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'US (433MHz)'**
   String get regDomainUs433;
+
+  /// Progress label shown after a firmware binary was saved to the phone instead of flashed.
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware Saved'**
+  String get flashingStatusSaved;
+
+  /// Error shown when the user taps Flash without choosing which hardware target to build firmware for.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a target device.'**
+  String get flashErrorNoTarget;
+
+  /// Error shown when the user taps Flash without choosing an ExpressLRS firmware version.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a firmware version.'**
+  String get flashErrorNoVersion;
+
+  /// Error shown when the user taps Flash but the phone is not connected to an ExpressLRS receiver or transmitter over WiFi.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot flash: no ELRS device connected.'**
+  String get flashErrorNoDevice;
+
+  /// Error shown when the selected firmware target uses a different microcontroller chip than the connected device, so it can never work. The placeholders are chip names such as ESP32 or ESP8285 and must not be translated.
+  ///
+  /// In en, this message translates to:
+  /// **'Incompatible chip: this firmware is built for {targetChip}, but the connected device is {deviceChip}. Select a target for the same chip.'**
+  String flashErrorChipMismatch(String targetChip, String deviceChip);
+
+  /// Error shown when flashing needs firmware files that are not cached and cannot be downloaded, usually because the phone is joined to the device's own WiFi hotspot. 'Firmware Manager' is the name of a screen in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.'**
+  String get flashErrorOfflineFlash;
+
+  /// Error shown when saving a firmware binary needs files that are not cached and the phone has no internet, usually because it is joined to the device's WiFi hotspot. 'Firmware Manager' is the name of a screen in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.'**
+  String get flashErrorOfflineDownload;
+
+  /// Headline shown when a flash attempt fails. The technical reason from the device is shown untranslated underneath.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashing failed.'**
+  String get flashErrorFlashFailed;
+
+  /// Warning shown when all firmware was sent but the device disconnected without confirming success, so the result is unknown. 'Device Config' is the name of a screen in the app.
+  ///
+  /// In en, this message translates to:
+  /// **'The device disconnected before confirming the flash, so it may not have completed. This happens if it loses power or restarts mid-flash, and occasionally on a weak WiFi link after a successful flash. Check the firmware version in Device Config, and flash again if it hasn\'t changed.'**
+  String get flashErrorUnconfirmed;
+
+  /// Headline shown when building or saving a firmware binary fails. The technical reason is shown untranslated underneath.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download firmware.'**
+  String get flashErrorDownloadFailed;
+
+  /// Validation error under the WiFi network name (SSID) field.
+  ///
+  /// In en, this message translates to:
+  /// **'SSID must be 32 characters or less'**
+  String get validationSsidTooLong;
+
+  /// Validation error under the WiFi password field.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters'**
+  String get validationPasswordTooShort;
+
+  /// Validation error under the WiFi password field.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be 63 characters or less'**
+  String get validationPasswordTooLong;
+
+  /// Title of the warning dialog shown when the selected firmware target's product name differs from the product running on the connected device.
+  ///
+  /// In en, this message translates to:
+  /// **'Target Mismatch'**
+  String get targetMismatchTitle;
+
+  /// Body of the target mismatch warning dialog. 'Force flash' means flashing anyway, overriding the safety check.
+  ///
+  /// In en, this message translates to:
+  /// **'The selected firmware target does not match the hardware currently running on the device. Are you sure you want to force flash?'**
+  String get targetMismatchMessage;
+
+  /// Dangerous dialog button that flashes firmware even though the target does not match the device, overriding the safety check. Displayed in uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Force Flash'**
+  String get forceFlashLabel;
+
+  /// Title of the dialog asking whether to flash without a binding phrase. A binding phrase is the shared secret that pairs an ExpressLRS transmitter and receiver.
+  ///
+  /// In en, this message translates to:
+  /// **'No Binding Phrase'**
+  String get noBindPhraseTitle;
+
+  /// Body of the dialog asking whether to flash without a binding phrase.
+  ///
+  /// In en, this message translates to:
+  /// **'No binding phrase set. Proceed with the default (empty)?'**
+  String get noBindPhraseMessage;
+
+  /// Brief pop-up notification after firmware was flashed to the device.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashing completed successfully!'**
+  String get flashSuccessSnackbar;
+
+  /// Brief pop-up notification after a firmware binary was saved to the phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware saved successfully!'**
+  String get firmwareSavedSnackbar;
+
+  /// Message shown on the flashing screen after a successful flash while the device restarts.
+  ///
+  /// In en, this message translates to:
+  /// **'Flashing Successful! Device is rebooting.'**
+  String get flashSuccessMessage;
+
+  /// Warning shown when the selected target uses an STM32 chip, which cannot be flashed over WiFi. OTA means over-the-air. STLink and Betaflight Passthrough are product names and must not be translated.
+  ///
+  /// In en, this message translates to:
+  /// **'STM32 Target Selected: OTA flashing is not supported for this hardware. You can build and save this firmware locally to flash manually via STLink or Betaflight Passthrough.'**
+  String get stm32OtaWarning;
+
+  /// Button that builds the firmware and saves the file to the phone instead of flashing it. Displayed in uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Binary'**
+  String get downloadBinaryLabel;
+
+  /// Label on the main flash button while no ExpressLRS device is connected. Displayed in uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for Device...'**
+  String get waitingForDeviceLabel;
+
+  /// Label on the disabled flash button when the target cannot be flashed over WiFi (over-the-air). Displayed in uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'OTA Unavailable'**
+  String get otaUnavailableLabel;
+
+  /// Label on the main button after a successful flash; tapping it resets the screen. Displayed in uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneLabel;
+
+  /// Heading of the card where the user picks which hardware to build firmware for.
+  ///
+  /// In en, this message translates to:
+  /// **'Target Selection'**
+  String get targetSelectionTitle;
+
+  /// Dropdown label for choosing transmitter (TX) or receiver (RX).
+  ///
+  /// In en, this message translates to:
+  /// **'Device Type'**
+  String get deviceTypeLabel;
+
+  /// Dropdown label for choosing the hardware manufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Vendor'**
+  String get deviceVendorLabel;
+
+  /// Dropdown label for choosing the radio frequency band, e.g. 2.4GHz or 900MHz.
+  ///
+  /// In en, this message translates to:
+  /// **'Regulatory & Frequency'**
+  String get regulatoryFrequencyLabel;
+
+  /// Dropdown label for choosing the exact hardware model the firmware is built for.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Target'**
+  String get deviceTargetLabel;
+
+  /// Button shown when no firmware versions are cached on the phone; opens the Firmware Manager screen.
+  ///
+  /// In en, this message translates to:
+  /// **'No firmware downloaded. Go to Firmware Manager'**
+  String get noFirmwareDownloadedButton;
+
+  /// Warning shown when the selected hardware needs a newer firmware version than any cached on the phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardware requires v{version} or newer.'**
+  String hardwareRequiresVersion(String version);
+
+  /// Button that opens the Firmware Manager to download a firmware version supported by the selected hardware.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Compatible Firmware'**
+  String get downloadCompatibleFirmwareButton;
+
+  /// Dropdown label for choosing which ExpressLRS firmware version to flash.
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware Version'**
+  String get firmwareVersionLabel;
+
+  /// Helper text under the firmware version dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the ELRS version to flash'**
+  String get firmwareVersionHelper;
+
+  /// Small tag next to a firmware version meaning it is stored on the phone and available offline.
+  ///
+  /// In en, this message translates to:
+  /// **'(Cached)'**
+  String get cachedBadge;
+
+  /// Error shown when the list of firmware versions cannot be loaded. The placeholder is a technical error message.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading versions: {error}'**
+  String errorLoadingVersions(String error);
+
+  /// Dropdown label for choosing a saved set of flashing options (binding phrase, WiFi credentials).
+  ///
+  /// In en, this message translates to:
+  /// **'Flashing Profile'**
+  String get flashingProfileLabel;
+
+  /// Tooltip on the button that creates a new flashing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Profile'**
+  String get addProfileTooltip;
+
+  /// Tooltip on the button that deletes the selected flashing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Profile'**
+  String get deleteProfileTooltip;
+
+  /// Helper text under the binding phrase field.
+  ///
+  /// In en, this message translates to:
+  /// **'Your unique binding phrase'**
+  String get bindingPhraseHelper;
+
+  /// Title of the dialog for creating a new flashing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Flashing Profile'**
+  String get addProfileTitle;
+
+  /// Placeholder in the new profile name field. 'Quads' means quadcopter drones.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Name (e.g., My Quads)'**
+  String get profileNameHint;
+
+  /// Dialog button confirming creation of a new item.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addLabel;
+
+  /// Title of the dialog confirming deletion of a flashing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Profile'**
+  String get deleteProfileTitle;
+
+  /// Body of the dialog confirming deletion of a flashing profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the profile \"{name}\"?'**
+  String deleteProfileMessage(String name);
+
+  /// Dialog button confirming deletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteLabel;
 }
 
 class _AppLocalizationsDelegate

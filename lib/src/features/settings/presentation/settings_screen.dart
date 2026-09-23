@@ -9,6 +9,7 @@ import '../../../core/presentation/responsive_layout.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_master_detail.dart';
 import '../../../core/utils/lua_export_utils.dart';
+import '../../../core/utils/validation_utils.dart';
 import '../../flashing/domain/flashing_profile.dart';
 
 class SettingsScreen extends HookConsumerWidget {
@@ -382,7 +383,7 @@ class SettingsScreen extends HookConsumerWidget {
     bool isSecret = false,
     ValueNotifier<bool>? isVisibleNotifier,
     TextInputType? keyboardType,
-    String? Function(SettingsState)? errorSelector,
+    FieldValidationError? Function(SettingsState)? errorSelector,
   }) {
     final l10n = AppLocalizations.of(context)!;
     Widget buildTile(bool isVisible) {
@@ -419,7 +420,9 @@ class SettingsScreen extends HookConsumerWidget {
             builder: (context) => Consumer(
               builder: (context, ref, child) {
                 final settingsState = ref.watch(settingsControllerProvider);
-                final errorText = hasBeenEdited ? null : errorSelector?.call(settingsState);
+                final errorText = hasBeenEdited
+                    ? null
+                    : errorSelector?.call(settingsState)?.message(l10n);
 
                 return StatefulBuilder(
                   builder: (context, setState) => AlertDialog(

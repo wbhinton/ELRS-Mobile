@@ -23,6 +23,19 @@ import '../utils/firmware_assembler.dart';
 
 part 'device_repository.g.dart';
 
+/// The whole image was sent but the device dropped the connection without
+/// replying. ExpressLRS replies `"ok"` and only then reboots (200 ms later),
+/// so this usually means it lost power or crashed while writing — though a
+/// reply can occasionally be lost on a weak link after a real success.
+/// Either way the outcome is unknown and must not be reported as success.
+class FlashUnconfirmedException implements Exception {
+  const FlashUnconfirmedException(this.cause);
+  final String cause;
+
+  @override
+  String toString() => cause;
+}
+
 @riverpod
 DeviceRepository deviceRepository(Ref ref) {
   final dio = ref.watch(localDioProvider);
@@ -213,16 +226,16 @@ class DeviceRepository {
         }
         _log.info('Flash successful!');
       } on DioException catch (e) {
-        // The device only reboots after receiving the whole image, so a drop
-        // mid-upload is a real failure, not a successful reboot.
+        // A drop mid-upload is a plain failure; one after the last byte left
+        // the phone is ambiguous (see [FlashUnconfirmedException]).
         if (uploadComplete && isExpectedRebootSocketDrop(e)) {
-          _log.info(
-            'Device successfully updated and rebooted! Caught expected socket drop.',
-          );
-          return; // Treat as full success
+          _log.warning('Device dropped the connection without replying: $e');
+          throw FlashUnconfirmedException(e.message ?? e.toString());
         }
         rethrow;
       }
+    } on FlashUnconfirmedException {
+      rethrow;
     } catch (e) {
       throw Exception('Failed to flash firmware: $e');
     }
@@ -244,10 +257,10 @@ class DeviceRepository {
         throw Exception(_responseMessage(response.data));
       }
     } on DioException catch (e) {
-      // A successful force flash causes an immediate hardware reboot.
+      // The device replies before rebooting, so a drop here is ambiguous too.
       if (isExpectedRebootSocketDrop(e)) {
-        _log.info('Caught expected socket drop during force update reboot');
-        return;
+        _log.warning('Device dropped the connection during force confirm: $e');
+        throw FlashUnconfirmedException(e.message ?? e.toString());
       }
       throw Exception('Force update rejected: $e');
     } catch (e) {

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SettingsState {
 
- int get defaultDomain2400; int get defaultDomain900; String get globalBindPhrase; String get homeWifiSsid; String get homeWifiPassword; int get maxCachedVersions; bool get expertMode; String get appVersion; bool get disclaimerAccepted; bool get shareAnalytics; bool get isLoaded; int get wifiOnInterval; String? get appLocale; String? get bindPhraseError; String? get wifiSsidError; String? get wifiPasswordError; List<FlashingProfile> get profiles; String? get activeProfileId;
+ int get defaultDomain2400; int get defaultDomain900; String get globalBindPhrase; String get homeWifiSsid; String get homeWifiPassword; int get maxCachedVersions; bool get expertMode; String get appVersion; bool get disclaimerAccepted; bool get shareAnalytics; bool get isLoaded; int get wifiOnInterval; String? get appLocale; FieldValidationError? get bindPhraseError; FieldValidationError? get wifiSsidError; FieldValidationError? get wifiPasswordError; List<FlashingProfile> get profiles; String? get activeProfileId;
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $SettingsStateCopyWith<$Res>  {
   factory $SettingsStateCopyWith(SettingsState value, $Res Function(SettingsState) _then) = _$SettingsStateCopyWithImpl;
 @useResult
 $Res call({
- int defaultDomain2400, int defaultDomain900, String globalBindPhrase, String homeWifiSsid, String homeWifiPassword, int maxCachedVersions, bool expertMode, String appVersion, bool disclaimerAccepted, bool shareAnalytics, bool isLoaded, int wifiOnInterval, String? appLocale, String? bindPhraseError, String? wifiSsidError, String? wifiPasswordError, List<FlashingProfile> profiles, String? activeProfileId
+ int defaultDomain2400, int defaultDomain900, String globalBindPhrase, String homeWifiSsid, String homeWifiPassword, int maxCachedVersions, bool expertMode, String appVersion, bool disclaimerAccepted, bool shareAnalytics, bool isLoaded, int wifiOnInterval, String? appLocale, FieldValidationError? bindPhraseError, FieldValidationError? wifiSsidError, FieldValidationError? wifiPasswordError, List<FlashingProfile> profiles, String? activeProfileId
 });
 
 
@@ -78,9 +78,9 @@ as bool,isLoaded: null == isLoaded ? _self.isLoaded : isLoaded // ignore: cast_n
 as bool,wifiOnInterval: null == wifiOnInterval ? _self.wifiOnInterval : wifiOnInterval // ignore: cast_nullable_to_non_nullable
 as int,appLocale: freezed == appLocale ? _self.appLocale : appLocale // ignore: cast_nullable_to_non_nullable
 as String?,bindPhraseError: freezed == bindPhraseError ? _self.bindPhraseError : bindPhraseError // ignore: cast_nullable_to_non_nullable
-as String?,wifiSsidError: freezed == wifiSsidError ? _self.wifiSsidError : wifiSsidError // ignore: cast_nullable_to_non_nullable
-as String?,wifiPasswordError: freezed == wifiPasswordError ? _self.wifiPasswordError : wifiPasswordError // ignore: cast_nullable_to_non_nullable
-as String?,profiles: null == profiles ? _self.profiles : profiles // ignore: cast_nullable_to_non_nullable
+as FieldValidationError?,wifiSsidError: freezed == wifiSsidError ? _self.wifiSsidError : wifiSsidError // ignore: cast_nullable_to_non_nullable
+as FieldValidationError?,wifiPasswordError: freezed == wifiPasswordError ? _self.wifiPasswordError : wifiPasswordError // ignore: cast_nullable_to_non_nullable
+as FieldValidationError?,profiles: null == profiles ? _self.profiles : profiles // ignore: cast_nullable_to_non_nullable
 as List<FlashingProfile>,activeProfileId: freezed == activeProfileId ? _self.activeProfileId : activeProfileId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -167,7 +167,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int defaultDomain2400,  int defaultDomain900,  String globalBindPhrase,  String homeWifiSsid,  String homeWifiPassword,  int maxCachedVersions,  bool expertMode,  String appVersion,  bool disclaimerAccepted,  bool shareAnalytics,  bool isLoaded,  int wifiOnInterval,  String? appLocale,  String? bindPhraseError,  String? wifiSsidError,  String? wifiPasswordError,  List<FlashingProfile> profiles,  String? activeProfileId)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int defaultDomain2400,  int defaultDomain900,  String globalBindPhrase,  String homeWifiSsid,  String homeWifiPassword,  int maxCachedVersions,  bool expertMode,  String appVersion,  bool disclaimerAccepted,  bool shareAnalytics,  bool isLoaded,  int wifiOnInterval,  String? appLocale,  FieldValidationError? bindPhraseError,  FieldValidationError? wifiSsidError,  FieldValidationError? wifiPasswordError,  List<FlashingProfile> profiles,  String? activeProfileId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
 return $default(_that.defaultDomain2400,_that.defaultDomain900,_that.globalBindPhrase,_that.homeWifiSsid,_that.homeWifiPassword,_that.maxCachedVersions,_that.expertMode,_that.appVersion,_that.disclaimerAccepted,_that.shareAnalytics,_that.isLoaded,_that.wifiOnInterval,_that.appLocale,_that.bindPhraseError,_that.wifiSsidError,_that.wifiPasswordError,_that.profiles,_that.activeProfileId);case _:
@@ -188,7 +188,7 @@ return $default(_that.defaultDomain2400,_that.defaultDomain900,_that.globalBindP
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int defaultDomain2400,  int defaultDomain900,  String globalBindPhrase,  String homeWifiSsid,  String homeWifiPassword,  int maxCachedVersions,  bool expertMode,  String appVersion,  bool disclaimerAccepted,  bool shareAnalytics,  bool isLoaded,  int wifiOnInterval,  String? appLocale,  String? bindPhraseError,  String? wifiSsidError,  String? wifiPasswordError,  List<FlashingProfile> profiles,  String? activeProfileId)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int defaultDomain2400,  int defaultDomain900,  String globalBindPhrase,  String homeWifiSsid,  String homeWifiPassword,  int maxCachedVersions,  bool expertMode,  String appVersion,  bool disclaimerAccepted,  bool shareAnalytics,  bool isLoaded,  int wifiOnInterval,  String? appLocale,  FieldValidationError? bindPhraseError,  FieldValidationError? wifiSsidError,  FieldValidationError? wifiPasswordError,  List<FlashingProfile> profiles,  String? activeProfileId)  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState():
 return $default(_that.defaultDomain2400,_that.defaultDomain900,_that.globalBindPhrase,_that.homeWifiSsid,_that.homeWifiPassword,_that.maxCachedVersions,_that.expertMode,_that.appVersion,_that.disclaimerAccepted,_that.shareAnalytics,_that.isLoaded,_that.wifiOnInterval,_that.appLocale,_that.bindPhraseError,_that.wifiSsidError,_that.wifiPasswordError,_that.profiles,_that.activeProfileId);case _:
@@ -208,7 +208,7 @@ return $default(_that.defaultDomain2400,_that.defaultDomain900,_that.globalBindP
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int defaultDomain2400,  int defaultDomain900,  String globalBindPhrase,  String homeWifiSsid,  String homeWifiPassword,  int maxCachedVersions,  bool expertMode,  String appVersion,  bool disclaimerAccepted,  bool shareAnalytics,  bool isLoaded,  int wifiOnInterval,  String? appLocale,  String? bindPhraseError,  String? wifiSsidError,  String? wifiPasswordError,  List<FlashingProfile> profiles,  String? activeProfileId)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int defaultDomain2400,  int defaultDomain900,  String globalBindPhrase,  String homeWifiSsid,  String homeWifiPassword,  int maxCachedVersions,  bool expertMode,  String appVersion,  bool disclaimerAccepted,  bool shareAnalytics,  bool isLoaded,  int wifiOnInterval,  String? appLocale,  FieldValidationError? bindPhraseError,  FieldValidationError? wifiSsidError,  FieldValidationError? wifiPasswordError,  List<FlashingProfile> profiles,  String? activeProfileId)?  $default,) {final _that = this;
 switch (_that) {
 case _SettingsState() when $default != null:
 return $default(_that.defaultDomain2400,_that.defaultDomain900,_that.globalBindPhrase,_that.homeWifiSsid,_that.homeWifiPassword,_that.maxCachedVersions,_that.expertMode,_that.appVersion,_that.disclaimerAccepted,_that.shareAnalytics,_that.isLoaded,_that.wifiOnInterval,_that.appLocale,_that.bindPhraseError,_that.wifiSsidError,_that.wifiPasswordError,_that.profiles,_that.activeProfileId);case _:
@@ -239,9 +239,9 @@ class _SettingsState implements SettingsState {
 @override@JsonKey() final  bool isLoaded;
 @override@JsonKey() final  int wifiOnInterval;
 @override final  String? appLocale;
-@override final  String? bindPhraseError;
-@override final  String? wifiSsidError;
-@override final  String? wifiPasswordError;
+@override final  FieldValidationError? bindPhraseError;
+@override final  FieldValidationError? wifiSsidError;
+@override final  FieldValidationError? wifiPasswordError;
  final  List<FlashingProfile> _profiles;
 @override@JsonKey() List<FlashingProfile> get profiles {
   if (_profiles is EqualUnmodifiableListView) return _profiles;
@@ -281,7 +281,7 @@ abstract mixin class _$SettingsStateCopyWith<$Res> implements $SettingsStateCopy
   factory _$SettingsStateCopyWith(_SettingsState value, $Res Function(_SettingsState) _then) = __$SettingsStateCopyWithImpl;
 @override @useResult
 $Res call({
- int defaultDomain2400, int defaultDomain900, String globalBindPhrase, String homeWifiSsid, String homeWifiPassword, int maxCachedVersions, bool expertMode, String appVersion, bool disclaimerAccepted, bool shareAnalytics, bool isLoaded, int wifiOnInterval, String? appLocale, String? bindPhraseError, String? wifiSsidError, String? wifiPasswordError, List<FlashingProfile> profiles, String? activeProfileId
+ int defaultDomain2400, int defaultDomain900, String globalBindPhrase, String homeWifiSsid, String homeWifiPassword, int maxCachedVersions, bool expertMode, String appVersion, bool disclaimerAccepted, bool shareAnalytics, bool isLoaded, int wifiOnInterval, String? appLocale, FieldValidationError? bindPhraseError, FieldValidationError? wifiSsidError, FieldValidationError? wifiPasswordError, List<FlashingProfile> profiles, String? activeProfileId
 });
 
 
@@ -314,9 +314,9 @@ as bool,isLoaded: null == isLoaded ? _self.isLoaded : isLoaded // ignore: cast_n
 as bool,wifiOnInterval: null == wifiOnInterval ? _self.wifiOnInterval : wifiOnInterval // ignore: cast_nullable_to_non_nullable
 as int,appLocale: freezed == appLocale ? _self.appLocale : appLocale // ignore: cast_nullable_to_non_nullable
 as String?,bindPhraseError: freezed == bindPhraseError ? _self.bindPhraseError : bindPhraseError // ignore: cast_nullable_to_non_nullable
-as String?,wifiSsidError: freezed == wifiSsidError ? _self.wifiSsidError : wifiSsidError // ignore: cast_nullable_to_non_nullable
-as String?,wifiPasswordError: freezed == wifiPasswordError ? _self.wifiPasswordError : wifiPasswordError // ignore: cast_nullable_to_non_nullable
-as String?,profiles: null == profiles ? _self._profiles : profiles // ignore: cast_nullable_to_non_nullable
+as FieldValidationError?,wifiSsidError: freezed == wifiSsidError ? _self.wifiSsidError : wifiSsidError // ignore: cast_nullable_to_non_nullable
+as FieldValidationError?,wifiPasswordError: freezed == wifiPasswordError ? _self.wifiPasswordError : wifiPasswordError // ignore: cast_nullable_to_non_nullable
+as FieldValidationError?,profiles: null == profiles ? _self._profiles : profiles // ignore: cast_nullable_to_non_nullable
 as List<FlashingProfile>,activeProfileId: freezed == activeProfileId ? _self.activeProfileId : activeProfileId // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
