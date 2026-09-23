@@ -36,21 +36,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
 
   @override
-  String get packetRateLabel => 'パケットレート';
-
-  @override
-  String get baudRateLabel => 'ボーレート';
-
-  @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return '$radioMaster または $betaFPV ハードウェアの $expressLRS ファームウェアを更新しています...';
-  }
-
-  @override
   String get flashDeviceLabel => 'ファームウェア書き込み';
 
   @override
@@ -95,18 +80,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'ファームウェア書き込みとWi-Fi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'バージョン情報とサポート';
-
-  @override
-  String get advancedCategoryLabel => '詳細設定';
-
-  @override
-  String get flashingDefaultsSectionLabel => 'ファームウェア書き込みのデフォルト設定';
-
-  @override
   String get default24GHzDomainLabel => 'デフォルトの2.4GHzドメイン';
 
   @override
@@ -139,9 +112,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clearLabel => 'クリア';
-
-  @override
-  String get aboutSectionLabel => 'このアプリについて';
 
   @override
   String get appVersionLabel => 'アプリのバージョン';

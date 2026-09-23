@@ -36,21 +36,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
 
   @override
-  String get packetRateLabel => 'Paketrate';
-
-  @override
-  String get baudRateLabel => 'Baudrate';
-
-  @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Aktualisiere $expressLRS-Firmware auf $radioMaster- oder $betaFPV-Hardware...';
-  }
-
-  @override
   String get flashDeviceLabel => 'Gerät flashen';
 
   @override
@@ -95,19 +80,6 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Flashen & WLAN';
-
-  @override
-  String get aboutSupportCategoryLabel => 'Über & Support';
-
-  @override
-  String get advancedCategoryLabel => 'Erweitert';
-
-  @override
-  String get flashingDefaultsSectionLabel =>
-      'Standardeinstellungen für das Flashen';
-
-  @override
   String get default24GHzDomainLabel => 'Standard 2,4-GHz-Domain';
 
   @override
@@ -142,9 +114,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get clearLabel => 'LEEREN';
-
-  @override
-  String get aboutSectionLabel => 'Über';
 
   @override
   String get appVersionLabel => 'App-Version';

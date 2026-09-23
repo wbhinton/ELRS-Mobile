@@ -3,9 +3,6 @@
   "bindingPhraseLabel": "Bindingsfrase",
   "networkSsidLabel": "WiFi SSID",
   "flashingButtonLabel": "Flash",
-  "packetRateLabel": "Pakkehastighet",
-  "baudRateLabel": "Baudrate",
-  "brandUpdateMessage": "Oppdaterer {expressLRS}-fastvare på {radioMaster}- eller {betaFPV}-maskinvare...",
   "flashDeviceLabel": "Flash enhet",
   "deviceConfigLabel": "Enhetskonfigurasjon",
   "firmwareManagerLabel": "Fastvarebehandler",
@@ -20,10 +17,6 @@
   "matchedLabel": "Matchet",
   "mismatchLabel": "Avvik",
   "connectedLabel": "Tilkoblet: {ip}",
-  "flashingWifiCategoryLabel": "Flashing og WiFi",
-  "aboutSupportCategoryLabel": "Om og støtte",
-  "advancedCategoryLabel": "Avansert",
-  "flashingDefaultsSectionLabel": "Standardinnstillinger for flashing",
   "default24GHzDomainLabel": "Standard 2,4 GHz-domene",
   "defaultSubGHzDomainLabel": "Standard Sub-GHz-domene",
   "globalBindingPhraseLabel": "Global bindingsfrase",
@@ -35,7 +28,6 @@
   "clearFirmwareCacheLabel": "Tøm fastvarebuffer",
   "deleteAllDownloadedFirmwareFilesLabel": "Slett alle nedlastede fastvarefiler",
   "clearLabel": "TØM",
-  "aboutSectionLabel": "Om",
   "appVersionLabel": "Appversjon",
   "legalLicenseLabel": "Juridisk og lisens",
   "standardDisclaimerAndGplv3Label": "Standard ansvarsfraskrivelse og GPLv3-lisens",
@@ -110,4 +102,3 @@
   "regDomainEu433": "EU (433MHz)",
   "regDomainUs433": "US (433MHz)"
 }
-

@@ -36,21 +36,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
 
   @override
-  String get packetRateLabel => '패킷 전송률';
-
-  @override
-  String get baudRateLabel => '보 레이트';
-
-  @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return '$radioMaster 또는 $betaFPV 하드웨어에 $expressLRS 펌웨어를 업데이트하는 중...';
-  }
-
-  @override
   String get flashDeviceLabel => '장치 플래싱';
 
   @override
@@ -95,18 +80,6 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => '플래싱 및 Wi-Fi';
-
-  @override
-  String get aboutSupportCategoryLabel => '정보 및 지원';
-
-  @override
-  String get advancedCategoryLabel => '고급';
-
-  @override
-  String get flashingDefaultsSectionLabel => '플래싱 기본값';
-
-  @override
   String get default24GHzDomainLabel => '기본 2.4GHz 도메인';
 
   @override
@@ -138,9 +111,6 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get clearLabel => '지우기';
-
-  @override
-  String get aboutSectionLabel => '정보';
 
   @override
   String get appVersionLabel => '앱 버전';

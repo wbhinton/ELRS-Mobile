@@ -36,21 +36,6 @@ class AppLocalizationsCs extends AppLocalizations {
   String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
 
   @override
-  String get packetRateLabel => 'Rychlost paketů';
-
-  @override
-  String get baudRateLabel => 'Baudová rychlost';
-
-  @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Aktualizuji firmware $expressLRS na hardwaru $radioMaster nebo $betaFPV...';
-  }
-
-  @override
   String get flashDeviceLabel => 'Nahrát zařízení';
 
   @override
@@ -95,19 +80,6 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Nahrávání firmwaru a Wi-Fi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'O aplikaci a podpora';
-
-  @override
-  String get advancedCategoryLabel => 'Pokročilé';
-
-  @override
-  String get flashingDefaultsSectionLabel =>
-      'Výchozí nastavení nahrávání firmwaru';
-
-  @override
   String get default24GHzDomainLabel => 'Výchozí doména 2.4GHz';
 
   @override
@@ -141,9 +113,6 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get clearLabel => 'VYČISTIT';
-
-  @override
-  String get aboutSectionLabel => 'O aplikaci';
 
   @override
   String get appVersionLabel => 'Verze aplikace';

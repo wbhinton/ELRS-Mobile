@@ -36,42 +36,43 @@
   "@flashingStatusFinalizing": {
     "description": "Progress label shown after the upload finishes, while the device erases/writes its flash memory. There is no progress signal from the device during this step, so this message tells the user the app has not frozen."
   },
-  "packetRateLabel": "Packet Rate",
-  "@packetRateLabel": {
-    "description": "RF performance setting (Hz). Do not translate technical units or abbreviations."
-  },
-  "baudRateLabel": "Baud Rate",
-  "@baudRateLabel": {
-    "description": "Serial communication speed in bits per second. Do not translate the word 'Baud'."
-  },
-  "brandUpdateMessage": "Updating {expressLRS} firmware on {radioMaster} or {betaFPV} hardware...",
-  "@brandUpdateMessage": {
-    "description": "Status message for firmware updates with immutable brand placeholders.",
-    "placeholders": {
-      "expressLRS": {
-        "type": "String"
-      },
-      "radioMaster": {
-        "type": "String"
-      },
-      "betaFPV": {
-        "type": "String"
-      }
-    }
-  },
   "flashDeviceLabel": "Flash Device",
+  "@flashDeviceLabel": {
+    "description": "Dashboard button that opens the screen for writing (flashing) new firmware onto a device. 'Flash' means installing firmware, not a camera flash."
+  },
   "deviceConfigLabel": "Device Config",
+  "@deviceConfigLabel": {
+    "description": "Dashboard button that opens the connected device's own configuration web page."
+  },
   "firmwareManagerLabel": "Firmware Manager",
   "settingsLabel": "Settings",
   "helpSupportLabel": "Help & Support",
   "noDeviceFoundLabel": "No Device Found",
   "retryLabel": "Retry",
+  "@retryLabel": {
+    "description": "Button that searches for the ExpressLRS device on the network again."
+  },
   "manualConnectionLabel": "Manual Connection",
   "manualIpOverrideLabel": "Manual IP Override",
+  "@manualIpOverrideLabel": {
+    "description": "Title for entering the device's IP address by hand instead of discovering it automatically."
+  },
   "connectLabel": "Connect",
+  "@connectLabel": {
+    "description": "Button that connects to a device at a manually entered IP address."
+  },
   "cancelLabel": "Cancel",
+  "@cancelLabel": {
+    "description": "Generic dialog button that dismisses without making changes."
+  },
   "matchedLabel": "Matched",
+  "@matchedLabel": {
+    "description": "Short status badge: the firmware target selected in the app matches the connected device's hardware."
+  },
   "mismatchLabel": "Mismatch",
+  "@mismatchLabel": {
+    "description": "Short status badge: the firmware target selected in the app does NOT match the connected device's hardware."
+  },
   "connectedLabel": "Connected: {ip}",
   "@connectedLabel": {
     "placeholders": {
@@ -80,13 +81,18 @@
       }
     }
   },
-  "flashingWifiCategoryLabel": "Flashing & WiFi",
-  "aboutSupportCategoryLabel": "About & Support",
-  "advancedCategoryLabel": "Advanced",
-  "flashingDefaultsSectionLabel": "Flashing Defaults",
   "default24GHzDomainLabel": "Default 2.4GHz Domain",
+  "@default24GHzDomainLabel": {
+    "description": "Setting for the radio regulatory domain applied by default to 2.4GHz devices."
+  },
   "defaultSubGHzDomainLabel": "Default Sub-GHz Domain",
+  "@defaultSubGHzDomainLabel": {
+    "description": "Setting for the radio regulatory domain applied by default to sub-GHz (900MHz-band) devices."
+  },
   "globalBindingPhraseLabel": "Global Binding Phrase",
+  "@globalBindingPhraseLabel": {
+    "description": "Setting for the default binding phrase: the shared secret that pairs an ExpressLRS transmitter and receiver."
+  },
   "homeWifiSsidLabel": "Home WiFi SSID",
   "homeWifiPasswordLabel": "Home WiFi Password",
   "manageCachedFirmwareLabel": "Manage Cached Firmware",
@@ -95,7 +101,9 @@
   "clearFirmwareCacheLabel": "Clear Firmware Cache",
   "deleteAllDownloadedFirmwareFilesLabel": "Delete all downloaded firmware files",
   "clearLabel": "CLEAR",
-  "aboutSectionLabel": "About",
+  "@clearLabel": {
+    "description": "Button that deletes all cached firmware files. Keep it short; it is uppercase in the source."
+  },
   "appVersionLabel": "App Version",
   "legalLicenseLabel": "Legal & License",
   "standardDisclaimerAndGplv3Label": "Standard disclaimer and GPLv3 License",
@@ -104,6 +112,9 @@
   "shareAnalyticsLabel": "Share Analytics",
   "shareAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data",
   "expertModeLabel": "Expert Mode",
+  "@expertModeLabel": {
+    "description": "Setting that unlocks advanced features such as saving firmware binaries."
+  },
   "expertModeSubtitle": "Enable advanced firmware handling and downloads",
   "exportElrsLuaScriptLabel": "Export ELRS Lua Script",
   "exportElrsLuaScriptSubtitle": "Save elrs.lua for EdgeTX/OpenTX radios",
@@ -112,13 +123,25 @@
   "clearFirmwareCacheTitle": "Clear Firmware Cache?",
   "clearFirmwareCacheMessage": "This will delete all downloaded firmware zip files. You will need to re-download them if you want to flash offline.",
   "clearAllLabel": "CLEAR ALL",
+  "@clearAllLabel": {
+    "description": "Confirmation button in the dialog that deletes all cached firmware files. Uppercase in the source."
+  },
   "submitDebugReportTitle": "Submit Debug Report",
   "submitDebugReportMessage": "This will send your device info and app logs to Sentry for debugging. No personal info like Binding Phrases or WiFi passwords will be included.",
   "describeIssueHint": "Please describe the issue you are experiencing...",
   "proceedLabel": "Proceed",
+  "@proceedLabel": {
+    "description": "Dialog button that continues with the action despite a warning."
+  },
   "submittingReportProgress": "Submitting report…",
   "saveLabel": "Save",
+  "@saveLabel": {
+    "description": "Generic dialog button that saves the entered value."
+  },
   "notSetLabel": "Not set",
+  "@notSetLabel": {
+    "description": "Shown under a setting that has no value yet."
+  },
   "languageOverrideLabel": "Language",
   "languageOverrideSystemDefault": "System Default",
   "legalNoticeSectionTitle": "Legal Notice",
@@ -132,12 +155,21 @@
   "gplv3NoticeText": "This project is licensed under the GNU General Public License v3.0.",
   "tabFlashingGuide": "Flashing Guide",
   "tabFaq": "FAQ",
+  "@tabFaq": {
+    "description": "Tab label for Frequently Asked Questions. Use the common local abbreviation if there is one."
+  },
   "tabResources": "Resources",
+  "@tabResources": {
+    "description": "Tab label for links to community help, recovery guides and legal information."
+  },
   "resourceCommunitySupport": "Community & Support",
   "resourceDiscordCommunity": "Discord Community",
   "resourceJoinDiscord": "Join the ELRS Discord",
   "resourceGithubRepo": "GitHub Repository",
   "resourceFlashRecovery": "Flash Recovery",
+  "@resourceFlashRecovery": {
+    "description": "Heading for instructions on recovering a device whose firmware update failed."
+  },
   "resourceDeviceUnresponsiveInfo": "If your device appears unresponsive after a failed flash:",
   "resourceRecoveryStep1": "Hold the BOOT button while plugging in via USB to enter bootloader mode.",
   "resourceRecoveryStep2": "Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.",
@@ -145,6 +177,9 @@
   "resourceRecoveryStep4": "Join #help on the ELRS Discord — the community can usually recover any device.",
   "resourceBardwellGuideRecommended": "Joshua Bardwell's unbricking guide is highly recommended:",
   "resourceWebFlasherButton": "Web Flasher",
+  "@resourceWebFlasherButton": {
+    "description": "Button opening the official ExpressLRS Web Flasher website. 'Web Flasher' is a product name."
+  },
   "resourceRecoveryVideoButton": "Recovery Video",
   "resourceLegalLiability": "Legal & Liability",
   "resourceLiabilityDisclaimerText": "ELRS Mobile is provided as-is, without warranty of any kind. The developers are not responsible for any damage, data loss, or non-functional hardware resulting from the use of this application, including but not limited to bricked receivers, transmitters, or flight controllers.\n\nBy using this app you accept full responsibility for your hardware.",
@@ -155,7 +190,13 @@
   "disclaimerAgreement": "By using this app you confirm that you understand the risks of flashing custom firmware and accept full responsibility for your hardware.",
   "disclaimerVerification": "Always verify the target and firmware version before flashing. Keep a record of your original firmware if possible.",
   "disclaimerUnderstand": "I Understand",
+  "@disclaimerUnderstand": {
+    "description": "Button acknowledging the risk disclaimer before using the app."
+  },
   "optionsTitle": "Firmware Options",
+  "@optionsTitle": {
+    "description": "Heading of the card with settings baked into the firmware (binding phrase, WiFi credentials, regulatory domain)."
+  },
   "optionsSubtitle": "Configure binding and network credentials.",
   "wifiPasswordLabel": "WiFi Password",
   "wifiOnIntervalLabel": "WiFi Auto-On Interval",
@@ -164,6 +205,9 @@
   },
   "regulatoryDomainLabel": "Regulatory Domain",
   "regDomainIsm": "ISM (2.4GHz)",
+  "@regDomainIsm": {
+    "description": "Regulatory domain option. Region codes, frequencies and 'ISM'/'LBT'/'CE'/'FCC' are standard identifiers and should normally stay as-is."
+  },
   "regDomainEuLbt": "EU CE (2.4GHz LBT)",
   "regDomainAu915": "AU (915MHz)",
   "regDomainFcc915": "FCC (915MHz)",

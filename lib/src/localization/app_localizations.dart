@@ -184,35 +184,13 @@ abstract class AppLocalizations {
   /// **'Writing to Device — Please Wait'**
   String get flashingStatusFinalizing;
 
-  /// RF performance setting (Hz). Do not translate technical units or abbreviations.
-  ///
-  /// In en, this message translates to:
-  /// **'Packet Rate'**
-  String get packetRateLabel;
-
-  /// Serial communication speed in bits per second. Do not translate the word 'Baud'.
-  ///
-  /// In en, this message translates to:
-  /// **'Baud Rate'**
-  String get baudRateLabel;
-
-  /// Status message for firmware updates with immutable brand placeholders.
-  ///
-  /// In en, this message translates to:
-  /// **'Updating {expressLRS} firmware on {radioMaster} or {betaFPV} hardware...'**
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  );
-
-  /// No description provided for @flashDeviceLabel.
+  /// Dashboard button that opens the screen for writing (flashing) new firmware onto a device. 'Flash' means installing firmware, not a camera flash.
   ///
   /// In en, this message translates to:
   /// **'Flash Device'**
   String get flashDeviceLabel;
 
-  /// No description provided for @deviceConfigLabel.
+  /// Dashboard button that opens the connected device's own configuration web page.
   ///
   /// In en, this message translates to:
   /// **'Device Config'**
@@ -242,7 +220,7 @@ abstract class AppLocalizations {
   /// **'No Device Found'**
   String get noDeviceFoundLabel;
 
-  /// No description provided for @retryLabel.
+  /// Button that searches for the ExpressLRS device on the network again.
   ///
   /// In en, this message translates to:
   /// **'Retry'**
@@ -254,31 +232,31 @@ abstract class AppLocalizations {
   /// **'Manual Connection'**
   String get manualConnectionLabel;
 
-  /// No description provided for @manualIpOverrideLabel.
+  /// Title for entering the device's IP address by hand instead of discovering it automatically.
   ///
   /// In en, this message translates to:
   /// **'Manual IP Override'**
   String get manualIpOverrideLabel;
 
-  /// No description provided for @connectLabel.
+  /// Button that connects to a device at a manually entered IP address.
   ///
   /// In en, this message translates to:
   /// **'Connect'**
   String get connectLabel;
 
-  /// No description provided for @cancelLabel.
+  /// Generic dialog button that dismisses without making changes.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancelLabel;
 
-  /// No description provided for @matchedLabel.
+  /// Short status badge: the firmware target selected in the app matches the connected device's hardware.
   ///
   /// In en, this message translates to:
   /// **'Matched'**
   String get matchedLabel;
 
-  /// No description provided for @mismatchLabel.
+  /// Short status badge: the firmware target selected in the app does NOT match the connected device's hardware.
   ///
   /// In en, this message translates to:
   /// **'Mismatch'**
@@ -290,43 +268,19 @@ abstract class AppLocalizations {
   /// **'Connected: {ip}'**
   String connectedLabel(String ip);
 
-  /// No description provided for @flashingWifiCategoryLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Flashing & WiFi'**
-  String get flashingWifiCategoryLabel;
-
-  /// No description provided for @aboutSupportCategoryLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'About & Support'**
-  String get aboutSupportCategoryLabel;
-
-  /// No description provided for @advancedCategoryLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Advanced'**
-  String get advancedCategoryLabel;
-
-  /// No description provided for @flashingDefaultsSectionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Flashing Defaults'**
-  String get flashingDefaultsSectionLabel;
-
-  /// No description provided for @default24GHzDomainLabel.
+  /// Setting for the radio regulatory domain applied by default to 2.4GHz devices.
   ///
   /// In en, this message translates to:
   /// **'Default 2.4GHz Domain'**
   String get default24GHzDomainLabel;
 
-  /// No description provided for @defaultSubGHzDomainLabel.
+  /// Setting for the radio regulatory domain applied by default to sub-GHz (900MHz-band) devices.
   ///
   /// In en, this message translates to:
   /// **'Default Sub-GHz Domain'**
   String get defaultSubGHzDomainLabel;
 
-  /// No description provided for @globalBindingPhraseLabel.
+  /// Setting for the default binding phrase: the shared secret that pairs an ExpressLRS transmitter and receiver.
   ///
   /// In en, this message translates to:
   /// **'Global Binding Phrase'**
@@ -374,17 +328,11 @@ abstract class AppLocalizations {
   /// **'Delete all downloaded firmware files'**
   String get deleteAllDownloadedFirmwareFilesLabel;
 
-  /// No description provided for @clearLabel.
+  /// Button that deletes all cached firmware files. Keep it short; it is uppercase in the source.
   ///
   /// In en, this message translates to:
   /// **'CLEAR'**
   String get clearLabel;
-
-  /// No description provided for @aboutSectionLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'About'**
-  String get aboutSectionLabel;
 
   /// No description provided for @appVersionLabel.
   ///
@@ -428,7 +376,7 @@ abstract class AppLocalizations {
   /// **'Help improve the app by sharing anonymous usage data'**
   String get shareAnalyticsSubtitle;
 
-  /// No description provided for @expertModeLabel.
+  /// Setting that unlocks advanced features such as saving firmware binaries.
   ///
   /// In en, this message translates to:
   /// **'Expert Mode'**
@@ -476,7 +424,7 @@ abstract class AppLocalizations {
   /// **'This will delete all downloaded firmware zip files. You will need to re-download them if you want to flash offline.'**
   String get clearFirmwareCacheMessage;
 
-  /// No description provided for @clearAllLabel.
+  /// Confirmation button in the dialog that deletes all cached firmware files. Uppercase in the source.
   ///
   /// In en, this message translates to:
   /// **'CLEAR ALL'**
@@ -500,7 +448,7 @@ abstract class AppLocalizations {
   /// **'Please describe the issue you are experiencing...'**
   String get describeIssueHint;
 
-  /// No description provided for @proceedLabel.
+  /// Dialog button that continues with the action despite a warning.
   ///
   /// In en, this message translates to:
   /// **'Proceed'**
@@ -512,13 +460,13 @@ abstract class AppLocalizations {
   /// **'Submitting report…'**
   String get submittingReportProgress;
 
-  /// No description provided for @saveLabel.
+  /// Generic dialog button that saves the entered value.
   ///
   /// In en, this message translates to:
   /// **'Save'**
   String get saveLabel;
 
-  /// No description provided for @notSetLabel.
+  /// Shown under a setting that has no value yet.
   ///
   /// In en, this message translates to:
   /// **'Not set'**
@@ -596,13 +544,13 @@ abstract class AppLocalizations {
   /// **'Flashing Guide'**
   String get tabFlashingGuide;
 
-  /// No description provided for @tabFaq.
+  /// Tab label for Frequently Asked Questions. Use the common local abbreviation if there is one.
   ///
   /// In en, this message translates to:
   /// **'FAQ'**
   String get tabFaq;
 
-  /// No description provided for @tabResources.
+  /// Tab label for links to community help, recovery guides and legal information.
   ///
   /// In en, this message translates to:
   /// **'Resources'**
@@ -632,7 +580,7 @@ abstract class AppLocalizations {
   /// **'GitHub Repository'**
   String get resourceGithubRepo;
 
-  /// No description provided for @resourceFlashRecovery.
+  /// Heading for instructions on recovering a device whose firmware update failed.
   ///
   /// In en, this message translates to:
   /// **'Flash Recovery'**
@@ -674,7 +622,7 @@ abstract class AppLocalizations {
   /// **'Joshua Bardwell\'s unbricking guide is highly recommended:'**
   String get resourceBardwellGuideRecommended;
 
-  /// No description provided for @resourceWebFlasherButton.
+  /// Button opening the official ExpressLRS Web Flasher website. 'Web Flasher' is a product name.
   ///
   /// In en, this message translates to:
   /// **'Web Flasher'**
@@ -734,13 +682,13 @@ abstract class AppLocalizations {
   /// **'Always verify the target and firmware version before flashing. Keep a record of your original firmware if possible.'**
   String get disclaimerVerification;
 
-  /// No description provided for @disclaimerUnderstand.
+  /// Button acknowledging the risk disclaimer before using the app.
   ///
   /// In en, this message translates to:
   /// **'I Understand'**
   String get disclaimerUnderstand;
 
-  /// No description provided for @optionsTitle.
+  /// Heading of the card with settings baked into the firmware (binding phrase, WiFi credentials, regulatory domain).
   ///
   /// In en, this message translates to:
   /// **'Firmware Options'**
@@ -770,7 +718,7 @@ abstract class AppLocalizations {
   /// **'Regulatory Domain'**
   String get regulatoryDomainLabel;
 
-  /// No description provided for @regDomainIsm.
+  /// Regulatory domain option. Region codes, frequencies and 'ISM'/'LBT'/'CE'/'FCC' are standard identifiers and should normally stay as-is.
   ///
   /// In en, this message translates to:
   /// **'ISM (2.4GHz)'**

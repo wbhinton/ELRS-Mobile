@@ -36,21 +36,6 @@ class AppLocalizationsTh extends AppLocalizations {
   String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
 
   @override
-  String get packetRateLabel => 'อัตราแพ็กเก็ต';
-
-  @override
-  String get baudRateLabel => 'อัตราบอด';
-
-  @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'กำลังอัปเดตเฟิร์มแวร์ $expressLRS บนฮาร์ดแวร์ $radioMaster หรือ $betaFPV...';
-  }
-
-  @override
   String get flashDeviceLabel => 'แฟลชอุปกรณ์';
 
   @override
@@ -95,18 +80,6 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'แฟลชและ Wi-Fi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'เกี่ยวกับและสนับสนุน';
-
-  @override
-  String get advancedCategoryLabel => 'ขั้นสูง';
-
-  @override
-  String get flashingDefaultsSectionLabel => 'ค่าเริ่มต้นการแฟลช';
-
-  @override
   String get default24GHzDomainLabel => 'โดเมน 2.4GHz เริ่มต้น';
 
   @override
@@ -140,9 +113,6 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get clearLabel => 'ล้าง';
-
-  @override
-  String get aboutSectionLabel => 'เกี่ยวกับ';
 
   @override
   String get appVersionLabel => 'เวอร์ชันแอป';

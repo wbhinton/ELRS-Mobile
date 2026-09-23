@@ -36,21 +36,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
 
   @override
-  String get packetRateLabel => '包速率';
-
-  @override
-  String get baudRateLabel => '波特率';
-
-  @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return '正在更新 $expressLRS 固件到 $radioMaster 或 $betaFPV 硬件...';
-  }
-
-  @override
   String get flashDeviceLabel => '刷写设备';
 
   @override
@@ -95,18 +80,6 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => '刷写与 WiFi';
-
-  @override
-  String get aboutSupportCategoryLabel => '关于与支持';
-
-  @override
-  String get advancedCategoryLabel => '高级';
-
-  @override
-  String get flashingDefaultsSectionLabel => '刷写默认设置';
-
-  @override
   String get default24GHzDomainLabel => '默认 2.4GHz 域';
 
   @override
@@ -138,9 +111,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get clearLabel => '清除';
-
-  @override
-  String get aboutSectionLabel => '关于';
 
   @override
   String get appVersionLabel => '应用版本';
