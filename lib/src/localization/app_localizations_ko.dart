@@ -18,22 +18,22 @@ class AppLocalizationsKo extends AppLocalizations {
   String get flashingButtonLabel => '플래시';
 
   @override
-  String get flashingStatusLocating => 'Locating Firmware';
+  String get flashingStatusLocating => '펌웨어 찾는 중';
 
   @override
-  String get flashingStatusUnpacking => 'Unpacking Firmware';
+  String get flashingStatusUnpacking => '펌웨어 압축 해제 중';
 
   @override
-  String get flashingStatusDownloading => 'Downloading Firmware';
+  String get flashingStatusDownloading => '펌웨어 다운로드 중';
 
   @override
-  String get flashingStatusBuilding => 'Building Firmware';
+  String get flashingStatusBuilding => '펌웨어 빌드 중';
 
   @override
-  String get flashingStatusUploading => 'Uploading to Device';
+  String get flashingStatusUploading => '장치에 업로드 중';
 
   @override
-  String get flashingStatusFinalizing => 'Writing to Device — Please Wait';
+  String get flashingStatusFinalizing => '장치에 쓰는 중 — 기다려 주십시오';
 
   @override
   String get flashDeviceLabel => '장치 플래싱';
@@ -346,273 +346,267 @@ class AppLocalizationsKo extends AppLocalizations {
   String get regDomainUs433 => 'US (433MHz)';
 
   @override
-  String get flashingStatusSaved => 'Firmware Saved';
+  String get flashingStatusSaved => '펌웨어 저장됨';
 
   @override
-  String get flashErrorNoTarget => 'Please select a target device.';
+  String get flashErrorNoTarget => '대상을 선택해 주십시오.';
 
   @override
-  String get flashErrorNoVersion => 'Please select a firmware version.';
+  String get flashErrorNoVersion => '펌웨어 버전을 선택해 주십시오.';
 
   @override
-  String get flashErrorNoDevice => 'Cannot flash: no ELRS device connected.';
+  String get flashErrorNoDevice => '플래시할 수 없음: ELRS 장치가 연결되지 않았습니다.';
 
   @override
   String flashErrorChipMismatch(String targetChip, String deviceChip) {
-    return 'Incompatible chip: this firmware is built for $targetChip, but the connected device is $deviceChip. Select a target for the same chip.';
+    return '호환되지 않는 칩: 이 펌웨어는 $targetChip용으로 빌드되었지만, 연결된 장치는 $deviceChip입니다. 동일한 칩용 대상을 선택하십시오.';
   }
 
   @override
   String get flashErrorOfflineFlash =>
-      'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.';
+      '누락된 파일을 가져올 인터넷 연결이 없습니다. ELRS 장치에서 연결을 해제하고, 펌웨어 관리자를 통해 이 펌웨어를 다운로드하여 캐시를 완료한 후 다시 시도하십시오.';
 
   @override
   String get flashErrorOfflineDownload =>
-      'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.';
+      '인터넷 연결이 없습니다. ELRS 장치 핫스팟에 연결된 동안에는 펌웨어를 다운로드할 수 없습니다. 연결을 해제하고, 펌웨어 관리자를 통해 이 버전을 다운로드한 후 다시 시도하십시오.';
 
   @override
-  String get flashErrorFlashFailed => 'Flashing failed.';
+  String get flashErrorFlashFailed => '플래싱에 실패했습니다.';
 
   @override
   String get flashErrorUnconfirmed =>
-      'The device disconnected before confirming the flash, so it may not have completed. This happens if it loses power or restarts mid-flash, and occasionally on a weak WiFi link after a successful flash. Check the firmware version in Device Config, and flash again if it hasn\'t changed.';
+      '플래싱 확인 전에 장치 연결이 끊어져 완료되지 않았을 수 있습니다. 이는 전원 손실, 플래싱 중 재시작 또는 약한 Wi-Fi 연결로 인해 발생할 수 있습니다. 장치 설정에서 펌웨어 버전을 확인하고, 변경되지 않았다면 다시 플래싱하십시오.';
 
   @override
-  String get flashErrorDownloadFailed => 'Failed to download firmware.';
+  String get flashErrorDownloadFailed => '펌웨어 다운로드에 실패했습니다.';
 
   @override
-  String get validationSsidTooLong => 'SSID must be 32 characters or less';
+  String get validationSsidTooLong => 'SSID는 32자 이하여야 합니다.';
 
   @override
-  String get validationPasswordTooShort =>
-      'Password must be at least 8 characters';
+  String get validationPasswordTooShort => '비밀번호는 8자 이상이어야 합니다.';
 
   @override
-  String get validationPasswordTooLong =>
-      'Password must be 63 characters or less';
+  String get validationPasswordTooLong => '비밀번호는 63자 이하여야 합니다.';
 
   @override
-  String get targetMismatchTitle => 'Target Mismatch';
+  String get targetMismatchTitle => '대상 불일치';
 
   @override
   String get targetMismatchMessage =>
-      'The selected firmware target does not match the hardware currently running on the device. Are you sure you want to force flash?';
+      '선택한 펌웨어 대상이 현재 장치에서 실행 중인 하드웨어와 일치하지 않습니다. 강제로 플래싱하시겠습니까?';
 
   @override
-  String get forceFlashLabel => 'Force Flash';
+  String get forceFlashLabel => '강제 플래싱';
 
   @override
-  String get noBindPhraseTitle => 'No Binding Phrase';
+  String get noBindPhraseTitle => '바인딩 문구 없음';
 
   @override
   String get noBindPhraseMessage =>
-      'No binding phrase set. Proceed with the default (empty)?';
+      '바인딩 문구가 설정되지 않았습니다. 기본값(비어 있음)으로 진행하시겠습니까?';
 
   @override
-  String get flashSuccessSnackbar => 'Flashing completed successfully!';
+  String get flashSuccessSnackbar => '플래싱이 성공적으로 완료되었습니다!';
 
   @override
-  String get firmwareSavedSnackbar => 'Firmware saved successfully!';
+  String get firmwareSavedSnackbar => '펌웨어가 성공적으로 저장되었습니다!';
 
   @override
-  String get flashSuccessMessage => 'Flashing Successful! Device is rebooting.';
+  String get flashSuccessMessage => '플래싱 성공! 장치가 재부팅 중입니다.';
 
   @override
   String get stm32OtaWarning =>
-      'STM32 Target Selected: OTA flashing is not supported for this hardware. You can build and save this firmware locally to flash manually via STLink or Betaflight Passthrough.';
+      'STM32 대상 선택됨: 이 하드웨어는 OTA 플래싱을 지원하지 않습니다. STLink 또는 Betaflight Passthrough를 통해 수동으로 플래싱하기 위해 이 펌웨어를 로컬에 빌드하고 저장할 수 있습니다.';
 
   @override
-  String get downloadBinaryLabel => 'Download Binary';
+  String get downloadBinaryLabel => '바이너리 다운로드';
 
   @override
-  String get waitingForDeviceLabel => 'Waiting for Device...';
+  String get waitingForDeviceLabel => '장치 연결 대기 중...';
 
   @override
-  String get otaUnavailableLabel => 'OTA Unavailable';
+  String get otaUnavailableLabel => 'OTA 사용 불가';
 
   @override
-  String get doneLabel => 'Done';
+  String get doneLabel => '완료';
 
   @override
-  String get targetSelectionTitle => 'Target Selection';
+  String get targetSelectionTitle => '대상 선택';
 
   @override
-  String get deviceTypeLabel => 'Device Type';
+  String get deviceTypeLabel => '장치 유형';
 
   @override
-  String get deviceVendorLabel => 'Device Vendor';
+  String get deviceVendorLabel => '장치 제조사';
 
   @override
-  String get regulatoryFrequencyLabel => 'Regulatory & Frequency';
+  String get regulatoryFrequencyLabel => '규제 및 주파수';
 
   @override
-  String get deviceTargetLabel => 'Device Target';
+  String get deviceTargetLabel => '장치 대상';
 
   @override
-  String get noFirmwareDownloadedButton =>
-      'No firmware downloaded. Go to Firmware Manager';
+  String get noFirmwareDownloadedButton => '다운로드된 펌웨어 없음. 펌웨어 관리자로 이동';
 
   @override
   String hardwareRequiresVersion(String version) {
-    return 'Hardware requires v$version or newer.';
+    return '하드웨어에는 v$version 이상이 필요합니다.';
   }
 
   @override
-  String get downloadCompatibleFirmwareButton => 'Download Compatible Firmware';
+  String get downloadCompatibleFirmwareButton => '호환 펌웨어 다운로드';
 
   @override
-  String get firmwareVersionLabel => 'Firmware Version';
+  String get firmwareVersionLabel => '펌웨어 버전';
 
   @override
-  String get firmwareVersionHelper => 'Select the ELRS version to flash';
+  String get firmwareVersionHelper => '플래싱할 ELRS 버전을 선택하세요';
 
   @override
-  String get cachedBadge => '(Cached)';
+  String get cachedBadge => '(캐시됨)';
 
   @override
   String errorLoadingVersions(String error) {
-    return 'Error loading versions: $error';
+    return '버전 로딩 오류: $error';
   }
 
   @override
-  String get flashingProfileLabel => 'Flashing Profile';
+  String get flashingProfileLabel => '플래싱 프로필';
 
   @override
-  String get addProfileTooltip => 'Add Profile';
+  String get addProfileTooltip => '프로필 추가';
 
   @override
-  String get deleteProfileTooltip => 'Delete Profile';
+  String get deleteProfileTooltip => '프로필 삭제';
 
   @override
-  String get bindingPhraseHelper => 'Your unique binding phrase';
+  String get bindingPhraseHelper => '고유한 바인딩 구문';
 
   @override
-  String get addProfileTitle => 'Add Flashing Profile';
+  String get addProfileTitle => '플래싱 프로필 추가';
 
   @override
-  String get profileNameHint => 'Profile Name (e.g., My Quads)';
+  String get profileNameHint => '프로필 이름 (예: 내 쿼드)';
 
   @override
-  String get addLabel => 'Add';
+  String get addLabel => '추가';
 
   @override
-  String get deleteProfileTitle => 'Delete Profile';
+  String get deleteProfileTitle => '프로필 삭제';
 
   @override
   String deleteProfileMessage(String name) {
-    return 'Are you sure you want to delete the profile \"$name\"?';
+    return '프로필 \"$name\"을(를) 삭제하시겠습니까?';
   }
 
   @override
-  String get deleteLabel => 'Delete';
+  String get deleteLabel => '삭제';
 
   @override
-  String get settingsCategoryProfilesNetwork => 'Profiles & Network';
+  String get settingsCategoryProfilesNetwork => '프로필 및 네트워크';
 
   @override
-  String get settingsCategoryAppStorage => 'App & Storage';
+  String get settingsCategoryAppStorage => '앱 및 저장 공간';
 
   @override
-  String get settingsCategoryAdvancedDebug => 'Advanced & Debug';
+  String get settingsCategoryAdvancedDebug => '고급 및 디버그';
 
   @override
-  String get settingsCategoryAboutLegal => 'About & Legal';
+  String get settingsCategoryAboutLegal => '정보 및 법률';
 
   @override
-  String get settingsSectionRegulatoryDefaults => 'Regulatory Defaults';
+  String get settingsSectionRegulatoryDefaults => '규제 기본값';
 
   @override
-  String get settingsSectionPreferences => 'Preferences';
+  String get settingsSectionPreferences => '환경설정';
 
   @override
-  String get settingsSectionPowerTools => 'Power Tools';
+  String get settingsSectionPowerTools => '고급 도구';
 
   @override
-  String get settingsSectionDiagnostics => 'Diagnostics';
+  String get settingsSectionDiagnostics => '진단';
 
   @override
-  String get regDomainUnknown => 'Unknown';
+  String get regDomainUnknown => '알 수 없음';
 
   @override
   String maxCachedVersionsCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count versions',
-      one: '1 version',
+      other: '$count 버전',
     );
     return '$_temp0';
   }
 
   @override
   String editFieldTitle(String field) {
-    return 'Edit $field';
+    return '$field 수정';
   }
 
   @override
   String enterFieldHint(String field) {
-    return 'Enter $field';
+    return '$field 입력';
   }
 
   @override
-  String get luaScriptSavedSnackbar => 'elrs.lua saved to device!';
+  String get luaScriptSavedSnackbar => 'elrs.lua가 기기에 저장되었습니다!';
 
   @override
   String luaScriptSaveFailed(String error) {
-    return 'Failed to save script: $error';
+    return '스크립트 저장 실패: $error';
   }
 
   @override
   String debugReportSubmittedWithId(String eventId) {
-    return 'Submitted! Event ID: $eventId…';
+    return '제출되었습니다! 이벤트 ID: $eventId…';
   }
 
   @override
-  String get debugReportSubmitted => 'Report submitted successfully!';
+  String get debugReportSubmitted => '보고서가 성공적으로 제출되었습니다!';
 
   @override
   String debugReportFailed(String error) {
-    return 'Failed to submit: $error';
+    return '제출 실패: $error';
   }
 
   @override
   String licenseLoadFailed(String error) {
-    return 'Error loading license: $error';
+    return '라이선스 로드 오류: $error';
   }
 
   @override
-  String get firmwareErrorLoadFailed => 'Could not load firmware versions.';
+  String get firmwareErrorLoadFailed => '펌웨어 버전을 로드할 수 없습니다.';
 
   @override
   String get firmwareErrorOnHotspot =>
-      'Cannot download firmware while connected directly to the receiver\'s WiFi hotspot. Please disconnect or use a home network.';
+      '수신기 Wi-Fi 핫스팟에 직접 연결된 상태에서는 펌웨어를 다운로드할 수 없습니다. 연결을 해제하거나 홈 네트워크를 사용해 주세요.';
 
   @override
-  String get firmwareErrorCacheFull =>
-      'Cache limit reached. Please delete an old version.';
+  String get firmwareErrorCacheFull => '캐시 한도에 도달했습니다. 이전 버전을 삭제해 주세요.';
 
   @override
   String get firmwareErrorServerUnreachable =>
-      'Unable to reach the firmware server. Please check your internet connection.';
+      '펌웨어 서버에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요.';
 
   @override
   String get firmwareErrorDownloadInterrupted =>
-      'Download interrupted: the network connection was lost. Please check your connection and try again.';
+      '다운로드가 중단되었습니다: 네트워크 연결이 끊어졌습니다. 연결을 확인하고 다시 시도해 주세요.';
 
   @override
-  String get firmwareErrorDownloadFailed => 'Failed to download firmware.';
+  String get firmwareErrorDownloadFailed => '펌웨어 다운로드에 실패했습니다.';
 
   @override
-  String get firmwareErrorDeleteFailed =>
-      'Could not delete this firmware version.';
+  String get firmwareErrorDeleteFailed => '이 펌웨어 버전을 삭제할 수 없습니다.';
 
   @override
   String firmwareVersionTitle(String version) {
-    return 'Version $version';
+    return '버전 $version';
   }
 
   @override
-  String get readyForOfflineUse => 'Ready for offline use';
+  String get readyForOfflineUse => '오프라인 사용 준비 완료';
 
   @override
   String storageUsedMb(double size) {
@@ -623,32 +617,32 @@ class AppLocalizationsKo extends AppLocalizations {
         );
     final String sizeString = sizeNumberFormat.format(size);
 
-    return 'Storage Used: $sizeString MB';
+    return '사용된 저장 공간: $sizeString MB';
   }
 
   @override
   String cachedVersionsOfLimit(int count, int limit) {
-    return '$count / $limit Versions';
+    return '$count / $limit 버전';
   }
 
   @override
-  String get splashTagline => 'Independent Configuration Tool';
+  String get splashTagline => '독립적인 설정 도구';
 
   @override
   String get splashDisclaimer =>
-      'Not an official ExpressLRS product.\nCompatible with 3.3.x/4.x firmware.';
+      'ExpressLRS 공식 제품이 아닙니다.\n3.3.x/4.x 펌웨어와 호환됩니다.';
 
   @override
-  String get unknownDeviceName => 'ELRS Device';
+  String get unknownDeviceName => 'ELRS 장치';
 
   @override
-  String get unknownIpLabel => 'Unknown IP';
+  String get unknownIpLabel => '알 수 없는 IP';
 
   @override
-  String get firmwareBinariesFileType => 'Firmware Binaries';
+  String get firmwareBinariesFileType => '펌웨어 바이너리';
 
   @override
   String helpContentLoadFailed(String error) {
-    return 'Error loading help content: $error';
+    return '도움말 콘텐츠 로드 오류: $error';
   }
 }

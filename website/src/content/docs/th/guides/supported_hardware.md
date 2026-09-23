@@ -14,18 +14,18 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">รองรับ</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> เป้าหมายที่เป็น ESP8285, ESP32, ESP32-C3 และ ESP32-S3 ทั้งหมด</li>
-      <li class="flex gap-2"><span>•</span> เครื่องรับและเครื่องส่งที่รองรับ Wi-Fi</li>
-      <li class="flex gap-2"><span>•</span> ELRS เวอร์ชัน 3.3.x และ 4.x</li>
+      <li class="flex gap-2"><span>•</span> เป้าหมาย ESP8285, ESP32, ESP32-C3 และ ESP32-S3 ทั้งหมด</li>
+      <li class="flex gap-2"><span>•</span> เครื่องรับและเครื่องส่งสัญญาณที่รองรับ Wi-Fi</li>
+      <li class="flex gap-2"><span>•</span> ExpressLRS เวอร์ชัน 3.3.x และ 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">ไม่รองรับ (กำลังพัฒนา)</h3>
+      <h3 class="text-lg font-bold m-0 italic">ไม่รองรับ (กำลังดำเนินการ)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> เป้าหมาย STM32 ที่ต้องใช้การแฟลชด้วย serial STLink</li>
+      <li class="flex gap-2"><span>•</span> เป้าหมาย STM32 ที่ต้องใช้การแฟลชแบบอนุกรมด้วย STLink</li>
       <li class="flex gap-2"><span>•</span> วิธีการแฟลชแบบ Betaflight Passthrough</li>
       <li class="flex gap-2"><span>•</span> การเชื่อมต่อ USB/Serial โดยตรงบน iOS</li>
     </ul>
@@ -35,7 +35,7 @@ sidebar:
 ---
 
 ## ฮาร์ดแวร์ที่ผ่านการทดสอบ
-เป้าหมายฮาร์ดแวร์ต่อไปนี้ได้รับการทดสอบอย่างชัดเจนกับ ELRS Mobile:
+เป้าหมายฮาร์ดแวร์ต่อไปนี้ได้รับการทดสอบอย่างชัดเจนแล้วกับ ELRS Mobile:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-0.5">• AXIS Thor 2.4GHz RX</div>
@@ -53,7 +53,7 @@ sidebar:
   <div class="break-inside-avoid px-2 py-0.5">• BETAFPV 2.4GHz LiteRadio 3 Pro</div>
   <div class="break-inside-avoid px-2 py-0.5">• BETAFPV 2.4GHz Micro TX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BETAFPV 2.4GHz Nano RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">��� BETAFPV 900MHz Micro TX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• BETAFPV 900MHz Micro TX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BETAFPV 900MHz Micro TX V2</div>
   <div class="break-inside-avoid px-2 py-0.5">• BETAFPV 900MHz Nano RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BETAFPV PWM 2.4GHz RX</div>
@@ -183,4 +183,4 @@ sidebar:
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-## アーキテクチャ概要
+## アーキテクチャの概要
 
 <div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
   <div class="flex items-center gap-3 mb-2">
@@ -15,27 +15,27 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">設計原則</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    このアプリケーションはFlutterを使用して構築されており、<strong>Riverpod</strong>ステート管理フレームワークを活用しています。デバイスのオンボードWiFiモジュールによって公開されるRESTful APIを介してELRSハードウェアと対話し、低遅延の通信とリアルタイムの状態同期を保証します。
+    このアプリケーションはFlutterを使用して構築されており、<strong>Riverpod</strong>ステート管理フレームワークを活用しています。デバイスの内蔵WiFiモジュールによって公開されるRESTful APIを介してELRSハードウェアと連携し、低遅延の通信とリアルタイムの状態同期を実現します。
   </p>
 </div>
 
 ## データ層
 
 ### APIエンドポイント
-システムは以下のHTTPエンドポイントを使用してハードウェアと通信します。
+システムは以下のHTTPエンドポイントを使用してハードウェアと通信します：
 
-| Method | Endpoint | Description |
+| メソッド | エンドポイント | 説明 |
 | :--- | :--- | :--- |
-| `GET` | `/config` | 現在のデバイス設定をJSON形式で取得します。 |
-| `POST` | `/options.json` | 変更可能なランタイムオプション（WiFi SSID、Passwordなど）を更新します。 |
-| `POST` | `/config` | コアハードウェアパラメータとPWMマッピングを更新します。 |
-| `POST` | `/reboot` | 変更を適用するためにハードウェアリセットをトリガーします。 |
+| `GET` | `/config` | 現在のデバイス構成をJSON形式で取得します。 |
+| `POST` | `/options.json` | 変更可能なランタイムオプション（SSID、パスワードなど）を更新します。 |
+| `POST` | `/config` | コアハードウェアパラメーターとPWMマッピングを更新します。 |
+| `POST` | `/reboot` | 変更を適用するためにハードウェアのリセットをトリガーします。 |
 
 ### JSONスキーマ
-`RuntimeConfig`モデルはELRS 4.x構造を活用しており、パラメータを3つの主要なノードに分離しています。
+`RuntimeConfig`モデルは���ELRS 4.xの構造を活用しており、パラメーターを3つの主要なノードに分けています：
 - `settings`: 読み取り専用のハードウェア識別子とバージョン文字列。
 - `options`: 変更可能なユーザー設定とネットワーク認証情報。
-- `config`: 低レベルのハードウェア設定（Protocols、PWM Arrays）。
+- `config`: 低レベルのハードウェア構成（Protocols、PWM Arrays）。
 
 JSON構造の例：
 ```json
@@ -59,17 +59,15 @@ JSON構造の例：
 }
 ```
 
-## ステート管理
-システムはリアクティブなアーキテクチャを採用しています。
+## 状態管理
+システムはリアクティブアーキテクチャを採用しています：
 - **`ConfigViewModel`**: ライブ接続状態、ハートビートロジック、およびIPディスカバリを管理します。
-- **`DeviceEditorViewModel`**: デバイス構成のドラフト状態を保持し、最終的な「保存/キャンセル」ロジックによる多段階編集を可能にします。
-- **`FlashingController`**: ファームウェアのダウンロード、ローカルバイナリパッチ、およびXH-over-HTTPアップロードプロセスを編成します。
+- **`FlashingController`**: ファームウェアのダウンロード、ローカルバイナリパッチ適用、およびXH-over-HTTPアップロードプロセスを編成します。
 
 ## マッピング層
-以下の表は、APIで使用される��数識別子と人間が読める対応する値との間のマッピングを定義します。
+`ElrsMappings.domains900`は、APIで使用される900 MHz規制ドメインインデックスを人間が読めるラベルにマッピングします：
 
-### 規制ドメイン
-| ID | Label | Description |
+| ID | ラベ��� | 説明 |
 | :--- | :--- | :--- |
 | 0 | AU915 | オーストラリア/ニュージーランド 915MHz |
 | 1 | FCC915 | 北米 915MHz |
@@ -81,19 +79,9 @@ JSON構造の例：
 | 7 | US433-Wide | 北米ワイド 433MHz |
 
 
-## 高度なマッピング
-
-### VBind (Binding Storage)
-バインディングフレーズがデバイスにどのように保存されるかを決定します。
-- **0: Persistent**: フラッシュメモリに保存されます（標準）。
-- **1: Volatile**: 電源を切るとクリアされます。
-- **2: Returnable**: 貸与品に使用されます。
-- **3: Administered**: 複数パイロットのフリート環境で使用されます。
-
-
 ## 永続化層
-システムは2層の永続化戦略を実装しています。
-- **`SharedPreferences`**: `PersistenceService`を介して、WiFi SSIDsや一般的なアプリ設定などの機密性の低いデータに使用されます。
-- **`FlutterSecureStorage`**: Binding PhrasesやWiFi Passwordsなどの機密データに使用され、OSレベルでの暗号化を保証します。
+システムは2層の永続化戦略を実装しています：
+- **`SharedPreferences`**: WiFi SSIDや一般的なアプリ設定など、機密性の低いデータに対して`PersistenceService`を介して利用されます。
+- **`FlutterSecureStorage`**: Binding PhrasesやWiFi Passwordsを含む機密データに使用され、OSレベルでの暗号化を保証します。
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

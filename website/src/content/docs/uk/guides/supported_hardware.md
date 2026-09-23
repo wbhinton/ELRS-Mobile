@@ -11,10 +11,10 @@ sidebar:
   <div class="p-5 rounded-2xl bg-primary/5 border border-primary/20 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-primary">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Підтримується</h3>
+      <h3 class="text-lg font-bold m-0 italic">Підтримуються</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Усі цілі ESP8285, ESP32, ESP32-C3 та ESP32-S3</li>
+      <li class="flex gap-2"><span>•</span> Усі ESP8285, ESP32, ESP32-C3 та ESP32-S3 цілі</li>
       <li class="flex gap-2"><span>•</span> Приймачі та передавачі з підтримкою Wi-Fi</li>
       <li class="flex gap-2"><span>•</span> Версії ELRS 3.3.x та 4.x</li>
     </ul>
@@ -22,19 +22,19 @@ sidebar:
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Не підтримується (в розробці)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Не підтримуються (у розробці)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Цілі STM32, що потребують послідовної прошивки STLink</li>
-      <li class="flex gap-2"><span>•</span> Методи прошивки Betaflight Passthrough</li>
-      <li class="flex gap-2"><span>•</span> Прямі USB/серійні з'єднання на iOS</li>
+      <li class="flex gap-2"><span>•</span> Цілі STM32, що вимагають послідовного прошивання через STLink</li>
+      <li class="flex gap-2"><span>•</span> Методи прошивання Betaflight Passthrough</li>
+      <li class="flex gap-2"><span>•</span> Прямі USB/Serial з'єднання на iOS</li>
     </ul>
   </div>
 </div>
 
 ---
 
-## Перевірене обладнання
+## Протестоване обладнання
 Наступні апаратні цілі були явно протестовані з ELRS Mobile:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
@@ -76,11 +76,11 @@ sidebar:
   <div class="break-inside-avoid px-2 py-0.5">• GEPRC Nano 2.4GHz PA100 RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• GEPRC Nano 900MHz RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• GEPRC Nano(SE) 2.4GHz RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• Generic ESP32C3 PWM 2.4Ghz RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• Generic ESP8285 2.4Ghz RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• Generic ESP8285 5xPWM 2.4Ghz RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• Generic ESP8285 6xPWM 2.4Ghz RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• Generic ESP8285 7xPWM 2.4Ghz RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• Загальний ESP32C3 PWM 2.4Ghz RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• Загальний ESP8285 2.4Ghz RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• Загальний ESP8285 5xPWM 2.4Ghz RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• Загальний ESP8285 6xPWM 2.4Ghz RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• Загальний ESP8285 7xPWM 2.4Ghz RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• HGLRC Hermes 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• HappyModel EP Dual 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• HappyModel EP1/EP2 2.4GHz RX</div>
@@ -162,8 +162,8 @@ sidebar:
 
 ---
 
-## Перевірені бінарні файли
-Внутрішній асемблер прошивки був функціонально перевірений на відповідність офіційним виходам компілятора ExpressLRS для наступних цілей:
+## Протестовані бінарні файли
+Внутрішній асемблер прошивки був функціонально перевірений на відповідність вихідним даним офіційного компілятора ExpressLRS для наступних цілей:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,4 +183,4 @@ sidebar:
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

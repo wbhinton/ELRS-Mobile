@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-## Støttede Plattformer
+## Støttede plattformer
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
   <div class="p-5 rounded-2xl bg-primary/5 border border-primary/20 backdrop-blur-sm">
@@ -14,20 +14,20 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Støttet</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Alle ESP8285-, ESP32-, ESP32-C3- og ESP32-S3-mål</li>
+      <li class="flex gap-2"><span>•</span> Alle ESP8285, ESP32, ESP32-C3 og ESP32-S3-mål</li>
       <li class="flex gap-2"><span>•</span> Wi-Fi-kompatible mottakere og sendere</li>
-      <li class="flex gap-2"><span>•</span> ELRS versjonene 3.3.x og 4.x</li>
+      <li class="flex gap-2"><span>•</span> ELRS Versjoner 3.3.x og 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Ikke støttet (under arbeid)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Ikke støttet (under utvikling)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> STM32-mål som krever seriell STLink-flashing</li>
       <li class="flex gap-2"><span>•</span> Betaflight Passthrough flashing-metoder</li>
-      <li class="flex gap-2"><span>•</span> Direkte USB/serielle tilkoblinger på iOS</li>
+      <li class="flex gap-2"><span>•</span> Direkte USB/Serielle tilkoblinger på iOS</li>
     </ul>
   </div>
 </div>
@@ -163,7 +163,7 @@ Følgende maskinvaremål er eksplisitt testet med ELRS Mobile:
 ---
 
 ## Testede binære filer
-Den interne fastvare-assembleren er funksjonelt verifisert mot de offisielle ExpressLRS kompilatorutgangene for følgende mål:
+Den interne firmware-assembleren er funksjonelt verifisert mot de offisielle ExpressLRS-kompilatorutgangene for følgende mål:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -176,11 +176,11 @@ Den interne fastvare-assembleren er funksjonelt verifisert mot de offisielle Exp
   <div class="break-inside-avoid px-2 py-1">• HappyModel EP Dual 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-1">• HappyModel ES900 TX</div>
   <div class="break-inside-avoid px-2 py-1">• RadioMaster ER8 2.4GHz Diversity+8xPWM RX</div>
-  <div class="break-inside-avoid px-2 py-1">• RadioMaster Nomad 2.4/900 TX</div>
+  <div class="break-inside-avoid px-2 py-1">��� RadioMaster Nomad 2.4/900 TX</div>
   <div class="break-inside-avoid px-2 py-1">• RadioMaster Pocket Internal 2.4GHz TX</div>
   <div class="break-inside-avoid px-2 py-1">• RadioMaster XR4 Dual Band True Diversity RX</div>
   <div class="break-inside-avoid px-2 py-1">• Radiomaster Nexus-XR True Diversity 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

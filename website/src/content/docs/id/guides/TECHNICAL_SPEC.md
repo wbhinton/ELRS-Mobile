@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-## Ikhtisar Arsitektur
+## Gambaran Umum Arsitektur
 
 <div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
   <div class="flex items-center gap-3 mb-2">
@@ -15,7 +15,7 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Prinsip Desain</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Aplikasi ini dibangun menggunakan Flutter dan memanfaatkan kerangka kerja manajemen status <strong>Riverpod</strong>. Ini berinteraksi dengan perangkat keras ELRS melalui RESTful API yang diekspos oleh modul WiFi bawaan perangkat, memastikan komunikasi latensi rendah dan sinkronisasi status real-time.
+    Aplikasi ini dibangun menggunakan Flutter dan memanfaatkan kerangka kerja manajemen status <strong>Riverpod</strong>. Ini berinteraksi dengan perangkat keras ELRS melalui RESTful API yang diekspos oleh modul WiFi internal perangkat, memastikan komunikasi latensi rendah dan sinkronisasi status real-time.
   </p>
 </div>
 
@@ -27,15 +27,15 @@ Sistem berkomunikasi dengan perangkat keras menggunakan titik akhir HTTP berikut
 | Metode | Titik Akhir | Deskripsi |
 | :--- | :--- | :--- |
 | `GET` | `/config` | Mengambil konfigurasi perangkat saat ini dalam format JSON. |
-| `POST` | `/options.json` | Memperbarui opsi runtime yang dapat dimodifikasi (SSID, Kata Sandi, dll.). |
+| `POST` | `/options.json` | Memperbarui opsi runtime yang dapat dimodifikasi (SSID, Password, dll.). |
 | `POST` | `/config` | Memperbarui parameter perangkat keras inti dan pemetaan PWM. |
 | `POST` | `/reboot` | Memicu reset perangkat keras untuk menerapkan perubahan. |
 
 ### Skema JSON
 Model `RuntimeConfig` memanfaatkan struktur ELRS 4.x, yang memisahkan parameter menjadi tiga node utama:
-- `settings`: Pengidentifikasi perangkat keras dan string versi yang hanya dapat dibaca.
-- `options`: Preferensi pengguna dan kredensial jaringan yang dapat dimodifikasi.
-- `config`: Konfigurasi perangkat keras tingkat rendah (Protokol, Larik PWM).
+- `settings`: Pengidentifikasi perangkat keras hanya-baca dan string versi.
+- `options`: Preferensi pengguna yang dapat dimodifikasi dan kredensial jaringan.
+- `config`: Konfigurasi perangkat keras tingkat rendah (Protokol, Array PWM).
 
 Contoh struktur JSON:
 ```json
@@ -62,13 +62,11 @@ Contoh struktur JSON:
 ## Manajemen Status
 Sistem menggunakan arsitektur reaktif:
 - **`ConfigViewModel`**: Mengelola status koneksi langsung, logika heartbeat, dan penemuan IP.
-- **`DeviceEditorViewModel`**: Menampung status draf konfigurasi perangkat, memungkinkan pengeditan multi-langkah dengan logika "simpan/batal" akhir.
 - **`FlashingController`**: Mengatur unduhan firmware, patching biner lokal, dan proses unggah XH-over-HTTP.
 
 ## Lapisan Pemetaan
-Tabel berikut mendefinisikan pemetaan antara pengidentifikasi integer yang digunakan dalam API dan padanan yang mudah dibaca manusia.
+`ElrsMappings.domains900` memetakan indeks domain regulasi 900 MHz yang digunakan dalam API ke label yang mudah dibaca manusia:
 
-### Domain Regulasi
 | ID | Label | Deskripsi |
 | :--- | :--- | :--- |
 | 0 | AU915 | Australia/Selandia Baru 915MHz |
@@ -81,19 +79,9 @@ Tabel berikut mendefinisikan pemetaan antara pengidentifikasi integer yang digun
 | 7 | US433-Wide | Amerika Utara Lebar 433MHz |
 
 
-## Pemetaan Lanjutan
-
-### VBind (Penyimpanan Pengikatan)
-Menentukan bagaimana frasa pengikatan disimpan di perangkat.
-- **0: Persisten**: Disimpan ke memori flash (standar).
-- **1: Volatil**: Dihapus saat siklus daya.
-- **2: Dapat Dikembalikan**: Digunakan untuk peralatan pinjaman.
-- **3: Dikelola**: Digunakan di lingkungan armada multi-pilot.
-
-
 ## Lapisan Persistensi
 Sistem mengimplementasikan strategi persistensi dua lapis:
-- **`SharedPreferences`**: Dimanfaatkan melalui `PersistenceService` untuk data non-sensitif seperti WiFi SSID dan preferensi aplikasi umum.
-- **`FlutterSecureStorage`**: Digunakan untuk data sensitif, termasuk Frasa Pengikatan dan Kata Sandi WiFi, memastikan enkripsi pada tingkat OS.
+- **`SharedPreferences`**: Digunakan melalui `PersistenceService` untuk data non-sensitif seperti WiFi SSID dan preferensi aplikasi umum.
+- **`FlutterSecureStorage`**: Digunakan untuk data sensitif, termasuk Binding Phrases dan WiFi Passwords, memastikan enkripsi pada tingkat OS.
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

@@ -802,13 +802,13 @@ abstract class AppLocalizations {
   /// **'Incompatible chip: this firmware is built for {targetChip}, but the connected device is {deviceChip}. Select a target for the same chip.'**
   String flashErrorChipMismatch(String targetChip, String deviceChip);
 
-  /// Error shown when flashing needs firmware files that are not cached and cannot be downloaded, usually because the phone is joined to the device's own WiFi hotspot. 'Firmware Manager' is the name of a screen in the app.
+  /// Error shown when flashing needs firmware files that are not cached and cannot be downloaded, usually because the phone is joined to the device's own WiFi hotspot. 'Firmware Manager' is the title of a screen in the app: use exactly the same translation as firmwareManagerLabel, inflected only as grammar requires.
   ///
   /// In en, this message translates to:
   /// **'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.'**
   String get flashErrorOfflineFlash;
 
-  /// Error shown when saving a firmware binary needs files that are not cached and the phone has no internet, usually because it is joined to the device's WiFi hotspot. 'Firmware Manager' is the name of a screen in the app.
+  /// Error shown when saving a firmware binary needs files that are not cached and the phone has no internet, usually because it is joined to the device's WiFi hotspot. 'Firmware Manager' is the title of a screen in the app: use exactly the same translation as firmwareManagerLabel, inflected only as grammar requires.
   ///
   /// In en, this message translates to:
   /// **'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.'**

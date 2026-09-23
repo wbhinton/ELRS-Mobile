@@ -248,11 +248,11 @@
   },
   "flashErrorOfflineFlash": "No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.",
   "@flashErrorOfflineFlash": {
-    "description": "Error shown when flashing needs firmware files that are not cached and cannot be downloaded, usually because the phone is joined to the device's own WiFi hotspot. 'Firmware Manager' is the name of a screen in the app."
+    "description": "Error shown when flashing needs firmware files that are not cached and cannot be downloaded, usually because the phone is joined to the device's own WiFi hotspot. 'Firmware Manager' is the title of a screen in the app: use exactly the same translation as firmwareManagerLabel, inflected only as grammar requires."
   },
   "flashErrorOfflineDownload": "No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.",
   "@flashErrorOfflineDownload": {
-    "description": "Error shown when saving a firmware binary needs files that are not cached and the phone has no internet, usually because it is joined to the device's WiFi hotspot. 'Firmware Manager' is the name of a screen in the app."
+    "description": "Error shown when saving a firmware binary needs files that are not cached and the phone has no internet, usually because it is joined to the device's WiFi hotspot. 'Firmware Manager' is the title of a screen in the app: use exactly the same translation as firmwareManagerLabel, inflected only as grammar requires."
   },
   "flashErrorFlashFailed": "Flashing failed.",
   "@flashErrorFlashFailed": {

@@ -14,7 +14,7 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">지원됨</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> 모든 ESP8285, ESP32, ESP32-C3, ESP32-S3 타겟</li>
+      <li class="flex gap-2"><span>•</span> 모든 ESP8285, ESP32, ESP32-C3 및 ESP32-S3 타겟</li>
       <li class="flex gap-2"><span>•</span> Wi-Fi를 지원하는 수신기 및 송신기</li>
       <li class="flex gap-2"><span>•</span> ELRS 버전 3.3.x 및 4.x</li>
     </ul>
@@ -26,8 +26,8 @@ sidebar:
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> 직렬 STLink 플래싱이 필요한 STM32 타겟</li>
-      <li class="flex gap-2"><span>•</span> Betaflight Passthrough 플래싱 방식</li>
-      <li class="flex gap-2"><span>•</span> iOS에서 직접 USB/직렬 연결</li>
+      <li class="flex gap-2"><span>•</span> Betaflight Passthrough 플래싱 방법</li>
+      <li class="flex gap-2"><span>•</span> iOS에서의 직접 USB/직렬 연결</li>
     </ul>
   </div>
 </div>
@@ -35,7 +35,7 @@ sidebar:
 ---
 
 ## 테스트된 하드웨어
-다음 하드웨어 타겟은 ELRS Mobile을 사용하여 명시적으로 테스트되었습니다:
+다음 하드웨어 타겟은 ELRS Mobile로 명시적으로 테스트되었습니다:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-0.5">• AXIS Thor 2.4GHz RX</div>
@@ -183,4 +183,4 @@ sidebar:
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

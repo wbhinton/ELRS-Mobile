@@ -14,7 +14,7 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Podporováno</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Všechny cíle ESP8285, ESP32, ESP32-C3 a ESP32-S3</li>
+      <li class="flex gap-2"><span>•</span> Všechny cílové desky ESP8285, ESP32, ESP32-C3 a ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Přijímače a vysílače s podporou Wi-Fi</li>
       <li class="flex gap-2"><span>•</span> ELRS verze 3.3.x a 4.x</li>
     </ul>
@@ -25,7 +25,7 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Nepodporováno (ve vývoji)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Cíle STM32 vyžadující sériové flashování pomocí STLink</li>
+      <li class="flex gap-2"><span>•</span> Cílové desky STM32 vyžadující sériové flashování pomocí STLink</li>
       <li class="flex gap-2"><span>•</span> Metody flashování Betaflight Passthrough</li>
       <li class="flex gap-2"><span>•</span> Přímá USB/sériová připojení na iOS</li>
     </ul>
@@ -44,7 +44,7 @@ Následující hardwarové cíle byly explicitně testovány s ELRS Mobile:
   <div class="break-inside-avoid px-2 py-0.5">• BAYCKRC 900MHz Dual Core RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BAYCKRC 900MHz Nano RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BAYCKRC C3 900/2400 Dual Band 100mW Gemini RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• BAYCKRC C3 900/2400 Dual Band 100mw 6PWM RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">��� BAYCKRC C3 900/2400 Dual Band 100mw 6PWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BAYCKRC C3 900/2400 Dual Band Nano RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BAYCKRC UR1000 Dual Band RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• BETAFPV 2.4GHz 1W Micro TX</div>
@@ -157,13 +157,13 @@ Následující hardwarové cíle byly explicitně testovány s ELRS Mobile:
   <div class="break-inside-avoid px-2 py-0.5">• iFlight 2.4GHz 250mW Diversity RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• iFlight 2.4GHz Nano RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• iFlight 900MHz Nano RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• iFlight 900MHz RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">�� iFlight 900MHz RX</div>
 </div>
 
 ---
 
 ## Testované binární soubory
-Interní sestavovač firmwaru byl funkčně ověřen proti oficiálním výstupům kompilátoru ExpressLRS pro následující cíle:
+Interní firmware assembler byl funkčně ověřen oproti oficiálním výstupům kompilátoru ExpressLRS pro následující cílové desky:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,4 +183,4 @@ Interní sestavovač firmwaru byl funkčně ověřen proti oficiálním výstup�
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

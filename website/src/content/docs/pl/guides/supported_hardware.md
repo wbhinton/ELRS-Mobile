@@ -5,7 +5,6 @@ sidebar:
   order: 4
 ---
 
-```markdown
 ## Obsługiwane platformy
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
@@ -15,7 +14,7 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Obsługiwane</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Wszystkie układy ESP8285, ESP32, ESP32-C3 i ESP32-S3</li>
+      <li class="flex gap-2"><span>•</span> Wszystkie platformy docelowe ESP8285, ESP32, ESP32-C3 i ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Odbiorniki i nadajniki z obsługą Wi-Fi</li>
       <li class="flex gap-2"><span>•</span> Wersje ELRS 3.3.x i 4.x</li>
     </ul>
@@ -26,7 +25,7 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Nieobsługiwane (WIP)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Układy STM32 wymagające programowania szeregowego STLink</li>
+      <li class="flex gap-2"><span>•</span> Platformy docelowe STM32 wymagające programowania szeregowego STLink</li>
       <li class="flex gap-2"><span>•</span> Metody programowania Betaflight Passthrough</li>
       <li class="flex gap-2"><span>•</span> Bezpośrednie połączenia USB/szeregowe na iOS</li>
     </ul>
@@ -36,7 +35,7 @@ sidebar:
 ---
 
 ## Przetestowany sprzęt
-Następujące elementy sprzętowe zostały wyraźnie przetestowane z ELRS Mobile:
+Następujące platformy sprzętowe zostały wyraźnie przetestowane z ELRS Mobile:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-0.5">• AXIS Thor 2.4GHz RX</div>
@@ -164,7 +163,7 @@ Następujące elementy sprzętowe zostały wyraźnie przetestowane z ELRS Mobile
 ---
 
 ## Przetestowane pliki binarne
-Wewnętrzny asembler oprogramowania układowego został funkcjonalnie zweryfikowany w porównaniu z oficjalnymi wynikami kompilatora ExpressLRS dla następujących układów:
+Wewnętrzny asembler oprogramowania układowego został funkcjonalnie zweryfikowany pod kątem oficjalnych wyników kompilatora ExpressLRS dla następujących platform docelowych:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,6 +182,5 @@ Wewnętrzny asembler oprogramowania układowego został funkcjonalnie zweryfikow
   <div class="break-inside-avoid px-2 py-1">• Radiomaster Nexus-XR True Diversity 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
-```
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

@@ -1,5 +1,5 @@
 ---
-title: "Stödd Hårdvara"
+title: "Maskinvara som stöds"
 slug: sv/supported_hardware
 sidebar:
   order: 4
@@ -14,28 +14,28 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Stöds</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Alla ESP8285, ESP32, ESP32-C3 och ESP32-S3-mål</li>
-      <li class="flex gap-2"><span>•</span> Wi-Fi-kompatibla mottagare och sändare</li>
-      <li class="flex gap-2"><span>•</span> ELRS-versioner 3.3.x och 4.x</li>
+      <li class="flex gap-2"><span>•</span> Alla ESP8285-, ESP32-, ESP32-C3- och ESP32-S3-mål</li>
+      <li class="flex gap-2"><span>•</span> Wi-Fi-kapabla mottagare och sändare</li>
+      <li class="flex gap-2"><span>•</span> ELRS version 3.3.x och 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Ej stödda (Under utveckling)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Stöds ej (WIP)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> STM32-mål som kräver seriell STLink-flashning</li>
+      <li class="flex gap-2"><span>•</span> STM32-mål som kr��ver seriell STLink-flashning</li>
       <li class="flex gap-2"><span>•</span> Betaflight Passthrough-flashningsmetoder</li>
-      <li class="flex gap-2"><span>•</span> Direkta USB/Serial-anslutningar på iOS</li>
+      <li class="flex gap-2"><span>•</span> Direkta USB/seriella anslutningar på iOS</li>
     </ul>
   </div>
 </div>
 
 ---
 
-## Testad hårdvara
-Följande hårdvarumål har explicit testats med ELRS Mobile:
+## Testad maskinvara
+Följande maskinvarumål har uttryckligen testats med ELRS Mobile:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-0.5">• AXIS Thor 2.4GHz RX</div>
@@ -71,7 +71,7 @@ Följande hårdvarumål har explicit testats med ELRS Mobile:
   <div class="break-inside-avoid px-2 py-0.5">• Foxeer 900MHz True Diversity RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• Foxeer Lite 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• GEPRC 900/2400 Gemini Xrossband RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">��� GEPRC C3 900/2400 Gemini Xrossband RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• GEPRC C3 900/2400 Gemini Xrossband RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• GEPRC LINKFLOW 900/2400 Dual-Band TX</div>
   <div class="break-inside-avoid px-2 py-0.5">• GEPRC Nano 2.4GHz PA100 RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• GEPRC Nano 900MHz RX</div>
@@ -162,8 +162,8 @@ Följande hårdvarumål har explicit testats med ELRS Mobile:
 
 ---
 
-## Testade binärfiler
-Den interna firmware-assembleraren har funktionellt verifierats mot de officiella ExpressLRS-kompilatorutgångarna för följande mål:
+## Testade binärer
+Den interna inbyggda programvarans assembler har funktionellt verifierats mot de officiella ExpressLRS-kompilatorns utdata för följande mål:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,4 +183,4 @@ Den interna firmware-assembleraren har funktionellt verifierats mot de officiell
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

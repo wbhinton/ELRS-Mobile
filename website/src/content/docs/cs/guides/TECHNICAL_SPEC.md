@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-## Architektura – Přehled
+## Přehled architektury
 
 <div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
   <div class="flex items-center gap-3 mb-2">
@@ -15,29 +15,29 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Princip návrhu</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Aplikace je postavena pomocí Flutter a využívá framework pro správu stavu **Riverpod**. Komunikuje s hardwarem ELRS prostřednictvím RESTful API vystaveného palubním WiFi modulem zařízení, což zajišťuje nízkou latenci komunikace a synchronizaci stavu v reálném čase.
+    Aplikace je postavena pomocí Flutter a využívá framework pro správu stavu <strong>Riverpod</strong>. Komunikuje s hardwarem ELRS prostřednictvím RESTful API zpřístupněného palubním WiFi modulem zařízení, což zajišťuje nízkou latenci komunikace a synchronizaci stavu v reálném čase.
   </p>
 </div>
 
-## Vrstva dat
+## Datová vrstva
 
 ### Koncové body API
 Systém komunikuje s hardwarem pomocí následujících HTTP koncových bodů:
 
 | Metoda | Koncový bod | Popis |
 | :--- | :--- | :--- |
-| `GET` | `/config` | Načítá aktuální konfiguraci zařízení ve formátu JSON. |
-| `POST` | `/options.json` | Aktualizuje modifikovatelné možnosti za běhu (SSID, Heslo atd.). |
+| `GET` | `/config` | Načte aktuální konfiguraci zařízení ve formátu JSON. |
+| `POST` | `/options.json` | Aktualizuje modifikovatelné možnosti za běhu (SSID, heslo atd.). |
 | `POST` | `/config` | Aktualizuje základní hardwarové parametry a mapování PWM. |
-| `POST` | `/reboot` | Spouští hardwarový reset pro aplikaci změn. |
+| `POST` | `/reboot` | Spustí hardwarový reset pro aplikování změn. |
 
-### JSON schéma
+### JSON Schema
 Model `RuntimeConfig` využívá strukturu ELRS 4.x, která rozděluje parametry do tří primárních uzlů:
-- `settings`: Pouze pro čtení – identifikátory hardwaru a řetězce verzí.
+- `settings`: Identifikátory hardwaru a řetězce verzí pouze pro čtení.
 - `options`: Modifikovatelné uživatelské preference a síťové přihlašovací údaje.
-- `config`: Nízkoúrovňové konfigurace hardwaru (Protocols, PWM Arrays).
+- `config`: Nízkoúrovňové hardwarové konfigurace (protokoly, pole PWM).
 
-Příklad JSON struktury:
+Příklad struktury JSON:
 ```json
 {
   "product_name": "Test RX",
@@ -61,15 +61,13 @@ Příklad JSON struktury:
 
 ## Správa stavu
 Systém využívá reaktivní architekturu:
-- **`ConfigViewModel`**: Spravuje živý stav připojení, logiku heartbeat a detekci IP adres.
-- **`DeviceEditorViewModel`**: Udržuje koncept stavu konfigurace zařízení, což umožňuje vícestupňové úpravy s finální logikou "uložit/zrušit".
-- **`FlashingController`**: Orchestuje stahování firmwaru, lokální binární záplatování a proces nahrávání XH-over-HTTP.
+- **`ConfigViewModel`**: Spravuje stav živého připojení, logiku heartbeat a zjišťování IP.
+- **`FlashingController`**: Orchestruje stahování firmwaru, lokální binární záplaty a proces nahrávání XH-over-HTTP.
 
-## Vrstva mapování
-Následující tabulky definují mapování mezi celočíselnými identifikátory používanými v API a jejich lidsky čitelnými ekvivalenty.
+## Mapovací vrstva
+`ElrsMappings.domains900` mapuje index regulační domény 900 MHz použitý v API na jeho člověkem čitelný štítek:
 
-### Regulační domény
-| ID | Popisek | Popis |
+| ID | Štítek | Popis |
 | :--- | :--- | :--- |
 | 0 | AU915 | Austrálie/Nový Zéland 915MHz |
 | 1 | FCC915 | Severní Amerika 915MHz |
@@ -78,22 +76,12 @@ Následující tabulky definují mapování mezi celočíselnými identifikátor
 | 4 | AU433 | Austrálie 433MHz |
 | 5 | EU433 | Evropa 433MHz |
 | 6 | US433 | Severní Amerika 433MHz |
-| 7 | US433-Wide | Severní Amerika širokopásmové 433MHz |
-
-
-## Pokročilá mapování
-
-### VBind (Úložiště vazeb)
-Určuje, jak je vazební fráze uložena v zařízení.
-- **0: Persistentní**: Uloženo do flash paměti (standardní).
-- **1: Volatilní**: Smazáno po vypnutí/zapnutí.
-- **2: Vratné**: Používáno pro zapůjčené vybavení.
-- **3: Administrované**: Používáno v prostředí s více piloty.
+| 7 | US433-Wide | Severní Amerika Široké 433MHz |
 
 
 ## Vrstva perzistence
 Systém implementuje dvoufázovou strategii perzistence:
-- **`SharedPreferences`**: Využíváno prostřednictvím `PersistenceService` pro nesenzitivní data, jako jsou WiFi SSID a obecné preference aplikace.
-- **`FlutterSecureStorage`**: Používáno pro citlivá data, včetně vazebních frází a hesel WiFi, což zajišťuje šifrování na úrovni OS.
+- **`SharedPreferences`**: Používá se prostřednictvím `PersistenceService` pro nesenzitivní data, jako jsou WiFi SSID a obecné předvolby aplikace.
+- **`FlutterSecureStorage`**: Používá se pro citlivá data, včetně Binding Phrases a WiFi hesel, zajišťující šifrování na úrovni OS.
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

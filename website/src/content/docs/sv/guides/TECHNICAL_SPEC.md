@@ -5,7 +5,6 @@ sidebar:
   order: 5
 ---
 
-```markdown
 ## Arkitekturöversikt
 
 <div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
@@ -16,27 +15,27 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Designprincip</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Applikationen är byggd med Flutter och utnyttjar ramverket för tillståndshantering <strong>Riverpod</strong>. Den interagerar med ELRS-hårdvara via ett RESTful API exponerat av enhetens inbyggda WiFi-modul, vilket säkerställer kommunikation med låg latens och realtids synkronisering av tillstånd.
+    Applikationen är byggd med Flutter och använder **Riverpod** ramverket för tillståndshantering. Den interagerar med ELRS-hårdvara via ett RESTful API som exponeras av enhetens inbyggda WiFi-modul, vilket säkerställer kommunikation med låg latens och synkronisering av tillstånd i realtid.
   </p>
 </div>
 
 ## Datalager
 
 ### API-slutpunkter
-Systemet kommunicerar med hårdvaran med hjälp av följande HTTP-slutpunkter:
+Systemet kommunicerar med hårdvaran med följande HTTP-slutpunkter:
 
 | Metod | Slutpunkt | Beskrivning |
 | :--- | :--- | :--- |
 | `GET` | `/config` | Hämtar aktuell enhetskonfiguration i JSON-format. |
-| `POST` | `/options.json` | Uppdaterar modifierbara körtidsalternativ (WiFi SSID, Lösenord, etc.). |
+| `POST` | `/options.json` | Uppdaterar ändringsbara körtidsalternativ (SSID, Password, etc.). |
 | `POST` | `/config` | Uppdaterar kärnhårdvaruparametrar och PWM-mappningar. |
 | `POST` | `/reboot` | Utlöser en hårdvaruåterställning för att tillämpa ändringar. |
 
 ### JSON-schema
-Modellen `RuntimeConfig` utnyttjar ELRS 4.x-strukturen, som delar upp parametrar i tre primära noder:
+`RuntimeConfig`-modellen utnyttjar ELRS 4.x-strukturen, som separerar parametrar i tre primära noder:
 - `settings`: Skrivskyddade hårdvaruidentifierare och versionssträngar.
-- `options`: Modifierbara användarpreferenser och nätverksuppgifter.
-- `config`: Hårdvarukonfigurationer på låg nivå (Protokoll, PWM-matriser).
+- `options`: Ändringsbara användarpreferenser och nätverksuppgifter.
+- `config`: Lågnivå hårdvarukonfigurationer (protokoll, PWM-arrayer).
 
 Exempel på JSON-struktur:
 ```json
@@ -62,14 +61,12 @@ Exempel på JSON-struktur:
 
 ## Tillståndshantering
 Systemet använder en reaktiv arkitektur:
-- **`ConfigViewModel`**: Hanterar levande anslutningsstatus, heartbeat-logik och IP-upptäckt.
-- **`DeviceEditorViewModel`**: Innehåller utkastets tillstånd för en enhets konfiguration, vilket möjliggör redigeringar i flera steg med slutlig "spara/avbryt"-logik.
-- **`FlashingController`**: Orkestrerar firmware-nedladdningar, lokal binärpatchning och XH-över-HTTP-uppladdningsprocessen.
+- **`ConfigViewModel`**: Hanterar live-anslutningsstatus, heartbeat-logik och IP-upptäckt.
+- **`FlashingController`**: Orkestrerar nedladdning av firmware, lokal binär patchning och XH-over-HTTP uppladdningsprocessen.
 
 ## Mappningslager
-Följande tabeller definierar mappningen mellan heltalsidentifierare som används i API:et och deras mänskligt läsbara motsvarigheter.
+`ElrsMappings.domains900` mappar det 900 MHz regleringsdomänindex som används i API:et till dess mänskligt läsbara etikett:
 
-### Regulatoriska domäner
 | ID | Etikett | Beskrivning |
 | :--- | :--- | :--- |
 | 0 | AU915 | Australien/Nya Zeeland 915MHz |
@@ -82,20 +79,9 @@ Följande tabeller definierar mappningen mellan heltalsidentifierare som använd
 | 7 | US433-Wide | Nordamerika Bred 433MHz |
 
 
-## Avancerade mappningar
-
-### VBind (Bindningslagring)
-Bestämmer hur bindningsfrasen lagras på enheten.
-- **0: Beständig**: Sparas i flashminnet (standard).
-- **1: Flyktig**: Raderas vid strömcykel.
-- **2: Returnerbar**: Används för låneutrustning.
-- **3: Administrerad**: Används i miljöer med flera piloter.
-
-
-## Persistenslager
-Systemet implementerar en dubbelskikts persistensstrategi:
-- **`SharedPreferences`**: Används via `PersistenceService` för icke-känslig data som WiFi SSIDs och allmänna appinställningar.
+## Beständighetslager
+Systemet implementerar en strategi för beständighet i två lager:
+- **`SharedPreferences`**: Används via `PersistenceService` för icke-känslig data som WiFi SSID och allmänna appinställningar.
 - **`FlutterSecureStorage`**: Används för känslig data, inklusive bindningsfraser och WiFi-lösenord, vilket säkerställer kryptering på OS-nivå.
-```
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->
