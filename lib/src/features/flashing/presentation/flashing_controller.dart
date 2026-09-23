@@ -29,6 +29,7 @@ import '../../../core/analytics/analytics_service.dart';
 import '../../config/presentation/config_view_model.dart';
 import '../../config/domain/runtime_config_model.dart';
 import '../data/targets_provider.dart';
+import '../utils/chip_family.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
@@ -722,6 +723,24 @@ class FlashingController extends _$FlashingController {
     if (!configState.hasValue || configState.value == null) {
       state = state.copyWith(
         errorMessage: 'Cannot flash: No ELRS device connected.',
+      );
+      return;
+    }
+
+    // Chip Guard: firmware for a different chip can never boot, and the
+    // device rejects it even with `force`, so block it outright instead of
+    // offering Force Flash. Skipped when either chip can't be determined
+    // (e.g. legacy firmware that doesn't report a unified target).
+    final target = state.selectedTarget!;
+    final deviceChip = chipFamilyOf(configState.value!.effectiveTarget);
+    final targetChip = chipFamilyOf(target.platform ?? target.firmware);
+    if (deviceChip != null && targetChip != null && deviceChip != targetChip) {
+      state = state.copyWith(
+        status: FlashingStatus.error,
+        errorMessage:
+            'Incompatible chip: this firmware is built for '
+            '${targetChip.toUpperCase()}, but the connected device is '
+            '${deviceChip.toUpperCase()}. Select a target for the same chip.',
       );
       return;
     }
