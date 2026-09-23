@@ -24,9 +24,6 @@ on:
           - production
         default: internal
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true
-
 jobs:
   prepare:
     name: Prepare Release Metadata
@@ -39,7 +36,7 @@ jobs:
       play_store_track: ${{ steps.metadata.outputs.play_store_track }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Determine Version, Build Number, and Release Type
         id: metadata
@@ -104,10 +101,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -152,7 +149,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: android-builds
           path: |
@@ -165,7 +162,7 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
           packageName: io.datarx.elrsmobile
           releaseFiles: "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.aab"
-          track: ${{ needs.prepare.outputs.play_store_track }}
+          tracks: ${{ needs.prepare.outputs.play_store_track }}
           status: completed
         env:
           NODE_OPTIONS: "--no-deprecation"
@@ -176,7 +173,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Select Xcode Version
         uses: maxim-lobanov/setup-xcode@v1
@@ -237,7 +234,7 @@ jobs:
           mv build/ios/ipa/*.ipa "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.ipa"
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ios-build
           path: "ELRS-Mobile-${{ needs.prepare.outputs.tag_name }}.ipa"
@@ -261,18 +258,18 @@ jobs:
       contents: write
     steps:
       - name: Download Android Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: android-builds
 
       - name: Download iOS Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ios-build
 
       - name: Create GitHub Release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.prepare.outputs.tag_name }}
           name: ${{ needs.prepare.outputs.is_prerelease == 'true' && format('Release Candidate {0}', needs.prepare.outputs.tag_name) || format('Release {0}', needs.prepare.outputs.tag_name) }}
