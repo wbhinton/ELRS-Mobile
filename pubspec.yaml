@@ -76,7 +76,8 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  arb_translate: ^1.1.0
+  # Pinned: scripts/translate.sh patches this exact version's model mapping.
+  arb_translate: 1.1.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
