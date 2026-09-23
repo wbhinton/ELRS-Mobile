@@ -1111,6 +1111,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get deleteLabel;
+
+  /// Settings category and section heading for flashing profiles, binding phrase and WiFi credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Profiles & Network'**
+  String get settingsCategoryProfilesNetwork;
+
+  /// Settings category and section heading for firmware cache and app preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'App & Storage'**
+  String get settingsCategoryAppStorage;
+
+  /// Settings category heading for expert tools and diagnostics.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced & Debug'**
+  String get settingsCategoryAdvancedDebug;
+
+  /// Settings category and section heading for app version, license and legal notices.
+  ///
+  /// In en, this message translates to:
+  /// **'About & Legal'**
+  String get settingsCategoryAboutLegal;
+
+  /// Settings section heading for the default radio regulatory domains applied to new flashes.
+  ///
+  /// In en, this message translates to:
+  /// **'Regulatory Defaults'**
+  String get settingsSectionRegulatoryDefaults;
+
+  /// Settings section heading for language and analytics preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settingsSectionPreferences;
+
+  /// Settings section heading for expert features such as exporting the radio Lua script.
+  ///
+  /// In en, this message translates to:
+  /// **'Power Tools'**
+  String get settingsSectionPowerTools;
+
+  /// Settings section heading for debug reporting.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnostics'**
+  String get settingsSectionDiagnostics;
+
+  /// Shown when a stored regulatory domain value is not recognised.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get regDomainUnknown;
+
+  /// How many firmware versions the app keeps cached offline.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 version} other{{count} versions}}'**
+  String maxCachedVersionsCount(int count);
+
+  /// Title of the dialog for editing a setting. The placeholder is the setting's already-translated name, e.g. 'Home WiFi SSID'.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit {field}'**
+  String editFieldTitle(String field);
+
+  /// Placeholder in the text box of the setting edit dialog. The placeholder is the setting's already-translated name.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter {field}'**
+  String enterFieldHint(String field);
+
+  /// Confirmation after exporting the ExpressLRS Lua script file. 'elrs.lua' is a file name and must not be translated.
+  ///
+  /// In en, this message translates to:
+  /// **'elrs.lua saved to device!'**
+  String get luaScriptSavedSnackbar;
+
+  /// Error after exporting the Lua script fails. The placeholder is a technical error message.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save script: {error}'**
+  String luaScriptSaveFailed(String error);
+
+  /// Confirmation after sending a debug report, with the report's short reference ID.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted! Event ID: {eventId}…'**
+  String debugReportSubmittedWithId(String eventId);
+
+  /// Confirmation after sending a debug report.
+  ///
+  /// In en, this message translates to:
+  /// **'Report submitted successfully!'**
+  String get debugReportSubmitted;
+
+  /// Error when sending a debug report fails. The placeholder is a technical error message.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit: {error}'**
+  String debugReportFailed(String error);
+
+  /// Error when the license text cannot be loaded. The placeholder is a technical error message.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading license: {error}'**
+  String licenseLoadFailed(String error);
 }
 
 class _AppLocalizationsDelegate

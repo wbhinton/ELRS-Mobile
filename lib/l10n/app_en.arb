@@ -391,5 +391,119 @@
   "deleteLabel": "Delete",
   "@deleteLabel": {
     "description": "Dialog button confirming deletion."
+  },
+  "settingsCategoryProfilesNetwork": "Profiles & Network",
+  "@settingsCategoryProfilesNetwork": {
+    "description": "Settings category and section heading for flashing profiles, binding phrase and WiFi credentials."
+  },
+  "settingsCategoryAppStorage": "App & Storage",
+  "@settingsCategoryAppStorage": {
+    "description": "Settings category and section heading for firmware cache and app preferences."
+  },
+  "settingsCategoryAdvancedDebug": "Advanced & Debug",
+  "@settingsCategoryAdvancedDebug": {
+    "description": "Settings category heading for expert tools and diagnostics."
+  },
+  "settingsCategoryAboutLegal": "About & Legal",
+  "@settingsCategoryAboutLegal": {
+    "description": "Settings category and section heading for app version, license and legal notices."
+  },
+  "settingsSectionRegulatoryDefaults": "Regulatory Defaults",
+  "@settingsSectionRegulatoryDefaults": {
+    "description": "Settings section heading for the default radio regulatory domains applied to new flashes."
+  },
+  "settingsSectionPreferences": "Preferences",
+  "@settingsSectionPreferences": {
+    "description": "Settings section heading for language and analytics preferences."
+  },
+  "settingsSectionPowerTools": "Power Tools",
+  "@settingsSectionPowerTools": {
+    "description": "Settings section heading for expert features such as exporting the radio Lua script."
+  },
+  "settingsSectionDiagnostics": "Diagnostics",
+  "@settingsSectionDiagnostics": {
+    "description": "Settings section heading for debug reporting."
+  },
+  "regDomainUnknown": "Unknown",
+  "@regDomainUnknown": {
+    "description": "Shown when a stored regulatory domain value is not recognised."
+  },
+  "maxCachedVersionsCount": "{count, plural, =1{1 version} other{{count} versions}}",
+  "@maxCachedVersionsCount": {
+    "description": "How many firmware versions the app keeps cached offline.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "editFieldTitle": "Edit {field}",
+  "@editFieldTitle": {
+    "description": "Title of the dialog for editing a setting. The placeholder is the setting's already-translated name, e.g. 'Home WiFi SSID'.",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Home WiFi SSID"
+      }
+    }
+  },
+  "enterFieldHint": "Enter {field}",
+  "@enterFieldHint": {
+    "description": "Placeholder in the text box of the setting edit dialog. The placeholder is the setting's already-translated name.",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Home WiFi SSID"
+      }
+    }
+  },
+  "luaScriptSavedSnackbar": "elrs.lua saved to device!",
+  "@luaScriptSavedSnackbar": {
+    "description": "Confirmation after exporting the ExpressLRS Lua script file. 'elrs.lua' is a file name and must not be translated."
+  },
+  "luaScriptSaveFailed": "Failed to save script: {error}",
+  "@luaScriptSaveFailed": {
+    "description": "Error after exporting the Lua script fails. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "FileSystemException"
+      }
+    }
+  },
+  "debugReportSubmittedWithId": "Submitted! Event ID: {eventId}…",
+  "@debugReportSubmittedWithId": {
+    "description": "Confirmation after sending a debug report, with the report's short reference ID.",
+    "placeholders": {
+      "eventId": {
+        "type": "String",
+        "example": "a1b2c3d4"
+      }
+    }
+  },
+  "debugReportSubmitted": "Report submitted successfully!",
+  "@debugReportSubmitted": {
+    "description": "Confirmation after sending a debug report."
+  },
+  "debugReportFailed": "Failed to submit: {error}",
+  "@debugReportFailed": {
+    "description": "Error when sending a debug report fails. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "TimeoutException"
+      }
+    }
+  },
+  "licenseLoadFailed": "Error loading license: {error}",
+  "@licenseLoadFailed": {
+    "description": "Error when the license text cannot be loaded. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "FlutterError"
+      }
+    }
   }
 }

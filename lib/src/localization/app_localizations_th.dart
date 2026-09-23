@@ -547,4 +547,78 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get deleteLabel => 'Delete';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Profiles & Network';
+
+  @override
+  String get settingsCategoryAppStorage => 'App & Storage';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Advanced & Debug';
+
+  @override
+  String get settingsCategoryAboutLegal => 'About & Legal';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => 'Regulatory Defaults';
+
+  @override
+  String get settingsSectionPreferences => 'Preferences';
+
+  @override
+  String get settingsSectionPowerTools => 'Power Tools';
+
+  @override
+  String get settingsSectionDiagnostics => 'Diagnostics';
+
+  @override
+  String get regDomainUnknown => 'Unknown';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count versions',
+      one: '1 version',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return 'Edit $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Enter $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.lua saved to device!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Failed to save script: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Submitted! Event ID: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Report submitted successfully!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Failed to submit: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Error loading license: $error';
+  }
 }
