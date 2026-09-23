@@ -34,7 +34,11 @@ ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 # mapping in the pub cache to current models, and fail loudly if the
 # source no longer looks as expected (e.g. after a version bump) rather
 # than silently calling a dead model.
-ARB_TRANSLATE_VERSION="$(grep -A6 '^  arb_translate:' "$ROOT_DIR/pubspec.lock" | sed -n 's/.*version: "\(.*\)"/\1/p')"
+ARB_TRANSLATE_VERSION="$(awk '/^  arb_translate:/{f=1} f&&/^    version:/{gsub(/[" ]|version:/,""); print; exit}' "$ROOT_DIR/pubspec.lock")"
+if [ -z "$ARB_TRANSLATE_VERSION" ]; then
+  echo "Error: could not read the arb_translate version from pubspec.lock."
+  exit 1
+fi
 DELEGATE="${PUB_CACHE:-$HOME/.pub-cache}/hosted/pub.dev/arb_translate-$ARB_TRANSLATE_VERSION/lib/src/translation_delegates/gemini_translation_delegate.dart"
 if [ ! -f "$DELEGATE" ]; then
   echo "Error: arb_translate source not found at $DELEGATE (run flutter pub get)."
