@@ -45,7 +45,7 @@ class FirmwareRepository {
       );
       _log.info('Zip downloaded (${zipBytes.length} bytes). Extracting...');
 
-      return extractFirmwareFromZip(zipBytes, targetName, isLbt: isLbt);
+      return await extractFirmwareFromZip(zipBytes, targetName, isLbt: isLbt);
     } catch (e) {
       _log.warning('Firmware download error: $e');
       throw Exception('Failed to download/extract firmware: $e');
