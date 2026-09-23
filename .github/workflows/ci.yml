@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  analyze-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Generated localisation code is committed; fail if it no longer
+      # matches the ARB files (someone forgot to run `flutter gen-l10n`).
+      - name: Check generated localizations are current
+        run: |
+          flutter gen-l10n
+          git diff --exit-code lib/src/localization/
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test

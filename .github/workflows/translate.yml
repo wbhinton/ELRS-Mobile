@@ -1,9 +1,10 @@
 name: Auto Translate
 
+# Manually triggered only (Actions tab or `gh workflow run translate.yml`)
+# to keep Gemini spend under control. Run it on `development`; it commits the
+# new translations back to that branch.
 on:
-  push:
-    branches:
-      - translations
+  workflow_dispatch:
 
 permissions:
   contents: write
