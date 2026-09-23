@@ -764,9 +764,7 @@ class FlashingController extends _$FlashingController {
               'elrs device'; // Skip check if device didn't report a name
 
       if (isMismatch) {
-        state = state.copyWith(
-          status: FlashingStatus.mismatch,
-        );
+        state = state.copyWith(status: FlashingStatus.mismatch);
         return;
       }
     }
@@ -806,12 +804,21 @@ class FlashingController extends _$FlashingController {
       final deviceRepo = ref.read(deviceRepositoryProvider);
       final isTx = state.selectedTarget?.deviceType == 'TX';
 
-      await deviceRepo.flashFirmware(
-        payload.bytes,
-        payload.filename,
-        isTx: isTx,
-        onSendProgress: _onUploadProgress,
-      );
+      try {
+        await deviceRepo.flashFirmware(
+          payload.bytes,
+          payload.filename,
+          isTx: isTx,
+          force: force,
+          onSendProgress: _onUploadProgress,
+        );
+      } catch (e) {
+        // A device that still reports a mismatch despite the force arg has
+        // the image freshly buffered, so commit it via /forceupdate now.
+        if (!force || !e.toString().contains('mismatch')) rethrow;
+        _log.info('Device reported mismatch on forced upload, confirming...');
+        await deviceRepo.confirmForceUpdate();
+      }
 
       ref.read(isFlashingProvider.notifier).setFlashing(false);
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);
@@ -870,53 +877,13 @@ class FlashingController extends _$FlashingController {
     );
   }
 
-  Future<void> forceUpdate() async {
-    try {
-      state = state.copyWith(status: FlashingStatus.uploading);
-      final repo = ref.read(deviceRepositoryProvider);
-
-      // 1. The mismatched firmware is already sitting in the device's OTA
-      // write buffer from the initial /update attempt. The ExpressLRS
-      // firmware protocol (unchanged from 3.1.0 through 4.1.0, and what its
-      // own WebUI does) confirms those bytes directly via /forceupdate with
-      // no re-upload, so try that first.
-      try {
-        await repo.confirmForceUpdate();
-      } catch (e) {
-        // 2. Fallback for a device whose buffer didn't survive (e.g. a
-        // dropped connection): re-upload once, then confirm again.
-        _log.warning(
-          'Direct force-confirm failed ($e) — falling back to re-upload before confirming.',
-        );
-        final payload = await _buildFinalPayload();
-        try {
-          await repo.flashFirmware(
-            payload.bytes,
-            payload.filename,
-            onSendProgress: _onUploadProgress,
-          );
-        } catch (e2) {
-          // We EXPECT it to throw a mismatch exception here because we just
-          // re-uploaded the mismatched file. We swallow it and proceed!
-          if (e2.toString().contains('mismatch')) {
-            _log.info(
-              'Caught expected mismatch during buffer refill. Proceeding to force commit...',
-            );
-          } else {
-            rethrow; // If it's a different network error, abort.
-          }
-        }
-        await repo.confirmForceUpdate();
-      }
-
-      state = state.copyWith(status: FlashingStatus.success);
-    } catch (e) {
-      state = state.copyWith(
-        status: FlashingStatus.error,
-        errorMessage: 'Force update failed: $e',
-      );
-    } finally {
-      ref.read(isFlashingProvider.notifier).setFlashing(false);
-    }
-  }
+  /// Re-runs the flash with the device's target check bypassed.
+  ///
+  /// The mismatch dialog is usually raised by the pre-flight check in
+  /// [flash], before anything has been uploaded, so there is nothing in the
+  /// device's OTA buffer to confirm — the image must be sent again with the
+  /// `force` arg. The bind-phrase guard was already passed on the first
+  /// attempt.
+  Future<void> forceUpdate() =>
+      flash(force: true, ignoreMissingBindPhrase: true);
 }

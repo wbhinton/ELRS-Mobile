@@ -10,6 +10,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
@@ -149,6 +150,7 @@ class DeviceRepository {
     int? domain,
     int? wifiOnInterval,
     bool isTx = false,
+    bool force = false,
   }) async {
     try {
       final payload = await buildFirmwarePayload(
@@ -175,11 +177,15 @@ class DeviceRepository {
 
       // Bypassing chunked encoding by explicitly evaluating payload size
       final evaluatedLength = formData.length;
+      var uploadComplete = false;
 
       try {
         final response = await _dio.post(
           '/update',
           data: formData,
+          // The `force` arg makes the device skip its target-name check and
+          // commit the image in this same request (supported since 2.x).
+          queryParameters: force ? {'force': '1'} : null,
           options: Options(
             headers: {
               Headers.contentLengthHeader: evaluatedLength,
@@ -192,22 +198,24 @@ class DeviceRepository {
             _log.info(
               'Upload Progress: ${(sent / total * 100).toStringAsFixed(1)}%',
             );
+            if (total > 0 && sent >= total) uploadComplete = true;
             onSendProgress?.call(sent, total);
           },
         );
 
-        final responseData = response.data;
-        if (responseData is Map<String, dynamic>) {
-          if (responseData['status'] == 'mismatch') {
-            // Let the upper layer handle mismatch via confirmForceUpdate
-            throw Exception('mismatch');
-          } else if (responseData['status'] != 'ok') {
-            throw Exception('Flashing failed: ${responseData['msg']}');
-          }
+        _log.info('Device response: ${response.data}');
+        final status = _responseStatus(response.data);
+        if (status == 'mismatch') {
+          // Let the upper layer handle mismatch via confirmForceUpdate
+          throw Exception('mismatch');
+        } else if (status != null && status != 'ok') {
+          throw Exception('Flashing failed: ${_responseMessage(response.data)}');
         }
         _log.info('Flash successful!');
       } on DioException catch (e) {
-        if (isExpectedRebootSocketDrop(e)) {
+        // The device only reboots after receiving the whole image, so a drop
+        // mid-upload is a real failure, not a successful reboot.
+        if (uploadComplete && isExpectedRebootSocketDrop(e)) {
           _log.info(
             'Device successfully updated and rebooted! Caught expected socket drop.',
           );
@@ -224,14 +232,17 @@ class DeviceRepository {
   Future<void> confirmForceUpdate() async {
     try {
       _log.info('Sending manual action=confirm to /forceupdate...');
-      final formData = FormData.fromMap({
-        'action': 'confirm',
-      });
+      final formData = FormData.fromMap({'action': 'confirm'});
 
-      await _dio.post(
-        '/forceupdate',
-        data: formData,
-      );
+      final response = await _dio.post('/forceupdate', data: formData);
+
+      // The device answers HTTP 200 even when the commit fails (e.g. nothing
+      // is in its OTA buffer), so the status field is the real result.
+      _log.info('Force confirm response: ${response.data}');
+      final status = _responseStatus(response.data);
+      if (status != null && status != 'ok') {
+        throw Exception(_responseMessage(response.data));
+      }
     } on DioException catch (e) {
       // A successful force flash causes an immediate hardware reboot.
       if (isExpectedRebootSocketDrop(e)) {
@@ -244,4 +255,26 @@ class DeviceRepository {
     }
   }
 
+  /// Extracts the `status` field from a device JSON reply. Dio only decodes
+  /// bodies whose content type it recognises, so string bodies are decoded
+  /// here too. Returns null for replies that aren't status JSON (very old
+  /// firmware), which callers treat as success as before.
+  static String? _responseStatus(Object? data) =>
+      _decodeResponse(data)?['status']?.toString();
+
+  static String _responseMessage(Object? data) =>
+      _decodeResponse(data)?['msg']?.toString() ?? '$data';
+
+  static Map<String, dynamic>? _decodeResponse(Object? data) {
+    if (data is Map<String, dynamic>) return data;
+    if (data is String) {
+      try {
+        final decoded = jsonDecode(data);
+        if (decoded is Map<String, dynamic>) return decoded;
+      } on FormatException {
+        return null;
+      }
+    }
+    return null;
+  }
 }
