@@ -18,6 +18,7 @@ import 'core/theme/app_theme.dart';
 import 'router.dart';
 import 'core/networking/connectivity_service.dart';
 import 'features/settings/presentation/settings_controller.dart';
+import 'core/app_info.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -63,7 +64,7 @@ class _AppContent extends HookConsumerWidget {
     });
 
     return MaterialApp.router(
-      title: 'ELRS Mobile',
+      title: appName,
       theme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
       routerConfig: router,

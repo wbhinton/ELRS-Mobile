@@ -10,6 +10,7 @@ import '../../settings/presentation/settings_controller.dart';
 import '../../settings/presentation/disclaimer_dialog.dart';
 import 'widgets/dashboard_card.dart';
 import 'widgets/hardware_status_card.dart';
+import '../../../core/app_info.dart';
 
 class DashboardScreen extends HookConsumerWidget {
   const DashboardScreen({super.key});
@@ -35,7 +36,7 @@ class DashboardScreen extends HookConsumerWidget {
     }, [isLoaded, disclaimerAccepted]);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('ELRS Mobile')),
+      appBar: AppBar(title: const Text(appName)),
       body: SafeArea(
         child: ResponsiveLayout(
           child: Stack(

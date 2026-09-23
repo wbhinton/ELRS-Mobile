@@ -4,6 +4,7 @@ import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../../../core/app_info.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -105,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'ELRS Mobile',
+                            appName,
                             style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(
                                   fontFamily: 'Roboto',
@@ -158,7 +159,7 @@ class _SplashScreenState extends State<SplashScreen>
                     _buildLogo(),
                     const SizedBox(height: 24),
                     Text(
-                      'ELRS Mobile',
+                      appName,
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(
                             fontFamily: 'Roboto',

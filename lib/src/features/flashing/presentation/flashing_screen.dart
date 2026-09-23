@@ -11,6 +11,7 @@ import 'flash_error_text.dart';
 import '../../settings/presentation/settings_controller.dart';
 import '../../config/presentation/config_view_model.dart';
 import '../../config/domain/runtime_config_model.dart';
+import '../../../core/app_info.dart';
 
 class FlashingScreen extends HookConsumerWidget {
   const FlashingScreen({super.key});
@@ -133,7 +134,7 @@ class FlashingScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ELRS Mobile'),
+        title: const Text(appName),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),

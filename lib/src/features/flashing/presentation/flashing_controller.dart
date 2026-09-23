@@ -443,7 +443,8 @@ class FlashingController extends _$FlashingController {
 
       // Step B (System Picker): Trigger native 'Save As' dialog
       final result = await FilePicker.platform.saveFile(
-        dialogTitle: 'Save Firmware Binary',
+        // Controllers have no localisations; Android ignores this title.
+        dialogTitle: 'Save Firmware Binary', // l10n-ignore
         fileName: downloadName,
         bytes: payload.bytes,
       );

@@ -341,6 +341,20 @@ class SettingsScreen extends HookConsumerWidget {
 
 
 
+  /// Regulatory domain codes, indexed by the stored domain value. Standard
+  /// identifiers, identical in every language; the translated descriptive
+  /// label is shown as the subtitle.
+  static const _domainCodes2400 = ['ISM', 'EU CE LBT'];
+  static const _domainCodes900 = [
+    'AU915',
+    'FCC915',
+    'EU868',
+    'IN866',
+    'AU433',
+    'EU433',
+    'US433',
+  ];
+
   String _getDomainLabel2400(AppLocalizations l10n, int value) =>
       switch (value) {
         0 => l10n.regDomainIsm,
@@ -487,31 +501,31 @@ class SettingsScreen extends HookConsumerWidget {
     return buildTile(false);
   }
 
-  String _getLocaleName(String code) {
-    switch (code) {
-      case 'en': return 'English';
-      case 'de': return 'Deutsch';
-      case 'es': return 'Español';
-      case 'fr': return 'Français';
-      case 'ja': return '日本語';
-      case 'uk': return 'Українська';
-      case 'pt': return 'Português';
-      case 'it': return 'Italiano';
-      case 'pl': return 'Polski';
-      case 'ko': return '한국어';
-      case 'ru': return 'Русский';
-      case 'nl': return 'Nederlands';
-      case 'cs': return 'Čeština';
-      case 'th': return 'ไทย';
-      case 'sv': return 'Svenska';
-      case 'id': return 'Bahasa Indonesia';
-      case 'zh': return '简体中文';
-      case 'nb':
-      case 'no':
-        return 'Norsk';
-      default: return code;
-    }
-  }
+  /// Each language's name in its own script, in picker order. Deliberately
+  /// not localised: users look for their own language by its native name.
+  static const _languageNames = {
+    'en': 'English',
+    'de': 'Deutsch',
+    'es': 'Español',
+    'fr': 'Français',
+    'ja': '日本語',
+    'uk': 'Українська',
+    'pt': 'Português',
+    'it': 'Italiano',
+    'pl': 'Polski',
+    'ko': '한국어',
+    'ru': 'Русский',
+    'nl': 'Nederlands',
+    'cs': 'Čeština',
+    'th': 'ไทย',
+    'sv': 'Svenska',
+    'id': 'Bahasa Indonesia',
+    'zh': '简体中文',
+    'nb': 'Norsk',
+  };
+
+  String _getLocaleName(String code) =>
+      _languageNames[code == 'no' ? 'nb' : code] ?? code;
 
   void _showLanguageSelectionDialog(
     BuildContext context,
@@ -519,27 +533,7 @@ class SettingsScreen extends HookConsumerWidget {
     SettingsController controller,
   ) {
     final l10n = AppLocalizations.of(context)!;
-    final locales = <String?>[
-      null,
-      'en',
-      'de',
-      'es',
-      'fr',
-      'ja',
-      'uk',
-      'pt',
-      'it',
-      'pl',
-      'ko',
-      'ru',
-      'nl',
-      'cs',
-      'th',
-      'sv',
-      'id',
-      'zh',
-      'nb',
-    ];
+    final locales = <String?>[null, ..._languageNames.keys];
 
     showDialog(
       context: context,
@@ -716,9 +710,9 @@ class SettingsScreen extends HookConsumerWidget {
                     onChanged: (val) {
                       if (val != null) controller.setDefaultDomain2400(val);
                     },
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('ISM')),
-                      DropdownMenuItem(value: 1, child: Text('EU CE LBT')),
+                    items: [
+                      for (final (i, code) in _domainCodes2400.indexed)
+                        DropdownMenuItem(value: i, child: Text(code)),
                     ],
                   ),
                 ),
@@ -730,14 +724,9 @@ class SettingsScreen extends HookConsumerWidget {
                     onChanged: (val) {
                       if (val != null) controller.setDefaultDomain900(val);
                     },
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('AU915')),
-                      DropdownMenuItem(value: 1, child: Text('FCC915')),
-                      DropdownMenuItem(value: 2, child: Text('EU868')),
-                      DropdownMenuItem(value: 3, child: Text('IN866')),
-                      DropdownMenuItem(value: 4, child: Text('AU433')),
-                      DropdownMenuItem(value: 5, child: Text('EU433')),
-                      DropdownMenuItem(value: 6, child: Text('US433')),
+                    items: [
+                      for (final (i, code) in _domainCodes900.indexed)
+                        DropdownMenuItem(value: i, child: Text(code)),
                     ],
                   ),
                 ),
@@ -842,24 +831,11 @@ class SettingsScreen extends HookConsumerWidget {
                         value: null,
                         child: Text(l10n.languageOverrideSystemDefault),
                       ),
-                      const DropdownMenuItem(value: 'en', child: Text('English')),
-                      const DropdownMenuItem(value: 'de', child: Text('Deutsch')),
-                      const DropdownMenuItem(value: 'es', child: Text('Español')),
-                      const DropdownMenuItem(value: 'fr', child: Text('Français')),
-                      const DropdownMenuItem(value: 'ja', child: Text('日本語')),
-                      const DropdownMenuItem(value: 'uk', child: Text('Українська')),
-                      const DropdownMenuItem(value: 'pt', child: Text('Português')),
-                      const DropdownMenuItem(value: 'it', child: Text('Italiano')),
-                      const DropdownMenuItem(value: 'pl', child: Text('Polski')),
-                      const DropdownMenuItem(value: 'ko', child: Text('한국어')),
-                      const DropdownMenuItem(value: 'ru', child: Text('Русский')),
-                      const DropdownMenuItem(value: 'nl', child: Text('Nederlands')),
-                      const DropdownMenuItem(value: 'cs', child: Text('Čeština')),
-                      const DropdownMenuItem(value: 'th', child: Text('ไทย')),
-                      const DropdownMenuItem(value: 'sv', child: Text('Svenska')),
-                      const DropdownMenuItem(value: 'id', child: Text('Bahasa Indonesia')),
-                      const DropdownMenuItem(value: 'zh', child: Text('简体中文')),
-                      const DropdownMenuItem(value: 'nb', child: Text('Norsk')),
+                      for (final entry in _languageNames.entries)
+                        DropdownMenuItem(
+                          value: entry.key,
+                          child: Text(entry.value),
+                        ),
                     ],
                   ),
                 ),
