@@ -1,3 +1,29 @@
+## [v1.0.44-rc2] - 2026-09-23
+
+Release candidate. Covers all changes since v1.0.43, including the internal v1.0.44-rc1 test build.
+
+### New Features
+
+*   **Update Devices on Older Firmware:** Receivers and transmitters running ExpressLRS firmware older than 3.1 are now detected, so you can bring them up to a current release straight from the app.
+*   **Chip Compatibility Check:** The app now stops you from flashing firmware built for a different chip than your device has (for example, ESP32 firmware onto an ESP8285 receiver) and explains why, instead of offering a Force Flash that can never succeed.
+*   **Fully Translated App:** Every screen, dialog and error message is now available in all 18 supported languages; previously many flashing, settings and Firmware Manager messages appeared only in English. Plurals read correctly in languages such as Polish, Czech, Russian and Ukrainian, and numbers use your local format.
+
+### Improvements
+
+*   **Accurate Flashing Progress:** The progress bar now follows the real flashing steps: finding and unpacking your cached firmware (the normal offline path), downloading only when a file is genuinely missing, building, uploading, and a final "Writing to Device — Please Wait" step while the device installs and reboots. It no longer sits frozen at 100% or labels offline work as "Downloading".
+*   **Clearer Error Messages:** Flashing and Firmware Manager errors now show a plain explanation, with the device's own technical message underneath that you can copy into a bug report.
+*   **Supported Firmware Versions Only:** The Firmware Manager and version picker now list only ExpressLRS 3.3.0 and newer, the first releases with the unified firmware ELRS Mobile builds on.
+*   **Secure Storage Upgrade:** Saved profiles and credentials now use updated secure storage. Existing settings carry over automatically.
+
+### Bug Fixes
+
+*   **Force Flash Works Again:** Choosing Force Flash after a target mismatch could report success without installing anything. It now sends the firmware with the device's override flag and completes the update.
+*   **No More False "Flashing Successful":** If the device rejected the firmware, lost power or restarted mid-flash, the app could still report success. It now reports success only when the device confirms it; if the connection drops before confirmation, you get an amber warning to check the firmware version instead.
+*   **Correct Error When the Device Disconnects:** A device dropping the connection during an upload was wrongly reported as "No internet access". It now shows as a failed flash with the reason.
+*   **Branded iOS Launch Screen:** Replaced the placeholder iOS launch image with the ELRS Mobile logo.
+
+---
+
 ## [v1.0.43] - 2026-08-31
 
 ### New Features
