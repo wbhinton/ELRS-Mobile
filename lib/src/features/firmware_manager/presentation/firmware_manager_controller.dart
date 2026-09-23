@@ -7,6 +7,8 @@ import '../../settings/presentation/settings_controller.dart';
 import '../../../core/storage/firmware_cache_service.dart';
 import '../../flashing/data/firmware_repository.dart';
 import '../../../core/networking/connection_repository.dart';
+import '../../flashing/domain/flash_error.dart' show describeFailure;
+import 'firmware_manager_error.dart';
 
 part 'firmware_manager_controller.freezed.dart';
 part 'firmware_manager_controller.g.dart';
@@ -19,7 +21,7 @@ abstract class FirmwareManagerState with _$FirmwareManagerState {
     @Default(false) bool isLoading,
     @Default({}) Map<String, double> downloadProgress,
     @Default(0.0) double cacheSizeMb,
-    String? errorMessage,
+    FirmwareManagerError? error,
   }) = _FirmwareManagerState;
 }
 
@@ -32,7 +34,7 @@ class FirmwareManagerController extends _$FirmwareManagerController {
   }
 
   Future<void> load() async {
-    state = state.copyWith(isLoading: true, errorMessage: null);
+    state = state.copyWith(isLoading: true, error: null);
     try {
       final cacheService = ref.read(firmwareCacheServiceProvider);
       final releasesRepo = ref.read(releasesRepositoryProvider);
@@ -59,7 +61,10 @@ class FirmwareManagerController extends _$FirmwareManagerController {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
-        errorMessage: 'Error loading: $e',
+        error: FirmwareManagerError(
+          FirmwareManagerErrorKind.loadFailed,
+          describeFailure(e),
+        ),
       );
     }
   }
@@ -69,7 +74,9 @@ class FirmwareManagerController extends _$FirmwareManagerController {
     final targetIp = ref.read(targetIpProvider);
     if (targetIp == '10.0.0.1') {
       state = state.copyWith(
-        errorMessage: 'Cannot download firmware while connected directly to the receiver\'s Wi-Fi hotspot. Please disconnect or use a home network.',
+        error: const FirmwareManagerError(
+          FirmwareManagerErrorKind.onDeviceHotspot,
+        ),
       );
       return;
     }
@@ -82,14 +89,14 @@ class FirmwareManagerController extends _$FirmwareManagerController {
     final cached = await cacheService.getCachedVersions();
     if (cached.length >= settings.maxCachedVersions && !cached.contains(version)) {
       state = state.copyWith(
-        errorMessage: 'Cache limit reached. Please delete an old version.',
+        error: const FirmwareManagerError(FirmwareManagerErrorKind.cacheFull),
       );
       return;
     }
 
     state = state.copyWith(
       downloadProgress: {...state.downloadProgress, version: 0.0},
-      errorMessage: null,
+      error: null,
     );
 
     try {
@@ -151,7 +158,10 @@ class FirmwareManagerController extends _$FirmwareManagerController {
       _log.warning('Network error during firmware download', e);
       state = state.copyWith(
         isLoading: false,
-        errorMessage: 'Network error: Unable to reach the firmware server. Please check your internet connection.',
+        error: FirmwareManagerError(
+          FirmwareManagerErrorKind.serverUnreachable,
+          describeFailure(e),
+        ),
         downloadProgress: {...state.downloadProgress}..remove(version),
       );
     } catch (e) {
@@ -165,7 +175,10 @@ class FirmwareManagerController extends _$FirmwareManagerController {
         _log.warning('Network connection dropped mid-download', e);
         state = state.copyWith(
           isLoading: false,
-          errorMessage: 'Download interrupted: Network connection was lost. Please check your connection and try again.',
+          error: FirmwareManagerError(
+            FirmwareManagerErrorKind.downloadInterrupted,
+            describeFailure(e),
+          ),
           downloadProgress: {...state.downloadProgress}..remove(version),
         );
       } else {
@@ -175,7 +188,10 @@ class FirmwareManagerController extends _$FirmwareManagerController {
         _log.severe('Failed to download firmware', e);
         state = state.copyWith(
           isLoading: false,
-          errorMessage: 'Failed to download firmware: $e',
+          error: FirmwareManagerError(
+            FirmwareManagerErrorKind.downloadFailed,
+            describeFailure(e),
+          ),
           downloadProgress: {...state.downloadProgress}..remove(version),
         );
       }
@@ -192,7 +208,12 @@ class FirmwareManagerController extends _$FirmwareManagerController {
 
       state = state.copyWith(cachedVersions: cached, cacheSizeMb: size);
     } catch (e) {
-      state = state.copyWith(errorMessage: 'Delete failed: $e');
+      state = state.copyWith(
+        error: FirmwareManagerError(
+          FirmwareManagerErrorKind.deleteFailed,
+          describeFailure(e),
+        ),
+      );
     }
   }
 }

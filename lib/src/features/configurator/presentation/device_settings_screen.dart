@@ -72,8 +72,8 @@ class _DeviceSettingsScreenState extends ConsumerState<DeviceSettingsScreen> {
     if (_controller.platform is AndroidWebViewController) {
       (_controller.platform as AndroidWebViewController).setOnShowFileSelector(
         (FileSelectorParams params) async {
-          const typeGroup = XTypeGroup(
-            label: 'Firmware Binaries',
+          final typeGroup = XTypeGroup(
+            label: AppLocalizations.of(context)!.firmwareBinariesFileType,
             extensions: ['bin', 'gz'],
           );
           final file = await openFile(acceptedTypeGroups: [typeGroup]);

@@ -605,4 +605,76 @@ class AppLocalizationsZh extends AppLocalizations {
   String licenseLoadFailed(String error) {
     return 'Error loading license: $error';
   }
+
+  @override
+  String get firmwareErrorLoadFailed => 'Could not load firmware versions.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Cannot download firmware while connected directly to the receiver\'s WiFi hotspot. Please disconnect or use a home network.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Cache limit reached. Please delete an old version.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Unable to reach the firmware server. Please check your internet connection.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Download interrupted: the network connection was lost. Please check your connection and try again.';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'Failed to download firmware.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Could not delete this firmware version.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Ready for offline use';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Storage Used: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit Versions';
+  }
+
+  @override
+  String get splashTagline => 'Independent Configuration Tool';
+
+  @override
+  String get splashDisclaimer =>
+      'Not an official ExpressLRS product.\nCompatible with 3.3.x/4.x firmware.';
+
+  @override
+  String get unknownDeviceName => 'ELRS Device';
+
+  @override
+  String get unknownIpLabel => 'Unknown IP';
+
+  @override
+  String get firmwareBinariesFileType => 'Firmware Binaries';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Error loading help content: $error';
+  }
 }

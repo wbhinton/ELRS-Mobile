@@ -505,5 +505,105 @@
         "example": "FlutterError"
       }
     }
+  },
+  "firmwareErrorLoadFailed": "Could not load firmware versions.",
+  "@firmwareErrorLoadFailed": {
+    "description": "Firmware Manager error when the list of versions cannot be loaded. A technical reason is shown untranslated underneath."
+  },
+  "firmwareErrorOnHotspot": "Cannot download firmware while connected directly to the receiver's WiFi hotspot. Please disconnect or use a home network.",
+  "@firmwareErrorOnHotspot": {
+    "description": "Firmware Manager error: downloads need internet, which is unavailable while the phone is joined to the ExpressLRS device's own WiFi hotspot."
+  },
+  "firmwareErrorCacheFull": "Cache limit reached. Please delete an old version.",
+  "@firmwareErrorCacheFull": {
+    "description": "Firmware Manager error when the maximum number of offline firmware versions is already stored."
+  },
+  "firmwareErrorServerUnreachable": "Unable to reach the firmware server. Please check your internet connection.",
+  "@firmwareErrorServerUnreachable": {
+    "description": "Firmware Manager error when the download server cannot be contacted."
+  },
+  "firmwareErrorDownloadInterrupted": "Download interrupted: the network connection was lost. Please check your connection and try again.",
+  "@firmwareErrorDownloadInterrupted": {
+    "description": "Firmware Manager error when a download stops part-way."
+  },
+  "firmwareErrorDownloadFailed": "Failed to download firmware.",
+  "@firmwareErrorDownloadFailed": {
+    "description": "Firmware Manager error headline for other download failures. A technical reason is shown untranslated underneath."
+  },
+  "firmwareErrorDeleteFailed": "Could not delete this firmware version.",
+  "@firmwareErrorDeleteFailed": {
+    "description": "Firmware Manager error when removing a cached firmware version fails. A technical reason is shown untranslated underneath."
+  },
+  "firmwareVersionTitle": "Version {version}",
+  "@firmwareVersionTitle": {
+    "description": "Row title in the Firmware Manager list.",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "3.5.3"
+      }
+    }
+  },
+  "readyForOfflineUse": "Ready for offline use",
+  "@readyForOfflineUse": {
+    "description": "Subtitle for a firmware version that is stored on the phone and can be flashed without internet."
+  },
+  "storageUsedMb": "Storage Used: {size} MB",
+  "@storageUsedMb": {
+    "description": "Firmware Manager header showing how much space cached firmware uses, in megabytes.",
+    "placeholders": {
+      "size": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 1
+        },
+        "example": "12.5"
+      }
+    }
+  },
+  "cachedVersionsOfLimit": "{count} / {limit} Versions",
+  "@cachedVersionsOfLimit": {
+    "description": "Firmware Manager header showing how many versions are cached out of the allowed maximum.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      },
+      "limit": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "splashTagline": "Independent Configuration Tool",
+  "@splashTagline": {
+    "description": "Tagline on the launch screen describing the app. Displayed in uppercase."
+  },
+  "splashDisclaimer": "Not an official ExpressLRS product.\nCompatible with 3.3.x/4.x firmware.",
+  "@splashDisclaimer": {
+    "description": "Small print on the launch screen. Keep the line break. Version numbers must not be changed."
+  },
+  "unknownDeviceName": "ELRS Device",
+  "@unknownDeviceName": {
+    "description": "Name shown for a connected ExpressLRS device that did not report its product name."
+  },
+  "unknownIpLabel": "Unknown IP",
+  "@unknownIpLabel": {
+    "description": "Shown in place of the device's network address when it is not known."
+  },
+  "firmwareBinariesFileType": "Firmware Binaries",
+  "@firmwareBinariesFileType": {
+    "description": "Label for the file type filter (.bin and .gz files) in the file picker used to upload firmware."
+  },
+  "helpContentLoadFailed": "Error loading help content: {error}",
+  "@helpContentLoadFailed": {
+    "description": "Error when the help and FAQ text cannot be loaded. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "FlutterError"
+      }
+    }
   }
 }

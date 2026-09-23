@@ -1219,6 +1219,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error loading license: {error}'**
   String licenseLoadFailed(String error);
+
+  /// Firmware Manager error when the list of versions cannot be loaded. A technical reason is shown untranslated underneath.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load firmware versions.'**
+  String get firmwareErrorLoadFailed;
+
+  /// Firmware Manager error: downloads need internet, which is unavailable while the phone is joined to the ExpressLRS device's own WiFi hotspot.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot download firmware while connected directly to the receiver\'s WiFi hotspot. Please disconnect or use a home network.'**
+  String get firmwareErrorOnHotspot;
+
+  /// Firmware Manager error when the maximum number of offline firmware versions is already stored.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache limit reached. Please delete an old version.'**
+  String get firmwareErrorCacheFull;
+
+  /// Firmware Manager error when the download server cannot be contacted.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to reach the firmware server. Please check your internet connection.'**
+  String get firmwareErrorServerUnreachable;
+
+  /// Firmware Manager error when a download stops part-way.
+  ///
+  /// In en, this message translates to:
+  /// **'Download interrupted: the network connection was lost. Please check your connection and try again.'**
+  String get firmwareErrorDownloadInterrupted;
+
+  /// Firmware Manager error headline for other download failures. A technical reason is shown untranslated underneath.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to download firmware.'**
+  String get firmwareErrorDownloadFailed;
+
+  /// Firmware Manager error when removing a cached firmware version fails. A technical reason is shown untranslated underneath.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not delete this firmware version.'**
+  String get firmwareErrorDeleteFailed;
+
+  /// Row title in the Firmware Manager list.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String firmwareVersionTitle(String version);
+
+  /// Subtitle for a firmware version that is stored on the phone and can be flashed without internet.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for offline use'**
+  String get readyForOfflineUse;
+
+  /// Firmware Manager header showing how much space cached firmware uses, in megabytes.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Used: {size} MB'**
+  String storageUsedMb(double size);
+
+  /// Firmware Manager header showing how many versions are cached out of the allowed maximum.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} / {limit} Versions'**
+  String cachedVersionsOfLimit(int count, int limit);
+
+  /// Tagline on the launch screen describing the app. Displayed in uppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Independent Configuration Tool'**
+  String get splashTagline;
+
+  /// Small print on the launch screen. Keep the line break. Version numbers must not be changed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not an official ExpressLRS product.\nCompatible with 3.3.x/4.x firmware.'**
+  String get splashDisclaimer;
+
+  /// Name shown for a connected ExpressLRS device that did not report its product name.
+  ///
+  /// In en, this message translates to:
+  /// **'ELRS Device'**
+  String get unknownDeviceName;
+
+  /// Shown in place of the device's network address when it is not known.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown IP'**
+  String get unknownIpLabel;
+
+  /// Label for the file type filter (.bin and .gz files) in the file picker used to upload firmware.
+  ///
+  /// In en, this message translates to:
+  /// **'Firmware Binaries'**
+  String get firmwareBinariesFileType;
+
+  /// Error when the help and FAQ text cannot be loaded. The placeholder is a technical error message.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading help content: {error}'**
+  String helpContentLoadFailed(String error);
 }
 
 class _AppLocalizationsDelegate

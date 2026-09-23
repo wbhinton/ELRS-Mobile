@@ -37,7 +37,9 @@ class SupportScreen extends HookConsumerWidget {
           ),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Center(child: Text('Error loading help content: ${snapshot.error}'));
+              return Center(
+                child: Text(l10n.helpContentLoadFailed('${snapshot.error}')),
+              );
             }
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
