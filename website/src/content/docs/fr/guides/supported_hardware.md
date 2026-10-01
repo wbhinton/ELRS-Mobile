@@ -16,18 +16,18 @@ sidebar:
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> Toutes les cibles ESP8285, ESP32, ESP32-C3 et ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Récepteurs et émetteurs compatibles Wi-Fi</li>
-      <li class="flex gap-2"><span>•</span> Versions 3.3.x et 4.x d'ELRS</li>
+      <li class="flex gap-2"><span>•</span> Versions ELRS 3.3.x et 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Non pris en charge (En cours de développement)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Non pris en charge (en cours)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> Cibles STM32 nécessitant un flashage série STLink</li>
       <li class="flex gap-2"><span>•</span> Méthodes de flashage Betaflight Passthrough</li>
-      <li class="flex gap-2"><span>•</span> Connexions USB/Série directes sur iOS</li>
+      <li class="flex gap-2"><span>•</span> Connexions USB/série directes sur iOS</li>
     </ul>
   </div>
 </div>
@@ -121,7 +121,7 @@ Les cibles matérielles suivantes ont été explicitement testées avec ELRS Mob
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5A/C 2.4GHz PWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5A/C V2 2.4GHz PWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5C-i 2.4GHz PWM RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">�� RadioMaster ER6 2.4GHz Diversity+6xPWM RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6 2.4GHz Diversity+6xPWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6-G 2.4GHz Diversity+6xPWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6-GV 2.4GHz Diversity+6xPWM+Vario RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER8 2.4GHz Diversity+8xPWM RX</div>
@@ -183,4 +183,4 @@ L'assembleur de firmware interne a été vérifié fonctionnellement par rapport
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

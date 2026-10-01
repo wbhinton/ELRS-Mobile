@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-## Piattaforme Supportate
+## Piattaforme supportate
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
   <div class="p-5 rounded-2xl bg-primary/5 border border-primary/20 backdrop-blur-sm">
@@ -14,7 +14,7 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Supportato</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Tutti i target ESP8285, ESP32, ESP32-C3 e ESP32-S3</li>
+      <li class="flex gap-2"><span>•</span> Tutti i target ESP8285, ESP32, ESP32-C3 ed ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Ricevitori e trasmettitori con capacità Wi-Fi</li>
       <li class="flex gap-2"><span>•</span> Versioni ELRS 3.3.x e 4.x</li>
     </ul>
@@ -22,7 +22,7 @@ sidebar:
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Non Supportato (WIP)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Non supportato (in lavorazione)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> Target STM32 che richiedono il flashing seriale STLink</li>
@@ -34,7 +34,7 @@ sidebar:
 
 ---
 
-## Hardware Testato
+## Hardware testato
 I seguenti target hardware sono stati esplicitamente testati con ELRS Mobile:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
@@ -162,7 +162,7 @@ I seguenti target hardware sono stati esplicitamente testati con ELRS Mobile:
 
 ---
 
-## Binari Testati
+## Binari testati
 L'assembler interno del firmware è stato verificato funzionalmente rispetto agli output del compilatore ufficiale ExpressLRS per i seguenti target:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
@@ -183,4 +183,4 @@ L'assembler interno del firmware è stato verificato funzionalmente rispetto agl
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

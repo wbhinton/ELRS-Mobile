@@ -9,6 +9,7 @@ import '../../../core/presentation/responsive_layout.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_master_detail.dart';
 import '../../../core/utils/lua_export_utils.dart';
+import '../../../core/utils/validation_utils.dart';
 import '../../flashing/domain/flashing_profile.dart';
 
 class SettingsScreen extends HookConsumerWidget {
@@ -45,28 +46,28 @@ class SettingsScreen extends HookConsumerWidget {
               _buildSidebarItem(
                 context,
                 icon: Icons.wifi_tethering,
-                title: "Profiles & Network",
+                title: l10n.settingsCategoryProfilesNetwork,
                 selected: selected == SettingsCategory.profiles,
                 onTap: () => onSelected(SettingsCategory.profiles),
               ),
               _buildSidebarItem(
                 context,
                 icon: Icons.storage,
-                title: "App & Storage",
+                title: l10n.settingsCategoryAppStorage,
                 selected: selected == SettingsCategory.storage,
                 onTap: () => onSelected(SettingsCategory.storage),
               ),
               _buildSidebarItem(
                 context,
                 icon: Icons.build,
-                title: "Advanced & Debug",
+                title: l10n.settingsCategoryAdvancedDebug,
                 selected: selected == SettingsCategory.advanced,
                 onTap: () => onSelected(SettingsCategory.advanced),
               ),
               _buildSidebarItem(
                 context,
                 icon: Icons.info_outline,
-                title: "About & Legal",
+                title: l10n.settingsCategoryAboutLegal,
                 selected: selected == SettingsCategory.about,
                 onTap: () => onSelected(SettingsCategory.about),
               ),
@@ -313,8 +314,8 @@ class SettingsScreen extends HookConsumerWidget {
         Navigator.of(context, rootNavigator: true).pop(); // Hide loading dialog
 
         final msg = id != SentryId.empty()
-            ? 'Submitted! Event ID: ${id.toString().substring(0, 8)}…'
-            : 'Report submitted successfully!';
+            ? l10n.debugReportSubmittedWithId(id.toString().substring(0, 8))
+            : l10n.debugReportSubmitted;
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -329,7 +330,7 @@ class SettingsScreen extends HookConsumerWidget {
         Navigator.of(context, rootNavigator: true).pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to submit: $e'),
+            content: Text(l10n.debugReportFailed('$e')),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 6),
           ),
@@ -340,37 +341,38 @@ class SettingsScreen extends HookConsumerWidget {
 
 
 
-  String _getDomainLabel2400(int value) {
-    switch (value) {
-      case 0:
-        return 'ISM';
-      case 1:
-        return 'EU CE LBT';
-      default:
-        return 'Unknown';
-    }
-  }
+  /// Regulatory domain codes, indexed by the stored domain value. Standard
+  /// identifiers, identical in every language; the translated descriptive
+  /// label is shown as the subtitle.
+  static const _domainCodes2400 = ['ISM', 'EU CE LBT'];
+  static const _domainCodes900 = [
+    'AU915',
+    'FCC915',
+    'EU868',
+    'IN866',
+    'AU433',
+    'EU433',
+    'US433',
+  ];
 
-  String _getDomainLabel900(int value) {
-    switch (value) {
-      case 0:
-        return 'AU915';
-      case 1:
-        return 'FCC915';
-      case 2:
-        return 'EU868';
-      case 3:
-        return 'IN866';
-      case 4:
-        return 'AU433';
-      case 5:
-        return 'EU433';
-      case 6:
-        return 'US433';
-      default:
-        return 'Unknown';
-    }
-  }
+  String _getDomainLabel2400(AppLocalizations l10n, int value) =>
+      switch (value) {
+        0 => l10n.regDomainIsm,
+        1 => l10n.regDomainEuLbt,
+        _ => l10n.regDomainUnknown,
+      };
+
+  String _getDomainLabel900(AppLocalizations l10n, int value) =>
+      switch (value) {
+        0 => l10n.regDomainAu915,
+        1 => l10n.regDomainFcc915,
+        2 => l10n.regDomainEu868,
+        3 => l10n.regDomainIn866,
+        4 => l10n.regDomainAu433,
+        5 => l10n.regDomainEu433,
+        6 => l10n.regDomainUs433,
+        _ => l10n.regDomainUnknown,
+      };
 
 
   Widget _buildEditDialogTile(
@@ -382,7 +384,7 @@ class SettingsScreen extends HookConsumerWidget {
     bool isSecret = false,
     ValueNotifier<bool>? isVisibleNotifier,
     TextInputType? keyboardType,
-    String? Function(SettingsState)? errorSelector,
+    FieldValidationError? Function(SettingsState)? errorSelector,
   }) {
     final l10n = AppLocalizations.of(context)!;
     Widget buildTile(bool isVisible) {
@@ -419,14 +421,16 @@ class SettingsScreen extends HookConsumerWidget {
             builder: (context) => Consumer(
               builder: (context, ref, child) {
                 final settingsState = ref.watch(settingsControllerProvider);
-                final errorText = hasBeenEdited ? null : errorSelector?.call(settingsState);
+                final errorText = hasBeenEdited
+                    ? null
+                    : errorSelector?.call(settingsState)?.message(l10n);
 
                 return StatefulBuilder(
                   builder: (context, setState) => AlertDialog(
                     title: FittedBox(
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.centerLeft,
-                      child: Text('Edit $title'),
+                      child: Text(l10n.editFieldTitle(title)),
                     ),
                     scrollable: true,
                     content: TextField(
@@ -441,7 +445,7 @@ class SettingsScreen extends HookConsumerWidget {
                         }
                       },
                       decoration: InputDecoration(
-                        hintText: 'Enter $title',
+                        hintText: l10n.enterFieldHint(title),
                         hintMaxLines: 2,
                         errorText: errorText,
                         suffixIcon: isSecret
@@ -497,31 +501,31 @@ class SettingsScreen extends HookConsumerWidget {
     return buildTile(false);
   }
 
-  String _getLocaleName(String code) {
-    switch (code) {
-      case 'en': return 'English';
-      case 'de': return 'Deutsch';
-      case 'es': return 'Español';
-      case 'fr': return 'Français';
-      case 'ja': return '日本語';
-      case 'uk': return 'Українська';
-      case 'pt': return 'Português';
-      case 'it': return 'Italiano';
-      case 'pl': return 'Polski';
-      case 'ko': return '한국어';
-      case 'ru': return 'Русский';
-      case 'nl': return 'Nederlands';
-      case 'cs': return 'Čeština';
-      case 'th': return 'ไทย';
-      case 'sv': return 'Svenska';
-      case 'id': return 'Bahasa Indonesia';
-      case 'zh': return '简体中文';
-      case 'nb':
-      case 'no':
-        return 'Norsk';
-      default: return code;
-    }
-  }
+  /// Each language's name in its own script, in picker order. Deliberately
+  /// not localised: users look for their own language by its native name.
+  static const _languageNames = {
+    'en': 'English',
+    'de': 'Deutsch',
+    'es': 'Español',
+    'fr': 'Français',
+    'ja': '日本語',
+    'uk': 'Українська',
+    'pt': 'Português',
+    'it': 'Italiano',
+    'pl': 'Polski',
+    'ko': '한국어',
+    'ru': 'Русский',
+    'nl': 'Nederlands',
+    'cs': 'Čeština',
+    'th': 'ไทย',
+    'sv': 'Svenska',
+    'id': 'Bahasa Indonesia',
+    'zh': '简体中文',
+    'nb': 'Norsk',
+  };
+
+  String _getLocaleName(String code) =>
+      _languageNames[code == 'no' ? 'nb' : code] ?? code;
 
   void _showLanguageSelectionDialog(
     BuildContext context,
@@ -529,27 +533,7 @@ class SettingsScreen extends HookConsumerWidget {
     SettingsController controller,
   ) {
     final l10n = AppLocalizations.of(context)!;
-    final locales = <String?>[
-      null,
-      'en',
-      'de',
-      'es',
-      'fr',
-      'ja',
-      'uk',
-      'pt',
-      'it',
-      'pl',
-      'ko',
-      'ru',
-      'nl',
-      'cs',
-      'th',
-      'sv',
-      'id',
-      'zh',
-      'nb',
-    ];
+    final locales = <String?>[null, ..._languageNames.keys];
 
     showDialog(
       context: context,
@@ -622,7 +606,7 @@ class SettingsScreen extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Profiles & Network", style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.settingsCategoryProfilesNetwork, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 16),
                 Row(
                   children: [
@@ -630,9 +614,9 @@ class SettingsScreen extends HookConsumerWidget {
                       child: DropdownButtonFormField<String>(
                         key: ValueKey(activeId),
                         initialValue: activeId,
-                        decoration: const InputDecoration(
-                          labelText: 'Flashing Profile',
-                          icon: Icon(Icons.account_circle),
+                        decoration: InputDecoration(
+                          labelText: l10n.flashingProfileLabel,
+                          icon: const Icon(Icons.account_circle),
                         ),
                         items: profiles.map((p) {
                           return DropdownMenuItem<String>(
@@ -650,12 +634,12 @@ class SettingsScreen extends HookConsumerWidget {
                     const SizedBox(width: 8),
                     IconButton(
                       icon: const Icon(Icons.add),
-                      tooltip: 'Add Profile',
+                      tooltip: l10n.addProfileTooltip,
                       onPressed: () => _showAddProfileDialog(context, ref),
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete_outline),
-                      tooltip: 'Delete Profile',
+                      tooltip: l10n.deleteProfileTooltip,
                       onPressed: profiles.length <= 1
                           ? null
                           : () {
@@ -716,38 +700,33 @@ class SettingsScreen extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Regulatory Defaults", style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.settingsSectionRegulatoryDefaults, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 ListTile(
                   title: Text(l10n.default24GHzDomainLabel),
-                  subtitle: Text(_getDomainLabel2400(state.defaultDomain2400)),
+                  subtitle: Text(_getDomainLabel2400(l10n, state.defaultDomain2400)),
                   trailing: DropdownButton<int>(
                     value: state.defaultDomain2400,
                     onChanged: (val) {
                       if (val != null) controller.setDefaultDomain2400(val);
                     },
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('ISM')),
-                      DropdownMenuItem(value: 1, child: Text('EU CE LBT')),
+                    items: [
+                      for (final (i, code) in _domainCodes2400.indexed)
+                        DropdownMenuItem(value: i, child: Text(code)),
                     ],
                   ),
                 ),
                 ListTile(
                   title: Text(l10n.defaultSubGHzDomainLabel),
-                  subtitle: Text(_getDomainLabel900(state.defaultDomain900)),
+                  subtitle: Text(_getDomainLabel900(l10n, state.defaultDomain900)),
                   trailing: DropdownButton<int>(
                     value: state.defaultDomain900,
                     onChanged: (val) {
                       if (val != null) controller.setDefaultDomain900(val);
                     },
-                    items: const [
-                      DropdownMenuItem(value: 0, child: Text('AU915')),
-                      DropdownMenuItem(value: 1, child: Text('FCC915')),
-                      DropdownMenuItem(value: 2, child: Text('EU868')),
-                      DropdownMenuItem(value: 3, child: Text('IN866')),
-                      DropdownMenuItem(value: 4, child: Text('AU433')),
-                      DropdownMenuItem(value: 5, child: Text('EU433')),
-                      DropdownMenuItem(value: 6, child: Text('US433')),
+                    items: [
+                      for (final (i, code) in _domainCodes900.indexed)
+                        DropdownMenuItem(value: i, child: Text(code)),
                     ],
                   ),
                 ),
@@ -774,11 +753,11 @@ class SettingsScreen extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("App & Storage", style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.settingsCategoryAppStorage, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 ListTile(
                   title: Text(l10n.maxCachedVersionsLabel),
-                  subtitle: Text('${state.maxCachedVersions} versions'),
+                  subtitle: Text(l10n.maxCachedVersionsCount(state.maxCachedVersions)),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -835,7 +814,7 @@ class SettingsScreen extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Preferences", style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.settingsSectionPreferences, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 ListTile(
                   title: Text(l10n.languageOverrideLabel),
@@ -852,24 +831,11 @@ class SettingsScreen extends HookConsumerWidget {
                         value: null,
                         child: Text(l10n.languageOverrideSystemDefault),
                       ),
-                      const DropdownMenuItem(value: 'en', child: Text('English')),
-                      const DropdownMenuItem(value: 'de', child: Text('Deutsch')),
-                      const DropdownMenuItem(value: 'es', child: Text('Español')),
-                      const DropdownMenuItem(value: 'fr', child: Text('Français')),
-                      const DropdownMenuItem(value: 'ja', child: Text('日本語')),
-                      const DropdownMenuItem(value: 'uk', child: Text('Українська')),
-                      const DropdownMenuItem(value: 'pt', child: Text('Português')),
-                      const DropdownMenuItem(value: 'it', child: Text('Italiano')),
-                      const DropdownMenuItem(value: 'pl', child: Text('Polski')),
-                      const DropdownMenuItem(value: 'ko', child: Text('한국어')),
-                      const DropdownMenuItem(value: 'ru', child: Text('Русский')),
-                      const DropdownMenuItem(value: 'nl', child: Text('Nederlands')),
-                      const DropdownMenuItem(value: 'cs', child: Text('Čeština')),
-                      const DropdownMenuItem(value: 'th', child: Text('ไทย')),
-                      const DropdownMenuItem(value: 'sv', child: Text('Svenska')),
-                      const DropdownMenuItem(value: 'id', child: Text('Bahasa Indonesia')),
-                      const DropdownMenuItem(value: 'zh', child: Text('简体中文')),
-                      const DropdownMenuItem(value: 'nb', child: Text('Norsk')),
+                      for (final entry in _languageNames.entries)
+                        DropdownMenuItem(
+                          value: entry.key,
+                          child: Text(entry.value),
+                        ),
                     ],
                   ),
                 ),
@@ -903,7 +869,7 @@ class SettingsScreen extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Power Tools", style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.settingsSectionPowerTools, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 SwitchListTile(
                   title: Text(l10n.expertModeLabel),
@@ -923,15 +889,15 @@ class SettingsScreen extends HookConsumerWidget {
                         await LuaExportUtils.exportElrsLuaScript();
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('elrs.lua saved to device!'),
+                            SnackBar(
+                              content: Text(l10n.luaScriptSavedSnackbar),
                             ),
                           );
                         }
                       } catch (e) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to save script: $e')),
+                            SnackBar(content: Text(l10n.luaScriptSaveFailed('$e'))),
                           );
                         }
                       }
@@ -950,7 +916,7 @@ class SettingsScreen extends HookConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Diagnostics", style: Theme.of(context).textTheme.titleMedium),
+                  Text(l10n.settingsSectionDiagnostics, style: Theme.of(context).textTheme.titleMedium),
                   const SizedBox(height: 8),
                   ListTile(
                     title: Text(l10n.submitDebugReportLabel),
@@ -982,7 +948,7 @@ class SettingsScreen extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("About & Legal", style: Theme.of(context).textTheme.titleMedium),
+                Text(l10n.settingsCategoryAboutLegal, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 ListTile(
                   title: Text(l10n.appVersionLabel),
@@ -1020,22 +986,21 @@ class SettingsScreen extends HookConsumerWidget {
 
   void _showAddProfileDialog(BuildContext context, WidgetRef ref) {
     final controller = TextEditingController();
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add Flashing Profile'),
+          title: Text(l10n.addProfileTitle),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(
-              hintText: 'Profile Name (e.g., My Quads)',
-            ),
+            decoration: InputDecoration(hintText: l10n.profileNameHint),
             autofocus: true,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancelLabel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -1045,7 +1010,7 @@ class SettingsScreen extends HookConsumerWidget {
                   Navigator.pop(context);
                 }
               },
-              child: const Text('Save'),
+              child: Text(l10n.saveLabel),
             ),
           ],
         );
@@ -1058,15 +1023,17 @@ class SettingsScreen extends HookConsumerWidget {
     WidgetRef ref,
     FlashingProfile activeProfile,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete ${activeProfile.name}?'),
+          title: Text(l10n.deleteProfileTitle),
+          content: Text(l10n.deleteProfileMessage(activeProfile.name)),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancelLabel),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -1077,7 +1044,7 @@ class SettingsScreen extends HookConsumerWidget {
                 ref.read(settingsControllerProvider.notifier).deleteProfile(activeProfile.id);
                 Navigator.pop(context);
               },
-              child: const Text('Delete'),
+              child: Text(l10n.deleteLabel),
             ),
           ],
         );

@@ -103,9 +103,5 @@ Dio internetDio(Ref ref) {
     ),
   );
 
-  // If forceMobileData is true, we might want to do something here,
-  // but usually "Internet" traffic should just follow OS default.
-  // The "Local" traffic is what we forced to WiFi.
-  
   return dio;
 }

@@ -18,19 +18,22 @@ class AppLocalizationsId extends AppLocalizations {
   String get flashingButtonLabel => 'Flash';
 
   @override
-  String get packetRateLabel => 'Laju Paket';
+  String get flashingStatusLocating => 'Mencari Firmware';
 
   @override
-  String get baudRateLabel => 'Baud Rate';
+  String get flashingStatusUnpacking => 'Mengekstrak Firmware';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Memperbarui firmware $expressLRS pada perangkat keras $radioMaster atau $betaFPV...';
-  }
+  String get flashingStatusDownloading => 'Mengunduh Firmware';
+
+  @override
+  String get flashingStatusBuilding => 'Membangun Firmware';
+
+  @override
+  String get flashingStatusUploading => 'Mengunggah ke Perangkat';
+
+  @override
+  String get flashingStatusFinalizing => 'Menulis ke Perangkat — Harap Tunggu';
 
   @override
   String get flashDeviceLabel => 'Flash Perangkat';
@@ -77,18 +80,6 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Flashing & WiFi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'Tentang & Dukungan';
-
-  @override
-  String get advancedCategoryLabel => 'Lanjutan';
-
-  @override
-  String get flashingDefaultsSectionLabel => 'Default Flashing';
-
-  @override
   String get default24GHzDomainLabel => 'Domain Default 2.4GHz';
 
   @override
@@ -122,9 +113,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get clearLabel => 'HAPUS';
-
-  @override
-  String get aboutSectionLabel => 'Tentang';
 
   @override
   String get appVersionLabel => 'Versi Aplikasi';
@@ -366,4 +354,313 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'Firmware Tersimpan';
+
+  @override
+  String get flashErrorNoTarget => 'Harap pilih perangkat target.';
+
+  @override
+  String get flashErrorNoVersion => 'Harap pilih versi firmware.';
+
+  @override
+  String get flashErrorNoDevice =>
+      'Tidak dapat melakukan flash: tidak ada perangkat ELRS yang terhubung.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Chip tidak kompatibel: firmware ini dibuat untuk $targetChip, tetapi perangkat yang terhubung adalah $deviceChip. Pilih target untuk chip yang sama.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'Tidak ada akses internet untuk mengambil berkas yang hilang. Harap putuskan sambungan dari perangkat ELRS, unduh firmware ini melalui Manajer Firmware untuk melengkapi cache Anda, lalu coba lagi.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'Tidak ada akses internet. Anda tidak dapat mengunduh firmware saat terhubung ke hotspot perangkat ELRS. Harap putuskan sambungan, unduh versi ini melalui Manajer Firmware, lalu coba lagi.';
+
+  @override
+  String get flashErrorFlashFailed => 'Penge-flash-an gagal.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'Perangkat terputus sebelum mengonfirmasi flash, sehingga mungkin belum selesai. Ini terjadi jika perangkat kehilangan daya atau memulai ulang di tengah proses flash, dan terkadang pada tautan WiFi yang lemah setelah flash berhasil. Periksa versi firmware di Konfigurasi Perangkat, dan flash lagi jika belum berubah.';
+
+  @override
+  String get flashErrorDownloadFailed => 'Gagal mengunduh firmware.';
+
+  @override
+  String get validationSsidTooLong => 'SSID harus 32 karakter atau kurang';
+
+  @override
+  String get validationPasswordTooShort => 'Kata sandi minimal 8 karakter';
+
+  @override
+  String get validationPasswordTooLong =>
+      'Kata sandi harus 63 karakter atau kurang';
+
+  @override
+  String get targetMismatchTitle => 'Target Tidak Cocok';
+
+  @override
+  String get targetMismatchMessage =>
+      'Target firmware yang dipilih tidak cocok dengan perangkat keras yang sedang berjalan di perangkat. Anda yakin ingin mem-flash paksa?';
+
+  @override
+  String get forceFlashLabel => 'FLASH PAKSA';
+
+  @override
+  String get noBindPhraseTitle => 'Tidak Ada Frasa Pengikat';
+
+  @override
+  String get noBindPhraseMessage =>
+      'Tidak ada frasa pengikat yang diatur. Lanjutkan dengan nilai bawaan (kosong)?';
+
+  @override
+  String get flashSuccessSnackbar => 'Flash berhasil!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Firmware berhasil disimpan!';
+
+  @override
+  String get flashSuccessMessage =>
+      'Penge-flash-an Berhasil! Perangkat sedang memulai ulang.';
+
+  @override
+  String get stm32OtaWarning =>
+      'Target STM32 Terpilih: Flashing OTA tidak didukung untuk perangkat keras ini. Anda dapat membuat dan menyimpan firmware ini secara lokal untuk mem-flash secara manual melalui STLink atau Betaflight Passthrough.';
+
+  @override
+  String get downloadBinaryLabel => 'UNDUH BINER';
+
+  @override
+  String get waitingForDeviceLabel => 'MENUNGGU PERANGKAT...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA Tidak Tersedia';
+
+  @override
+  String get doneLabel => 'SELESAI';
+
+  @override
+  String get targetSelectionTitle => 'Pilihan Target';
+
+  @override
+  String get deviceTypeLabel => 'Jenis Perangkat';
+
+  @override
+  String get deviceVendorLabel => 'Vendor Perangkat';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Regulasi & Frekuensi';
+
+  @override
+  String get deviceTargetLabel => 'Target Perangkat';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'Tidak ada firmware diunduh. Buka Pengelola Firmware';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Hardware membutuhkan v$version atau yang lebih baru.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton =>
+      'Unduh Firmware yang Kompatibel';
+
+  @override
+  String get firmwareVersionLabel => 'Versi Firmware';
+
+  @override
+  String get firmwareVersionHelper => 'Pilih versi ELRS untuk di-flash';
+
+  @override
+  String get cachedBadge => '(Tersimpan)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Gagal memuat versi: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Profil Flashing';
+
+  @override
+  String get addProfileTooltip => 'Tambah Profil';
+
+  @override
+  String get deleteProfileTooltip => 'Hapus Profil';
+
+  @override
+  String get bindingPhraseHelper => 'Frasa ikatan unik Anda';
+
+  @override
+  String get addProfileTitle => 'Tambah Profil Flashing';
+
+  @override
+  String get profileNameHint => 'Nama Profil (misalnya, Quad Saya)';
+
+  @override
+  String get addLabel => 'Tambah';
+
+  @override
+  String get deleteProfileTitle => 'Hapus Profil';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Anda yakin ingin menghapus profil \"$name\"?';
+  }
+
+  @override
+  String get deleteLabel => 'Hapus';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Profil & Jaringan';
+
+  @override
+  String get settingsCategoryAppStorage => 'Aplikasi & Penyimpanan';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Lanjutan & Debug';
+
+  @override
+  String get settingsCategoryAboutLegal => 'Tentang & Hukum';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => 'Default Regulasi';
+
+  @override
+  String get settingsSectionPreferences => 'Preferensi';
+
+  @override
+  String get settingsSectionPowerTools => 'Alat Canggih';
+
+  @override
+  String get settingsSectionDiagnostics => 'Diagnostik';
+
+  @override
+  String get regDomainUnknown => 'Tidak Diketahui';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count versi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return 'Edit $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Masukkan $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar =>
+      'elrs.lua berhasil disimpan ke perangkat!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Gagal menyimpan skrip: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Terkirim! ID Acara: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Laporan berhasil dikirim!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Gagal mengirim: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Kesalahan memuat lisensi: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => 'Tidak dapat memuat versi firmware.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Tidak dapat mengunduh firmware saat terhubung langsung ke hotspot WiFi penerima. Harap putuskan sambungan atau gunakan jaringan rumah.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Batas cache tercapai. Harap hapus versi lama.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Tidak dapat menjangkau server firmware. Harap periksa koneksi internet Anda.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Unduhan terputus: koneksi jaringan terputus. Harap periksa koneksi Anda dan coba lagi.';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'Gagal mengunduh firmware.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Tidak dapat menghapus versi firmware ini.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Versi $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Siap untuk penggunaan offline';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Penyimpanan Digunakan: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit Versi';
+  }
+
+  @override
+  String get splashTagline => 'Alat Konfigurasi Independen';
+
+  @override
+  String get splashDisclaimer =>
+      'Bukan produk resmi ExpressLRS.\nKompatibel dengan firmware 3.3.x/4.x.';
+
+  @override
+  String get unknownDeviceName => 'Perangkat ELRS';
+
+  @override
+  String get unknownIpLabel => 'IP Tidak Dikenal';
+
+  @override
+  String get firmwareBinariesFileType => 'Biner Firmware';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Gagal memuat konten bantuan: $error';
+  }
 }

@@ -1,15 +1,13 @@
 name: Auto Translate
 
+# Manually triggered only (Actions tab or `gh workflow run translate.yml`)
+# to keep Gemini spend under control. Run it on `development`; it commits the
+# new translations back to that branch.
 on:
-  push:
-    branches:
-      - translations
+  workflow_dispatch:
 
 permissions:
   contents: write
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   translate:
@@ -17,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -33,10 +31,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Patch arb_translate model mapping
-        run: |
-          sed -i "s/Model.gemini15Pro || Model.gemini15Flash => '\${model.key}-latest'/Model.gemini15Pro => 'gemini-2.5-pro', Model.gemini15Flash => 'gemini-2.5-flash'/g" $HOME/.pub-cache/hosted/pub.dev/arb_translate-1.1.0/lib/src/translation_delegates/gemini_translation_delegate.dart
-
       - name: Run Translate Script
         env:
           ARB_TRANSLATE_API_KEY: ${{ secrets.ARB_TRANSLATE_API_KEY }}
@@ -48,6 +42,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add lib/l10n/
           git add lib/src/localization/
+          git add scripts/arb_source_hashes.json
           git add assets/docs/
           git commit -m "chore(l10n): auto-generate translations via arb_translate" || echo "No changes to commit"
           git push

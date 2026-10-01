@@ -29,15 +29,20 @@ import '../../../core/analytics/analytics_service.dart';
 import '../../config/presentation/config_view_model.dart';
 import '../../config/domain/runtime_config_model.dart';
 import '../data/targets_provider.dart';
+import '../utils/chip_family.dart';
+import '../domain/flash_error.dart';
 
 part 'flashing_controller.freezed.dart';
 part 'flashing_controller.g.dart';
 
 enum FlashingStatus {
   idle,
+  locating,
+  unpacking,
   downloading,
-  patching,
+  building,
   uploading,
+  finalizing,
   success,
   downloadSuccess,
   error,
@@ -54,16 +59,16 @@ abstract class FlashingState with _$FlashingState {
     String? selectedVersion,
     @Default(FlashingStatus.idle) FlashingStatus status,
     @Default(0.0) double progress,
-    String? errorMessage,
+    FlashError? error,
     @Default('') String bindPhrase,
     @Default('') String wifiSsid,
     @Default('') String wifiPassword,
     @Default(0) int regulatoryDomain,
     @Default(60) int wifiOnInterval,
     String? autosavingField,
-    String? bindPhraseError,
-    String? wifiSsidError,
-    String? wifiPasswordError,
+    FieldValidationError? bindPhraseError,
+    FieldValidationError? wifiSsidError,
+    FieldValidationError? wifiPasswordError,
     Uint8List? cachedPayload, // NEW: Retain binary across lifecycles
   }) = _FlashingState;
 }
@@ -71,6 +76,12 @@ abstract class FlashingState with _$FlashingState {
 @Riverpod(keepAlive: true)
 class FlashingController extends _$FlashingController {
   static final _log = Logger('FlashingController');
+
+  // The device write/verify/reboot that happens after the upload finishes
+  // has no progress signal of its own, so the upload phase is capped below
+  // 1.0 and the remainder is shown as an indeterminate "finalizing" step.
+  static const _uploadRangeStart = 0.66;
+  static const _uploadRangeEnd = 0.95;
 
   @override
   FlashingState build() {
@@ -202,7 +213,7 @@ class FlashingController extends _$FlashingController {
       selectedFrequency: null,
       selectedTarget: null,
       status: FlashingStatus.idle,
-      errorMessage: null,
+      error: null,
     );
   }
 
@@ -212,7 +223,7 @@ class FlashingController extends _$FlashingController {
       selectedFrequency: null,
       selectedTarget: null,
       status: FlashingStatus.idle,
-      errorMessage: null,
+      error: null,
     );
   }
 
@@ -221,7 +232,7 @@ class FlashingController extends _$FlashingController {
       selectedFrequency: freq,
       selectedTarget: null,
       status: FlashingStatus.idle,
-      errorMessage: null,
+      error: null,
     );
   }
 
@@ -252,7 +263,7 @@ class FlashingController extends _$FlashingController {
       selectedVersion: updatedVersion,
       regulatoryDomain: regDomain,
       status: FlashingStatus.idle,
-      errorMessage: null,
+      error: null,
     );
   }
 
@@ -361,15 +372,17 @@ class FlashingController extends _$FlashingController {
   Future<void> downloadFirmware() async {
     if (state.selectedTarget == null || state.selectedVersion == null) {
       state = state.copyWith(
-        errorMessage: 'Please select a target and version.',
+        error: state.selectedTarget == null
+            ? const NoTargetSelected()
+            : const NoVersionSelected(),
       );
       return;
     }
 
     state = state.copyWith(
-      status: FlashingStatus.downloading,
+      status: FlashingStatus.locating,
       progress: 0.0,
-      errorMessage: null,
+      error: null,
     );
 
     File? tempFile;
@@ -383,6 +396,8 @@ class FlashingController extends _$FlashingController {
 
       if (cachedZip == null || cachedHardwareZip == null) {
         // Cache missing or incomplete. Fallback to network download.
+        state = state.copyWith(status: FlashingStatus.downloading);
+
         // 1. Unbind process to permit mobile data for Artifactory download
         final connectivity = ref.read(connectivityServiceProvider.notifier);
         await connectivity.unbind();
@@ -402,7 +417,7 @@ class FlashingController extends _$FlashingController {
 
       final payload = await _buildFinalPayload();
 
-      state = state.copyWith(status: FlashingStatus.patching, progress: 0.5);
+      state = state.copyWith(status: FlashingStatus.building, progress: 0.5);
 
       final settingsState = ref.read(settingsControllerProvider);
       final activeProfile = settingsState.profiles.firstWhere(
@@ -428,7 +443,8 @@ class FlashingController extends _$FlashingController {
 
       // Step B (System Picker): Trigger native 'Save As' dialog
       final result = await FilePicker.platform.saveFile(
-        dialogTitle: 'Save Firmware Binary',
+        // Controllers have no localisations; Android ignores this title.
+        dialogTitle: 'Save Firmware Binary', // l10n-ignore
         fileName: downloadName,
         bytes: payload.bytes,
       );
@@ -451,23 +467,18 @@ class FlashingController extends _$FlashingController {
         state = state.copyWith(status: FlashingStatus.idle, progress: 0.0);
       }
     } catch (e) {
-      String msg = 'Failed to download firmware: $e';
-      final errStr = e.toString().toLowerCase();
-
-      if (errStr.contains('connection error') ||
-          errStr.contains('connection refused') ||
-          errStr.contains('failed host lookup')) {
-        msg =
-            'No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.';
-      }
+      final FlashError error = _isOffline(e)
+          ? const OfflineMissingFiles(duringFlash: false)
+          : DownloadFailed(describeFailure(e));
 
       state = state.copyWith(
         status: FlashingStatus.error,
-        errorMessage: msg,
+        error: error,
         progress: 0.0,
       );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Download Error', {
-        'error': msg,
+        'errorType': error.code,
+        'error': describeFailure(e),
       });
     } finally {
       // Step C (Cleanup): Delete temporary file
@@ -513,7 +524,7 @@ class FlashingController extends _$FlashingController {
 
     if (cachedZip != null && cachedHardwareZip != null) {
       _log.info('Building firmware from local cache for version $version');
-      state = state.copyWith(status: FlashingStatus.downloading, progress: 0.1);
+      state = state.copyWith(status: FlashingStatus.unpacking, progress: 0.1);
       final zipBytes = await cachedZip.readAsBytes();
 
       firmwareData = await ref
@@ -559,7 +570,7 @@ class FlashingController extends _$FlashingController {
           );
     }
 
-    state = state.copyWith(status: FlashingStatus.patching, progress: 0.33);
+    state = state.copyWith(status: FlashingStatus.building, progress: 0.33);
 
     Uint8List finalBytes;
 
@@ -678,23 +689,52 @@ class FlashingController extends _$FlashingController {
     return payload;
   }
 
+  void _onUploadProgress(int sent, int total) {
+    if (total <= 0) return;
+    if (sent >= total) {
+      // All bytes handed off to the device — it now erases/writes flash
+      // and reboots before responding, with no progress signal of its own.
+      state = state.copyWith(status: FlashingStatus.finalizing);
+    } else {
+      state = state.copyWith(
+        status: FlashingStatus.uploading,
+        progress:
+            _uploadRangeStart +
+            (sent / total) * (_uploadRangeEnd - _uploadRangeStart),
+      );
+    }
+  }
+
   Future<void> flash({
     bool force = false,
     bool ignoreMissingBindPhrase = false,
   }) async {
     if (state.selectedTarget == null) {
-      state = state.copyWith(errorMessage: 'Please select a target device.');
+      state = state.copyWith(error: const NoTargetSelected());
       return;
     }
     if (state.selectedVersion == null) {
-      state = state.copyWith(errorMessage: 'Please select a firmware version.');
+      state = state.copyWith(error: const NoVersionSelected());
       return;
     }
 
     final configState = ref.read(configViewModelProvider);
     if (!configState.hasValue || configState.value == null) {
+      state = state.copyWith(error: const NoDeviceConnected());
+      return;
+    }
+
+    // Chip Guard: firmware for a different chip can never boot, and the
+    // device rejects it even with `force`, so block it outright instead of
+    // offering Force Flash. Skipped when either chip can't be determined
+    // (e.g. legacy firmware that doesn't report a unified target).
+    final target = state.selectedTarget!;
+    final deviceChip = chipFamilyOf(configState.value!.effectiveTarget);
+    final targetChip = chipFamilyOf(target.platform ?? target.firmware);
+    if (deviceChip != null && targetChip != null && deviceChip != targetChip) {
       state = state.copyWith(
-        errorMessage: 'Cannot flash: No ELRS device connected.',
+        status: FlashingStatus.error,
+        error: ChipMismatch(deviceChip: deviceChip, targetChip: targetChip),
       );
       return;
     }
@@ -707,7 +747,7 @@ class FlashingController extends _$FlashingController {
       if (savedBindPhrase.isEmpty) {
         state = state.copyWith(
           status: FlashingStatus.error,
-          errorMessage: 'NO_BIND_PHRASE',
+          error: const NoBindPhrase(),
         );
         return;
       } else {
@@ -737,17 +777,15 @@ class FlashingController extends _$FlashingController {
               'elrs device'; // Skip check if device didn't report a name
 
       if (isMismatch) {
-        state = state.copyWith(
-          status: FlashingStatus.mismatch,
-        );
+        state = state.copyWith(status: FlashingStatus.mismatch);
         return;
       }
     }
 
     state = state.copyWith(
-      status: FlashingStatus.downloading,
+      status: FlashingStatus.locating,
       progress: 0.0,
-      errorMessage: null,
+      error: null,
     );
 
     // Keep the screen on while flashing — released unconditionally in finally.
@@ -767,7 +805,10 @@ class FlashingController extends _$FlashingController {
 
       final payload = await _buildFinalPayload();
 
-      state = state.copyWith(status: FlashingStatus.uploading, progress: 0.66);
+      state = state.copyWith(
+        status: FlashingStatus.uploading,
+        progress: _uploadRangeStart,
+      );
 
       // 2. RE-BIND to WiFi interface to ensure the upload reaches 10.0.0.1
       await connectivity.bindToWiFi();
@@ -776,12 +817,21 @@ class FlashingController extends _$FlashingController {
       final deviceRepo = ref.read(deviceRepositoryProvider);
       final isTx = state.selectedTarget?.deviceType == 'TX';
 
-      await deviceRepo.flashFirmware(
-        payload.bytes,
-        payload.filename,
-        force: force,
-        isTx: isTx,
-      );
+      try {
+        await deviceRepo.flashFirmware(
+          payload.bytes,
+          payload.filename,
+          isTx: isTx,
+          force: force,
+          onSendProgress: _onUploadProgress,
+        );
+      } catch (e) {
+        // A device that still reports a mismatch despite the force arg has
+        // the image freshly buffered, so commit it via /forceupdate now.
+        if (!force || !e.toString().contains('mismatch')) rethrow;
+        _log.info('Device reported mismatch on forced upload, confirming...');
+        await deviceRepo.confirmForceUpdate();
+      }
 
       ref.read(isFlashingProvider.notifier).setFlashing(false);
       state = state.copyWith(status: FlashingStatus.success, progress: 1.0);
@@ -790,38 +840,35 @@ class FlashingController extends _$FlashingController {
         'version': state.selectedVersion ?? 'Unknown',
       });
     } catch (e) {
-      var errorMsg = e.toString();
-      final errStr = errorMsg.toLowerCase();
+      final isMismatch = e.toString().contains('mismatch');
 
       // Keep the flashing lock active on mismatch to block background polling from clearing the upload
-      if (!errStr.contains('mismatch')) {
+      if (!isMismatch) {
         ref.read(isFlashingProvider.notifier).setFlashing(false);
       }
 
-      if (errStr.contains('connection error') ||
-          errStr.contains('connection refused') ||
-          errStr.contains('failed host lookup')) {
-        errorMsg =
-            'No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.';
-      }
+      // A refused connection once uploading has started is the device, not
+      // a missing internet route for fetching uncached files.
+      final failedBeforeUpload =
+          state.status != FlashingStatus.uploading &&
+          state.status != FlashingStatus.finalizing;
 
-      if (errorMsg.contains('mismatch')) {
-        state = state.copyWith(
-          status: FlashingStatus.mismatch,
-          errorMessage:
-              'Target mismatch detected. Forced update was attempted.',
-          progress: 0.0,
-        );
-      } else {
-        state = state.copyWith(
-          status: FlashingStatus.error,
-          errorMessage: errorMsg,
-          progress: 0.0,
-        );
-      }
+      final FlashError? error = isMismatch
+          ? null
+          : e is FlashUnconfirmedException
+          ? FlashUnconfirmed(e.cause)
+          : failedBeforeUpload && _isOffline(e)
+          ? const OfflineMissingFiles(duringFlash: true)
+          : FlashFailed(describeFailure(e));
+
+      state = state.copyWith(
+        status: isMismatch ? FlashingStatus.mismatch : FlashingStatus.error,
+        error: error,
+        progress: 0.0,
+      );
       ref.read(analyticsServiceProvider).trackEvent('Firmware Flash Error', {
-        'errorType': state.status.toString(),
-        'error': errorMsg,
+        'errorType': error?.code ?? 'target_mismatch',
+        'error': describeFailure(e),
       });
     } finally {
       // Restore connectivity binding and release wake lock.
@@ -830,58 +877,32 @@ class FlashingController extends _$FlashingController {
     }
   }
 
+  /// Whether [e] looks like the phone had no route to the internet, e.g.
+  /// because it is joined to the device's hotspot.
+  static bool _isOffline(Object e) {
+    final errStr = e.toString().toLowerCase();
+    return errStr.contains('connection error') ||
+        errStr.contains('connection refused') ||
+        errStr.contains('failed host lookup');
+  }
+
   void resetStatus() {
     ref.read(isFlashingProvider.notifier).setFlashing(false);
     state = state.copyWith(
       status: FlashingStatus.idle,
-      errorMessage: null,
+      error: null,
       progress: 0.0,
       cachedPayload: null,
     );
   }
 
-  Future<void> forceUpdate() async {
-    try {
-      state = state.copyWith(status: FlashingStatus.uploading);
-      final repo = ref.read(deviceRepositoryProvider);
-      final payload = await _buildFinalPayload();
-
-      // 1. Re-fill the ESP's OTA buffer!
-      // Because the user took time to read the warning dialog, the ESP's
-      // 10-second idle timer expired and cleared the firmware from RAM.
-      try {
-        await repo.flashFirmware(
-          payload.bytes,
-          payload.filename,
-          onSendProgress: (sent, total) {
-            if (total > 0) {
-              state = state.copyWith(progress: sent / total);
-            }
-          },
-        );
-      } catch (e) {
-        // We EXPECT it to throw a mismatch exception here because we just
-        // re-uploaded the mismatched file. We swallow it and proceed!
-        if (e.toString().contains('mismatch')) {
-          _log.info(
-            'Caught expected mismatch during buffer refill. Proceeding to force commit...',
-          );
-        } else {
-          rethrow; // If it's a different network error, abort.
-        }
-      }
-
-      // 2. The buffer is now full and fresh. Immediately confirm the force update!
-      await repo.confirmForceUpdate();
-
-      state = state.copyWith(status: FlashingStatus.success);
-    } catch (e) {
-      state = state.copyWith(
-        status: FlashingStatus.error,
-        errorMessage: 'Force update failed: $e',
-      );
-    } finally {
-      ref.read(isFlashingProvider.notifier).setFlashing(false);
-    }
-  }
+  /// Re-runs the flash with the device's target check bypassed.
+  ///
+  /// The mismatch dialog is usually raised by the pre-flight check in
+  /// [flash], before anything has been uploaded, so there is nothing in the
+  /// device's OTA buffer to confirm — the image must be sent again with the
+  /// `force` arg. The bind-phrase guard was already passed on the first
+  /// attempt.
+  Future<void> forceUpdate() =>
+      flash(force: true, ignoreMissingBindPhrase: true);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,7 @@ class VersionSelector extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final releasesAsync = ref.watch(releasesProvider);
     final selectedVersion = ref.watch(
       flashingControllerProvider.select((s) => s.selectedVersion),
@@ -49,7 +51,7 @@ class VersionSelector extends HookConsumerWidget {
           await refreshCache();
         },
         icon: const Icon(Icons.download),
-        label: const Text('No firmware downloaded. Go to Firmware Manager'),
+        label: Text(l10n.noFirmwareDownloadedButton),
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
           foregroundColor: Colors.orange,
@@ -91,7 +93,9 @@ class VersionSelector extends HookConsumerWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Hardware requires v${selectedTarget?.minVersion} or newer.',
+                        l10n.hardwareRequiresVersion(
+                          selectedTarget?.minVersion ?? '',
+                        ),
                         style: const TextStyle(
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
@@ -107,7 +111,7 @@ class VersionSelector extends HookConsumerWidget {
                     await refreshCache();
                   },
                   icon: const Icon(Icons.download),
-                  label: const Text('Download Compatible Firmware'),
+                  label: Text(l10n.downloadCompatibleFirmwareButton),
                 ),
               ],
             ),
@@ -115,10 +119,10 @@ class VersionSelector extends HookConsumerWidget {
         }
 
         return DropdownButtonFormField<String>(
-          decoration: const InputDecoration(
-            labelText: 'Firmware Version',
-            border: OutlineInputBorder(),
-            helperText: 'Select the ELRS version to flash',
+          decoration: InputDecoration(
+            labelText: l10n.firmwareVersionLabel,
+            border: const OutlineInputBorder(),
+            helperText: l10n.firmwareVersionHelper,
           ),
           initialValue: supportedVersions.contains(selectedVersion)
               ? selectedVersion
@@ -136,9 +140,9 @@ class VersionSelector extends HookConsumerWidget {
                     color: Colors.green,
                   ),
                   const SizedBox(width: 4),
-                  const Text(
-                    '(Cached)',
-                    style: TextStyle(fontSize: 12, color: Colors.green),
+                  Text(
+                    l10n.cachedBadge,
+                    style: const TextStyle(fontSize: 12, color: Colors.green),
                   ),
                 ],
               ),
@@ -153,7 +157,7 @@ class VersionSelector extends HookConsumerWidget {
       },
       loading: () => const Center(child: LinearProgressIndicator()),
       error: (err, stack) => Text(
-        'Error loading versions: $err',
+        l10n.errorLoadingVersions('$err'),
         style: const TextStyle(color: Colors.red),
       ),
     );

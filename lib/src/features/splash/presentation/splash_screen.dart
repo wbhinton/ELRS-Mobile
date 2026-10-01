@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../../../core/app_info.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -69,6 +71,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -103,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'ELRS Mobile',
+                            appName,
                             style: Theme.of(context).textTheme.headlineMedium
                                 ?.copyWith(
                                   fontFamily: 'Roboto',
@@ -120,7 +123,7 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'INDEPENDENT CONFIGURATION TOOL',
+                            l10n.splashTagline.toUpperCase(),
                             style: Theme.of(context).textTheme.labelSmall
                                 ?.copyWith(
                                   color: const Color(0xFF02569B),
@@ -138,10 +141,10 @@ class _SplashScreenState extends State<SplashScreen>
                             ),
                           ),
                           const SizedBox(height: 24),
-                          const Text(
-                            'Not an official ExpressLRS product.\nCompatible with 3.3.x/4.x firmware.',
+                          Text(
+                            l10n.splashDisclaimer,
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.grey, fontSize: 10),
+                            style: const TextStyle(color: Colors.grey, fontSize: 10),
                           ),
                         ],
                       ),
@@ -156,7 +159,7 @@ class _SplashScreenState extends State<SplashScreen>
                     _buildLogo(),
                     const SizedBox(height: 24),
                     Text(
-                      'ELRS Mobile',
+                      appName,
                       style: Theme.of(context).textTheme.headlineMedium
                           ?.copyWith(
                             fontFamily: 'Roboto',
@@ -173,7 +176,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'INDEPENDENT CONFIGURATION TOOL',
+                      l10n.splashTagline.toUpperCase(),
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: const Color(0xFF02569B),
                         letterSpacing: 2.5,
@@ -190,10 +193,10 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      'Not an official ExpressLRS product.\nCompatible with 3.3.x/4.x firmware.',
+                    Text(
+                      l10n.splashDisclaimer,
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.grey, fontSize: 10),
+                      style: const TextStyle(color: Colors.grey, fontSize: 10),
                     ),
                     const SizedBox(height: 16),
                   ],

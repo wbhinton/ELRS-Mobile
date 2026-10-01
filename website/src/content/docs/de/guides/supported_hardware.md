@@ -14,20 +14,20 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Unterstützt</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Alle ESP8285, ESP32, ESP32-C3 und ESP32-S3 Targets</li>
+      <li class="flex gap-2"><span>•</span> Alle ESP8285-, ESP32-, ESP32-C3- und ESP32-S3-Ziele</li>
       <li class="flex gap-2"><span>•</span> Wi-Fi-fähige Empfänger und Sender</li>
-      <li class="flex gap-2"><span>•</span> ELRS Versionen 3.3.x und 4.x</li>
+      <li class="flex gap-2"><span>•</span> ELRS-Versionen 3.3.x und 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Nicht unterstützt (WIP)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Nicht unterstützt (in Arbeit)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> STM32 Targets, die serielles STLink Flashing erfordern</li>
-      <li class="flex gap-2"><span>•</span> Betaflight Passthrough Flashing-Methoden</li>
-      <li class="flex gap-2"><span>•</span> Direkte USB/Serielle Verbindungen unter iOS</li>
+      <li class="flex gap-2"><span>•</span> STM32-Ziele, die serielles STLink-Flashen erfordern</li>
+      <li class="flex gap-2"><span>•</span> Betaflight Passthrough Flash-Methoden</li>
+      <li class="flex gap-2"><span>•</span> Direkte USB-/Serielle Verbindungen unter iOS</li>
     </ul>
   </div>
 </div>
@@ -35,7 +35,7 @@ sidebar:
 ---
 
 ## Getestete Hardware
-Die folgenden Hardware-Targets wurden explizit mit ELRS Mobile getestet:
+Die folgenden Hardware-Ziele wurden explizit mit ELRS Mobile getestet:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-0.5">• AXIS Thor 2.4GHz RX</div>
@@ -121,7 +121,7 @@ Die folgenden Hardware-Targets wurden explizit mit ELRS Mobile getestet:
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5A/C 2.4GHz PWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5A/C V2 2.4GHz PWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5C-i 2.4GHz PWM RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6 2.4GHz Diversity+6xPWM RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">��� RadioMaster ER6 2.4GHz Diversity+6xPWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6-G 2.4GHz Diversity+6xPWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6-GV 2.4GHz Diversity+6xPWM+Vario RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER8 2.4GHz Diversity+8xPWM RX</div>
@@ -163,7 +163,7 @@ Die folgenden Hardware-Targets wurden explizit mit ELRS Mobile getestet:
 ---
 
 ## Getestete Binärdateien
-Der interne Firmware-Assembler wurde funktional mit den offiziellen ExpressLRS Compiler-Ausgaben für die folgenden Targets verifiziert:
+Der interne Firmware-Assembler wurde funktional mit den offiziellen ExpressLRS-Compiler-Ausgaben für die folgenden Ziele verglichen und verifiziert:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,4 +183,4 @@ Der interne Firmware-Assembler wurde funktional mit den offiziellen ExpressLRS C
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

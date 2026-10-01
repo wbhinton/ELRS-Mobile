@@ -18,19 +18,22 @@ class AppLocalizationsTh extends AppLocalizations {
   String get flashingButtonLabel => 'แฟลช';
 
   @override
-  String get packetRateLabel => 'อัตราแพ็กเก็ต';
+  String get flashingStatusLocating => 'กำลังค้นหาเฟิร์มแวร์';
 
   @override
-  String get baudRateLabel => 'อัตราบอด';
+  String get flashingStatusUnpacking => 'กำลังแกะเฟิร์มแวร์';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'กำลังอัปเดตเฟิร์มแวร์ $expressLRS บนฮาร์ดแวร์ $radioMaster หรือ $betaFPV...';
-  }
+  String get flashingStatusDownloading => 'กำลังดาวน์โหลดเฟิร์มแวร์';
+
+  @override
+  String get flashingStatusBuilding => 'กำลังสร้างเฟิร์มแวร์';
+
+  @override
+  String get flashingStatusUploading => 'กำลังอัปโหลดไปยังอุปกรณ์';
+
+  @override
+  String get flashingStatusFinalizing => 'กำลังเขียนลงอุปกรณ์ — โปรดรอ';
 
   @override
   String get flashDeviceLabel => 'แฟลชอุปกรณ์';
@@ -77,18 +80,6 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'แฟลชและ Wi-Fi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'เกี่ยวกับและสนับสนุน';
-
-  @override
-  String get advancedCategoryLabel => 'ขั้นสูง';
-
-  @override
-  String get flashingDefaultsSectionLabel => 'ค่าเริ่มต้นการแฟลช';
-
-  @override
   String get default24GHzDomainLabel => 'โดเมน 2.4GHz เริ่มต้น';
 
   @override
@@ -122,9 +113,6 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get clearLabel => 'ล้าง';
-
-  @override
-  String get aboutSectionLabel => 'เกี่ยวกับ';
 
   @override
   String get appVersionLabel => 'เวอร์ชันแอป';
@@ -368,4 +356,312 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'บันทึกเฟิร์มแวร์แล้ว';
+
+  @override
+  String get flashErrorNoTarget => 'โปรดเลือกอุปกรณ์เป้าหมาย';
+
+  @override
+  String get flashErrorNoVersion => 'โปรดเลือกเวอร์ชันเฟิร์มแวร์';
+
+  @override
+  String get flashErrorNoDevice =>
+      'ไม่สามารถแฟลชได้: ไม่มีอุปกรณ์ ELRS เชื่อมต่ออยู่';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'ชิปไม่เข้ากัน: เฟิร์มแวร์นี้สร้างมาสำหรับ $targetChip แต่ในอุปกรณ์ที่เชื่อมต่อคือ $deviceChip โปรดเลือกอุปกรณ์เป้าหมายสำหรับชิปตัวเดียวกัน';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'ไม่สามารถเข้าถึงอินเทอร์เน็ตเพื่อดึงไฟล์ที่ขาดหายไปได้ โปรดยกเลิกการเชื่อมต่อจากอุปกรณ์ ELRS ดาวน์โหลดเฟิร์มแวร์นี้ผ่านตัวจัดการเฟิร์มแวร์ เพื่อทำให้แคชของคุณสมบูรณ์ และลองอีกครั้ง';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'ไม่สามารถเข้าถึงอินเทอร์เน็ตได้ คุณไม่สามารถดาวน์โหลดเฟิร์มแวร์ในขณะที่เชื่อมต่อกับฮอตสปอตอุปกรณ์ ELRS ได้ โปรดยกเลิกการเชื่อมต่อ ดาวน์โหลดเวอร์ชันนี้ผ่านตัวจัดการเฟิร์มแวร์ และลองอีกครั้ง';
+
+  @override
+  String get flashErrorFlashFailed => 'การแฟลชล้มเหลว';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'อุปกรณ์หลุดการเชื่อมต่อก่อนยืนยันการแฟลช จึงอาจยังไม่สมบูรณ์ กรณีนี้เกิดขึ้นได้หากอุปกรณ์สูญเสียพลังงานหรือรีสตาร์ทกลางคันระหว่างการแฟลช และบางครั้งก็เกิดขึ้นจากการเชื่อมต่อ Wi-Fi ไม่เสถียรหลังการแฟลชสำเร็จ ตรวจสอบเวอร์ชันเฟิร์มแวร์ใน \'การตั้งค่าอุปกรณ์\' และแฟลชอีกครั้งหากยังไม่เปลี่ยนแปลง';
+
+  @override
+  String get flashErrorDownloadFailed => 'ไม่สามารถดาวน์โหลดเฟิร์มแวร์ได้';
+
+  @override
+  String get validationSsidTooLong => 'SSID ต้องมีความยาวไม่เกิน 32 ตัวอักษร';
+
+  @override
+  String get validationPasswordTooShort =>
+      'รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร';
+
+  @override
+  String get validationPasswordTooLong =>
+      'รหัสผ่านต้องมีความยาวไม่เกิน 63 ตัวอักษร';
+
+  @override
+  String get targetMismatchTitle => 'เป้าหมายไม่ตรงกัน';
+
+  @override
+  String get targetMismatchMessage =>
+      'เป้าหมายเฟิร์มแวร์ที่เลือกไม่ตรงกับฮาร์ดแวร์ที่ใช้งานบนอุปกรณ์ปัจจุบัน คุณแน่ใจหรือไม่ว่าต้องการแฟลชแบบบังคับ?';
+
+  @override
+  String get forceFlashLabel => 'แฟลชแบบบังคับ';
+
+  @override
+  String get noBindPhraseTitle => 'ไม่มี Binding Phrase';
+
+  @override
+  String get noBindPhraseMessage =>
+      'ไม่ได้ตั้งค่า Binding Phrase ดำเนินการต่อด้วยค่าเริ่มต้น (ว่างเปล่า) หรือไม่?';
+
+  @override
+  String get flashSuccessSnackbar => 'แฟลชเฟิร์มแวร์สำเร็จแล้ว!';
+
+  @override
+  String get firmwareSavedSnackbar => 'บันทึกเฟิร์มแวร์สำเร็จแล้ว!';
+
+  @override
+  String get flashSuccessMessage => 'แฟลชสำเร็จ! อุปกรณ์กำลังรีบูต';
+
+  @override
+  String get stm32OtaWarning =>
+      'เลือกเป้าหมาย STM32: ฮาร์ดแวร์นี้ไม่รองรับการแฟลชแบบ OTA คุณสามารถสร้างและบันทึกเฟิร์มแวร์นี้ในเครื่องเพื่อแฟลชด้วยตนเองผ่าน STLink หรือ Betaflight Passthrough';
+
+  @override
+  String get downloadBinaryLabel => 'ดาวน์โหลดไบนารี';
+
+  @override
+  String get waitingForDeviceLabel => 'กำลังรออุปกรณ์...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA ไม่พร้อมใช้งาน';
+
+  @override
+  String get doneLabel => 'เสร็จสิ้น';
+
+  @override
+  String get targetSelectionTitle => 'การเลือกเป้าหมาย';
+
+  @override
+  String get deviceTypeLabel => 'ประเภทอุปกรณ์';
+
+  @override
+  String get deviceVendorLabel => 'ผู้ผลิตอุปกรณ์';
+
+  @override
+  String get regulatoryFrequencyLabel => 'ข้อบังคับและความถี่';
+
+  @override
+  String get deviceTargetLabel => 'เป้าหมายอุปกรณ์';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'ไม่มีเฟิร์มแวร์ดาวน์โหลด ไปที่ตัวจัดการเฟิร์มแวร์';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'ฮาร์ดแวร์ต้องการเวอร์ชัน v$version หรือใหม่กว่า';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton =>
+      'ดาวน์โหลดเฟิร์มแวร์ที่เข้ากันได้';
+
+  @override
+  String get firmwareVersionLabel => 'เวอร์ชันเฟิร์มแวร์';
+
+  @override
+  String get firmwareVersionHelper => 'เลือกเวอร์ชัน ELRS ที่จะแฟลช';
+
+  @override
+  String get cachedBadge => '(แคชไว้แล้ว)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'ข้อผิดพลาดในการโหลดเวอร์ชัน: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'โปรไฟล์การแฟลช';
+
+  @override
+  String get addProfileTooltip => 'เพิ่มโปรไฟล์';
+
+  @override
+  String get deleteProfileTooltip => 'ลบโปรไฟล์';
+
+  @override
+  String get bindingPhraseHelper => 'วลีการผูกที่ไม่ซ้ำกันของคุณ';
+
+  @override
+  String get addProfileTitle => 'เพิ่มโปรไฟล์การแฟลช';
+
+  @override
+  String get profileNameHint => 'ชื่อโปรไฟล์ (เช่น โดรนของฉัน)';
+
+  @override
+  String get addLabel => 'เพิ่ม';
+
+  @override
+  String get deleteProfileTitle => 'ลบโปรไฟล์';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'คุณแน่ใจหรือไม่ว่าต้องการลบโปรไฟล์ \"$name\"?';
+  }
+
+  @override
+  String get deleteLabel => 'ลบ';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'โปรไฟล์และเครือข่าย';
+
+  @override
+  String get settingsCategoryAppStorage => 'แอปและพื้นที่เก็บข้อมูล';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'ขั้นสูงและการดีบัก';
+
+  @override
+  String get settingsCategoryAboutLegal => 'เกี่ยวกับและข้อกฎหมาย';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => 'ค่าเริ่มต้นตามกฎระเบียบ';
+
+  @override
+  String get settingsSectionPreferences => 'ค่ากำหนด';
+
+  @override
+  String get settingsSectionPowerTools => 'เครื่องมือขั้นสูง';
+
+  @override
+  String get settingsSectionDiagnostics => 'การวินิจฉัย';
+
+  @override
+  String get regDomainUnknown => 'ไม่ทราบ';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count เวอร์ชัน',
+      one: '1 เวอร์ชัน',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return 'แก้ไข $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'ป้อน $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'บันทึก elrs.lua ลงอุปกรณ์แล้ว!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'บันทึกสคริปต์ไม่สำเร็จ: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'ส่งแล้ว! ID เหตุการณ์: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'รายงานถูกส่งสำเร็จแล้ว!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'ส่งไม่สำเร็จ: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'เกิดข้อผิดพลาดในการโหลดใบอนุญาต: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => 'ไม่สามารถโหลดเวอร์ชันเฟิร์มแวร์ได้';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'ไม่สามารถดาวน์โหลดเฟิร์มแวร์ได้ขณะเชื่อมต่อกับฮอตสปอต Wi-Fi ของตัวรับโดยตรง โปรดตัดการเชื่อมต่อหรือใช้เครือข่ายภายในบ้าน';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'ถึงขีดจำกัดแคชแล้ว โปรดลบเวอร์ชันเก่าออก';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'ไม่สามารถเข้าถึงเซิร์ฟเวอร์เฟิร์มแวร์ได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'การดาวน์โหลดหยุดชะงัก: การเชื่อมต่อเครือข่ายหายไป โปรดตรวจสอบการเชื่อมต่อของคุณแล้วลองอีกครั้ง';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'ดาวน์โหลดเฟิร์มแวร์ไม่สำเร็จ';
+
+  @override
+  String get firmwareErrorDeleteFailed => 'ไม่สามารถลบเฟิร์มแวร์เวอร์ชันนี้ได้';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'เวอร์ชัน $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'พร้อมใช้งานแบบออฟไลน์';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'พื้นที่เก็บข้อมูลที่ใช้: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit เวอร์ชัน';
+  }
+
+  @override
+  String get splashTagline => 'เครื่องมือตั้งค่าอิสระ';
+
+  @override
+  String get splashDisclaimer =>
+      'ไม่ใช่ผลิตภัณฑ์ ExpressLRS อย่างเป็นทางการ\nใช้งานร่วมกับเฟิร์มแวร์ 3.3.x/4.x ได้';
+
+  @override
+  String get unknownDeviceName => 'อุปกรณ์ ELRS';
+
+  @override
+  String get unknownIpLabel => 'IP ไม่ทราบ';
+
+  @override
+  String get firmwareBinariesFileType => 'ไฟล์ไบนารีเฟิร์มแวร์';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'เกิดข้อผิดพลาดในการโหลดเนื้อหาช่วยเหลือ: $error';
+  }
 }

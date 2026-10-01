@@ -12,42 +12,67 @@
   "@flashingButtonLabel": {
     "description": "Action button to begin writing firmware to the target device. Do not translate as 'light flash'."
   },
-  "packetRateLabel": "Packet Rate",
-  "@packetRateLabel": {
-    "description": "RF performance setting (Hz). Do not translate technical units or abbreviations."
+  "flashingStatusLocating": "Locating Firmware",
+  "@flashingStatusLocating": {
+    "description": "Progress label shown briefly while the app checks whether the firmware is already cached locally, before deciding whether to unpack it from cache or download it. This app is designed for fully offline use, so this is normally instantaneous."
   },
-  "baudRateLabel": "Baud Rate",
-  "@baudRateLabel": {
-    "description": "Serial communication speed in bits per second. Do not translate the word 'Baud'."
+  "flashingStatusUnpacking": "Unpacking Firmware",
+  "@flashingStatusUnpacking": {
+    "description": "Progress label shown while firmware is being extracted from the locally cached archive. This is the normal, offline path most users hit — do not translate as network activity."
   },
-  "brandUpdateMessage": "Updating {expressLRS} firmware on {radioMaster} or {betaFPV} hardware...",
-  "@brandUpdateMessage": {
-    "description": "Status message for firmware updates with immutable brand placeholders.",
-    "placeholders": {
-      "expressLRS": {
-        "type": "String"
-      },
-      "radioMaster": {
-        "type": "String"
-      },
-      "betaFPV": {
-        "type": "String"
-      }
-    }
+  "flashingStatusDownloading": "Downloading Firmware",
+  "@flashingStatusDownloading": {
+    "description": "Progress label shown only when the firmware is NOT already cached locally and must be fetched over the network. This is the fallback/rare path, not the normal offline flow — do not use this label for reading cached files."
+  },
+  "flashingStatusBuilding": "Building Firmware",
+  "@flashingStatusBuilding": {
+    "description": "Progress label shown while the firmware binary is being patched/assembled with the user's settings (binding phrase, WiFi, regulatory domain) before upload."
+  },
+  "flashingStatusUploading": "Uploading to Device",
+  "@flashingStatusUploading": {
+    "description": "Progress label shown while the firmware is being transferred to the device over WiFi."
+  },
+  "flashingStatusFinalizing": "Writing to Device — Please Wait",
+  "@flashingStatusFinalizing": {
+    "description": "Progress label shown after the upload finishes, while the device erases/writes its flash memory. There is no progress signal from the device during this step, so this message tells the user the app has not frozen."
   },
   "flashDeviceLabel": "Flash Device",
+  "@flashDeviceLabel": {
+    "description": "Dashboard button that opens the screen for writing (flashing) new firmware onto a device. 'Flash' means installing firmware, not a camera flash."
+  },
   "deviceConfigLabel": "Device Config",
+  "@deviceConfigLabel": {
+    "description": "Dashboard button that opens the connected device's own configuration web page."
+  },
   "firmwareManagerLabel": "Firmware Manager",
   "settingsLabel": "Settings",
   "helpSupportLabel": "Help & Support",
   "noDeviceFoundLabel": "No Device Found",
   "retryLabel": "Retry",
+  "@retryLabel": {
+    "description": "Button that searches for the ExpressLRS device on the network again."
+  },
   "manualConnectionLabel": "Manual Connection",
   "manualIpOverrideLabel": "Manual IP Override",
+  "@manualIpOverrideLabel": {
+    "description": "Title for entering the device's IP address by hand instead of discovering it automatically."
+  },
   "connectLabel": "Connect",
+  "@connectLabel": {
+    "description": "Button that connects to a device at a manually entered IP address."
+  },
   "cancelLabel": "Cancel",
+  "@cancelLabel": {
+    "description": "Generic dialog button that dismisses without making changes."
+  },
   "matchedLabel": "Matched",
+  "@matchedLabel": {
+    "description": "Short status badge: the firmware target selected in the app matches the connected device's hardware."
+  },
   "mismatchLabel": "Mismatch",
+  "@mismatchLabel": {
+    "description": "Short status badge: the firmware target selected in the app does NOT match the connected device's hardware."
+  },
   "connectedLabel": "Connected: {ip}",
   "@connectedLabel": {
     "placeholders": {
@@ -56,13 +81,18 @@
       }
     }
   },
-  "flashingWifiCategoryLabel": "Flashing & WiFi",
-  "aboutSupportCategoryLabel": "About & Support",
-  "advancedCategoryLabel": "Advanced",
-  "flashingDefaultsSectionLabel": "Flashing Defaults",
   "default24GHzDomainLabel": "Default 2.4GHz Domain",
+  "@default24GHzDomainLabel": {
+    "description": "Setting for the radio regulatory domain applied by default to 2.4GHz devices."
+  },
   "defaultSubGHzDomainLabel": "Default Sub-GHz Domain",
+  "@defaultSubGHzDomainLabel": {
+    "description": "Setting for the radio regulatory domain applied by default to sub-GHz (900MHz-band) devices."
+  },
   "globalBindingPhraseLabel": "Global Binding Phrase",
+  "@globalBindingPhraseLabel": {
+    "description": "Setting for the default binding phrase: the shared secret that pairs an ExpressLRS transmitter and receiver."
+  },
   "homeWifiSsidLabel": "Home WiFi SSID",
   "homeWifiPasswordLabel": "Home WiFi Password",
   "manageCachedFirmwareLabel": "Manage Cached Firmware",
@@ -71,7 +101,9 @@
   "clearFirmwareCacheLabel": "Clear Firmware Cache",
   "deleteAllDownloadedFirmwareFilesLabel": "Delete all downloaded firmware files",
   "clearLabel": "CLEAR",
-  "aboutSectionLabel": "About",
+  "@clearLabel": {
+    "description": "Button that deletes all cached firmware files. Keep it short; it is uppercase in the source."
+  },
   "appVersionLabel": "App Version",
   "legalLicenseLabel": "Legal & License",
   "standardDisclaimerAndGplv3Label": "Standard disclaimer and GPLv3 License",
@@ -80,6 +112,9 @@
   "shareAnalyticsLabel": "Share Analytics",
   "shareAnalyticsSubtitle": "Help improve the app by sharing anonymous usage data",
   "expertModeLabel": "Expert Mode",
+  "@expertModeLabel": {
+    "description": "Setting that unlocks advanced features such as saving firmware binaries."
+  },
   "expertModeSubtitle": "Enable advanced firmware handling and downloads",
   "exportElrsLuaScriptLabel": "Export ELRS Lua Script",
   "exportElrsLuaScriptSubtitle": "Save elrs.lua for EdgeTX/OpenTX radios",
@@ -88,13 +123,25 @@
   "clearFirmwareCacheTitle": "Clear Firmware Cache?",
   "clearFirmwareCacheMessage": "This will delete all downloaded firmware zip files. You will need to re-download them if you want to flash offline.",
   "clearAllLabel": "CLEAR ALL",
+  "@clearAllLabel": {
+    "description": "Confirmation button in the dialog that deletes all cached firmware files. Uppercase in the source."
+  },
   "submitDebugReportTitle": "Submit Debug Report",
   "submitDebugReportMessage": "This will send your device info and app logs to Sentry for debugging. No personal info like Binding Phrases or WiFi passwords will be included.",
   "describeIssueHint": "Please describe the issue you are experiencing...",
   "proceedLabel": "Proceed",
+  "@proceedLabel": {
+    "description": "Dialog button that continues with the action despite a warning."
+  },
   "submittingReportProgress": "Submitting report…",
   "saveLabel": "Save",
+  "@saveLabel": {
+    "description": "Generic dialog button that saves the entered value."
+  },
   "notSetLabel": "Not set",
+  "@notSetLabel": {
+    "description": "Shown under a setting that has no value yet."
+  },
   "languageOverrideLabel": "Language",
   "languageOverrideSystemDefault": "System Default",
   "legalNoticeSectionTitle": "Legal Notice",
@@ -108,12 +155,21 @@
   "gplv3NoticeText": "This project is licensed under the GNU General Public License v3.0.",
   "tabFlashingGuide": "Flashing Guide",
   "tabFaq": "FAQ",
+  "@tabFaq": {
+    "description": "Tab label for Frequently Asked Questions. Use the common local abbreviation if there is one."
+  },
   "tabResources": "Resources",
+  "@tabResources": {
+    "description": "Tab label for links to community help, recovery guides and legal information."
+  },
   "resourceCommunitySupport": "Community & Support",
   "resourceDiscordCommunity": "Discord Community",
   "resourceJoinDiscord": "Join the ELRS Discord",
   "resourceGithubRepo": "GitHub Repository",
   "resourceFlashRecovery": "Flash Recovery",
+  "@resourceFlashRecovery": {
+    "description": "Heading for instructions on recovering a device whose firmware update failed."
+  },
   "resourceDeviceUnresponsiveInfo": "If your device appears unresponsive after a failed flash:",
   "resourceRecoveryStep1": "Hold the BOOT button while plugging in via USB to enter bootloader mode.",
   "resourceRecoveryStep2": "Use the ELRS Web Flasher at expresslrs.org/flasher to re-flash over USB/UART.",
@@ -121,6 +177,9 @@
   "resourceRecoveryStep4": "Join #help on the ELRS Discord — the community can usually recover any device.",
   "resourceBardwellGuideRecommended": "Joshua Bardwell's unbricking guide is highly recommended:",
   "resourceWebFlasherButton": "Web Flasher",
+  "@resourceWebFlasherButton": {
+    "description": "Button opening the official ExpressLRS Web Flasher website. 'Web Flasher' is a product name."
+  },
   "resourceRecoveryVideoButton": "Recovery Video",
   "resourceLegalLiability": "Legal & Liability",
   "resourceLiabilityDisclaimerText": "ELRS Mobile is provided as-is, without warranty of any kind. The developers are not responsible for any damage, data loss, or non-functional hardware resulting from the use of this application, including but not limited to bricked receivers, transmitters, or flight controllers.\n\nBy using this app you accept full responsibility for your hardware.",
@@ -131,7 +190,13 @@
   "disclaimerAgreement": "By using this app you confirm that you understand the risks of flashing custom firmware and accept full responsibility for your hardware.",
   "disclaimerVerification": "Always verify the target and firmware version before flashing. Keep a record of your original firmware if possible.",
   "disclaimerUnderstand": "I Understand",
+  "@disclaimerUnderstand": {
+    "description": "Button acknowledging the risk disclaimer before using the app."
+  },
   "optionsTitle": "Firmware Options",
+  "@optionsTitle": {
+    "description": "Heading of the card with settings baked into the firmware (binding phrase, WiFi credentials, regulatory domain)."
+  },
   "optionsSubtitle": "Configure binding and network credentials.",
   "wifiPasswordLabel": "WiFi Password",
   "wifiOnIntervalLabel": "WiFi Auto-On Interval",
@@ -140,6 +205,9 @@
   },
   "regulatoryDomainLabel": "Regulatory Domain",
   "regDomainIsm": "ISM (2.4GHz)",
+  "@regDomainIsm": {
+    "description": "Regulatory domain option. Region codes, frequencies and 'ISM'/'LBT'/'CE'/'FCC' are standard identifiers and should normally stay as-is."
+  },
   "regDomainEuLbt": "EU CE (2.4GHz LBT)",
   "regDomainAu915": "AU (915MHz)",
   "regDomainFcc915": "FCC (915MHz)",
@@ -147,5 +215,439 @@
   "regDomainIn866": "IN (866MHz)",
   "regDomainAu433": "AU (433MHz)",
   "regDomainEu433": "EU (433MHz)",
-  "regDomainUs433": "US (433MHz)"
+  "regDomainUs433": "US (433MHz)",
+  "flashingStatusSaved": "Firmware Saved",
+  "@flashingStatusSaved": {
+    "description": "Progress label shown after a firmware binary was saved to the phone instead of flashed."
+  },
+  "flashErrorNoTarget": "Please select a target device.",
+  "@flashErrorNoTarget": {
+    "description": "Error shown when the user taps Flash without choosing which hardware target to build firmware for."
+  },
+  "flashErrorNoVersion": "Please select a firmware version.",
+  "@flashErrorNoVersion": {
+    "description": "Error shown when the user taps Flash without choosing an ExpressLRS firmware version."
+  },
+  "flashErrorNoDevice": "Cannot flash: no ELRS device connected.",
+  "@flashErrorNoDevice": {
+    "description": "Error shown when the user taps Flash but the phone is not connected to an ExpressLRS receiver or transmitter over WiFi."
+  },
+  "flashErrorChipMismatch": "Incompatible chip: this firmware is built for {targetChip}, but the connected device is {deviceChip}. Select a target for the same chip.",
+  "@flashErrorChipMismatch": {
+    "description": "Error shown when the selected firmware target uses a different microcontroller chip than the connected device, so it can never work. The placeholders are chip names such as ESP32 or ESP8285 and must not be translated.",
+    "placeholders": {
+      "targetChip": {
+        "type": "String",
+        "example": "ESP32"
+      },
+      "deviceChip": {
+        "type": "String",
+        "example": "ESP8285"
+      }
+    }
+  },
+  "flashErrorOfflineFlash": "No internet access to fetch missing files. Please disconnect from the ELRS device, download this firmware via the Firmware Manager to complete your cache, and try again.",
+  "@flashErrorOfflineFlash": {
+    "description": "Error shown when flashing needs firmware files that are not cached and cannot be downloaded, usually because the phone is joined to the device's own WiFi hotspot. 'Firmware Manager' is the title of a screen in the app: use exactly the same translation as firmwareManagerLabel, inflected only as grammar requires."
+  },
+  "flashErrorOfflineDownload": "No internet access. You cannot download firmware while connected to the ELRS device hotspot. Please disconnect, download this version via the Firmware Manager, and try again.",
+  "@flashErrorOfflineDownload": {
+    "description": "Error shown when saving a firmware binary needs files that are not cached and the phone has no internet, usually because it is joined to the device's WiFi hotspot. 'Firmware Manager' is the title of a screen in the app: use exactly the same translation as firmwareManagerLabel, inflected only as grammar requires."
+  },
+  "flashErrorFlashFailed": "Flashing failed.",
+  "@flashErrorFlashFailed": {
+    "description": "Headline shown when a flash attempt fails. The technical reason from the device is shown untranslated underneath."
+  },
+  "flashErrorUnconfirmed": "The device disconnected before confirming the flash, so it may not have completed. This happens if it loses power or restarts mid-flash, and occasionally on a weak WiFi link after a successful flash. Check the firmware version in Device Config, and flash again if it hasn't changed.",
+  "@flashErrorUnconfirmed": {
+    "description": "Warning shown when all firmware was sent but the device disconnected without confirming success, so the result is unknown. 'Device Config' is the name of a screen in the app."
+  },
+  "flashErrorDownloadFailed": "Failed to download firmware.",
+  "@flashErrorDownloadFailed": {
+    "description": "Headline shown when building or saving a firmware binary fails. The technical reason is shown untranslated underneath."
+  },
+  "validationSsidTooLong": "SSID must be 32 characters or less",
+  "@validationSsidTooLong": {
+    "description": "Validation error under the WiFi network name (SSID) field."
+  },
+  "validationPasswordTooShort": "Password must be at least 8 characters",
+  "@validationPasswordTooShort": {
+    "description": "Validation error under the WiFi password field."
+  },
+  "validationPasswordTooLong": "Password must be 63 characters or less",
+  "@validationPasswordTooLong": {
+    "description": "Validation error under the WiFi password field."
+  },
+  "targetMismatchTitle": "Target Mismatch",
+  "@targetMismatchTitle": {
+    "description": "Title of the warning dialog shown when the selected firmware target's product name differs from the product running on the connected device."
+  },
+  "targetMismatchMessage": "The selected firmware target does not match the hardware currently running on the device. Are you sure you want to force flash?",
+  "@targetMismatchMessage": {
+    "description": "Body of the target mismatch warning dialog. 'Force flash' means flashing anyway, overriding the safety check."
+  },
+  "forceFlashLabel": "Force Flash",
+  "@forceFlashLabel": {
+    "description": "Dangerous dialog button that flashes firmware even though the target does not match the device, overriding the safety check. Displayed in uppercase."
+  },
+  "noBindPhraseTitle": "No Binding Phrase",
+  "@noBindPhraseTitle": {
+    "description": "Title of the dialog asking whether to flash without a binding phrase. A binding phrase is the shared secret that pairs an ExpressLRS transmitter and receiver."
+  },
+  "noBindPhraseMessage": "No binding phrase set. Proceed with the default (empty)?",
+  "@noBindPhraseMessage": {
+    "description": "Body of the dialog asking whether to flash without a binding phrase."
+  },
+  "flashSuccessSnackbar": "Flashing completed successfully!",
+  "@flashSuccessSnackbar": {
+    "description": "Brief pop-up notification after firmware was flashed to the device."
+  },
+  "firmwareSavedSnackbar": "Firmware saved successfully!",
+  "@firmwareSavedSnackbar": {
+    "description": "Brief pop-up notification after a firmware binary was saved to the phone."
+  },
+  "flashSuccessMessage": "Flashing Successful! Device is rebooting.",
+  "@flashSuccessMessage": {
+    "description": "Message shown on the flashing screen after a successful flash while the device restarts."
+  },
+  "stm32OtaWarning": "STM32 Target Selected: OTA flashing is not supported for this hardware. You can build and save this firmware locally to flash manually via STLink or Betaflight Passthrough.",
+  "@stm32OtaWarning": {
+    "description": "Warning shown when the selected target uses an STM32 chip, which cannot be flashed over WiFi. OTA means over-the-air. STLink and Betaflight Passthrough are product names and must not be translated."
+  },
+  "downloadBinaryLabel": "Download Binary",
+  "@downloadBinaryLabel": {
+    "description": "Button that builds the firmware and saves the file to the phone instead of flashing it. Displayed in uppercase."
+  },
+  "waitingForDeviceLabel": "Waiting for Device...",
+  "@waitingForDeviceLabel": {
+    "description": "Label on the main flash button while no ExpressLRS device is connected. Displayed in uppercase."
+  },
+  "otaUnavailableLabel": "OTA Unavailable",
+  "@otaUnavailableLabel": {
+    "description": "Label on the disabled flash button when the target cannot be flashed over WiFi (over-the-air). Displayed in uppercase."
+  },
+  "doneLabel": "Done",
+  "@doneLabel": {
+    "description": "Label on the main button after a successful flash; tapping it resets the screen. Displayed in uppercase."
+  },
+  "targetSelectionTitle": "Target Selection",
+  "@targetSelectionTitle": {
+    "description": "Heading of the card where the user picks which hardware to build firmware for."
+  },
+  "deviceTypeLabel": "Device Type",
+  "@deviceTypeLabel": {
+    "description": "Dropdown label for choosing transmitter (TX) or receiver (RX)."
+  },
+  "deviceVendorLabel": "Device Vendor",
+  "@deviceVendorLabel": {
+    "description": "Dropdown label for choosing the hardware manufacturer."
+  },
+  "regulatoryFrequencyLabel": "Regulatory & Frequency",
+  "@regulatoryFrequencyLabel": {
+    "description": "Dropdown label for choosing the radio frequency band, e.g. 2.4GHz or 900MHz."
+  },
+  "deviceTargetLabel": "Device Target",
+  "@deviceTargetLabel": {
+    "description": "Dropdown label for choosing the exact hardware model the firmware is built for."
+  },
+  "noFirmwareDownloadedButton": "No firmware downloaded. Go to Firmware Manager",
+  "@noFirmwareDownloadedButton": {
+    "description": "Button shown when no firmware versions are cached on the phone; opens the Firmware Manager screen."
+  },
+  "hardwareRequiresVersion": "Hardware requires v{version} or newer.",
+  "@hardwareRequiresVersion": {
+    "description": "Warning shown when the selected hardware needs a newer firmware version than any cached on the phone.",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "3.4.0"
+      }
+    }
+  },
+  "downloadCompatibleFirmwareButton": "Download Compatible Firmware",
+  "@downloadCompatibleFirmwareButton": {
+    "description": "Button that opens the Firmware Manager to download a firmware version supported by the selected hardware."
+  },
+  "firmwareVersionLabel": "Firmware Version",
+  "@firmwareVersionLabel": {
+    "description": "Dropdown label for choosing which ExpressLRS firmware version to flash."
+  },
+  "firmwareVersionHelper": "Select the ELRS version to flash",
+  "@firmwareVersionHelper": {
+    "description": "Helper text under the firmware version dropdown."
+  },
+  "cachedBadge": "(Cached)",
+  "@cachedBadge": {
+    "description": "Small tag next to a firmware version meaning it is stored on the phone and available offline."
+  },
+  "errorLoadingVersions": "Error loading versions: {error}",
+  "@errorLoadingVersions": {
+    "description": "Error shown when the list of firmware versions cannot be loaded. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "FormatException"
+      }
+    }
+  },
+  "flashingProfileLabel": "Flashing Profile",
+  "@flashingProfileLabel": {
+    "description": "Dropdown label for choosing a saved set of flashing options (binding phrase, WiFi credentials)."
+  },
+  "addProfileTooltip": "Add Profile",
+  "@addProfileTooltip": {
+    "description": "Tooltip on the button that creates a new flashing profile."
+  },
+  "deleteProfileTooltip": "Delete Profile",
+  "@deleteProfileTooltip": {
+    "description": "Tooltip on the button that deletes the selected flashing profile."
+  },
+  "bindingPhraseHelper": "Your unique binding phrase",
+  "@bindingPhraseHelper": {
+    "description": "Helper text under the binding phrase field."
+  },
+  "addProfileTitle": "Add Flashing Profile",
+  "@addProfileTitle": {
+    "description": "Title of the dialog for creating a new flashing profile."
+  },
+  "profileNameHint": "Profile Name (e.g., My Quads)",
+  "@profileNameHint": {
+    "description": "Placeholder in the new profile name field. 'Quads' means quadcopter drones."
+  },
+  "addLabel": "Add",
+  "@addLabel": {
+    "description": "Dialog button confirming creation of a new item."
+  },
+  "deleteProfileTitle": "Delete Profile",
+  "@deleteProfileTitle": {
+    "description": "Title of the dialog confirming deletion of a flashing profile."
+  },
+  "deleteProfileMessage": "Are you sure you want to delete the profile \"{name}\"?",
+  "@deleteProfileMessage": {
+    "description": "Body of the dialog confirming deletion of a flashing profile.",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "My Quads"
+      }
+    }
+  },
+  "deleteLabel": "Delete",
+  "@deleteLabel": {
+    "description": "Dialog button confirming deletion."
+  },
+  "settingsCategoryProfilesNetwork": "Profiles & Network",
+  "@settingsCategoryProfilesNetwork": {
+    "description": "Settings category and section heading for flashing profiles, binding phrase and WiFi credentials."
+  },
+  "settingsCategoryAppStorage": "App & Storage",
+  "@settingsCategoryAppStorage": {
+    "description": "Settings category and section heading for firmware cache and app preferences."
+  },
+  "settingsCategoryAdvancedDebug": "Advanced & Debug",
+  "@settingsCategoryAdvancedDebug": {
+    "description": "Settings category heading for expert tools and diagnostics."
+  },
+  "settingsCategoryAboutLegal": "About & Legal",
+  "@settingsCategoryAboutLegal": {
+    "description": "Settings category and section heading for app version, license and legal notices."
+  },
+  "settingsSectionRegulatoryDefaults": "Regulatory Defaults",
+  "@settingsSectionRegulatoryDefaults": {
+    "description": "Settings section heading for the default radio regulatory domains applied to new flashes."
+  },
+  "settingsSectionPreferences": "Preferences",
+  "@settingsSectionPreferences": {
+    "description": "Settings section heading for language and analytics preferences."
+  },
+  "settingsSectionPowerTools": "Power Tools",
+  "@settingsSectionPowerTools": {
+    "description": "Settings section heading for expert features such as exporting the radio Lua script."
+  },
+  "settingsSectionDiagnostics": "Diagnostics",
+  "@settingsSectionDiagnostics": {
+    "description": "Settings section heading for debug reporting."
+  },
+  "regDomainUnknown": "Unknown",
+  "@regDomainUnknown": {
+    "description": "Shown when a stored regulatory domain value is not recognised."
+  },
+  "maxCachedVersionsCount": "{count, plural, =1{1 version} other{{count} versions}}",
+  "@maxCachedVersionsCount": {
+    "description": "How many firmware versions the app keeps cached offline.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "editFieldTitle": "Edit {field}",
+  "@editFieldTitle": {
+    "description": "Title of the dialog for editing a setting. The placeholder is the setting's already-translated name, e.g. 'Home WiFi SSID'.",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Home WiFi SSID"
+      }
+    }
+  },
+  "enterFieldHint": "Enter {field}",
+  "@enterFieldHint": {
+    "description": "Placeholder in the text box of the setting edit dialog. The placeholder is the setting's already-translated name.",
+    "placeholders": {
+      "field": {
+        "type": "String",
+        "example": "Home WiFi SSID"
+      }
+    }
+  },
+  "luaScriptSavedSnackbar": "elrs.lua saved to device!",
+  "@luaScriptSavedSnackbar": {
+    "description": "Confirmation after exporting the ExpressLRS Lua script file. 'elrs.lua' is a file name and must not be translated."
+  },
+  "luaScriptSaveFailed": "Failed to save script: {error}",
+  "@luaScriptSaveFailed": {
+    "description": "Error after exporting the Lua script fails. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "FileSystemException"
+      }
+    }
+  },
+  "debugReportSubmittedWithId": "Submitted! Event ID: {eventId}…",
+  "@debugReportSubmittedWithId": {
+    "description": "Confirmation after sending a debug report, with the report's short reference ID.",
+    "placeholders": {
+      "eventId": {
+        "type": "String",
+        "example": "a1b2c3d4"
+      }
+    }
+  },
+  "debugReportSubmitted": "Report submitted successfully!",
+  "@debugReportSubmitted": {
+    "description": "Confirmation after sending a debug report."
+  },
+  "debugReportFailed": "Failed to submit: {error}",
+  "@debugReportFailed": {
+    "description": "Error when sending a debug report fails. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "TimeoutException"
+      }
+    }
+  },
+  "licenseLoadFailed": "Error loading license: {error}",
+  "@licenseLoadFailed": {
+    "description": "Error when the license text cannot be loaded. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "FlutterError"
+      }
+    }
+  },
+  "firmwareErrorLoadFailed": "Could not load firmware versions.",
+  "@firmwareErrorLoadFailed": {
+    "description": "Firmware Manager error when the list of versions cannot be loaded. A technical reason is shown untranslated underneath."
+  },
+  "firmwareErrorOnHotspot": "Cannot download firmware while connected directly to the receiver's WiFi hotspot. Please disconnect or use a home network.",
+  "@firmwareErrorOnHotspot": {
+    "description": "Firmware Manager error: downloads need internet, which is unavailable while the phone is joined to the ExpressLRS device's own WiFi hotspot."
+  },
+  "firmwareErrorCacheFull": "Cache limit reached. Please delete an old version.",
+  "@firmwareErrorCacheFull": {
+    "description": "Firmware Manager error when the maximum number of offline firmware versions is already stored."
+  },
+  "firmwareErrorServerUnreachable": "Unable to reach the firmware server. Please check your internet connection.",
+  "@firmwareErrorServerUnreachable": {
+    "description": "Firmware Manager error when the download server cannot be contacted."
+  },
+  "firmwareErrorDownloadInterrupted": "Download interrupted: the network connection was lost. Please check your connection and try again.",
+  "@firmwareErrorDownloadInterrupted": {
+    "description": "Firmware Manager error when a download stops part-way."
+  },
+  "firmwareErrorDownloadFailed": "Failed to download firmware.",
+  "@firmwareErrorDownloadFailed": {
+    "description": "Firmware Manager error headline for other download failures. A technical reason is shown untranslated underneath."
+  },
+  "firmwareErrorDeleteFailed": "Could not delete this firmware version.",
+  "@firmwareErrorDeleteFailed": {
+    "description": "Firmware Manager error when removing a cached firmware version fails. A technical reason is shown untranslated underneath."
+  },
+  "firmwareVersionTitle": "Version {version}",
+  "@firmwareVersionTitle": {
+    "description": "Row title in the Firmware Manager list.",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "3.5.3"
+      }
+    }
+  },
+  "readyForOfflineUse": "Ready for offline use",
+  "@readyForOfflineUse": {
+    "description": "Subtitle for a firmware version that is stored on the phone and can be flashed without internet."
+  },
+  "storageUsedMb": "Storage Used: {size} MB",
+  "@storageUsedMb": {
+    "description": "Firmware Manager header showing how much space cached firmware uses, in megabytes.",
+    "placeholders": {
+      "size": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 1
+        },
+        "example": "12.5"
+      }
+    }
+  },
+  "cachedVersionsOfLimit": "{count} / {limit} Versions",
+  "@cachedVersionsOfLimit": {
+    "description": "Firmware Manager header showing how many versions are cached out of the allowed maximum.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      },
+      "limit": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "splashTagline": "Independent Configuration Tool",
+  "@splashTagline": {
+    "description": "Tagline on the launch screen describing the app. Displayed in uppercase."
+  },
+  "splashDisclaimer": "Not an official ExpressLRS product.\nCompatible with 3.3.x/4.x firmware.",
+  "@splashDisclaimer": {
+    "description": "Small print on the launch screen. Keep the line break. Version numbers must not be changed."
+  },
+  "unknownDeviceName": "ELRS Device",
+  "@unknownDeviceName": {
+    "description": "Name shown for a connected ExpressLRS device that did not report its product name."
+  },
+  "unknownIpLabel": "Unknown IP",
+  "@unknownIpLabel": {
+    "description": "Shown in place of the device's network address when it is not known."
+  },
+  "firmwareBinariesFileType": "Firmware Binaries",
+  "@firmwareBinariesFileType": {
+    "description": "Label for the file type filter (.bin and .gz files) in the file picker used to upload firmware."
+  },
+  "helpContentLoadFailed": "Error loading help content: {error}",
+  "@helpContentLoadFailed": {
+    "description": "Error when the help and FAQ text cannot be loaded. The placeholder is a technical error message.",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "FlutterError"
+      }
+    }
+  }
 }

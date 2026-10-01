@@ -3,6 +3,7 @@ import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'firmware_manager_controller.dart';
+import 'firmware_manager_error.dart';
 import '../../settings/presentation/settings_controller.dart';
 
 class FirmwareManagerScreen extends HookConsumerWidget {
@@ -34,16 +35,12 @@ class FirmwareManagerScreen extends HookConsumerWidget {
         child: Column(
           children: [
             _buildStorageHeader(context, state, settings.maxCachedVersions),
-            if (state.errorMessage != null)
+            if (state.error != null)
               Container(
                 color: Colors.red.withValues(alpha: 0.1),
                 width: double.infinity,
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  state.errorMessage!,
-                  style: const TextStyle(color: Colors.red),
-                  textAlign: TextAlign.center,
-                ),
+                child: _ErrorBanner(error: state.error!),
               ),
             Expanded(
               child: state.isLoading
@@ -57,9 +54,9 @@ class FirmwareManagerScreen extends HookConsumerWidget {
                         final progress = state.downloadProgress[version];
 
                         return ListTile(
-                          title: Text('Version $version'),
+                          title: Text(l10n.firmwareVersionTitle(version)),
                           subtitle: isCached
-                              ? const Text('Ready for offline use')
+                              ? Text(l10n.readyForOfflineUse)
                               : null,
                           leading: Icon(
                             Icons.dns,
@@ -87,6 +84,7 @@ class FirmwareManagerScreen extends HookConsumerWidget {
     FirmwareManagerState state,
     int limit,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     final usagePercent = (state.cachedVersions.length / limit).clamp(0.0, 1.0);
     Color barColor = Colors.blue;
     if (usagePercent >= 1.0) {
@@ -104,11 +102,11 @@ class FirmwareManagerScreen extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Storage Used: ${state.cacheSizeMb.toStringAsFixed(1)} MB',
+                l10n.storageUsedMb(state.cacheSizeMb),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                '${state.cachedVersions.length} / $limit Versions',
+                l10n.cachedVersionsOfLimit(state.cachedVersions.length, limit),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: state.cachedVersions.length >= limit
@@ -157,6 +155,34 @@ class FirmwareManagerScreen extends HookConsumerWidget {
     return IconButton(
       icon: const Icon(Icons.cloud_download, color: Colors.blue),
       onPressed: () => controller.downloadVersion(version),
+    );
+  }
+}
+
+class _ErrorBanner extends StatelessWidget {
+  const _ErrorBanner({required this.error});
+
+  final FirmwareManagerError error;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      children: [
+        Text(
+          error.message(l10n),
+          style: const TextStyle(color: Colors.red),
+          textAlign: TextAlign.center,
+        ),
+        if (error.detail != null) ...[
+          const SizedBox(height: 4),
+          SelectableText(
+            error.detail!,
+            style: TextStyle(color: Colors.red.shade200, fontSize: 12),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ],
     );
   }
 }

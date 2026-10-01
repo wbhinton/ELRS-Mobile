@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-## Vista General de la Arquitectura
+## Visión General de la Arquitectura
 
 <div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
   <div class="flex items-center gap-3 mb-2">
@@ -15,27 +15,27 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Principio de Diseño</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    La aplicación está construida usando Flutter y aprovecha el framework de gestión de estado <strong>Riverpod</strong>. Interactúa con el hardware ELRS a través de una API RESTful expuesta por el módulo WiFi integrado del dispositivo, asegurando una comunicación de baja latencia y sincronización de estado en tiempo real.
+    La aplicación está construida usando Flutter y aprovecha el marco de gestión de estado <strong>Riverpod</strong>. Interactúa con el hardware de ELRS a través de una API RESTful expuesta por el módulo WiFi integrado del dispositivo, asegurando una comunicación de baja latencia y una sincronización de estado en tiempo real.
   </p>
 </div>
 
 ## Capa de Datos
 
-### Puntos de Acceso de la API
-El sistema se comunica con el hardware utilizando los siguientes puntos de acceso HTTP:
+### Puntos de Conexión de la API
+El sistema se comunica con el hardware utilizando los siguientes puntos de conexión HTTP:
 
 | Método | Endpoint | Descripción |
 | :--- | :--- | :--- |
 | `GET` | `/config` | Recupera la configuración actual del dispositivo en formato JSON. |
-| `POST` | `/options.json` | Actualiza las opciones de tiempo de ejecución modificables (WiFi SSID, Contraseña, etc.). |
-| `POST` | `/config` | Actualiza los parámetros de hardware principales y las asignaciones de PWM. |
-| `POST` | `/reboot` | Desencadena un reinicio del hardware para aplicar los cambios. |
+| `POST` | `/options.json` | Actualiza las opciones de tiempo de ejecución modificables (SSID, Contraseña, etc.). |
+| `POST` | `/config` | Actualiza los parámetros de hardware principales y las asignaciones PWM. |
+| `POST` | `/reboot` | Activa un reinicio de hardware para aplicar los cambios. |
 
 ### Esquema JSON
-El modelo `RuntimeConfig` aprovecha la estructura ELRS 4.x, que separa los parámetros en tres nodos principales:
-- `settings`: Identificadores de hardware y cadenas de versión de solo lectura.
+El modelo `RuntimeConfig` aprovecha la estructura de ELRS 4.x, que separa los parámetros en tres nodos principales:
+- `settings`: Identificadores de hardware de solo lectura y cadenas de versión.
 - `options`: Preferencias de usuario modificables y credenciales de red.
-- `config`: Configuraciones de hardware de bajo nivel (Protocolos, Arrays de PWM).
+- `config`: Configuraciones de hardware de bajo nivel (Protocolos, Arrays PWM).
 
 Ejemplo de estructura JSON:
 ```json
@@ -61,14 +61,12 @@ Ejemplo de estructura JSON:
 
 ## Gestión de Estado
 El sistema emplea una arquitectura reactiva:
-- **`ConfigViewModel`**: Gestiona el estado de conexión en vivo, la lógica de latidos (heartbeat) y el descubrimiento de IP.
-- **`DeviceEditorViewModel`**: Contiene el estado borrador de la configuración de un dispositivo, permitiendo ediciones en varios pasos con lógica final de "guardar/cancelar".
+- **`ConfigViewModel`**: Gestiona el estado de conexión en vivo, la lógica de latido (heartbeat) y el descubrimiento de IP.
 - **`FlashingController`**: Orquesta las descargas de firmware, la aplicación de parches binarios locales y el proceso de carga XH-over-HTTP.
 
 ## Capa de Mapeo
-Las siguientes tablas definen el mapeo entre los identificadores enteros utilizados en la API y sus equivalentes legibles para humanos.
+`ElrsMappings.domains900` mapea el índice de dominio regulatorio de 900 MHz utilizado en la API a su etiqueta legible por humanos:
 
-### Dominios Reguladores
 | ID | Etiqueta | Descripción |
 | :--- | :--- | :--- |
 | 0 | AU915 | Australia/Nueva Zelanda 915MHz |
@@ -81,19 +79,9 @@ Las siguientes tablas definen el mapeo entre los identificadores enteros utiliza
 | 7 | US433-Wide | Norteamérica Ancho 433MHz |
 
 
-## Mapeos Avanzados
-
-### VBind (Almacenamiento de Vinculación)
-Determina cómo se almacena la frase de vinculación en el dispositivo.
-- **0: Persistente**: Guardado en la memoria flash (estándar).
-- **1: Volátil**: Borrado en cada ciclo de encendido.
-- **2: Retornable**: Utilizado para equipos de préstamo.
-- **3: Administrado**: Utilizado en entornos de flota multipiloto.
-
-
 ## Capa de Persistencia
 El sistema implementa una estrategia de persistencia de doble capa:
-- **`SharedPreferences`**: Utilizado a través de `PersistenceService` para datos no sensibles como WiFi SSIDs y preferencias generales de la aplicación.
-- **`FlutterSecureStorage`**: Utilizado para datos sensibles, incluyendo frases de vinculación y contraseñas de WiFi, asegurando el cifrado a nivel del sistema operativo.
+- **`SharedPreferences`**: Utilizado a través de `PersistenceService` para datos no sensibles como los WiFi SSIDs y las preferencias generales de la aplicación.
+- **`FlutterSecureStorage`**: Utilizado para datos sensibles, incluyendo frases de enlace (Binding Phrases) y contraseñas WiFi, asegurando el cifrado a nivel del sistema operativo.
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

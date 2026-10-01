@@ -18,19 +18,23 @@ class AppLocalizationsNl extends AppLocalizations {
   String get flashingButtonLabel => 'Flashen';
 
   @override
-  String get packetRateLabel => 'Pakketfrequentie';
+  String get flashingStatusLocating => 'Firmware zoeken';
 
   @override
-  String get baudRateLabel => 'Baudsnelheid';
+  String get flashingStatusUnpacking => 'Firmware uitpakken';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Firmware van $expressLRS bijwerken op $radioMaster of $betaFPV hardware...';
-  }
+  String get flashingStatusDownloading => 'Firmware downloaden';
+
+  @override
+  String get flashingStatusBuilding => 'Firmware samenstellen';
+
+  @override
+  String get flashingStatusUploading => 'Uploaden naar apparaat';
+
+  @override
+  String get flashingStatusFinalizing =>
+      'Wegschrijven naar apparaat — Even geduld';
 
   @override
   String get flashDeviceLabel => 'Apparaat flashen';
@@ -77,19 +81,6 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Flashen en wifi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'Over en ondersteuning';
-
-  @override
-  String get advancedCategoryLabel => 'Geavanceerd';
-
-  @override
-  String get flashingDefaultsSectionLabel =>
-      'Standaardinstellingen voor flashen';
-
-  @override
   String get default24GHzDomainLabel => 'Standaard 2.4GHz-domein';
 
   @override
@@ -123,9 +114,6 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get clearLabel => 'WISSEN';
-
-  @override
-  String get aboutSectionLabel => 'Over';
 
   @override
   String get appVersionLabel => 'Appversie';
@@ -369,4 +357,314 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'Firmware opgeslagen';
+
+  @override
+  String get flashErrorNoTarget => 'Selecteer een doelapparaat.';
+
+  @override
+  String get flashErrorNoVersion => 'Selecteer een firmwareversie.';
+
+  @override
+  String get flashErrorNoDevice =>
+      'Flashen onmogelijk: geen ELRS-apparaat verbonden.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Incompatibele chip: deze firmware is gebouwd voor $targetChip, maar het verbonden apparaat is $deviceChip. Selecteer een doel voor dezelfde chip.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'Geen internettoegang om ontbrekende bestanden op te halen. Koppel los van het ELRS-apparaat, download deze firmware via de Firmwarebeheerder om uw cache te voltooien en probeer het opnieuw.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'Geen internettoegang. U kunt geen firmware downloaden terwijl u verbonden bent met de hotspot van het ELRS-apparaat. Koppel los, download deze versie via de Firmwarebeheerder en probeer het opnieuw.';
+
+  @override
+  String get flashErrorFlashFailed => 'Flashen mislukt.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'Het apparaat heeft de verbinding verbroken voordat de flash bevestigd kon worden, dus het is mogelijk niet voltooid. Dit gebeurt als het de stroom verliest of opnieuw opstart tijdens het flashen, en soms bij een zwakke wifi-verbinding na een succesvolle flash. Controleer de firmwareversie in Apparaatconfiguratie en flash opnieuw als deze niet is gewijzigd.';
+
+  @override
+  String get flashErrorDownloadFailed => 'Firmware downloaden mislukt.';
+
+  @override
+  String get validationSsidTooLong => 'SSID mag maximaal 32 tekens bevatten.';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Wachtwoord moet minimaal 8 tekens bevatten.';
+
+  @override
+  String get validationPasswordTooLong =>
+      'Wachtwoord mag maximaal 63 tekens bevatten.';
+
+  @override
+  String get targetMismatchTitle => 'Doel komt niet overeen';
+
+  @override
+  String get targetMismatchMessage =>
+      'De geselecteerde firmware komt niet overeen met de hardware die momenteel op het apparaat draait. Weet u zeker dat u geforceerd wilt flashen?';
+
+  @override
+  String get forceFlashLabel => 'GEFORCEERD FLASHE N';
+
+  @override
+  String get noBindPhraseTitle => 'Geen Bindingsfrase';
+
+  @override
+  String get noBindPhraseMessage =>
+      'Er is geen bindingsfrase ingesteld. Doorgaan met de standaard (leeg)?';
+
+  @override
+  String get flashSuccessSnackbar => 'Flashen succesvol voltooid!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Firmware succesvol opgeslagen!';
+
+  @override
+  String get flashSuccessMessage =>
+      'Flashen succesvol! Apparaat wordt opnieuw opgestart.';
+
+  @override
+  String get stm32OtaWarning =>
+      'STM32-doel geselecteerd: OTA-flashen wordt niet ondersteund voor deze hardware. U kunt deze firmware lokaal bouwen en opslaan om handmatig te flashen via STLink of Betaflight Passthrough.';
+
+  @override
+  String get downloadBinaryLabel => 'BINAIR BESTAND DOWNLOADEN';
+
+  @override
+  String get waitingForDeviceLabel => 'WACHTEN OP APPARAAT...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA niet beschikbaar';
+
+  @override
+  String get doneLabel => 'Klaar';
+
+  @override
+  String get targetSelectionTitle => 'Doelselectie';
+
+  @override
+  String get deviceTypeLabel => 'Apparaattype';
+
+  @override
+  String get deviceVendorLabel => 'Apparaatfabrikant';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Regulering & Frequentie';
+
+  @override
+  String get deviceTargetLabel => 'Doelapparaat';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'Geen firmware gedownload. Ga naar Firmwarebeheer';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Hardware vereist v$version of nieuwer.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton =>
+      'Compatibele firmware downloaden';
+
+  @override
+  String get firmwareVersionLabel => 'Firmwareversie';
+
+  @override
+  String get firmwareVersionHelper => 'Selecteer de ELRS-versie om te flashen';
+
+  @override
+  String get cachedBadge => '(In cache)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Fout bij laden versies: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Flashprofiel';
+
+  @override
+  String get addProfileTooltip => 'Profiel toevoegen';
+
+  @override
+  String get deleteProfileTooltip => 'Profiel verwijderen';
+
+  @override
+  String get bindingPhraseHelper => 'Je unieke bindingsfrase';
+
+  @override
+  String get addProfileTitle => 'Flashprofiel toevoegen';
+
+  @override
+  String get profileNameHint => 'Profielnaam (bijv. Mijn Quads)';
+
+  @override
+  String get addLabel => 'Toevoegen';
+
+  @override
+  String get deleteProfileTitle => 'Profiel verwijderen';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Weet je zeker dat je profiel \"$name\" wilt verwijderen?';
+  }
+
+  @override
+  String get deleteLabel => 'Verwijderen';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Profielen & Netwerk';
+
+  @override
+  String get settingsCategoryAppStorage => 'App & Opslag';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Geavanceerd & Foutopsporing';
+
+  @override
+  String get settingsCategoryAboutLegal => 'Over & Juridisch';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => 'Standaard Regelgeving';
+
+  @override
+  String get settingsSectionPreferences => 'Voorkeuren';
+
+  @override
+  String get settingsSectionPowerTools => 'Geavanceerde Hulpmiddelen';
+
+  @override
+  String get settingsSectionDiagnostics => 'Diagnostiek';
+
+  @override
+  String get regDomainUnknown => 'Onbekend';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count versies',
+      one: '1 versie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return '$field bewerken';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Voer $field in';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.lua opgeslagen op apparaat!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Opslaan van script mislukt: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Verzonden! Gebeurtenis-ID: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Rapport succesvol verzonden!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Verzenden mislukt: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Fout bij laden licentie: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => 'Kon firmwareversies niet laden.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Kan firmware niet downloaden terwijl u direct verbonden bent met de wifi-hotspot van de ontvanger. Verbreek de verbinding of gebruik een thuisnetwerk.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Cachelimiet bereikt. Verwijder een oudere versie.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Kan de firmwareserver niet bereiken. Controleer uw internetverbinding.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Download onderbroken: de netwerkverbinding is verloren gegaan. Controleer uw verbinding en probeer het opnieuw.';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'Firmware downloaden mislukt.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Kon deze firmwareversie niet verwijderen.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Versie $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Klaar voor offline gebruik';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Gebruikte opslag: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit Versies';
+  }
+
+  @override
+  String get splashTagline => 'Onafhankelijke configuratietool';
+
+  @override
+  String get splashDisclaimer =>
+      'Geen officieel ExpressLRS-product.\nCompatibel met 3.3.x/4.x firmware.';
+
+  @override
+  String get unknownDeviceName => 'ELRS-apparaat';
+
+  @override
+  String get unknownIpLabel => 'Onbekend IP-adres';
+
+  @override
+  String get firmwareBinariesFileType => 'Firmware binaire bestanden';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Fout bij laden van helpinhoud: $error';
+  }
 }

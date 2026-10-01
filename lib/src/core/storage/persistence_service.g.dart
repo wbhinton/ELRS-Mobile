@@ -49,4 +49,4 @@ final class PersistenceServiceProvider
 }
 
 String _$persistenceServiceHash() =>
-    r'ab3be81338f22fea923c637dc0e7629cf0f3d144';
+    r'72eb56d3f87f9ee2ae8b68b0f550ee09221d70d4';

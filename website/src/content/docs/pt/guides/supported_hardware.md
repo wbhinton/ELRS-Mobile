@@ -27,7 +27,7 @@ sidebar:
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> Alvos STM32 que exigem gravação serial STLink</li>
       <li class="flex gap-2"><span>•</span> Métodos de gravação Betaflight Passthrough</li>
-      <li class="flex gap-2"><span>•</span> Conexões USB/Serial diretas no iOS</li>
+      <li class="flex gap-2"><span>•</span> Conexões diretas USB/Serial no iOS</li>
     </ul>
   </div>
 </div>
@@ -121,7 +121,7 @@ Os seguintes alvos de hardware foram explicitamente testados com o ELRS Mobile:
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5A/C 2.4GHz PWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5A/C V2 2.4GHz PWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER5C-i 2.4GHz PWM RX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6 2.4GHz Diversity+6xPWM RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">�� RadioMaster ER6 2.4GHz Diversity+6xPWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6-G 2.4GHz Diversity+6xPWM RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER6-GV 2.4GHz Diversity+6xPWM+Vario RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• RadioMaster ER8 2.4GHz Diversity+8xPWM RX</div>
@@ -163,7 +163,7 @@ Os seguintes alvos de hardware foram explicitamente testados com o ELRS Mobile:
 ---
 
 ## Binários Testados
-O montador de firmware interno foi verificado funcionalmente em relação às saídas do compilador oficial do ExpressLRS para os seguintes alvos:
+O montador de firmware interno foi verificado funcionalmente em comparação com as saídas do compilador oficial ExpressLRS para os seguintes alvos:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,4 +183,4 @@ O montador de firmware interno foi verificado funcionalmente em relação às sa
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

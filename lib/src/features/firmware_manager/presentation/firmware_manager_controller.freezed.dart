@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FirmwareManagerState {
 
- List<String> get availableVersions; List<String> get cachedVersions; bool get isLoading; Map<String, double> get downloadProgress; double get cacheSizeMb; String? get errorMessage;
+ List<String> get availableVersions; List<String> get cachedVersions; bool get isLoading; Map<String, double> get downloadProgress; double get cacheSizeMb; FirmwareManagerError? get error;
 /// Create a copy of FirmwareManagerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $FirmwareManagerStateCopyWith<FirmwareManagerState> get copyWith => _$FirmwareMa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FirmwareManagerState&&const DeepCollectionEquality().equals(other.availableVersions, availableVersions)&&const DeepCollectionEquality().equals(other.cachedVersions, cachedVersions)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.downloadProgress, downloadProgress)&&(identical(other.cacheSizeMb, cacheSizeMb) || other.cacheSizeMb == cacheSizeMb)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FirmwareManagerState&&const DeepCollectionEquality().equals(other.availableVersions, availableVersions)&&const DeepCollectionEquality().equals(other.cachedVersions, cachedVersions)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.downloadProgress, downloadProgress)&&(identical(other.cacheSizeMb, cacheSizeMb) || other.cacheSizeMb == cacheSizeMb)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(availableVersions),const DeepCollectionEquality().hash(cachedVersions),isLoading,const DeepCollectionEquality().hash(downloadProgress),cacheSizeMb,errorMessage);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(availableVersions),const DeepCollectionEquality().hash(cachedVersions),isLoading,const DeepCollectionEquality().hash(downloadProgress),cacheSizeMb,error);
 
 @override
 String toString() {
-  return 'FirmwareManagerState(availableVersions: $availableVersions, cachedVersions: $cachedVersions, isLoading: $isLoading, downloadProgress: $downloadProgress, cacheSizeMb: $cacheSizeMb, errorMessage: $errorMessage)';
+  return 'FirmwareManagerState(availableVersions: $availableVersions, cachedVersions: $cachedVersions, isLoading: $isLoading, downloadProgress: $downloadProgress, cacheSizeMb: $cacheSizeMb, error: $error)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $FirmwareManagerStateCopyWith<$Res>  {
   factory $FirmwareManagerStateCopyWith(FirmwareManagerState value, $Res Function(FirmwareManagerState) _then) = _$FirmwareManagerStateCopyWithImpl;
 @useResult
 $Res call({
- List<String> availableVersions, List<String> cachedVersions, bool isLoading, Map<String, double> downloadProgress, double cacheSizeMb, String? errorMessage
+ List<String> availableVersions, List<String> cachedVersions, bool isLoading, Map<String, double> downloadProgress, double cacheSizeMb, FirmwareManagerError? error
 });
 
 
@@ -62,15 +62,15 @@ class _$FirmwareManagerStateCopyWithImpl<$Res>
 
 /// Create a copy of FirmwareManagerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? availableVersions = null,Object? cachedVersions = null,Object? isLoading = null,Object? downloadProgress = null,Object? cacheSizeMb = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? availableVersions = null,Object? cachedVersions = null,Object? isLoading = null,Object? downloadProgress = null,Object? cacheSizeMb = null,Object? error = freezed,}) {
   return _then(_self.copyWith(
 availableVersions: null == availableVersions ? _self.availableVersions : availableVersions // ignore: cast_nullable_to_non_nullable
 as List<String>,cachedVersions: null == cachedVersions ? _self.cachedVersions : cachedVersions // ignore: cast_nullable_to_non_nullable
 as List<String>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,downloadProgress: null == downloadProgress ? _self.downloadProgress : downloadProgress // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,cacheSizeMb: null == cacheSizeMb ? _self.cacheSizeMb : cacheSizeMb // ignore: cast_nullable_to_non_nullable
-as double,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as double,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as FirmwareManagerError?,
   ));
 }
 
@@ -155,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> availableVersions,  List<String> cachedVersions,  bool isLoading,  Map<String, double> downloadProgress,  double cacheSizeMb,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String> availableVersions,  List<String> cachedVersions,  bool isLoading,  Map<String, double> downloadProgress,  double cacheSizeMb,  FirmwareManagerError? error)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FirmwareManagerState() when $default != null:
-return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_that.downloadProgress,_that.cacheSizeMb,_that.errorMessage);case _:
+return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_that.downloadProgress,_that.cacheSizeMb,_that.error);case _:
   return orElse();
 
 }
@@ -176,10 +176,10 @@ return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> availableVersions,  List<String> cachedVersions,  bool isLoading,  Map<String, double> downloadProgress,  double cacheSizeMb,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String> availableVersions,  List<String> cachedVersions,  bool isLoading,  Map<String, double> downloadProgress,  double cacheSizeMb,  FirmwareManagerError? error)  $default,) {final _that = this;
 switch (_that) {
 case _FirmwareManagerState():
-return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_that.downloadProgress,_that.cacheSizeMb,_that.errorMessage);case _:
+return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_that.downloadProgress,_that.cacheSizeMb,_that.error);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +196,10 @@ return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> availableVersions,  List<String> cachedVersions,  bool isLoading,  Map<String, double> downloadProgress,  double cacheSizeMb,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String> availableVersions,  List<String> cachedVersions,  bool isLoading,  Map<String, double> downloadProgress,  double cacheSizeMb,  FirmwareManagerError? error)?  $default,) {final _that = this;
 switch (_that) {
 case _FirmwareManagerState() when $default != null:
-return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_that.downloadProgress,_that.cacheSizeMb,_that.errorMessage);case _:
+return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_that.downloadProgress,_that.cacheSizeMb,_that.error);case _:
   return null;
 
 }
@@ -211,7 +211,7 @@ return $default(_that.availableVersions,_that.cachedVersions,_that.isLoading,_th
 
 
 class _FirmwareManagerState implements FirmwareManagerState {
-  const _FirmwareManagerState({final  List<String> availableVersions = const [], final  List<String> cachedVersions = const [], this.isLoading = false, final  Map<String, double> downloadProgress = const {}, this.cacheSizeMb = 0.0, this.errorMessage}): _availableVersions = availableVersions,_cachedVersions = cachedVersions,_downloadProgress = downloadProgress;
+  const _FirmwareManagerState({final  List<String> availableVersions = const [], final  List<String> cachedVersions = const [], this.isLoading = false, final  Map<String, double> downloadProgress = const {}, this.cacheSizeMb = 0.0, this.error}): _availableVersions = availableVersions,_cachedVersions = cachedVersions,_downloadProgress = downloadProgress;
   
 
  final  List<String> _availableVersions;
@@ -237,7 +237,7 @@ class _FirmwareManagerState implements FirmwareManagerState {
 }
 
 @override@JsonKey() final  double cacheSizeMb;
-@override final  String? errorMessage;
+@override final  FirmwareManagerError? error;
 
 /// Create a copy of FirmwareManagerState
 /// with the given fields replaced by the non-null parameter values.
@@ -249,16 +249,16 @@ _$FirmwareManagerStateCopyWith<_FirmwareManagerState> get copyWith => __$Firmwar
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FirmwareManagerState&&const DeepCollectionEquality().equals(other._availableVersions, _availableVersions)&&const DeepCollectionEquality().equals(other._cachedVersions, _cachedVersions)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._downloadProgress, _downloadProgress)&&(identical(other.cacheSizeMb, cacheSizeMb) || other.cacheSizeMb == cacheSizeMb)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FirmwareManagerState&&const DeepCollectionEquality().equals(other._availableVersions, _availableVersions)&&const DeepCollectionEquality().equals(other._cachedVersions, _cachedVersions)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._downloadProgress, _downloadProgress)&&(identical(other.cacheSizeMb, cacheSizeMb) || other.cacheSizeMb == cacheSizeMb)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_availableVersions),const DeepCollectionEquality().hash(_cachedVersions),isLoading,const DeepCollectionEquality().hash(_downloadProgress),cacheSizeMb,errorMessage);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_availableVersions),const DeepCollectionEquality().hash(_cachedVersions),isLoading,const DeepCollectionEquality().hash(_downloadProgress),cacheSizeMb,error);
 
 @override
 String toString() {
-  return 'FirmwareManagerState(availableVersions: $availableVersions, cachedVersions: $cachedVersions, isLoading: $isLoading, downloadProgress: $downloadProgress, cacheSizeMb: $cacheSizeMb, errorMessage: $errorMessage)';
+  return 'FirmwareManagerState(availableVersions: $availableVersions, cachedVersions: $cachedVersions, isLoading: $isLoading, downloadProgress: $downloadProgress, cacheSizeMb: $cacheSizeMb, error: $error)';
 }
 
 
@@ -269,7 +269,7 @@ abstract mixin class _$FirmwareManagerStateCopyWith<$Res> implements $FirmwareMa
   factory _$FirmwareManagerStateCopyWith(_FirmwareManagerState value, $Res Function(_FirmwareManagerState) _then) = __$FirmwareManagerStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<String> availableVersions, List<String> cachedVersions, bool isLoading, Map<String, double> downloadProgress, double cacheSizeMb, String? errorMessage
+ List<String> availableVersions, List<String> cachedVersions, bool isLoading, Map<String, double> downloadProgress, double cacheSizeMb, FirmwareManagerError? error
 });
 
 
@@ -286,15 +286,15 @@ class __$FirmwareManagerStateCopyWithImpl<$Res>
 
 /// Create a copy of FirmwareManagerState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? availableVersions = null,Object? cachedVersions = null,Object? isLoading = null,Object? downloadProgress = null,Object? cacheSizeMb = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? availableVersions = null,Object? cachedVersions = null,Object? isLoading = null,Object? downloadProgress = null,Object? cacheSizeMb = null,Object? error = freezed,}) {
   return _then(_FirmwareManagerState(
 availableVersions: null == availableVersions ? _self._availableVersions : availableVersions // ignore: cast_nullable_to_non_nullable
 as List<String>,cachedVersions: null == cachedVersions ? _self._cachedVersions : cachedVersions // ignore: cast_nullable_to_non_nullable
 as List<String>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,downloadProgress: null == downloadProgress ? _self._downloadProgress : downloadProgress // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,cacheSizeMb: null == cacheSizeMb ? _self.cacheSizeMb : cacheSizeMb // ignore: cast_nullable_to_non_nullable
-as double,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
-as String?,
+as double,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as FirmwareManagerError?,
   ));
 }
 

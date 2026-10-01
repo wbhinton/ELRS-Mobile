@@ -15,7 +15,7 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Princípio de Design</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    A aplicação é construída usando Flutter e aproveita o framework de gerenciamento de estado <strong>Riverpod</strong>. Ela interage com o hardware ELRS via uma RESTful API exposta pelo módulo WiFi integrado do dispositivo, garantindo comunicação de baixa latência e sincronização de estado em tempo real.
+    O aplicativo é construído usando Flutter e aproveita o framework de gerenciamento de estado **Riverpod**. Ele interage com o hardware ELRS via uma API RESTful exposta pelo módulo WiFi integrado do dispositivo, garantindo comunicação de baixa latência e sincronização de estado em tempo real.
   </p>
 </div>
 
@@ -27,15 +27,15 @@ O sistema se comunica com o hardware usando os seguintes endpoints HTTP:
 | Método | Endpoint | Descrição |
 | :--- | :--- | :--- |
 | `GET` | `/config` | Recupera a configuração atual do dispositivo em formato JSON. |
-| `POST` | `/options.json` | Atualiza as opções de tempo de execução modificáveis (SSID, Password, etc.). |
-| `POST` | `/config` | Atualiza os parâmetros essenciais de hardware e os mapeamentos PWM. |
-| `POST` | `/reboot` | Aciona uma reinicialização do hardware para aplicar as alterações. |
+| `POST` | `/options.json` | Atualiza opções de tempo de execução modificáveis (SSID, Password, etc.). |
+| `POST` | `/config` | Atualiza parâmetros de hardware essenciais e mapeamentos PWM. |
+| `POST` | `/reboot` | Aciona um reset de hardware para aplicar as mudanças. |
 
 ### Esquema JSON
-O modelo `RuntimeConfig` aproveita a estrutura ELRS 4.x, que separa os parâmetros em três nós primários:
+O modelo `RuntimeConfig` aproveita a estrutura ExpressLRS 4.x, que separa os parâmetros em três nós principais:
 - `settings`: Identificadores de hardware e strings de versão somente leitura.
-- `options`: Preferências do usu��rio e credenciais de rede modificáveis.
-- `config`: Configurações de hardware de baixo nível (Protocols, PWM Arrays).
+- `options`: Preferências do usuário modificáveis e credenciais de rede.
+- `config`: Configurações de hardware de baixo nível (Protocolos, Arrays PWM).
 
 Exemplo de estrutura JSON:
 ```json
@@ -62,38 +62,26 @@ Exemplo de estrutura JSON:
 ## Gerenciamento de Estado
 O sistema emprega uma arquitetura reativa:
 - **`ConfigViewModel`**: Gerencia o estado da conexão em tempo real, lógica de heartbeat e descoberta de IP.
-- **`DeviceEditorViewModel`**: Abriga o estado de rascunho da configuração de um dispositivo, permitindo edições em várias etapas com lógica final de "salvar/cancelar".
-- **`FlashingController`**: Orquestra downloads de firmware, patching binário local e o processo de upload XH-over-HTTP.
+- **`FlashingController`**: Orquestra downloads de firmware, patch binário local e o processo de upload XH-over-HTTP.
 
 ## Camada de Mapeamento
-As tabelas a seguir definem o mapeamento entre os identificadores inteiros usados na API e seus equivalentes legíveis por humanos.
+`ElrsMappings.domains900` mapeia o índice do domínio regulatório de 900 MHz usado na API para seu rótulo legível por humanos:
 
-### Domínios Regulatórios
 | ID | Rótulo | Descrição |
 | :--- | :--- | :--- |
 | 0 | AU915 | Austrália/Nova Zelândia 915MHz |
 | 1 | FCC915 | América do Norte 915MHz |
-| 2 | EU868 | Europa 868MHz |
-| 3 | IN866 | Índia 866MHz |
+| 2 | EU868 | Europeu 868MHz |
+| 3 | IN866 | Indiano 866MHz |
 | 4 | AU433 | Austrália 433MHz |
-| 5 | EU433 | Europa 433MHz |
+| 5 | EU433 | Europeu 433MHz |
 | 6 | US433 | América do Norte 433MHz |
-| 7 | US433-Wide | América do Norte Largo 433MHz |
-
-
-## Mapeamentos Avançados
-
-### VBind (Armazenamento de Ligação)
-Determina como a frase de ligação é armazenada no dispositivo.
-- **0: Persistente**: Salva na memória flash (padrão).
-- **1: Volátil**: Limpada ao desligar e ligar.
-- **2: Retornável**: Usado para equipamentos emprestados.
-- **3: Administrado**: Usado em ambientes de frota multi-piloto.
+| 7 | US433-Wide | América do Norte Ampla 433MHz |
 
 
 ## Camada de Persistência
-O sistema implementa uma estratégia de persistência de camada dupla:
-- **`SharedPreferences`**: Utilizado via `PersistenceService` para dados não sensíveis, como WiFi SSIDs e preferências gerais do aplicativo.
-- **`FlutterSecureStorage`**: Usado para dados sensíveis, incluindo Binding Phrases e WiFi Passwords, garantindo criptografia no nível do OS.
+O sistema implementa uma estratégia de persistência de duas camadas:
+- **`SharedPreferences`**: Utilizado via `PersistenceService` para dados não sensíveis, como SSIDs WiFi e preferências gerais do aplicativo.
+- **`FlutterSecureStorage`**: Usado para dados sensíveis, incluindo Binding Phrases e Senhas WiFi, garantindo criptografia no nível do sistema operacional.
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

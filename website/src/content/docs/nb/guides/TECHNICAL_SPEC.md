@@ -1,5 +1,5 @@
 ---
-title: "Teknisk spesifikasjon"
+title: "Teknisk Spesifikasjon"
 slug: nb/technical_spec
 sidebar:
   order: 5
@@ -15,7 +15,7 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Designprinsipp</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Applikasjonen er bygget med Flutter og benytter seg av <strong>Riverpod</strong> rammeverket for tilstandshåndtering. Den interagerer med ELRS-maskinvare via et RESTful API eksponert av enhetens innebygde WiFi-modul, noe som sikrer kommunikasjon med lav latens og sanntids synkronisering av tilstand.
+    Applikasjonen er bygget med Flutter og benytter **Riverpod** rammeverket for tilstandshåndtering. Den kommuniserer med ELRS-maskinvare via et RESTful API eksponert av enhetens innebygde WiFi-modul, noe som sikrer kommunikasjon med lav latens og sanntids tilstandssynkronisering.
   </p>
 </div>
 
@@ -27,15 +27,15 @@ Systemet kommuniserer med maskinvaren ved hjelp av følgende HTTP-endepunkter:
 | Metode | Endepunkt | Beskrivelse |
 | :--- | :--- | :--- |
 | `GET` | `/config` | Henter gjeldende enhetskonfigurasjon i JSON-format. |
-| `POST` | `/options.json` | Oppdaterer modifiserbare kjøretidsalternativer (WiFi SSID, passord, osv.). |
-| `POST` | `/config` | Oppdaterer kjerne maskinvareparametere og PWM-tilordninger. |
-| `POST` | `/reboot` | Utløser en maskinvareresett for å anvende endringer. |
+| `POST` | `/options.json` | Oppdaterer modifiserbare kjøretidsalternativer (SSID, passord, osv.). |
+| `POST` | `/config` | Oppdaterer kjerne maskinvareparametre og PWM-tilordninger. |
+| `POST` | `/reboot` | Utløser en maskinvarereset for å anvende endringer. |
 
 ### JSON-skjema
-`RuntimeConfig`-modellen benytter seg av ELRS 4.x-strukturen, som deler parametere inn i tre primære noder:
+`RuntimeConfig`-modellen utnytter ELRS 4.x-strukturen, som skiller parametere i tre primære noder:
 - `settings`: Skrivebeskyttede maskinvareidentifikatorer og versjonsstrenger.
 - `options`: Modifiserbare brukerinnstillinger og nettverkslegitimasjon.
-- `config`: Lavnivå maskinvarekonfigurasjoner (protokoller, PWM Arrays).
+- `config`: Lavnivå maskinvarekonfigurasjoner (protokoller, PWM-matriser).
 
 Eksempel på JSON-struktur:
 ```json
@@ -61,39 +61,27 @@ Eksempel på JSON-struktur:
 
 ## Tilstandshåndtering
 Systemet benytter en reaktiv arkitektur:
-- **`ConfigViewModel`**: Håndterer live tilkoblingsstatus, "heartbeat"-logikk og IP-oppdagelse.
-- **`DeviceEditorViewModel`**: Inneholder utkaststatusen for en enhets konfigurasjon, noe som muliggjør redigering i flere trinn med endelig "lagre/avbryt"-logikk.
+- **`ConfigViewModel`**: Håndterer live tilkoblingstilstand, hjertebanklogikk og IP-oppdagelse.
 - **`FlashingController`**: Orkestrerer nedlastinger av fastvare, lokal binær patching og XH-over-HTTP opplastingsprosessen.
 
-## Kartleggingslag
-Følgende tabeller definerer kartleggingen mellom heltallsidentifikatorer brukt i API-et og deres menneskelesbare ekvivalenter.
+## Tilordningslag
+`ElrsMappings.domains900` tilordner 900 MHz regulatorisk domeneindeks brukt i API-et til dens menneskelesbare etikett:
 
-### Regulatoriske domener
 | ID | Etikett | Beskrivelse |
 | :--- | :--- | :--- |
 | 0 | AU915 | Australia/New Zealand 915MHz |
-| 1 | FCC915 | North American 915MHz |
-| 2 | EU868 | European 868MHz |
-| 3 | IN866 | Indian 866MHz |
+| 1 | FCC915 | Nordamerikansk 915MHz |
+| 2 | EU868 | Europeisk 868MHz |
+| 3 | IN866 | Indisk 866MHz |
 | 4 | AU433 | Australia 433MHz |
-| 5 | EU433 | European 433MHz |
-| 6 | US433 | North American 433MHz |
-| 7 | US433-Wide | North American Wide 433MHz |
+| 5 | EU433 | Europeisk 433MHz |
+| 6 | US433 | Nordamerikansk 433MHz |
+| 7 | US433-Wide | Nordamerikansk Bred 433MHz |
 
 
-## Avanserte kartlegginger
+## Persistenslag
+Systemet implementerer en to-lags persistensstrategi:
+- **`SharedPreferences`**: Brukt via `PersistenceService` for ikke-sensitive data som WiFi SSIDs og generelle appinnstillinger.
+- **`FlutterSecureStorage`**: Brukt for sensitive data, inkludert Binding Phrases og WiFi-passord, noe som sikrer kryptering på OS-nivå.
 
-### VBind (Bindingslagring)
-Bestemmer hvordan bindingsfrasen lagres på enheten.
-- **0: Persistent**: Lagres til flash-minne (standard).
-- **1: Volatile**: Slettes ved strømsyklus.
-- **2: Returnable**: Brukes for utlånsutstyr.
-- **3: Administered**: Brukes i flerpilot-flåtemiljøer.
-
-
-## Vedvarende lag
-Systemet implementerer en tolags vedvarende lagringsstrategi:
-- **`SharedPreferences`**: Brukes via `PersistenceService` for ikke-sensitive data som WiFi SSID-er og generelle appinnstillinger.
-- **`FlutterSecureStorage`**: Brukes for sensitive data, inkludert bindingsfraser og WiFi-passord, og sikrer kryptering på OS-nivå.
-
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

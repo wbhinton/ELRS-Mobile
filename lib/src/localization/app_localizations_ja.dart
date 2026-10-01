@@ -18,19 +18,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flashingButtonLabel => 'フラッシュ';
 
   @override
-  String get packetRateLabel => 'パケットレート';
+  String get flashingStatusLocating => 'ファームウェアを検索中';
 
   @override
-  String get baudRateLabel => 'ボーレート';
+  String get flashingStatusUnpacking => 'ファームウェアを展開中';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return '$radioMaster または $betaFPV ハードウェアの $expressLRS ファームウェアを更新しています...';
-  }
+  String get flashingStatusDownloading => 'ファームウェアをダウンロード中';
+
+  @override
+  String get flashingStatusBuilding => 'ファームウェアをビルド中';
+
+  @override
+  String get flashingStatusUploading => 'デバイスにアップロード中';
+
+  @override
+  String get flashingStatusFinalizing => 'デバイスに書き込み中 — お待ちください';
 
   @override
   String get flashDeviceLabel => 'ファームウェア書き込み';
@@ -77,18 +80,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'ファームウェア書き込みとWi-Fi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'バージョン情報とサポート';
-
-  @override
-  String get advancedCategoryLabel => '詳細設定';
-
-  @override
-  String get flashingDefaultsSectionLabel => 'ファームウェア書き込みのデフォルト設定';
-
-  @override
   String get default24GHzDomainLabel => 'デフォルトの2.4GHzドメイン';
 
   @override
@@ -121,9 +112,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clearLabel => 'クリア';
-
-  @override
-  String get aboutSectionLabel => 'このアプリについて';
 
   @override
   String get appVersionLabel => 'アプリのバージョン';
@@ -358,4 +346,306 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'ファームウェアを保存しました';
+
+  @override
+  String get flashErrorNoTarget => '対象デバイスを選択してください。';
+
+  @override
+  String get flashErrorNoVersion => 'ファームウェアのバージョンを選択してください。';
+
+  @override
+  String get flashErrorNoDevice => 'フラッシュできません: ELRSデバイスが接続されていません。';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return '互換性のないチップです: このファームウェアは$targetChip用にビルドされていますが、接続されているデバイスは$deviceChipです。同じチップのターゲットを選択してください。';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      '不足しているファイルを取得するためのインターネットアクセスがありません。ELRSデバイスから切断し、「ファームウェア管理」でこのファームウェアをダウンロードしてキャッシュを完了してから、もう一度お試しください。';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'インターネットアクセスがありません。ELRSデバイスのホットスポットに接続中はファームウェアをダウンロードできません。切断し、「ファームウェア管理」でこのバージョンをダウンロードしてから、もう一度お試しください。';
+
+  @override
+  String get flashErrorFlashFailed => '書き込みに失敗しました。';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'デバイスが書き込みの確認前に切断されたため、完了していない可能性があります。これは、書き込み中に電源が失われたり再起動したりした場合、または書き込み成功後にWi-Fi接続が不安定になった場合に発生します。「デバイス設定」でファームウェアのバージョンを確認し、変更されていない場合は再度書き込みを行ってください。';
+
+  @override
+  String get flashErrorDownloadFailed => 'ファームウェアのダウンロードに失敗しました。';
+
+  @override
+  String get validationSsidTooLong => 'SSIDは32文字以下である必要があります';
+
+  @override
+  String get validationPasswordTooShort => 'パスワードは8文字以上である必要があります';
+
+  @override
+  String get validationPasswordTooLong => 'パスワードは63文字以下である必要があります';
+
+  @override
+  String get targetMismatchTitle => 'ターゲット不一致';
+
+  @override
+  String get targetMismatchMessage =>
+      '選択されたファームウェアターゲットは、現在デバイスで実行されているハードウェアと一致しません。強制的に書き込みを続行しますか？';
+
+  @override
+  String get forceFlashLabel => '強制書き込み';
+
+  @override
+  String get noBindPhraseTitle => 'バインドフレーズがありません';
+
+  @override
+  String get noBindPhraseMessage => 'バインドフレーズが設定されていません。デフォルト（空）で続行しますか？';
+
+  @override
+  String get flashSuccessSnackbar => '書き込みが正常に完了しました！';
+
+  @override
+  String get firmwareSavedSnackbar => 'ファームウェアが正常に保存されました！';
+
+  @override
+  String get flashSuccessMessage => '書き込みが成功しました！デバイスを再起動しています。';
+
+  @override
+  String get stm32OtaWarning =>
+      'STM32ターゲットが選択されました: このハードウェアではOTA書き込みはサポートされていません。このファームウェアをローカルでビルドして保存し、STLinkまたはBetaflight Passthrough経由で手動で書き込むことができます。';
+
+  @override
+  String get downloadBinaryLabel => 'バイナリをダウンロード';
+
+  @override
+  String get waitingForDeviceLabel => 'デバイスを待機中...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA利用不可';
+
+  @override
+  String get doneLabel => '完了';
+
+  @override
+  String get targetSelectionTitle => 'ターゲット選択';
+
+  @override
+  String get deviceTypeLabel => 'デバイスタイプ';
+
+  @override
+  String get deviceVendorLabel => 'デバイスベンダー';
+
+  @override
+  String get regulatoryFrequencyLabel => '規制と周波数';
+
+  @override
+  String get deviceTargetLabel => 'デバイスターゲット';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'ファームウェアがダウンロードされていません。ファームウェアマネージャーへ';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'ハードウェアにはv$version以降が必要です。';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton => '互換性のあるファームウェアをダウンロード';
+
+  @override
+  String get firmwareVersionLabel => 'ファームウェアバージョン';
+
+  @override
+  String get firmwareVersionHelper => 'フラッシュするELRSバージョンを選択';
+
+  @override
+  String get cachedBadge => '(キャッシュ済み)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'バージョンの読み込みエラー: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'フラッシュプロファイル';
+
+  @override
+  String get addProfileTooltip => 'プロファイルを追加';
+
+  @override
+  String get deleteProfileTooltip => 'プロファイルを削除';
+
+  @override
+  String get bindingPhraseHelper => 'あなたのユニークなバインディングフレーズ';
+
+  @override
+  String get addProfileTitle => 'フラッシュプロファイルの追加';
+
+  @override
+  String get profileNameHint => 'プロファイル名（例：My Quads）';
+
+  @override
+  String get addLabel => '追加';
+
+  @override
+  String get deleteProfileTitle => 'プロファイルの削除';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'プロファイル「$name」を本当に削除しますか？';
+  }
+
+  @override
+  String get deleteLabel => '削除';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'プロファイルとネットワーク';
+
+  @override
+  String get settingsCategoryAppStorage => 'アプリとストレージ';
+
+  @override
+  String get settingsCategoryAdvancedDebug => '詳細設定とデバッグ';
+
+  @override
+  String get settingsCategoryAboutLegal => 'このアプリについて・法的情報';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => '規制の既定値';
+
+  @override
+  String get settingsSectionPreferences => '環境設定';
+
+  @override
+  String get settingsSectionPowerTools => 'パワーツール';
+
+  @override
+  String get settingsSectionDiagnostics => '診断';
+
+  @override
+  String get regDomainUnknown => '不明';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countバージョン',
+      one: '1バージョン',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return '$fieldを編集';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return '$fieldを入力';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.luaをデバイスに保存しました！';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'スクリプトの保存に失敗しました: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return '送信しました！イベントID: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'レポートを正常に送信しました！';
+
+  @override
+  String debugReportFailed(String error) {
+    return '送信に失敗しました: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'ライセンスの読み込みエラー: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => 'ファームウェアバージョンを読み込めませんでした。';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'レシーバーのWi-Fiホットスポットに直接接続している間はファームウェアをダウンロードできません。接続を切断するか、ホームネットワークを使用してください。';
+
+  @override
+  String get firmwareErrorCacheFull => 'キャッシュの上限に達しました。古いバージョンを削除してください。';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'ファームウェアサーバーに接続できません。インターネット接続を確認してください。';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'ダウンロードが中断されました: ネットワーク接続が失われました。接続を確認してもう一度お試しください。';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'ファームウェアのダウンロードに失敗しました。';
+
+  @override
+  String get firmwareErrorDeleteFailed => 'このファームウェアバージョンを削除できませんでした。';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'バージョン $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'オフラインでの使用準備ができました';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return '使用済みストレージ: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit バージョン';
+  }
+
+  @override
+  String get splashTagline => '独立した設定ツール';
+
+  @override
+  String get splashDisclaimer =>
+      '公式のExpressLRS製品ではありません。\n3.3.x/4.xファームウェアに対応しています。';
+
+  @override
+  String get unknownDeviceName => 'ELRSデバイス';
+
+  @override
+  String get unknownIpLabel => '不明なIP';
+
+  @override
+  String get firmwareBinariesFileType => 'ファームウェアバイナリ';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'ヘルプコンテンツの読み込みエラー: $error';
+  }
 }

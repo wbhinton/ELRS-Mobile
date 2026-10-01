@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-## Architectuur Overzicht
+## Architectuuroverzicht
 
 <div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
   <div class="flex items-center gap-3 mb-2">
@@ -15,7 +15,7 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Ontwerpprincipe</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    De applicatie is gebouwd met Flutter en maakt gebruik van het <strong>Riverpod</strong> state management framework. Het communiceert met ELRS hardware via een RESTful API die wordt aangeboden door de ingebouwde WiFi-module van het apparaat, wat zorgt voor communicatie met lage latentie en real-time statussynchronisatie.
+    De applicatie is gebouwd met Flutter en maakt gebruik van het <strong>Riverpod</strong> state management framework. Het communiceert met ELRS-hardware via een RESTful API die wordt blootgesteld door de ingebouwde WiFi-module van het apparaat, wat zorgt voor communicatie met lage latentie en real-time statussynchronisatie.
   </p>
 </div>
 
@@ -27,17 +27,17 @@ Het systeem communiceert met de hardware via de volgende HTTP-eindpunten:
 | Methode | Eindpunt | Beschrijving |
 | :--- | :--- | :--- |
 | `GET` | `/config` | Haalt de huidige apparaatconfiguratie op in JSON-formaat. |
-| `POST` | `/options.json` | Werkt aanpasbare runtime-opties bij (WiFi SSID, Wachtwoord, enz.). |
-| `POST` | `/config` | Werkt de kernhardwareparameters en PWM-toewijzingen bij. |
+| `POST` | `/options.json` | Werkt aanpasbare runtime-opties bij (SSID, Wachtwoord, enz.). |
+| `POST` | `/config` | Werkt kernhardwareparameters en PWM-toewijzingen bij. |
 | `POST` | `/reboot` | Activeert een hardware-reset om wijzigingen toe te passen. |
 
 ### JSON-schema
-Het `RuntimeConfig`-model maakt gebruik van de ELRS 4.x-structuur, die parameters in drie primaire knooppunten scheidt:
-- `settings`: Alleen-lezen hardware-identificatoren en versie-strings.
+Het `RuntimeConfig`-model maakt gebruik van de ELRS 4.x-structuur, die parameters scheidt in drie primaire knooppunten:
+- `settings`: Alleen-lezen hardware-identificatoren en versietekstreeksen.
 - `options`: Aanpasbare gebruikersvoorkeuren en netwerkreferenties.
 - `config`: Laag-niveau hardwareconfiguraties (Protocollen, PWM-arrays).
 
-Voorbeeld van de JSON-structuur:
+Voorbeeld JSON-structuur:
 ```json
 {
   "product_name": "Test RX",
@@ -61,14 +61,12 @@ Voorbeeld van de JSON-structuur:
 
 ## Statusbeheer
 Het systeem maakt gebruik van een reactieve architectuur:
-- **`ConfigViewModel`**: Beheert de live verbindingsstatus, heartbeat-logica en IP-detectie.
-- **`DeviceEditorViewModel`**: Bevat de conceptstatus van de configuratie van een apparaat, waardoor bewerkingen in meerdere stappen mogelijk zijn met uiteindelijke "opslaan/annuleren"-logica.
+- **`ConfigViewModel`**: Beheert de live verbindingsstatus, hartslaglogica en IP-detectie.
 - **`FlashingController`**: Coördineert firmware-downloads, lokale binaire patching en het XH-over-HTTP uploadproces.
 
 ## Toewijzingslaag
-De volgende tabellen definiëren de toewijzing tussen integer-identificatoren die in de API worden gebruikt en hun menselijk leesbare equivalenten.
+`ElrsMappings.domains900` koppelt de 900 MHz reguliere domeinindex die in de API wordt gebruikt aan het menselijk leesbare label:
 
-### Regelgevende domeinen
 | ID | Label | Beschrijving |
 | :--- | :--- | :--- |
 | 0 | AU915 | Australië/Nieuw-Zeeland 915MHz |
@@ -78,20 +76,12 @@ De volgende tabellen definiëren de toewijzing tussen integer-identificatoren di
 | 4 | AU433 | Australië 433MHz |
 | 5 | EU433 | Europees 433MHz |
 | 6 | US433 | Noord-Amerikaans 433MHz |
-| 7 | US433-Wide | Noord-Amerikaans breed 433MHz |
+| 7 | US433-Wide | Noord-Amerikaans Breed 433MHz |
 
-## Geavanceerde toewijzingen
-
-### VBind (Bindingsopslag)
-Bepaalt hoe de bindingszin op het apparaat wordt opgeslagen.
-- **0: Persistent**: Opgeslagen in flashgeheugen (standaard).
-- **1: Vluchtig**: Gewist bij het uitschakelen en weer inschakelen.
-- **2: Retourneerbaar**: Gebruikt voor uitleenapparatuur.
-- **3: Beheerd**: Gebruikt in multi-piloot vlootomgevingen.
 
 ## Persistentielaag
-Het systeem implementeert een tweelaagse persistentiestrategie:
+Het systeem implementeert een tweeledige persistentie-strategie:
 - **`SharedPreferences`**: Gebruikt via `PersistenceService` voor niet-gevoelige gegevens zoals WiFi SSIDs en algemene app-voorkeuren.
-- **`FlutterSecureStorage`**: Gebruikt voor gevoelige gegevens, waaronder bindingszinnen en WiFi-wachtwoorden, om versleuteling op OS-niveau te garanderen.
+- **`FlutterSecureStorage`**: Gebruikt voor gevoelige gegevens, waaronder bindingszinnen en WiFi-wachtwoorden, wat encryptie op OS-niveau garandeert.
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

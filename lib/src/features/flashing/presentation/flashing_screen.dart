@@ -7,9 +7,11 @@ import 'widgets/target_selection_card.dart';
 import 'widgets/options_card.dart';
 import 'package:go_router/go_router.dart';
 import 'flashing_controller.dart';
+import 'flash_error_text.dart';
 import '../../settings/presentation/settings_controller.dart';
 import '../../config/presentation/config_view_model.dart';
 import '../../config/domain/runtime_config_model.dart';
+import '../../../core/app_info.dart';
 
 class FlashingScreen extends HookConsumerWidget {
   const FlashingScreen({super.key});
@@ -33,6 +35,7 @@ class FlashingScreen extends HookConsumerWidget {
       };
     }, []);
 
+    final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(flashingControllerProvider);
     final settings = ref.watch(settingsControllerProvider);
     final configAsync = ref.watch(configViewModelProvider);
@@ -59,18 +62,18 @@ class FlashingScreen extends HookConsumerWidget {
             context: context,
             barrierDismissible: false,
             builder: (dialogContext) => AlertDialog(
-              title: const Text('Target Mismatch', style: TextStyle(color: Colors.orange)),
-              content: const Text(
-                'The selected firmware target does not match the hardware currently '
-                'running on the device. Are you sure you want to force flash?',
+              title: Text(
+                l10n.targetMismatchTitle,
+                style: const TextStyle(color: Colors.orange),
               ),
+              content: Text(l10n.targetMismatchMessage),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(dialogContext);
                     ref.read(flashingControllerProvider.notifier).resetStatus();
                   },
-                  child: const Text('CANCEL'),
+                  child: Text(l10n.cancelLabel.toUpperCase()),
                 ),
                 TextButton(
                   style: TextButton.styleFrom(foregroundColor: Colors.red),
@@ -78,25 +81,23 @@ class FlashingScreen extends HookConsumerWidget {
                     Navigator.pop(dialogContext);
                     ref.read(flashingControllerProvider.notifier).forceUpdate();
                   },
-                  child: const Text('FORCE FLASH'),
+                  child: Text(l10n.forceFlashLabel.toUpperCase()),
                 ),
               ],
             ),
           );
         } else if (next.status == FlashingStatus.error &&
-            next.errorMessage == 'NO_BIND_PHRASE' &&
+            next.error is NoBindPhrase &&
             previous?.status != FlashingStatus.error) {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text('No Binding Phrase'),
-              content: const Text(
-                'No Binding Phrase set. Proceed with default (empty)?',
-              ),
+              title: Text(l10n.noBindPhraseTitle),
+              content: Text(l10n.noBindPhraseMessage),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('CANCEL'),
+                  child: Text(l10n.cancelLabel.toUpperCase()),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -105,7 +106,7 @@ class FlashingScreen extends HookConsumerWidget {
                         .read(flashingControllerProvider.notifier)
                         .flash(ignoreMissingBindPhrase: true);
                   },
-                  child: const Text('PROCEED'),
+                  child: Text(l10n.proceedLabel.toUpperCase()),
                 ),
               ],
             ),
@@ -113,23 +114,27 @@ class FlashingScreen extends HookConsumerWidget {
         } else if (next.status == FlashingStatus.success &&
             previous?.status != FlashingStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Flashing completed successfully!')),
+            SnackBar(content: Text(l10n.flashSuccessSnackbar)),
           );
         } else if (next.status == FlashingStatus.downloadSuccess &&
             previous?.status != FlashingStatus.downloadSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Firmware saved successfully!')),
+            SnackBar(content: Text(l10n.firmwareSavedSnackbar)),
           );
         }
       },
     );
+
+    // Amber when the outcome is unknown rather than a definite failure.
+    final errorColor =
+        state.error is FlashUnconfirmed ? Colors.orange : Colors.red;
 
     final selectedTarget = state.selectedTarget;
     final isStm32 = selectedTarget?.platform == 'stm32';
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ELRS Mobile'),
+        title: const Text(appName),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -152,23 +157,40 @@ class FlashingScreen extends HookConsumerWidget {
               const SizedBox(height: 24),
 
               // 3. Action Button & Progress
-              if (state.errorMessage != null &&
+              // The bind-phrase prompt is a dialog, not an inline error.
+              if (state.error != null &&
+                  state.error is! NoBindPhrase &&
                   state.status != FlashingStatus.mismatch)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    state.errorMessage!,
-                    style: const TextStyle(color: Colors.red),
-                    textAlign: TextAlign.center,
+                  child: Column(
+                    children: [
+                      Text(
+                        state.error!.message(l10n),
+                        style: TextStyle(color: errorColor),
+                        textAlign: TextAlign.center,
+                      ),
+                      if (state.error!.detail != null) ...[
+                        const SizedBox(height: 4),
+                        SelectableText(
+                          state.error!.detail!,
+                          style: TextStyle(
+                            color: errorColor.shade200,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ],
                   ),
                 ),
 
               if (state.status == FlashingStatus.success)
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 16.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
                   child: Text(
-                    'Flashing Successful! Device is rebooting.',
-                    style: TextStyle(
+                    l10n.flashSuccessMessage,
+                    style: const TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
                     ),
@@ -183,14 +205,18 @@ class FlashingScreen extends HookConsumerWidget {
                 Column(
                   children: [
                     LinearProgressIndicator(
-                      value: state.progress,
+                      // Finalizing has no progress signal from the device —
+                      // show an indeterminate bar instead of a stalled 100%.
+                      value: state.status == FlashingStatus.finalizing
+                          ? null
+                          : state.progress,
                       minHeight: 6, // Slightly thicker for better outdoor visibility
                       color: const Color(0xFF00E5FF), // Bright Cyan
                       backgroundColor: Colors.grey.withValues(alpha: 0.3), // Neutral dark track
                       borderRadius: BorderRadius.circular(4), // Rounded edges
                     ),
                     const SizedBox(height: 8),
-                    Text(state.status.name.toUpperCase()),
+                    Text(_flashingStatusLabel(context, state.status)),
                     const SizedBox(height: 16),
                   ],
                 ),
@@ -214,7 +240,7 @@ class FlashingScreen extends HookConsumerWidget {
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              'STM32 Target Selected: OTA flashing is not supported for this hardware. You can build and save this firmware locally to flash manually via STLink or Betaflight Passthrough.',
+                              l10n.stm32OtaWarning,
                               style: TextStyle(
                                 fontSize: 13,
                                 height: 1.4,
@@ -245,7 +271,7 @@ class FlashingScreen extends HookConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text('DOWNLOAD BINARY'),
+                    child: Text(l10n.downloadBinaryLabel.toUpperCase()),
                   ),
                 ),
 
@@ -284,13 +310,14 @@ class FlashingScreen extends HookConsumerWidget {
                       : null,
                 ),
                 child: Text(
-                  !isConnected
-                      ? 'WAITING FOR DEVICE...'
-                      : isStm32
-                          ? 'OTA UNAVAILABLE'
+                  (!isConnected
+                          ? l10n.waitingForDeviceLabel
+                          : isStm32
+                          ? l10n.otaUnavailableLabel
                           : state.status == FlashingStatus.success
-                              ? 'DONE'
-                              : AppLocalizations.of(context)!.flashingButtonLabel.toUpperCase(),
+                          ? l10n.doneLabel
+                          : l10n.flashingButtonLabel)
+                      .toUpperCase(),
                 ),
               ),
             ],
@@ -298,5 +325,30 @@ class FlashingScreen extends HookConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+String _flashingStatusLabel(BuildContext context, FlashingStatus status) {
+  final l10n = AppLocalizations.of(context)!;
+  switch (status) {
+    case FlashingStatus.locating:
+      return l10n.flashingStatusLocating.toUpperCase();
+    case FlashingStatus.unpacking:
+      return l10n.flashingStatusUnpacking.toUpperCase();
+    case FlashingStatus.downloading:
+      return l10n.flashingStatusDownloading.toUpperCase();
+    case FlashingStatus.building:
+      return l10n.flashingStatusBuilding.toUpperCase();
+    case FlashingStatus.uploading:
+      return l10n.flashingStatusUploading.toUpperCase();
+    case FlashingStatus.finalizing:
+      return l10n.flashingStatusFinalizing.toUpperCase();
+    case FlashingStatus.downloadSuccess:
+      return l10n.flashingStatusSaved.toUpperCase();
+    case FlashingStatus.idle:
+    case FlashingStatus.success:
+    case FlashingStatus.error:
+    case FlashingStatus.mismatch:
+      return status.name.toUpperCase();
   }
 }

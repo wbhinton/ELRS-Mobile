@@ -34,6 +34,10 @@ migrate_working_dir/
 /coverage/
 pubspec.lock
 
+# Built release binaries / LLM-context dumps (not source)
+*.apk
+digest*.txt
+
 # Symbolication related
 app.*.symbols
 

@@ -93,7 +93,9 @@ class _GPLText extends StatelessWidget {
       future: DefaultAssetBundle.of(context).loadString('assets/docs/LICENSE'),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text('Error loading license: ${snapshot.error}');
+          return Text(
+            AppLocalizations.of(context)!.licenseLoadFailed('${snapshot.error}'),
+          );
         }
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());

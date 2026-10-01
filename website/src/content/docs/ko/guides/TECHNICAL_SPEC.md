@@ -15,7 +15,7 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">설계 원칙</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    이 애플리케이션은 Flutter를 사용하여 구축되었으며 <strong>Riverpod</strong> 상태 관리 프레임워크를 활용합니다. 장치의 온보드 WiFi 모듈이 노출하는 RESTful API를 통해 ELRS 하드웨어와 상호 작용하여 낮은 지연 시간 통신 및 실시간 상태 동기화를 보장합니다.
+    이 애플리케이션은 Flutter를 사용하여 구축되었으며 <strong>Riverpod</strong> 상태 관리 프레임워크를 활용합니다. 장치 온보드 WiFi 모듈에서 노출되는 RESTful API를 통해 ELRS 하드웨어와 상호 작용하여 낮은 지연 시간 통신과 실시간 상태 동기화를 보장합니다.
   </p>
 </div>
 
@@ -24,18 +24,18 @@ sidebar:
 ### API 엔드포인트
 시스템은 다음 HTTP 엔드포인트를 사용하여 하드웨어와 통신합니다:
 
-| Method | Endpoint | Description |
+| 메서드 | 엔드포인트 | 설명 |
 | :--- | :--- | :--- |
 | `GET` | `/config` | 현재 장치 구성을 JSON 형식으로 검색합니다. |
-| `POST` | `/options.json` | 수정 가능한 런타임 옵션(SSID, Password 등)을 업데이트합니다. |
+| `POST` | `/options.json` | 수정 가능한 런타임 옵션(SSID, 비밀번호 등)을 업데이트합니다. |
 | `POST` | `/config` | 핵심 하드웨어 매개변수 및 PWM 매핑을 업데이트합니다. |
 | `POST` | `/reboot` | 변경 사항을 적용하기 위해 하드웨어 재설정을 트리거합니다. |
 
 ### JSON 스키마
-`RuntimeConfig` 모델은 ELRS 4.x 구조를 활용하며, 이 구조는 매개변수를 세 가지 주요 노드로 분리합니다.
-- `settings`: 읽기 전용 하드웨어 식별자 및 버전 문자열.
+`RuntimeConfig` 모델은 매개변수를 세 가지 주요 노드로 분리하는 ELRS 4.x 구조를 활용합니다:
+- `settings`: 읽기 ��용 하드웨어 식별자 및 버전 문자열.
 - `options`: 수정 가능한 사용자 기본 설정 및 네트워크 자격 증명.
-- `config`: 저수준 하드웨어 구성(Protocols, PWM Arrays).
+- `config`: 낮은 수준의 하드웨어 구성 (Protocols, PWM Arrays).
 
 JSON 구조 예시:
 ```json
@@ -62,14 +62,12 @@ JSON 구조 예시:
 ## 상태 관리
 시스템은 반응형 아키텍처를 사용합니다:
 - **`ConfigViewModel`**: 실시간 연결 상태, 하트비트 로직 및 IP 검색을 관리합니다.
-- **`DeviceEditorViewModel`**: 장치 구성의 초안 상태를 저장하여 최종 "저장/취소" 로직으로 다단계 편집을 가능하게 합니다.
-- **`FlashingController`**: 펌웨어 다운로드, 로컬 바이너리 패치 및 XH-over-HTTP 업로드 프로세스를 조율합니다.
+- **`FlashingController`**: 펌웨어 다운로드, 로컬 바이너리 패칭 및 XH-over-HTTP 업로드 프로세스를 조정합니다.
 
 ## 매핑 계층
-다음 표는 API에서 사용되는 정수 식별자와 사람이 읽을 수 있는 해당 값 간의 매핑을 정의합니다.
+`ElrsMappings.domains900`은 API에서 사용되는 900 MHz 규제 도메인 인덱스를 사람이 읽을 수 있는 레이블로 매핑합니다:
 
-### 규제 도메인
-| ID | Label | Description |
+| ID | 레이블 | 설명 |
 | :--- | :--- | :--- |
 | 0 | AU915 | 호주/뉴질랜드 915MHz |
 | 1 | FCC915 | 북미 915MHz |
@@ -81,19 +79,9 @@ JSON 구조 예시:
 | 7 | US433-Wide | 북미 광대역 433MHz |
 
 
-## 고급 매핑
+## 영속성 계층
+시스템은 이중 계층 영속성 전략을 구현합니다:
+- **`SharedPreferences`**: WiFi SSID 및 일반 앱 기본 설정과 같은 민감하지 않은 데이터에 대해 `PersistenceService`를 통해 활용됩니다.
+- **`FlutterSecureStorage`**: 바인딩 문구 및 WiFi 비밀번호를 포함한 민감한 데이터에 사용되며, OS 수준에서 암호화를 보장합니다.
 
-### VBind (바인딩 저장)
-바인딩 문구가 장치에 저장되는 방식을 결정합니다.
-- **0: Persistent**: 플래시 메모리에 저장됨(표준).
-- **1: Volatile**: 전원 주기에 따라 지워짐.
-- **2: Returnable**: 대여 장비에 사용됨.
-- **3: Administered**: 다중 파일럿 플릿 환경에서 사용됨.
-
-
-## 영구 저장 계층
-시스템은 이중 계층 영구 저장 전략을 구현합니다:
-- **`SharedPreferences`**: WiFi SSIDs 및 일반 앱 기본 설정과 같은 민감하지 않은 데이터에 대해 `PersistenceService`를 통해 활용됩니다.
-- **`FlutterSecureStorage`**: Binding Phrases 및 WiFi Passwords를 포함한 민감한 데이터에 사용되며, OS 수준에서 암호화를 보장합니다.
-
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

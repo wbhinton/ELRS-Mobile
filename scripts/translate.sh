@@ -27,6 +27,32 @@ if [ -z "$ARB_TRANSLATE_API_KEY" ]; then
   fi
 fi
 
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+# arb_translate 1.1.0 maps its model enum to the retired Gemini 1.5
+# `-latest` names, and its config only accepts 1.5 names. Rewrite the
+# mapping in the pub cache to current models, and fail loudly if the
+# source no longer looks as expected (e.g. after a version bump) rather
+# than silently calling a dead model.
+ARB_TRANSLATE_VERSION="$(awk '/^  arb_translate:/{f=1} f&&/^    version:/{gsub(/[" ]|version:/,""); print; exit}' "$ROOT_DIR/pubspec.lock")"
+if [ -z "$ARB_TRANSLATE_VERSION" ]; then
+  echo "Error: could not read the arb_translate version from pubspec.lock."
+  exit 1
+fi
+DELEGATE="${PUB_CACHE:-$HOME/.pub-cache}/hosted/pub.dev/arb_translate-$ARB_TRANSLATE_VERSION/lib/src/translation_delegates/gemini_translation_delegate.dart"
+if [ ! -f "$DELEGATE" ]; then
+  echo "Error: arb_translate source not found at $DELEGATE (run flutter pub get)."
+  exit 1
+fi
+sed -i "s/Model.gemini15Pro || Model.gemini15Flash => '\${model.key}-latest'/Model.gemini15Pro => 'gemini-2.5-pro', Model.gemini15Flash => 'gemini-2.5-flash'/g" "$DELEGATE"
+if ! grep -q "Model.gemini15Flash => 'gemini-2.5-flash'" "$DELEGATE"; then
+  echo "Error: could not patch arb_translate $ARB_TRANSLATE_VERSION model mapping — its source has changed."
+  exit 1
+fi
+
+echo "Clearing translations whose English source changed..."
+node "$ROOT_DIR/scripts/arb_stale_check.js" invalidate
+
 echo "Running arb_translate..."
 dart run arb_translate
 
@@ -38,5 +64,8 @@ node "$(dirname "$0")/../website/scripts/translate_astro.cjs"
 
 echo "Running flutter gen-l10n..."
 flutter gen-l10n
+
+echo "Recording English source hashes..."
+node "$ROOT_DIR/scripts/arb_stale_check.js" record
 
 echo "Translation pipeline completed successfully!"

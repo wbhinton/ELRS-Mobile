@@ -18,19 +18,22 @@ class AppLocalizationsNb extends AppLocalizations {
   String get flashingButtonLabel => 'Flash';
 
   @override
-  String get packetRateLabel => 'Pakkehastighet';
+  String get flashingStatusLocating => 'Finner fastvare';
 
   @override
-  String get baudRateLabel => 'Baudrate';
+  String get flashingStatusUnpacking => 'Pakker ut fastvare';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Oppdaterer $expressLRS-fastvare på $radioMaster- eller $betaFPV-maskinvare...';
-  }
+  String get flashingStatusDownloading => 'Laster ned fastvare';
+
+  @override
+  String get flashingStatusBuilding => 'Bygger fastvare';
+
+  @override
+  String get flashingStatusUploading => 'Laster opp til enhet';
+
+  @override
+  String get flashingStatusFinalizing => 'Skriver til enhet – Vennligst vent';
 
   @override
   String get flashDeviceLabel => 'Flash enhet';
@@ -77,19 +80,6 @@ class AppLocalizationsNb extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Flashing og WiFi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'Om og støtte';
-
-  @override
-  String get advancedCategoryLabel => 'Avansert';
-
-  @override
-  String get flashingDefaultsSectionLabel =>
-      'Standardinnstillinger for flashing';
-
-  @override
   String get default24GHzDomainLabel => 'Standard 2,4 GHz-domene';
 
   @override
@@ -123,9 +113,6 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get clearLabel => 'TØM';
-
-  @override
-  String get aboutSectionLabel => 'Om';
 
   @override
   String get appVersionLabel => 'Appversjon';
@@ -368,4 +355,313 @@ class AppLocalizationsNb extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'Fastvare lagret';
+
+  @override
+  String get flashErrorNoTarget => 'Vennligst velg en målenhet.';
+
+  @override
+  String get flashErrorNoVersion => 'Vennligst velg en fastvareversjon.';
+
+  @override
+  String get flashErrorNoDevice =>
+      'Kan ikke flashe: ingen ELRS-enhet tilkoblet.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Inkompatibel chip: denne fastvaren er bygget for $targetChip, men den tilkoblede enheten er $deviceChip. Velg et mål for samme chip.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'Ingen internettilgang for å hente manglende filer. Koble fra ELRS-enheten, last ned denne fastvaren via Fastvarebehandler for å fullføre hurtigbufferminne, og prøv igjen.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'Ingen internettilgang. Du kan ikke laste ned fastvare mens du er koblet til ELRS-enhetens hotspot. Koble fra, last ned denne versjonen via Fastvarebehandler, og prøv igjen.';
+
+  @override
+  String get flashErrorFlashFailed => 'Firmvareoppdatering mislyktes.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'Enheten koblet fra før den bekreftet fastvareoppdateringen, så den er muligens ikke fullført. Dette skjer hvis den mister strømmen eller starter på nytt under oppdateringen, og av og til på en svak Wi-Fi-kobling etter en vellykket oppdatering. Sjekk fastvareversjonen i Enhetskonfigurasjon, og oppdater på nytt hvis den ikke har endret seg.';
+
+  @override
+  String get flashErrorDownloadFailed => 'Nedlasting av fastvare mislyktes.';
+
+  @override
+  String get validationSsidTooLong => 'SSID må være 32 tegn eller mindre.';
+
+  @override
+  String get validationPasswordTooShort => 'Passordet må være minst 8 tegn.';
+
+  @override
+  String get validationPasswordTooLong =>
+      'Passordet må være 63 tegn eller mindre.';
+
+  @override
+  String get targetMismatchTitle => 'Målavvik';
+
+  @override
+  String get targetMismatchMessage =>
+      'Det valgte fastvaremålet samsvarer ikke med maskinvaren som kjører på enheten. Er du sikker på at du vil tvangsflashe?';
+
+  @override
+  String get forceFlashLabel => 'TVANGSFLASH';
+
+  @override
+  String get noBindPhraseTitle => 'Ingen bindingsfrase';
+
+  @override
+  String get noBindPhraseMessage =>
+      'Ingen bindingsfrase er satt. Fortsette med standard (tom)?';
+
+  @override
+  String get flashSuccessSnackbar => 'Fastvareoppdatering fullført!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Fastvare lagret!';
+
+  @override
+  String get flashSuccessMessage =>
+      'Fastvareoppdatering fullført! Enheten starter på nytt.';
+
+  @override
+  String get stm32OtaWarning =>
+      'STM32-mål valgt: OTA-oppdatering støttes ikke for denne maskinvaren. Du kan bygge og lagre denne fastvaren lokalt for å oppdatere manuelt via STLink eller Betaflight Passthrough.';
+
+  @override
+  String get downloadBinaryLabel => 'LAST NED BINÆR';
+
+  @override
+  String get waitingForDeviceLabel => 'VENTER PÅ ENHET...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA UTILGJENGELIG';
+
+  @override
+  String get doneLabel => 'FERDIG';
+
+  @override
+  String get targetSelectionTitle => 'Velg maskinvaremål';
+
+  @override
+  String get deviceTypeLabel => 'Enhetstype';
+
+  @override
+  String get deviceVendorLabel => 'Enhetsprodusent';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Regulering og Frekvens';
+
+  @override
+  String get deviceTargetLabel => 'Enhetsmål';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'Ingen fastvare lastet ned. Gå til Fastvarebehandler';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Maskinvaren krever v$version eller nyere.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton => 'Last ned kompatibel fastvare';
+
+  @override
+  String get firmwareVersionLabel => 'Fastvareversjon';
+
+  @override
+  String get firmwareVersionHelper => 'Velg ELRS-versjon for flashing';
+
+  @override
+  String get cachedBadge => '(Bufret)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Feil ved lasting av versjoner: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Flashingprofil';
+
+  @override
+  String get addProfileTooltip => 'Legg til profil';
+
+  @override
+  String get deleteProfileTooltip => 'Slett profil';
+
+  @override
+  String get bindingPhraseHelper => 'Din unike bindingsfrase';
+
+  @override
+  String get addProfileTitle => 'Legg til Flashingprofil';
+
+  @override
+  String get profileNameHint => 'Profilnavn (f.eks. Mine Quads)';
+
+  @override
+  String get addLabel => 'Legg til';
+
+  @override
+  String get deleteProfileTitle => 'Slett profil';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Er du sikker på at du vil slette profilen «$name»?';
+  }
+
+  @override
+  String get deleteLabel => 'Slett';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Profiler og nettverk';
+
+  @override
+  String get settingsCategoryAppStorage => 'App og lagring';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Avansert og feilsøking';
+
+  @override
+  String get settingsCategoryAboutLegal => 'Om og juridisk';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => 'Standard regulering';
+
+  @override
+  String get settingsSectionPreferences => 'Innstillinger';
+
+  @override
+  String get settingsSectionPowerTools => 'Avanserte verktøy';
+
+  @override
+  String get settingsSectionDiagnostics => 'Diagnostikk';
+
+  @override
+  String get regDomainUnknown => 'Ukjent';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count versjoner',
+      one: '1 versjon',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return 'Rediger $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Skriv inn $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.lua lagret på enheten!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Kunne ikke lagre skript: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Sendt! Hendelses-ID: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Rapport sendt inn!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Kunne ikke sende inn: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Feil ved lasting av lisens: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed =>
+      'Kunne ikke laste inn fastvareversjoner.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Kan ikke laste ned fastvare mens du er koblet direkte til mottakerens WiFi-hotspot. Koble fra eller bruk et hjemmenettverk.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Bufringsgrensen er nådd. Vennligst slett en gammel versjon.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Kan ikke nå fastvareserveren. Vennligst sjekk internettilkoblingen din.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Nedlasting avbrutt: nettverksforbindelsen ble tapt. Vennligst sjekk tilkoblingen din og prøv igjen.';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'Klarte ikke å laste ned fastvare.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Klarte ikke å slette denne fastvareversjonen.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Versjon $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Klar for bruk uten nett';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Lagring brukt: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit versjoner';
+  }
+
+  @override
+  String get splashTagline => 'UAVHENGIG KONFIGURASJONSVERKTØY';
+
+  @override
+  String get splashDisclaimer =>
+      'Ikke et offisielt ExpressLRS-produkt.\nKompatibel med 3.3.x/4.x fastvare.';
+
+  @override
+  String get unknownDeviceName => 'ELRS-enhet';
+
+  @override
+  String get unknownIpLabel => 'Ukjent IP';
+
+  @override
+  String get firmwareBinariesFileType => 'Fastvarebinærfiler';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Feil ved lasting av hjelpeinnhold: $error';
+  }
 }

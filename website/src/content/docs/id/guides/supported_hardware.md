@@ -1,5 +1,5 @@
 ---
-title: "Perangkat Keras Didukung"
+title: "Perangkat Keras yang Didukung"
 slug: id/supported_hardware
 sidebar:
   order: 4
@@ -22,20 +22,20 @@ sidebar:
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Tidak Didukung (WIP)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Tidak Didukung (Dalam Pengembangan)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Target STM32 yang memerlukan serial STLink flashing</li>
-      <li class="flex gap-2"><span>•</span> Metode Betaflight Passthrough flashing</li>
-      <li class="flex gap-2"><span>•</span> Koneksi USB/Serial Langsung pada iOS</li>
+      <li class="flex gap-2"><span>•</span> Target STM32 yang memerlukan flashing STLink serial</li>
+      <li class="flex gap-2"><span>•</span> Metode flashing Betaflight Passthrough</li>
+      <li class="flex gap-2"><span>•</span> Koneksi USB/Serial langsung di iOS</li>
     </ul>
   </div>
 </div>
 
 ---
 
-## Hardware yang Telah Diuji
-Target hardware berikut telah secara eksplisit diuji dengan ELRS Mobile:
+## Perangkat Keras yang Telah Diuji
+Target perangkat keras berikut telah diuji secara eksplisit dengan ELRS Mobile:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-0.5">• AXIS Thor 2.4GHz RX</div>
@@ -163,7 +163,7 @@ Target hardware berikut telah secara eksplisit diuji dengan ELRS Mobile:
 ---
 
 ## Biner yang Telah Diuji
-Perakit firmware internal telah diverifikasi secara fungsional terhadap keluaran kompiler ExpressLRS resmi untuk target berikut:
+Assembler firmware internal telah diverifikasi secara fungsional terhadap output kompiler ExpressLRS resmi untuk target berikut:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,4 +183,4 @@ Perakit firmware internal telah diverifikasi secara fungsional terhadap keluaran
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

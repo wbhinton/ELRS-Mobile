@@ -18,19 +18,22 @@ class AppLocalizationsSv extends AppLocalizations {
   String get flashingButtonLabel => 'Flash';
 
   @override
-  String get packetRateLabel => 'Paketfrekvens';
+  String get flashingStatusLocating => 'Hittar firmware';
 
   @override
-  String get baudRateLabel => 'Baudhastighet';
+  String get flashingStatusUnpacking => 'Packar upp firmware';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Uppdaterar $expressLRS firmware på $radioMaster eller $betaFPV hårdvara...';
-  }
+  String get flashingStatusDownloading => 'Laddar ner firmware';
+
+  @override
+  String get flashingStatusBuilding => 'Bygger firmware';
+
+  @override
+  String get flashingStatusUploading => 'Laddar upp till enhet';
+
+  @override
+  String get flashingStatusFinalizing => 'Skriver till enhet – Vänligen vänta';
 
   @override
   String get flashDeviceLabel => 'Flashenhet';
@@ -77,19 +80,6 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Flashning & WiFi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'Om & support';
-
-  @override
-  String get advancedCategoryLabel => 'Avancerat';
-
-  @override
-  String get flashingDefaultsSectionLabel =>
-      'Standardinställningar för flashning';
-
-  @override
   String get default24GHzDomainLabel => 'Standard 2,4 GHz-domän';
 
   @override
@@ -123,9 +113,6 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get clearLabel => 'RENSA';
-
-  @override
-  String get aboutSectionLabel => 'Om';
 
   @override
   String get appVersionLabel => 'Appversion';
@@ -368,4 +355,314 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'Firmware sparad';
+
+  @override
+  String get flashErrorNoTarget => 'Vänligen välj en målenhet.';
+
+  @override
+  String get flashErrorNoVersion => 'Vänligen välj en firmwareversion.';
+
+  @override
+  String get flashErrorNoDevice =>
+      'Kan inte flasha: ingen ELRS-enhet ansluten.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Inkompatibelt chip: denna firmware är byggd för $targetChip, men den anslutna enheten är $deviceChip. Välj ett mål för samma chip.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'Ingen internetåtkomst för att hämta saknade filer. Vänligen koppla från ELRS-enheten, ladda ner denna firmware via Firmwarehanteraren för att slutföra din cache, och försök igen.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'Ingen internetåtkomst. Du kan inte ladda ner firmware medan du är ansluten till ELRS-enhetens hotspot. Vänligen koppla från, ladda ner denna version via Firmwarehanteraren, och försök igen.';
+
+  @override
+  String get flashErrorFlashFailed => 'Flashning misslyckades.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'Enheten kopplades bort innan flashningen bekräftades, så den kanske inte har slutförts. Detta händer om den tappar ström eller startar om mitt under flashningen, och ibland vid en svag WiFi-länk efter en lyckad flashning. Kontrollera firmwareversionen i Enhetskonfiguration, och flasha igen om den inte har ändrats.';
+
+  @override
+  String get flashErrorDownloadFailed =>
+      'Nedladdning av firmware misslyckades.';
+
+  @override
+  String get validationSsidTooLong => 'SSID måste vara 32 tecken eller mindre';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Lösenordet måste vara minst 8 tecken';
+
+  @override
+  String get validationPasswordTooLong => 'Lösenordet får vara högst 63 tecken';
+
+  @override
+  String get targetMismatchTitle => 'Mål matchar inte';
+
+  @override
+  String get targetMismatchMessage =>
+      'Det valda firmware-målet matchar inte den maskinvara som för närvarande körs på enheten. Är du säker på att du vill tvinga flasha?';
+
+  @override
+  String get forceFlashLabel => 'Tvinga flashning';
+
+  @override
+  String get noBindPhraseTitle => 'Ingen bindningsfras';
+
+  @override
+  String get noBindPhraseMessage =>
+      'Ingen bindningsfras angiven. Fortsätt med standard (tom)?';
+
+  @override
+  String get flashSuccessSnackbar => 'Flashning slutförd!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Firmware sparad!';
+
+  @override
+  String get flashSuccessMessage => 'Flashning lyckades! Enheten startas om.';
+
+  @override
+  String get stm32OtaWarning =>
+      'STM32-mål valt: OTA-flashning stöds inte för denna maskinvara. Du kan bygga och spara denna firmware lokalt för att flasha manuellt via STLink eller Betaflight Passthrough.';
+
+  @override
+  String get downloadBinaryLabel => 'Ladda ner binärfil';
+
+  @override
+  String get waitingForDeviceLabel => 'Väntar på enhet...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA OTILLGÄNGLIG';
+
+  @override
+  String get doneLabel => 'KLAR';
+
+  @override
+  String get targetSelectionTitle => 'Val av målenhet';
+
+  @override
+  String get deviceTypeLabel => 'Enhetstyp';
+
+  @override
+  String get deviceVendorLabel => 'Tillverkare';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Reglering & Frekvens';
+
+  @override
+  String get deviceTargetLabel => 'Enhetsmodell';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'Ingen firmware nedladdad. Gå till Firmwarehanteraren';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Hårdvaran kräver v$version eller nyare.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton =>
+      'Ladda ner kompatibel firmware';
+
+  @override
+  String get firmwareVersionLabel => 'Firmwareversion';
+
+  @override
+  String get firmwareVersionHelper => 'Välj den ELRS-version som ska flashas';
+
+  @override
+  String get cachedBadge => '(Sparad lokalt)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Fel vid inläsning av versioner: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Flashningsprofil';
+
+  @override
+  String get addProfileTooltip => 'Lägg till profil';
+
+  @override
+  String get deleteProfileTooltip => 'Ta bort profil';
+
+  @override
+  String get bindingPhraseHelper => 'Din unika bindningsfras';
+
+  @override
+  String get addProfileTitle => 'Lägg till flashningsprofil';
+
+  @override
+  String get profileNameHint => 'Profilnamn (t.ex. Mina Drönare)';
+
+  @override
+  String get addLabel => 'Lägg till';
+
+  @override
+  String get deleteProfileTitle => 'Ta bort profil';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Är du säker på att du vill ta bort profilen \"$name\"?';
+  }
+
+  @override
+  String get deleteLabel => 'Ta bort';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Profiler & Nätverk';
+
+  @override
+  String get settingsCategoryAppStorage => 'App & Lagring';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Avancerat & Felsökning';
+
+  @override
+  String get settingsCategoryAboutLegal => 'Om & Juridiskt';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => 'Regleringsstandarder';
+
+  @override
+  String get settingsSectionPreferences => 'Inställningar';
+
+  @override
+  String get settingsSectionPowerTools => 'Expertverktyg';
+
+  @override
+  String get settingsSectionDiagnostics => 'Diagnostik';
+
+  @override
+  String get regDomainUnknown => 'Okänd';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count versioner',
+      one: '1 version',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return 'Redigera $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Ange $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.lua sparades till enheten!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Kunde inte spara skript: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Skickat! Händelse-ID: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Rapport skickades framgångsrikt!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Kunde inte skicka: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Fel vid inläsning av licens: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => 'Kunde inte ladda firmwareversioner.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Kan inte ladda ner firmware när du är ansluten direkt till mottagarens Wi-Fi-hotspot. Koppla ifrån eller använd ett hemmanätverk.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Cachegränsen har nåtts. Vänligen radera en gammal version.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Kunde inte nå firmware-servern. Kontrollera din internetanslutning.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Nedladdningen avbröts: nätverksanslutningen förlorades. Kontrollera din anslutning och försök igen.';
+
+  @override
+  String get firmwareErrorDownloadFailed =>
+      'Misslyckades med att ladda ner firmware.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Kunde inte radera denna firmwareversion.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Redo för offlineanvändning';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Lagringsutrymme använt: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit Versioner';
+  }
+
+  @override
+  String get splashTagline => 'OBEROENDE KONFIGURATIONSVERKTYG';
+
+  @override
+  String get splashDisclaimer =>
+      'Ingen officiell ExpressLRS-produkt.\nKompatibel med 3.3.x/4.x firmware.';
+
+  @override
+  String get unknownDeviceName => 'ELRS-enhet';
+
+  @override
+  String get unknownIpLabel => 'Okänd IP';
+
+  @override
+  String get firmwareBinariesFileType => 'Firmware-binärer';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Det gick inte att ladda hjälpinnehåll: $error';
+  }
 }

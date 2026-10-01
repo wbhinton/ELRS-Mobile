@@ -18,19 +18,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get flashingButtonLabel => 'Flashen';
 
   @override
-  String get packetRateLabel => 'Paketrate';
+  String get flashingStatusLocating => 'Firmware lokalisieren';
 
   @override
-  String get baudRateLabel => 'Baudrate';
+  String get flashingStatusUnpacking => 'Firmware entpacken';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Aktualisiere $expressLRS-Firmware auf $radioMaster- oder $betaFPV-Hardware...';
-  }
+  String get flashingStatusDownloading => 'Firmware herunterladen';
+
+  @override
+  String get flashingStatusBuilding => 'Firmware erstellen';
+
+  @override
+  String get flashingStatusUploading => 'Auf Gerät hochladen';
+
+  @override
+  String get flashingStatusFinalizing => 'Auf Gerät schreiben — Bitte warten';
 
   @override
   String get flashDeviceLabel => 'Gerät flashen';
@@ -77,19 +80,6 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Flashen & WLAN';
-
-  @override
-  String get aboutSupportCategoryLabel => 'Über & Support';
-
-  @override
-  String get advancedCategoryLabel => 'Erweitert';
-
-  @override
-  String get flashingDefaultsSectionLabel =>
-      'Standardeinstellungen für das Flashen';
-
-  @override
   String get default24GHzDomainLabel => 'Standard 2,4-GHz-Domain';
 
   @override
@@ -124,9 +114,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get clearLabel => 'LEEREN';
-
-  @override
-  String get aboutSectionLabel => 'Über';
 
   @override
   String get appVersionLabel => 'App-Version';
@@ -372,4 +359,322 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433 MHz)';
+
+  @override
+  String get flashingStatusSaved => 'Firmware gespeichert';
+
+  @override
+  String get flashErrorNoTarget => 'Bitte wählen Sie ein Zielgerät aus.';
+
+  @override
+  String get flashErrorNoVersion =>
+      'Bitte wählen Sie eine Firmware-Version aus.';
+
+  @override
+  String get flashErrorNoDevice =>
+      'Flashvorgang nicht möglich: Es ist kein ELRS-Gerät verbunden.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Inkompatibler Chip: Diese Firmware wurde für $targetChip erstellt, das verbundene Gerät ist jedoch $deviceChip. Wählen Sie ein Ziel für denselben Chip aus.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'Kein Internetzugang zum Abrufen fehlender Dateien. Bitte trennen Sie die Verbindung zum ELRS-Gerät, laden Sie diese Firmware über die Firmware-Verwaltung herunter, um Ihren Cache zu vervollständigen, und versuchen Sie es erneut.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'Kein Internetzugang. Sie können keine Firmware herunterladen, während Sie mit dem ELRS-Geräte-Hotspot verbunden sind. Bitte trennen Sie die Verbindung, laden Sie diese Version über die Firmware-Verwaltung herunter und versuchen Sie es erneut.';
+
+  @override
+  String get flashErrorFlashFailed => 'Flashen fehlgeschlagen.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'Das Gerät hat die Verbindung getrennt, bevor der Flashvorgang bestätigt wurde, daher ist er möglicherweise nicht abgeschlossen. Dies geschieht, wenn das Gerät während des Flashvorgangs die Stromversorgung verliert oder neu startet, und gelegentlich bei einer schwachen WLAN-Verbindung nach einem erfolgreichen Flashvorgang. Überprüfen Sie die Firmware-Version in \'Gerätekonfiguration\' und flashen Sie erneut, falls sie sich nicht geändert hat.';
+
+  @override
+  String get flashErrorDownloadFailed =>
+      'Herunterladen der Firmware fehlgeschlagen.';
+
+  @override
+  String get validationSsidTooLong =>
+      'SSID muss 32 Zeichen oder weniger lang sein';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Passwort muss mindestens 8 Zeichen lang sein';
+
+  @override
+  String get validationPasswordTooLong =>
+      'Passwort muss 63 Zeichen oder weniger lang sein';
+
+  @override
+  String get targetMismatchTitle => 'Zielhardware-Konflikt';
+
+  @override
+  String get targetMismatchMessage =>
+      'Die ausgewählte Firmware ist nicht mit der aktuellen Hardware auf dem Gerät kompatibel. Möchten Sie den Flashvorgang wirklich erzwingen?';
+
+  @override
+  String get forceFlashLabel => 'FLASH ERZWINGEN';
+
+  @override
+  String get noBindPhraseTitle => 'Keine Bindungsphrase';
+
+  @override
+  String get noBindPhraseMessage =>
+      'Keine Bindungsphrase festgelegt. Mit der Standardeinstellung (leer) fortfahren?';
+
+  @override
+  String get flashSuccessSnackbar => 'Flashvorgang erfolgreich abgeschlossen!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Firmware erfolgreich gespeichert!';
+
+  @override
+  String get flashSuccessMessage =>
+      'Flashen erfolgreich! Gerät wird neu gestartet.';
+
+  @override
+  String get stm32OtaWarning =>
+      'STM32-Ziel ausgewählt: OTA-Flashen wird für diese Hardware nicht unterstützt. Sie können diese Firmware lokal erstellen und speichern, um sie manuell über STLink oder Betaflight Passthrough zu flashen.';
+
+  @override
+  String get downloadBinaryLabel => 'BINÄRDATEI HERUNTERLADEN';
+
+  @override
+  String get waitingForDeviceLabel => 'WARTE AUF GERÄT...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA NICHT VERFÜGBAR';
+
+  @override
+  String get doneLabel => 'FERTIG';
+
+  @override
+  String get targetSelectionTitle => 'Zielauswahl';
+
+  @override
+  String get deviceTypeLabel => 'Gerätetyp';
+
+  @override
+  String get deviceVendorLabel => 'Gerätehersteller';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Regulierung & Frequenz';
+
+  @override
+  String get deviceTargetLabel => 'Geräte-Ziel';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'Keine Firmware heruntergeladen. Zum Firmware-Manager gehen';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Hardware benötigt v$version oder neuer.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton =>
+      'Kompatible Firmware herunterladen';
+
+  @override
+  String get firmwareVersionLabel => 'Firmware-Version';
+
+  @override
+  String get firmwareVersionHelper =>
+      'Wählen Sie die zu flashende ELRS-Version aus';
+
+  @override
+  String get cachedBadge => '(Im Cache)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Fehler beim Laden der Versionen: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Flash-Profil';
+
+  @override
+  String get addProfileTooltip => 'Profil hinzufügen';
+
+  @override
+  String get deleteProfileTooltip => 'Profil löschen';
+
+  @override
+  String get bindingPhraseHelper => 'Ihre einzigartige Bindungsphrase';
+
+  @override
+  String get addProfileTitle => 'Flash-Profil hinzufügen';
+
+  @override
+  String get profileNameHint => 'Profilname (z.B. Meine Quads)';
+
+  @override
+  String get addLabel => 'Hinzufügen';
+
+  @override
+  String get deleteProfileTitle => 'Profil löschen';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Möchten Sie das Profil „$name“ wirklich löschen?';
+  }
+
+  @override
+  String get deleteLabel => 'Löschen';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Profile & Netzwerk';
+
+  @override
+  String get settingsCategoryAppStorage => 'App & Speicher';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Erweitert & Debug';
+
+  @override
+  String get settingsCategoryAboutLegal => 'Über & Rechtliches';
+
+  @override
+  String get settingsSectionRegulatoryDefaults =>
+      'Regulatorische Standardeinstellungen';
+
+  @override
+  String get settingsSectionPreferences => 'Einstellungen';
+
+  @override
+  String get settingsSectionPowerTools => 'Experten-Tools';
+
+  @override
+  String get settingsSectionDiagnostics => 'Diagnose';
+
+  @override
+  String get regDomainUnknown => 'Unbekannt';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Versionen',
+      one: '1 Version',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return '$field bearbeiten';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return '$field eingeben';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar =>
+      'elrs.lua wurde auf dem Gerät gespeichert!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Speichern des Skripts fehlgeschlagen: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Gesendet! Ereignis-ID: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Bericht erfolgreich gesendet!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Senden fehlgeschlagen: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Fehler beim Laden der Lizenz: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed =>
+      'Firmware-Versionen konnten nicht geladen werden.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Firmware kann nicht heruntergeladen werden, während Sie direkt mit dem WLAN-Hotspot des Empfängers verbunden sind. Bitte trennen Sie die Verbindung oder verwenden Sie ein Heimnetzwerk.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Cache-Limit erreicht. Bitte löschen Sie eine alte Version.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Firmware-Server nicht erreichbar. Bitte überprüfen Sie Ihre Internetverbindung.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Download unterbrochen: Die Netzwerkverbindung wurde getrennt. Bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.';
+
+  @override
+  String get firmwareErrorDownloadFailed =>
+      'Fehler beim Herunterladen der Firmware.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Diese Firmware-Version konnte nicht gelöscht werden.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Bereit für die Offline-Nutzung';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Speicherbelegung: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit Versionen';
+  }
+
+  @override
+  String get splashTagline => 'Unabhängiges Konfigurationstool';
+
+  @override
+  String get splashDisclaimer =>
+      'Kein offizielles ExpressLRS-Produkt.\nKompatibel mit 3.3.x/4.x Firmware.';
+
+  @override
+  String get unknownDeviceName => 'ELRS-Gerät';
+
+  @override
+  String get unknownIpLabel => 'Unbekannte IP';
+
+  @override
+  String get firmwareBinariesFileType => 'Firmware-Binärdateien';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Fehler beim Laden der Hilfeinhalte: $error';
+  }
 }

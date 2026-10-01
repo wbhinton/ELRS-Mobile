@@ -115,7 +115,9 @@ class HardwareStatusCard extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  config.effectiveProductName,
+                  deviceProduct == 'ELRS Device'
+                      ? AppLocalizations.of(context)!.unknownDeviceName
+                      : deviceProduct,
                   style: Theme.of(
                     context,
                   ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -127,7 +129,10 @@ class HardwareStatusCard extends ConsumerWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.connectedLabel(config.activeIp ?? 'Unknown IP'),
+                      AppLocalizations.of(context)!.connectedLabel(
+                        config.activeIp ??
+                            AppLocalizations.of(context)!.unknownIpLabel,
+                      ),
                       style: const TextStyle(
                         color: Colors.teal,
                         fontWeight: FontWeight.w500,

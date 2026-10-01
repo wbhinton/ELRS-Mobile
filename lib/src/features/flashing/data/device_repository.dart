@@ -10,6 +10,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
@@ -17,79 +18,35 @@ import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
-import '../../config/domain/runtime_config_model.dart';
-import '../../../core/utils/binding_phrase_utils.dart';
-import '../../../core/analytics/analytics_service.dart';
+import '../../../core/networking/expected_reboot_drop.dart';
 import '../utils/firmware_assembler.dart';
 
 part 'device_repository.g.dart';
 
+/// The whole image was sent but the device dropped the connection without
+/// replying. ExpressLRS replies `"ok"` and only then reboots (200 ms later),
+/// so this usually means it lost power or crashed while writing — though a
+/// reply can occasionally be lost on a weak link after a real success.
+/// Either way the outcome is unknown and must not be reported as success.
+class FlashUnconfirmedException implements Exception {
+  const FlashUnconfirmedException(this.cause);
+  final String cause;
+
+  @override
+  String toString() => cause;
+}
+
 @riverpod
 DeviceRepository deviceRepository(Ref ref) {
   final dio = ref.watch(localDioProvider);
-  return DeviceRepository(dio, ref);
+  return DeviceRepository(dio);
 }
 
 class DeviceRepository {
   final Dio _dio;
-  final Ref? _ref;
   static final _log = Logger('DeviceRepository');
 
-  DeviceRepository(this._dio, [this._ref]);
-
-  Dio get dio => _dio;
-
-  /// Fetches the current configuration from the device.
-  /// Endpoint: GET /config
-  Future<RuntimeConfig> fetchConfig() async {
-    try {
-      final response = await _dio.get('/config');
-      return RuntimeConfig.fromJson(response.data as Map<String, dynamic>);
-    } catch (e) {
-      throw Exception('Failed to fetch config: $e');
-    }
-  }
-
-  /// Updates the binding phrase.
-  /// Generates the UID and sends it to /config.
-  Future<void> updateBindingPhrase(String phrase) async {
-    try {
-      final expectedUid = BindingPhraseUtils.generateUid(phrase);
-      await _dio.post('/config', data: {'uid': expectedUid});
-      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {
-        'setting': 'Bind Phrase',
-      });
-    } catch (e) {
-      throw Exception('Failed to update binding phrase: $e');
-    }
-  }
-
-  /// Updates the Home WiFi credentials.
-  /// Endpoint: POST /config
-  Future<void> updateWifi(String ssid, String password) async {
-    try {
-      await _dio.post(
-        '/config',
-        data: {'wifi-ssid': ssid, 'wifi-password': password},
-      );
-      _ref?.read(analyticsServiceProvider).trackEvent('Settings Changed', {
-        'setting': 'WiFi',
-      });
-    } catch (e) {
-      throw Exception('Failed to update WiFi: $e');
-    }
-  }
-
-  /// Fetches the hardware definition from the device.
-  /// Endpoint: GET /hardware.json
-  Future<Map<String, dynamic>> fetchHardware() async {
-    try {
-      final response = await _dio.get('/hardware.json');
-      return response.data as Map<String, dynamic>;
-    } catch (e) {
-      throw Exception('Failed to fetch hardware info: $e');
-    }
-  }
+  DeviceRepository(this._dio);
 
   /// Flashes the firmware to the device.
   /// Endpoint: POST /update
@@ -99,7 +56,7 @@ class DeviceRepository {
   ///
   /// Optional parameters for Unified Firmware Building (ESP only):
   /// [productName], [luaName], [uid], [hardwareLayout], [wifiSsid], [wifiPassword].
-  /// If [hardwareLayout] is provided, the firmware will be built using UnifiedFirmwareBuilder.
+  /// If [hardwareLayout] is provided, the firmware will be built using [FirmwareAssembler].
   Future<({Uint8List bytes, String filename})> buildFirmwarePayload(
     Uint8List firmwareData,
     String filename, {
@@ -156,7 +113,7 @@ class DeviceRepository {
       filenameToUpload = filename;
     }
 
-    // Targeted Compression Logic (Task 3)
+    // Targeted Compression Logic
     if (platform == 'esp8285') {
       _log.info('Compressing firmware for ESP8285...');
       final compressed = GZipEncoder().encode(dataToUpload);
@@ -205,8 +162,8 @@ class DeviceRepository {
     String? platform,
     int? domain,
     int? wifiOnInterval,
-    bool force = false,
     bool isTx = false,
+    bool force = false,
   }) async {
     try {
       final payload = await buildFirmwarePayload(
@@ -233,11 +190,15 @@ class DeviceRepository {
 
       // Bypassing chunked encoding by explicitly evaluating payload size
       final evaluatedLength = formData.length;
+      var uploadComplete = false;
 
       try {
         final response = await _dio.post(
           '/update',
           data: formData,
+          // The `force` arg makes the device skip its target-name check and
+          // commit the image in this same request (supported since 2.x).
+          queryParameters: force ? {'force': '1'} : null,
           options: Options(
             headers: {
               Headers.contentLengthHeader: evaluatedLength,
@@ -250,58 +211,56 @@ class DeviceRepository {
             _log.info(
               'Upload Progress: ${(sent / total * 100).toStringAsFixed(1)}%',
             );
+            if (total > 0 && sent >= total) uploadComplete = true;
+            onSendProgress?.call(sent, total);
           },
         );
 
-        final responseData = response.data;
-        if (responseData is Map<String, dynamic>) {
-          if (responseData['status'] == 'mismatch') {
-            // Let the upper layer handle mismatch via confirmForceUpdate
-            throw Exception('mismatch');
-          } else if (responseData['status'] != 'ok') {
-            throw Exception('Flashing failed: ${responseData['msg']}');
-          }
+        _log.info('Device response: ${response.data}');
+        final status = _responseStatus(response.data);
+        if (status == 'mismatch') {
+          // Let the upper layer handle mismatch via confirmForceUpdate
+          throw Exception('mismatch');
+        } else if (status != null && status != 'ok') {
+          throw Exception('Flashing failed: ${_responseMessage(response.data)}');
         }
         _log.info('Flash successful!');
       } on DioException catch (e) {
-        if (_isExpectedRebootSocketDrop(e)) {
-          _log.info(
-            'Device successfully updated and rebooted! Caught expected socket drop.',
-          );
-          return; // Treat as full success
+        // A drop mid-upload is a plain failure; one after the last byte left
+        // the phone is ambiguous (see [FlashUnconfirmedException]).
+        if (uploadComplete && isExpectedRebootSocketDrop(e)) {
+          _log.warning('Device dropped the connection without replying: $e');
+          throw FlashUnconfirmedException(e.message ?? e.toString());
         }
         rethrow;
       }
+    } on FlashUnconfirmedException {
+      rethrow;
     } catch (e) {
       throw Exception('Failed to flash firmware: $e');
     }
-  }
-
-  bool _isExpectedRebootSocketDrop(DioException e) {
-    final errStr = e.toString().toLowerCase();
-    return errStr.contains('software caused connection abort') ||
-        errStr.contains('connection closed before full header was received') ||
-        errStr.contains('connection reset by peer') ||
-        errStr.contains('broken pipe');
   }
 
   /// Confirms a forced update after a target mismatch using Dio.
   Future<void> confirmForceUpdate() async {
     try {
       _log.info('Sending manual action=confirm to /forceupdate...');
-      final formData = FormData.fromMap({
-        'action': 'confirm',
-      });
+      final formData = FormData.fromMap({'action': 'confirm'});
 
-      await _dio.post(
-        '/forceupdate',
-        data: formData,
-      );
+      final response = await _dio.post('/forceupdate', data: formData);
+
+      // The device answers HTTP 200 even when the commit fails (e.g. nothing
+      // is in its OTA buffer), so the status field is the real result.
+      _log.info('Force confirm response: ${response.data}');
+      final status = _responseStatus(response.data);
+      if (status != null && status != 'ok') {
+        throw Exception(_responseMessage(response.data));
+      }
     } on DioException catch (e) {
-      // A successful force flash causes an immediate hardware reboot.
-      if (_isExpectedRebootSocketDrop(e)) {
-        _log.info('Caught expected socket drop during force update reboot');
-        return;
+      // The device replies before rebooting, so a drop here is ambiguous too.
+      if (isExpectedRebootSocketDrop(e)) {
+        _log.warning('Device dropped the connection during force confirm: $e');
+        throw FlashUnconfirmedException(e.message ?? e.toString());
       }
       throw Exception('Force update rejected: $e');
     } catch (e) {
@@ -309,47 +268,26 @@ class DeviceRepository {
     }
   }
 
-  /// Updates the Model Match configuration.
-  /// Endpoint: POST /config
-  ///
-  /// [modelId] is the ID (0-63). 255 usually means off in ELRS context,
-  /// but we'll stick to the user request.
-  /// [enabled] determines if model match is active.
-  Future<void> updateModelMatch(int modelId, bool enabled) async {
-    try {
-      // Structure based on ELRS config API.
-      // For MVP, sending flat JSON keys as requested.
-      // Real ELRS uses a more complex structure, but this is the requested contract.
-      await _dio.post(
-        '/config',
-        data: {'modelid': modelId, 'modelMatch': enabled},
-      );
-    } catch (e) {
-      throw Exception('Failed to update model match: $e');
+  /// Extracts the `status` field from a device JSON reply. Dio only decodes
+  /// bodies whose content type it recognises, so string bodies are decoded
+  /// here too. Returns null for replies that aren't status JSON (very old
+  /// firmware), which callers treat as success as before.
+  static String? _responseStatus(Object? data) =>
+      _decodeResponse(data)?['status']?.toString();
+
+  static String _responseMessage(Object? data) =>
+      _decodeResponse(data)?['msg']?.toString() ?? '$data';
+
+  static Map<String, dynamic>? _decodeResponse(Object? data) {
+    if (data is Map<String, dynamic>) return data;
+    if (data is String) {
+      try {
+        final decoded = jsonDecode(data);
+        if (decoded is Map<String, dynamic>) return decoded;
+      } on FormatException {
+        return null;
+      }
     }
-  }
-
-  /// Sets the PWM output mapping.
-  /// Endpoint: POST /config
-  ///
-  /// [mapping] maps Output Pin Index (0-based) to Input Channel Index.
-  /// The payload sent is {'pwm': [ch_for_pin0, ch_for_pin1, ...]}
-  Future<void> setPwmMapping(Map<int, int> mapping) async {
-    try {
-      if (mapping.isEmpty) return;
-
-      final maxIndex = mapping.keys.reduce((a, b) => a > b ? a : b);
-      final List<int> pwm = List.filled(maxIndex + 1, 0);
-
-      mapping.forEach((pin, channel) {
-        if (pin >= 0 && pin < pwm.length) {
-          pwm[pin] = channel;
-        }
-      });
-
-      await _dio.post('/config', data: {'pwm': pwm});
-    } catch (e) {
-      throw Exception('Failed to set PWM mapping: $e');
-    }
+    return null;
   }
 }

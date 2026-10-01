@@ -18,19 +18,22 @@ class AppLocalizationsCs extends AppLocalizations {
   String get flashingButtonLabel => 'Nahrát';
 
   @override
-  String get packetRateLabel => 'Rychlost paketů';
+  String get flashingStatusLocating => 'Vyhledávání firmwaru';
 
   @override
-  String get baudRateLabel => 'Baudová rychlost';
+  String get flashingStatusUnpacking => 'Rozbalování firmwaru';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Aktualizuji firmware $expressLRS na hardwaru $radioMaster nebo $betaFPV...';
-  }
+  String get flashingStatusDownloading => 'Stahování firmwaru';
+
+  @override
+  String get flashingStatusBuilding => 'Sestavování firmwaru';
+
+  @override
+  String get flashingStatusUploading => 'Nahrávání do zařízení';
+
+  @override
+  String get flashingStatusFinalizing => 'Zápis do zařízení – prosím, počkejte';
 
   @override
   String get flashDeviceLabel => 'Nahrát zařízení';
@@ -77,19 +80,6 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Nahrávání firmwaru a Wi-Fi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'O aplikaci a podpora';
-
-  @override
-  String get advancedCategoryLabel => 'Pokročilé';
-
-  @override
-  String get flashingDefaultsSectionLabel =>
-      'Výchozí nastavení nahrávání firmwaru';
-
-  @override
   String get default24GHzDomainLabel => 'Výchozí doména 2.4GHz';
 
   @override
@@ -123,9 +113,6 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get clearLabel => 'VYČISTIT';
-
-  @override
-  String get aboutSectionLabel => 'O aplikaci';
 
   @override
   String get appVersionLabel => 'Verze aplikace';
@@ -369,4 +356,313 @@ class AppLocalizationsCs extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'US (433MHz)';
+
+  @override
+  String get flashingStatusSaved => 'Firmware uložen';
+
+  @override
+  String get flashErrorNoTarget => 'Prosím, vyberte cílové zařízení.';
+
+  @override
+  String get flashErrorNoVersion => 'Prosím, vyberte verzi firmwaru.';
+
+  @override
+  String get flashErrorNoDevice =>
+      'Nelze nahrát firmware: není připojeno žádné zařízení ELRS.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Nekompatibilní čip: tento firmware je sestaven pro $targetChip, ale připojené zařízení je $deviceChip. Vyberte cíl pro stejný čip.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'Žádný přístup k internetu pro stažení chybějících souborů. Odpojte se od zařízení ELRS, stáhněte tento firmware pomocí Správce firmwaru pro doplnění mezipaměti a zkuste to znovu.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'Žádný přístup k internetu. Nemůžete stahovat firmware, když jste připojeni k hotspotu zařízení ELRS. Odpojte se, stáhněte tuto verzi pomocí Správce firmwaru a zkuste to znovu.';
+
+  @override
+  String get flashErrorFlashFailed => 'Nahrávání firmware selhalo.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'Zařízení se odpojilo před potvrzením nahrání firmware, takže nahrání nemuselo být dokončeno. K tomu dochází, pokud zařízení ztratí napájení nebo se restartuje uprostřed nahrávání, a občas na slabém WiFi spojení po úspěšném nahrání. Zkontrolujte verzi firmware v Konfiguraci zařízení a pokud se nezměnila, nahrajte firmware znovu.';
+
+  @override
+  String get flashErrorDownloadFailed => 'Stažení firmware selhalo.';
+
+  @override
+  String get validationSsidTooLong => 'SSID musí mít 32 znaků nebo méně';
+
+  @override
+  String get validationPasswordTooShort => 'Heslo musí mít alespoň 8 znaků';
+
+  @override
+  String get validationPasswordTooLong => 'Heslo musí mít 63 znaků nebo méně';
+
+  @override
+  String get targetMismatchTitle => 'Neshoda cílového zařízení';
+
+  @override
+  String get targetMismatchMessage =>
+      'Vybraný cílový firmware neodpovídá hardwaru, který je aktuálně na zařízení. Opravdu chcete vynutit nahrání?';
+
+  @override
+  String get forceFlashLabel => 'VYNUTIT NAHRÁNÍ';
+
+  @override
+  String get noBindPhraseTitle => 'Bez bindovací fráze';
+
+  @override
+  String get noBindPhraseMessage =>
+      'Není nastavena bindovací fráze. Pokračovat s výchozí (prázdnou)?';
+
+  @override
+  String get flashSuccessSnackbar => 'Nahrávání firmware úspěšně dokončeno!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Firmware úspěšně uložen!';
+
+  @override
+  String get flashSuccessMessage =>
+      'Nahrávání firmware úspěšné! Zařízení se restartuje.';
+
+  @override
+  String get stm32OtaWarning =>
+      'Vybráno cílové zařízení STM32: OTA nahrávání není pro tento hardware podporováno. Firmware můžete sestavit a uložit lokálně a nahrát jej ručně přes STLink nebo Betaflight Passthrough.';
+
+  @override
+  String get downloadBinaryLabel => 'STÁHNOUT BINÁRNÍ SOUBOR';
+
+  @override
+  String get waitingForDeviceLabel => 'ČEKÁNÍ NA ZAŘÍZENÍ...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA NEDOSTUPNÉ';
+
+  @override
+  String get doneLabel => 'HOTOVO';
+
+  @override
+  String get targetSelectionTitle => 'Výběr cílového zařízení';
+
+  @override
+  String get deviceTypeLabel => 'Typ zařízení';
+
+  @override
+  String get deviceVendorLabel => 'Výrobce zařízení';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Regulační oblast a frekvence';
+
+  @override
+  String get deviceTargetLabel => 'Cílové zařízení';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'Není stažen žádný firmware. Přejít na Správce firmware';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Hardware vyžaduje verzi v$version nebo novější.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton =>
+      'Stáhnout kompatibilní firmware';
+
+  @override
+  String get firmwareVersionLabel => 'Verze firmware';
+
+  @override
+  String get firmwareVersionHelper => 'Vyberte verzi ELRS k nahrání';
+
+  @override
+  String get cachedBadge => '(Uloženo)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Chyba při načítání verzí: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Profil nahrávání';
+
+  @override
+  String get addProfileTooltip => 'Přidat profil';
+
+  @override
+  String get deleteProfileTooltip => 'Smazat profil';
+
+  @override
+  String get bindingPhraseHelper => 'Vaše jedinečná bindovací fráze';
+
+  @override
+  String get addProfileTitle => 'Přidat profil nahrávání';
+
+  @override
+  String get profileNameHint => 'Název profilu (např. Moje drony)';
+
+  @override
+  String get addLabel => 'Přidat';
+
+  @override
+  String get deleteProfileTitle => 'Smazat profil';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Opravdu chcete smazat profil „$name“?';
+  }
+
+  @override
+  String get deleteLabel => 'Smazat';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Profily a síť';
+
+  @override
+  String get settingsCategoryAppStorage => 'Aplikace a úložiště';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Pokročilé a ladění';
+
+  @override
+  String get settingsCategoryAboutLegal => 'O aplikaci a právní informace';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => 'Výchozí regulační nastavení';
+
+  @override
+  String get settingsSectionPreferences => 'Předvolby';
+
+  @override
+  String get settingsSectionPowerTools => 'Nástroje pro pokročilé';
+
+  @override
+  String get settingsSectionDiagnostics => 'Diagnostika';
+
+  @override
+  String get regDomainUnknown => 'Neznámý';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count verzí',
+      few: '$count verze',
+      one: '1 verze',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return 'Upravit $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Zadejte $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.lua uloženo do zařízení!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Nepodařilo se uložit skript: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Odesláno! ID události: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Zpráva byla úspěšně odeslána!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Nepodařilo se odeslat: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Chyba při načítání licence: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => 'Nepodařilo se načíst verze firmwaru.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Nelze stáhnout firmware, když jste připojeni přímo k Wi-Fi hotspotu přijímače. Prosím, odpojte se nebo použijte domácí síť.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Dosažen limit mezipaměti. Prosím, smažte starou verzi.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Nelze se připojit k serveru firmwaru. Zkontrolujte prosím své připojení k internetu.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Stahování přerušeno: připojení k síti bylo ztraceno. Zkontrolujte prosím své připojení a zkuste to znovu.';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'Stažení firmwaru se nezdařilo.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Tuto verzi firmwaru se nepodařilo smazat.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Verze $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Připraveno pro offline použití';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Využité úložiště: $sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit Verzí';
+  }
+
+  @override
+  String get splashTagline => 'Nezávislý konfigurační nástroj';
+
+  @override
+  String get splashDisclaimer =>
+      'Není oficiální produkt ExpressLRS.\nKompatibilní s firmwarem 3.3.x/4.x.';
+
+  @override
+  String get unknownDeviceName => 'Zařízení ELRS';
+
+  @override
+  String get unknownIpLabel => 'Neznámá IP';
+
+  @override
+  String get firmwareBinariesFileType => 'Binární soubory firmwaru';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Chyba při načítání obsahu nápovědy: $error';
+  }
 }

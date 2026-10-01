@@ -14,8 +14,8 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Поддерживается</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Все цели ESP8285, ESP32, ESP32-C3 и ESP32-S3</li>
-      <li class="flex gap-2"><span>•</span> Приёмники и передатчики с поддержкой Wi-Fi</li>
+      <li class="flex gap-2"><span>•</span> Все целевые устройства ESP8285, ESP32, ESP32-C3 и ESP32-S3</li>
+      <li class="flex gap-2"><span>•</span> Приемники и передатчики с поддержкой Wi-Fi</li>
       <li class="flex gap-2"><span>•</span> Версии ELRS 3.3.x и 4.x</li>
     </ul>
   </div>
@@ -25,9 +25,9 @@ sidebar:
       <h3 class="text-lg font-bold m-0 italic">Не поддерживается (в разработке)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Цели STM32, требующие последовательной прошивки STLink</li>
+      <li class="flex gap-2"><span>•</span> Целевые устройства STM32, требующие прошивки через последовательный STLink</li>
       <li class="flex gap-2"><span>•</span> Методы прошивки Betaflight Passthrough</li>
-      <li class="flex gap-2"><span>•</span> Прямые USB/Serial подключения на iOS</li>
+      <li class="flex gap-2"><span>•</span> Прямые USB/последовательные подключения на iOS</li>
     </ul>
   </div>
 </div>
@@ -35,7 +35,7 @@ sidebar:
 ---
 
 ## Проверенное оборудование
-Следующие аппаратные цели были явно протестированы с ELRS Mobile:
+Следующие аппаратные целевые устройства были явно протестированы с ELRS Mobile:
 
 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-0.5">• AXIS Thor 2.4GHz RX</div>
@@ -105,7 +105,7 @@ sidebar:
   <div class="break-inside-avoid px-2 py-0.5">• Jumper AION T-20 2.4GHz V2 TX</div>
   <div class="break-inside-avoid px-2 py-0.5">• Jumper AION T-Lite 2.4GHz TX</div>
   <div class="break-inside-avoid px-2 py-0.5">• Jumper AION T-Pro 2.4GHz TX</div>
-  <div class="break-inside-avoid px-2 py-0.5">• MATEK R24-D 2.4GHz RX</div>
+  <div class="break-inside-avoid px-2 py-0.5">�� MATEK R24-D 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• MATEK R24-P PWM 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-0.5">• NamimnoRC Flash OLED 2.4GHz TX</div>
   <div class="break-inside-avoid px-2 py-0.5">• NewBeeDrone 2.4Ghz RaceSpec RX</div>
@@ -162,8 +162,8 @@ sidebar:
 
 ---
 
-## Проверенные бинарные файлы
-Внутренний ассемблер прошивки был функционально проверен на соответствие выходным данным официального компилятора ExpressLRS для следующих целей:
+## Проверенные прошивки
+Внутренний ассемблер прошивки был функционально проверен на соответствие выходным данным официального компилятора ExpressLRS для следующих целевых устройств:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -183,4 +183,4 @@ sidebar:
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-<!-- source_hash: 9965c930f4565dd89964324f9b287030 -->
+<!-- source_hash: f47a9230cd332d96ba6ca06e56e951e8 -->

@@ -21,6 +21,11 @@ class DeviceConfigService {
   DeviceConfigService(this._dio);
 
   /// Probes the device with a lightweight GET request for hardware metadata to securely verify heartbeat.
+  ///
+  /// `/hardware.json` only exists on unified-target firmware (3.2.x+ with
+  /// unified build flags, unconditional from ~4.x on). Pre-3.1.0 firmware
+  /// (e.g. 3.0.1) never serves it, so falls back to [probeDevice], which
+  /// hits `/` — present on every ExpressLRS firmware version.
   Future<bool> probeDeviceHead(String ip, {CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
@@ -31,10 +36,11 @@ class DeviceConfigService {
           receiveTimeout: const Duration(seconds: 2),
         ),
       );
-      return response.statusCode == 200;
+      if (response.statusCode == 200) return true;
     } catch (e) {
-      return false;
+      // Fall through to the universal probe below.
     }
+    return probeDevice(ip, cancelToken: cancelToken);
   }
 
   /// Probes the device to see if it's alive and responding.
@@ -57,6 +63,11 @@ class DeviceConfigService {
 
   /// Fetches the current configuration from the device.
   /// Performs a GET request to `http://<ip>/config`.
+  ///
+  /// `/config` was only added in firmware 3.1.0. On 3.0.x it 404s, so this
+  /// falls back to [_fetchLegacyConfig], which reconstructs an equivalent
+  /// config from `/target` (and best-effort `/mode.json`) — the endpoints
+  /// 3.0.x firmware actually serves.
   Future<RuntimeConfig> fetchConfig(String ip, {CancelToken? cancelToken}) async {
     try {
       final response = await _dio.get(
@@ -66,11 +77,11 @@ class DeviceConfigService {
       if (response.statusCode == 200) {
         final data = response.data;
         _log.info('Raw Device Config JSON: $data');
-        
+
         if (data is Map<String, dynamic>) {
           _normalizeV3Config(data);
           _normalizeConfigDomains(data);
-          
+
           // Normalize vbind to prevent TypeError on older firmware
           if (data.containsKey('config') && data['config'] is Map) {
             final configMap = data['config'] as Map<String, dynamic>;
@@ -92,120 +103,73 @@ class DeviceConfigService {
       } else {
         throw Exception('Failed to fetch config. Status code: ${response.statusCode}');
       }
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        _log.info('$ip has no /config endpoint — trying legacy fallback (pre-3.1.0 firmware).');
+        return _fetchLegacyConfig(ip, cancelToken: cancelToken);
+      }
+      throw Exception('Failed to reach device at $ip: $e');
     } catch (e) {
       throw Exception('Failed to reach device at $ip: $e');
     }
   }
 
-  /// Saves the updated options to the device.
-  /// Performs a POST request to `http://<ip>/options.json`.
-  /// Adds 'customised': true to the payload.
-  Future<void> saveOptions(String ip, Map<String, dynamic> options) async {
-    try {
-      final payload = Map<String, dynamic>.from(options);
-      payload['customised'] = true;
-      if (payload.containsKey('domain')) {
-        payload['reg_domain'] = payload['domain'];
-      }
+  /// Reconstructs a [RuntimeConfig] for firmware older than 3.1.0, which
+  /// predates the unified `/config` endpoint.
+  ///
+  /// `/target` (present in every version through at least 3.2.1) reports
+  /// `product_name`, `version`, `target`, and `reg_domain` — enough to
+  /// populate [RuntimeConfigX.effectiveProductName] with the device's real
+  /// product name so the Target Mismatch Guard compares against actual data
+  /// instead of leaving the device stuck "disconnected". `/mode.json`
+  /// (removed once `/config` landed, ~3.2.x) is merged in best-effort for
+  /// `modelid`/`uid` where still available.
+  Future<RuntimeConfig> _fetchLegacyConfig(String ip, {CancelToken? cancelToken}) async {
+    final targetResponse = await _dio.get(
+      'http://$ip/target',
+      cancelToken: cancelToken,
+    );
+    final targetData = targetResponse.data;
+    if (targetData is! Map<String, dynamic>) {
+      throw Exception('Invalid /target response from $ip');
+    }
 
-      final response = await _dio.post(
-        'http://$ip/options.json',
-        data: payload,
+    final data = <String, dynamic>{
+      'product_name': targetData['product_name'],
+      'version': targetData['version'],
+      'target': targetData['target'],
+      'settings': {
+        'product_name': targetData['product_name'],
+        'target': targetData['target'],
+        'reg_domain': targetData['reg_domain'],
+      },
+    };
+
+    try {
+      final modeResponse = await _dio.get(
+        'http://$ip/mode.json',
+        cancelToken: cancelToken,
         options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          sendTimeout: const Duration(seconds: 2),
+          receiveTimeout: const Duration(seconds: 2),
         ),
       );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        throw Exception('Failed to save options. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to save options to $ip: $e');
-    }
-  }
-
-  /// Saves the updated config to the device.
-  /// Performs a POST request to `http://<ip>/config`.
-  Future<void> saveConfig(String ip, Map<String, dynamic> config) async {
-    try {
-      final payload = Map<String, dynamic>.from(config);
-      if (payload['settings'] is Map<String, dynamic>) {
-        final settings = Map<String, dynamic>.from(payload['settings'] as Map<String, dynamic>);
-        if (settings.containsKey('domain')) {
-          settings['reg_domain'] = settings['domain'];
+      final modeData = modeResponse.data;
+      if (modeData is Map<String, dynamic>) {
+        data['config'] = {
+          if (modeData['modelid'] != null) 'modelid': modeData['modelid'],
+          if (modeData['forcetlm'] != null) 'force-tlm': modeData['forcetlm'],
+        };
+        if (modeData['uid'] is List) {
+          data['options'] = {'uid': modeData['uid']};
         }
-        payload['settings'] = settings;
       }
-      if (payload['config'] is Map<String, dynamic>) {
-        final cfg = Map<String, dynamic>.from(payload['config'] as Map<String, dynamic>);
-        if (cfg.containsKey('domain')) {
-          cfg['reg_domain'] = cfg['domain'];
-        }
-        payload['config'] = cfg;
-      }
-
-      final response = await _dio.post(
-        'http://$ip/config',
-        data: payload,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        throw Exception('Failed to save config. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to save config to $ip: $e');
+    } catch (_) {
+      // /mode.json is gone by ~3.2.x — /target alone is enough to unblock flashing.
     }
-  }
 
-  /// Reboots the device.
-  /// Performs a POST request to `http://<ip>/reboot`.
-  ///
-  /// A successful reboot causes the hardware to immediately sever the Wi-Fi
-  /// connection, which Dio surfaces as a [DioException]. These "expected drop"
-  /// errors are treated as success and swallowed silently. Any other
-  /// [DioException] (e.g., wrong IP, pre-flight timeout) is still rethrown.
-  Future<void> reboot(String ip) async {
-    try {
-      final response = await _dio.post('http://$ip/reboot');
-      if (response.statusCode != 200 && response.statusCode != 204) {
-        throw Exception('Failed to reboot device. Status code: ${response.statusCode}');
-      }
-    } on DioException catch (e) {
-      if (_isExpectedRebootSocketDrop(e)) {
-        _log.info('Caught expected socket drop during reboot to $ip');
-        return;
-      }
-      throw Exception('Failed to reboot device at $ip: $e');
-    } catch (e) {
-      throw Exception('Failed to reboot device at $ip: $e');
-    }
-  }
-
-  /// Returns `true` when a [DioException] represents the hardware violently
-  /// severing the connection after receiving a reboot command.
-  ///
-  /// These errors map to errno values such as:
-  /// - 103 — ECONNABORTED  (Software caused connection abort)
-  /// - 104 — ECONNRESET    (Connection reset by peer)
-  /// - 32  — EPIPE         (Broken pipe)
-  /// - 111 — ECONNREFUSED  (Connection refused — device already down)
-  bool _isExpectedRebootSocketDrop(DioException e) {
-    final description = e.toString().toLowerCase();
-    const expectedFragments = [
-      'software caused connection abort',
-      'connection closed before full header was received',
-      'connection reset by peer',
-      'broken pipe',
-      'connection refused',
-    ];
-    return expectedFragments.any(description.contains);
+    _normalizeConfigDomains(data);
+    return RuntimeConfig.fromJson(data);
   }
 
   /// Normalizes V3 firmware JSON payloads to match the V4 structure.

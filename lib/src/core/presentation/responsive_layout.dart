@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 /// Utility class for responsive breakpoints
 class ResponsiveBreakpoints {
   static const double tablet = 600;
-  static const double desktop = 1200;
   static const double maxContentWidth = 800;
 }
 
@@ -21,9 +20,6 @@ class ResponsiveLayout extends StatelessWidget {
 
   static bool isTablet(BuildContext context) =>
       MediaQuery.of(context).size.width >= ResponsiveBreakpoints.tablet;
-
-  static bool isDesktop(BuildContext context) =>
-      MediaQuery.of(context).size.width >= ResponsiveBreakpoints.desktop;
 
   @override
   Widget build(BuildContext context) {

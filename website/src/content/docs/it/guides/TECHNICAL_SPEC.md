@@ -15,7 +15,7 @@ sidebar:
     <span class="text-lg font-bold text-primary tracking-tight">Principio di Progettazione</span>
   </div>
   <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    L'applicazione è sviluppata utilizzando Flutter e sfrutta il framework di gestione dello stato <strong>Riverpod</strong>. Interagisce con l'hardware ELRS tramite un'API RESTful esposta dal modulo WiFi integrato nel dispositivo, garantendo comunicazioni a bassa latenza e sincronizzazione dello stato in tempo reale.
+    L'applicazione è sviluppata utilizzando Flutter e sfrutta il framework di gestione dello stato <strong>Riverpod</strong>. Interagisce con l'hardware ELRS tramite un'API RESTful esposta dal modulo WiFi integrato del dispositivo, garantendo una comunicazione a bassa latenza e la sincronizzazione dello stato in tempo reale.
   </p>
 </div>
 
@@ -31,11 +31,11 @@ Il sistema comunica con l'hardware utilizzando i seguenti endpoint HTTP:
 | `POST` | `/config` | Aggiorna i parametri hardware principali e le mappature PWM. |
 | `POST` | `/reboot` | Attiva un reset hardware per applicare le modifiche. |
 
-### JSON Schema
+### Schema JSON
 Il modello `RuntimeConfig` sfrutta la struttura ELRS 4.x, che separa i parametri in tre nodi principali:
-- `settings`: identificatori hardware di sola lettura e stringhe di versione.
-- `options`: preferenze utente modificabili e credenziali di rete.
-- `config`: configurazioni hardware di basso livello (Protocols, PWM Arrays).
+- `settings`: Identificatori hardware di sola lettura e stringhe di versione.
+- `options`: Preferenze utente modificabili e credenziali di rete.
+- `config`: Configurazioni hardware di basso livello (Protocolli, Array PWM).
 
 Esempio di struttura JSON:
 ```json
@@ -61,39 +61,27 @@ Esempio di struttura JSON:
 
 ## Gestione dello Stato
 Il sistema impiega un'architettura reattiva:
-- **`ConfigViewModel`**: Gestisce lo stato della connessione in tempo reale, la logica heartbeat e la scoperta IP.
-- **`DeviceEditorViewModel`**: Contiene lo stato di bozza della configurazione di un dispositivo, consentendo modifiche a più passaggi con logica finale di "salva/annulla".
+- **`ConfigViewModel`**: Gestisce lo stato della connessione in tempo reale, la logica dell'heartbeat e la scoperta IP.
 - **`FlashingController`**: Orchestra i download del firmware, il patching binario locale e il processo di caricamento XH-over-HTTP.
 
 ## Livello di Mappatura
-Le seguenti tabelle definiscono la mappatura tra gli identificatori interi utilizzati nell'API e i loro equivalenti leggibili dall'uomo.
+`ElrsMappings.domains900` mappa l'indice del dominio normativo a 900 MHz utilizzato nell'API alla sua etichetta leggibile dall'uomo:
 
-### Domini Normativi
 | ID | Etichetta | Descrizione |
 | :--- | :--- | :--- |
 | 0 | AU915 | Australia/Nuova Zelanda 915MHz |
 | 1 | FCC915 | Nord America 915MHz |
-| 2 | EU868 | Europeo 868MHz |
-| 3 | IN866 | Indiano 866MHz |
+| 2 | EU868 | Europa 868MHz |
+| 3 | IN866 | India 866MHz |
 | 4 | AU433 | Australia 433MHz |
-| 5 | EU433 | Europeo 433MHz |
+| 5 | EU433 | Europa 433MHz |
 | 6 | US433 | Nord America 433MHz |
 | 7 | US433-Wide | Nord America Wide 433MHz |
 
 
-## Mappature Avanzate
-
-### VBind (Memorizzazione del Binding)
-Determina come la binding phrase viene memorizzata sul dispositivo.
-- **0: Persistent**: Salva nella memoria flash (standard).
-- **1: Volatile**: Cancellato al ciclo di alimentazione.
-- **2: Returnable**: Usato per attrezzatura in prestito.
-- **3: Administered**: Usato in ambienti di flotte multi-pilota.
-
-
 ## Livello di Persistenza
-Il sistema implementa una strategia di persistenza a doppio strato:
-- **`SharedPreferences`**: Utilizzato tramite `PersistenceService` per dati non sensibili come i WiFi SSID e le preferenze generali dell'app.
-- **`FlutterSecureStorage`**: Utilizzato per dati sensibili, inclusi le Binding Phrases e le WiFi Passwords, garantendo la crittografia a livello di sistema operativo.
+Il sistema implementa una strategia di persistenza a doppio livello:
+- **`SharedPreferences`**: Utilizzato tramite `PersistenceService` per dati non sensibili come WiFi SSIDs e preferenze generali dell'app.
+- **`FlutterSecureStorage`**: Utilizzato per dati sensibili, inclusi Binding Phrases e WiFi Passwords, garantendo la crittografia a livello di sistema operativo.
 
-<!-- source_hash: 860927a6dde3698e9797d33bf1b4c557 -->
+<!-- source_hash: 0bd5ffd19bfb551d01661ad0365af7b5 -->

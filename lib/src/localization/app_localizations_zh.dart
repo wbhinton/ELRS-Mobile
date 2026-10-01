@@ -18,19 +18,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get flashingButtonLabel => '刷写';
 
   @override
-  String get packetRateLabel => '包速率';
+  String get flashingStatusLocating => '正在查找固件';
 
   @override
-  String get baudRateLabel => '波特率';
+  String get flashingStatusUnpacking => '正在解压固件';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return '正在更新 $expressLRS 固件到 $radioMaster 或 $betaFPV 硬件...';
-  }
+  String get flashingStatusDownloading => '正在下载固件';
+
+  @override
+  String get flashingStatusBuilding => '正在构建固件';
+
+  @override
+  String get flashingStatusUploading => '正在上传至设备';
+
+  @override
+  String get flashingStatusFinalizing => '正在写入设备 — 请稍候';
 
   @override
   String get flashDeviceLabel => '刷写设备';
@@ -77,18 +80,6 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => '刷写与 WiFi';
-
-  @override
-  String get aboutSupportCategoryLabel => '关于与支持';
-
-  @override
-  String get advancedCategoryLabel => '高级';
-
-  @override
-  String get flashingDefaultsSectionLabel => '刷写默认设置';
-
-  @override
   String get default24GHzDomainLabel => '默认 2.4GHz 域';
 
   @override
@@ -120,9 +111,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get clearLabel => '清除';
-
-  @override
-  String get aboutSectionLabel => '关于';
 
   @override
   String get appVersionLabel => '应用版本';
@@ -352,4 +340,299 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get regDomainUs433 => '美国 (433MHz)';
+
+  @override
+  String get flashingStatusSaved => '固件已保存';
+
+  @override
+  String get flashErrorNoTarget => '请选择目标设备。';
+
+  @override
+  String get flashErrorNoVersion => '请选择固件版本。';
+
+  @override
+  String get flashErrorNoDevice => '无法刷写：未连接ELRS设备。';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return '芯片不兼容：此固件适用于 $targetChip 芯片，但连接的设备是 $deviceChip 芯片。请选择相同芯片的目标。';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      '无法访问互联网以获取缺失文件。请断开与ELRS设备的连接，通过“固件管理器”下载此固件以完成缓存，然后重试。';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      '无法访问互联网。连接到ELRS设备热点时无法下载固件。请断开连接，通过“固件管理器”下载此版本，然后重试。';
+
+  @override
+  String get flashErrorFlashFailed => '刷写失败。';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      '设备在确认刷写前已断开连接，因此可能未完成刷写。这可能发生在刷写中途设备断电或重启时，偶尔也会在弱WiFi连接下成功刷写后发生。请在“设备配置”中检查固件版本，如果未更改，请再次刷写。';
+
+  @override
+  String get flashErrorDownloadFailed => '固件下载失败。';
+
+  @override
+  String get validationSsidTooLong => 'SSID必须在32个字符以内';
+
+  @override
+  String get validationPasswordTooShort => '密码必须至少8个字符';
+
+  @override
+  String get validationPasswordTooLong => '密码必须在63个字符以内';
+
+  @override
+  String get targetMismatchTitle => '目标不匹配';
+
+  @override
+  String get targetMismatchMessage => '所选固件目标与设备上当前运行的硬件不匹配。确定要强制刷写吗？';
+
+  @override
+  String get forceFlashLabel => '强制刷写';
+
+  @override
+  String get noBindPhraseTitle => '无绑定短语';
+
+  @override
+  String get noBindPhraseMessage => '未设置绑定短语。是否继续使用默认（空）短语？';
+
+  @override
+  String get flashSuccessSnackbar => '刷写成功完成！';
+
+  @override
+  String get firmwareSavedSnackbar => '固件已成功保存！';
+
+  @override
+  String get flashSuccessMessage => '刷写成功！设备正在重启。';
+
+  @override
+  String get stm32OtaWarning =>
+      '已选择STM32目标：此硬件不支持OTA刷写。您可以在本地构建并保存此固件，然后通过STLink或Betaflight Passthrough手动刷写。';
+
+  @override
+  String get downloadBinaryLabel => '下载二进制文件';
+
+  @override
+  String get waitingForDeviceLabel => '等待设备连接...';
+
+  @override
+  String get otaUnavailableLabel => 'OTA 不可用';
+
+  @override
+  String get doneLabel => '完成';
+
+  @override
+  String get targetSelectionTitle => '目标选择';
+
+  @override
+  String get deviceTypeLabel => '设备类型';
+
+  @override
+  String get deviceVendorLabel => '设备厂商';
+
+  @override
+  String get regulatoryFrequencyLabel => '法规与频率';
+
+  @override
+  String get deviceTargetLabel => '设备目标';
+
+  @override
+  String get noFirmwareDownloadedButton => '未下载固件。前往固件管理器';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return '硬件需要 v$version 或更高版本。';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton => '下载兼容固件';
+
+  @override
+  String get firmwareVersionLabel => '固件版本';
+
+  @override
+  String get firmwareVersionHelper => '选择要刷写的 ELRS 版本';
+
+  @override
+  String get cachedBadge => '(已缓存)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return '加载版本出错: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => '刷写配置方案';
+
+  @override
+  String get addProfileTooltip => '添加配置方案';
+
+  @override
+  String get deleteProfileTooltip => '删除配置方案';
+
+  @override
+  String get bindingPhraseHelper => '您的独特绑定短语';
+
+  @override
+  String get addProfileTitle => '添加刷写配置方案';
+
+  @override
+  String get profileNameHint => '配置方案名称 (例如，我的四轴飞行器)';
+
+  @override
+  String get addLabel => '添加';
+
+  @override
+  String get deleteProfileTitle => '删除配置方案';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return '您确定要删除配置方案“$name”吗？';
+  }
+
+  @override
+  String get deleteLabel => '删除';
+
+  @override
+  String get settingsCategoryProfilesNetwork => '配置文件与网络';
+
+  @override
+  String get settingsCategoryAppStorage => '应用与存储';
+
+  @override
+  String get settingsCategoryAdvancedDebug => '高级与调试';
+
+  @override
+  String get settingsCategoryAboutLegal => '关于与法律';
+
+  @override
+  String get settingsSectionRegulatoryDefaults => '法规默认值';
+
+  @override
+  String get settingsSectionPreferences => '偏好设置';
+
+  @override
+  String get settingsSectionPowerTools => '高级工具';
+
+  @override
+  String get settingsSectionDiagnostics => '诊断';
+
+  @override
+  String get regDomainUnknown => '未知';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个版本',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return '编辑 $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return '输入 $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.lua 已保存到设备！';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return '保存脚本失败：$error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return '已提交！事件ID：$eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => '报告提交成功！';
+
+  @override
+  String debugReportFailed(String error) {
+    return '提交失败：$error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return '加载许可证失败：$error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => '无法加载固件版本。';
+
+  @override
+  String get firmwareErrorOnHotspot => '无法在连接到接收机WiFi热点时下载固件。请断开连接或使用家庭网络。';
+
+  @override
+  String get firmwareErrorCacheFull => '缓存已满。请删除旧版本。';
+
+  @override
+  String get firmwareErrorServerUnreachable => '无法连接到固件服务器。请检查您的互联网连接。';
+
+  @override
+  String get firmwareErrorDownloadInterrupted => '下载中断：网络连接已丢失。请检查您的连接并重试。';
+
+  @override
+  String get firmwareErrorDownloadFailed => '固件下载失败。';
+
+  @override
+  String get firmwareErrorDeleteFailed => '无法删除此固件版本。';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return '版本 $version';
+  }
+
+  @override
+  String get readyForOfflineUse => '可离线使用';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return '已用存储空间：$sizeString MB';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '已缓存 $count / $limit 个版本';
+  }
+
+  @override
+  String get splashTagline => '独立配置工具';
+
+  @override
+  String get splashDisclaimer => '非官方ExpressLRS产品。\n兼容3.3.x/4.x固件。';
+
+  @override
+  String get unknownDeviceName => 'ELRS 设备';
+
+  @override
+  String get unknownIpLabel => '未知 IP';
+
+  @override
+  String get firmwareBinariesFileType => '固件二进制文件';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return '加载帮助内容失败：$error';
+  }
 }

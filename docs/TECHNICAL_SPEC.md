@@ -46,36 +46,21 @@ Example JSON structure:
 ## State Management
 The system employs a reactive architecture:
 - **`ConfigViewModel`**: Manages the live connection state, heartbeat logic, and IP discovery.
-- **`DeviceEditorViewModel`**: Houses the draft state of a device's configuration, enabling multi-step edits with final "save/cancel" logic.
 - **`FlashingController`**: Orchestrates firmware downloads, local binary patching, and the XH-over-HTTP upload process.
 
 ## Mapping Layer
-The following tables define the mapping between integer identifiers used in the API and their human-readable equivalents.
+`ElrsMappings.domains900` maps the 900 MHz regulatory domain index used in the API to its human-readable label:
 
-### Regulatory Domains
 | ID | Label |
 | :--- | :--- |
 | 0 | AU915 |
 | 1 | FCC915 |
 | 2 | EU868 |
 | 3 | IN866 |
-
-### Serial Protocols
-| ID | Protocol |
-| :--- | :--- |
-| 0 | CRSF |
-| 1 | SBUS |
-| 4 | MAVLink |
-| 5 | AirPort |
-
-### PWM Modes
-| ID | Mode |
-| :--- | :--- |
-| 0 | 50Hz |
-| 5 | 400Hz |
-| 7 | DSHOT300 |
-| 8 | Serial TX |
-| 9 | Serial RX |
+| 4 | AU433 |
+| 5 | EU433 |
+| 6 | US433 |
+| 7 | US433-Wide |
 
 ## Persistence Layer
 The system implements a dual-layer persistence strategy:

@@ -18,19 +18,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get flashingButtonLabel => 'Прошить';
 
   @override
-  String get packetRateLabel => 'Частота пакетов';
+  String get flashingStatusLocating => 'Поиск прошивки';
 
   @override
-  String get baudRateLabel => 'Скорость (Бод)';
+  String get flashingStatusUnpacking => 'Распаковка прошивки';
 
   @override
-  String brandUpdateMessage(
-    String expressLRS,
-    String radioMaster,
-    String betaFPV,
-  ) {
-    return 'Обновление прошивки $expressLRS на оборудовании $radioMaster или $betaFPV...';
-  }
+  String get flashingStatusDownloading => 'Загрузка прошивки';
+
+  @override
+  String get flashingStatusBuilding => 'Сборка прошивки';
+
+  @override
+  String get flashingStatusUploading => 'Загрузка на устройство';
+
+  @override
+  String get flashingStatusFinalizing =>
+      'Запись на устройство — пожалуйста, подождите';
 
   @override
   String get flashDeviceLabel => 'Прошить устройство';
@@ -77,18 +81,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get flashingWifiCategoryLabel => 'Прошивка и WiFi';
-
-  @override
-  String get aboutSupportCategoryLabel => 'О приложении и поддержка';
-
-  @override
-  String get advancedCategoryLabel => 'Расширенные';
-
-  @override
-  String get flashingDefaultsSectionLabel => 'Настройки прошивки по умолчанию';
-
-  @override
   String get default24GHzDomainLabel => 'Домен по умолчанию 2.4 ГГц';
 
   @override
@@ -122,9 +114,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clearLabel => 'ОЧИСТИТЬ';
-
-  @override
-  String get aboutSectionLabel => 'О приложении';
 
   @override
   String get appVersionLabel => 'Версия приложения';
@@ -370,4 +359,318 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get regDomainUs433 => 'США (433МГц)';
+
+  @override
+  String get flashingStatusSaved => 'Прошивка сохранена';
+
+  @override
+  String get flashErrorNoTarget => 'Пожалуйста, выберите целевое устройство.';
+
+  @override
+  String get flashErrorNoVersion => 'Пожалуйста, выберите версию прошивки.';
+
+  @override
+  String get flashErrorNoDevice =>
+      'Невозможно прошить: устройство ELRS не подключено.';
+
+  @override
+  String flashErrorChipMismatch(String targetChip, String deviceChip) {
+    return 'Несовместимый чип: эта прошивка создана для $targetChip, но подключенное устройство — $deviceChip. Выберите целевое устройство с таким же чипом.';
+  }
+
+  @override
+  String get flashErrorOfflineFlash =>
+      'Нет доступа к интернету для загрузки отсутствующих файлов. Пожалуйста, отключитесь от устройства ELRS, загрузите эту прошивку через «Менеджер прошивок», чтобы пополнить кэш, и попробуйте снова.';
+
+  @override
+  String get flashErrorOfflineDownload =>
+      'Нет доступа к интернету. Вы не можете загружать прошивку, находясь в сети Wi-Fi устройства ELRS. Пожалуйста, отключитесь, загрузите эту версию через «Менеджер прошивок» и попробуйте снова.';
+
+  @override
+  String get flashErrorFlashFailed => 'Прошивка не удалась.';
+
+  @override
+  String get flashErrorUnconfirmed =>
+      'Устройство отключилось до подтверждения прошивки, поэтому она могла не завершиться. Это происходит, если устройство теряет питание или перезагружается во время прошивки, а также иногда при слабом Wi-Fi соединении после успешной прошивки. Проверьте версию прошивки в разделе «Настройки устройства» и повторите прошивку, если она не изменилась.';
+
+  @override
+  String get flashErrorDownloadFailed => 'Не удалось загрузить прошивку.';
+
+  @override
+  String get validationSsidTooLong =>
+      'SSID должен содержать не более 32 символов.';
+
+  @override
+  String get validationPasswordTooShort =>
+      'Пароль должен содержать не менее 8 символов.';
+
+  @override
+  String get validationPasswordTooLong =>
+      'Пароль должен содержать не более 63 символов.';
+
+  @override
+  String get targetMismatchTitle => 'Несоответствие цели';
+
+  @override
+  String get targetMismatchMessage =>
+      'Выбранная целевая прошивка не соответствует аппаратному обеспечению, работающему на устройстве. Вы уверены, что хотите принудительно прошить?';
+
+  @override
+  String get forceFlashLabel => 'ПРИНУДИТЕЛЬНАЯ ПРОШИВКА';
+
+  @override
+  String get noBindPhraseTitle => 'Отсутствует фраза привязки';
+
+  @override
+  String get noBindPhraseMessage =>
+      'Фраза привязки не установлена. Продолжить с фразой по умолчанию (пустой)?';
+
+  @override
+  String get flashSuccessSnackbar => 'Прошивка успешно завершена!';
+
+  @override
+  String get firmwareSavedSnackbar => 'Прошивка успешно сохранена!';
+
+  @override
+  String get flashSuccessMessage =>
+      'Прошивка успешно выполнена! Устройство перезагружается.';
+
+  @override
+  String get stm32OtaWarning =>
+      'Выбрана цель STM32: OTA-прошивка не поддерживается для этого оборудования. Вы можете собрать и сохранить эту прошивку локально для ручной прошивки через STLink или Betaflight Passthrough.';
+
+  @override
+  String get downloadBinaryLabel => 'СКАЧАТЬ БИНАРНЫЙ ФАЙЛ';
+
+  @override
+  String get waitingForDeviceLabel => 'ОЖИДАНИЕ УСТРОЙСТВА...';
+
+  @override
+  String get otaUnavailableLabel => 'ОТА НЕДОСТУПНО';
+
+  @override
+  String get doneLabel => 'ГОТОВО';
+
+  @override
+  String get targetSelectionTitle => 'Выбор цели';
+
+  @override
+  String get deviceTypeLabel => 'Тип устройства';
+
+  @override
+  String get deviceVendorLabel => 'Производитель устройства';
+
+  @override
+  String get regulatoryFrequencyLabel => 'Регион и частота';
+
+  @override
+  String get deviceTargetLabel => 'Целевое устройство';
+
+  @override
+  String get noFirmwareDownloadedButton =>
+      'Прошивка не загружена. Перейти к менеджеру прошивок';
+
+  @override
+  String hardwareRequiresVersion(String version) {
+    return 'Оборудование требует версию v$version или новее.';
+  }
+
+  @override
+  String get downloadCompatibleFirmwareButton =>
+      'Загрузить совместимую прошивку';
+
+  @override
+  String get firmwareVersionLabel => 'Версия прошивки';
+
+  @override
+  String get firmwareVersionHelper => 'Выберите версию ELRS для прошивки';
+
+  @override
+  String get cachedBadge => '(Кэшировано)';
+
+  @override
+  String errorLoadingVersions(String error) {
+    return 'Ошибка загрузки версий: $error';
+  }
+
+  @override
+  String get flashingProfileLabel => 'Профиль прошивки';
+
+  @override
+  String get addProfileTooltip => 'Добавить профиль';
+
+  @override
+  String get deleteProfileTooltip => 'Удалить профиль';
+
+  @override
+  String get bindingPhraseHelper => 'Ваша уникальная фраза привязки';
+
+  @override
+  String get addProfileTitle => 'Добавить профиль прошивки';
+
+  @override
+  String get profileNameHint => 'Имя профиля (например, Мои квадрокоптеры)';
+
+  @override
+  String get addLabel => 'Добавить';
+
+  @override
+  String get deleteProfileTitle => 'Удалить профиль';
+
+  @override
+  String deleteProfileMessage(String name) {
+    return 'Вы уверены, что хотите удалить профиль «$name»?';
+  }
+
+  @override
+  String get deleteLabel => 'Удалить';
+
+  @override
+  String get settingsCategoryProfilesNetwork => 'Профили и сеть';
+
+  @override
+  String get settingsCategoryAppStorage => 'Приложение и хранилище';
+
+  @override
+  String get settingsCategoryAdvancedDebug => 'Дополнительно и отладка';
+
+  @override
+  String get settingsCategoryAboutLegal => 'О приложении и правовая информация';
+
+  @override
+  String get settingsSectionRegulatoryDefaults =>
+      'Нормативные настройки по умолчанию';
+
+  @override
+  String get settingsSectionPreferences => 'Настройки';
+
+  @override
+  String get settingsSectionPowerTools => 'Расширенные инструменты';
+
+  @override
+  String get settingsSectionDiagnostics => 'Диагностика';
+
+  @override
+  String get regDomainUnknown => 'Неизвестно';
+
+  @override
+  String maxCachedVersionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count версий',
+      many: '$count версий',
+      few: '$count версии',
+      one: '$count версия',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String editFieldTitle(String field) {
+    return 'Редактировать $field';
+  }
+
+  @override
+  String enterFieldHint(String field) {
+    return 'Введите $field';
+  }
+
+  @override
+  String get luaScriptSavedSnackbar => 'elrs.lua сохранен на устройство!';
+
+  @override
+  String luaScriptSaveFailed(String error) {
+    return 'Не удалось сохранить скрипт: $error';
+  }
+
+  @override
+  String debugReportSubmittedWithId(String eventId) {
+    return 'Отправлено! Идентификатор события: $eventId…';
+  }
+
+  @override
+  String get debugReportSubmitted => 'Отчет успешно отправлен!';
+
+  @override
+  String debugReportFailed(String error) {
+    return 'Не удалось отправить: $error';
+  }
+
+  @override
+  String licenseLoadFailed(String error) {
+    return 'Ошибка загрузки лицензии: $error';
+  }
+
+  @override
+  String get firmwareErrorLoadFailed => 'Не удалось загрузить версии прошивок.';
+
+  @override
+  String get firmwareErrorOnHotspot =>
+      'Невозможно загрузить прошивку при прямом подключении к точке доступа Wi-Fi приёмника. Отключитесь или используйте домашнюю сеть.';
+
+  @override
+  String get firmwareErrorCacheFull =>
+      'Достигнут лимит кэша. Удалите старую версию.';
+
+  @override
+  String get firmwareErrorServerUnreachable =>
+      'Не удалось связаться с сервером прошивок. Проверьте подключение к интернету.';
+
+  @override
+  String get firmwareErrorDownloadInterrupted =>
+      'Загрузка прервана: потеряно сетевое соединение. Проверьте подключение и повторите попытку.';
+
+  @override
+  String get firmwareErrorDownloadFailed => 'Не удалось загрузить прошивку.';
+
+  @override
+  String get firmwareErrorDeleteFailed =>
+      'Не удалось удалить эту версию прошивки.';
+
+  @override
+  String firmwareVersionTitle(String version) {
+    return 'Версия $version';
+  }
+
+  @override
+  String get readyForOfflineUse => 'Готово для использования офлайн';
+
+  @override
+  String storageUsedMb(double size) {
+    final intl.NumberFormat sizeNumberFormat =
+        intl.NumberFormat.decimalPatternDigits(
+          locale: localeName,
+          decimalDigits: 1,
+        );
+    final String sizeString = sizeNumberFormat.format(size);
+
+    return 'Использовано памяти: $sizeString МБ';
+  }
+
+  @override
+  String cachedVersionsOfLimit(int count, int limit) {
+    return '$count / $limit Версий';
+  }
+
+  @override
+  String get splashTagline => 'Независимый инструмент настройки';
+
+  @override
+  String get splashDisclaimer =>
+      'Не является официальным продуктом ExpressLRS.\nСовместимо с прошивками версий 3.3.x/4.x.';
+
+  @override
+  String get unknownDeviceName => 'Устройство ELRS';
+
+  @override
+  String get unknownIpLabel => 'Неизвестный IP';
+
+  @override
+  String get firmwareBinariesFileType => 'Бинарные файлы прошивки';
+
+  @override
+  String helpContentLoadFailed(String error) {
+    return 'Ошибка загрузки содержимого справки: $error';
+  }
 }

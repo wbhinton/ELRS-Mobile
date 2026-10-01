@@ -12,6 +12,10 @@ if (!apiKey) {
 
 const targetLocales = ['de', 'es', 'fr', 'ja', 'uk', 'pt', 'it', 'pl', 'ko', 'ru', 'nl', 'cs', 'th', 'sv', 'id', 'zh', 'nb'];
 
+// Marker used to translate a doc's title and body in a single request, then
+// split the response back apart — halves the API calls per file per locale.
+const DOC_BODY_DELIMITER = '@@BODY_START@@';
+
 // Paths
 const docsDir = path.join(__dirname, '../src/content/docs/guides');
 const uiFile = path.join(__dirname, '../src/i18n/ui.json');
@@ -191,11 +195,28 @@ async function translateDocs() {
 
       console.log(`Translating documentation ${file} into ${locale}...`);
       try {
-        // Translate Title
-        const translatedTitle = await translateText(englishTitle, locale, 'short title text');
-        
-        // Translate Body
-        const translatedBody = await translateText(mdBody, locale, 'markdown document body');
+        // Translate title + body together in one request instead of two.
+        const combinedSource = `${englishTitle}\n\n${DOC_BODY_DELIMITER}\n\n${mdBody}`;
+        const translatedCombined = await translateText(
+          combinedSource,
+          locale,
+          `a document title followed by its markdown body. The two parts are separated by the exact line "${DOC_BODY_DELIMITER}" — reproduce that delimiter line exactly, unchanged and untranslated, by itself on its own line in your output, so the title and body can be split back apart`,
+        );
+
+        const delimiterIndex = translatedCombined.indexOf(DOC_BODY_DELIMITER);
+        if (delimiterIndex === -1) {
+          throw new Error(
+            `Response did not contain the "${DOC_BODY_DELIMITER}" delimiter — cannot split title from body`,
+          );
+        }
+        const translatedTitle = translatedCombined.slice(0, delimiterIndex).trim();
+        const translatedBody = translatedCombined
+          .slice(delimiterIndex + DOC_BODY_DELIMITER.length)
+          .trim();
+
+        if (!translatedTitle || !translatedBody) {
+          throw new Error('Split produced an empty title or body');
+        }
 
         // Construct target frontmatter replacing only title and updating slug if present
         let targetYaml = rawYaml.replace(/^title:\s*(.+)$/m, `title: ${JSON.stringify(translatedTitle)}`);

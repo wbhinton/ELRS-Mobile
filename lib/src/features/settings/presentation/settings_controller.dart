@@ -13,7 +13,6 @@ part 'settings_controller.g.dart';
 @freezed
 abstract class SettingsState with _$SettingsState {
   const factory SettingsState({
-    @Default(false) bool forceMobileData,
     @Default(0) int defaultDomain2400,
     @Default(1) int defaultDomain900,
     @Default('') String globalBindPhrase,
@@ -27,9 +26,9 @@ abstract class SettingsState with _$SettingsState {
     @Default(false) bool isLoaded,
     @Default(60) int wifiOnInterval,
     String? appLocale,
-    String? bindPhraseError,
-    String? wifiSsidError,
-    String? wifiPasswordError,
+    FieldValidationError? bindPhraseError,
+    FieldValidationError? wifiSsidError,
+    FieldValidationError? wifiPasswordError,
     @Default([]) List<FlashingProfile> profiles,
     String? activeProfileId,
   }) = _SettingsState;
@@ -62,7 +61,6 @@ class SettingsController extends _$SettingsController {
     );
 
     state = state.copyWith(
-      forceMobileData: prefs.getBool('forceMobileData') ?? false,
       defaultDomain2400: prefs.getInt('defaultDomain2400') ?? 0,
       defaultDomain900: prefs.getInt('defaultDomain900') ?? 1,
       globalBindPhrase: activeProfile.bindPhrase,
@@ -166,12 +164,6 @@ class SettingsController extends _$SettingsController {
       homeWifiPassword: activeProfile.wifiPassword,
       wifiOnInterval: activeProfile.wifiOnInterval == 0 ? 60 : activeProfile.wifiOnInterval,
     );
-  }
-
-  Future<void> setForceMobileData(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('forceMobileData', value);
-    state = state.copyWith(forceMobileData: value);
   }
 
   Future<void> setDefaultDomain2400(int value) async {
