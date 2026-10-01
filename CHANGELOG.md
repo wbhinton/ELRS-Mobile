@@ -1,3 +1,9 @@
+## [v1.0.44] - 2026-10-01
+
+Production release of v1.0.44-rc2 after a week in open testing with no reported issues. No app changes since rc2 beyond the automatic sync of hardware target definitions from upstream ExpressLRS. See the v1.0.44-rc2 notes below for the full list of changes since v1.0.43.
+
+---
+
 ## [v1.0.44-rc2] - 2026-09-23
 
 Release candidate. Covers all changes since v1.0.43, including the internal v1.0.44-rc1 test build.

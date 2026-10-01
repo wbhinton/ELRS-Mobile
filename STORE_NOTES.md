@@ -16,6 +16,36 @@ when the release goes to production.
 
 ---
 
+## v1.0.44
+
+### Google Play — What's new
+
+```
+• Update devices running firmware older than 3.1
+• Blocks firmware built for a different chip, with an explanation
+• Force Flash works again after a target mismatch
+• Success is only reported once your device confirms the flash
+• Progress bar shows each real flashing step
+• Every screen and error message translated into all 18 languages
+```
+
+### App Store — What's New in This Version
+
+```
+What's new in ELRS Mobile 1.0.44:
+
+• Update older devices: receivers and transmitters running ExpressLRS firmware older than 3.1 are now detected and can be brought up to a current release.
+• Chip compatibility check: the app blocks firmware built for a different chip than your device and explains why.
+• Reliable results: "Flashing Successful" is shown only when your device confirms the flash. If the connection drops before then, you get a warning to check the firmware version.
+• Force Flash works again after a target mismatch.
+• Accurate progress: the progress bar follows the real flashing steps, including a final "Writing to Device" step.
+• Clearer errors: plain explanations with the device's technical message underneath for bug reports.
+• Fully translated: every screen, dialog and error message is available in all 18 supported languages.
+• Branded iOS launch screen and upgraded secure storage for saved profiles.
+```
+
+---
+
 ## v1.0.44-rc2
 
 ### Google Play — What's new
