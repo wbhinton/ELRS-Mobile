@@ -676,4 +676,35 @@ class AppLocalizationsFr extends AppLocalizations {
   String helpContentLoadFailed(String error) {
     return 'Erreur lors du chargement du contenu d\'aide : $error';
   }
+
+  @override
+  String get updateAvailableTitle => 'Update Available';
+
+  @override
+  String updateAvailableMessage(String version, String currentVersion) {
+    return 'Version $version is available. You are using version $currentVersion.';
+  }
+
+  @override
+  String get updateInstallHint =>
+      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+
+  @override
+  String get updateDownloadButton => 'Download';
+
+  @override
+  String get updateSkipVersionButton => 'Skip This Version';
+
+  @override
+  String get updateLaterButton => 'Later';
+
+  @override
+  String get checkForUpdatesLabel => 'Check for Updates';
+
+  @override
+  String get updateUpToDateMessage => 'You are using the latest version.';
+
+  @override
+  String get updateCheckFailedMessage =>
+      'Couldn\'t check for updates. Check your internet connection and try again.';
 }

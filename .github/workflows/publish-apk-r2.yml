@@ -7,7 +7,7 @@ name: Publish APK to R2
 # Objects written:
 #   releases/<tag>/ELRS-Mobile-<tag>.apk   immutable, versioned copy
 #   ELRS-Mobile-latest.apk                 stable link (overwritten each release)
-#   latest.json                            version, sha256 and URLs
+#   latest.json                            version, version_code, sha256 and URLs
 #
 # Called by release.yml after a production release; can also be run
 # manually to backfill or re-push an existing release.
@@ -54,6 +54,11 @@ jobs:
           VERSIONED_KEY="releases/$TAG/$APK"
           ENDPOINT="https://$CLOUDFLARE_ACCOUNT_ID.r2.cloudflarestorage.com"
 
+          # The app compares versionCode, so read it from the APK itself.
+          AAPT2="$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)aapt2"
+          VERSION_CODE=$("$AAPT2" dump badging "$APK" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p")
+          [[ -n "$VERSION_CODE" ]] || { echo "Could not read versionCode from $APK"; exit 1; }
+
           SHA256=$(sha256sum "$APK" | cut -d' ' -f1)
           SIZE=$(stat -c %s "$APK")
 
@@ -75,12 +80,13 @@ jobs:
           jq -n \
             --arg version "$VERSION" \
             --arg tag "$TAG" \
+            --argjson version_code "$VERSION_CODE" \
             --arg sha256 "$SHA256" \
             --argjson size "$SIZE" \
             --arg url "$CDN_BASE_URL/$VERSIONED_KEY" \
             --arg latest_url "$CDN_BASE_URL/ELRS-Mobile-latest.apk" \
             --arg published_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-            '{version: $version, tag: $tag, sha256: $sha256, size: $size, url: $url, latest_url: $latest_url, published_at: $published_at}' \
+            '{version: $version, version_code: $version_code, tag: $tag, sha256: $sha256, size: $size, url: $url, latest_url: $latest_url, published_at: $published_at}' \
             > latest.json
           cat latest.json
 

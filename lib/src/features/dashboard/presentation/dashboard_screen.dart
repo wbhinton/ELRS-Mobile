@@ -8,6 +8,8 @@ import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../../../core/presentation/responsive_layout.dart';
 import '../../settings/presentation/settings_controller.dart';
 import '../../settings/presentation/disclaimer_dialog.dart';
+import '../../app_update/application/app_update_service.dart';
+import '../../app_update/presentation/update_dialog.dart';
 import 'widgets/dashboard_card.dart';
 import 'widgets/hardware_status_card.dart';
 import '../../../core/app_info.dart';
@@ -29,6 +31,21 @@ class DashboardScreen extends HookConsumerWidget {
         Future.microtask(() {
           if (context.mounted) {
             showDisclaimerDialog(context, ref);
+          }
+        });
+      }
+      return null;
+    }, [isLoaded, disclaimerAccepted]);
+
+    // Direct-download builds check for a newer APK in the background, after
+    // the disclaimer so the two dialogs never stack.
+    useEffect(() {
+      if (kIsDirectDistribution && isLoaded && disclaimerAccepted) {
+        Future(() async {
+          final service = await ref.read(appUpdateServiceProvider.future);
+          final result = await service.checkForUpdate();
+          if (result is UpdateAvailable && context.mounted) {
+            await showUpdateDialog(context, service, result);
           }
         });
       }

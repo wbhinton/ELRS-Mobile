@@ -21,6 +21,8 @@ class PersistenceService {
   static const _keyWifiOnInterval = 'flashing_wifi_on_interval';
   static const _keyProfiles = 'flashing_profiles';
   static const _keyActiveProfileId = 'active_profile_id';
+  static const _keyAppUpdateLastCheck = 'app_update_last_check';
+  static const _keyAppUpdateSkippedVersionCode = 'app_update_skipped_version_code';
 
   /// Migrates sensitive data from SharedPreferences to SecureStorage once.
   Future<void> migrateIfNeeded() async {
@@ -130,6 +132,23 @@ class PersistenceService {
 
   Future<void> setWifiOnInterval(int value) async {
     await _prefs.setInt(_keyWifiOnInterval, value);
+  }
+
+  DateTime? getLastUpdateCheck() {
+    final millis = _prefs.getInt(_keyAppUpdateLastCheck);
+    return millis == null ? null : DateTime.fromMillisecondsSinceEpoch(millis);
+  }
+
+  Future<void> setLastUpdateCheck(DateTime value) async {
+    await _prefs.setInt(_keyAppUpdateLastCheck, value.millisecondsSinceEpoch);
+  }
+
+  int? getSkippedUpdateVersionCode() {
+    return _prefs.getInt(_keyAppUpdateSkippedVersionCode);
+  }
+
+  Future<void> setSkippedUpdateVersionCode(int value) async {
+    await _prefs.setInt(_keyAppUpdateSkippedVersionCode, value);
   }
 }
 
