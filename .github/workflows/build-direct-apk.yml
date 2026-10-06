@@ -1,0 +1,99 @@
+name: Build Direct APK
+
+# CDN-only build: compiles the signed direct-download APK from the branch
+# selected in "Use workflow from" and publishes it to cdn.elrsmobile.com.
+# Does not touch Google Play, the App Store or GitHub Releases, so it can
+# reuse a version code Play already has.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version name (e.g. 1.0.44)'
+        required: true
+        type: string
+      build_number:
+        description: 'Build number / versionCode (e.g. 110)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build signed direct APK
+    runs-on: ubuntu-latest
+    outputs:
+      label: ${{ steps.label.outputs.label }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Rebuild Localization
+        run: flutter gen-l10n
+
+      - name: Resolve label
+        id: label
+        # Its own versioned CDN path, so it never overwrites a release's
+        # immutable copy under releases/v<version>/.
+        run: echo "label=v${{ inputs.version }}-build${{ inputs.build_number }}" >> $GITHUB_OUTPUT
+
+      - name: Build APK
+        run: |
+          printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
+
+          flutter build apk --release \
+            --build-name="${{ inputs.version }}" \
+            --build-number="${{ inputs.build_number }}" \
+            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
+            --dart-define=DISTRIBUTION=direct
+
+          mv build/app/outputs/flutter-apk/app-release.apk "ELRS-Mobile-${{ steps.label.outputs.label }}.apk"
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Verify release signing
+        # Gradle silently falls back to the debug key without the keystore;
+        # a debug-signed APK can't update existing sideloaded installs.
+        run: |
+          APKSIGNER="$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)apksigner"
+          CERTS=$("$APKSIGNER" verify --print-certs "ELRS-Mobile-${{ steps.label.outputs.label }}.apk")
+          echo "$CERTS" | grep -E 'certificate (DN|SHA-256)'
+          if grep -q 'CN=Android Debug' <<< "$CERTS"; then
+            echo "APK is debug-signed; refusing to publish"
+            exit 1
+          fi
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: direct-apk
+          path: ELRS-Mobile-${{ steps.label.outputs.label }}.apk
+
+  publish:
+    name: Publish to R2
+    needs: build
+    uses: ./.github/workflows/publish-apk-r2.yml
+    with:
+      tag: ${{ needs.build.outputs.label }}
+      artifact: direct-apk
+    secrets: inherit

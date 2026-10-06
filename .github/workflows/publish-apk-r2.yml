@@ -9,8 +9,9 @@ name: Publish APK to R2
 #   ELRS-Mobile-latest.apk                 stable link (overwritten each release)
 #   latest.json                            version, version_code, sha256 and URLs
 #
-# Called by release.yml after a production release; can also be run
-# manually to backfill or re-push an existing release.
+# Called by release.yml after a production release, and by
+# build-direct-apk.yml for CDN-only builds (passing `artifact`). Can also
+# be run manually to backfill or re-push an existing release.
 
 on:
   workflow_call:
@@ -19,6 +20,11 @@ on:
         description: 'Release tag to publish (e.g. v1.0.44)'
         required: true
         type: string
+      artifact:
+        description: 'Take ELRS-Mobile-<tag>.apk from this artifact of the calling run instead of the GitHub release'
+        required: false
+        type: string
+        default: ''
   workflow_dispatch:
     inputs:
       tag:
@@ -38,7 +44,14 @@ jobs:
     name: Upload APK to R2
     runs-on: ubuntu-latest
     steps:
+      - name: Download APK from build artifact
+        if: inputs.artifact != ''
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ inputs.artifact }}
+
       - name: Download APK from GitHub release
+        if: inputs.artifact == ''
         run: |
           gh release download "${{ inputs.tag }}" \
             --repo "${{ github.repository }}" \
@@ -49,15 +62,17 @@ jobs:
       - name: Upload to R2
         run: |
           TAG="${{ inputs.tag }}"
-          VERSION="${TAG#v}"
           APK="ELRS-Mobile-$TAG.apk"
           VERSIONED_KEY="releases/$TAG/$APK"
           ENDPOINT="https://$CLOUDFLARE_ACCOUNT_ID.r2.cloudflarestorage.com"
 
-          # The app compares versionCode, so read it from the APK itself.
+          # Read the version from the APK itself: the app compares versionCode,
+          # and a CDN-only build's tag isn't a plain version.
           AAPT2="$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)aapt2"
-          VERSION_CODE=$("$AAPT2" dump badging "$APK" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p")
-          [[ -n "$VERSION_CODE" ]] || { echo "Could not read versionCode from $APK"; exit 1; }
+          BADGING=$("$AAPT2" dump badging "$APK")
+          VERSION_CODE=$(sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" <<< "$BADGING")
+          VERSION=$(sed -n "s/.*versionName='\([^']*\)'.*/\1/p" <<< "$BADGING")
+          [[ -n "$VERSION_CODE" && -n "$VERSION" ]] || { echo "Could not read version from $APK"; exit 1; }
 
           SHA256=$(sha256sum "$APK" | cut -d' ' -f1)
           SIZE=$(stat -c %s "$APK")
