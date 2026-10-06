@@ -1,0 +1,102 @@
+name: Publish APK to R2
+
+# Mirrors a GitHub release's APK to the Cloudflare R2 bucket behind
+# cdn.elrsmobile.com so users who can't reach Google Play or GitHub
+# (e.g. behind the Great Firewall) can still download it directly.
+#
+# Objects written:
+#   releases/<tag>/ELRS-Mobile-<tag>.apk   immutable, versioned copy
+#   ELRS-Mobile-latest.apk                 stable link (overwritten each release)
+#   latest.json                            version, sha256 and URLs
+#
+# Called by release.yml after a production release; can also be run
+# manually to backfill or re-push an existing release.
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Release tag to publish (e.g. v1.0.44)'
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to publish (e.g. v1.0.44)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  R2_BUCKET: elrs-mobile-releases
+  CDN_BASE_URL: https://cdn.elrsmobile.com
+
+jobs:
+  publish:
+    name: Upload APK to R2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from GitHub release
+        run: |
+          gh release download "${{ inputs.tag }}" \
+            --repo "${{ github.repository }}" \
+            --pattern "ELRS-Mobile-${{ inputs.tag }}.apk"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload to R2
+        run: |
+          TAG="${{ inputs.tag }}"
+          VERSION="${TAG#v}"
+          APK="ELRS-Mobile-$TAG.apk"
+          VERSIONED_KEY="releases/$TAG/$APK"
+          ENDPOINT="https://$CLOUDFLARE_ACCOUNT_ID.r2.cloudflarestorage.com"
+
+          SHA256=$(sha256sum "$APK" | cut -d' ' -f1)
+          SIZE=$(stat -c %s "$APK")
+
+          r2_put() {
+            aws s3 cp "$1" "s3://$R2_BUCKET/$2" --endpoint-url "$ENDPOINT" --only-show-errors "${@:3}"
+          }
+
+          r2_put "$APK" "$VERSIONED_KEY" \
+            --content-type application/vnd.android.package-archive \
+            --content-disposition "attachment; filename=\"$APK\"" \
+            --cache-control "public, max-age=31536000, immutable"
+
+          # Short cache so the edge picks up a new release within minutes.
+          r2_put "$APK" "ELRS-Mobile-latest.apk" \
+            --content-type application/vnd.android.package-archive \
+            --content-disposition "attachment; filename=\"$APK\"" \
+            --cache-control "public, max-age=300"
+
+          jq -n \
+            --arg version "$VERSION" \
+            --arg tag "$TAG" \
+            --arg sha256 "$SHA256" \
+            --argjson size "$SIZE" \
+            --arg url "$CDN_BASE_URL/$VERSIONED_KEY" \
+            --arg latest_url "$CDN_BASE_URL/ELRS-Mobile-latest.apk" \
+            --arg published_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{version: $version, tag: $tag, sha256: $sha256, size: $size, url: $url, latest_url: $latest_url, published_at: $published_at}' \
+            > latest.json
+          cat latest.json
+
+          r2_put latest.json "latest.json" \
+            --content-type application/json \
+            --cache-control "public, max-age=300"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          # Newer AWS CLI checksum defaults aren't fully supported by R2.
+          AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+          AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFARE_ACCOUNT_ID }}
+
+      - name: Verify CDN download
+        run: |
+          KEY="releases/${{ inputs.tag }}/ELRS-Mobile-${{ inputs.tag }}.apk"
+          curl -sfSI "$CDN_BASE_URL/$KEY" | grep -iE '^(HTTP|content-type|content-length)'

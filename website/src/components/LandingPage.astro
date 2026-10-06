@@ -263,7 +263,7 @@ const localizedPath = (path: string) => {
 						<h4 class="text-white font-bold mb-1 transition-colors group-hover:text-primary">{t("get_started.github_store_title")}</h4>
 						<p class="text-text-muted text-sm m-0">{t("get_started.github_store_desc")}</p>
 					</a>
-					<a href="https://github.com/wbhinton/ELRS-Mobile/releases" class="bg-white/5 rounded-2xl border border-white/5 p-5 md:p-6 transition-all duration-300 hover:border-primary/50 hover:bg-white/10 text-left no-underline group">
+					<a href="https://cdn.elrsmobile.com/ELRS-Mobile-latest.apk" onclick="window.gtag && gtag('event', 'app_download_click', { 'store': 'direct_apk' });" class="bg-white/5 rounded-2xl border border-white/5 p-5 md:p-6 transition-all duration-300 hover:border-primary/50 hover:bg-white/10 text-left no-underline group">
 						<h4 class="text-white font-bold mb-1 transition-colors group-hover:text-primary">{t("get_started.apk_title")}</h4>
 						<p class="text-text-muted text-sm m-0">{t("get_started.apk_desc")}</p>
 					</a>
