@@ -151,11 +151,15 @@ jobs:
 
           printf "%s" "${{ secrets.KEYSTORE_BASE64 }}" | base64 -di > android/app/elrs-upload.jks
 
+          # The APK is the direct-download build (cdn.elrsmobile.com and
+          # GitHub Releases) and checks for updates itself. The AAB stays a
+          # plain store build: Play handles its updates.
           echo "Building APK for version $VERSION ($BUILD_NUMBER)..."
           flutter build apk --release \
             --build-name="$VERSION" \
             --build-number="$BUILD_NUMBER" \
-            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            --dart-define=SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
+            --dart-define=DISTRIBUTION=direct
 
           echo "Building AppBundle for version $VERSION ($BUILD_NUMBER)..."
           flutter build appbundle --release \

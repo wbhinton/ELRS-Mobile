@@ -649,5 +649,51 @@
         "example": "FlutterError"
       }
     }
+  },
+  "updateAvailableTitle": "Update Available",
+  "@updateAvailableTitle": {
+    "description": "Title of the dialog offering a newer version of the app (direct-download builds only)."
+  },
+  "updateAvailableMessage": "Version {version} is available. You are using version {currentVersion}.",
+  "@updateAvailableMessage": {
+    "description": "Body of the update dialog. Both placeholders are app version numbers.",
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.45"
+      },
+      "currentVersion": {
+        "type": "String",
+        "example": "1.0.44"
+      }
+    }
+  },
+  "updateInstallHint": "Download the new APK and open it to install. Your settings and profiles will be kept.",
+  "@updateInstallHint": {
+    "description": "Explains how to install the downloaded update file on Android."
+  },
+  "updateDownloadButton": "Download",
+  "@updateDownloadButton": {
+    "description": "Button that opens the download link for the new app version in the browser."
+  },
+  "updateSkipVersionButton": "Skip This Version",
+  "@updateSkipVersionButton": {
+    "description": "Button that stops reminding the user about this particular app version."
+  },
+  "updateLaterButton": "Later",
+  "@updateLaterButton": {
+    "description": "Button that closes the update dialog; the user is reminded again later."
+  },
+  "checkForUpdatesLabel": "Check for Updates",
+  "@checkForUpdatesLabel": {
+    "description": "Settings item that checks whether a newer version of the app is available."
+  },
+  "updateUpToDateMessage": "You are using the latest version.",
+  "@updateUpToDateMessage": {
+    "description": "Shown after a manual update check when no newer version exists."
+  },
+  "updateCheckFailedMessage": "Couldn't check for updates. Check your internet connection and try again.",
+  "@updateCheckFailedMessage": {
+    "description": "Shown when a manual update check fails, usually because there is no internet connection."
   }
 }

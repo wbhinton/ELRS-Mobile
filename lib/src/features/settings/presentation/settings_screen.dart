@@ -7,6 +7,8 @@ import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/presentation/responsive_layout.dart';
 import 'settings_controller.dart';
+import '../../app_update/application/app_update_service.dart';
+import '../../app_update/presentation/update_dialog.dart';
 import 'widgets/settings_master_detail.dart';
 import '../../../core/utils/lua_export_utils.dart';
 import '../../../core/utils/validation_utils.dart';
@@ -86,7 +88,7 @@ class SettingsScreen extends HookConsumerWidget {
                   const SizedBox(height: 16),
                   _buildAdvancedCategory(context, state, controller, ref),
                   const SizedBox(height: 16),
-                  _buildAboutCategory(context, state),
+                  _buildAboutCategory(context, ref, state),
                 ],
               );
             }
@@ -117,7 +119,7 @@ class SettingsScreen extends HookConsumerWidget {
                 return ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8.0),
                   children: [
-                    _buildAboutCategory(context, state),
+                    _buildAboutCategory(context, ref, state),
                   ],
                 );
             }
@@ -936,6 +938,7 @@ class SettingsScreen extends HookConsumerWidget {
 
   Widget _buildAboutCategory(
     BuildContext context,
+    WidgetRef ref,
     SettingsState state,
   ) {
     final l10n = AppLocalizations.of(context)!;
@@ -955,6 +958,12 @@ class SettingsScreen extends HookConsumerWidget {
                   subtitle: Text(state.appVersion),
                   leading: const Icon(Icons.info_outline),
                 ),
+                if (kIsDirectDistribution)
+                  ListTile(
+                    title: Text(l10n.checkForUpdatesLabel),
+                    leading: const Icon(Icons.system_update),
+                    onTap: () => _checkForUpdates(context, ref),
+                  ),
                 ListTile(
                   title: Text(l10n.legalLicenseLabel),
                   subtitle: Text(l10n.standardDisclaimerAndGplv3Label),
@@ -975,6 +984,25 @@ class SettingsScreen extends HookConsumerWidget {
         ),
       ],
     );
+  }
+
+  Future<void> _checkForUpdates(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context)!;
+    final service = await ref.read(appUpdateServiceProvider.future);
+    final result = await service.checkForUpdate(manual: true);
+    if (!context.mounted) return;
+    switch (result) {
+      case UpdateAvailable():
+        await showUpdateDialog(context, service, result);
+      case NoUpdate():
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.updateUpToDateMessage)),
+        );
+      case UpdateCheckFailed():
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.updateCheckFailedMessage)),
+        );
+    }
   }
 
   Future<void> _launchUrl(String url) async {

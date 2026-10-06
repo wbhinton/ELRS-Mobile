@@ -1269,6 +1269,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error loading help content: {error}'**
   String helpContentLoadFailed(String error);
+
+  /// Title of the dialog offering a newer version of the app (direct-download builds only).
+  ///
+  /// In en, this message translates to:
+  /// **'Update Available'**
+  String get updateAvailableTitle;
+
+  /// Body of the update dialog. Both placeholders are app version numbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} is available. You are using version {currentVersion}.'**
+  String updateAvailableMessage(String version, String currentVersion);
+
+  /// Explains how to install the downloaded update file on Android.
+  ///
+  /// In en, this message translates to:
+  /// **'Download the new APK and open it to install. Your settings and profiles will be kept.'**
+  String get updateInstallHint;
+
+  /// Button that opens the download link for the new app version in the browser.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get updateDownloadButton;
+
+  /// Button that stops reminding the user about this particular app version.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip This Version'**
+  String get updateSkipVersionButton;
+
+  /// Button that closes the update dialog; the user is reminded again later.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get updateLaterButton;
+
+  /// Settings item that checks whether a newer version of the app is available.
+  ///
+  /// In en, this message translates to:
+  /// **'Check for Updates'**
+  String get checkForUpdatesLabel;
+
+  /// Shown after a manual update check when no newer version exists.
+  ///
+  /// In en, this message translates to:
+  /// **'You are using the latest version.'**
+  String get updateUpToDateMessage;
+
+  /// Shown when a manual update check fails, usually because there is no internet connection.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t check for updates. Check your internet connection and try again.'**
+  String get updateCheckFailedMessage;
 }
 
 class _AppLocalizationsDelegate
