@@ -97,11 +97,15 @@ class AppUpdateService {
       _persistence.setSkippedUpdateVersionCode(release.versionCode);
 }
 
-@riverpod
+// Kept alive: callers use `ref.read(...future)`, which adds no listener, so
+// an auto-dispose provider would be torn down mid-build. Synchronous
+// dependencies are watched before the first await for the same reason.
+@Riverpod(keepAlive: true)
 Future<AppUpdateService> appUpdateService(Ref ref) async {
+  final repository = ref.watch(appUpdateRepositoryProvider);
   final persistence = await ref.watch(persistenceServiceProvider.future);
   return AppUpdateService(
-    repository: ref.watch(appUpdateRepositoryProvider),
+    repository: repository,
     persistence: persistence,
     packageInfo: PackageInfo.fromPlatform,
   );

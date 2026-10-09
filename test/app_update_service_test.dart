@@ -7,6 +7,7 @@ import 'package:elrs_mobile/src/features/app_update/data/app_update_repository.d
 import 'package:elrs_mobile/src/features/app_update/domain/app_release.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -221,6 +222,30 @@ void main() {
     test('an unparseable local build number never prompts', () async {
       repository.release = _release(111);
       expect(await service(build: '').checkForUpdate(), isA<NoUpdate>());
+    });
+  });
+
+  group('appUpdateServiceProvider', () {
+    test('survives a one-off read while persistence is still loading',
+        () async {
+      SharedPreferences.setMockInitialValues({});
+      final persistence = PersistenceService(
+        await SharedPreferences.getInstance(),
+        _MockSecureStorage(),
+      );
+      final container = ProviderContainer(
+        overrides: [
+          persistenceServiceProvider.overrideWith((ref) async {
+            await Future<void>.delayed(const Duration(milliseconds: 50));
+            return persistence;
+          }),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      // Both call sites read without listening, as here.
+      final service = await container.read(appUpdateServiceProvider.future);
+      expect(service, isA<AppUpdateService>());
     });
   });
 }
