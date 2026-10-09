@@ -16,6 +16,30 @@ when the release goes to production.
 
 ---
 
+## v1.0.45
+
+### Google Play — What's new
+
+```
+• Saved profiles and credentials finish moving to the latest secure storage
+• If an update from a much older version can't keep your saved settings, the app now tells you once so you can re-enter them
+• Updated components for saving firmware files and the Lua script
+• Update and settings messages translated into all 18 languages
+```
+
+### App Store — What's New in This Version
+
+```
+What's new in ELRS Mobile 1.0.45:
+
+• Secure storage upgrade, final step: saved profiles, binding phrase and Wi-Fi credentials now use only the current storage format.
+• Clear notice: if settings can't be carried over from a much older version of the app, you're told once so you can re-enter them in Settings.
+• Updated components for saving firmware files and exporting the Lua script.
+• New messages translated into all 18 supported languages.
+```
+
+---
+
 ## v1.0.44
 
 ### Google Play — What's new

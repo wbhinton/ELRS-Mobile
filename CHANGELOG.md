@@ -1,3 +1,23 @@
+## [v1.0.45] - 2026-10-09
+
+### New Features
+
+*   **Direct-Download Builds:** The APK is now available straight from cdn.elrsmobile.com, reachable where Google Play and GitHub are blocked. Direct-download builds check for a newer release once a day (or on demand from Settings → Check for Updates) and offer to download it; you can skip a version or be reminded later. Play Store and App Store builds are unchanged: the stores handle their updates.
+
+### Improvements
+
+*   **Secure Storage Upgrade, Final Step:** Saved profiles, the binding phrase and Wi-Fi credentials now use only the current secure storage format. Installs that have run v1.0.44 keep everything. Updating straight from v1.0.43 or older can't carry these settings over; the app now says so once, instead of silently showing an empty profile, so you know to re-enter them in Settings.
+*   **Check for Updates Feedback:** The Settings button shows progress while it checks and ignores repeat taps, so update dialogs no longer stack.
+*   **Platform Updates:** Updated the components behind file saving (firmware and Lua script export), device information and app version reporting.
+*   **Translations:** The update and settings-reset messages are available in all 18 supported languages.
+
+### Bug Fixes
+
+*   **Update Check Could Silently Fail:** In v1.0.44 direct-download builds the automatic check and the Settings button could fail without any message. Both now work reliably and show a clear message if the check can't complete.
+*   **Download Gets the Exact Release:** The update dialog now downloads that release's own APK, so a cached copy of the previous version can't be served right after a release.
+
+---
+
 ## [v1.0.44] - 2026-10-01
 
 Production release of v1.0.44-rc2 after a week in open testing with no reported issues. No app changes since rc2 beyond the automatic sync of hardware target definitions from upstream ExpressLRS. See the v1.0.44-rc2 notes below for the full list of changes since v1.0.43.
