@@ -189,5 +189,16 @@
   "unknownDeviceName": "Perangkat ELRS",
   "unknownIpLabel": "IP Tidak Dikenal",
   "firmwareBinariesFileType": "Biner Firmware",
-  "helpContentLoadFailed": "Gagal memuat konten bantuan: {error}"
+  "helpContentLoadFailed": "Gagal memuat konten bantuan: {error}",
+  "updateAvailableTitle": "Pembaruan Tersedia",
+  "updateAvailableMessage": "Versi {version} tersedia. Anda menggunakan versi {currentVersion}.",
+  "updateInstallHint": "Unduh APK baru dan buka untuk menginstal. Pengaturan dan profil Anda akan tetap tersimpan.",
+  "updateDownloadButton": "Unduh",
+  "updateSkipVersionButton": "Lewati Versi Ini",
+  "updateLaterButton": "Nanti",
+  "checkForUpdatesLabel": "Periksa Pembaruan",
+  "updateUpToDateMessage": "Anda menggunakan versi terbaru.",
+  "updateCheckFailedMessage": "Tidak dapat memeriksa pembaruan. Periksa koneksi internet Anda dan coba lagi.",
+  "secureDataLostTitle": "Pengaturan Tersimpan Direset",
+  "secureDataLostMessage": "Profil flashing, frasa pengikat (binding phrase), dan pengaturan Wi-Fi Anda yang tersimpan tidak dapat dipindahkan dari versi aplikasi lama yang Anda perbarui. Mohon masukkan kembali di Pengaturan."
 }

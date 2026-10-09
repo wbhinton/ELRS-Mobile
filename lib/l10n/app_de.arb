@@ -189,5 +189,16 @@
   "unknownDeviceName": "ELRS-Gerät",
   "unknownIpLabel": "Unbekannte IP",
   "firmwareBinariesFileType": "Firmware-Binärdateien",
-  "helpContentLoadFailed": "Fehler beim Laden der Hilfeinhalte: {error}"
+  "helpContentLoadFailed": "Fehler beim Laden der Hilfeinhalte: {error}",
+  "updateAvailableTitle": "Update verfügbar",
+  "updateAvailableMessage": "Version {version} ist verfügbar. Sie verwenden Version {currentVersion}.",
+  "updateInstallHint": "Laden Sie die neue APK herunter und öffnen Sie sie zur Installation. Ihre Einstellungen und Profile bleiben erhalten.",
+  "updateDownloadButton": "Herunterladen",
+  "updateSkipVersionButton": "Diese Version überspringen",
+  "updateLaterButton": "Später",
+  "checkForUpdatesLabel": "Nach Updates suchen",
+  "updateUpToDateMessage": "Sie verwenden die neueste Version.",
+  "updateCheckFailedMessage": "Es konnte nicht nach Updates gesucht werden. Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+  "secureDataLostTitle": "Gespeicherte Einstellungen zurückgesetzt",
+  "secureDataLostMessage": "Ihre gespeicherten Flash-Profile, die Bindungsphrase und die WLAN-Einstellungen konnten nicht von der älteren Version der App, von der Sie aktualisiert haben, übernommen werden. Bitte geben Sie diese erneut in den Einstellungen ein."
 }

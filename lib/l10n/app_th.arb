@@ -189,5 +189,16 @@
   "unknownDeviceName": "อุปกรณ์ ELRS",
   "unknownIpLabel": "IP ไม่ทราบ",
   "firmwareBinariesFileType": "ไฟล์ไบนารีเฟิร์มแวร์",
-  "helpContentLoadFailed": "เกิดข้อผิดพลาดในการโหลดเนื้อหาช่วยเหลือ: {error}"
+  "helpContentLoadFailed": "เกิดข้อผิดพลาดในการโหลดเนื้อหาช่วยเหลือ: {error}",
+  "updateAvailableTitle": "มีการอัปเดตใหม่",
+  "updateAvailableMessage": "เวอร์ชัน {version} พร้อมใช้งานแล้ว คุณกำลังใช้เวอร์ชัน {currentVersion}",
+  "updateInstallHint": "ดาวน์โหลดไฟล์ APK ใหม่และเปิดเพื่อติดตั้ง การตั้งค่าและโปรไฟล์ของคุณจะยังคงอยู่",
+  "updateDownloadButton": "ดาวน์โหลด",
+  "updateSkipVersionButton": "ข้ามเวอร์ชันนี้",
+  "updateLaterButton": "ภายหลัง",
+  "checkForUpdatesLabel": "ตรวจสอบการอัปเดต",
+  "updateUpToDateMessage": "คุณกำลังใช้เวอร์ชันล่าสุดแล้ว",
+  "updateCheckFailedMessage": "ไม่สามารถตรวจสอบการอัปเดตได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง",
+  "secureDataLostTitle": "การตั้งค่าที่บันทึกไว้ถูกรีเซ็ต",
+  "secureDataLostMessage": "โปรไฟล์การแฟลชที่บันทึกไว้, รหัสผูก (binding phrase) และการตั้งค่า Wi-Fi ของคุณไม่สามารถโอนมาจากแอปเวอร์ชันเก่าที่คุณอัปเดตได้ โปรดป้อนข้อมูลเหล่านั้นอีกครั้งในการตั้งค่า"
 }

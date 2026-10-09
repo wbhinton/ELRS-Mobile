@@ -684,40 +684,40 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Actualización disponible';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'La versión $version está disponible. Estás usando la versión $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Descarga el nuevo APK y ábrelo para instalar. Tus ajustes y perfiles se mantendrán.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Descargar';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Omitir esta versión';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Más tarde';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Buscar actualizaciones';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Estás usando la última versión.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'No se pudieron buscar actualizaciones. Verifica tu conexión a internet e inténtalo de nuevo.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Ajustes guardados restablecidos';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Tus perfiles de flasheo guardados, frase de enlace y ajustes de Wi-Fi no pudieron transferirse desde la versión anterior de la aplicación. Vuelve a introducirlos en Ajustes.';
 }

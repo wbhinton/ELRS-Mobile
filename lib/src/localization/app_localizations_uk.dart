@@ -677,40 +677,40 @@ class AppLocalizationsUk extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Доступне оновлення';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Доступна версія $version. Ви використовуєте версію $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Завантажте новий APK та відкрийте його для встановлення. Ваші налаштування та профілі буде збережено.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Завантажити';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Пропустити цю версію';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Пізніше';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Перевірити наявність оновлень';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Ви використовуєте останню версію.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Не вдалося перевірити наявність оновлень. Перевірте підключення до Інтернету та повторіть спробу.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Збережені налаштування скинуто';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Ваші збережені профілі прошивки, фраза прив\'язки та налаштування Wi-Fi не вдалося перенести з попередньої версії програми, яку ви оновили. Будь ласка, введіть їх знову в Налаштуваннях.';
 }

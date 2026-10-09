@@ -189,5 +189,16 @@
   "unknownDeviceName": "ELRS-enhet",
   "unknownIpLabel": "Ukjent IP",
   "firmwareBinariesFileType": "Fastvarebinærfiler",
-  "helpContentLoadFailed": "Feil ved lasting av hjelpeinnhold: {error}"
+  "helpContentLoadFailed": "Feil ved lasting av hjelpeinnhold: {error}",
+  "updateAvailableTitle": "Oppdatering tilgjengelig",
+  "updateAvailableMessage": "Versjon {version} er tilgjengelig. Du bruker versjon {currentVersion}.",
+  "updateInstallHint": "Last ned den nye APK-en og åpne den for å installere. Innstillingene og profilene dine blir beholdt.",
+  "updateDownloadButton": "Last ned",
+  "updateSkipVersionButton": "Hopp over denne versjonen",
+  "updateLaterButton": "Senere",
+  "checkForUpdatesLabel": "Sjekk etter oppdateringer",
+  "updateUpToDateMessage": "Du bruker den nyeste versjonen.",
+  "updateCheckFailedMessage": "Kunne ikke sjekke etter oppdateringer. Sjekk internettforbindelsen din og prøv igjen.",
+  "secureDataLostTitle": "Lagrede innstillinger tilbakestilt",
+  "secureDataLostMessage": "Dine lagrede flash-profiler, binding phrase og Wi-Fi-innstillinger kunne ikke overføres fra den eldre versjonen av appen du oppdaterte fra. Vennligst skriv dem inn på nytt under Innstillinger."
 }

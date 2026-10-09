@@ -693,40 +693,40 @@ class AppLocalizationsPl extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Dostępna aktualizacja';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Dostępna jest wersja $version. Używasz wersji $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Pobierz nowy plik APK i otwórz go, aby zainstalować. Twoje ustawienia i profile zostaną zachowane.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Pobierz';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Pomiń tę wersję';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Później';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Sprawdź aktualizacje';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Używasz najnowszej wersji.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Nie można sprawdzić aktualizacji. Sprawdź połączenie internetowe i spróbuj ponownie.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Ustawienia zapisane zresetowane';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Twoje zapisane profile flashowania, fraza wiążąca i ustawienia Wi-Fi nie mogły zostać przeniesione ze starszej wersji aplikacji, z której aktualizowałeś. Wprowadź je ponownie w Ustawieniach.';
 }

@@ -189,5 +189,16 @@
   "unknownDeviceName": "ELRS-apparaat",
   "unknownIpLabel": "Onbekend IP-adres",
   "firmwareBinariesFileType": "Firmware binaire bestanden",
-  "helpContentLoadFailed": "Fout bij laden van helpinhoud: {error}"
+  "helpContentLoadFailed": "Fout bij laden van helpinhoud: {error}",
+  "updateAvailableTitle": "Update beschikbaar",
+  "updateAvailableMessage": "Versie {version} is beschikbaar. Je gebruikt momenteel versie {currentVersion}.",
+  "updateInstallHint": "Download het nieuwe APK-bestand en open het om te installeren. Je instellingen en profielen blijven behouden.",
+  "updateDownloadButton": "Downloaden",
+  "updateSkipVersionButton": "Deze versie overslaan",
+  "updateLaterButton": "Later",
+  "checkForUpdatesLabel": "Controleren op updates",
+  "updateUpToDateMessage": "Je gebruikt de nieuwste versie.",
+  "updateCheckFailedMessage": "Kon niet controleren op updates. Controleer je internetverbinding en probeer het opnieuw.",
+  "secureDataLostTitle": "Opgeslagen instellingen gereset",
+  "secureDataLostMessage": "Je opgeslagen flashing-profielen, bind-phrase en wifi-instellingen konden niet worden overgezet vanuit de oudere versie van de app waarvan je hebt geüpdatet. Voer ze opnieuw in via Instellingen."
 }

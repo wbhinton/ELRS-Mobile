@@ -188,5 +188,16 @@
   "unknownDeviceName": "0e0b147f0dbbf7384ca2098d1c178aaf",
   "unknownIpLabel": "ce9bfcc7c9e59abba3087d89bf3b72df",
   "firmwareBinariesFileType": "1acd0ff5eda09a592c2702290a27b7dd",
-  "helpContentLoadFailed": "df273343d6104ae63979d48684b8a459"
+  "helpContentLoadFailed": "df273343d6104ae63979d48684b8a459",
+  "updateAvailableTitle": "8bd7695831e104e2669e086e03927a20",
+  "updateAvailableMessage": "6488a85f27994c9befacc51f71ebca96",
+  "updateInstallHint": "37002a100eb8b0c30baf7d2997dadeb8",
+  "updateDownloadButton": "801ab24683a4a8c433c6eb40c48bcd9d",
+  "updateSkipVersionButton": "3b67f9fe87c911d3001da704028833a2",
+  "updateLaterButton": "61057a0c84605444201929bdd72014f0",
+  "checkForUpdatesLabel": "f77f38f684c8b974dd4a56bb321cfd5f",
+  "updateUpToDateMessage": "3bf69cf8b01e742c1fe774736495e9d6",
+  "updateCheckFailedMessage": "843b441c8e605809fad81e2828ef7647",
+  "secureDataLostTitle": "1918f22016c1a6961ad551e57fe42f8d",
+  "secureDataLostMessage": "cc400e0f08499700c37849b4b266c649"
 }

@@ -666,40 +666,40 @@ class AppLocalizationsTh extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'มีการอัปเดตใหม่';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'เวอร์ชัน $version พร้อมใช้งานแล้ว คุณกำลังใช้เวอร์ชัน $currentVersion';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'ดาวน์โหลดไฟล์ APK ใหม่และเปิดเพื่อติดตั้ง การตั้งค่าและโปรไฟล์ของคุณจะยังคงอยู่';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'ดาวน์โหลด';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'ข้ามเวอร์ชันนี้';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'ภายหลัง';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'ตรวจสอบการอัปเดต';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'คุณกำลังใช้เวอร์ชันล่าสุดแล้ว';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'ไม่สามารถตรวจสอบการอัปเดตได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'การตั้งค่าที่บันทึกไว้ถูกรีเซ็ต';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'โปรไฟล์การแฟลชที่บันทึกไว้, รหัสผูก (binding phrase) และการตั้งค่า Wi-Fi ของคุณไม่สามารถโอนมาจากแอปเวอร์ชันเก่าที่คุณอัปเดตได้ โปรดป้อนข้อมูลเหล่านั้นอีกครั้งในการตั้งค่า';
 }

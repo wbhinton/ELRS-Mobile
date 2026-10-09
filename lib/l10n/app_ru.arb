@@ -189,5 +189,16 @@
   "unknownDeviceName": "Устройство ELRS",
   "unknownIpLabel": "Неизвестный IP",
   "firmwareBinariesFileType": "Бинарные файлы прошивки",
-  "helpContentLoadFailed": "Ошибка загрузки содержимого справки: {error}"
+  "helpContentLoadFailed": "Ошибка загрузки содержимого справки: {error}",
+  "updateAvailableTitle": "Доступно обновление",
+  "updateAvailableMessage": "Доступна версия {version}. У вас установлена версия {currentVersion}.",
+  "updateInstallHint": "Загрузите новый APK-файл и откройте его для установки. Ваши настройки и профили будут сохранены.",
+  "updateDownloadButton": "Загрузить",
+  "updateSkipVersionButton": "Пропустить эту версию",
+  "updateLaterButton": "Позже",
+  "checkForUpdatesLabel": "Проверить наличие обновлений",
+  "updateUpToDateMessage": "У вас установлена последняя версия.",
+  "updateCheckFailedMessage": "Не удалось проверить наличие обновлений. Проверьте подключение к интернету и повторите попытку.",
+  "secureDataLostTitle": "Сохраненные настройки сброшены",
+  "secureDataLostMessage": "Ваши сохраненные профили прошивки, привязочная фраза и настройки Wi-Fi не удалось перенести из предыдущей версии приложения. Пожалуйста, введите их снова в Настройках."
 }

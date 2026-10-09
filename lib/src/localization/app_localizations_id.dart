@@ -665,40 +665,40 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Pembaruan Tersedia';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Versi $version tersedia. Anda menggunakan versi $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Unduh APK baru dan buka untuk menginstal. Pengaturan dan profil Anda akan tetap tersimpan.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Unduh';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Lewati Versi Ini';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Nanti';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Periksa Pembaruan';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Anda menggunakan versi terbaru.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Tidak dapat memeriksa pembaruan. Periksa koneksi internet Anda dan coba lagi.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Pengaturan Tersimpan Direset';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Profil flashing, frasa pengikat (binding phrase), dan pengaturan Wi-Fi Anda yang tersimpan tidak dapat dipindahkan dari versi aplikasi lama yang Anda perbarui. Mohon masukkan kembali di Pengaturan.';
 }

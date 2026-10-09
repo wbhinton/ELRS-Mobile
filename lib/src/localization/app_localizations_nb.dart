@@ -666,40 +666,40 @@ class AppLocalizationsNb extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Oppdatering tilgjengelig';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Versjon $version er tilgjengelig. Du bruker versjon $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Last ned den nye APK-en og åpne den for å installere. Innstillingene og profilene dine blir beholdt.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Last ned';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Hopp over denne versjonen';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Senere';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Sjekk etter oppdateringer';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Du bruker den nyeste versjonen.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Kunne ikke sjekke etter oppdateringer. Sjekk internettforbindelsen din og prøv igjen.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Lagrede innstillinger tilbakestilt';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Dine lagrede flash-profiler, binding phrase og Wi-Fi-innstillinger kunne ikke overføres fra den eldre versjonen av appen du oppdaterte fra. Vennligst skriv dem inn på nytt under Innstillinger.';
 }

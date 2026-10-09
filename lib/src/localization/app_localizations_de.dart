@@ -679,40 +679,40 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Update verfügbar';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Version $version ist verfügbar. Sie verwenden Version $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Laden Sie die neue APK herunter und öffnen Sie sie zur Installation. Ihre Einstellungen und Profile bleiben erhalten.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Herunterladen';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Diese Version überspringen';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Später';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Nach Updates suchen';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Sie verwenden die neueste Version.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Es konnte nicht nach Updates gesucht werden. Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Gespeicherte Einstellungen zurückgesetzt';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Ihre gespeicherten Flash-Profile, die Bindungsphrase und die WLAN-Einstellungen konnten nicht von der älteren Version der App, von der Sie aktualisiert haben, übernommen werden. Bitte geben Sie diese erneut in den Einstellungen ein.';
 }

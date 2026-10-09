@@ -650,40 +650,40 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'アップデートが利用可能です';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'バージョン$versionが利用可能です。現在、バージョン$currentVersionを使用しています。';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      '新しいAPKをダウンロードして開き、インストールしてください。設定とプロファイルは保持されます。';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'ダウンロード';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'このバージョンをスキップ';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => '後で';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'アップデートを確認';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => '最新バージョンを使用しています。';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'アップデートを確認できませんでした。インターネット接続を確認し、もう一度お試しください。';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => '保存された設定がリセットされました';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      '以前のバージョンからアップデートしたため、保存されていたフラッシングプロファイル、バインディングフレーズ、Wi-Fi設定が引き継がれませんでした。「設定」で再度入力してください。';
 }

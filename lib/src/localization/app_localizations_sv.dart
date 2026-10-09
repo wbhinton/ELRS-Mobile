@@ -667,40 +667,40 @@ class AppLocalizationsSv extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Uppdatering tillgänglig';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Version $version är tillgänglig. Du använder version $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Ladda ner den nya APK-filen och öppna den för att installera. Dina inställningar och profiler kommer att behållas.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Ladda ner';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Hoppa över denna version';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Senare';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Sök efter uppdateringar';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Du använder den senaste versionen.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Kunde inte söka efter uppdateringar. Kontrollera din internetanslutning och försök igen.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Sparade inställningar återställda';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Dina sparade flashningsprofiler, bindningsfras och Wi-Fi-inställningar kunde inte överföras från den äldre versionen av appen du uppdaterade ifrån. Vänligen ange dem igen i Inställningar.';
 }
