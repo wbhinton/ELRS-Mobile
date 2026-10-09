@@ -7,6 +7,7 @@ import 'package:elrs_mobile/src/features/app_update/data/app_update_repository.d
 import 'package:elrs_mobile/src/features/app_update/domain/app_release.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -51,6 +52,14 @@ void main() {
       expect(release?.version, '1.0.45');
       expect(release?.versionCode, 111);
       expect(release?.downloadUrl.host, 'cdn.elrsmobile.com');
+    });
+
+    test('downloads the versioned APK when the manifest has one', () {
+      final release = AppRelease.tryParse(jsonDecode(_validJson));
+      expect(
+        release?.downloadUrl.path,
+        '/releases/v1.0.45/ELRS-Mobile-v1.0.45.apk',
+      );
     });
 
     test('rejects missing fields, wrong types and non-https links', () {
@@ -221,6 +230,30 @@ void main() {
     test('an unparseable local build number never prompts', () async {
       repository.release = _release(111);
       expect(await service(build: '').checkForUpdate(), isA<NoUpdate>());
+    });
+  });
+
+  group('appUpdateServiceProvider', () {
+    test('survives a one-off read while persistence is still loading',
+        () async {
+      SharedPreferences.setMockInitialValues({});
+      final persistence = PersistenceService(
+        await SharedPreferences.getInstance(),
+        _MockSecureStorage(),
+      );
+      final container = ProviderContainer(
+        overrides: [
+          persistenceServiceProvider.overrideWith((ref) async {
+            await Future<void>.delayed(const Duration(milliseconds: 50));
+            return persistence;
+          }),
+        ],
+      );
+      addTearDown(container.dispose);
+
+      // Both call sites read without listening, as here.
+      final service = await container.read(appUpdateServiceProvider.future);
+      expect(service, isA<AppUpdateService>());
     });
   });
 }

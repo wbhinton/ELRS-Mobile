@@ -26,7 +26,7 @@ final class AppUpdateServiceProvider
         argument: null,
         retry: null,
         name: r'appUpdateServiceProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -46,4 +46,4 @@ final class AppUpdateServiceProvider
   }
 }
 
-String _$appUpdateServiceHash() => r'06b4a29c4700e3a79772e26fbb37c40d478bc207';
+String _$appUpdateServiceHash() => r'499b77a1ee7051a1d9dfd371a0f8b91d32e94013';

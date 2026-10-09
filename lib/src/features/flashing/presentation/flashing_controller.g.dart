@@ -42,7 +42,7 @@ final class FlashingControllerProvider
 }
 
 String _$flashingControllerHash() =>
-    r'48ae6b1a17f5a43db2f48ee8362d614350ed387b';
+    r'b5680eb8384d603623117060d96c0e77b36d7059';
 
 abstract class _$FlashingController extends $Notifier<FlashingState> {
   FlashingState build();

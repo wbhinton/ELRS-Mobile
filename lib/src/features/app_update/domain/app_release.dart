@@ -13,7 +13,9 @@ class AppRelease {
   /// Android versionCode; this is what update checks compare.
   final int versionCode;
 
-  /// Stable link to the newest APK.
+  /// Link to this exact release's APK. The versioned `url` is preferred over
+  /// `latest_url`: the two files are edge-cached separately, so right after
+  /// a release the stable link can still serve the previous APK.
   final Uri downloadUrl;
 
   /// Returns null when [json] is missing a field or malformed, so a bad
@@ -22,7 +24,7 @@ class AppRelease {
     if (json is! Map<String, dynamic>) return null;
     final version = json['version'];
     final versionCode = json['version_code'];
-    final url = json['latest_url'];
+    final url = json['url'] ?? json['latest_url'];
     if (version is! String || versionCode is! int || url is! String) {
       return null;
     }

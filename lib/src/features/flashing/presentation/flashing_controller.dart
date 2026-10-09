@@ -442,7 +442,7 @@ class FlashingController extends _$FlashingController {
       await tempFile.writeAsBytes(payload.bytes);
 
       // Step B (System Picker): Trigger native 'Save As' dialog
-      final result = await FilePicker.platform.saveFile(
+      final result = await FilePicker.saveFile(
         // Controllers have no localisations; Android ignores this title.
         dialogTitle: 'Save Firmware Binary', // l10n-ignore
         fileName: downloadName,

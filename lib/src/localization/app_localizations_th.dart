@@ -695,4 +695,11 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get updateCheckFailedMessage =>
       'Couldn\'t check for updates. Check your internet connection and try again.';
+
+  @override
+  String get secureDataLostTitle => 'Saved Settings Reset';
+
+  @override
+  String get secureDataLostMessage =>
+      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
 }

@@ -1323,6 +1323,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t check for updates. Check your internet connection and try again.'**
   String get updateCheckFailedMessage;
+
+  /// Title of a one-time notice shown when saved settings could not be carried over by an app update.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved Settings Reset'**
+  String get secureDataLostTitle;
+
+  /// Body of the notice shown once when an update from a much older app version could not keep the user's saved flashing profiles, binding phrase and Wi-Fi credentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.'**
+  String get secureDataLostMessage;
 }
 
 class _AppLocalizationsDelegate

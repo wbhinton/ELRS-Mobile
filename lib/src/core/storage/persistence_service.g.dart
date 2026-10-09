@@ -28,7 +28,7 @@ final class PersistenceServiceProvider
         argument: null,
         retry: null,
         name: r'persistenceServiceProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -49,4 +49,4 @@ final class PersistenceServiceProvider
 }
 
 String _$persistenceServiceHash() =>
-    r'72eb56d3f87f9ee2ae8b68b0f550ee09221d70d4';
+    r'5939c2aabe26b2739ab2ba14ee585b45c71488f0';

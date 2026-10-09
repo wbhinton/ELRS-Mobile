@@ -695,5 +695,13 @@
   "updateCheckFailedMessage": "Couldn't check for updates. Check your internet connection and try again.",
   "@updateCheckFailedMessage": {
     "description": "Shown when a manual update check fails, usually because there is no internet connection."
+  },
+  "secureDataLostTitle": "Saved Settings Reset",
+  "@secureDataLostTitle": {
+    "description": "Title of a one-time notice shown when saved settings could not be carried over by an app update."
+  },
+  "secureDataLostMessage": "Your saved flashing profiles, binding phrase and Wi-Fi settings couldn't be carried over from the older version of the app you updated from. Please enter them again in Settings.",
+  "@secureDataLostMessage": {
+    "description": "Body of the notice shown once when an update from a much older app version could not keep the user's saved flashing profiles, binding phrase and Wi-Fi credentials."
   }
 }
