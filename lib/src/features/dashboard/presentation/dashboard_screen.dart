@@ -14,6 +14,7 @@ import '../../app_update/presentation/update_dialog.dart';
 import 'widgets/dashboard_card.dart';
 import 'widgets/hardware_status_card.dart';
 import '../../../core/app_info.dart';
+import '../../../core/storage/persistence_service.dart';
 
 class DashboardScreen extends HookConsumerWidget {
   const DashboardScreen({super.key});
@@ -38,20 +39,28 @@ class DashboardScreen extends HookConsumerWidget {
       return null;
     }, [isLoaded, disclaimerAccepted]);
 
-    // Direct-download builds check for a newer APK in the background, after
-    // the disclaimer so the two dialogs never stack.
+    // After the disclaimer, one dialog at a time: say if an update lost the
+    // saved settings, then (direct-download builds) check for a newer APK.
     useEffect(() {
-      if (kIsDirectDistribution && isLoaded && disclaimerAccepted) {
+      if (isLoaded && disclaimerAccepted) {
         Future(() async {
           try {
+            final persistence =
+                await ref.read(persistenceServiceProvider.future);
+            if (persistence.secureDataLostOnUpgrade && context.mounted) {
+              await _showSecureDataLostDialog(context);
+              await persistence.clearSecureDataLostNotice();
+            }
+
+            if (!kIsDirectDistribution || !context.mounted) return;
             final service = await ref.read(appUpdateServiceProvider.future);
             final result = await service.checkForUpdate();
             if (result is UpdateAvailable && context.mounted) {
               await showUpdateDialog(context, service, result);
             }
           } catch (e, st) {
-            // A background check must never surface as an unhandled error;
-            // report it and try again on the next launch.
+            // Startup checks must never surface as unhandled errors; report
+            // and try again on the next launch.
             await Sentry.captureException(e, stackTrace: st);
           }
         });
@@ -143,4 +152,24 @@ class DashboardScreen extends HookConsumerWidget {
       ),
     );
   }
+}
+
+Future<void> _showSecureDataLostDialog(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (ctx) {
+      final l10n = AppLocalizations.of(ctx)!;
+      return AlertDialog(
+        icon: const Icon(Icons.restart_alt, size: 40),
+        title: Text(l10n.secureDataLostTitle),
+        content: Text(l10n.secureDataLostMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(MaterialLocalizations.of(ctx).okButtonLabel),
+          ),
+        ],
+      );
+    },
+  );
 }

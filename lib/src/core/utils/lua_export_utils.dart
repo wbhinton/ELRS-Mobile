@@ -9,7 +9,7 @@ class LuaExportUtils {
     final bytes = byteData.buffer.asUint8List();
 
     // Trigger the native iOS/Android 'Save As' dialog
-    final result = await FilePicker.platform.saveFile(
+    final result = await FilePicker.saveFile(
       dialogTitle: 'Save ELRS Lua Script',
       fileName: 'elrs.lua',
       bytes: bytes,

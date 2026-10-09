@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
@@ -23,6 +24,34 @@ class PersistenceService {
   static const _keyActiveProfileId = 'active_profile_id';
   static const _keyAppUpdateLastCheck = 'app_update_last_check';
   static const _keyAppUpdateSkippedVersionCode = 'app_update_skipped_version_code';
+  static const _keySecureDataLost = 'secure_storage_data_lost';
+
+  /// Records whether flutter_secure_storage v11 found data it can no longer
+  /// decrypt: an install that went straight from a v9 build (before 1.0.44)
+  /// to this one, skipping the v10 build that migrates the cipher. That data
+  /// (bind phrase, Wi-Fi credentials, profiles) is discarded on first access,
+  /// so this must run before anything reads or writes secure storage.
+  Future<void> checkSecureStorageUpgrade() async {
+    try {
+      final status = await _secure.checkUpgradeStatus();
+      if (!status.hasDataLoss) return;
+      await _prefs.setBool(_keySecureDataLost, true);
+      await Sentry.captureMessage(
+        'Secure storage data lost on upgrade: $status',
+        level: SentryLevel.warning,
+      );
+    } catch (e, st) {
+      // Never block startup on a diagnostic check.
+      await Sentry.captureException(e, stackTrace: st);
+    }
+  }
+
+  /// True until the user has been told their saved settings were lost.
+  bool get secureDataLostOnUpgrade => _prefs.getBool(_keySecureDataLost) ?? false;
+
+  Future<void> clearSecureDataLostNotice() async {
+    await _prefs.remove(_keySecureDataLost);
+  }
 
   /// Migrates sensitive data from SharedPreferences to SecureStorage once.
   Future<void> migrateIfNeeded() async {
@@ -152,13 +181,16 @@ class PersistenceService {
   }
 }
 
-@riverpod
+// Kept alive: every caller reads it without listening, and startup checks
+// and migrations must run once per launch, before any other storage access.
+@Riverpod(keepAlive: true)
 Future<PersistenceService> persistenceService(Ref ref) async {
   final prefs = await SharedPreferences.getInstance();
   const secure = FlutterSecureStorage(
     aOptions: AndroidOptions(),
   );
   final service = PersistenceService(prefs, secure);
+  await service.checkSecureStorageUpgrade();
   await service.migrateIfNeeded();
   return service;
 }
