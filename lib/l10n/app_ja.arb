@@ -189,5 +189,16 @@
   "unknownDeviceName": "ELRSデバイス",
   "unknownIpLabel": "不明なIP",
   "firmwareBinariesFileType": "ファームウェアバイナリ",
-  "helpContentLoadFailed": "ヘルプコンテンツの読み込みエラー: {error}"
+  "helpContentLoadFailed": "ヘルプコンテンツの読み込みエラー: {error}",
+  "updateAvailableTitle": "アップデートが利用可能です",
+  "updateAvailableMessage": "バージョン{version}が利用可能です。現在、バージョン{currentVersion}を使用しています。",
+  "updateInstallHint": "新しいAPKをダウンロードして開き、インストールしてください。設定とプロファイルは保持されます。",
+  "updateDownloadButton": "ダウンロード",
+  "updateSkipVersionButton": "このバージョンをスキップ",
+  "updateLaterButton": "後で",
+  "checkForUpdatesLabel": "アップデートを確認",
+  "updateUpToDateMessage": "最新バージョンを使用しています。",
+  "updateCheckFailedMessage": "アップデートを確認できませんでした。インターネット接続を確認し、もう一度お試しください。",
+  "secureDataLostTitle": "保存された設定がリセットされました",
+  "secureDataLostMessage": "以前のバージョンからアップデートしたため、保存されていたフラッシングプロファイル、バインディングフレーズ、Wi-Fi設定が引き継がれませんでした。「設定」で再度入力してください。"
 }

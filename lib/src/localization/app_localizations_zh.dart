@@ -637,40 +637,38 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => '有可用更新';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return '版本 $version 可用。您正在使用版本 $currentVersion。';
   }
 
   @override
-  String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+  String get updateInstallHint => '下载新的 APK 并打开以安装。您的设置和配置将得到保留。';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => '下载';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => '跳过此版本';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => '稍后';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => '检查更新';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => '您正在使用最新版本。';
 
   @override
-  String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+  String get updateCheckFailedMessage => '无法检查更新。请检查您的互联网连接并重试。';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => '保存的设置已重置';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      '您保存的刷机配置、绑定短语和 Wi-Fi 设置无法从您更新的旧版本应用程序中迁移。请在“设置”中重新输入它们。';
 }

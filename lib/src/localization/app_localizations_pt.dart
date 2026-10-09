@@ -677,40 +677,40 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Atualização Disponível';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'A versão $version está disponível. Você está usando a versão $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Baixe o novo APK e abra-o para instalar. Suas configurações e perfis serão mantidos.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Baixar';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Ignorar Esta Versão';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Mais Tarde';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Verificar Atualizações';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Você está usando a versão mais recente.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Não foi possível verificar atualizações. Verifique sua conexão com a internet e tente novamente.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Configurações Salvas Redefinidas';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Seus perfis de flashing salvos, frase de binding e configurações de Wi-Fi não puderam ser transferidos da versão anterior do aplicativo que você atualizou. Por favor, insira-os novamente em Configurações.';
 }

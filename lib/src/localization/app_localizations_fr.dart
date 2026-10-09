@@ -678,40 +678,40 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Mise à jour disponible';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'La version $version est disponible. Vous utilisez la version $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Téléchargez le nouveau fichier APK et ouvrez-le pour l\'installer. Vos paramètres et profils seront conservés.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Télécharger';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Ignorer cette version';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Plus tard';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Vérifier les mises à jour';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Vous utilisez la dernière version.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Impossible de vérifier les mises à jour. Vérifiez votre connexion internet et réessayez.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Paramètres enregistrés réinitialisés';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Vos profils de flashage enregistrés, votre phrase de liaison et vos paramètres Wi-Fi n\'ont pas pu être transférés depuis l\'ancienne version de l\'application. Veuillez les saisir à nouveau dans les paramètres.';
 }

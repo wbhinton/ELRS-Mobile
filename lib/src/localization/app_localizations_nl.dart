@@ -669,40 +669,40 @@ class AppLocalizationsNl extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Update beschikbaar';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Versie $version is beschikbaar. Je gebruikt momenteel versie $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Download het nieuwe APK-bestand en open het om te installeren. Je instellingen en profielen blijven behouden.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Downloaden';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Deze versie overslaan';
 
   @override
   String get updateLaterButton => 'Later';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Controleren op updates';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Je gebruikt de nieuwste versie.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Kon niet controleren op updates. Controleer je internetverbinding en probeer het opnieuw.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Opgeslagen instellingen gereset';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Je opgeslagen flashing-profielen, bind-phrase en wifi-instellingen konden niet worden overgezet vanuit de oudere versie van de app waarvan je hebt geüpdatet. Voer ze opnieuw in via Instellingen.';
 }

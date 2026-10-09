@@ -667,40 +667,40 @@ class AppLocalizationsCs extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => 'Dostupná aktualizace';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return 'Je dostupná verze $version. Používáte verzi $currentVersion.';
   }
 
   @override
   String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+      'Stáhněte si nový soubor APK a otevřete jej pro instalaci. Vaše nastavení a profily zůstanou zachovány.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => 'Stáhnout';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => 'Přeskočit tuto verzi';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => 'Později';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => 'Zkontrolovat aktualizace';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => 'Používáte nejnovější verzi.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      'Nepodařilo se zkontrolovat aktualizace. Zkontrolujte připojení k internetu a zkuste to znovu.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => 'Uložená nastavení resetována';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      'Vaše uložené profily pro flashování, vázací fráze a nastavení Wi-Fi nemohly být přeneseny ze starší verze aplikace, ze které jste aktualizovali. Zadejte je prosím znovu v Nastavení.';
 }

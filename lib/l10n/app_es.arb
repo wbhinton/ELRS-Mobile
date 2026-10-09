@@ -189,5 +189,16 @@
   "unknownDeviceName": "Dispositivo ELRS",
   "unknownIpLabel": "IP desconocida",
   "firmwareBinariesFileType": "Binarios de Firmware",
-  "helpContentLoadFailed": "Error al cargar el contenido de ayuda: {error}"
+  "helpContentLoadFailed": "Error al cargar el contenido de ayuda: {error}",
+  "updateAvailableTitle": "Actualización disponible",
+  "updateAvailableMessage": "La versión {version} está disponible. Estás usando la versión {currentVersion}.",
+  "updateInstallHint": "Descarga el nuevo APK y ábrelo para instalar. Tus ajustes y perfiles se mantendrán.",
+  "updateDownloadButton": "Descargar",
+  "updateSkipVersionButton": "Omitir esta versión",
+  "updateLaterButton": "Más tarde",
+  "checkForUpdatesLabel": "Buscar actualizaciones",
+  "updateUpToDateMessage": "Estás usando la última versión.",
+  "updateCheckFailedMessage": "No se pudieron buscar actualizaciones. Verifica tu conexión a internet e inténtalo de nuevo.",
+  "secureDataLostTitle": "Ajustes guardados restablecidos",
+  "secureDataLostMessage": "Tus perfiles de flasheo guardados, frase de enlace y ajustes de Wi-Fi no pudieron transferirse desde la versión anterior de la aplicación. Vuelve a introducirlos en Ajustes."
 }

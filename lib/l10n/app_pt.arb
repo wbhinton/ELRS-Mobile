@@ -189,5 +189,16 @@
   "unknownDeviceName": "Dispositivo ELRS",
   "unknownIpLabel": "IP Desconhecido",
   "firmwareBinariesFileType": "Binários de Firmware",
-  "helpContentLoadFailed": "Erro ao carregar conteúdo de ajuda: {error}"
+  "helpContentLoadFailed": "Erro ao carregar conteúdo de ajuda: {error}",
+  "updateAvailableTitle": "Atualização Disponível",
+  "updateAvailableMessage": "A versão {version} está disponível. Você está usando a versão {currentVersion}.",
+  "updateInstallHint": "Baixe o novo APK e abra-o para instalar. Suas configurações e perfis serão mantidos.",
+  "updateDownloadButton": "Baixar",
+  "updateSkipVersionButton": "Ignorar Esta Versão",
+  "updateLaterButton": "Mais Tarde",
+  "checkForUpdatesLabel": "Verificar Atualizações",
+  "updateUpToDateMessage": "Você está usando a versão mais recente.",
+  "updateCheckFailedMessage": "Não foi possível verificar atualizações. Verifique sua conexão com a internet e tente novamente.",
+  "secureDataLostTitle": "Configurações Salvas Redefinidas",
+  "secureDataLostMessage": "Seus perfis de flashing salvos, frase de binding e configurações de Wi-Fi não puderam ser transferidos da versão anterior do aplicativo que você atualizou. Por favor, insira-os novamente em Configurações."
 }

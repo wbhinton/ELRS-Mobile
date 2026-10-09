@@ -189,5 +189,16 @@
   "unknownDeviceName": "ELRS-enhet",
   "unknownIpLabel": "Okänd IP",
   "firmwareBinariesFileType": "Firmware-binärer",
-  "helpContentLoadFailed": "Det gick inte att ladda hjälpinnehåll: {error}"
+  "helpContentLoadFailed": "Det gick inte att ladda hjälpinnehåll: {error}",
+  "updateAvailableTitle": "Uppdatering tillgänglig",
+  "updateAvailableMessage": "Version {version} är tillgänglig. Du använder version {currentVersion}.",
+  "updateInstallHint": "Ladda ner den nya APK-filen och öppna den för att installera. Dina inställningar och profiler kommer att behållas.",
+  "updateDownloadButton": "Ladda ner",
+  "updateSkipVersionButton": "Hoppa över denna version",
+  "updateLaterButton": "Senare",
+  "checkForUpdatesLabel": "Sök efter uppdateringar",
+  "updateUpToDateMessage": "Du använder den senaste versionen.",
+  "updateCheckFailedMessage": "Kunde inte söka efter uppdateringar. Kontrollera din internetanslutning och försök igen.",
+  "secureDataLostTitle": "Sparade inställningar återställda",
+  "secureDataLostMessage": "Dina sparade flashningsprofiler, bindningsfras och Wi-Fi-inställningar kunde inte överföras från den äldre versionen av appen du uppdaterade ifrån. Vänligen ange dem igen i Inställningar."
 }

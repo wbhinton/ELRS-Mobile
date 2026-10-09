@@ -189,5 +189,16 @@
   "unknownDeviceName": "Пристрій ELRS",
   "unknownIpLabel": "Невідомий IP",
   "firmwareBinariesFileType": "Двійкові файли прошивки",
-  "helpContentLoadFailed": "Помилка завантаження довідкового вмісту: {error}"
+  "helpContentLoadFailed": "Помилка завантаження довідкового вмісту: {error}",
+  "updateAvailableTitle": "Доступне оновлення",
+  "updateAvailableMessage": "Доступна версія {version}. Ви використовуєте версію {currentVersion}.",
+  "updateInstallHint": "Завантажте новий APK та відкрийте його для встановлення. Ваші налаштування та профілі буде збережено.",
+  "updateDownloadButton": "Завантажити",
+  "updateSkipVersionButton": "Пропустити цю версію",
+  "updateLaterButton": "Пізніше",
+  "checkForUpdatesLabel": "Перевірити наявність оновлень",
+  "updateUpToDateMessage": "Ви використовуєте останню версію.",
+  "updateCheckFailedMessage": "Не вдалося перевірити наявність оновлень. Перевірте підключення до Інтернету та повторіть спробу.",
+  "secureDataLostTitle": "Збережені налаштування скинуто",
+  "secureDataLostMessage": "Ваші збережені профілі прошивки, фраза прив'язки та налаштування Wi-Fi не вдалося перенести з попередньої версії програми, яку ви оновили. Будь ласка, введіть їх знову в Налаштуваннях."
 }

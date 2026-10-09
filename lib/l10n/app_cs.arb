@@ -189,5 +189,16 @@
   "unknownDeviceName": "Zařízení ELRS",
   "unknownIpLabel": "Neznámá IP",
   "firmwareBinariesFileType": "Binární soubory firmwaru",
-  "helpContentLoadFailed": "Chyba při načítání obsahu nápovědy: {error}"
+  "helpContentLoadFailed": "Chyba při načítání obsahu nápovědy: {error}",
+  "updateAvailableTitle": "Dostupná aktualizace",
+  "updateAvailableMessage": "Je dostupná verze {version}. Používáte verzi {currentVersion}.",
+  "updateInstallHint": "Stáhněte si nový soubor APK a otevřete jej pro instalaci. Vaše nastavení a profily zůstanou zachovány.",
+  "updateDownloadButton": "Stáhnout",
+  "updateSkipVersionButton": "Přeskočit tuto verzi",
+  "updateLaterButton": "Později",
+  "checkForUpdatesLabel": "Zkontrolovat aktualizace",
+  "updateUpToDateMessage": "Používáte nejnovější verzi.",
+  "updateCheckFailedMessage": "Nepodařilo se zkontrolovat aktualizace. Zkontrolujte připojení k internetu a zkuste to znovu.",
+  "secureDataLostTitle": "Uložená nastavení resetována",
+  "secureDataLostMessage": "Vaše uložené profily pro flashování, vázací fráze a nastavení Wi-Fi nemohly být přeneseny ze starší verze aplikace, ze které jste aktualizovali. Zadejte je prosím znovu v Nastavení."
 }

@@ -647,40 +647,39 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get updateAvailableTitle => 'Update Available';
+  String get updateAvailableTitle => '업데이트 가능';
 
   @override
   String updateAvailableMessage(String version, String currentVersion) {
-    return 'Version $version is available. You are using version $currentVersion.';
+    return '버전 $version을(를) 사용할 수 있습니다. 현재 버전은 $currentVersion입니다.';
   }
 
   @override
-  String get updateInstallHint =>
-      'Download the new APK and open it to install. Your settings and profiles will be kept.';
+  String get updateInstallHint => '새 APK를 다운로드하고 열어 설치하세요. 설정 및 프로필은 유지됩니다.';
 
   @override
-  String get updateDownloadButton => 'Download';
+  String get updateDownloadButton => '다운로드';
 
   @override
-  String get updateSkipVersionButton => 'Skip This Version';
+  String get updateSkipVersionButton => '이 버전 건너뛰기';
 
   @override
-  String get updateLaterButton => 'Later';
+  String get updateLaterButton => '나중에';
 
   @override
-  String get checkForUpdatesLabel => 'Check for Updates';
+  String get checkForUpdatesLabel => '업데이트 확인';
 
   @override
-  String get updateUpToDateMessage => 'You are using the latest version.';
+  String get updateUpToDateMessage => '최신 버전을 사용 중입니다.';
 
   @override
   String get updateCheckFailedMessage =>
-      'Couldn\'t check for updates. Check your internet connection and try again.';
+      '업데이트를 확인할 수 없습니다. 인터넷 연결을 확인하고 다시 시도하세요.';
 
   @override
-  String get secureDataLostTitle => 'Saved Settings Reset';
+  String get secureDataLostTitle => '저장된 설정 초기화됨';
 
   @override
   String get secureDataLostMessage =>
-      'Your saved flashing profiles, binding phrase and Wi-Fi settings couldn\'t be carried over from the older version of the app you updated from. Please enter them again in Settings.';
+      '이전 버전에서 업데이트하는 동안 저장된 플래싱 프로필, 바인딩 구문 및 Wi-Fi 설정을 가져올 수 없었습니다. 설정에서 다시 입력해 주세요.';
 }

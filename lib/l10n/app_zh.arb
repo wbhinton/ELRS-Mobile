@@ -189,5 +189,16 @@
   "unknownDeviceName": "ELRS 设备",
   "unknownIpLabel": "未知 IP",
   "firmwareBinariesFileType": "固件二进制文件",
-  "helpContentLoadFailed": "加载帮助内容失败：{error}"
+  "helpContentLoadFailed": "加载帮助内容失败：{error}",
+  "updateAvailableTitle": "有可用更新",
+  "updateAvailableMessage": "版本 {version} 可用。您正在使用版本 {currentVersion}。",
+  "updateInstallHint": "下载新的 APK 并打开以安装。您的设置和配置将得到保留。",
+  "updateDownloadButton": "下载",
+  "updateSkipVersionButton": "跳过此版本",
+  "updateLaterButton": "稍后",
+  "checkForUpdatesLabel": "检查更新",
+  "updateUpToDateMessage": "您正在使用最新版本。",
+  "updateCheckFailedMessage": "无法检查更新。请检查您的互联网连接并重试。",
+  "secureDataLostTitle": "保存的设置已重置",
+  "secureDataLostMessage": "您保存的刷机配置、绑定短语和 Wi-Fi 设置无法从您更新的旧版本应用程序中迁移。请在“设置”中重新输入它们。"
 }

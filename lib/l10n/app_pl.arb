@@ -189,5 +189,16 @@
   "unknownDeviceName": "Urządzenie ELRS",
   "unknownIpLabel": "Nieznany adres IP",
   "firmwareBinariesFileType": "Pliki binarne oprogramowania układowego",
-  "helpContentLoadFailed": "Błąd ładowania treści pomocy: {error}"
+  "helpContentLoadFailed": "Błąd ładowania treści pomocy: {error}",
+  "updateAvailableTitle": "Dostępna aktualizacja",
+  "updateAvailableMessage": "Dostępna jest wersja {version}. Używasz wersji {currentVersion}.",
+  "updateInstallHint": "Pobierz nowy plik APK i otwórz go, aby zainstalować. Twoje ustawienia i profile zostaną zachowane.",
+  "updateDownloadButton": "Pobierz",
+  "updateSkipVersionButton": "Pomiń tę wersję",
+  "updateLaterButton": "Później",
+  "checkForUpdatesLabel": "Sprawdź aktualizacje",
+  "updateUpToDateMessage": "Używasz najnowszej wersji.",
+  "updateCheckFailedMessage": "Nie można sprawdzić aktualizacji. Sprawdź połączenie internetowe i spróbuj ponownie.",
+  "secureDataLostTitle": "Ustawienia zapisane zresetowane",
+  "secureDataLostMessage": "Twoje zapisane profile flashowania, fraza wiążąca i ustawienia Wi-Fi nie mogły zostać przeniesione ze starszej wersji aplikacji, z której aktualizowałeś. Wprowadź je ponownie w Ustawieniach."
 }
