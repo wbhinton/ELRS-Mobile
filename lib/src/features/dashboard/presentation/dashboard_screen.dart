@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import '../../../core/presentation/responsive_layout.dart';
 import '../../settings/presentation/settings_controller.dart';
@@ -42,10 +43,16 @@ class DashboardScreen extends HookConsumerWidget {
     useEffect(() {
       if (kIsDirectDistribution && isLoaded && disclaimerAccepted) {
         Future(() async {
-          final service = await ref.read(appUpdateServiceProvider.future);
-          final result = await service.checkForUpdate();
-          if (result is UpdateAvailable && context.mounted) {
-            await showUpdateDialog(context, service, result);
+          try {
+            final service = await ref.read(appUpdateServiceProvider.future);
+            final result = await service.checkForUpdate();
+            if (result is UpdateAvailable && context.mounted) {
+              await showUpdateDialog(context, service, result);
+            }
+          } catch (e, st) {
+            // A background check must never surface as an unhandled error;
+            // report it and try again on the next launch.
+            await Sentry.captureException(e, stackTrace: st);
           }
         });
       }

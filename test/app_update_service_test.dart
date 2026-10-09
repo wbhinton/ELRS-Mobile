@@ -54,6 +54,14 @@ void main() {
       expect(release?.downloadUrl.host, 'cdn.elrsmobile.com');
     });
 
+    test('downloads the versioned APK when the manifest has one', () {
+      final release = AppRelease.tryParse(jsonDecode(_validJson));
+      expect(
+        release?.downloadUrl.path,
+        '/releases/v1.0.45/ELRS-Mobile-v1.0.45.apk',
+      );
+    });
+
     test('rejects missing fields, wrong types and non-https links', () {
       expect(AppRelease.tryParse({'version': '1.0.45'}), isNull);
       expect(

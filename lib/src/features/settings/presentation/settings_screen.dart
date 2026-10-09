@@ -958,12 +958,7 @@ class SettingsScreen extends HookConsumerWidget {
                   subtitle: Text(state.appVersion),
                   leading: const Icon(Icons.info_outline),
                 ),
-                if (kIsDirectDistribution)
-                  ListTile(
-                    title: Text(l10n.checkForUpdatesLabel),
-                    leading: const Icon(Icons.system_update),
-                    onTap: () => _checkForUpdates(context, ref),
-                  ),
+                if (kIsDirectDistribution) const CheckForUpdatesTile(),
                 ListTile(
                   title: Text(l10n.legalLicenseLabel),
                   subtitle: Text(l10n.standardDisclaimerAndGplv3Label),
@@ -984,25 +979,6 @@ class SettingsScreen extends HookConsumerWidget {
         ),
       ],
     );
-  }
-
-  Future<void> _checkForUpdates(BuildContext context, WidgetRef ref) async {
-    final l10n = AppLocalizations.of(context)!;
-    final service = await ref.read(appUpdateServiceProvider.future);
-    final result = await service.checkForUpdate(manual: true);
-    if (!context.mounted) return;
-    switch (result) {
-      case UpdateAvailable():
-        await showUpdateDialog(context, service, result);
-      case NoUpdate():
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.updateUpToDateMessage)),
-        );
-      case UpdateCheckFailed():
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.updateCheckFailedMessage)),
-        );
-    }
   }
 
   Future<void> _launchUrl(String url) async {
@@ -1081,3 +1057,58 @@ class SettingsScreen extends HookConsumerWidget {
   }
 }
 
+/// Manual update check for direct-download builds. Shows progress while the
+/// check runs and ignores taps until it finishes, so dialogs never stack.
+@visibleForTesting
+class CheckForUpdatesTile extends HookConsumerWidget {
+  const CheckForUpdatesTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final checking = useState(false);
+
+    Future<void> check() async {
+      checking.value = true;
+      try {
+        final service = await ref.read(appUpdateServiceProvider.future);
+        final result = await service.checkForUpdate(manual: true);
+        if (!context.mounted) return;
+        checking.value = false;
+        switch (result) {
+          case UpdateAvailable():
+            await showUpdateDialog(context, service, result);
+          case NoUpdate():
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(l10n.updateUpToDateMessage)),
+            );
+          case UpdateCheckFailed():
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(l10n.updateCheckFailedMessage)),
+            );
+        }
+      } catch (e, st) {
+        await Sentry.captureException(e, stackTrace: st);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.updateCheckFailedMessage)),
+          );
+        }
+      } finally {
+        if (context.mounted) checking.value = false;
+      }
+    }
+
+    return ListTile(
+      title: Text(l10n.checkForUpdatesLabel),
+      leading: const Icon(Icons.system_update),
+      trailing: checking.value
+          ? const SizedBox.square(
+              dimension: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : null,
+      onTap: checking.value ? null : check,
+    );
+  }
+}

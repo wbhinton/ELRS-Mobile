@@ -12,6 +12,11 @@ name: Publish APK to R2
 # Called by release.yml after a production release, and by
 # build-direct-apk.yml for CDN-only builds (passing `artifact`). Can also
 # be run manually to backfill or re-push an existing release.
+#
+# The stable link and latest.json only move forward: an APK with a lower
+# versionCode than the one already published gets its versioned copy but
+# leaves them alone, unless `allow_downgrade` is set to deliberately roll
+# back a bad release.
 
 on:
   workflow_call:
@@ -31,6 +36,11 @@ on:
         description: 'Release tag to publish (e.g. v1.0.44)'
         required: true
         type: string
+      allow_downgrade:
+        description: 'Point latest.json and the stable link at this APK even if it is older than the one published'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -86,6 +96,22 @@ jobs:
             --content-disposition "attachment; filename=\"$APK\"" \
             --cache-control "public, max-age=31536000, immutable"
 
+          # Read the published versionCode from R2 itself, not the cached CDN.
+          if aws s3 cp "s3://$R2_BUCKET/latest.json" current-latest.json \
+              --endpoint-url "$ENDPOINT" --only-show-errors 2> r2-error.txt; then
+            CURRENT_CODE=$(jq -r '.version_code' current-latest.json)
+          elif grep -q '404' r2-error.txt; then
+            CURRENT_CODE=0
+          else
+            cat r2-error.txt
+            exit 1
+          fi
+
+          if (( VERSION_CODE < CURRENT_CODE )) && [[ "$ALLOW_DOWNGRADE" != "true" ]]; then
+            echo "::warning::$APK has versionCode $VERSION_CODE, older than the published $CURRENT_CODE. Uploaded $VERSIONED_KEY only; latest.json and ELRS-Mobile-latest.apk are unchanged."
+            exit 0
+          fi
+
           # Short cache so the edge picks up a new release within minutes.
           r2_put "$APK" "ELRS-Mobile-latest.apk" \
             --content-type application/vnd.android.package-archive \
@@ -116,6 +142,7 @@ jobs:
           AWS_REQUEST_CHECKSUM_CALCULATION: when_required
           AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFARE_ACCOUNT_ID }}
+          ALLOW_DOWNGRADE: ${{ inputs.allow_downgrade }}
 
       - name: Verify CDN download
         run: |
