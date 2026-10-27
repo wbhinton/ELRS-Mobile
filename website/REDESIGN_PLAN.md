@@ -190,9 +190,11 @@ Each phase is one commit that builds and could ship on its own.
       semantics; persistence split; firmware validation workflow.
 - Note: the rp1 knowledge base (2026-09-22) is stale on force flash, flash-result
   handling and `app_update`; the docs follow the code.
-- OPEN (owner decision): Aptabase `shareAnalytics` defaults to `true` and Sentry is
-  not gated by the toggle, but the privacy policy says analytics are off by
-  default. Docs avoid stating a default until this is resolved.
+- Resolved 2026-10-27 (owner chose "policy matches app"): privacy policy rewritten
+  to state Aptabase analytics are on by default (opt-out via Share Analytics) and
+  Sentry crash reporting is separate and not toggle-gated; removed the stale
+  Android location-permission claim; added update-check and website sections.
+  Root PRIVACY.md now points to the website policy (single source).
 
 ### Phase 7 — Translation and verification
 - [ ] Manually dispatch translation workflow for new strings.

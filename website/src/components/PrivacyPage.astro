@@ -1,6 +1,6 @@
 ---
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
-import { useTranslations } from "../i18n";
+import { useTranslations, type UIKey } from "../i18n";
 import { links } from "../config/site";
 
 interface Props {
@@ -9,6 +9,28 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// "Label: description" list items.
+const item = (label: UIKey, desc: UIKey) => ({ label: t(label), desc: t(desc) });
+
+const stored = [
+	item("privacy.local_profiles_label", "privacy.local_profiles_desc"),
+	item("privacy.local_prefs_label", "privacy.local_prefs_desc"),
+	item("privacy.local_cache_label", "privacy.local_cache_desc"),
+];
+const permissions = [
+	item("privacy.perm_network_label", "privacy.perm_network_desc"),
+	item("privacy.perm_local_label", "privacy.perm_local_desc"),
+	item("privacy.perm_files_label", "privacy.perm_files_desc"),
+];
+const services: UIKey[] = ["privacy.network_firmware", "privacy.network_updates", "privacy.network_device"];
+
+// "{github}" / "{discord}" placeholders become links.
+const contactLinks: Record<string, { href: string; label: string }> = {
+	github: { href: `${links.repo}/issues`, label: t("privacy.contact_github") },
+	discord: { href: links.elrsDiscord, label: t("privacy.contact_discord") },
+};
+const contactParts = t("privacy.contact_desc").split(/\{(\w+)\}/);
 ---
 
 <StarlightPage
@@ -19,74 +41,49 @@ const t = useTranslations(lang);
 	hasSidebar={false}
 >
 	<p><em>{t("privacy.last_updated")}</em></p>
-	<p>{t("privacy.p1")}</p>
+	<p>{t("privacy.intro")}</p>
 
-	<h2>{t("privacy.sec1_title")}</h2>
+	<h2>{t("privacy.local_title")}</h2>
+	<ul>{stored.map(({ label, desc }) => <li><strong>{label}</strong>: {desc}</li>)}</ul>
+	<p>{t("privacy.local_note")}</p>
 
-	<h3>{t("privacy.sec1_local_title")}</h3>
-	<p>{t("privacy.sec1_local_desc")}</p>
-	<ul>
-		<li>
-			<strong>{t("privacy.sec1_local_wifi")}</strong>: {t("privacy.sec1_local_wifi_desc")}
-		</li>
-		<li>
-			<strong>{t("privacy.sec1_local_phrase")}</strong>: {t("privacy.sec1_local_phrase_desc")}
-		</li>
-		<li>
-			<strong>{t("privacy.sec1_local_regulatory")}</strong>: {t("privacy.sec1_local_regulatory_desc")}
-		</li>
-		<li>
-			<strong>{t("privacy.sec1_local_cache")}</strong>: {t("privacy.sec1_local_cache_desc")}
-		</li>
-	</ul>
+	<h2>{t("privacy.analytics_title")}</h2>
+	<p>{t("privacy.analytics_desc")}</p>
+	<p>{t("privacy.analytics_never")}</p>
+	<p><strong>{t("privacy.analytics_optout")}</strong></p>
+
+	<h2>{t("privacy.crash_title")}</h2>
+	<p>{t("privacy.crash_desc")}</p>
+	<p>{t("privacy.crash_toggle")}</p>
+	<p>{t("privacy.crash_debug")}</p>
+
+	<h2>{t("privacy.network_title")}</h2>
+	<p>{t("privacy.network_desc")}</p>
+	<ul>{services.map((key) => <li>{t(key)}</li>)}</ul>
+
+	<h2>{t("privacy.permissions_title")}</h2>
+	<ul>{permissions.map(({ label, desc }) => <li><strong>{label}</strong>: {desc}</li>)}</ul>
+	<p>{t("privacy.permissions_location")}</p>
+
+	<h2>{t("privacy.website_title")}</h2>
+	<p>{t("privacy.website_desc")}</p>
+
+	<h2>{t("privacy.security_title")}</h2>
+	<p>{t("privacy.security_desc")}</p>
+
+	<h2>{t("privacy.changes_title")}</h2>
+	<p>{t("privacy.changes_desc")}</p>
+
+	<h2>{t("privacy.contact_title")}</h2>
 	<p>
-		<strong>{t("privacy.sec1_local_warning")}</strong>
+		{
+			contactParts.map((part, i) =>
+				i % 2 === 1 && contactLinks[part] ? (
+					<a href={contactLinks[part].href}>{contactLinks[part].label}</a>
+				) : (
+					part
+				)
+			)
+		}
 	</p>
-
-	<h3>{t("privacy.sec1_analytics_title")}</h3>
-	<p>
-		{t("privacy.sec1_analytics_desc1")}<strong>{t("privacy.sec1_analytics_desc1_bold")}</strong>{t("privacy.sec1_analytics_desc1_end")}
-	</p>
-	<ul>
-		<li>
-			<strong>{t("privacy.sec1_analytics_sentry")}</strong>: {t("privacy.sec1_analytics_sentry_desc")}
-		</li>
-		<li>
-			<strong>{t("privacy.sec1_analytics_aptabase")}</strong>: {t("privacy.sec1_analytics_aptabase_desc")}
-		</li>
-	</ul>
-	<p>
-		{t("privacy.sec1_analytics_desc2_1")}<strong>{t("privacy.sec1_analytics_desc2_bold")}</strong>{t("privacy.sec1_analytics_desc2_2")}<strong>{t("privacy.sec1_analytics_desc2_never_bold")}</strong>{t("privacy.sec1_analytics_desc2_3")}
-	</p>
-
-	<h3>{t("privacy.sec1_downloads_title")}</h3>
-	<p>
-		{t("privacy.sec1_downloads_desc_1")}<strong>{t("privacy.sec1_downloads_desc_bold1")}</strong>{t("privacy.sec1_downloads_desc_and")}<strong>{t("privacy.sec1_downloads_desc_bold2")}</strong>{t("privacy.sec1_downloads_desc_2")}
-	</p>
-
-	<h2>{t("privacy.sec2_title")}</h2>
-	<p>{t("privacy.sec2_desc")}</p>
-	<ul>
-		<li>
-			<strong>{t("privacy.sec2_perm1_bold")}</strong>: {t("privacy.sec2_perm1_desc")}
-		</li>
-		<li>
-			<strong>{t("privacy.sec2_perm2_bold")}</strong>: {t("privacy.sec2_perm2_desc")}<strong>{t("privacy.sec2_perm2_not_bold")}</strong>{t("privacy.sec2_perm2_end")}
-		</li>
-		<li>
-			<strong>{t("privacy.sec2_perm3_bold")}</strong>: {t("privacy.sec2_perm3_desc")}
-		</li>
-	</ul>
-
-	<h2>{t("privacy.sec3_title")}</h2>
-	<p>{t("privacy.sec3_desc")}</p>
-
-	<h2>{t("privacy.sec4_title")}</h2>
-	<p>{t("privacy.sec4_desc")}</p>
-
-	<h2>{t("privacy.sec5_title")}</h2>
-	<p>
-		{t("privacy.sec5_desc_1")}<a href={links.elrsDiscord}>{t("privacy.sec5_discord_label")}</a>{t("privacy.sec5_desc_or")}<a href={links.repo}>{t("privacy.sec5_github_label")}</a>{t("privacy.sec5_desc_dot")}
-	</p>
-		
 </StarlightPage>

@@ -96,5 +96,5 @@ Secure storage has been through two format upgrades. Data written by v1.0.44 or 
 | `artifactory.expresslrs.org` | Firmware index (`index.json`), `firmware.zip` and `hardware.zip` |
 | `raw.githubusercontent.com` | Latest ExpressLRS `targets.json` |
 | `cdn.elrsmobile.com/latest.json` | Release information for the direct-download APK's update check |
-| Sentry | Crash reporting and optional debug reports (enabled only when built with `SENTRY_DSN`) |
-| Aptabase | Anonymous usage analytics (can be turned off in Settings) |
+| Sentry | Crash reporting and optional debug reports. Active in builds made with `SENTRY_DSN` (all release builds) and independent of the Share Analytics setting |
+| Aptabase | Anonymous usage analytics: on by default (`shareAnalytics` defaults to `true`), turned off with Settings → Share Analytics |

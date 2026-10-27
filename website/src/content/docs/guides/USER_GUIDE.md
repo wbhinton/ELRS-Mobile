@@ -109,7 +109,7 @@ On the Dashboard, tap **Device Config** to open the connected device's own Expre
 | Section | What's there |
 | :--- | :--- |
 | Profiles & Network | Flashing profiles, binding phrase, home Wi-Fi network and password, default 2.4 GHz and sub-GHz regulatory domains |
-| App & Storage | Max cached versions, Firmware Manager, clear the firmware cache, app language, anonymous usage analytics on or off |
+| App & Storage | Max cached versions, Firmware Manager, clear the firmware cache, app language, anonymous usage analytics (on by default; turn off with **Share Analytics**) |
 | Advanced & Debug | Expert Mode and its tools (below) |
 | About & Legal | App version, legal notice and license, support development, and **Check for Updates** in the direct-download APK |
 
