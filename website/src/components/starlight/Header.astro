@@ -1,0 +1,146 @@
+---
+// Starlight Header override: adds site navigation (Hardware, Docs, Get the app)
+// to the default title / search / social / language layout.
+import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
+import Search from '@astrojs/starlight/components/Search.astro';
+import SiteTitle from '@astrojs/starlight/components/SiteTitle.astro';
+import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro';
+import { useTranslations, localizePath, defaultLocale } from '../../i18n';
+
+const { locale, hasSidebar } = Astro.locals.starlightRoute;
+const lang = locale ?? defaultLocale;
+const t = useTranslations(lang);
+---
+
+<div class="header">
+	<div class="title-wrapper sl-flex">
+		<SiteTitle />
+	</div>
+	<div class="sl-flex print:hidden">
+		<Search />
+	</div>
+	<div class="sl-flex print:hidden right-group">
+		<nav class="sl-flex site-nav" aria-label="Site">
+			<a class="md-only" href={localizePath(lang, '/supported_hardware')}>{t('nav.hardware')}</a>
+			<a class:list={[{ 'md-only': hasSidebar }]} href={localizePath(lang, '/user_guide')}>
+				{t('nav.documentation')}
+			</a>
+			<a class="cta" href={localizePath(lang, '/#installation')}>{t('nav.get_app')}</a>
+		</nav>
+		<div class="md-only social-icons">
+			<SocialIcons />
+		</div>
+		<div class="md-only">
+			<LanguageSelect />
+		</div>
+	</div>
+</div>
+
+<style>
+	@layer starlight.core {
+		.header {
+			display: flex;
+			gap: var(--sl-nav-gap);
+			justify-content: space-between;
+			align-items: center;
+			height: 100%;
+		}
+
+		.title-wrapper {
+			overflow: clip;
+			padding: 0.25rem;
+			margin: -0.25rem;
+			min-width: 0;
+		}
+
+		.right-group,
+		.social-icons,
+		.site-nav {
+			gap: 1rem;
+			align-items: center;
+		}
+
+		.social-icons::after {
+			content: '';
+			height: 2rem;
+			border-inline-end: 1px solid var(--sl-color-gray-5);
+		}
+
+		.site-nav a {
+			color: var(--sl-color-gray-2);
+			font-size: var(--sl-text-sm);
+			text-decoration: none;
+			white-space: nowrap;
+		}
+
+		.site-nav a:hover {
+			color: var(--sl-color-accent-high);
+		}
+
+		.site-nav a.cta {
+			background: var(--sl-color-accent);
+			color: var(--sl-color-black);
+			font-weight: 700;
+			padding: 0.4rem 0.85rem;
+			border-radius: 0.5rem;
+		}
+
+		.site-nav a.cta:hover {
+			color: var(--sl-color-black);
+			filter: brightness(1.1);
+		}
+
+		.md-only {
+			display: none;
+		}
+
+		/* Phones: logo only, so the nav links and CTA always fit. */
+		@media (max-width: 49.99rem) {
+			.title-wrapper {
+				flex-shrink: 0;
+				min-width: auto;
+			}
+			.title-wrapper :global(.site-title span) {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				overflow: hidden;
+				clip: rect(0 0 0 0);
+				white-space: nowrap;
+			}
+		}
+
+		@media (min-width: 50rem) {
+			.md-only {
+				display: flex;
+			}
+
+			/* Keep Starlight's column alignment so the search box lines up with content. */
+			:global(:root[data-has-sidebar]) {
+				--__sidebar-pad: calc(2 * var(--sl-nav-pad-x));
+			}
+			:global(:root:not([data-has-toc])) {
+				--__toc-width: 0rem;
+			}
+			.header {
+				--__sidebar-width: max(0rem, var(--sl-content-inline-start, 0rem) - var(--sl-nav-pad-x));
+				--__main-column-fr: calc(
+					(
+							100% + var(--__sidebar-pad, 0rem) - var(--__toc-width, var(--sl-sidebar-width)) -
+								(2 * var(--__toc-width, var(--sl-nav-pad-x))) - var(--sl-content-inline-start, 0rem) -
+								var(--sl-content-width)
+						) / 2
+				);
+				display: grid;
+				grid-template-columns:
+					minmax(
+						calc(var(--__sidebar-width) + max(0rem, var(--__main-column-fr) - var(--sl-nav-gap))),
+						auto
+					)
+					1fr
+					auto;
+				align-content: center;
+			}
+		}
+	}
+</style>

@@ -13,12 +13,15 @@ const starlightLocales = Object.fromEntries(
   ]),
 );
 
+const site = 'https://elrsmobile.com';
+const ogImage = `${site}/images/og-image.png`;
+
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://elrsmobile.com',
+  site,
   base: '/',
   integrations: [
-    tailwind(),
+    tailwind({ applyBaseStyles: false }),
     starlight({
       title: 'ELRS Mobile',
       description: 'Flash and configure ExpressLRS receivers and transmitters directly from your iOS or Android device. 100% offline flashing, no PC or cables required.',
@@ -38,34 +41,31 @@ export default defineConfig({
         {
           tag: 'script',
           content: `
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('js', new Date());
-						gtag('config', '${analyticsId}');
-					`,
-        },
-        {
-          tag: 'script',
-          attrs: {
-            src: 'https://storage.ko-fi.com/cdn/scripts/overlay-widget.js',
-          },
-        },
-        {
-          tag: 'script',
-          content: `
-            window.addEventListener('DOMContentLoaded', () => {
-              if (typeof kofiWidgetOverlay !== 'undefined') {
-                kofiWidgetOverlay.draw('wbhinton', {
-                  'type': 'floating-chat',
-                  'floating-chat.donateButton.text': 'Support me',
-                  'floating-chat.donateButton.background-color': '#FFB114',
-                  'floating-chat.donateButton.text-color': '#fff'
-                });
-              }
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${analyticsId}');
+            // One delegated listener: any element with data-track="<event>" sends
+            // that event, with its other data-* attributes as parameters.
+            document.addEventListener('click', (e) => {
+              const el = e.target.closest('[data-track]');
+              if (!el) return;
+              const { track, ...params } = el.dataset;
+              gtag('event', track, params);
             });
           `,
         },
+        { tag: 'meta', attrs: { property: 'og:image', content: ogImage } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        { tag: 'meta', attrs: { name: 'twitter:image', content: ogImage } },
       ],
+      components: {
+        Header: './src/components/starlight/Header.astro',
+        Footer: './src/components/starlight/Footer.astro',
+        ThemeProvider: './src/components/starlight/ThemeProvider.astro',
+        ThemeSelect: './src/components/starlight/ThemeSelect.astro',
+      },
       social: [
         {
           label: 'GitHub',
@@ -73,7 +73,7 @@ export default defineConfig({
           icon: 'github',
         },
       ],
-      customCss: ['./src/styles/custom.css'],
+      customCss: ['./src/styles/tailwind.css', './src/styles/custom.css'],
       sidebar: [
         {
           label: 'Guides',

@@ -86,18 +86,24 @@ Each phase is one commit that builds and could ship on its own.
   Tailwind preflight, so it is a visual change that belongs with the shell move).
 
 ### Phase 2 — One shell
-- [ ] `@astrojs/starlight-tailwind`; brand colors defined once in `tailwind.config.mjs`;
+- [x] `@astrojs/starlight-tailwind`; brand colors defined once in `tailwind.config.mjs`;
       drop duplicated Starlight vars from `custom.css`.
-- [ ] Prototype landing on `StarlightPage` (splash template, `not-content` wrapper).
+- [x] Prototype landing on `StarlightPage` (splash template, `not-content` wrapper).
       Fallback if it fights the design: Starlight Header/Footer overrides shared
       with a slim custom landing layout.
-- [ ] Landing and privacy on the shared shell; delete `src/layouts/Layout.astro`.
-- [ ] Footer override: privacy link, copyright, trademark, support links.
-- [ ] Head config: analytics once; `og:image` / Twitter card (1200×630 asset).
-- [ ] Delegated `data-track` click tracking; remove all inline `onclick`
+- [x] Landing and privacy on the shared shell; delete `src/layouts/Layout.astro`.
+- [x] Footer override: privacy link, copyright, trademark, support links.
+- [x] Head config: analytics once; `og:image` / Twitter card (1200×630 asset).
+- [x] Delegated `data-track` click tracking; remove all inline `onclick`
       (fixes double-counted `app_download_click`).
-- [ ] Remove Ko-fi floating widget and its render-blocking script.
-- [ ] Force dark theme; hide theme toggle.
+- [x] Remove Ko-fi floating widget and its render-blocking script.
+- [x] Force dark theme; hide theme toggle.
+- Notes: homepage HTML grew 22 KB → 32 KB (shared Starlight header/search markup;
+  CSS is shared and cached). `og-image.png` is generated from the iPhone store
+  screenshot. Dev server must be restarted after `tailwind.config.mjs` changes.
+- Carry-overs: `supported_hardware` "Unsupported" card is offset by Starlight's
+  markdown sibling margin (fixed by Phase 4 rewrite). `public/images/hero-iphone-radio.png`
+  depicts a fictional app ("DRONE SYNC") — do not use; delete in Phase 6.
 
 ### Phase 3 — Components and data-driven landing page
 - [ ] Components: `Section`, `Card`, `StoreBadge` (official badges), `VideoEmbed`
