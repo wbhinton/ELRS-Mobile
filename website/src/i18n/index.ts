@@ -24,3 +24,13 @@ export function localizePath(lang: string, path: string): string {
 export function localeStaticPaths() {
 	return nonDefaultLocales.map((lang) => ({ params: { lang } }));
 }
+
+/** Fills `{name}` placeholders in a translated string. */
+export function format(template: string, values: Record<string, string | number>): string {
+	return template.replace(/\{(\w+)\}/g, (match, key) => (key in values ? String(values[key]) : match));
+}
+
+/** Locale-aware number formatting (e.g. 15,640 / 15.640 / 15 640). */
+export function formatNumber(lang: string, value: number): string {
+	return new Intl.NumberFormat(lang).format(value);
+}

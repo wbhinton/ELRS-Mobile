@@ -110,3 +110,8 @@ header img {
 		width: min(100%, 22rem);
 	}
 }
+
+/* Filtered-out hardware rows: the `hidden` attribute must beat Tailwind's `flex`. */
+.hardware-list [hidden] {
+	display: none !important;
+}

@@ -183,7 +183,10 @@ async function translateDocs() {
 
     // Hash source content to detect changes
     const sourceHash = crypto.createHash('md5').update(content).digest('hex');
-    const hashMarker = `<!-- source_hash: ${sourceHash} -->`;
+    // MDX rejects HTML comments, so .mdx files carry the marker as an MDX comment.
+    const hashMarker = file.endsWith('.mdx')
+      ? `{/* source_hash: ${sourceHash} */}`
+      : `<!-- source_hash: ${sourceHash} -->`;
 
     for (const locale of targetLocales) {
       const destDir = path.join(docsDir, `../${locale}/guides`);

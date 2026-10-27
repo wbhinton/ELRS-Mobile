@@ -77,12 +77,3 @@ export const altInstalls: { href: string; title: UIKey; body: UIKey; track?: str
 	{ href: links.directApk, title: 'get_started.apk_title', body: 'get_started.apk_desc', track: 'direct_apk' },
 	{ href: links.repo, title: 'get_started.source_title', body: 'get_started.source_desc' },
 ];
-
-// Interim until Phase 4 derives these from targets.json.
-export const chipsets = ['ESP8285', 'ESP32', 'ESP32-C3', 'ESP32-S3'];
-export const testedHardware = [
-	'RadioMaster XR Series',
-	'BetaFPV SuperP',
-	'HappyModel ES900 / EP',
-	'RadioMaster Nomad / Pocket',
-];
