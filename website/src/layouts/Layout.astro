@@ -1,5 +1,6 @@
 ---
-import ui from "../i18n/ui.json";
+import { useTranslations, localizePath } from "../i18n";
+import { analyticsId } from "../config/site";
 
 interface Props {
 	title: string;
@@ -13,16 +14,12 @@ const {
 	lang = "en"
 } = Astro.props;
 
-// Helper to look up keys safely
-function t(key: keyof typeof ui.en): string {
-  const dictionary = (ui as any)[lang] || ui.en;
-  return dictionary[key] || (ui.en as any)[key];
-}
+const t = useTranslations(lang);
 
-const homePath = lang === 'en' ? '/' : `/${lang}/`;
-const hardwarePath = lang === 'en' ? '/supported_hardware' : `/${lang}/supported_hardware`;
-const docPath = lang === 'en' ? '/user_guide' : `/${lang}/user_guide`;
-const installPath = lang === 'en' ? '/#installation' : `/${lang}/#installation`;
+const homePath = localizePath(lang, '/');
+const hardwarePath = localizePath(lang, '/supported_hardware');
+const docPath = localizePath(lang, '/user_guide');
+const installPath = localizePath(lang, '/#installation');
 
 const schema = JSON.stringify({
   "@context": "https://schema.org",
@@ -54,13 +51,14 @@ const schema = JSON.stringify({
 		<script type="application/ld+json" set:html={schema} />
 
 		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-8X6YE82V0S"></script>
-		<script is:inline>
+		<script async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}></script>
+		<script is:inline define:vars={{ analyticsId }}>
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
+			window.gtag = gtag;
 			gtag('js', new Date());
 
-			gtag('config', 'G-8X6YE82V0S');
+			gtag('config', analyticsId);
 		</script>
 	</head>
 	<body class="m-0 flex flex-col min-h-screen bg-background text-white font-sans antialiased scroll-smooth">

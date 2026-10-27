@@ -3,6 +3,15 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import localeConfig from './src/config/locales.json' with { type: 'json' };
+import { analyticsId, links } from './src/config/site.ts';
+
+const starlightLocales = Object.fromEntries(
+  Object.entries(localeConfig.locales).map(([lang, label]) => [
+    lang === localeConfig.defaultLocale ? 'root' : lang,
+    { label, lang },
+  ]),
+);
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,33 +26,12 @@ export default defineConfig({
         src: './src/assets/logo.png',
       },
       favicon: '/favicon.png',
-      locales: {
-        root: {
-          label: 'English',
-          lang: 'en',
-        },
-        de: { label: 'Deutsch', lang: 'de' },
-        es: { label: 'Español', lang: 'es' },
-        fr: { label: 'Français', lang: 'fr' },
-        ja: { label: '日本語', lang: 'ja' },
-        uk: { label: 'Українська', lang: 'uk' },
-        pt: { label: 'Português', lang: 'pt' },
-        it: { label: 'Italiano', lang: 'it' },
-        pl: { label: 'Polski', lang: 'pl' },
-        ko: { label: '한국어', lang: 'ko' },
-        ru: { label: 'Русский', lang: 'ru' },
-        nl: { label: 'Nederlands', lang: 'nl' },
-        cs: { label: 'Čeština', lang: 'cs' },
-        th: { label: 'ไทย', lang: 'th' },
-        sv: { label: 'Svenska', lang: 'sv' },
-        id: { label: 'Bahasa Indonesia', lang: 'id' },
-        zh: { label: '简体中文', lang: 'zh' },
-      },
+      locales: starlightLocales,
       head: [
         {
           tag: 'script',
           attrs: {
-            src: 'https://www.googletagmanager.com/gtag/js?id=G-8X6YE82V0S',
+            src: `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`,
             async: true,
           },
         },
@@ -53,7 +41,7 @@ export default defineConfig({
 						window.dataLayer = window.dataLayer || [];
 						function gtag(){dataLayer.push(arguments);}
 						gtag('js', new Date());
-						gtag('config', 'G-8X6YE82V0S');
+						gtag('config', '${analyticsId}');
 					`,
         },
         {
@@ -81,7 +69,7 @@ export default defineConfig({
       social: [
         {
           label: 'GitHub',
-          href: 'https://github.com/wbhinton/ELRS-Mobile',
+          href: links.repo,
           icon: 'github',
         },
       ],

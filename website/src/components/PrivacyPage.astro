@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ui from "../i18n/ui.json";
+import { useTranslations, localizePath } from "../i18n";
+import { links } from "../config/site";
 
 interface Props {
 	lang: string;
@@ -8,14 +9,10 @@ interface Props {
 
 const { lang } = Astro.props;
 
-// Helper to look up keys safely
-function t(key: keyof typeof ui.en): string {
-  const dictionary = (ui as any)[lang] || ui.en;
-  return dictionary[key] || (ui.en as any)[key];
-}
+const t = useTranslations(lang);
 
-const homePath = lang === 'en' ? '/' : `/${lang}/`;
-const privacyPath = lang === 'en' ? '/privacy' : `/${lang}/privacy`;
+const homePath = localizePath(lang, '/');
+const privacyPath = localizePath(lang, '/privacy');
 ---
 
 <Layout title={`${t("privacy.title_main")} ${t("privacy.title_sub")} - ELRS Mobile`} lang={lang}>
@@ -93,7 +90,7 @@ const privacyPath = lang === 'en' ? '/privacy' : `/${lang}/privacy`;
 
 			<h2>{t("privacy.sec5_title")}</h2>
 			<p>
-				{t("privacy.sec5_desc_1")}<a href="https://discord.gg/expresslrs">{t("privacy.sec5_discord_label")}</a>{t("privacy.sec5_desc_or")}<a href="https://github.com/ExpressLRS/ExpressLRS">{t("privacy.sec5_github_label")}</a>{t("privacy.sec5_desc_dot")}
+				{t("privacy.sec5_desc_1")}<a href={links.elrsDiscord}>{t("privacy.sec5_discord_label")}</a>{t("privacy.sec5_desc_or")}<a href={links.repo}>{t("privacy.sec5_github_label")}</a>{t("privacy.sec5_desc_dot")}
 			</p>
 		</section>
 

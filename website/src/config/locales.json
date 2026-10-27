@@ -1,0 +1,23 @@
+{
+  "defaultLocale": "en",
+  "locales": {
+    "en": "English",
+    "de": "Deutsch",
+    "es": "Español",
+    "fr": "Français",
+    "ja": "日本語",
+    "uk": "Українська",
+    "pt": "Português",
+    "it": "Italiano",
+    "pl": "Polski",
+    "ko": "한국어",
+    "ru": "Русский",
+    "nl": "Nederlands",
+    "cs": "Čeština",
+    "th": "ไทย",
+    "sv": "Svenska",
+    "id": "Bahasa Indonesia",
+    "zh": "简体中文",
+    "nb": "Norsk bokmål"
+  }
+}

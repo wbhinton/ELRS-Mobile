@@ -10,7 +10,8 @@ if (!apiKey) {
   process.exit(0);
 }
 
-const targetLocales = ['de', 'es', 'fr', 'ja', 'uk', 'pt', 'it', 'pl', 'ko', 'ru', 'nl', 'cs', 'th', 'sv', 'id', 'zh', 'nb'];
+const localeConfig = require('../src/config/locales.json');
+const targetLocales = Object.keys(localeConfig.locales).filter((l) => l !== localeConfig.defaultLocale);
 
 // Marker used to translate a doc's title and body in a single request, then
 // split the response back apart — halves the API calls per file per locale.
