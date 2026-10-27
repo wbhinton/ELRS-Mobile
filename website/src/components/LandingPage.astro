@@ -2,6 +2,7 @@
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { useTranslations } from "../i18n";
 import { links } from "../config/site";
+import heroImage from "../assets/hero-dashboard.png";
 
 interface Props {
 	lang: string;
@@ -28,6 +29,7 @@ const storeAction = (text: string, link: string, store: string) => ({
 		hero: {
 			title: t("hero.title"),
 			tagline: t("hero.subtitle"),
+			image: { file: heroImage, alt: t("hero.image_alt") },
 			actions: [
 				storeAction(t("hero.google_play"), links.googlePlay, "google_play"),
 				storeAction(t("hero.app_store"), links.appStore, "apple_app_store"),
@@ -37,7 +39,7 @@ const storeAction = (text: string, link: string, store: string) => ({
 >
 	<div class="not-content text-white">
 
-		<section class="text-center pb-8">
+		<section class="text-center md:text-left -mt-4 pb-8">
 			<p class="text-xs text-text-muted ">
 				{t("hero.play_beta_blurb")} <a href={links.playBeta} class="text-primary hover:underline" target="_blank" rel="noopener">{t("hero.play_beta_link")}</a>.
 				<span class="mx-3 opacity-30">|</span>
