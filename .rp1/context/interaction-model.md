@@ -9,114 +9,101 @@ strictness: strict
 # ELRS Mobile - Interaction Model
 
 **Project**: ELRS Mobile
-**Analysis Date**: 2026-09-22
-**Surfaces**: Mobile app (Android/iOS/macOS), embedded device WebView, marketing/docs website
+**Analysis Date**: 2026-10-27 (commit 3e8eab5, v1.0.45+111)
+**Surfaces**: Mobile app (Android/iOS/macOS; store and direct-download APK builds), embedded device WebView, website (landing, docs, hardware list, privacy)
 
 ## Experience Principles
 
-- **Offline-first, field-ready workflow** — the product is a two-phase job: cache firmware and hardware definitions while on home Wi-Fi, then flash in the field with no internet. Cached versions are labeled "Ready for offline use"; the Firmware Manager is the deliberate first stop. The flash-upload status machine now makes this explicit: the normal path reads `locating` (checking the local cache) -> `unpacking` (extracting from cache) with no network involved at all; `downloading` only appears in the rare fallback when the cache is missing or incomplete.
-- **Automatic connection over manual configuration** — on launch the app continuously scans via mDNS plus static-candidate probing (`elrs_rx.local`, `elrs_tx.local`, `10.0.0.1`) and connects with no user action. Manual IP entry is a fallback behind a gear icon.
-- **Outdoor / sunlight readability** — thicker progress bars (`minHeight: 6`), a bright cyan accent (`#00E5FF`), bold uppercased status text, dark theme throughout.
-- **Guarded destructive actions** — every irreversible step is gated by an explicit confirmation: non-dismissible first-launch legal disclaimer, target-mismatch force-flash, empty-binding-phrase, and cache/profile deletion dialogs.
-- **Progressive disclosure via Expert Mode** — STM32/legacy targets, raw binary download, Lua export, and debug reporting are hidden until enabled in Settings.
-- **Flash-lifecycle resilience with a trust-the-buffer optimization** — during flashing the app locks orientation to portrait (prevents provider `autoDispose` teardown), silences heartbeat/discovery timers, and runs an aggressive post-flash reconnection grace period while the device reboots. On a target-mismatch force-flash, the app no longer assumes the device's OTA buffer went stale — it calls `confirmForceUpdate()` directly first (the mismatched bytes are still sitting in the buffer from the initial `/update`, matching the ExpressLRS WebUI's own behavior), falling back to a full re-upload-then-confirm only if the direct confirm fails. Net effect: a force flash after the warning dialog resolves in one network round trip instead of two in the common case.
-- **Truthful, non-stalling progress feedback for a device that goes silent after upload** — once all firmware bytes are sent, the device still needs several more seconds to erase/write flash and reboot with no progress signal of its own. Rather than let the bar sit visibly frozen at 100%, the app enters an explicit `finalizing` state rendered as an indeterminate progress bar. Upload byte-progress itself is scaled into a fixed 66%-95% band (not a raw 0-100% overwrite) so the bar never visibly dips when the build phase hands off to upload. This also closed a real bug: the upload progress callback used to be silently dropped, so the bar never moved during upload at all.
-- **Narrowed minimum supported firmware line, surfaced everywhere the range is quoted** — the advertised firmware compatibility floor moved from a broad "3.x" to the specific "3.3.x" (paired with "4.x") across the splash screen tagline, the website hero subtitle in every locale, the supported-hardware doc, and the STM32 usage-instructions caveat — a consistent, deliberate cross-surface tightening rather than drift.
-- **Reusable named configuration profiles** — binding phrase, Wi-Fi credentials, regulatory domains, and Wi-Fi-on interval bundle into named Flashing Profiles so users switch whole configurations instead of re-entering fields.
-- **Delegate device configuration to the device's own UI** — per-device parameter editing is not reimplemented natively; the app embeds the ExpressLRS web UI served by the device inside a locked WebView. The last native alternative (`DeviceEditorViewModel`) was deleted as dead code, so this is now the only device-config-editing path, not just the preferred one.
+- **Offline-first, field-ready workflow**: cache firmware at home (Firmware Manager is the first stop; cached versions read "Ready for offline use"), flash anywhere. The normal flash path is locating → unpacking from cache; "downloading" appears only as a fallback; a missing cache is a typed `OfflineMissingFiles` error. The website tells the same story (three "How it works" steps, use cases).
+- **Automatic connection over manual configuration**: mDNS plus probes of `elrs_rx.local`, `elrs_tx.local`, `10.0.0.1`; manual IP sits behind the gear icon on the Dashboard card.
+- **Outdoor readability**: dark theme, bright cyan accent, thick progress bars, bold uppercase status. The website is dark-only too.
+- **Guard risky actions; hard-block impossible ones**: confirmations for the first-launch disclaimer, Force Flash, empty binding phrase, cache/profile deletion. A chip-family mismatch is blocked outright with no override.
+- **Truthful outcomes**: success only when the device replies `ok`. A silent drop after the full upload is shown as an amber "not confirmed" warning, never as success; mid-upload drops are red failures.
+- **Non-stalling progress**: upload progress scaled into 66–95 %; an indeterminate "Writing to Device — Please Wait" (`finalizing`) covers the device's silent write/reboot.
+- **Flash-lifecycle resilience**: portrait lock, wakelock, discovery/heartbeat paused, aggressive reconnect after reboot.
+- **Progressive disclosure**: Expert Mode reveals STM32 targets, Download Binary, Lua export, debug report.
+- **Reusable profiles**: binding phrase, Wi-Fi, regulatory defaults, Wi-Fi interval bundled per profile; managed in Settings, selectable on the flashing screen.
+- **Delegate device settings to the device**: the device's own web UI in a locked WebView is the only editor.
+- **Everything localized, and enforced**: 18 locales; typed errors render a localized headline plus untranslated technical detail; tests fail on hard-coded text.
+- **Consistent firmware claim**: "3.3.x and 4.x" across splash, website and docs.
 
 ## Actors & Surfaces
 
-| Actor | Surface | Goal | Entry Points |
-|-------|---------|------|--------------|
-| Hobbyist RC pilot (default) | Mobile app (Dashboard, Flashing, Firmware Manager, Device Config WebView, Support) | Cache firmware at home, auto-connect to RX/TX, flash OTA with a saved profile, adjust device settings | App launch -> Splash -> Dashboard |
-| Power user / Expert | Mobile app with Expert Mode; external tools (STLink, Betaflight passthrough) | Flash legacy STM32 hardware, download patched binary, export Lua script, submit debug reports | Settings -> Expert Mode |
-| Radio / tablet user (landscape) | Mobile app landscape layouts | Use on a wide display such as an AX12-class radio touchscreen | Any screen, landscape orientation |
-| New / prospective user | Website docs (Astro/Starlight), in-app Support screen, community links | Install the app, learn the flashing and recovery workflow | External browser; Dashboard -> Help & Support |
-| Norwegian-speaking user (new) | Mobile app (language selector, localized UI strings, FAQ) | Use the app and its FAQ content in Norwegian Bokmål rather than falling back to English | Settings -> language picker ("Norsk") |
+| Actor | Surface | Goal |
+|-------|---------|------|
+| Hobbyist pilot (default) | App, Device Config WebView, website | Cache firmware, auto-connect, flash with a profile, adjust device settings |
+| Power user / Expert | App with Expert Mode; STLink / Betaflight passthrough | STM32 binaries, Download Binary, Lua export, debug reports |
+| Radio / tablet user (landscape) | Landscape layouts | Use on AX12-class radio screens and tablets |
+| Prospective user | Website landing, hardware list, videos, store badges | Check hardware support, see it working, install |
+| Sideload / direct-APK user (incl. RadioMaster-distributed link) | Direct build update dialog, Settings → Check for Updates | Install without Play and still learn about updates |
+| Non-English speaker | App language picker, localized website | Use app, FAQ and site in their language |
+| Contributor | Developer docs (English-only) | Build, test, validate firmware |
 
 ## Primary Actions
 
-### Splash screen (`/`)
-**Role**: branding, version display, disclaimer of official affiliation, timed hand-off. **Primary action**: passive — auto-navigates to `/dashboard` after ~3 s.
-
-### Dashboard (`/dashboard`, home)
-**Role**: connection-status hub and navigation launcher. **Primary actions**: view the hardware status card (product / version / target / domain / match), open the manual IP dialog, retry discovery, navigate to Flash Device, Device Config, Firmware Manager, Settings, Help & Support. **Constraint**: first-launch disclaimer dialog blocks all interaction until accepted.
-
-### Flashing screen (`/flashing`)
-**Role**: assemble and push firmware (or build/save a binary). **Primary actions**: cascading target selection (Device Type > Vendor > Frequency > Target), configure the options card, tap **FLASH**, **DOWNLOAD BINARY** (Expert Mode), confirm/cancel the mismatch and no-bind-phrase dialogs. **Constraint**: STM32 targets disable OTA ("OTA UNAVAILABLE"); orientation locked to portrait while active.
-
-### Firmware Manager (`/firmware_manager`)
-**Role**: download and cache firmware versions for offline use; manage local storage budget. **Primary actions**: refresh the version list, download a version, delete a cached version, watch the storage-used bar against `maxCachedVersions`.
-
-### Device Config WebView (`/device_config`)
-**Role**: host the device's own embedded ExpressLRS web configuration UI. **Primary actions**: interact with the device web UI (parameters, PWM mapping, OTA via device page), pick a firmware `.bin`/`.gz` via the native file-selector bridge (Android). **Constraint**: navigation locked to the device IP; external navigation blocked.
-
-### Settings (`/settings`)
-**Role**: manage profiles, network defaults, storage limits, preferences, Expert/diagnostic tools. **Primary actions**: select/add/delete a Flashing Profile; edit binding phrase, Wi-Fi SSID/password, Wi-Fi-on interval; set default regulatory domains; adjust max cached versions; clear the firmware cache; toggle analytics sharing; toggle Expert Mode; change the language override (now including Norsk/`nb`); export Lua / submit debug report (Expert).
-
-### Help & Support (`/support`)
-**Role**: in-app walkthrough, FAQ, community/recovery links. **Primary actions**: read the tabbed Flashing Guide / FAQ / Resources (TabBar portrait, NavigationRail landscape), expand recovery steps, launch external links (Discord, GitHub, web-flasher, recovery video), view the full disclaimer.
-
-### Legal Notice (`/legal`)
-**Role**: full legal/liability text. **Primary action**: read.
-
-### Website documentation (Astro / Starlight, external)
-**Role**: public install instructions and the canonical flashing/recovery guide. **Primary actions**: read the guide, follow app-store / GitHub install links.
+- **Splash (`/`)**: passive, ~3 s hand-off.
+- **Dashboard (`/dashboard`)**: status card (scanning / connected / not found), Retry, manual IP, navigation to Flash Device, Device Config, Firmware Manager, Settings, Help & Support. Launch dialogs appear one at a time: legal disclaimer (first launch, non-dismissible) → "Saved Settings Reset" (once, if the storage upgrade dropped data) → update dialog (direct builds).
+- **Flashing (`/flashing`)**: target auto-selected from the connected device when possible, else cascading Device Type > Vendor > Regulatory & Frequency > Target; version selector (cached marked, "requires vX or newer" with Download Compatible Firmware); options card with profile; FLASH; DOWNLOAD BINARY (Expert).
+- **Firmware Manager (`/firmware_manager`)**: refresh, download, delete; storage bar vs `maxCachedVersions`.
+- **Device Config (`/device_config`)**: device web UI; `.bin`/`.gz` picker bridge on Android.
+- **Settings (`/settings`)**: four categories (Profiles & Network, App & Storage, Advanced & Debug, About & Legal); Share Analytics (default on); Expert tools; Check for Updates (direct builds); language button in the app bar.
+- **Help & Support (`/support`)**: Flashing Guide / FAQ / Resources, recovery steps, external links.
+- **Legal (`/legal`)**: full disclaimer and license.
+- **Website**: hero with store CTAs and "38,000+ installs / 15,000+ flashes" stats; how it works with demo video; feature tour; use cases; compatibility stats; community videos (click-to-play); install options; docs with searchable, verified-badged hardware list; privacy page.
 
 ## User-Visible States
 
-| State | Meaning | Surface Signals |
-|-------|---------|-----------------|
-| Scanning for device | Actively searching the local network, no device confirmed | Pulsing teal ring icon; mDNS badge "Scanning..." / "Searching..." with `wifi_find` icon |
-| Connected to device | Live ELRS device confirmed at a known IP | Cyan-bordered elevated card with `check_circle`; product name, "Connected: `<ip>`", version/target chips, regulatory-domain badge; "Connected (`<ip>`)" chip with green wifi icon |
-| No device found | Discovery ran, nothing responded | Grey `wifi_off` icon, "No Device Found", inline **Retry** button |
-| Target match vs mismatch | Selected firmware target vs the connected device's reported product name | Green `check_circle` "Matched" / orange `warning_amber` "Mismatch" chip; blocking dialog on flash |
-| Flashing status machine | Lifecycle: idle, locating (checking local cache), unpacking (reading cached firmware — the normal offline path), downloading (rare network fallback only), building (patching/assembling, renamed from "patching"), uploading (byte progress scaled to 66%-95%), finalizing (new — device writing/rebooting, no progress signal), success, downloadSuccess, error, mismatch | `LinearProgressIndicator` with fractional value, except during `finalizing` where `value: null` renders an indeterminate bar; localized, uppercased status text for the six mid-flash phases (`flashingStatusLocating`/`Unpacking`/`Downloading`/`Building`/`Uploading`/`Finalizing` via `AppLocalizations` — idle/success/downloadSuccess/error/mismatch still fall back to the raw enum name, unlocalized); colored inline text (red error / green "Device is rebooting"); success snackbars; button label swaps "WAITING FOR DEVICE...", "OTA UNAVAILABLE", "FLASH", "DONE" |
-| Firmware version cache state | Per version: not cached / downloading / cached-offline-ready | `cloud_download` blue icon / `CircularProgressIndicator` / green `dns` icon + "Ready for offline use" + delete icon |
-| Storage budget level | Cached-version count vs configured max | Header bar color: blue normal, orange above 80%, red at/over limit; "N / limit Versions" count turns red when full |
-| STM32 / legacy target selected | Target cannot be flashed OTA | Amber warning card (STLink / Betaflight passthrough); primary button disabled "OTA UNAVAILABLE"; DOWNLOAD BINARY offered in Expert Mode |
-| WebView config loading | Device web UI page not finished loading | Centered cyan `CircularProgressIndicator` overlay until `onPageFinished` |
+| State | Signals |
+|-------|---------|
+| Scanning | Pulsing teal ring, "Scanning..." badge |
+| Connected | Cyan-bordered card, product, IP, version/target chips, domain badge |
+| No device found | Grey `wifi_off`, "No Device Found", Retry |
+| Target matched / mismatch | Green "Matched" / orange "Mismatch" chip; blocking dialog on flash |
+| Flash phases | Localized uppercase labels per phase; indeterminate bar in finalizing; button labels Waiting for Device / OTA Unavailable / Flash / Done |
+| Flash error (typed) | Localized headline + optional technical detail; red, except amber for FlashUnconfirmed |
+| Chip mismatch | Error naming both chips; no Force Flash |
+| STM32 selected | Amber warning card, OTA Unavailable, Download Binary (Expert) |
+| Firmware cache per version | Download icon / spinner / green "Ready for offline use" + delete |
+| Storage budget | Blue → orange (> 80 %) → red at limit |
+| Update available (direct) | Dialog: Download / Later / Skip This Version; manual check → snackbar if up to date or failed |
+| Saved Settings Reset | One-time dialog after a storage upgrade dropped data from ≤ 1.0.43 |
+| WebView loading | Cyan spinner until page finished |
 
 ## Feedback Loops
 
-- **Flash progress and completion** — tap FLASH with a connected device -> progress bar and status text advance through `locating` -> `unpacking` (offline cache path, normal case) or `downloading` (network fallback, rare) -> `building` -> `uploading` (fractional progress genuinely driven by the upload, scaled to 66%-95% — previously this callback was silently dropped, so the bar did not move during upload at all) -> `finalizing` (bar goes indeterminate once all bytes are sent, since the device takes several more seconds to erase/write/reboot with no progress signal) -> success snackbar + green "Device is rebooting" + button relabels to DONE -> device auto-reconnects after reboot (Dashboard card animates back to Connected).
-- **Target mismatch guard / force-flash** — flash attempted while selected target != connected product -> non-dismissible "Target Mismatch" dialog with CANCEL / red FORCE FLASH; cancel resets status. On FORCE FLASH, the controller now calls `confirmForceUpdate()` directly first (trusting the device's existing OTA buffer), falling back to re-upload-then-confirm only if that throws — the fallback re-upload now shares the same `_onUploadProgress` callback as the primary path, so it gets the identical locating/unpacking/building/uploading/finalizing sequence and 66-95% scaled progress rather than its own separate raw 0-100% handler.
-- **Missing binding phrase guard** — flash attempted with no phrase (`NO_BIND_PHRASE`) -> "No Binding Phrase" dialog with CANCEL / PROCEED; PROCEED re-flashes with `ignoreMissingBindPhrase`.
-- **First-launch disclaimer gate** — settings loaded with `disclaimerAccepted == false` -> non-dismissible disclaimer over the Dashboard; must accept to proceed.
-- **Discovery retry** — tap Retry on "No Device Found" -> `restartDiscovery()` resets mDNS found-state and relaunches full pre-connection discovery; card returns to scanning.
-- **Manual IP override** — tap the gear icon on the hardware card -> dialog with a custom numeric IP keypad; Connect enabled only when the address matches the IPv4 regex; `setManualIp` adds the address to the probe candidate list.
-- **Firmware cache management** — tap download/delete on a version row -> trailing swaps to a spinner during download, then to green "Ready for offline use" or back to the download icon; storage header bar and count update.
-- **Post-flash auto-reconnect** — flash completes and the device reboots -> heartbeat/discovery timers resume in an aggressive grace period -> on reconnect the hardware card animates back to Connected, otherwise "device did not reconnect" is logged.
-- **Language override selection** — tap the language icon (Settings / Flashing AppBar) -> dialog lists locales with a check on the active one -> selection applies an app-locale override; Support/FAQ content reloads localized (fallback to the default asset). Now includes `nb` (Norsk) end-to-end: language dialog, dropdown, `AppLocalizationsNb` delegate, and a Norwegian FAQ asset.
-- **Clear cache confirmation** — tap "Clear firmware cache" -> confirmation dialog -> snackbar confirming the cache was cleared.
+- **Flash**: FLASH → phases → device `ok` → green "Flashing Successful! Device is rebooting", snackbar, DONE → auto-reconnect. Mid-upload drop → red failure; post-upload silence → amber unconfirmed.
+- **Target mismatch**: dialog (Cancel / red Force Flash) → forced re-upload `?force=1` → `/forceupdate` only if still mismatched.
+- **Chip guard**: blocked immediately with an explanation.
+- **Missing binding phrase**: dialog (Cancel / Proceed).
+- **Discovery retry / manual IP**: Retry restarts discovery; IP keypad enables Connect only for valid IPv4.
+- **Cache management**: spinner → ready / removed; typed, localized download errors (e.g. "on device hotspot").
+- **Language override**: dialog with checkmark; UI and FAQ reload localized.
+- **Update check (direct)**: automatic ≤ 24 h after Dashboard dialogs, or manual from Settings with in-progress state and duplicate-tap protection.
+- **Website**: store/donate clicks send `data-track` analytics (one event per click); videos load only on play; hardware search filters in place.
 
 ## Accessibility & Discoverability
 
-- **Orientation locked to portrait during flashing** — prevents Riverpod `autoDispose` teardown mid-flash; restored to all orientations on leaving the screen.
-- **High-contrast, large-target visuals for outdoor use** — thicker progress indicators, bright cyan accent, bold uppercased labels, dark theme.
-- **Custom large numeric keypad for IP entry** (`ip_address_keypad` pub.dev package) — field-friendly input independent of the system soft keyboard, with a `10.0.0.1` preset shortcut and inline validation gating Connect. The app consumes the published pub.dev package directly; a same-named vendored local copy under `packages/ip_address_keypad/` was deleted as dead code (it was never wired into `pubspec.yaml`).
-- **Tooltips on icon-only controls** — gear, language, add-profile, delete-profile, manual-connection icon buttons.
-- **Localized content with graceful fallback** — FAQ/help content loads a locale-specific asset and falls back to the default when absent; explicit language override independent of the system locale.
-- **WebView background color matched to the app dark theme** — avoids a white flash while the device config page loads.
-- **Gap: no reduced-motion or semantic live-region handling** — pulsing ring, splash fade, `AnimatedSwitcher`, and the flashing screen's new indeterminate `finalizing` progress bar all animate unconditionally; flash status changes are conveyed visually / by snackbar only, with no announced live region or `MediaQuery.disableAnimations` check. No `Semantics` / `HapticFeedback` usage found in `lib/src`.
+- Portrait lock during flashing; high-contrast visuals; custom numeric IP keypad with a `10.0.0.1` shortcut; tooltips on icon buttons; localized content with fallback and overflow tests; WebView background matches the dark theme; colour always paired with text (amber vs red distinguishes unknown from failed).
+- **Gap**: no reduced-motion handling, `Semantics`, live regions or haptics in `lib/src`; animations and status changes are visual only.
+- Website: click-to-play media, mobile header keeps CTA and docs (icon) reachable at 360 px, language picker in the footer on every page.
 
 ## Cross-Surface Deltas
 
-| Behavior | Surfaces | Delta | Reason |
-|----------|----------|-------|--------|
-| Screen layout for wide displays | Settings, Support, Splash, Dashboard | Portrait: single scrolling list / TabBar / 2-column grid. Landscape: master-detail sidebar (Settings), NavigationRail (Support), Row-based Splash, 3-column Dashboard grid | Support AX12-class landscape radio touchscreens and tablets |
-| Device parameter configuration | Flashing screen vs Device Config WebView | Flashing uses native Flutter controls; per-device settings delegated to the device's embedded web UI in a locked WebView. The dead native alternative (`DeviceEditorViewModel`, 131 lines) was deleted outright — there is no longer any native device-config-editor code at all | Reuse the device's own maintained UI instead of reimplementing it; the native alternative was already dead/unwired |
-| Available targets and tools | Flashing screen, Settings | Default hides STM32 targets, DOWNLOAD BINARY, Lua export, debug reporting; Expert Mode reveals all | Keep the common OTA path simple; STM32/diagnostics are advanced, error-prone |
-| Flash delivery method by platform | Flashing screen vs external tools | Standard targets flash OTA in-app; STM32 targets disable OTA and require a downloaded patched binary flashed via STLink or Betaflight passthrough | STM32 hardware has no OTA capability |
-| Onboarding / walkthrough content | Website docs vs in-app Support | Website carries install/app-store links + the canonical phased flashing guide; in-app Support mirrors the phased walkthrough + FAQ + recovery, localized with fallback | Website serves acquisition; in-app serves offline field reference |
-| Update checking | Mobile app vs app stores | The in-app `update_controller` and its state/generated files were deleted outright (previously a no-op, now fully removed) — there is no in-app update-checking code path at all; updates handled entirely by the stores | App is distributed via Google Play and the App Store; the legacy Gist-based checker was already inert |
-| Dashboard connection-status rendering | Dashboard | The standalone `ConnectionStatusBadge` widget (71 lines) was deleted as dead code; connection status on the Dashboard is driven by a single live `discoveryServiceProvider` path instead of having a second, unused badge widget in the tree | Dead code removal — the hardware status card already renders live connection status |
-| Advertised minimum firmware version | Splash screen, website (all locales), website docs, in-app usage instructions | All surfaces quoting a supported firmware range moved in lockstep from "3.x" to "3.3.x" (paired with "4.x") | Reflects a real minimum-supported firmware floor below which OTA/patching is not guaranteed; kept consistent everywhere the claim appears |
+| Behavior | Delta | Reason |
+|----------|-------|--------|
+| Wide displays | Master-detail Settings, NavigationRail Support, 3-column Dashboard in landscape | Radio screens and tablets |
+| Device settings | Native flashing controls; device settings only in the device web UI | Reuse the device's maintained UI |
+| Expert tools | Hidden by default | Keep the common path simple |
+| STM32 | No OTA; build and save for PC flashing (3.3.x only) | No Wi-Fi updates on STM32 |
+| Update checking | Store builds: none (stores update). Direct APK: 24 h check + Settings tile | Sideloaded APKs get no store updates |
+| Analytics vs crashes | Aptabase obeys Share Analytics (default on); Sentry runs in all release builds regardless | Keep crash visibility; disclosed in the privacy policy |
+| Permissions | Android requests no location; iOS `Info.plist` still declares unused location/camera/photo strings | Platform differences; iOS strings likely vestigial |
+| Language | App 18 locales; website localized except developer docs (English-only) | Translation cost vs value |
+| Onboarding | Website: acquisition, canonical guide, hardware list. In-app Support: offline guide, FAQ, recovery | Different contexts |
 
 ## Related KB Links
 
 - System topology: [architecture.md](architecture.md)
-- Component inventory: [modules.md](modules.md)
+- Components: [modules.md](modules.md)
 - Terminology: [concept_map.md](concept_map.md)
-- Implementation details: [patterns.md](patterns.md)
+- Conventions: [patterns.md](patterns.md)

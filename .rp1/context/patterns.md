@@ -8,92 +8,91 @@ strictness: strict
 ---
 # Implementation Patterns
 
-**Project**: ELRS Mobile (Flutter / Dart)
-**Last Updated**: 2026-09-22
+**Project**: ELRS Mobile (Flutter / Dart; Astro website)
+**Last Updated**: 2026-10-27 (commit 3e8eab5)
 
 ## Naming & Organization
 
-**Files**: `snake_case.dart`. Feature-first layout: `lib/src/features/<feature>/{domain,data,application,services,state,presentation,utils}` plus `lib/src/core/{networking,storage,theme,utils,analytics,presentation}`. Freezed (`*.freezed.dart`) and Riverpod codegen (`*.g.dart`) siblings via `part` directives.
-**Classes**: `PascalCase`, role-suffixed — `*Repository`, `*Service`, `*Controller`, `*ViewModel`, `*Utils`, `*Validator`.
-**Functions**: `lowerCamelCase`; verb-prefixed async methods (`fetchConfig`, `downloadFirmware`, `probeDevice`, `restartScan`). Private helpers underscore-prefixed (`_normalizeV3Config`, `_parseTargets`).
-**Imports**: relative within `lib/src` (`../../core/...`); `package:` for third-party. GPL-3.0 header block is **inconsistently applied**: present on ~16 of 55 non-generated core/feature files (networking, storage, most repositories, `legal_notice_screen.dart`), absent from most of the presentation/controller layer and domain models — treat as opportunistic, not a house rule, when auditing.
+**Files**: `snake_case.dart`; feature-first `lib/src/features/<feature>/{domain,data,application,services,state,presentation,utils}` (features: app_update, config, configurator, dashboard, firmware_manager, flashing, settings, splash, support) plus `lib/src/core/{networking,storage,analytics,utils,theme,presentation}`. Freezed / Riverpod siblings (`*.freezed.dart`, `*.g.dart`) via `part`.
+**Classes**: `PascalCase`, role-suffixed (`*Repository`, `*Service`, `*Controller`, `*ViewModel`, `*Utils`, `*Validator`).
+**Functions**: `lowerCamelCase`, verb-prefixed async (`fetchConfig`, `downloadFirmware`, `probeDevice`); private helpers `_underscored`; pure mappings as top-level functions (`chipFamilyOf`, `isExpectedRebootSocketDrop`).
+**Imports**: relative within `lib/src`; `package:` for third-party and in tests. GPL-3.0 header is opportunistic, not a house rule.
 
-Evidence: `lib/src/features/flashing/data/targets_repository.dart:1-14`, `lib/src/features/config/services/device_config_service.dart:13-21`
+Evidence: `lib/src/features/flashing/utils/chip_family.dart`, `lib/src/features/flashing/domain/flash_error.dart:1-12`
 
 ## Type & Data Modeling
 
-**Data representation**: immutable domain models via `@freezed` abstract classes with `const factory` + `fromJson`/`toJson`. `@Default(...)` on every optional field; `@JsonKey(name: 'snake_case')` maps wire names. Plain holders (`FirmwareData`) use a `const` constructor with `required` finals. Untyped device payloads stay as `Map<String, dynamic>`.
-**Type strictness**: standard `flutter_lints` (`analysis_options.yaml`), no extra strictness. Heavy explicit casts on decoded JSON (`as Map<String, dynamic>`, `as String`). `FrequencyValidator` uses `binary` package `Uint32`/`Uint16` wrappers for type-safe bit math.
-**Immutability**: Freezed models fully immutable; mutation is `state = state.copyWith(...)`. Config normalization copies maps (`Map<String, dynamic>.from(...)`) before mutating.
+- Immutable `@freezed` models: `const factory`, `fromJson`, `@Default` on optionals, `@JsonKey(name: 'snake_case')`.
+- Closed outcome sets use Dart 3 **sealed classes** with `final` subclasses (`FlashError`: NoTargetSelected, NoVersionSelected, NoDeviceConnected, NoBindPhrase, ChipMismatch, FlashUnconfirmed, OfflineMissingFiles, FlashFailed, DownloadFailed), each with a stable analytics `code` and optional verbatim `detail`.
+- Mutation via `state = state.copyWith(...)`; copy maps before mutating; `binary` package `Uint32`/`Uint16`/`Uint8.checkRange` for bit math and bounds.
 
-Evidence: `lib/src/features/flashing/domain/target_definition.dart:6-48`, `lib/src/features/config/utils/frequency_validator.dart:1-23`
+Evidence: `lib/src/features/flashing/domain/target_definition.dart`, `flash_error.dart`, `lib/src/features/config/utils/frequency_validator.dart`
 
 ## Error Handling
 
-**Strategy**: exception-based (no `Result`/`Either`). Repository/service methods wrap `try/catch` and rethrow `Exception('Failed to ...: $e')` with a contextual message; low-level cause appended via interpolation. Predicate probes (`probeDevice`) swallow errors and return `bool`.
-**Propagation**: catch at the data/service boundary, re-wrap, bubble to the controller which stores `errorMessage` in Freezed state. `rethrow` when the caller needs the original type (`DioException`). Tiered fallback on failure (network -> cache -> bundled asset).
-**Expected-error-as-success**: `DioException`s matching known connection-drop fragments after `/update`, `/forceupdate`, `/reboot` are treated as success (the device reboots and severs Wi-Fi). This predicate was de-duplicated this cycle into a shared `isExpectedRebootSocketDrop(DioException)` helper (`lib/src/core/networking/expected_reboot_drop.dart`), replacing two copies that had drifted independently in `DeviceRepository` and `DeviceConfigService` — prefer this shared module over re-inlining the fragment list when adding new reboot-adjacent calls.
-**Firmware-version-gated endpoint fallback** (new): probe/fetch the modern device endpoint first, catch its specific failure mode (404/`DioException`), and reconstruct equivalent data from legacy endpoints known to exist on older firmware, rather than failing outright — `DeviceConfigService.probeDeviceHead`/`fetchConfig` fall back to `probeDevice`/`_fetchLegacyConfig` for pre-3.1.0/3.2.x firmware. Mirrored in `FlashingController`'s mismatch-recovery flow: try the fast/direct operation (`confirmForceUpdate()`) first, catch and fall back to the slower path (re-upload-then-confirm) only on failure.
+**Strategy**: exceptions at the data layer (no Result/Either); repositories rethrow `Exception('Failed to ...: $e')`. Controllers convert failures into typed `FlashError` state; screens localize via `flash_error_text.dart`, keeping device/network text untranslated in `detail`. Probes swallow errors and return `bool`.
+**Confirm-by-reply**: a flash succeeds only when the device JSON `status == 'ok'` (non-status replies from very old firmware = success). Mid-upload drop = failure; drop after the last byte with no reply (`uploadComplete && isExpectedRebootSocketDrop`) = `FlashUnconfirmedException`. `isExpectedRebootSocketDrop` classifies; it never implies success.
+**Force flash**: re-upload with `?force=1`; call `confirmForceUpdate()` only if the device still replies `mismatch`.
+**Guards fail fast**: no device, chip mismatch (hard block), empty bind phrase (prompt), product mismatch (forceable) are checked before any upload.
+**Fallbacks**: tiered network → cache → bundled asset; firmware-version-gated endpoint fallback (`/config` → `/target` + `/mode.json`; `/hardware.json` → `/`), with inline comments naming the firmware range.
 
-Evidence: `lib/src/features/flashing/data/targets_repository.dart:16-53`, `lib/src/features/config/services/device_config_service.dart:174-209`
+Evidence: `lib/src/features/flashing/data/device_repository.dart`, `presentation/flashing_controller.dart:720-880`, `lib/src/features/config/services/device_config_service.dart`
 
 ## Validation & Boundaries
 
-**Location**: two layers — form-input validation in `*Utils`/`*Validator` static methods returning `String?` (null = valid, Flutter `FormField` convention); and defensive runtime normalization of external device JSON before model parsing.
-**Method**: manual length/range checks (`ValidationUtils.validateSsid`/`validatePassword`). Firmware-version schema drift handled by hand-written normalizers that hoist/rename keys (V3 `settings` block, `reg_domain` -> `domain`, `vbind` bool/string -> int) so the Freezed model sees one shape. Hardware-safety asserts throw (`FrequencyValidator`). New: firmware-version compatibility shims reconstruct a full `RuntimeConfig`-shaped map from older device endpoints (`/target` + best-effort `/mode.json`) when the modern `/config` endpoint 404s, documented inline with the firmware-version range each fallback targets.
-
-Evidence: `lib/src/core/utils/validation_utils.dart:1-27`, `lib/src/features/config/services/device_config_service.dart:60-98,211-295`
+- Form validation in static `*Utils` / `*Validator` returning `String?` (null = valid): `ValidationUtils` (SSID ≤ 32, password 8–63).
+- External device JSON normalized by hand before Freezed parsing (V3 `settings` hoist, `reg_domain` → `domain`, `vbind` coercion).
+- Hardware-safety checks throw (`FrequencyValidator`) or block (`ChipMismatch`); options JSON values sanitized (trim, strip NUL).
 
 ## Observability
 
-**Logging**: `package:logging` throughout — one `static final _log = Logger('ClassName')` per class; levels info/warning/severe. Services log request URLs, byte counts, fallback transitions, and suppressed "expected" errors. `debugPrint` is **not** confined to `AnalyticsService` — also used in `main.dart`, `flashing_controller.dart`, `device_settings_screen.dart`, and `lua_export_utils.dart` (5 files, 16 call sites), typically for early-bootstrap or dev-only diagnostics before/outside the `Logger` lifecycle; `Logger`-based logging remains the dominant convention elsewhere.
-**Metrics**: product analytics via Aptabase (`AnalyticsService.trackEvent`), gated on the `shareAnalytics` opt-in with lazy init; failures logged and dropped, never thrown. No app performance metrics.
-**Tracing / crash reporting**: Sentry (`sentry_flutter`) — `SentryWidgetsFlutterBinding` in `main.dart`, `Sentry.init()` after first frame when `--dart-define SENTRY_DSN` is set (opt-in; 50% sample rate; benign socket errors filtered). Log records piped to `Sentry.addBreadcrumb`; `Stm32FirmwarePatcher` / `FirmwareAssembler` report bounds-check violations. No request/correlation IDs.
+- **Logging**: `package:logging`, one `static final _log = Logger('ClassName')` per class; info/warning/severe; logs URLs, byte counts, fallbacks. Never log binding phrases, SSIDs or passwords (logs become Sentry breadcrumbs). `debugPrint` remains in 5 files for bootstrap diagnostics.
+- **Analytics**: `AnalyticsService.trackEvent` (Aptabase), gated by `shareAnalytics` which **defaults to true** (opt-out). Events: Firmware Downloaded / Flashed (target, version), Firmware Download / Flash Error (errorType = `FlashError.code`, error text), Config Webview Opened. Failures dropped silently.
+- **Crash reporting**: Sentry starts whenever `SENTRY_DSN` is compiled in; not gated by the analytics toggle; 50 % sample; socket errors filtered in `beforeSend`. Manual debug reports add tags (app version, Expert Mode, domains, whether home SSID is set).
+- Keep the website privacy policy (`website/src/components/PrivacyPage.astro`, `privacy.*` strings) in sync with any telemetry change.
 
-Evidence: `lib/main.dart:20-45`, `lib/src/core/analytics/analytics_service.dart:13-50`, `lib/src/features/flashing/utils/stm32_firmware_patcher.dart`
+Evidence: `lib/main.dart:36-90`, `lib/src/core/analytics/analytics_service.dart`, `settings_controller.dart:73`
 
 ## Testing Idioms
 
-**Organization**: minimal — a single `test/localization_overflow_test.dart`, not mirroring `lib/`. No unit tests for repositories/services/assembler.
-**Fixtures**: hand-written `Mock*` classes (`MockConfigViewModel`, `MockFirmwareCacheService`) injected via `ProviderScope(overrides: [provider.overrideWith(...)])`. No mockito/mocktail.
-**Levels**: widget tests only — `testWidgets` + `tester.runAsync`, a parametrized loop over `AppLocalizations.supportedLocales` with a small forced `tester.view.physicalSize` to catch layout overflow.
+- Flat `test/` (8 files) named by subject. Pure unit tests for mappings/services (chip family, error text via `lookupAppLocalizations(Locale('en'))`, update service, secure-storage upgrade) and widget tests (`testWidgets`, overflow loop over `AppLocalizations.supportedLocales` at a small forced `physicalSize`).
+- Hand-written fakes injected via `ProviderScope(overrides: ...)`; no mockito/mocktail.
+- Repo-lint tests: `l10n_hygiene_test.dart` fails on hard-coded UI text or unused ARB keys.
+- Gaps: no tests for repositories, `FirmwareAssembler`, patchers.
 
-Evidence: `test/localization_overflow_test.dart:1-60`
+## UI Status & Localization
 
-## UI Status Labeling
-
-Status-driven UI text is localized via `AppLocalizations.of(context)!`, never hardcoded English or raw enum names — a `switch` over the status enum maps each value to an ARB-defined string (e.g. `flashing_screen.dart:310+` maps `FlashingStatus.{locating,unpacking,downloading,building,uploading,finalizing}` to per-phase localized labels). `FlashingStatus` was reworked this cycle from a coarse enum into these granular phases specifically so progress text reflects the real operation; follow the same enum-plus-switch-plus-ARB-key shape for new multi-phase async flows rather than interpolating English strings.
-
-Evidence: `lib/src/features/flashing/presentation/flashing_controller.dart:36-47`, `lib/src/features/flashing/presentation/flashing_screen.dart:297,310-326`
+- Every UI string comes from `AppLocalizations.of(context)!`; add strings to `app_en.arb` only, translations run by manual workflow.
+- Multi-phase async flows: enum + `switch` + ARB key (`FlashingStatus` locating/unpacking/downloading/building/uploading/finalizing). Label real phases; never call cache reads "downloading" (offline-first).
+- Typed errors map to text in one place (`flash_error_text.dart`, `firmware_manager_error.dart`).
 
 ## I/O & Integration
 
-**Storage**: no SQL DB. `SharedPreferences` for non-sensitive prefs + one-time migration flags; `FlutterSecureStorage` (bumped `^9.2.2` -> `^10.3.4`, on Android now `AndroidOptions()` defaults rather than an explicit `encryptedSharedPreferences: true` flag — cipher migration in progress) for bind phrase, Wi-Fi creds, and the JSON-encoded `FlashingProfile` list. `PersistenceService` owns all key constants (`static const _keyXxx`) and runs `migrateIfNeeded()` at provider creation. Firmware/targets archives cached on disk via `FirmwareCacheService`.
-**HTTP clients**: Dio, two injected instances — `internetDioProvider` for public endpoints, `localDioProvider` for the LAN device (`http://<ip>/`). Short (~2 s) `sendTimeout`/`receiveTimeout` for device probes; `responseType: bytes`/`plain` for downloads; `CancelToken` threaded through device calls. Large JSON parsed off-isolate via `compute(_parseTargets, ...)`. External hosts hardcoded (`artifactory.expresslrs.org`, `raw.githubusercontent.com`). Device-endpoint comments now document exactly which firmware versions serve which endpoint (`/hardware.json` 3.2.x+, `/config` since 3.1.0, `/target`+`/mode.json` pre-3.1.0).
-**Resilience**: tiered fallback (network -> on-disk cache -> bundled asset); forced `Content-Length` to bypass chunked upload encoding on flash.
-
-Evidence: `lib/src/core/storage/persistence_service.dart:9-70,148-157`, `lib/src/features/flashing/data/firmware_repository.dart:35-98`
+- **Storage**: no SQL. `SharedPreferences` for non-sensitive prefs + flags; `FlutterSecureStorage` ^11 for profiles, active profile, bind phrase, Wi-Fi creds. `PersistenceService` owns key constants (`static const _keyXxx`) and migrations; `secure_storage_data_lost` drives a one-time reset notice.
+- **HTTP**: two Dio instances, `internetDioProvider` and `localDioProvider` (`http://<ip>/`, ~2 s probe timeouts, `CancelToken`, `SequentialRequestInterceptor`). Uploads force `Content-Length` + `X-FileSize`, 120 s timeouts. Hosts hard-coded: `artifactory.expresslrs.org`, `raw.githubusercontent.com`, `cdn.elrsmobile.com/latest.json`.
+- **Build flavors**: `String.fromEnvironment('DISTRIBUTION') == 'direct'` → `kIsDirectDistribution` gates update UI; `SENTRY_DSN` gates Sentry. Store builds omit both update UI and the update fetch.
 
 ## Concurrency & Async
 
-**Async usage**: `async`/`await` pervasive in data/service/controller layers; UI reactive via Riverpod. Streams for discovery — `StreamController<String?>.broadcast()` exposing `targetIpStream`. Isolates via `compute` for CPU-bound JSON flattening.
-**Serialization**: manual operation queueing to avoid socket races — `DiscoveryService._runOperation` chains a `Completer`-backed `_pendingOperation` future so start/stop/restart scans run strictly sequentially; teardown fully awaited before clearing `_isScanning` (UDP 5353 rebind guard). `SequentialRequestInterceptor` serializes all device HTTP (ESP8285 crashes under concurrency).
-**Safety**: guard clauses check connectivity / `isFlashing` before acting. Expected transport drops (`ECONNRESET`/`EPIPE` on reboot, mDNS `SocketException`) matched and swallowed.
-
-Evidence: `lib/src/core/networking/discovery_service.dart:57-171`, `lib/src/core/networking/device_dio.dart`
+- `async`/`await` throughout; Riverpod for reactivity; `StreamController.broadcast()` for `targetIpStream`; `compute()` for large JSON.
+- `DiscoveryService._runOperation` chains a `Completer`-backed `_pendingOperation` so scans start/stop strictly in order (UDP 5353 rebind guard).
+- During flash: `isFlashing` lock pauses discovery/heartbeat, wakelock on, portrait lock; unbind for downloads, rebind before upload.
 
 ## Dependency & Configuration
 
-**DI pattern**: `riverpod_annotation` codegen exclusively (~22 provider files). Function providers (`@riverpod X xRepository(Ref ref)`) build services from other providers via `ref.watch`; stateful controllers are `@Riverpod(keepAlive: true) class Xxx extends _$Xxx` with `build()` returning initial state and mutation methods calling `ref.read(...)`. Services take collaborators as positional constructor args; providers do the wiring. `keepAlive: true` for app-lifetime singletons (discovery, analytics, `targetIp`, `isFlashing`).
-**Config loading**: no config files / env files. Constants inline as `static const` (Aptabase app id, Artifactory URLs, storage keys, default domains). Build-time values via `String.fromEnvironment` (`SENTRY_DSN`). User settings via `SettingsController`; secrets in `FlutterSecureStorage`.
-**Initialization**: `ProviderContainer` created pre-`runApp` in `main.dart`; `UncontrolledProviderScope` wraps `App`; post-first-frame bootstrap (`autoBindIfWiFi`, `loadSettings`, `Sentry.init`).
-
-Evidence: `lib/src/features/flashing/data/firmware_repository.dart:214-218`, `lib/src/core/networking/connection_repository.dart:18-33`
+- `riverpod_annotation` codegen only: function providers wire collaborators via `ref.watch`; stateful controllers are `@Riverpod(keepAlive: true) class X extends _$X`. `keepAlive` for app-lifetime singletons.
+- No env files; inline `static const`; build-time `--dart-define` (`SENTRY_DSN`, `DISTRIBUTION`; `dart_defines/local.json` for local runs).
+- `ProviderContainer` built before `runApp`; post-first-frame bootstrap.
 
 ## Code Generation
 
-`build_runner` pipeline: `freezed`, `json_serializable`, `riverpod_generator`; `*.freezed.dart` / `*.g.dart` committed. `pubspec.yaml` `flutter: generate: true`; `l10n.yaml` + `arb_translate` generate `AppLocalizations` and machine-translate ARB files in CI.
+`build_runner` (freezed, json_serializable, riverpod_generator), outputs committed; `flutter gen-l10n` from `l10n.yaml`, verified in CI.
 
-## Hygiene: Dead Code
+## Website Conventions (`website/`)
 
-A broad dead-code sweep landed this cycle (whole `features/updates/` module, `DeviceEditorViewModel`, `ConnectionStatusBadge`, `discovery_provider.dart`, `unified_firmware_builder.dart`, three unused barrel `index.dart` files, the unwired vendored `packages/ip_address_keypad/`, several dead methods). Treat this as a completed cleanup pass, not an ongoing problem signal — re-audit for new accumulation rather than assuming the codebase still carries this debt.
+- One home per fact: `src/config/locales.json`, `site.ts` (URLs/IDs), `docs.json` (sidebar + translate flag), `src/i18n/ui.json` via `useTranslations`/`format`/`formatAtLeast`; landing content in `src/data/landing.ts`; generated data in `src/data/` from scripts.
+- All pages through Starlight (`StarlightPage` + overrides); Tailwind palette in `tailwind.config.mjs` feeds Starlight; analytics via `data-track` attributes; never execute `translate_astro.cjs` to test it (`node --check`).
+
+## Hygiene
+
+Dead-code sweeps are complete; `features/app_update` is new and live. Re-audit for new accumulation rather than assuming debt.
