@@ -176,6 +176,24 @@ Each phase is one commit that builds and could ship on its own.
       Starlight override (`src/components/starlight/Hero.astro`) so stats and beta
       links sit under the CTAs; the `.hero` CSS overrides were removed.
 
+### Docs refresh for v1.0.45 (added 2026-10-27, before Phase 7)
+- [x] User Guide rewritten against the current app: install options incl. direct
+      APK + update check, 3.3.0+ firmware floor, auto target selection, flash
+      phases, safety checks (chip block, target mismatch/Force Flash, no binding
+      phrase, unconfirmed flash), profiles, Device Config, Settings map, Expert Mode,
+      troubleshooting. Starlight asides replace hand-written HTML blocks; the
+      duplicate "Overview" TOC entry is gone.
+- [x] Developer docs (English-only) rewritten and verified against code: setup,
+      codegen, `--dart-define` options (`SENTRY_DSN`, `DISTRIBUTION=direct`),
+      project structure, tests/CI, releases; real device endpoints; current
+      force-flash (`?force=1`, then `/forceupdate`) and success/unconfirmed
+      semantics; persistence split; firmware validation workflow.
+- Note: the rp1 knowledge base (2026-09-22) is stale on force flash, flash-result
+  handling and `app_update`; the docs follow the code.
+- OPEN (owner decision): Aptabase `shareAnalytics` defaults to `true` and Sentry is
+  not gated by the toggle, but the privacy policy says analytics are off by
+  default. Docs avoid stating a default until this is resolved.
+
 ### Phase 7 — Translation and verification
 - [ ] Manually dispatch translation workflow for new strings.
 - [ ] Verify against baseline: routes preserved, page weight, `hreflang` and

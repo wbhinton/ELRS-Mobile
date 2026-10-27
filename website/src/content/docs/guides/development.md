@@ -6,112 +6,107 @@ sidebar:
   order: 2
 ---
 
-Welcome to the ELRS Mobile development guide! This project is a native Flutter implementation of the ExpressLRS compilation and flashing pipeline, designed to work entirely offline.
+ELRS Mobile is a Flutter app that reimplements the ExpressLRS firmware build and flashing pipeline in Dart so it runs entirely on the phone, offline. This guide covers setting up, running, testing and releasing it.
 
 ## Prerequisites
-To contribute to this project, you will need the following tools installed:
 
-<div class="flex flex-wrap gap-2 my-6">
-  <span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold transition-all hover:bg-primary/20">Flutter SDK (Stable)</span>
-  <span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold transition-all hover:bg-primary/20">Dart SDK</span>
-  <span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold transition-all hover:bg-primary/20">Python 3.x</span>
-  <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-text-muted text-xs font-bold transition-all hover:bg-white/10">Cocoapods (iOS/macOS)</span>
-</div>
+- **Flutter** (stable channel, Dart 3.11 or newer)
+- **Android SDK** for Android builds; **Xcode and CocoaPods** on a Mac for iOS and macOS
+- **Python 3** for the firmware validation tools and changelog script
+- **Node.js 22** if you work on the website (`website/`)
 
----
+## Getting started
 
-## Getting Started
+```bash
+git clone https://github.com/wbhinton/ELRS-Mobile.git
+cd ELRS-Mobile
+flutter pub get
+flutter run
+```
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/wbhinton/ELRS-Mobile.git
-   cd ELRS-Mobile
-   ```
+Generated code (`*.g.dart`, `*.freezed.dart`) and localizations are committed, so a fresh clone runs without a code-generation step. After editing a Freezed model, a JSON-serializable class or a `@riverpod` provider, regenerate:
 
-2. **Install dependencies**:
-   ```bash
-   flutter pub get
-   ```
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
 
-3. **Run the application**:
-   ```bash
-   # For Android
-   flutter run
-   
-   # For iOS (requires a Mac and physical device/simulator)
-   flutter run
-   ```
+After editing `lib/l10n/app_en.arb`, regenerate the localization classes:
 
----
+```bash
+flutter gen-l10n
+```
 
-## Project Architecture
-The codebase follows a feature-first structure located in `lib/src/`.
+### Build-time options
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 my-8">
-  <div class="p-6 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm shadow-xl">
-    <h3 class="text-lg font-bold text-white mb-5 flex items-center gap-3">
-      <div class="p-1.5 rounded-lg bg-primary/10 text-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M216,72H131.31L104,44.69A15.86,15.86,0,0,0,92.69,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72Zm0,128H40V56H92.69l27.31,27.31A15.86,15.86,0,0,0,131.31,88H216Z"></path></svg>
-      </div>
-      Features
-    </h3>
-    <ul class="space-y-4 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex flex-col gap-1">
-        <span class="font-bold text-white/90">flashing/</span>
-        <span class="text-xs text-text-muted/70">The core logic and UI for the flashing pipeline.</span>
-      </li>
-      <li class="flex flex-col gap-1">
-        <span class="font-bold text-white/90">firmware_manager/</span>
-        <span class="text-xs text-text-muted/70">Handles downloading and caching firmware from the artifactory.</span>
-      </li>
-      <li class="flex flex-col gap-1">
-        <span class="font-bold text-white/90">configurator/</span>
-        <span class="text-xs text-text-muted/70">UI for setting user options like Binding Phrases and WiFi.</span>
-      </li>
-    </ul>
-  </div>
-  <div class="p-6 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm shadow-xl">
-    <h3 class="text-lg font-bold text-white mb-5 flex items-center gap-3">
-      <div class="p-1.5 rounded-lg bg-primary/10 text-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path></svg>
-      </div>
-      Core
-    </h3>
-    <ul class="space-y-4 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex flex-col gap-1">
-        <span class="font-bold text-white/90">networking/</span>
-        <span class="text-xs text-text-muted/70">Platform-specific logic for process-binding to hardware hotspots.</span>
-      </li>
-      <li class="flex flex-col gap-1">
-        <span class="font-bold text-white/90">storage/</span>
-        <span class="text-xs text-text-muted/70">Local cache management and SQLite persistence.</span>
-      </li>
-      <li class="flex flex-col gap-1">
-        <span class="font-bold text-white/90">analytics/</span>
-        <span class="text-xs text-text-muted/70">Privacy-first observability (Sentry and Aptabase).</span>
-      </li>
-    </ul>
-  </div>
-</div>
+Two values are read with `--dart-define` at build time:
+
+| Define | Effect |
+| :--- | :--- |
+| `SENTRY_DSN` | Enables crash reporting. Without it, Sentry stays off. |
+| `DISTRIBUTION=direct` | Marks the direct-download APK: enables the daily update check and **Settings → Check for Updates**. Store builds omit it, since the stores handle updates. |
+
+For local runs, copy `dart_defines/local.json.example` to `dart_defines/local.json` and pass it with `flutter run --dart-define-from-file=dart_defines/local.json`.
 
 ---
 
-## State Management
-We utilize **Riverpod** for global state management and **Flutter Hooks** for local widget-level state. This combination ensures a highly reactive UI without the boilerplate of standard `StatefulWidgets`.
+## Project structure
+
+The app follows a feature-first layout under `lib/src/`. Each feature is a vertical slice with its own `domain`, `data`, `application` or `state`, and `presentation` folders as needed; shared infrastructure lives in `core/`.
+
+| Folder | Responsibility |
+| :--- | :--- |
+| `features/flashing/` | The core pipeline: target and version selection, firmware download and caching, on-device assembly, upload, and the safety checks (chip, target, binding phrase) |
+| `features/config/` | Reads the connected device's configuration, including fallbacks for firmware older than 3.1 |
+| `features/configurator/` | Hosts the device's own web configuration page in a locked WebView |
+| `features/firmware_manager/` | Downloads, lists and deletes cached firmware versions |
+| `features/dashboard/` | Home screen: connection status and navigation |
+| `features/settings/` | Flashing profiles, regulatory defaults, storage, language, analytics, Expert Mode |
+| `features/app_update/` | Update check for the direct-download APK |
+| `features/support/`, `features/splash/` | Help, FAQ and recovery content; startup screen |
+| `core/networking/` | mDNS discovery, connectivity, the serialized device HTTP client, Android Wi-Fi process binding |
+| `core/storage/` | Preferences, encrypted secure storage, and the on-disk firmware cache |
+| `core/analytics/` | Opt-in Aptabase usage analytics |
+| `core/theme/`, `core/presentation/`, `core/utils/` | Theme, responsive layout, binding-phrase UID and validation helpers |
+
+Routing uses `go_router` (`lib/src/router.dart`).
+
+## State management
+
+State and dependency injection use **Riverpod** with code generation (`@riverpod` / `@Riverpod(keepAlive: true)`). Most screens are `HookConsumerWidget`s, using **Flutter Hooks** for local widget state. Domain models are immutable **Freezed** classes.
+
+## Localization
+
+All user-visible text lives in ARB files under `lib/l10n/`, with `app_en.arb` as the source. The app ships in 18 languages. Never hard-code UI text: `test/l10n_hygiene_test.dart` fails on hard-coded strings and on unused ARB keys. Add new strings in English only; translations are machine-generated by a manually triggered workflow (`.github/workflows/translate.yml`) so translation spend stays under direct control.
+
+## Testing
+
+```bash
+flutter analyze
+flutter test
+```
+
+The tests in `test/` cover chip compatibility, flash error messages, the update check, the secure-storage upgrade, and localization (hygiene, message formatting, and layout overflow in every locale). CI (`.github/workflows/ci.yml`) runs `flutter analyze`, `flutter test`, and checks that generated localizations are up to date on every push to `development` and every pull request.
+
+To verify firmware assembly against official binaries, see [Firmware Validation](/firmware-validation).
+
+## Releases
+
+`.github/workflows/release.yml` runs on a `v*` tag or manual dispatch and builds:
+
+- the direct-download APK (`DISTRIBUTION=direct`), published to GitHub Releases and mirrored to `cdn.elrsmobile.com`;
+- the Android App Bundle for Google Play;
+- the iOS build for the App Store.
+
+The changelog is generated with `python3 scripts/generate_changelog.py`.
+
+## Website
+
+The website and these docs live in `website/` (Astro and Starlight). See `website/README.md` for where content lives and how to update it.
 
 ---
 
-## Deep Dives
+## Deep dives
 
-For more detailed technical information, please refer to the following guides:
-
-- [**Technical Architecture**](/technical_architecture): A deep dive into the `FirmwareAssembler` and the native networking stack.
-- [**Firmware Validation**](/firmware-validation): How to use the Dart and Python tools to verify binary integrity.
-
----
-
-## Note on JSON Minification
-
-When auditing binaries, you may notice slight byte-offsets compared to the standard Python Configurator. This is due to **JSON minification**. 
-
-The Python Configurator often injects spaces after colons (e.g., `{"uid": [1,2,3]}`), while ELRS Mobile generates dense JSON (e.g., `{"uid":[1,2,3]}`). Both are functionally identical on hardware, as the ESP32's internal parser ignores this whitespace.
+- [**Technical Architecture**](/technical_architecture): firmware assembly, the flashing pipeline, and the networking stack.
+- [**Technical Specification**](/technical_spec): device endpoints, data models and persistence.
+- [**Firmware Validation**](/firmware-validation): tools for verifying binary integrity.
