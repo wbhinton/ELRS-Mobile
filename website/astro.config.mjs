@@ -5,6 +5,8 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import localeConfig from './src/config/locales.json' with { type: 'json' };
 import { analyticsId, links } from './src/config/site.ts';
+import docsConfig from './src/config/docs.json' with { type: 'json' };
+import ui from './src/i18n/ui.json' with { type: 'json' };
 
 const starlightLocales = Object.fromEntries(
   Object.entries(localeConfig.locales).map(([lang, label]) => [
@@ -12,6 +14,17 @@ const starlightLocales = Object.fromEntries(
     { label, lang },
   ]),
 );
+
+// Sidebar groups from src/config/docs.json, labels translated from ui.json.
+const sidebar = docsConfig.groups.map((group) => ({
+  label: ui.en[group.label],
+  translations: Object.fromEntries(
+    Object.keys(localeConfig.locales)
+      .filter((lang) => lang !== localeConfig.defaultLocale && ui[lang]?.[group.label])
+      .map((lang) => [lang, ui[lang][group.label]]),
+  ),
+  items: group.slugs.map((slug) => ({ slug })),
+}));
 
 const site = 'https://elrsmobile.com';
 const ogImage = `${site}/images/og-image.png`;
@@ -76,12 +89,7 @@ export default defineConfig({
         },
       ],
       customCss: ['./src/styles/tailwind.css', './src/styles/custom.css'],
-      sidebar: [
-        {
-          label: 'Guides',
-          autogenerate: { directory: 'guides' },
-        },
-      ],
+      sidebar,
     }),
     sitemap(),
   ],

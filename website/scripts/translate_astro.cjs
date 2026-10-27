@@ -12,6 +12,8 @@ if (!apiKey) {
 
 const localeConfig = require('../src/config/locales.json');
 const targetLocales = Object.keys(localeConfig.locales).filter((l) => l !== localeConfig.defaultLocale);
+const docsConfig = require('../src/config/docs.json');
+const untranslatedSlugs = new Set(docsConfig.groups.filter((g) => !g.translate).flatMap((g) => g.slugs));
 
 // Marker used to translate a doc's title and body in a single request, then
 // split the response back apart — halves the API calls per file per locale.
@@ -180,6 +182,13 @@ async function translateDocs() {
       continue;
     }
     const englishTitle = titleMatch[1].replace(/['"]/g, '').trim();
+
+    // Docs in groups marked `translate: false` (developer docs) stay English-only.
+    const slugMatch = rawYaml.match(/^slug:\s*(.+)$/m);
+    if (slugMatch && untranslatedSlugs.has(slugMatch[1].trim())) {
+      console.log(`Skipping English-only doc: ${file}`);
+      continue;
+    }
 
     // Hash source content to detect changes
     const sourceHash = crypto.createHash('md5').update(content).digest('hex');

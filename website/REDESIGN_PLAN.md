@@ -144,11 +144,18 @@ Each phase is one commit that builds and could ship on its own.
   the changed English source.
 
 ### Phase 5 — Docs information architecture
-- [ ] Sidebar groups by slug (no file moves): "Using ELRS Mobile" (user_guide,
+- [x] Sidebar groups by slug (no file moves): "Using ELRS Mobile" (user_guide,
       supported_hardware) and "Developers" (development, technical_spec,
       technical_architecture, firmware-validation).
-- [ ] Delete translated developer docs; Starlight falls back to English.
-- [ ] Translation script: read `locales.json`, skip developer docs, handle `.mdx`.
+- [x] Delete translated developer docs; Starlight falls back to English.
+- [x] Translation script: read `locales.json`, skip developer docs, handle `.mdx`.
+- Notes: grouping lives in `src/config/docs.json` (one place for sidebar order and
+  whether a doc is translated); group labels come from `ui.json`. Routes unchanged
+  (145): Starlight serves English fallbacks with a "not available in your language"
+  notice at `/<lang>/development` etc.
+- Optional follow-up: the User Guide's own `## Overview` heading duplicates
+  Starlight's automatic "Overview" TOC entry. Renaming it changes the English
+  source hash, so do it before the Phase 7 translation run if at all.
 
 ### Phase 6 — Cleanup and guardrails
 - [ ] Remove dead CSS (`.hero-gradient`, `.astro-4yphtoen` hack), unused assets,

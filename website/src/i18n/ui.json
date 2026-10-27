@@ -136,7 +136,9 @@
     "hardware.filter_placeholder": "Search by name or brand",
     "hardware.band_dual": "Dual band",
     "hardware.no_match": "No devices match your search.",
-    "hardware.summary": "{devices} devices from {brands} brands, {verified} verified."
+    "hardware.summary": "{devices} devices from {brands} brands, {verified} verified.",
+    "sidebar.using": "Using ELRS Mobile",
+    "sidebar.developers": "Developers"
   },
   "de": {
     "nav.hardware": "Hardware",
