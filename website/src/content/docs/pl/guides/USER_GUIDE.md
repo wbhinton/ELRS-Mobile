@@ -107,6 +107,6 @@ W menu Ustawienia użytkownicy mogą włączyć **Expert Mode**. Pozwala to na z
   </p>
 </div>
 
-Dla programistów, którzy chcą zweryfikować integralność tych plików binarnych, zobacz nasz [**Przewodnik walidacji firmware**](/guides/firmware-validation).
+Dla programistów, którzy chcą zweryfikować integralność tych plików binarnych, zobacz nasz [**Przewodnik walidacji firmware**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

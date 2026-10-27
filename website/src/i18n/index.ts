@@ -34,3 +34,10 @@ export function format(template: string, values: Record<string, string | number>
 export function formatNumber(lang: string, value: number): string {
 	return new Intl.NumberFormat(lang).format(value);
 }
+
+/** Rounds down to a stable public figure, e.g. 38,422 -> "38,000+". */
+export function formatAtLeast(lang: string, value: number): string {
+	const step = value >= 10_000 ? 1000 : value >= 1000 ? 100 : 1;
+	const rounded = Math.floor(value / step) * step;
+	return rounded < value ? `${formatNumber(lang, rounded)}+` : formatNumber(lang, rounded);
+}

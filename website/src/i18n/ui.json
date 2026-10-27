@@ -8,6 +8,8 @@
     "hero.title": "The Field-Ready ExpressLRS Tool. No Laptop Required.",
     "hero.subtitle": "Flash V3.3.x and V4.x Firmware via Wi-Fi directly from your iOS or Android device.",
     "hero.image_alt": "ELRS Mobile dashboard showing a connected ExpressLRS receiver",
+    "hero.stat_installs": "Installed on {count} devices",
+    "hero.stat_flashes": "{count} successful flashes",
     "hero.google_play": "Get it on Google Play",
     "hero.app_store": "Download on App Store",
     "hero.github": "Project GitHub",

@@ -107,6 +107,6 @@ Dans le menu Paramètres, les utilisateurs peuvent activer le **Mode Expert**. C
   </p>
 </div>
 
-Pour les développeurs souhaitant vérifier l'intégrité de ces binaires, consultez notre [**Guide de validation du firmware**](/guides/firmware-validation).
+Pour les développeurs souhaitant vérifier l'intégrité de ces binaires, consultez notre [**Guide de validation du firmware**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

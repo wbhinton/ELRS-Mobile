@@ -107,6 +107,6 @@ sidebar:
   </p>
 </div>
 
-希望验证这些二进制文件完整性的开发者，请参阅我们的 [**固件验证指南**](/guides/firmware-validation)。
+希望验证这些二进制文件完整性的开发者，请参阅我们的 [**固件验证指南**](/firmware-validation)。
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

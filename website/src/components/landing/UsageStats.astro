@@ -1,0 +1,32 @@
+---
+// Social-proof line under the hero CTAs. Installs: src/data/usage.json (edit by
+// hand from analytics); flashes: src/data/verified.json (scripts/build_verified.py).
+import usage from '../../data/usage.json';
+import { hardwareStats } from '../../data/hardware';
+import { useTranslations, formatAtLeast, type UIKey } from '../../i18n';
+
+interface Props {
+	lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const stats: { key: UIKey; value: number }[] = [
+	{ key: 'hero.stat_installs', value: usage.installs },
+	{ key: 'hero.stat_flashes', value: hardwareStats.flashes },
+];
+---
+
+<ul class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-1 list-none p-0 m-0 text-text-muted">
+	{
+		stats.map(({ key, value }) => {
+			const [before, after] = t(key).split('{count}');
+			return (
+				<li>
+					{before}<strong class="text-white">{formatAtLeast(lang, value)}</strong>{after}
+				</li>
+			);
+		})
+	}
+</ul>

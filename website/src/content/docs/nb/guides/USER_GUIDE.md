@@ -109,7 +109,7 @@ Innenfor Innstillinger-menyen kan brukere aktivere **Ekspertmodus**. Dette lar d
   </p>
 </div>
 
-For utviklere som ønsker å verifisere integriteten til disse binærfilene, se vår [**Firmware Valideringsguide**](/guides/firmware-validation).
+For utviklere som ønsker å verifisere integriteten til disse binærfilene, se vår [**Firmware Valideringsguide**](/firmware-validation).
 ```
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

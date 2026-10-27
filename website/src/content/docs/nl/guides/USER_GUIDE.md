@@ -107,6 +107,6 @@ Binnen het menu Instellingen kunnen gebruikers de **Expert Mode** inschakelen. H
   </p>
 </div>
 
-Voor ontwikkelaars die de integriteit van deze binaries willen verifiëren, zie onze [**Firmware Validatie Gids**](/guides/firmware-validation).
+Voor ontwikkelaars die de integriteit van deze binaries willen verifiëren, zie onze [**Firmware Validatie Gids**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

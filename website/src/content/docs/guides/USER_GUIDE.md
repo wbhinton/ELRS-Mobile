@@ -108,4 +108,4 @@ Within the Settings menu, users can enable **Expert Mode**. This allows you to s
   </p>
 </div>
 
-For developers looking to verify the integrity of these binaries, see our [**Firmware Validation Guide**](/guides/firmware-validation).
+For developers looking to verify the integrity of these binaries, see our [**Firmware Validation Guide**](/firmware-validation).

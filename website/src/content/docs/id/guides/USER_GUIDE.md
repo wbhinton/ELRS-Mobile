@@ -109,6 +109,6 @@ Di dalam menu Pengaturan, pengguna dapat mengaktifkan **Mode Ahli**. Ini memungk
   </p>
 </div>
 
-Untuk pengembang yang ingin memverifikasi integritas binary ini, lihat [**Panduan Validasi Firmware**](/guides/firmware-validation) kami.
+Untuk pengembang yang ingin memverifikasi integritas binary ini, lihat [**Panduan Validasi Firmware**](/firmware-validation) kami.
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

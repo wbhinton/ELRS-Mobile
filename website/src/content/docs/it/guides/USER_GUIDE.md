@@ -107,6 +107,6 @@ All'interno del menu Impostazioni, gli utenti possono abilitare la **Modalità E
   </p>
 </div>
 
-Per gli sviluppatori che desiderano verificare l'integrità di questi binari, consulta la nostra [**Guida alla Validazione del Firmware**](/guides/firmware-validation).
+Per gli sviluppatori che desiderano verificare l'integrità di questi binari, consulta la nostra [**Guida alla Validazione del Firmware**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

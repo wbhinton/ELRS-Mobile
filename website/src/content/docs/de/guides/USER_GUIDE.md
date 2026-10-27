@@ -107,6 +107,6 @@ Im Einstellungsmenü können Benutzer den **Expertenmodus** aktivieren. Dies erm
   </p>
 </div>
 
-Für Entwickler, die die Integrität dieser Binärdateien überprüfen möchten, konsultieren Sie unseren [**Firmware-Validierungsleitfaden**](/guides/firmware-validation).
+Für Entwickler, die die Integrität dieser Binärdateien überprüfen möchten, konsultieren Sie unseren [**Firmware-Validierungsleitfaden**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

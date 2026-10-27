@@ -105,8 +105,8 @@ We utilize **Riverpod** for global state management and **Flutter Hooks** for lo
 
 For more detailed technical information, please refer to the following guides:
 
-- [**Technical Architecture**](/guides/technical_architecture): A deep dive into the `FirmwareAssembler` and the native networking stack.
-- [**Firmware Validation**](/guides/firmware-validation): How to use the Dart and Python tools to verify binary integrity.
+- [**Technical Architecture**](/technical_architecture): A deep dive into the `FirmwareAssembler` and the native networking stack.
+- [**Firmware Validation**](/firmware-validation): How to use the Dart and Python tools to verify binary integrity.
 
 ---
 

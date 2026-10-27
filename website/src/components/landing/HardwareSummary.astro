@@ -1,7 +1,7 @@
 ---
 import Card from './Card.astro';
 import { chipsets, hardwareStats } from '../../data/hardware';
-import { useTranslations, localizePath, formatNumber } from '../../i18n';
+import { useTranslations, localizePath, formatNumber, formatAtLeast } from '../../i18n';
 
 interface Props {
 	lang: string;
@@ -10,11 +10,13 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
+// Device counts are exact (derived at build); the flash total is rounded so it
+// matches the hero and stays true between data refreshes.
 const stats = [
-	{ value: hardwareStats.devices, label: t('hardware.stat_devices') },
-	{ value: hardwareStats.brands, label: t('hardware.stat_brands') },
-	{ value: hardwareStats.verified, label: t('hardware.stat_verified') },
-	{ value: hardwareStats.flashes, label: t('hardware.stat_flashes') },
+	{ value: formatNumber(lang, hardwareStats.devices), label: t('hardware.stat_devices') },
+	{ value: formatNumber(lang, hardwareStats.brands), label: t('hardware.stat_brands') },
+	{ value: formatNumber(lang, hardwareStats.verified), label: t('hardware.stat_verified') },
+	{ value: formatAtLeast(lang, hardwareStats.flashes), label: t('hardware.stat_flashes') },
 ];
 ---
 
@@ -22,7 +24,7 @@ const stats = [
 	{
 		stats.map((stat) => (
 			<Card class="text-center !p-5">
-				<div class="text-3xl md:text-4xl font-extrabold text-primary">{formatNumber(lang, stat.value)}</div>
+				<div class="text-3xl md:text-4xl font-extrabold text-primary">{stat.value}</div>
 				<div class="text-text-muted text-sm mt-1">{stat.label}</div>
 			</Card>
 		))

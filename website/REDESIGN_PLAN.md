@@ -158,12 +158,23 @@ Each phase is one commit that builds and could ship on its own.
   source hash, so do it before the Phase 7 translation run if at all.
 
 ### Phase 6 — Cleanup and guardrails
-- [ ] Remove dead CSS (`.hero-gradient`, `.astro-4yphtoen` hack), unused assets,
-      starter README. Check whether repo-root `targets.json` is still used (e.g. by
-      `firmware_testing/`); the app and site use `assets/targets.json`.
-- [ ] Real `website/README.md`: where each fact lives; how to add a locale,
-      video, feature, or verified target.
-- [ ] Website build job in `ci.yml` (path-filtered to `website/**`) plus link check.
+- [x] Removed pre-Phase-2 Starlight workaround CSS (logo size, mobile TOC, header
+      height, code padding; before/after screenshots showed only Expressive Code's
+      default padding change), the fictional `hero-iphone-radio.png`, unused
+      `logo.svg`, the Astro starter `favicon.svg`, and the stale repo-root
+      `targets.json` (nothing referenced it). `favicon.ico` kept (browsers request it).
+- [x] Real `website/README.md`: where each fact lives and common tasks.
+- [x] `.github/workflows/website.yml` (separate from `ci.yml` so it can be
+      path-filtered): `npm ci`, build, `npm run check:links`
+      (`scripts/check_links.mjs`, no dependencies).
+- [x] Link check found live broken `/guides/...` links in the User Guide (all
+      locales) and Development Guide; fixed, and the translated User Guides' hash
+      markers carried forward so Phase 7 doesn't re-translate them for this.
+- [x] Added (user request): install count under the hero CTAs with the flash
+      total. `src/data/usage.json` (38,422 installs as of 2026-10-27, edit by hand);
+      public figures rounded down via `formatAtLeast` ("38,000+"). Hero is now a
+      Starlight override (`src/components/starlight/Hero.astro`) so stats and beta
+      links sit under the CTAs; the `.hero` CSS overrides were removed.
 
 ### Phase 7 — Translation and verification
 - [ ] Manually dispatch translation workflow for new strings.

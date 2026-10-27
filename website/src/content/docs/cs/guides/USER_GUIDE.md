@@ -107,6 +107,6 @@ V menu Nastavení mohou uživatelé povolit **Expertní režim**. To vám umožn
   </p>
 </div>
 
-Pro vývojáře, kteří chtějí ověřit integritu těchto binárních souborů, se podívejte na našeho [**Průvodce ověřením firmwaru**](/guides/firmware-validation).
+Pro vývojáře, kteří chtějí ověřit integritu těchto binárních souborů, se podívejte na našeho [**Průvodce ověřením firmwaru**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

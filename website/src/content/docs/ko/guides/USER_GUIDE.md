@@ -107,6 +107,6 @@ App Store에서 설치
   </p>
 </div>
 
-이 바이너리의 무결성을 확인하려는 개발자는 [**펌웨어 유효성 검사 가이드**](/guides/firmware-validation)를 참조하십시오.
+이 바이너리의 무결성을 확인하려는 개발자는 [**펌웨어 유효성 검사 가이드**](/firmware-validation)를 참조하십시오.
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

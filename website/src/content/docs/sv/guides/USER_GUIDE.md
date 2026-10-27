@@ -107,6 +107,6 @@ Inom inställningsmenyn kan användare aktivera **Expertläge**. Detta gör att 
   </p>
 </div>
 
-För utvecklare som vill verifiera integriteten hos dessa binärfiler, se vår [**Firmware Valideringsguide**](/guides/firmware-validation).
+För utvecklare som vill verifiera integriteten hos dessa binärfiler, se vår [**Firmware Valideringsguide**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->

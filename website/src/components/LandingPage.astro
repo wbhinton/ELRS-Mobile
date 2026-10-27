@@ -1,7 +1,6 @@
 ---
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { useTranslations } from "../i18n";
-import { links } from "../config/site";
 import {
 	stores,
 	heroScreen,
@@ -47,12 +46,6 @@ const t = useTranslations(lang);
 	}}
 >
 	<div class="not-content text-white">
-		<p class="text-xs text-text-muted text-center md:text-left -mt-4 pb-4">
-			{t("hero.play_beta_blurb")} <a href={links.playBeta} class="text-primary" target="_blank" rel="noopener">{t("hero.play_beta_link")}</a>.
-			<span class="mx-3 opacity-30">|</span>
-			{t("hero.testflight_beta_blurb")} <a href={links.testFlight} class="text-primary" target="_blank" rel="noopener">{t("hero.testflight_beta_link")}</a>.
-		</p>
-
 		<Section id="how-it-works" title={t("how.title")} subtitle={t("how.subtitle")}>
 			<div class="grid items-center gap-10 md:grid-cols-[1fr_260px]">
 				<Steps lang={lang} />

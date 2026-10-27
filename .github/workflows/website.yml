@@ -1,0 +1,43 @@
+name: Website
+
+# Build check only; Cloudflare deploys the site from GitHub on its own.
+on:
+  push:
+    branches:
+      - development
+    paths:
+      - 'website/**'
+      - 'assets/targets.json'
+      - '.github/workflows/website.yml'
+  pull_request:
+    paths:
+      - 'website/**'
+      - 'assets/targets.json'
+      - '.github/workflows/website.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Check internal links
+        run: npm run check:links

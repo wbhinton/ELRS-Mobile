@@ -107,6 +107,6 @@ No menu Configurações, os usuários podem ativar o **Expert Mode**. Isso permi
   </p>
 </div>
 
-Para desenvolvedores que procuram verificar a integridade desses binários, consulte nosso [**Guia de Validação de Firmware**](/guides/firmware-validation).
+Para desenvolvedores que procuram verificar a integridade desses binários, consulte nosso [**Guia de Validação de Firmware**](/firmware-validation).
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->
