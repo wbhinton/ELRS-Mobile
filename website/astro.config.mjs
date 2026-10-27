@@ -20,6 +20,8 @@ const ogImage = `${site}/images/og-image.png`;
 export default defineConfig({
   site,
   base: '/',
+  // Video thumbnails are fetched and optimised at build time.
+  image: { domains: ['i.ytimg.com'] },
   integrations: [
     tailwind({ applyBaseStyles: false }),
     starlight({

@@ -106,14 +106,25 @@ Each phase is one commit that builds and could ship on its own.
   depicts a fictional app ("DRONE SYNC") — do not use; delete in Phase 6.
 
 ### Phase 3 — Components and data-driven landing page
-- [ ] Components: `Section`, `Card`, `StoreBadge` (official badges), `VideoEmbed`
+- [x] Components: `Section`, `Card`, `StoreBadge` (official badges), `VideoEmbed`
       (thumbnail facade → `youtube-nocookie` iframe on click), `Steps`, `FeatureTour`.
-- [ ] New section order: hero (with screenshot) → how it works (cache at home →
+- [x] New section order: hero (with screenshot) → how it works (cache at home →
       connect to device Wi-Fi → flash) → feature tour (flashing, device config,
       firmware manager, profiles) → compatibility summary → videos → install → footer.
-- [ ] Screenshots via `astro:assets` (responsive WebP).
-- [ ] Replace generic highlight copy and "Production" badges; move hard-coded
+- [x] Screenshots via `astro:assets` (responsive WebP).
+- [x] Replace generic highlight copy and "Production" badges; move hard-coded
       English strings into `ui.json`.
+- Notes: content model in `src/data/landing.ts`; components in
+  `src/components/landing/`. Phone screenshots come from
+  `scripts/crop_store_screenshots.py` (re-run after store screenshots change);
+  the discovery screenshot (05) is skipped because its dimmed dialog defeats
+  detection. YouTube thumbnails are fetched and optimised at build time; no
+  YouTube request until play. 15 dead `ui.json` keys pruned from all locales,
+  and `translate_astro.cjs` now prunes removed keys itself. Phone header shows
+  the Docs link as an icon so long CTA labels fit at 360px.
+- Translation: a test run accidentally translated the 25 new strings for `de`
+  and `es` (2 Gemini calls). The other 15 locales still fall back to English
+  until Phase 7.
 
 ### Phase 4 — Hardware from data
 - [ ] `src/data/verified.json` (seeded with RadioMaster targets).

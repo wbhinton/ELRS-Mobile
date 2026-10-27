@@ -5,6 +5,7 @@ import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
 import Search from '@astrojs/starlight/components/Search.astro';
 import SiteTitle from '@astrojs/starlight/components/SiteTitle.astro';
 import SocialIcons from '@astrojs/starlight/components/SocialIcons.astro';
+import { Icon } from '@astrojs/starlight/components';
 import { useTranslations, localizePath, defaultLocale } from '../../i18n';
 
 const { locale, hasSidebar } = Astro.locals.starlightRoute;
@@ -22,8 +23,13 @@ const t = useTranslations(lang);
 	<div class="sl-flex print:hidden right-group">
 		<nav class="sl-flex site-nav" aria-label="Site">
 			<a class="md-only" href={localizePath(lang, '/supported_hardware')}>{t('nav.hardware')}</a>
-			<a class:list={[{ 'md-only': hasSidebar }]} href={localizePath(lang, '/user_guide')}>
-				{t('nav.documentation')}
+			<a
+				class:list={['docs-link', { 'md-only': hasSidebar }]}
+				href={localizePath(lang, '/user_guide')}
+				aria-label={t('nav.documentation')}
+			>
+				<Icon name="open-book" class="phone-only" size="1.25rem" />
+				<span class="label">{t('nav.documentation')}</span>
 			</a>
 			<a class="cta" href={localizePath(lang, '/#installation')}>{t('nav.get_app')}</a>
 		</nav>
@@ -94,11 +100,36 @@ const t = useTranslations(lang);
 			display: none;
 		}
 
+		.docs-link {
+			display: flex;
+			align-items: center;
+		}
+
 		/* Phones: logo only, so the nav links and CTA always fit. */
 		@media (max-width: 49.99rem) {
 			.title-wrapper {
 				flex-shrink: 0;
 				min-width: auto;
+			}
+
+			.header,
+			.right-group,
+			.site-nav {
+				gap: 0.6rem;
+			}
+
+			.site-nav a.cta {
+				padding: 0.35rem 0.6rem;
+			}
+
+			/* Docs link becomes an icon so long CTA labels still fit. */
+			.docs-link .label {
+				position: absolute;
+				width: 1px;
+				height: 1px;
+				overflow: hidden;
+				clip: rect(0 0 0 0);
+				white-space: nowrap;
 			}
 			.title-wrapper :global(.site-title span) {
 				position: absolute;
@@ -113,6 +144,10 @@ const t = useTranslations(lang);
 		@media (min-width: 50rem) {
 			.md-only {
 				display: flex;
+			}
+
+			.docs-link :global(.phone-only) {
+				display: none;
 			}
 
 			/* Keep Starlight's column alignment so the search box lines up with content. */

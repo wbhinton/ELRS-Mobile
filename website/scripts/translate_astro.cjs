@@ -88,6 +88,14 @@ async function translateUi() {
       uiData._hashes[locale] = {};
     }
 
+    // Drop keys that no longer exist in English so dead strings don't linger.
+    for (const key of Object.keys(uiData[locale])) {
+      if (!(key in englishKeys)) {
+        delete uiData[locale][key];
+        delete uiData._hashes[locale][key];
+      }
+    }
+
     const missingKeys = {};
     for (const key of Object.keys(englishKeys)) {
       const sourceVal = englishKeys[key];

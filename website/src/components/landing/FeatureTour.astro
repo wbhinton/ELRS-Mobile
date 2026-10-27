@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import { features } from '../../data/landing';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+	lang: string;
+}
+
+const t = useTranslations(Astro.props.lang);
+---
+
+<div class="flex flex-col gap-12 max-w-4xl mx-auto">
+	{
+		features.map((feature, i) => (
+			<div class:list={['grid items-center gap-6 md:gap-10', i % 2 === 0 ? 'md:grid-cols-[280px_1fr]' : 'md:grid-cols-[1fr_280px]']}>
+				<Image
+					src={feature.image}
+					alt={t(feature.title)}
+					widths={[280, 560]}
+					sizes="280px"
+					class:list={['w-full max-w-[200px] md:max-w-[280px] h-auto mx-auto', i % 2 === 1 && 'md:order-2']}
+				/>
+				<div class="text-center md:text-left">
+					<h3 class="text-2xl md:text-3xl font-bold mb-3">{t(feature.title)}</h3>
+					<p class="text-text-muted text-lg leading-relaxed">{t(feature.body)}</p>
+				</div>
+			</div>
+		))
+	}
+</div>

@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import { stores } from '../../data/landing';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+	lang: string;
+	class?: string;
+}
+
+const { lang, class: className } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div class:list={['flex flex-wrap items-center justify-center gap-4', className]}>
+	{
+		stores.map((store) => (
+			<a href={store.href} data-track="app_download_click" data-store={store.id} class="transition-transform hover:-translate-y-0.5">
+				<Image src={store.badge} alt={t(store.label)} height={56} class="h-14 w-auto" />
+			</a>
+		))
+	}
+</div>
