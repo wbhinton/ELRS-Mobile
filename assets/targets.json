@@ -984,6 +984,7 @@
                 "product_name": "DIY STM32 SX1272 TX",
                 "upload_methods": ["stlink"],
                 "min_version": "3.3.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "DIY_900_TX_STM32_SX1272",
                 "stlink": {
@@ -1028,6 +1029,7 @@
                 "product_name": "DIY STM32 SX1272 RX",
                 "upload_methods": ["stlink"],
                 "min_version": "3.3.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "DIY_900_RX_STM32_SX1272",
                 "stlink": {
@@ -1350,6 +1352,7 @@
                 "product_name": "FrSky R9M 900MHz TX",
                 "upload_methods": ["stlink", "stock", "wifi"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_TX_R9M",
                 "features": ["buzzer", "unlock-higher-power", "fan"],
@@ -1363,6 +1366,7 @@
                 "product_name": "FrSky R9M Lite 900MHz TX",
                 "upload_methods": ["stlink", "stock"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_TX_R9M_LITE",
                 "stlink": {
@@ -1375,6 +1379,7 @@
                 "product_name": "FrSky R9M Lite Pro 900MHz TX",
                 "upload_methods": ["stlink","stock"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_TX_R9M_LITE_PRO",
 		"features": ["unlock-higher-power"],
@@ -1390,6 +1395,7 @@
                 "product_name": "FrSky R9MM/Mini 900MHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_RX_R9MM_R9MINI",
                 "features": ["sbus-uart"],
@@ -1403,6 +1409,7 @@
                 "product_name": "FrSky R9 Slim 900MHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_RX_R9SLIM",
                 "stlink": {
@@ -1415,6 +1422,7 @@
                 "product_name": "FrSky R9 Slim Plus 900MHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_RX_R9SLIMPLUS",
                 "stlink": {
@@ -1427,6 +1435,7 @@
                 "product_name": "FrSky R9 Slim Plus OTA 900MHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_RX_R9SLIMPLUS_OTA",
                 "stlink": {
@@ -1439,6 +1448,7 @@
                 "product_name": "FrSky R9MX 900MHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Frsky_RX_R9MX",
                 "stlink": {
@@ -1575,6 +1585,7 @@
                 "product_name": "Generic STM32 PP 2.4Ghz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "DIY_2400_RX_STM32_CCG_Nano_v0_5",
                 "stlink": {
@@ -1733,8 +1744,25 @@
                 "min_version": "3.4.0",
                 "platform": "esp32",
                 "firmware": "Unified_ESP32_LR1121_TX"
+            },
+            "c3-plain-2021": {
+                "product_name": "Generic C3 LR2021 2.4/900 TX",
+                "lua_name": "C3 LR2021 TX",
+                "layout_file": "Generic C3 LR2021.json",
+                "upload_methods": ["uart", "wifi"],
+                "min_version": "4.0.0",
+                "platform": "esp32-c3",
+                "firmware": "Unified_ESP32C3_LR2021_TX"
+            },
+            "s3-plain-2021": {
+                "product_name": "Generic S3 LR2021 2.4/900 TX",
+                "lua_name": "S3 LR2021 TX",
+                "layout_file": "Generic S3 LR2021.json",
+                "upload_methods": ["uart", "wifi"],
+                "min_version": "4.0.0",
+                "platform": "esp32-s3",
+                "firmware": "Unified_ESP32S3_LR2021_TX"
             }
-
         },
         "rx_dual": {
             "true_diversity": {
@@ -1763,6 +1791,15 @@
                 "min_version": "3.5.0",
                 "platform": "esp32-c3",
                 "firmware": "Unified_ESP32C3_LR1121_RX"
+            },
+            "c3-plain-2021": {
+                "product_name": "Generic C3 LR2021 2.4/900 RX",
+                "lua_name": "C3 LR2021 RX",
+                "layout_file": "Generic C3 LR2021.json",
+                "upload_methods": ["uart", "wifi", "betaflight"],
+                "min_version": "4.0.0",
+                "platform": "esp32-c3",
+                "firmware": "Unified_ESP32C3_LR2021_RX"
             },
             "c3-pwm": {
                 "product_name": "Generic C3 LR1121 2.4/900 PWM RX",
@@ -1945,6 +1982,32 @@
                 "min_version": "3.5.2",
                 "platform": "esp32-c3",
                 "firmware": "Unified_ESP32C3_LR1121_RX"
+            },
+            "c3-lr2021": {
+                "product_name": "GEPRC LINKFLOW LR20 Dual-Band RX",
+                "lua_name": "GEPR LR20 DB RX",
+                "layout_file": "Generic C3 LR2021.json",
+                "overlay": {
+                    "power_values_dual": [-14, -6, 2, 10],
+                    "radio_rfsw_ctrl": [8, 16, 0, 0, 0, 24, 255]
+                },
+                "upload_methods": ["uart", "wifi", "betaflight"],
+                "min_version": "4.2.0",
+                "platform": "esp32-c3",
+                "firmware": "Unified_ESP32C3_LR2021_RX"
+            },
+            "c3-lr2021-gemx": {
+                "product_name": "GEPRC LINKFLOW LR20 Gemini Xrossband RX",
+                "lua_name": "GEPR LR20 GX RX",
+                "layout_file": "Generic C3 LR2021 True Diversity.json",
+                "overlay": {
+                    "power_values_dual": [-14, -6, 2, 10],
+                    "radio_rfsw_ctrl": [8, 16, 0, 0, 0, 24, 255]
+                },
+                "upload_methods": ["uart", "wifi", "betaflight"],
+                "min_version": "4.2.0",
+                "platform": "esp32-c3",
+                "firmware": "Unified_ESP32C3_LR2021_RX"
             }
         },
         "tx_dual": {
@@ -2021,6 +2084,7 @@
                 "product_name": "HappyModel ES915 TX",
                 "upload_methods": ["stlink", "stock"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "HappyModel_TX_ES915TX",
                 "has_buzzer": true,
@@ -2047,6 +2111,7 @@
                 "product_name": "HappyModel ES915 RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "HappyModel_RX_ES915RX",
                 "stlink": {
@@ -2126,6 +2191,7 @@
                 "product_name": "HappyModel PP 2.4GHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "HappyModel_PP_2400_RX",
                 "stlink": {
@@ -2581,6 +2647,7 @@
                 "product_name": "Ghost 2.4GHz TX",
                 "upload_methods": ["stlink", "stock"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "GHOST_2400_TX",
                 "features": ["buzzer"],
@@ -2594,6 +2661,7 @@
                 "product_name": "Ghost Lite 2.4GHz TX",
                 "upload_methods": ["stlink","stock"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "GHOST_2400_TX_LITE",
                 "features": ["buzzer"],
@@ -2609,6 +2677,7 @@
                 "product_name": "Ghost Atto 2.4GHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "GHOST_ATTO_2400_RX",
                 "stlink": {
@@ -2689,6 +2758,19 @@
             "t-15": {
                 "product_name": "Jumper AION T-15 2.4GHz TX",
                 "lua_name": "T-15 2G4 TX",
+                "layout_file": "Jumper T-20 2400.json",
+                "overlay": {
+                    "use_backpack": true,
+                    "misc_fan_en": 33
+                },
+                "upload_methods": ["uart", "wifi", "etx"],
+                "min_version": "3.3.0",
+                "platform": "esp32",
+                "firmware": "Unified_ESP32_2400_TX"
+            },
+            "t-15-h7": {
+                "product_name": "Jumper AION T15 H7 2.4GHz TX",
+                "lua_name": "T15 H7 2G4 TX",
                 "layout_file": "Jumper T-20 2400.json",
                 "overlay": {
                     "use_backpack": true,
@@ -2884,6 +2966,7 @@
                 "product_name": "Jumper 900 Mini RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "Jumper_RX_R900MINI",
                 "stlink": {
@@ -2917,6 +3000,15 @@
                 "lua_name": "T15 DUO TX",
                 "layout_file": "Jumper T-22 Pro LR1121.json",
                 "upload_methods": ["uart", "wifi", "etx"],
+                "min_version": "3.6.0",
+                "platform": "esp32",
+                "firmware": "Unified_ESP32_LR1121_TX"
+            },
+            "t18duo": {
+                "product_name": "Jumper AION T18 DUO TX",
+                "lua_name": "T18 DUO TX",
+                "layout_file": "Jumper T-22 Pro LR1121.json",
+                "upload_methods": ["wifi", "etx"],
                 "min_version": "3.6.0",
                 "platform": "esp32",
                 "firmware": "Unified_ESP32_LR1121_TX"
@@ -2983,6 +3075,7 @@
                 "product_name": "NamimnoRC Voyager 900MHz TX",
                 "upload_methods": ["stlink", "stock"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "NamimnoRC_VOYAGER_900_TX",
                 "features": ["fan"],
@@ -3009,6 +3102,7 @@
                 "product_name": "NamimnoRC Voyager STM 900MHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "NamimnoRC_VOYAGER_900_RX",
                 "stlink": {
@@ -3033,6 +3127,7 @@
                 "product_name": "NamimnoRC Flash 2.4GHz TX",
                 "upload_methods": ["stlink", "stock"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "NamimnoRC_FLASH_2400_TX",
                 "features": ["fan"],
@@ -3060,6 +3155,7 @@
                 "product_name": "NamimnoRC Flash STM 2.4GHz RX",
                 "upload_methods": ["stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "NamimnoRC_FLASH_2400_RX",
                 "stlink": {
@@ -3918,6 +4014,7 @@
                 "product_name": "SIYI FM30 2.4GHz TX",
                 "upload_methods": ["dfu", "stlink"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "FM30_TX",
                 "stlink": {
@@ -3930,6 +4027,7 @@
                 "product_name": "SIYI FM30 Mini 2.4GHz RX as TX",
                 "upload_methods": ["uart", "stlink"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "FM30_RX_MINI_AS_TX",
                 "stlink": {
@@ -3944,6 +4042,7 @@
                 "product_name": "SIYI FM30 Mini 2.4GHz RX",
                 "upload_methods": ["uart", "stlink", "betaflight"],
                 "min_version": "3.0.0",
+                "max_version": "4.0.0",
                 "platform": "stm32",
                 "firmware": "FM30_RX_MINI",
                 "stlink": {
