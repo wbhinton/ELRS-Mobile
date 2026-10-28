@@ -235,7 +235,9 @@ async function translateDocs() {
         const translatedTitle = translatedCombined.slice(0, delimiterIndex).trim();
         const translatedBody = translatedCombined
           .slice(delimiterIndex + DOC_BODY_DELIMITER.length)
-          .trim();
+          .trim()
+          // The model sometimes wraps links in a Google redirect; restore the original URL.
+          .replace(/https:\/\/www\.google\.com\/url\?q=(https?:\/\/[^\s)&]+)[^\s)]*/g, '$1');
 
         if (!translatedTitle || !translatedBody) {
           throw new Error('Split produced an empty title or body');

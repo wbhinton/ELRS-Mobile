@@ -17,7 +17,7 @@ import HardwareList from '~/components/HardwareList.astro';
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> เป้าหมาย ESP8285, ESP32, ESP32-C3 และ ESP32-S3 ทั้งหมด</li>
-      <li class="flex gap-2"><span>•</span> ตัวรับและตัวส่งสัญญาณที่รองรับ Wi-Fi</li>
+      <li class="flex gap-2"><span>•</span> ตัวรับและตัวส่งที่รองรับ Wi-Fi</li>
       <li class="flex gap-2"><span>•</span> ELRS เวอร์ชัน 3.3.x และ 4.x</li>
     </ul>
   </div>
@@ -27,8 +27,8 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">ไม่รองรับ (กำลังดำเนินการ)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> เป้าหมาย STM32 ที่ต้องใช้การแฟลชแบบอนุกรมด้วย STLink</li>
-      <li class="flex gap-2"><span>•</span> วิธีการแฟลชแบบ Betaflight Passthrough</li>
+      <li class="flex gap-2"><span>•</span> เป้าหมาย STM32 ที่ต้องแฟลชด้วย STLink แบบอนุกรม</li>
+      <li class="flex gap-2"><span>•</span> วิธีการแฟลช Betaflight Passthrough</li>
       <li class="flex gap-2"><span>•</span> การเชื่อมต่อ USB/อนุกรมโดยตรงบน iOS</li>
     </ul>
   </div>
@@ -43,7 +43,7 @@ import HardwareList from '~/components/HardwareList.astro';
 ---
 
 ## ไบนารีที่ผ่านการทดสอบ
-แอสเซมเบลอร์เฟิร์มแวร์ภายในได้รับการตรวจสอบฟังก์ชันการทำงานเทียบกับเอาต์พุตของคอมไพเลอร์ ExpressLRS อย่างเป็นทางการสำหรับเป้���หมายดังต่อไปนี้:
+ตัวประกอบเฟิร์มแวร์ภายในได้รับการตรวจสอบฟังก์ชันการทำงานเทียบกับเอาต์พุตคอมไพเลอร์ ExpressLRS อย่างเป็นทางการสำหรับเป้าหมายต่อไปนี้:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -62,3 +62,5 @@ import HardwareList from '~/components/HardwareList.astro';
   <div class="break-inside-avoid px-2 py-1">• Radiomaster Nexus-XR True Diversity 2.4GHz RX</div>
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
+
+{/* source_hash: 0b05b6852251da28bdaddad04fc4d6e5 */}

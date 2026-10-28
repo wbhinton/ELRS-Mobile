@@ -214,4 +214,6 @@ Each phase is one commit that builds and could ship on its own.
       375px on 32 pages (8 locales x 4 page types).
 - [x] Fixed: on phone-width docs pages the header CTA collided with the menu
       button in long locales (uk); CTA now hidden there.
-- [ ] Owner reruns translation for the invalidated items, then re-check.
+- [x] Owner reran translation; check_translations.py clean (0 errors, 0 warnings),
+      no U+FFFD in built pages, links OK. sv again wrapped the Play beta link in a
+      Google redirect: fixed, and translate_astro.cjs now unwraps such links.

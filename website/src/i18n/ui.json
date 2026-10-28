@@ -520,7 +520,8 @@
     "privacy.contact_title": "9. Contact",
     "privacy.contact_desc": "Des questions sur cette politique ? Ouvrez un ticket sur {github} ou posez-les sur le {discord}.",
     "privacy.contact_github": "GitHub",
-    "privacy.contact_discord": "Discord ExpressLRS"
+    "privacy.contact_discord": "Discord ExpressLRS",
+    "privacy.network_updates": "cdn.elrsmobile.com (servi via Cloudflare), au maximum une fois par jour, pour vérifier les mises à jour. Ceci s'applique uniquement à l'APK téléchargé directement depuis ce site web ou GitHub ; les versions des magasins sont mises à jour par Google Play et l'App Store."
   },
   "ja": {
     "nav.hardware": "ハードウェア",
@@ -644,7 +645,14 @@
     "privacy.changes_desc": "このポリシーが変更された場合、更新された日付とともに新しいバージョンがこのページに掲載されます。",
     "privacy.contact_title": "9. お問い合わせ",
     "privacy.contact_github": "GitHub",
-    "privacy.contact_discord": "ExpressLRS Discord"
+    "privacy.contact_discord": "ExpressLRS Discord",
+    "privacy.title_sub": "ポリシー",
+    "how.step1_body": "インターネット接続がある間にファームウェアマネージャーを開き、使用する ExpressLRS バージョンをダウンロードします。それらはオフラインでのフラッシュのために携帯電話に保存されます。",
+    "features.cache_title": "ファームウェアマネージャー",
+    "videos.painless_desc": "アプリとオフラインベンチ構成のステップバイステップのウォークスルー。",
+    "privacy.network_updates": "cdn.elrsmobile.com（Cloudflare 経由で提供）、更新を確認するために、1日1回まで。これは、このウェブサイトまたは GitHub から直接ダウンロードされた APK にのみ適用されます。ストア版は Google Play および App Store によって更新されます。",
+    "privacy.perm_files_desc": "ファームウェアまたは ExpressLRS Lua スクリプトを保存することを選択した場合、またはデバイス設定ページでファームウェアファイルを選択した場合のみ。",
+    "privacy.contact_desc": "このポリシーについて質問がありますか？{github} で課題を開くか、{discord} で質問してください。"
   },
   "uk": {
     "nav.hardware": "Обладнання",
@@ -770,7 +778,12 @@
     "privacy.contact_title": "9. Контакти",
     "privacy.contact_desc": "Запитання щодо цієї політики? Відкрийте питання на {github} або запитайте в {discord}.",
     "privacy.contact_github": "GitHub",
-    "privacy.contact_discord": "ExpressLRS Discord"
+    "privacy.contact_discord": "ExpressLRS Discord",
+    "features.config_title": "Налаштування пристрою",
+    "privacy.crash_debug": "Якщо ви вирішите надіслати звіт про налагодження (Налаштування → Розширені та налагодження, з увімкненим Експертним режимом), він включатиме опис, який ви вводите, версію вашого Додатку, налаштування Експертного режиму та типового регуляторного домену, інформацію про те, чи налаштована домашня мережа Wi-Fi, а також останні логи Додатку. Він ніколи не включає вашу фразу прив'язки або паролі Wi-Fi.",
+    "privacy.network_updates": "cdn.elrsmobile.com (обслуговується через Cloudflare), не частіше одного разу на день, для перевірки оновлень. Це стосується лише APK, завантажених безпосередньо з цього веб-сайту або GitHub; версії з магазинів оновлюються через Google Play та App Store.",
+    "privacy.permissions_location": "Додаток не використовує ваше місцезнаходження, камеру, контакти чи фотографії.",
+    "privacy.changes_desc": "Якщо ця політика зміниться, нова версія буде опублікована на цій сторінці з оновленою датою."
   },
   "_hashes": {
     "de": {
@@ -1163,7 +1176,8 @@
       "privacy.contact_title": "d2aff66dcc68e7b4bd99adf6021975fa",
       "privacy.contact_desc": "80e33cb5819af5b35529bb02bd1bf2ca",
       "privacy.contact_github": "d3b7c913cd04ebfec0e9ec32cb6fd58c",
-      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c"
+      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c",
+      "privacy.network_updates": "bde2afa2e196ca7a0a9ce289f8b731f1"
     },
     "ja": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1287,7 +1301,14 @@
       "privacy.changes_desc": "dee4324477df4cd3680e65b0c9097666",
       "privacy.contact_title": "d2aff66dcc68e7b4bd99adf6021975fa",
       "privacy.contact_github": "d3b7c913cd04ebfec0e9ec32cb6fd58c",
-      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c"
+      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c",
+      "privacy.title_sub": "51359e8b51c63b87d50cb1bab73380e2",
+      "how.step1_body": "a5994af2003b3ca56b44df9c05a839e3",
+      "features.cache_title": "db0fc73dc003d5ff2d022b1a93853a10",
+      "videos.painless_desc": "02f7c5570c2c85c1479a419ea2c5e219",
+      "privacy.network_updates": "bde2afa2e196ca7a0a9ce289f8b731f1",
+      "privacy.perm_files_desc": "e8ec417781ef43e68bbd110afeeb28e5",
+      "privacy.contact_desc": "80e33cb5819af5b35529bb02bd1bf2ca"
     },
     "uk": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1413,7 +1434,12 @@
       "privacy.contact_title": "d2aff66dcc68e7b4bd99adf6021975fa",
       "privacy.contact_desc": "80e33cb5819af5b35529bb02bd1bf2ca",
       "privacy.contact_github": "d3b7c913cd04ebfec0e9ec32cb6fd58c",
-      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c"
+      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c",
+      "features.config_title": "da3b0a008b19ab11a2b2d162098c8b92",
+      "privacy.crash_debug": "e78afe913245f63f10d50dcd62a2cda0",
+      "privacy.network_updates": "bde2afa2e196ca7a0a9ce289f8b731f1",
+      "privacy.permissions_location": "f9b678a972953e2761a8d58e0866d672",
+      "privacy.changes_desc": "dee4324477df4cd3680e65b0c9097666"
     },
     "pt": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -1932,7 +1958,12 @@
       "privacy.contact_title": "d2aff66dcc68e7b4bd99adf6021975fa",
       "privacy.contact_desc": "80e33cb5819af5b35529bb02bd1bf2ca",
       "privacy.contact_github": "d3b7c913cd04ebfec0e9ec32cb6fd58c",
-      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c"
+      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c",
+      "hero.github": "b680f38061eb2fd4a4315f40255b603f",
+      "privacy.local_profiles_desc": "075b0349d807b5c02a202b58adb79072",
+      "privacy.analytics_desc": "c162be3c221c542462c6a9f64b53a830",
+      "privacy.crash_debug": "e78afe913245f63f10d50dcd62a2cda0",
+      "privacy.security_desc": "86568c16f7c98164de0efa9e76fdd1fd"
     },
     "ru": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2057,7 +2088,13 @@
       "privacy.contact_title": "d2aff66dcc68e7b4bd99adf6021975fa",
       "privacy.contact_desc": "80e33cb5819af5b35529bb02bd1bf2ca",
       "privacy.contact_github": "d3b7c913cd04ebfec0e9ec32cb6fd58c",
-      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c"
+      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c",
+      "why.problem_desc": "bba1d08a408c3dac2c033b93660ed389",
+      "get_started.advanced_subtitle": "076cdb45a930c7ccc93083293c2caae9",
+      "how.step1_body": "a5994af2003b3ca56b44df9c05a839e3",
+      "features.config_body": "59434b4d70f35b05c7b50977d97f6bd9",
+      "hardware.list_intro": "d01d7171750e3504da5e3bc764ad2f8c",
+      "privacy.analytics_desc": "c162be3c221c542462c6a9f64b53a830"
     },
     "nl": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2439,7 +2476,18 @@
       "privacy.contact_title": "d2aff66dcc68e7b4bd99adf6021975fa",
       "privacy.contact_desc": "80e33cb5819af5b35529bb02bd1bf2ca",
       "privacy.contact_github": "d3b7c913cd04ebfec0e9ec32cb6fd58c",
-      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c"
+      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c",
+      "hero.title": "3477d413c93751540c2919e5c5382759",
+      "why.problem_title": "eb6fa18986cdf7a7aae6fd00ccb0a48d",
+      "why.updates_desc": "b4dc649831aaff555fa08a98f914a58d",
+      "get_started.github_store_desc": "bc53f126b6535e2f9f2fe18eff628e65",
+      "features.subtitle": "b07c2ab34116d21319168a04459204bb",
+      "features.profiles_title": "d98ef0be5416133b53eda65babe13e66",
+      "privacy.local_cache_desc": "c506947a9e31e523dc23c9f08f54730f",
+      "privacy.analytics_desc": "c162be3c221c542462c6a9f64b53a830",
+      "privacy.analytics_optout": "2fbd45dcac360089d4ae556de7d96bb7",
+      "privacy.network_updates": "bde2afa2e196ca7a0a9ce289f8b731f1",
+      "privacy.security_desc": "86568c16f7c98164de0efa9e76fdd1fd"
     },
     "sv": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -2830,7 +2878,9 @@
       "privacy.contact_title": "d2aff66dcc68e7b4bd99adf6021975fa",
       "privacy.contact_desc": "80e33cb5819af5b35529bb02bd1bf2ca",
       "privacy.contact_github": "d3b7c913cd04ebfec0e9ec32cb6fd58c",
-      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c"
+      "privacy.contact_discord": "36d0013cf24713aa9e97191063d4bf1c",
+      "privacy.crash_desc": "15d104a4d6fb5288d377ec0b4b1f54c0",
+      "privacy.changes_desc": "dee4324477df4cd3680e65b0c9097666"
     },
     "nb": {
       "nav.hardware": "3c02a379965ab0dfcd77b1c484450433",
@@ -3481,7 +3531,12 @@
     "privacy.contact_title": "9. 문의",
     "privacy.contact_desc": "본 정책에 대한 질문이 있으신가요? {github}에 이슈를 열거나 {discord}에서 문의하세요.",
     "privacy.contact_github": "GitHub",
-    "privacy.contact_discord": "ExpressLRS Discord"
+    "privacy.contact_discord": "ExpressLRS Discord",
+    "hero.github": "프로젝트 GitHub",
+    "privacy.local_profiles_desc": "바인딩 구문, 집 Wi-Fi 네트워크 이름 및 비밀번호, 규제 도메인 및 Wi-Fi 자동 켜짐 간격. 이 정보는 휴대폰의 암호화된 보안 저장소에 보관됩니다.",
+    "privacy.analytics_desc": "사용량 분석은 기본적으로 켜져 있습니다. 앱은 개인 정보 보호에 중점을 둔 분석 서비스인 Aptabase를 사용하여 앱이 어떻게 사용되는지 파악함으로써 개발이 중요한 부분에 집중할 수 있도록 합니다. 펌웨어가 다운로드되거나 플래시될 때 (하드웨어 대상 및 펌웨어 버전과 함께) 익명 이벤트를 전송하고, 다운로드 또는 플래시가 실패할 때 (오류 유형 및 메시지와 함께), 그리고 장치 구성 페이지가 열릴 때도 전송합니다.",
+    "privacy.crash_debug": "디버그 보고서 전송을 선택하는 경우 (설정 → 고급 및 디버그, 전문가 모드 켜짐 상태에서), 입력한 설명, 앱 버전, 전문가 모드 및 기본 규제 도메인 설정, 집 Wi-Fi 네트워크 설정 여부, 그리고 최근 앱 로그가 포함됩니다. 절대 바인딩 구문이나 Wi-Fi 비밀번호는 포함되지 않습니다.",
+    "privacy.security_desc": "민감한 데이터는 휴대폰의 암호화된 보안 저장소에 보관되지만, 어떤 전자 저장 방식도 완전히 안전하지는 않습니다. 휴대폰을 보호하기 위해 화면 잠금 또는 생체 인식을 사용하세요."
   },
   "ru": {
     "nav.hardware": "Оборудование",
@@ -3606,7 +3661,13 @@
     "privacy.contact_title": "9. Контакты",
     "privacy.contact_desc": "Вопросы по этой политике? Откройте проблему на {github} или задайте вопрос в {discord}.",
     "privacy.contact_github": "GitHub",
-    "privacy.contact_discord": "ExpressLRS Discord"
+    "privacy.contact_discord": "ExpressLRS Discord",
+    "why.problem_desc": "Вы на удалённой заброшке и понимаете, что ваш TX на v4.0, а RX на v3.3. Нет сотовой связи, нет ноутбука, и нет способа добраться до Web Flasher.",
+    "get_started.advanced_subtitle": "Прямые загрузки и исходный код для опытных пользователей.",
+    "how.step1_body": "Откройте Менеджер прошивок, пока у вас есть интернет, и загрузите используемые вами версии ExpressLRS. Они сохраняются на вашем телефоне для офлайн-прошивки.",
+    "features.config_body": "Откройте встроенные страницы конфигурации вашего устройства внутри приложения, чтобы проверить его прошивку, изменить настройки и назначить выходы PWM.",
+    "hardware.list_intro": "Каждое устройство ниже — это приёмник или передатчик ExpressLRS на базе ESP, который ELRS Mobile может прошивать по Wi-Fi. Устройства, помеченные как «Проверено», были успешно прошиты пользователями ELRS Mobile. Этот список формируется на основе официальных аппаратных целей ExpressLRS.",
+    "privacy.analytics_desc": "Аналитика использования включена по умолчанию. Приложение использует Aptabase, сервис аналитики, ориентированный на конфиденциальность, чтобы подсчитывать, как оно используется, давая разработке возможность сосредоточиться на главном. Оно отправляет анонимные события, когда прошивка загружается или прошивается (с указанием аппаратной цели и версии прошивки), когда загрузка или прошивка завершается сбоем (с указанием типа ошибки и сообщения) и когда открывается страница конфигурации устройства."
   },
   "nl": {
     "nav.hardware": "Hardware",
@@ -3988,7 +4049,18 @@
     "privacy.contact_title": "9. ติดต่อ",
     "privacy.contact_desc": "มีคำถามเกี่ยวกับนโยบายนี้หรือไม่? เปิดประเด็นบน {github} หรือสอบถามใน {discord}",
     "privacy.contact_github": "GitHub",
-    "privacy.contact_discord": "ExpressLRS Discord"
+    "privacy.contact_discord": "ExpressLRS Discord",
+    "hero.title": "เครื่องมือ ExpressLRS พร้อมใช้งานภาคสนาม ไม่ต้องใช้แล็ปท็อป",
+    "why.problem_title": "ความไม่ตรงกันของ \"พื้นที่อับสัญญาณ\"",
+    "why.updates_desc": "เปลี่ยนรหัสผ่าน Wi-Fi หรือ SSID ที่บ้านของคุณใช่หรือไม่? การนำเครื่องบินสิบลำมายังคอมพิวเตอร์ของคุณเพียงเพื่ออัปเดตสตริงข้อความเป็นงานที่ยุ่งยากอย่างมาก",
+    "get_started.github_store_desc": "ดาวน์โหลดผ่าน OpenHub Store",
+    "features.subtitle": "แอปเดียวสำหรับแฟลช, กำหนดค่า และจัดการฮาร์ดแวร์ ExpressLRS ของคุณ",
+    "features.profiles_title": "โปรไฟล์และค่าเริ่มต้น",
+    "privacy.local_cache_desc": "ไฟล์เฟิร์มแวร์และฮาร์ดแวร์ ExpressLRS ที่คุณดาวน์โหลดไว้สำหรับใช้งานแบบออฟไลน์",
+    "privacy.analytics_desc": "การวิเคราะห์การใช้งานเปิดใช้งานอยู่โดยค่าเริ่มต้น แอปใช้ Aptabase ซึ่งเป็นบริการวิเคราะห์ที่เน้นความเป็นส่วนตัว เพื่อรวบรวมข้อมูลการใช้งาน เพื่อให้นักพัฒนาสามารถมุ่งเน้นในสิ่งที่สำคัญ จะมีการส่งเหตุการณ์ที่ไม่ระบุตัวตนเมื่อมีการดาวน์โหลดหรือแฟลชเฟิร์มแวร์ (พร้อมข้อมูลเป้าหมายฮาร์ดแวร์และเวอร์ชันเฟิร์มแวร์), เมื่อการดาวน์โหลดหรือแฟลชล้มเหลว (พร้อมข้อมูลประเภทข้อผิดพลาดและข้อความ) และเมื่อมีการเปิดหน้าการกำหนดค่าอุปกรณ์",
+    "privacy.analytics_optout": "คุณสามารถปิดการวิเคราะห์การใช้งานได้ทุกเมื่อในการตั้งค่า (Settings) → แอปและพื้นที่เก็บข้อมูล (App & Storage) → แชร์การวิเคราะห์ (Share Analytics) หลังจากนั้น แอปจะไม่ส่งเหตุการณ์การวิเคราะห์ใดๆ อีก",
+    "privacy.network_updates": "cdn.elrsmobile.com (ให้บริการผ่าน Cloudflare) ไม่เกินวันละครั้ง เพื่อตรวจสอบการอัปเดต สิ่งนี้ใช้ได้กับ APK ที่ดาวน์โหลดโดยตรงจากเว็บไซต์นี้หรือ GitHub เท่านั้น; ส่วนเวอร์ชันที่มาจากสโตร์จะได้รับการอัปเดตโดย Google Play และ App Store",
+    "privacy.security_desc": "ข้อมูลที่ละเอียดอ่อนจะถูกเก็บไว้ในที่จัดเก็บที่ปลอดภัยและเข้ารหัสของโทรศัพท์ของคุณ แต่ไม่มีวิธีการจัดเก็บอิเล็กทรอนิกส์ใดที่ปลอดภัยอย่างสมบูรณ์ ใช้การล็อกหน้าจอหรือข้อมูลไบโอเมตริกซ์เพื่อปกป้องโทรศัพท์ของคุณ"
   },
   "sv": {
     "nav.hardware": "Hårdvara",
@@ -4379,7 +4451,9 @@
     "privacy.contact_title": "9. 联系方式",
     "privacy.contact_desc": "对本政策有疑问？请在 {github} 上提出问题或在 {discord} 中提问。",
     "privacy.contact_github": "GitHub",
-    "privacy.contact_discord": "ExpressLRS Discord"
+    "privacy.contact_discord": "ExpressLRS Discord",
+    "privacy.crash_desc": "为了查找和修复错误，App 使用 Sentry。当 App 崩溃或遇到意外错误时，它可能会发送一份报告，其中包含您的手机型号、操作系统版本、App 版本、错误的技术细节以及最近的 App 日志消息。日志消息可能包含您的 ExpressLRS 设备的本地 IP 地址，但绝不包含您的绑定短语或 Wi-Fi 密码。只发送部分错误样本，并过滤掉常规的连接断开。",
+    "privacy.changes_desc": "如果此政策发生更改，新版本将在此页面上发布并附上更新日期。"
   },
   "nb": {
     "nav.hardware": "Maskinvare",
