@@ -16,8 +16,8 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">支持</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> 所有 ESP8285、ESP32、ESP32-C3 和 ESP32-S3 目标</li>
-      <li class="flex gap-2"><span>•</span> 具备 Wi-Fi 功能的接收器和发射器</li>
+      <li class="flex gap-2"><span>•</span> 所有 ESP8285, ESP32, ESP32-C3 和 ESP32-S3 目标设备</li>
+      <li class="flex gap-2"><span>•</span> 支持 Wi-Fi 的接收器和发射器</li>
       <li class="flex gap-2"><span>•</span> ELRS 3.3.x 和 4.x 版本</li>
     </ul>
   </div>
@@ -27,23 +27,23 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">不支持 (进行中)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> 需要串行 STLink 刷写的 STM32 目标</li>
+      <li class="flex gap-2"><span>•</span> 需要通过串口 STLink 刷写的 STM32 目标设备</li>
       <li class="flex gap-2"><span>•</span> Betaflight Passthrough 刷写方法</li>
-      <li class="flex gap-2"><span>•</span> iOS 上的直接 USB/串行连接</li>
+      <li class="flex gap-2"><span>•</span> iOS 上的直接 USB/串口连接</li>
     </ul>
   </div>
 </div>
 
 ---
 
-## 已测试硬件
+## 支持的设备
 
 <HardwareList />
 
 ---
 
-## 已测试固件
-内部固件汇编器已根据官方 ExpressLRS 编译器输出，对以下目标进行了功能验证：
+## 已测试的固件
+内部固件汇编器已根据官方 ExpressLRS 编译器的输出对以下目标设备进行了功能验证：
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -63,4 +63,4 @@ import HardwareList from '~/components/HardwareList.astro';
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-{/* source_hash: f47a9230cd332d96ba6ca06e56e951e8 */}
+{/* source_hash: 0b05b6852251da28bdaddad04fc4d6e5 */}

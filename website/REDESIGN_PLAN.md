@@ -196,8 +196,22 @@ Each phase is one commit that builds and could ship on its own.
   Android location-permission claim; added update-check and website sections.
   Root PRIVACY.md now points to the website policy (single source).
 
-### Phase 7 — Translation and verification
-- [ ] Manually dispatch translation workflow for new strings.
-- [ ] Verify against baseline: routes preserved, page weight, `hreflang` and
-      `og:` tags present, one analytics event per click, 375px with no horizontal
-      scroll, language switcher on every page.
+### Phase 7 — Translation and verification (2026-10-27)
+- [x] Translation run (owner, local). Checks: all 17 locales have every string;
+      placeholders intact; MDX imports/tags, slugs and stamps intact.
+- [x] Fixed: Gemini corrupted the Play beta link in ja (play.com) and sv (google
+      redirect) User Guides.
+- [x] Found: translate_astro.cjs and scripts/translate_markdown.js decoded HTTP
+      chunks without UTF-8 handling, mangling multi-byte characters into U+FFFD
+      (also in earlier runs: in-app FAQ in 8 locales). Fixed with
+      `res.setEncoding('utf8')`; 37 strings and 18 files (10 website docs, 8 FAQ)
+      invalidated for retranslation.
+- [x] Added `scripts/check_translations.py` (CI step in website.yml).
+- [x] Verified: build clean (duplicate-id warnings were a stale content cache),
+      145 routes = baseline minus the 96 bogus nb routes, no broken links; all 144
+      pages have hreflang x18, og/twitter image, one gtag loader, one click
+      listener, no inline handlers, language picker; no horizontal overflow at
+      375px on 32 pages (8 locales x 4 page types).
+- [x] Fixed: on phone-width docs pages the header CTA collided with the menu
+      button in long locales (uk); CTA now hidden there.
+- [ ] Owner reruns translation for the invalidated items, then re-check.

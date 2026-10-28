@@ -8,11 +8,13 @@ on:
     paths:
       - 'website/**'
       - 'assets/targets.json'
+      - 'assets/docs/**'
       - '.github/workflows/website.yml'
   pull_request:
     paths:
       - 'website/**'
       - 'assets/targets.json'
+      - 'assets/docs/**'
       - '.github/workflows/website.yml'
 
 jobs:
@@ -41,3 +43,6 @@ jobs:
 
       - name: Check internal links
         run: npm run check:links
+
+      - name: Check translations
+        run: python3 scripts/check_translations.py

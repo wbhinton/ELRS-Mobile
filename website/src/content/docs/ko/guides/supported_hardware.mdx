@@ -16,8 +16,8 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">지원됨</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> 모든 ESP8285, ESP32, ESP32-C3 및 ESP32-S3 타겟</li>
-      <li class="flex gap-2"><span>•</span> Wi-Fi를 지원하는 수신기 및 송신기</li>
+      <li class="flex gap-2"><span>•</span> 모든 ESP8285, ESP32, ESP32-C3, 및 ESP32-S3 대상</li>
+      <li class="flex gap-2"><span>•</span> Wi-Fi 지원 수신기 및 송신기</li>
       <li class="flex gap-2"><span>•</span> ELRS 버전 3.3.x 및 4.x</li>
     </ul>
   </div>
@@ -27,23 +27,23 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">지원되지 않음 (작업 중)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> 직렬 STLink 플래싱이 필요한 STM32 타겟</li>
-      <li class="flex gap-2"><span>•</span> Betaflight Passthrough 플래싱 방법</li>
-      <li class="flex gap-2"><span>•</span> iOS에서의 직접 USB/직렬 연결</li>
+      <li class="flex gap-2"><span>•</span> 직렬 STLink 플래싱이 필요한 STM32 대상</li>
+      <li class="flex gap-2"><span>•</span> Betaflight Passthrough 플래싱 방식</li>
+      <li class="flex gap-2"><span>•</span> iOS의 직접 USB/직렬 연결</li>
     </ul>
   </div>
 </div>
 
 ---
 
-## 테스트된 하드웨어
+## 지원되는 장치
 
 <HardwareList />
 
 ---
 
 ## 테스트된 바이너리
-내부 펌웨어 어셈블러는 다음 타겟에 대해 공식 ExpressLRS 컴파일러 출력과 비교하여 기능적으로 검증되었습니다:
+내부 펌웨어 어셈블러는 다음 대상에 대해 공식 ExpressLRS 컴파일러 출력과 기능적으로 검증되었습니다:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -60,7 +60,7 @@ import HardwareList from '~/components/HardwareList.astro';
   <div class="break-inside-avoid px-2 py-1">• RadioMaster Pocket Internal 2.4GHz TX</div>
   <div class="break-inside-avoid px-2 py-1">• RadioMaster XR4 Dual Band True Diversity RX</div>
   <div class="break-inside-avoid px-2 py-1">• Radiomaster Nexus-XR True Diversity 2.4GHz RX</div>
-  <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
+  <div class="break-inside-avoid px-2 py-1">• Squid Stick 동글 V2</div>
 </div>
 
-{/* source_hash: f47a9230cd332d96ba6ca06e56e951e8 */}
+{/* source_hash: 0b05b6852251da28bdaddad04fc4d6e5 */}

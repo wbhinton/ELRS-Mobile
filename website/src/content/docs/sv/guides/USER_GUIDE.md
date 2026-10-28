@@ -5,108 +5,137 @@ sidebar:
   order: 1
 ---
 
-## Översikt
-Denna applikation erbjuder ett omfattande mobilgränssnitt för att hantera ExpressLRS hårdvara. Den gör det möjligt för användare att konfigurera mottagar- (RX) och sändar- (TX) parametrar, mappa PWM-utgångar och flasha firmware-uppdateringar direkt från en mobil enhet.
+ELRS Mobile flashar och konfigurerar ExpressLRS-mottagare (RX) och sändare (TX) från din telefon, över Wi-Fi, utan laptop och utan internetanslutning ute på fältet. Den fungerar med ESP-baserad hårdvara (ESP8285, ESP32, ESP32-C3, ESP32-S3) och ExpressLRS 3.3.x samt 4.x firmware. Se [Kompatibel hårdvara](/supported_hardware) för varje kompatibel enhet.
+
+Arbetsflödet har två delar: ladda ner firmware när du har internet, och flasha sedan var som helst.
 
 ---
 
 ## Installation
 
-### Officiella Appbutiker
+| Plattform | Var du hittar den |
+| :--- | :--- |
+| Android | [Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile) |
+| iPhone och iPad | [App Store](https://apps.apple.com/us/app/elrs-mobile/id6760490014) |
+| Android, utan Google Play | [Direkt APK-nedladdning](https://cdn.elrsmobile.com/ELRS-Mobile-latest.apk), [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases), eller [GitHub Store](https://github.com/OpenHub-Store/Github-Store) |
 
-#### [Android](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
-Installera från Google Play
+Butiksversionerna uppdateras via Google Play och App Store. Den direktnedladdade APK:n söker efter en ny utgåva en gång om dagen och erbjuder sig att ladda ner den; du kan också söka när som helst från **Inställningar → Om & Juridik → Sök efter uppdateringar**, hoppa över en version eller bli påmind senare. Dina inställningar och profiler behålls när du installerar en uppdatering.
 
-<a href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Skaffa den på Google Play</a>
+Vill du ha nya funktioner tidigt? Gå med i [Google Play beta](https://play.google.com/apps/testing/io.datarx.elrsmobile) eller [TestFlight beta](https://testflight.apple.com/join/jwU1WrpX).
 
-#### [iOS](https://apps.apple.com/us/app/elrs-mobile/id6760490014)
-Installera från App Store
-
-<a href="https://apps.apple.com/us/app/elrs-mobile/id6760490014" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Ladda ner från App Store</a>
-
-### Alternativ Installation
-
-#### GitHub Store
-Idealisk för användare som föredrar en alternativ appbutiksupplevelse.
-
-<a href="https://github.com/OpenHub-Store/Github-Store" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Ladda ner från GitHub Store</a>
-
-### Manuell Installation
-För avancerade användare eller de som föredrar manuell hantering, besök vår [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases)-sida för de senaste `.apk`-filerna.
+Vid första start visar appen en kort ansvarsfriskrivning. Att flasha firmware medför alltid en viss risk för din hårdvara; acceptera för att fortsätta.
 
 ---
 
-## 🚀 Snabbstart: Flashning av din första enhet
+## Snabbstart: flasha din första enhet
 
-### Fas 1: Cachelagring av Firmware (Gör detta hemma)
-1. Öppna appen och navigera till **Firmwarehanteraren**.
-2. Tryck på nedladdningsikonen bredvid den senaste stabila versionen.
-3. Appen kommer att ladda ner och säkert cachelagra de nödvändiga mål- och hårdvarudefinitionerna för offline-användning.
+### Steg 1: Ladda ner firmware (hemma)
 
-### Fas 2: Ansluta till din enhet
-1. Slå på din ExpressLRS-mottagare (RX) eller -sändare (TX).
-2. Vänta 60 sekunder (eller ditt konfigurerade intervall) för att enheten ska gå in i Wi-Fi Hotspot-läge (snabbt blinkande LED).
-3. Anslut telefonens Wi-Fi till nätverket **ExpressLRS RX** eller **ExpressLRS TX** (Lösenord: `expresslrs`).
-4. Öppna appen. Instrumentpanelen kommer automatiskt att skanna nätverket med hjälp av mDNS och ansluta till enheten.
+1. På Dashboard, öppna **Firmware Manager**.
+2. Tryck på nedladdningsikonen bredvid den ExpressLRS-version du vill ha. Endast versioner 3.3.0 och nyare listas: de är de första med den enhetliga firmware som ELRS Mobile bygger på.
+3. När nedladdningen är klar visar versionen **Redo för offline-användning**. Firmware och de hårdvarudefinitioner den behöver är nu lagrade på din telefon.
 
-### Fas 3: Flasha Firmware
-1. Från Instrumentpanelen, välj **Flash Enhet**.
-2. **Välj din hårdvara:** Använd de kaskaderande rullgardinsmenyerna för att välja din enhetstyp, leverantör, frekvens och mål.
-3. **Konfigurera Alternativ & Profiler:** Välj en **Flashningsprofil** (eller tryck på **+**-knappen för att lägga till en ny namngiven profil) för att ladda dina uppgifter. Anpassa Binding Phrase, Wi-Fi SSID, Wi-Fi-lösenord, regulatoriska domäner och Wi-Fi auto-på-intervall.
-4. Tryck på **FLASH**. Appen kommer att sammanställa binärfilen lokalt och pusha den till enheten.
+Ladda ner firmware via ditt hem-Wi-Fi eller mobildata. Du kan inte ladda ner medan din telefon är ansluten till en mottagares eller sändares Wi-Fi-hotspot, eftersom det nätverket inte har internet.
 
-<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
-  <div class="flex items-center gap-3 mb-2">
-    <div class="p-2 rounded-lg bg-primary/10 text-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
-      </svg>
-    </div>
-    <span class="text-lg font-bold text-primary tracking-tight">Varning för Målmissmatchning</span>
-  </div>
-  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Om appen upptäcker en hårdvarumålmissmatchning mellan ditt val och den anslutna enheten, kommer den att varna dig för att förhindra oavsiktlig skada. Om du är säker på att du har rätt mål (t.ex. återhämtar dig från en felaktig flashning eller migrerar mellan måldefinitioner), klicka på <strong>FORCE FLASH</strong> i varningsdialogen för att kringgå kontrollen.
-  </p>
-</div>
+Rubriken visar hur många versioner du har lagrat mot din gräns. Ändra gränsen i **Inställningar → App & Lagring → Max antal cachade versioner**, och radera versioner du inte längre behöver.
 
-### 📋 Hantera Flashningsprofiler
-Om du har flera drönare eller radiouppsättningar med olika konfigurationskrav (t.ex. olika binding phrases eller regulatoriska domäner), kan du använda namngivna **Flashningsprofiler** för att spara och växla konfigurationer:
-* **Lägg till en profil**: Tryck på **+**-ikonen bredvid rullgardinsmenyn "Flashningsprofil", skriv ett namn och tryck på Lägg till.
-* **Autosparande**: Alla ändringar av den aktiva profilens uppgifter (binding phrase, SSID, lösenord, domän eller intervall) sparas automatiskt i realtid.
-* **Växla profiler**: Välj helt enkelt en profil från rullgardinsmenyn för att omedelbart ladda dess sparade inställningar.
-* **Ta bort en profil**: För att städa upp, välj profilen från rullgardinsmenyn och tryck på papperskorgs-/ta bort-ikonen (du måste ha minst två profiler för att kunna ta bort en).
+### Steg 2: Anslut till din enhet
+
+1. Slå på din mottagare eller sändare och vänta tills den startar sin Wi-Fi-hotspot. Som standard händer detta 60 sekunder efter påslagning om den inte har anslutit till sin partner. Sändare kan också starta Wi-Fi från ExpressLRS Lua-skriptet på din radio.
+2. På din telefon, anslut till nätverket **ExpressLRS RX** eller **ExpressLRS TX**. Lösenordet är `expresslrs`.
+3. Öppna ELRS Mobile. Dashboard hittar enheten automatiskt och visar dess produktnamn, firmware-version, target och regulatoriska domän.
+
+Om Dashboard visar **Ingen enhet hittades**, tryck på **Försök igen**. Om din enhet är på ett annat nätverk (till exempel ansluten till ditt hem-Wi-Fi), tryck på kugghjulsikonen på enhetskortet och ange dess IP-adress.
+
+Enheter som kör firmware äldre än 3.1 upptäcks också, s�� du kan uppdatera dem till en aktuell utgåva.
+
+### Steg 3: Flasha
+
+1. På Dashboard, tryck på **Flasha enhet**.
+2. Kontrollera target. Appen förväljer target som matchar den anslutna enheten när det är möjligt; annars välj Enhetstyp, Enhetsleverantör, Regulatorisk & Frekvens, och Enhets-target.
+3. Välj firmware-version. Versioner du har laddat ner är markerade **(Cachad)**. Om hårdvaran behöver en nyare version än den du har, säger appen till och erbjuder att ladda ner en kompatibel.
+4. Kontrollera firmware-alternativen: flashing-profil, binding phrase, Wi-Fi-nätverk och lösenord, regulatorisk domän, och Wi-Fi auto-on intervall.
+5. Tryck på **Flash**.
+
+Framstegsfältet följer varje steg: lokalisera och packa upp din nedladdade firmware, bygga den med dina inställningar, ladda upp den, och **Skriver till enhet – Vänligen vänta** medan enheten installerar den och startar om. När enheten bekräftar ser du **Flashning lyckades! Enheten startar om**, och Dashboard återansluter när den är igång igen.
 
 ---
 
-## Tekniska Detaljer
+## Säkerhetskontroller
 
-### Anslutning & Upptäckt
-Appen använder en robust upptäcktssekvens i flera steg för att hitta din hårdvara:
-1. **mDNS-upplösning**: Den primära metoden. Appen skannar efter `elrs_rx.local` eller `elrs_tx.local`.
-2. **Statisk AP Fallback**: Om mDNS är blockerat, kontrollerar appen den officiella ELRS-åtkomstpunktens IP (`10.0.0.1`).
-3. **Manuell IP-åsidosättning**: För komplexa nätverk kan du manuellt ange en IP-adress i Inställningar.
+Appen kontrollerar dina val innan flashning och stoppar om något verkar fel.
 
-**Tvingad Nätverksbindning**: Moderna smartphones kastar ofta bort Wi-Fi-anslutningar utan internet. ELRS Mobile inkluderar ett inbyggt "Forced Routing"-lager som tvingar operativsystemet att hålla fast vid hårdvaruanslutningen, vilket säkerställer 100% tillförlitlig upptäckt ute på fältet.
+:::danger[Inkompatibel chip]
+Firmware för en chip kan aldrig köras på en annan (till exempel ESP32 firmware på en ESP8285-mottagare). Appen blockerar flashningen och berättar vilken chip det är. Välj en target för din enhets chip.
+:::
+
+:::caution[Target-matchningsfel]
+Om den valda target inte matchar produkten som enheten rapporterar, ser du **Target-matchningsfel**. Kontrollera ditt val först. Om du är säker på att det är rätt (till exempel återhämtar dig från en misslyckad flashning eller flyttar till en nyare target-definition), tryck på **Tvinga flash**.
+:::
+
+:::note[Ingen binding phrase]
+Att flasha utan en binding phrase fungerar, men enheten kommer endast att binda med standardfrasen (tom). Appen frågar innan den fortsätter.
+:::
+
+:::caution[Flashning inte bekräftad]
+Om enheten kopplar bort innan den bekräftar flashningen (den förlorade strömmen, startade om, eller Wi-Fi-länken tappades), kan appen inte avgöra om uppdateringen slutfördes. Den visar en bärnstensfärgad varning istället för att rapportera framgång. Återanslut och kontrollera firmware-versionen på Dashboard; om den inte har ändrats, flasha igen.
+:::
 
 ---
 
-## Expertläge & Granskning
-Inom inställningsmenyn kan användare aktivera **Expertläge**. Detta gör att du kan spara den sammanställda firmware-binärfilen direkt till din enhet för granskning eller manuell flashning via FTDI.
+## Flashing-profiler
 
-<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
-  <div class="flex items-center gap-3 mb-2">
-    <div class="p-2 rounded-lg bg-primary/10 text-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
-      </svg>
-    </div>
-    <span class="text-lg font-bold text-primary tracking-tight">Hantering av STM32-hårdvara</span>
-  </div>
-  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Även om ELRS Mobile kan sammanställa och patcha firmware för STM32-mål (upp till ELRS v3.x), stöder dessa enheter inte Over-The-Air (OTA) flashning via Wi-Fi. Om du väljer ett STM32-mål, kommer appen att låta dig bygga och spara binärfilen lokalt så att du kan flasha den manuellt med hjälp av en PC via STLink eller Betaflight Passthrough.
-  </p>
-</div>
+En flashing-profil sparar en binding phrase, hem-Wi-Fi-nätverk och lösenord, standard regulatoriska domäner, och Wi-Fi auto-on intervall under ett namn. Använd en per flotta eller radioinställning, och växla mellan dem med ett tryck.
 
-För utvecklare som vill verifiera integriteten hos dessa binärfiler, se vår [**Firmware Valideringsguide**](/firmware-validation).
+Hantera profiler i **Inställningar → Profiler & Nätverk**:
 
-<!-- source_hash: 63cbf24b21fa894b032a2fd1615e4f61 -->
+- **Lägg till:** tryck på **+**, skriv ett namn, och tryck på **Lägg till**.
+- **Växla:** välj en profil från listan **Flashing-profil**. Den är också tillgänglig på flashing-skärmen.
+- **Redigera:** ändra valfritt fält; den aktiva profilen sparas automatiskt.
+- **Radera:** välj profilen och tryck på radera-ikonen. Du behåller alltid minst en profil.
+
+Binding phrases och Wi-Fi-lösenord lagras i telefonens krypterade säkra lagring.
+
+---
+
+## Enhetskonfiguration
+
+På Dashboard, tryck på **Enhetskonfig.** för att öppna den anslutna enhetens egen ExpressLRS-inställningssida inuti appen. Använd den för att ändra Wi-Fi- och binding-inställningar, modellmatchning, seriellt protokoll, PWM-utgångsmappning och andra enhetsalternativ. Appen håller sidan låst till din enhet.
+
+---
+
+## Inställningar
+
+| Sektion | Vad som finns där |
+| :--- | :--- |
+| Profiler & Nätverk | Flashing-profiler, binding phrase, hem-Wi-Fi-nätverk och lösenord, standard 2.4 GHz och sub-GHz regulatoriska domäner |
+| App & Lagring | Max antal cachade versioner, Firmware Manager, rensa firmware-cachen, appspråk, anonym användningsanalys (på som standard; stäng av med **Dela analysdata**) |
+| Avancerat & Felsökning | Expertläge och dess verktyg (nedan) |
+| Om & Juridik | Appversion, juridiskt meddelande och licens, stödja utveckling, och **Sök efter uppdateringar** i den direktnedladdade APK:n |
+
+Ändra appspråket från Inställningar eller språkknappen i toppmenyn. ELRS Mobile finns tillgänglig på 18 språk.
+
+---
+
+## Expertläge
+
+Slå på **Inställningar → Avancerat & Felsökning → Expertläge** för att låsa upp:
+
+- **STM32 targets.** Äldre STM32-baserad hårdvara kan inte flashas över Wi-Fi, och endast ExpressLRS 3.3.x stöder det. Appen bygger firmware med dina inställningar så att du kan flasha den från en PC med en STLink eller Betaflight passthrough.
+- **Ladda ner binärfil.** Spara den byggda firmware-filen istället för att flasha den, för manuell flashning eller granskning.
+- **Exportera ELRS Lua-skript.** Spara `elrs.lua` för EdgeTX- och OpenTX-radio.
+- **Skicka felsökningsrapport.** Skicka enhetsinformation och apploggar för att hjälpa till att åtgärda en bugg. Binding phrases och Wi-Fi-lösenord inkluderas aldrig.
+
+---
+
+## Felsökning
+
+**Dashboard kan inte hitta min enhet.** Se till att din telefon fortfarande är ansluten till enhetens Wi-Fi-nätverk; vissa telefoner lämnar nätverk som saknar internet. På Android behåller ELRS Mobile sin trafik på det Wi-Fi-nätverket även utan internet. Tryck på **Försök igen**, eller ange IP-adressen från kugghjulsikonen (`10.0.0.1` på enhetens egen hotspot).
+
+**Jag kan inte ladda ner firmware.** Koppla bort från enhetens hotspot och använd ett nätverk med internet.
+
+**Min enhet svarar inte efter en misslyckad flashning.** Håll BOOT-knappen intryckt medan du ansluter den via USB för att komma in i bootloader-läge, flasha sedan om med [ExpressLRS Web Flasher](https://expresslrs.org/flasher). Wi-Fi-kapabla enheter kan också återställas genom att hålla BOOT intryckt i 60 sekunder för att starta Wi-Fi-hotspoten. Skärmen för **Hjälp & Support** i appen innehåller dessa steg, en FAQ och länkar till ExpressLRS Discord.
+
+**Mina profiler försvann efter uppdatering.** Att uppdatera direkt från v1.0.43 eller äldre till v1.0.45 eller nyare kan inte överföra sparade profiler, binding phrases och Wi-Fi-inställningar vid en lagringsuppgradering. Appen informerar dig en gång; ange dem igen i Inställningar.
+
+Utvecklare kan verifiera firmware som ELRS Mobile bygger med [Firmware Validation Tools](/firmware-validation).

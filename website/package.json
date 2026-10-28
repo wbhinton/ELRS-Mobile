@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check:links": "node scripts/check_links.mjs"
+    "check:links": "node scripts/check_links.mjs",
+    "check:translations": "python3 scripts/check_translations.py"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",

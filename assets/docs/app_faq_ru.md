@@ -65,5 +65,3 @@ ELRS Mobile поставляется с универсальным, version-agno
 Ошибка Target Mismatch возникает, когда hardware target, которую вы выбрали в приложении, не соответствует target прошивки, текущей работающей на устройстве.
 
 Чтобы предотвратить accidental damage, приложение предупредит вас, если mismatch обнаружен. Однако, если вы уверены, что выбранная target верна (например, если вы converting device to different firmware variant или correcting previous incorrect flash), вы можете нажать **FORCE FLASH** в mismatch dialog, чтобы override the check и proceed with the flash.
-
-<!-- source_hash: 4de4fb02852e8f160449fd60465b7888 -->

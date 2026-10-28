@@ -65,5 +65,3 @@ ELRS Mobile มาพร้อมกับ universal, version-agnostic Lua scrip
 ข้อผิดพลาด target mismatch เกิดขึ้นเมื่อ hardware target ที่คุณเลือกในแอปไม่ตรงกับ target ของ firmware ที่กำลังทำงานอยู่บนอุปกรณ์
 
 เพื่อป้องกันความเสียหายโดยไม่ตั้งใจ แอปจะเตือนคุณหากตรวจพบ mismatch อย่างไรก็ตาม หากคุณแน่ใจว่า target ที่เลือกถูกต้อง (ตัวอย่างเช่น หากคุณกำลังแปลงอุปกรณ์เป็น firmware variant อื่น หรือแก้ไข previous incorrect flash) คุณสามารถแตะ **FORCE FLASH** ใน dialog mismatch เพื่อ override การตรวจสอบและดำเนินการ flash ต่อได้
-
-<!-- source_hash: 4de4fb02852e8f160449fd60465b7888 -->

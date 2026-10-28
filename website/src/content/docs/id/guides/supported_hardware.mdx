@@ -18,16 +18,16 @@ import HardwareList from '~/components/HardwareList.astro';
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> Semua target ESP8285, ESP32, ESP32-C3, dan ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Penerima dan pemancar berkemampuan Wi-Fi</li>
-      <li class="flex gap-2"><span>•</span> ELRS Versi 3.3.x dan 4.x</li>
+      <li class="flex gap-2"><span>•</span> ExpressLRS Versi 3.3.x dan 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
     <div class="flex items-center gap-2 mb-3 text-white/70">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm37.66,130.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
-      <h3 class="text-lg font-bold m-0 italic">Tidak Didukung (Dalam Pengembangan)</h3>
+      <h3 class="text-lg font-bold m-0 italic">Tidak Didukung (Dalam Proses)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Target STM32 yang memerlukan flashing STLink serial</li>
+      <li class="flex gap-2"><span>•</span> Target STM32 yang memerlukan flashing serial STLink</li>
       <li class="flex gap-2"><span>•</span> Metode flashing Betaflight Passthrough</li>
       <li class="flex gap-2"><span>•</span> Koneksi USB/Serial langsung di iOS</li>
     </ul>
@@ -36,14 +36,14 @@ import HardwareList from '~/components/HardwareList.astro';
 
 ---
 
-## Perangkat Keras yang Telah Diuji
+## Perangkat yang Didukung
 
 <HardwareList />
 
 ---
 
-## Biner yang Telah Diuji
-Assembler firmware internal telah diverifikasi secara fungsional terhadap output kompiler ExpressLRS resmi untuk target berikut:
+## Biner yang Diuji
+Perakit firmware internal telah diverifikasi secara fungsional terhadap output kompilator ExpressLRS resmi untuk target berikut:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -63,4 +63,4 @@ Assembler firmware internal telah diverifikasi secara fungsional terhadap output
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-{/* source_hash: f47a9230cd332d96ba6ca06e56e951e8 */}
+{/* source_hash: 0b05b6852251da28bdaddad04fc4d6e5 */}

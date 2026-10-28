@@ -65,5 +65,3 @@ Questo è particolarmente utile se desideri flashare il dispositivo manualmente 
 Un errore di "Target Mismatch" si verifica quando il target hardware selezionato nell'app non corrisponde al target del firmware attualmente in esecuzione sul dispositivo.
 
 Per prevenire danni accidentali, l'app ti avviserà se viene rilevata una mancata corrispondenza. Tuttavia, se sei sicuro che il target selezionato sia corretto (ad esempio, se stai convertendo un dispositivo a una diversa variante firmware o correggendo un precedente flash errato), puoi toccare **FORCE FLASH** nella finestra di dialogo di mancata corrispondenza per ignorare il controllo e procedere con il flash.
-
-<!-- source_hash: 4de4fb02852e8f160449fd60465b7888 -->

@@ -31,7 +31,9 @@ const t = useTranslations(lang);
 				<Icon name="open-book" class="phone-only" size="1.25rem" />
 				<span class="label">{t('nav.documentation')}</span>
 			</a>
-			<a class="cta" href={localizePath(lang, '/#installation')}>{t('nav.get_app')}</a>
+			<a class:list={['cta', { 'md-only': hasSidebar }]} href={localizePath(lang, '/#installation')}>
+				{t('nav.get_app')}
+			</a>
 		</nav>
 		<div class="md-only social-icons">
 			<SocialIcons />

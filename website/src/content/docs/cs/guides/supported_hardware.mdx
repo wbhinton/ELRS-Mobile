@@ -16,9 +16,9 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">Podporováno</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Všechny cílové desky ESP8285, ESP32, ESP32-C3 a ESP32-S3</li>
+      <li class="flex gap-2"><span>•</span> Všechny cíle ESP8285, ESP32, ESP32-C3 a ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Přijímače a vysílače s podporou Wi-Fi</li>
-      <li class="flex gap-2"><span>•</span> ELRS verze 3.3.x a 4.x</li>
+      <li class="flex gap-2"><span>•</span> Verze ELRS 3.3.x a 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
@@ -27,23 +27,23 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">Nepodporováno (ve vývoji)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Cílové desky STM32 vyžadující sériové flashování pomocí STLink</li>
+      <li class="flex gap-2"><span>•</span> Cíle STM32 vyžadující sériové flashování pomocí STLink</li>
       <li class="flex gap-2"><span>•</span> Metody flashování Betaflight Passthrough</li>
-      <li class="flex gap-2"><span>•</span> Přímá USB/sériová připojení na iOS</li>
+      <li class="flex gap-2"><span>•</span> Přímé USB/sériové připojení na iOS</li>
     </ul>
   </div>
 </div>
 
 ---
 
-## Testovaný hardware
+## Podporovaná zařízení
 
 <HardwareList />
 
 ---
 
 ## Testované binární soubory
-Interní firmware assembler byl funkčně ověřen oproti oficiálním výstupům kompilátoru ExpressLRS pro následující cílové desky:
+Interní sestavovač firmwaru byl funkčně ověřen proti oficiálním výstupům kompilátoru ExpressLRS pro následující cíle:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -63,4 +63,4 @@ Interní firmware assembler byl funkčně ověřen oproti oficiálním výstupů
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-{/* source_hash: f47a9230cd332d96ba6ca06e56e951e8 */}
+{/* source_hash: 0b05b6852251da28bdaddad04fc4d6e5 */}

@@ -65,5 +65,3 @@ To je obzvláště užitečné, pokud chcete nahrát zařízení ručně pomocí
 Chyba target mismatch nastane, když se hardwarový cíl, který jste vybrali v aplikaci, neshoduje s cílem firmwaru aktuálně běžícího na zařízení.
 
 Aby se zabránilo náhodnému poškození, aplikace vás upozorní, pokud je detekována neshoda. Nicméně, pokud si jste jisti, že je vybraný cíl správný (například, pokud přev��díte zařízení na jinou variantu firmwaru nebo opravujete předchozí nesprávné nahrání), můžete klepnout na **FORCE FLASH** v dialogovém okně neshody, abyste přepsali kontrolu a pokračovali v nahrání.
-
-<!-- source_hash: 4de4fb02852e8f160449fd60465b7888 -->

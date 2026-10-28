@@ -9,6 +9,7 @@ npm install
 npm run dev          # http://localhost:4321 (restart after editing tailwind.config.mjs)
 npm run build        # dist/
 npm run check:links  # after a build: fail on broken internal links
+npm run check:translations  # fail on corrupted/mangled machine translations
 ```
 
 ## Where things live
@@ -67,4 +68,8 @@ attributes; one delegated listener (in `astro.config.mjs`) sends the event.
 with Gemini. It costs money and is run manually (the `translate.yml` workflow or
 `./scripts/translate.sh`). Never execute it to test it; use
 `node --check scripts/translate_astro.cjs`. It skips docs in groups with
-`"translate": false` and removes strings deleted from English.
+`"translate": false` and removes strings deleted from English. After every
+run, `npm run check:translations` catches mechanical damage (corrupted
+characters, changed links or placeholders, broken MDX); to retranslate a
+damaged doc, delete its `source_hash` stamp, and for a damaged string, delete it
+from that locale in `ui.json`.

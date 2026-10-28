@@ -18,7 +18,7 @@ import HardwareList from '~/components/HardwareList.astro';
     <ul class="space-y-2 text-sm text-text-muted list-none pl-0 m-0">
       <li class="flex gap-2"><span>•</span> Todos os alvos ESP8285, ESP32, ESP32-C3 e ESP32-S3</li>
       <li class="flex gap-2"><span>•</span> Receptores e transmissores com capacidade Wi-Fi</li>
-      <li class="flex gap-2"><span>•</span> Versões ELRS 3.3.x e 4.x</li>
+      <li class="flex gap-2"><span>•</span> Versões do ELRS 3.3.x e 4.x</li>
     </ul>
   </div>
   <div class="p-5 rounded-2xl bg-surface/30 border border-white/5 backdrop-blur-sm">
@@ -27,23 +27,23 @@ import HardwareList from '~/components/HardwareList.astro';
       <h3 class="text-lg font-bold m-0 italic">Não Suportado (Em Progresso)</h3>
     </div>
     <ul class="space-y-2 text-sm text-text-muted/60 list-none pl-0 m-0">
-      <li class="flex gap-2"><span>•</span> Alvos STM32 que exigem gravação serial STLink</li>
+      <li class="flex gap-2"><span>•</span> Alvos STM32 que exigem gravação serial via STLink</li>
       <li class="flex gap-2"><span>•</span> Métodos de gravação Betaflight Passthrough</li>
-      <li class="flex gap-2"><span>•</span> Conexões diretas USB/Serial no iOS</li>
+      <li class="flex gap-2"><span>•</span> Conexões USB/Seriais diretas no iOS</li>
     </ul>
   </div>
 </div>
 
 ---
 
-## Hardware Testado
+## Dispositivos Suportados
 
 <HardwareList />
 
 ---
 
 ## Binários Testados
-O montador de firmware interno foi verificado funcionalmente em comparação com as saídas do compilador oficial ExpressLRS para os seguintes alvos:
+O montador de firmware interno foi funcionalmente verificado em relação às saídas do compilador oficial ExpressLRS para os seguintes alvos:
 
 <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-2 my-6 text-sm text-text-muted/80">
   <div class="break-inside-avoid px-2 py-1">• BETAFPV 2.4GHz Micro TX</div>
@@ -63,4 +63,4 @@ O montador de firmware interno foi verificado funcionalmente em comparação com
   <div class="break-inside-avoid px-2 py-1">• Squid Stick dongle V2</div>
 </div>
 
-{/* source_hash: f47a9230cd332d96ba6ca06e56e951e8 */}
+{/* source_hash: 0b05b6852251da28bdaddad04fc4d6e5 */}
