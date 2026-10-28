@@ -40,6 +40,8 @@ function translate(text, targetLang) {
 
     const req = https.request(options, (res) => {
       let data = '';
+      // Decode as UTF-8 so characters split across chunks aren't mangled into U+FFFD.
+      res.setEncoding('utf8');
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => {
         try {

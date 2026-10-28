@@ -1,0 +1,86 @@
+---
+// Starlight Footer override: keeps the default doc footer (edit link,
+// pagination) and adds the site-wide footer shown on every page.
+import Default from '@astrojs/starlight/components/Footer.astro';
+import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
+import { useTranslations, localizePath, defaultLocale } from '../../i18n';
+import { links } from '../../config/site';
+
+const { locale } = Astro.locals.starlightRoute;
+const lang = locale ?? defaultLocale;
+const t = useTranslations(lang);
+---
+
+<Default />
+
+<div class="site-footer not-content">
+	<nav class="footer-links" aria-label="Footer">
+		<a href={localizePath(lang, '/user_guide')}>{t('nav.documentation')}</a>
+		<a href={localizePath(lang, '/supported_hardware')}>{t('nav.hardware')}</a>
+		<a href={localizePath(lang, '/privacy')}>{t('privacy.policy_link')}</a>
+		<a href={links.repo}>{t('hero.github')}</a>
+	</nav>
+
+	<div class="support">
+		<a href={links.kofi} target="_blank" rel="noopener" data-track="kofi_support_click" data-location="footer">
+			{t('footer.kofi')}
+		</a>
+		<a href={links.elrsDonate} target="_blank" rel="noopener" data-track="elrs_donation_click" data-location="footer">
+			{t('footer.donate')}
+		</a>
+	</div>
+
+	<LanguageSelect />
+
+	<p>{t('footer.copy')}</p>
+	<p class="trademark">{t('footer.trademark')}</p>
+</div>
+
+<style>
+	@layer starlight.components {
+		.site-footer {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 1rem;
+			margin-top: 3rem;
+			padding-top: 2rem;
+			border-top: 1px solid var(--sl-color-hairline);
+			font-size: var(--sl-text-sm);
+			color: var(--sl-color-gray-3);
+			text-align: center;
+		}
+
+		.footer-links,
+		.support {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 0.5rem 1.5rem;
+		}
+
+		.site-footer a {
+			color: var(--sl-color-gray-2);
+			text-decoration: none;
+		}
+
+		.site-footer a:hover {
+			color: var(--sl-color-accent-high);
+		}
+
+		.support a {
+			color: var(--sl-color-accent);
+			font-weight: 600;
+		}
+
+		.site-footer p {
+			margin: 0;
+		}
+
+		.trademark {
+			max-width: 48rem;
+			font-size: var(--sl-text-xs);
+			opacity: 0.7;
+		}
+	}
+</style>

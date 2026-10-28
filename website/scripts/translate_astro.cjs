@@ -10,7 +10,10 @@ if (!apiKey) {
   process.exit(0);
 }
 
-const targetLocales = ['de', 'es', 'fr', 'ja', 'uk', 'pt', 'it', 'pl', 'ko', 'ru', 'nl', 'cs', 'th', 'sv', 'id', 'zh', 'nb'];
+const localeConfig = require('../src/config/locales.json');
+const targetLocales = Object.keys(localeConfig.locales).filter((l) => l !== localeConfig.defaultLocale);
+const docsConfig = require('../src/config/docs.json');
+const untranslatedSlugs = new Set(docsConfig.groups.filter((g) => !g.translate).flatMap((g) => g.slugs));
 
 // Marker used to translate a doc's title and body in a single request, then
 // split the response back apart — halves the API calls per file per locale.
@@ -43,6 +46,8 @@ function translateText(text, targetLang, context = '') {
 
     const req = https.request(options, (res) => {
       let data = '';
+      // Decode as UTF-8 so characters split across chunks aren't mangled into U+FFFD.
+      res.setEncoding('utf8');
       res.on('data', (chunk) => data += chunk);
       res.on('end', () => {
         try {
@@ -85,6 +90,14 @@ async function translateUi() {
     }
     if (!uiData._hashes[locale]) {
       uiData._hashes[locale] = {};
+    }
+
+    // Drop keys that no longer exist in English so dead strings don't linger.
+    for (const key of Object.keys(uiData[locale])) {
+      if (!(key in englishKeys)) {
+        delete uiData[locale][key];
+        delete uiData._hashes[locale][key];
+      }
     }
 
     const missingKeys = {};
@@ -172,9 +185,19 @@ async function translateDocs() {
     }
     const englishTitle = titleMatch[1].replace(/['"]/g, '').trim();
 
+    // Docs in groups marked `translate: false` (developer docs) stay English-only.
+    const slugMatch = rawYaml.match(/^slug:\s*(.+)$/m);
+    if (slugMatch && untranslatedSlugs.has(slugMatch[1].trim())) {
+      console.log(`Skipping English-only doc: ${file}`);
+      continue;
+    }
+
     // Hash source content to detect changes
     const sourceHash = crypto.createHash('md5').update(content).digest('hex');
-    const hashMarker = `<!-- source_hash: ${sourceHash} -->`;
+    // MDX rejects HTML comments, so .mdx files carry the marker as an MDX comment.
+    const hashMarker = file.endsWith('.mdx')
+      ? `{/* source_hash: ${sourceHash} */}`
+      : `<!-- source_hash: ${sourceHash} -->`;
 
     for (const locale of targetLocales) {
       const destDir = path.join(docsDir, `../${locale}/guides`);
@@ -212,7 +235,9 @@ async function translateDocs() {
         const translatedTitle = translatedCombined.slice(0, delimiterIndex).trim();
         const translatedBody = translatedCombined
           .slice(delimiterIndex + DOC_BODY_DELIMITER.length)
-          .trim();
+          .trim()
+          // The model sometimes wraps links in a Google redirect; restore the original URL.
+          .replace(/https:\/\/www\.google\.com\/url\?q=(https?:\/\/[^\s)&]+)[^\s)]*/g, '$1');
 
         if (!translatedTitle || !translatedBody) {
           throw new Error('Split produced an empty title or body');

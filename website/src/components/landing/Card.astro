@@ -1,0 +1,17 @@
+---
+// The one card surface used across the landing page. Renders a link when
+// `href` is given; extra attributes (e.g. data-track) pass through.
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'div'> & HTMLAttributes<'a'> & { href?: string };
+
+const { href, class: className, ...attrs } = Astro.props;
+const Tag = href ? 'a' : 'div';
+const classes = [
+	'block rounded-2xl border border-white/5 bg-surface/40 p-6 md:p-8 text-white no-underline',
+	href && 'transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-surface/70',
+	className,
+];
+---
+
+<Tag href={href} class:list={classes} {...attrs}><slot /></Tag>

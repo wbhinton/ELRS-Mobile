@@ -1,0 +1,49 @@
+---
+import Card from './Card.astro';
+import { chipsets, hardwareStats } from '../../data/hardware';
+import { useTranslations, localizePath, formatNumber, formatAtLeast } from '../../i18n';
+
+interface Props {
+	lang: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Device counts are exact (derived at build); the flash total is rounded so it
+// matches the hero and stays true between data refreshes.
+const stats = [
+	{ value: formatNumber(lang, hardwareStats.devices), label: t('hardware.stat_devices') },
+	{ value: formatNumber(lang, hardwareStats.brands), label: t('hardware.stat_brands') },
+	{ value: formatNumber(lang, hardwareStats.verified), label: t('hardware.stat_verified') },
+	{ value: formatAtLeast(lang, hardwareStats.flashes), label: t('hardware.stat_flashes') },
+];
+---
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+	{
+		stats.map((stat) => (
+			<Card class="text-center !p-5">
+				<div class="text-3xl md:text-4xl font-extrabold text-primary">{stat.value}</div>
+				<div class="text-text-muted text-sm mt-1">{stat.label}</div>
+			</Card>
+		))
+	}
+</div>
+
+<Card class="text-center">
+	<h3 class="text-lg font-bold mb-4">{t('hardware.chipsets_title')}</h3>
+	<div class="flex flex-wrap justify-center gap-2 mb-5">
+		{
+			chipsets.map((chip) => (
+				<span class="px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-wider">
+					{chip}
+				</span>
+			))
+		}
+	</div>
+	<p class="text-text-muted text-sm">{t('hardware.unsupported')}</p>
+	<a href={localizePath(lang, '/supported_hardware')} class="inline-block mt-4 text-primary font-bold">
+		{t('hardware.see_all')} →
+	</a>
+</Card>

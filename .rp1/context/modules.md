@@ -9,178 +9,132 @@ strictness: strict
 # Module & Component Breakdown
 
 **Project**: ELRS Mobile
-**Analysis Date**: 2026-09-22
-**Modules Analyzed**: ~20 (feature slices + core directories + app shell)
+**Analysis Date**: 2026-10-27 (commit 3e8eab5, v1.0.45+111)
+**Modules Analyzed**: ~20 (feature slices, core directories, app shell, tests, website, CI)
 
 ## Feature Modules (`lib/src/features/`)
 
-### flashing (`features/flashing/`)
-**Purpose**: the core feature — download ExpressLRS firmware, patch/assemble it for a selected target, flash it to the device over Wi-Fi. Fullest clean-architecture slice: `data` / `domain` / `application` / `utils` / `presentation` / `state`.
-**Complexity**: High (~27 files, ~3.3k LOC across sub-modules).
-**Key components**: `presentation/flashing_controller.dart`, `application/firmware_patcher.dart`, `utils/firmware_assembler.dart`, `utils/stm32_firmware_patcher.dart`, `utils/target_resolver.dart`, `utils/hardware_config_merger.dart`, `data/device_repository.dart`, `data/firmware_repository.dart`, `data/releases_repository.dart`, `data/targets_repository.dart`, `domain/target_definition.dart`, `domain/flashing_profile.dart`, `domain/patch_configuration.dart`, `state/flashing_provider.dart` (`isFlashingProvider`).
-**Public API**: providers `flashingControllerProvider`, `firmwarePatcherProvider`, `targetsProvider`, `isFlashingProvider`, `deviceRepositoryProvider`, `targetsRepositoryProvider`; screen `FlashingScreen (/flashing)`; static I/O-free utils.
-**Contract**: consumers interact via Riverpod providers; other modules must set `isFlashing` to suspend discovery/heartbeat during a flash.
-**Recent changes**: `ReleasesRepository` raised the minimum offered firmware version from `>= 3.0.0` to `>= 3.3.0` (pre-3.3.0 firmware lacks unified-build support). `FlashingController`'s target-mismatch force-flash now calls `confirmForceUpdate()` directly first (the mismatched bytes are still in the device's OTA buffer from the initial `/update`), falling back to a full re-upload-then-confirm only if that fails — cuts a redundant network round trip on the common force-flash path. `utils/unified_firmware_builder.dart` (superseded, divergent duplicate of `firmware_assembler.dart`) and three unused barrel `index.dart` re-exports (`data/`, `application/`, `presentation/`) were deleted as dead code. `FlashingController.FlashingStatus` expanded from `{idle, downloading, patching, uploading, success, downloadSuccess, error, mismatch}` to `{idle, locating, unpacking, downloading, building, uploading, finalizing, success, downloadSuccess, error, mismatch}` so the progress bar reflects real phases: `locating`/`unpacking` cover the normal offline cache-read path, `downloading` is now only the rare network-fallback, and a new `finalizing` phase (indeterminate progress bar) covers the post-upload device write/reboot window that has no progress signal of its own. `DeviceRepository.flashFirmware`'s `onSendProgress` callback — previously accepted, documented, and silently never invoked — is now actually forwarded, fixing a real bug where the upload progress bar never moved.
+### flashing
+**Purpose**: the core feature: resolve a target, get firmware (cache first, network fallback), assemble/patch it, and flash it over Wi-Fi behind safety guards with typed outcomes. Fullest slice: `data` / `domain` / `application` / `utils` / `presentation` / `state`.
+**Complexity**: High (~28 files, ~3.45k LOC).
+**Key components**: `presentation/flashing_controller.dart` (~900 LOC orchestrator), `presentation/flash_error_text.dart`, `presentation/target_selectors.dart`, `domain/flash_error.dart`, `utils/chip_family.dart`, `utils/firmware_assembler.dart`, `utils/stm32_firmware_patcher.dart`, `utils/target_resolver.dart`, `utils/hardware_config_merger.dart`, `application/firmware_patcher.dart`, `data/{device,firmware,releases,targets}_repository.dart`, `data/targets_provider.dart`, `state/flashing_provider.dart`.
+**Public API**: `flashingControllerProvider`, `firmwarePatcherProvider`, `targetsProvider`, `isFlashingProvider`, `deviceRepositoryProvider`, `targetsRepositoryProvider`; `FlashingScreen (/flashing)`; sealed `FlashError`.
+**Contract**: anything polling the device must respect `isFlashing`.
+**Since 2026-09-22**: chip-family hard block (`ChipMismatch`, daa9792); Force Flash now re-uploads with `?force=1` and only then confirms via `/forceupdate` (cf39001); success requires device `status == ok`, post-upload silence raises `FlashUnconfirmedException` → amber `FlashUnconfirmed`; typed `FlashError` hierarchy replaced string errors and is fully localized; extraction awaited inside its try (8b93f37).
 
-### config (`features/config/`)
-**Purpose**: live device configuration — connect to a flashed device, heartbeat/probe it, read and write runtime ELRS settings (domain, power, model mappings), frequency-safety validation.
-**Complexity**: High (~11 files, ~1.0k LOC).
-**Key components**: `presentation/config_view_model.dart` (now the module's only view-model), `services/device_config_service.dart`, `domain/runtime_config_model.dart`, `domain/elrs_mappings.dart`, `utils/frequency_validator.dart`.
-**Public API**: providers `configViewModelProvider`, `deviceConfigServiceProvider`; domain `RuntimeConfig`, `ElrsMappings` (now a single `domains900` constant). Depends on `core/networking` for transport.
-**Recent changes**: `DeviceConfigService` gained a legacy-firmware compatibility layer — `probeDeviceHead` falls back to the universal `probeDevice('/')` when `/hardware.json` (3.2.x+ only) fails, and `fetchConfig` falls back to a new `_fetchLegacyConfig()` that reconstructs a `RuntimeConfig` from `/target` + best-effort `/mode.json` when `/config` (3.1.0+) 404s. This lets the app read/identify devices on firmware as old as ~3.0.x even though flashing/downloads remain gated to `>= 3.3.0`. `presentation/device_editor_view_model.dart` (a native device-config editor) was deleted as dead code — superseded by the embedded device WebUI in `features/configurator`. `ConfigViewModel` lost `updateWifiSsid`/`updateWifiPassword`/`updateOption`/`_saveOptions`/`reboot` (dead, unwired to any UI); `DeviceConfigService` lost `saveOptions`/`saveConfig`/`reboot` as a cascade once `ConfigViewModel.reboot` (their only caller) was removed. `elrs_mappings.dart` was trimmed from six lookup maps to the one still-used `domains900` constant.
+### app_update (new; prior KB wrongly listed an "updates" module as removed)
+**Purpose**: update check for the direct-download APK only (`kIsDirectDistribution`, set by `--dart-define=DISTRIBUTION=direct`). Fetches `cdn.elrsmobile.com/latest.json` at most every 24 h or on demand; skip version / later.
+**Files**: `application/app_update_service.dart`, `data/app_update_repository.dart`, `domain/app_release.dart`, `presentation/update_dialog.dart` (~270 LOC). `CheckForUpdatesTile` lives in Settings; Dashboard triggers the startup check.
 
-### firmware_manager (`features/firmware_manager/`)
-**Purpose**: manage the local firmware cache — list available vs cached versions, download with progress, report and clear cache size.
-**Complexity**: Medium (~4 files, ~360 LOC). Reuses `ReleasesRepository` and `FirmwareCacheService`.
-**Key components**: `presentation/firmware_manager_controller.dart`, `presentation/firmware_manager_screen.dart`.
+### config
+**Purpose**: device connection lifecycle and config **reading**: heartbeat, discovery poller, manual IP, `RuntimeConfig` fetch with V3→V4 normalization and pre-3.1 legacy fallback, frequency validation. No native write path.
+**Key components**: `presentation/config_view_model.dart`, `services/device_config_service.dart`, `domain/runtime_config_model.dart`, `domain/elrs_mappings.dart` (`domains900` only), `utils/frequency_validator.dart` (~890 LOC).
 
-### settings (`features/settings/`)
-**Purpose**: app settings screen and state — app locale/language selection, disclaimer/legal acceptance, Wi-Fi-on interval, flashing profiles, Expert Mode, analytics opt-in.
-**Complexity**: Medium (~8 files, ~1.6k LOC — largest single presentation surface).
-**Key components**: `presentation/settings_controller.dart`, `presentation/settings_screen.dart`, `presentation/widgets/settings_master_detail.dart`, `presentation/disclaimer_dialog.dart`, `presentation/legal_notice_screen.dart`.
-**Recent changes**: `settings_screen.dart` added Norwegian Bokmål (`nb`/`no` -> "Norsk") to the language dialog list and dropdown.
+### configurator
+Locked WebView (`/device_config`) hosting the device's own web UI, the only device-settings editor; emits `Config Webview Opened`; Android file-picker bridge for `.bin`/`.gz`.
 
-### dashboard (`features/dashboard/`)
-**Purpose**: post-connection home screen showing device status and quick-action navigation cards.
-**Complexity**: Medium (~3 files, ~600 LOC). Key: `presentation/dashboard_screen.dart`, widgets `hardware_status_card.dart`, `dashboard_card.dart`.
-**Recent changes**: `widgets/connection_status_badge.dart` deleted as dead code — superseded by the live `discoveryServiceProvider` (`core/networking/discovery_service.dart`).
+### firmware_manager
+Cache management UI: list/download/delete versions, storage budget. `firmware_manager_error.dart` adds a typed, localized error kind (loadFailed, onDeviceHotspot, cacheFull, serverUnreachable, downloadInterrupted, downloadFailed, deleteFailed). Reuses `ReleasesRepository` + `FirmwareCacheService` (~444 LOC).
 
-### configurator (`features/configurator/`)
-**Purpose**: thin presentation shell hosting the device's embedded WebUI in a locked WebView. Single file `presentation/device_settings_screen.dart` (`/device_config`). Now the sole device-configuration-editing surface since `config`'s native `DeviceEditorViewModel` was removed.
+### settings
+Profiles & Network (profiles, bind phrase, home Wi-Fi, regulatory defaults), App & Storage (max cached versions, Firmware Manager, clear cache, language, Share Analytics, default **on**), Advanced & Debug (Expert Mode → Lua export, Sentry debug report), About & Legal (version, legal, Ko-fi, Check for Updates in direct builds). `settings_screen.dart` remains the largest file (~1.6k LOC); `settings_master_detail.dart` for landscape.
 
-### updates (`features/updates/`) — REMOVED
-Formerly the app self-update-check controller (legacy Gist-based check, already stubbed for store distribution). `presentation/update_controller.dart`(`.g.dart`) and `domain/update_state.dart`(`.freezed.dart`) were deleted outright — the app now relies entirely on Google Play / App Store distribution with no in-app update-checking code path.
+### dashboard
+Home hub: hardware status card (scanning / connected / not found, manual IP keypad), navigation cards, and the serialized launch dialogs (disclaimer, Saved Settings Reset, update).
 
-### splash / support (`features/splash/`, `features/support/`)
-**Purpose**: `splash_screen.dart` — startup route (`/`), timed hand-off to Dashboard; disclaimer text now reads "Compatible with 3.3.x/4.x firmware" (was "3.x/4.x"), matching the `ReleasesRepository` minimum-version bump. `support_screen.dart` — help walkthrough, FAQ, community/recovery links, localized with fallback (new `assets/docs/app_faq_nb.md`).
+### splash / support
+`splash_screen.dart` (3 s hand-off, "Compatible with 3.3.x/4.x"); `support_screen.dart` (Flashing Guide / FAQ / Resources, localized FAQ assets with fallback, recovery links).
 
 ## Core Modules (`lib/src/core/`)
 
-### core/networking (`core/networking/`)
-**Purpose**: device connectivity infrastructure — mDNS/NSD discovery, connectivity monitoring, target-IP state, an ESP8285-tuned sequential Dio client, native platform-channel Wi-Fi process binding.
-**Complexity**: Medium (~11 files, ~630 LOC).
-**Key components**: `discovery_service.dart` (`discoveryServiceProvider` — sole discovery entry point), `expected_reboot_drop.dart` (`isExpectedRebootSocketDrop`), `connectivity_service.dart`, `connection_repository.dart` (`TargetIp`), `device_dio.dart` (`SequentialRequestInterceptor`, `localDioProvider`), `native_network_service.dart`.
-**Contract**: all device HTTP goes through `localDioProvider`; base URL comes from `TargetIp` state.
-**Recent changes**: `discovery_provider.dart`(`.g.dart`) deleted as dead code — it duplicated `discovery_service.dart`'s Wi-Fi-transition scan logic but was never watched by anything; `discoveryServiceProvider` was always the live path. New shared `expected_reboot_drop.dart` added: a single canonical `isExpectedRebootSocketDrop(DioException)` predicate replacing two independently-diverged copies that used to live inline in `DeviceRepository` and `DeviceConfigService` (the diverged copies disagreed on whether `ECONNREFUSED` counted as an expected reboot, causing some successful flashes to be reported as failures).
+### networking
+`discovery_service.dart` (serialized `nsd` scans, paused while flashing), `connectivity_service.dart` (auto-bind/unbind), `connection_repository.dart` (`TargetIp`), `device_dio.dart` (`localDioProvider`, `SequentialRequestInterceptor`), `native_network_service.dart` (Android-only bind + multicast lock), `expected_reboot_drop.dart` (classification only, no longer "success"). ~618 LOC. All device HTTP goes through `localDioProvider`.
 
-### core/storage (`core/storage/`)
-**Purpose**: persistence — `SharedPreferences` + `flutter_secure_storage` wrapper with a one-time sensitive-data migration, and an on-disk firmware/hardware-zip + targets-JSON cache.
-**Complexity**: Medium (~4 files, ~430 LOC). Key: `persistence_service.dart`, `firmware_cache_service.dart`.
-**Contract**: single choke point for prefs/secrets and the on-disk firmware cache.
-**Recent changes**: `flutter_secure_storage` bumped `^9.2.2` -> `^10.3.4` (start of a cipher migration per commit e2401d5); `persistence_service.dart`'s secure-storage init dropped the explicit `AndroidOptions(encryptedSharedPreferences: true)` in favor of v10's `AndroidOptions()` defaults. The Apple-platform plugin was also renamed `flutter_secure_storage_macos` -> `flutter_secure_storage_darwin` (see `macos/Flutter/GeneratedPluginRegistrant.swift`).
+### storage
+`persistence_service.dart`: prefs + `flutter_secure_storage` ^11 (stage-2 cipher migration), plaintext→secure migration (`security_migration_v1_done`), `secure_storage_data_lost` flag, update-check timestamps/skipped version, default profile seeding. `firmware_cache_service.dart`: archive cache, size, clear, eviction. ~468 LOC.
 
-### core/utils (`core/utils/`)
-**Purpose**: cross-feature helpers — `binding_phrase_utils.dart` (phrase -> UID MD5), `lua_export_utils.dart` (file-picker export), `validation_utils.dart` (SSID/password checks).
-**Recent changes**: `bytes_builder_extension.dart` (`BytesBuilderExtension`) deleted as dead code — no remaining callers.
-
-### core/analytics / core/theme / core/presentation
-`analytics_service.dart` — Aptabase wrapper, lazy init, silent no-op on failure. `app_theme.dart` — Material 3 dark-only theme. `responsive_layout.dart` — max-width constraint on a tablet breakpoint (`ResponsiveLayout.isTablet`); the unused `isDesktop`/desktop-breakpoint pair was deleted as dead code.
+### analytics / app_info / theme / presentation / utils
+`analytics_service.dart` (Aptabase, lazy init, honors `shareAnalytics`; core→settings dependency); `app_info.dart` (version info); `app_theme.dart` (dark-only M3); `responsive_layout.dart`; `utils/` (`binding_phrase_utils.dart`, `lua_export_utils.dart`, `validation_utils.dart`).
 
 ## Support Modules
 
-### localization (`lib/l10n/*.arb`, `lib/src/localization/`)
-Generated `AppLocalizations` for 18 locales plus ARB sources; `arb_translate` (Gemini) performs machine translation in CI. Largest module by raw LOC (~7k, generated). Norwegian Bokmål (`nb`) added: new `app_nb.arb`, `AppLocalizationsNb` delegate registered in `app_localizations.dart`, and a Norwegian FAQ asset (`assets/docs/app_faq_nb.md`).
-
-### App shell (`lib/`, `lib/src/`)
-`main.dart` (entrypoint, Logger + Sentry breadcrumbs, `ProviderContainer`), `src/app.dart` (`UncontrolledProviderScope` + `MaterialApp.router` + lifecycle bootstrap), `src/router.dart` (go_router table for 8 routes).
-**Routes**: `/`, `/dashboard`, `/flashing`, `/settings`, `/device_config`, `/firmware_manager`, `/legal`, `/support`.
-**Recent changes**: `src/bit_list.dart` (`BitList`, immutable bit view) deleted as dead code — no remaining callers.
-
-### packages/ip_address_keypad — REMOVED
-Formerly a vendored local Flutter package for numeric IP-address input. Deleted as dead weight: it was never wired into the root `pubspec.yaml` (no `path:`/`dependency_overrides` entry), and the vendored `lib/` had no `ip_address_keypad.dart` entrypoint to satisfy the import anyway — the app has always actually consumed the pub.dev-published `ip_address_keypad` package of the same name.
-
-### Non-app assets
-`website/` (separate Astro marketing/docs site — hero subtitle and supported-hardware doc across all locales now state a "3.3.x/4.x" firmware floor, matching the app), `firmware_testing/` (Python `audit_tool.py` + Dart `logic_validator.dart` for byte-match verification against the Web Flasher), `scripts/` (changelog generation, markdown translation), `assets/lua/elrs.lua` (bundled Lua template). `website/scripts/translate_astro.cjs`'s doc translator now merges a guide's title + body into one Gemini request instead of two, roughly halving API calls for that path; the whole translation pipeline (`arb_translate` + `scripts/translate_markdown.js` + `translate_astro.cjs`, all Gemini 2.5 Flash) is manually triggered by pushing to a dedicated `translations` branch — never CI-auto-run — to keep API spend under direct control. A stray 65MB release APK and several stale `digest*.txt` LLM-context dumps were untracked from git and added to `.gitignore`.
-
-### platform_shells (`android/`, `ios/`, `macos/` native glue)
-Android `MainActivity.kt`, iOS `AppDelegate.swift`/`SceneDelegate.swift`, macOS `GeneratedPluginRegistrant.swift`. Android build tooling bumped to Gradle 9.3.1 with the modern `kotlin { compilerOptions { jvmTarget } }` DSL (migrated off deprecated `kotlinOptions`); macOS registrant regenerated for the `flutter_secure_storage_darwin` plugin rename. Release pipeline (`.github/workflows/release.yml`) unified onto a single `v*`-tag/`workflow_dispatch`-triggered workflow (was split across a development-branch push trigger and a separate RC workflow).
+- **App shell**: `lib/main.dart` (Logger → Sentry breadcrumbs, Sentry init when `SENTRY_DSN`), `src/app.dart`, `src/router.dart` (8 routes: `/`, `/dashboard`, `/flashing`, `/settings`, `/device_config`, `/firmware_manager`, `/legal`, `/support`).
+- **Localization**: `lib/l10n/*.arb` (18 locales incl. `nb`, `app_en.arb` source, ~201 strings) → generated `AppLocalizations`; `scripts/translate.sh`, `scripts/arb_stale_check.js`, `scripts/arb_source_hashes.json`; translation runs only by manual dispatch.
+- **Tests** (`test/`, 8 files): `app_update_service`, `check_for_updates_tile`, `chip_family`, `flash_error_text`, `l10n_hygiene` (fails on hard-coded UI text / unused keys), `l10n_messages`, `localization_overflow`, `secure_storage_upgrade`.
+- **Website** (`website/`): Astro + Starlight; overrides in `src/components/starlight/`; landing components in `src/components/landing/` fed by `src/data/landing.ts`; `HardwareList.astro` + `src/data/hardware.ts` (from `../assets/targets.json` + `src/data/verified.json`); `src/data/usage.json` (installs); single sources `src/config/{locales.json,site.ts,docs.json}` and `src/i18n/index.ts`; scripts `build_verified.py`, `crop_store_screenshots.py`, `check_links.mjs`, `translate_astro.cjs`. Plan: `website/REDESIGN_PLAN.md`; guide: `website/README.md`.
+- **CI/release** (`.github/workflows/`): `ci.yml`, `release.yml`, `build-direct-apk.yml`, `publish-apk-r2.yml`, `website.yml`, `translate.yml` (manual), `update_targets.yml`.
+- **firmware_testing/**: `scripts/dart/logic_validator.dart`, `scripts/python/audit_tool.py`, golden binaries.
 
 ## Key Components Reference
 
 | Component | File | Role |
 |-----------|------|------|
-| `FlashingController` | `features/flashing/presentation/flashing_controller.dart` | Riverpod Notifier orchestrating the end-to-end flash pipeline and `FlashingState`; holds wakelock, silences heartbeat, detects post-upload mismatch; force-flash now confirms the buffered OTA payload directly before falling back to re-upload |
-| `FirmwarePatcher` | `features/flashing/application/firmware_patcher.dart` | Chooses STM32 (bit-packing) vs ESP (assembled later) path; derives UID |
-| `Stm32FirmwarePatcher` | `features/flashing/utils/stm32_firmware_patcher.dart` | Static util writing 6-byte UID + `Uint8` domain into STM32 firmware via `ByteData`; bounds checks reported to Sentry |
-| `FirmwareAssembler` | `features/flashing/utils/firmware_assembler.dart` | Append fixed-width product-name (128 B) / lua-name (16 B) / options-JSON (512 B) / layout-JSON (2048 B) blocks to trimmed firmware — now the sole ESP builder; the divergent duplicate `unified_firmware_builder.dart` was deleted |
-| `TargetResolver` / `HardwareConfigMerger` | `features/flashing/utils/` | Extract base layout from `hardware.zip` (RX/TX folder heuristics), shallow-merge target overlay |
-| `FirmwareRepository` | `features/flashing/data/firmware_repository.dart` | Download firmware artifacts/zips from Artifactory (Dio), unpack archives |
-| `ReleasesRepository` | `features/flashing/data/releases_repository.dart` | List downloadable versions from the Artifactory index (now filtered to `>= 3.3.0`); offline/cache fallback |
-| `DeviceRepository` | `features/flashing/data/device_repository.dart` | Device HTTP: `POST /update` multipart, `/forceupdate`; builds/uploads firmware via `FirmwareAssembler`; classifies post-reboot socket drops via `isExpectedRebootSocketDrop`. No longer analytics-integrated and no longer reads config/hardware.json/wifi/binding-phrase endpoints (those dead methods were removed with the cleanup pass) |
-| `isExpectedRebootSocketDrop` | `core/networking/expected_reboot_drop.dart` | Pure predicate classifying a `DioException` as an expected hardware-reboot socket drop (`ECONNABORTED`/`ECONNRESET`/`EPIPE`/`ECONNREFUSED`-style matches); sole shared implementation, replacing two previously-diverged private copies |
-| `TargetsRepository` | `features/flashing/data/targets_repository.dart` | Fetch `targets.json` (GitHub raw), cache it, parse off-isolate via `compute`, tiered cache/asset fallback |
-| `ConfigViewModel` | `features/config/presentation/config_view_model.dart` | Live device connection lifecycle: heartbeat timer, aggressive discovery poller, manual IP, probe diagnostics, `RuntimeConfig` read/write |
-| `DeviceConfigService` | `features/config/services/device_config_service.dart` | Low-level device HTTP (probe, config GET/POST) with short timeouts + `CancelToken`; V3->V4 normalization; legacy-firmware fallback (`/target`+`/mode.json`) for pre-3.1.0 devices |
-| `FrequencyValidator` | `features/config/utils/frequency_validator.dart` | Rejects a 2.4 GHz-capable model reporting a sub-GHz frequency (`modelId` bit 7) |
-| `DiscoveryService` | `core/networking/discovery_service.dart` | mDNS/NSD scanning; serialized start/stop/restart (UDP 5353 rebind guard); auto-restart on Wi-Fi transitions; skips while `isFlashing` |
-| `device_dio` / `SequentialRequestInterceptor` | `core/networking/device_dio.dart` | Dio client forcing strictly sequential requests to protect the ESP8285 web server |
-| `NativeNetworkService` | `core/networking/native_network_service.dart` | `MethodChannel` bridge — bind app process to a no-internet Wi-Fi network |
-| `PersistenceService` | `core/storage/persistence_service.dart` | Unified prefs + secrets read/write; one-time `migrateIfNeeded()` plaintext -> secure storage; seeds a default profile |
-| `FirmwareCacheService` | `core/storage/firmware_cache_service.dart` | On-disk cache of firmware/hardware archives + targets JSON; size report / clear / oldest-first eviction |
-| `BindingPhraseUtils` | `core/utils/binding_phrase_utils.dart` | `generateUid(phrase)` — ELRS `phrase.js` algorithm (literal prefix + MD5, first 6 bytes) |
-| `SettingsController` | `features/settings/presentation/settings_controller.dart` | App-level settings state (`appLocale`, disclaimer, Wi-Fi-on interval, profiles); `loadSettings` at startup |
-| `goRouter` | `lib/src/router.dart` | go_router route table for the 8 top-level screens |
+| `FlashingController` | `features/flashing/presentation/flashing_controller.dart` | Guards, phases, upload, Force Flash (`?force=1` then `/forceupdate`), typed outcomes, wakelock, analytics |
+| `FlashError` | `features/flashing/domain/flash_error.dart` | Sealed outcome types with analytics `code` |
+| `chipFamilyOf` | `features/flashing/utils/chip_family.dart` | Chip family from target/platform name |
+| `FirmwareAssembler` | `features/flashing/utils/firmware_assembler.dart` | Sole ESP builder: trim + 4 fixed blocks + gzip |
+| `Stm32FirmwarePatcher` | `features/flashing/utils/stm32_firmware_patcher.dart` | UID + domain into STM32 binaries |
+| `DeviceRepository` | `features/flashing/data/device_repository.dart` | `/update[?force=1]`, `/forceupdate`, reply-status parsing, `FlashUnconfirmedException` |
+| `ReleasesRepository` / `FirmwareRepository` / `TargetsRepository` | `features/flashing/data/` | Versions ≥ 3.3.0, archives, targets with network→cache→asset fallback |
+| `AppUpdateService` / `AppUpdateRepository` | `features/app_update/` | Direct-build update check |
+| `ConfigViewModel` / `DeviceConfigService` | `features/config/` | Connection lifecycle; config read + legacy fallback |
+| `DiscoveryService` | `core/networking/discovery_service.dart` | Serialized mDNS |
+| `isExpectedRebootSocketDrop` | `core/networking/expected_reboot_drop.dart` | Reboot-drop classifier |
+| `PersistenceService` | `core/storage/persistence_service.dart` | Prefs + secure storage + migrations |
+| `FirmwareCacheService` | `core/storage/firmware_cache_service.dart` | Archive cache |
+| `AnalyticsService` | `core/analytics/analytics_service.dart` | Aptabase, opt-out |
 
 ## Module Dependencies
 
 ```mermaid
 graph TD
-    Shell["app shell: main / app / router"] --> FeatPres["features/*/presentation"]
-    FeatPres --> FeatApp["features/*/application + state"]
-    FeatPres --> FeatData["features/*/data + services"]
-    FeatApp --> FeatUtils["features/flashing/utils"]
-    FeatApp --> FeatDomain["features/*/domain"]
-    FeatData --> FeatDomain
-    FeatData --> CoreNet["core/networking"]
-    FeatData --> CoreStore["core/storage"]
-    FeatData --> CoreAnalytics["core/analytics"]
-    FeatPres --> CoreNet
-    CoreNet --> FlashState["features/flashing/state (isFlashing)"]
-    CoreNet --> Native["Android MethodChannel"]
-    Shell --> L10n["localization"]
+    Shell["app shell"] --> Pres["features/*/presentation"]
+    Pres --> AppState["features/*/application + state"]
+    Pres --> Data["features/*/data + services"]
+    AppState --> Utils["features/flashing/utils"]
+    AppState --> Domain["features/*/domain"]
+    Data --> Domain
+    Data --> Net["core/networking"]
+    Data --> Store["core/storage"]
+    Pres --> Upd["features/app_update"]
+    Net --> FlashState["features/flashing/state"]
+    Analytics["core/analytics"] --> Settings["features/settings"]
+    Store --> Domain
+    Net --> Native["Android MethodChannel"]
+    Website["website"] -.-> Targets["assets/targets.json"]
 ```
-
-### Import analysis
-- **Most depended-on**: `core/networking` (`localDioProvider`, `TargetIp`, `discoveryService`) and `core/storage` (`FirmwareCacheService`, `PersistenceService`).
-- **Most dependencies**: `FlashingController` — wires firmware patcher, firmware/device/targets repositories, cache, settings, config view model, connectivity, analytics.
-- **Circular / cross-layer edge**: `core/networking/discovery_service.dart` -> `features/flashing/state/flashing_provider.dart` (core depends on a feature — architectural smell, kept intentionally for the flash mutex).
 
 ## Module Metrics (approx., generated files excluded)
 
-| Module | Files | LOC | Complexity |
-|--------|-------|-----|------------|
-| features/flashing/presentation | 7 | 2,090 | High |
-| features/settings/presentation | 8 | 1,620 | Medium |
-| features/config | 11 | 1,000 | High |
-| features/flashing/data | 10 | 810 | Medium |
-| features/dashboard/presentation | 3 | 600 | Medium |
-| core/networking | 11 | 610 | Medium |
-| features/flashing/utils | 4 | 400 | High (bit-level) |
-| core/storage | 4 | 420 | Medium |
-| features/firmware_manager | 4 | 360 | Medium |
-| lib/src (app shell) | 5 | 220 | Low |
-| features/configurator | 1 | 143 | Low |
-| core/utils | 3 | 85 | Low |
-| localization (generated) | 18 | 7,170 | Low |
+| Module | Files | LOC |
+|--------|-------|-----|
+| features/flashing | 28 | 3,450 |
+| features/settings | 5 | 1,650 |
+| features/config | 5 | 890 |
+| features/dashboard | 3 | 656 |
+| core/networking | 6 | 618 |
+| features/support + splash | 2 | 605 |
+| core/storage | 2 | 468 |
+| features/firmware_manager | 3 | 444 |
+| features/app_update | 4 | 270 |
+| app shell | 3 | 215 |
+| core/analytics + app_info + theme + presentation | 5 | 195 |
+| features/configurator | 1 | 143 |
+| core/utils | 3 | 91 |
+| test | 8 | n/a |
 
 ## Code Quality Insights
 
-### Well-structured
-- **features/flashing** — clean layer separation; firmware manipulation is pure, static, I/O-free and unit-testable in isolation; heavy parsing offloaded via `compute()`.
-- **core/storage** — single choke point for persistence with an explicit secret-hardening migration.
-- **core/networking** — one shared serialized Dio implementation for all device calls; reboot-socket-drop classification is now a single shared predicate (`expected_reboot_drop.dart`) instead of two diverged copies.
+**Well-structured**: firmware manipulation is pure/static and isolate-friendly; typed errors decouple domain from l10n and are unit-tested; one serialized device HTTP client; single shared reboot-drop predicate; website data generated from the app's own `targets.json` so the hardware list can't drift.
 
-### Areas for improvement
-- **Cross-layer dependency**: `core/networking` -> `features/flashing/state`. A neutral `core`-level `isFlashing` flag would remove the inversion.
-- **Test coverage**: a single widget test (`test/localization_overflow_test.dart`) covering localization overflow across all supported locales; no unit tests for repositories, services, or the firmware assembler (the highest-risk code). `firmware_testing/` scripts exist but are out-of-process audit tools, not CI unit tests.
-- **`settings_screen.dart` size** (~1.6k LOC) — the largest single file; extracting per-category widgets would help.
-
-### Resolved this cycle
-- **Two overlapping ESP builders** — `unified_firmware_builder.dart` (a divergent, less-correct duplicate of `firmware_assembler.dart`'s firmware-trimming logic) was deleted; `FirmwareAssembler` is now the sole ESP builder.
-- **Dead-code sweep**: a full-codebase audit + cleanup pass removed the entire `features/updates/` module, `DeviceEditorViewModel`, `ConnectionStatusBadge`, `discovery_provider.dart`, three unused barrel `index.dart` files, the unwired vendored `packages/ip_address_keypad/`, and numerous dead methods across `device_repository.dart`, `config_view_model.dart`, `device_config_service.dart`, `elrs_mappings.dart`, `persistence_service.dart`, `settings_controller.dart`, and `responsive_layout.dart` — roughly 1,150 lines net. Treat this as one coordinated event; some removals (e.g. `DeviceConfigService.reboot`) were cascades triggered only after their sole caller was independently found dead.
+**Areas for improvement**:
+- Core → feature inversions (networking → flashing state, analytics → settings, storage → flashing domain/utils); a neutral core flag/interfaces would remove them.
+- No unit tests for repositories, `FirmwareAssembler`, or patchers (highest-risk code); `firmware_testing/` is out-of-process.
+- `settings_screen.dart` (~1.6k LOC) and `flashing_controller.dart` (~900 LOC) are large.
+- iOS `Info.plist` declares unused location/camera/photo usage strings.
 
 ## Related KB Links
 
-- Layer model and data flows: [architecture.md](architecture.md)
-- Domain models these modules operate on: [concept_map.md](concept_map.md)
-- Conventions used across modules: [patterns.md](patterns.md)
+- Layer model and flows: [architecture.md](architecture.md)
+- Domain models: [concept_map.md](concept_map.md)
+- Conventions: [patterns.md](patterns.md)

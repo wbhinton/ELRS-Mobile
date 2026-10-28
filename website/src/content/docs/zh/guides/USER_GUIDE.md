@@ -5,108 +5,142 @@ sidebar:
   order: 1
 ---
 
-## 概述
-本应用程序提供了一个全面的移动界面，用于管理 ExpressLRS 硬件。它使用户能够直接通过移动设备配置接收器 (RX) 和发射器 (TX) 参数、映射 PWM 输出以及刷写固件更新。
+ELRS Mobile 允许您在现场使用手机通过 Wi-Fi 刷写和配置 ExpressLRS 接收器 (RX) 和发射器 (TX)，无需笔记本电脑和互联网连接。它支持基于 ESP 的硬件（ESP8285、ESP32、ESP32-C3、ESP32-S3）以及 ExpressLRS 3.3.x 和 4.x 固件。请参阅 [支持的硬件](/supported_hardware) 了解所有兼容设备。
+
+工作流程分为两部分：有网络时下载固件，然后随时随地进行刷写。
 
 ---
 
 ## 安装
 
-### 官方应用商店
+| 平台 | 获取途径 |
+| :--- | :--- |
+| Android | [Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile) |
+| iPhone 和 iPad | [App Store](https://apps.apple.com/us/app/elrs-mobile/id6760490014) |
+| Android (不含 Google Play) | [直接 APK 下载](https://cdn.elrsmobile.com/ELRS-Mobile-latest.apk)，[GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases)，或 [GitHub Store](https://github.com/OpenHub-Store/Github-Store) |
 
-#### [Android](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
-从 Google Play 安装
+商店版本通过 Google Play 和 App Store 更新。直接下载的 APK 每天检查一次新版本并提供下载；您也可以随时通过**设置 → 关于与法律 → 检查更新**来检查更新，跳过某个版本或稍后提醒。安装更新时，您的设置和配置文件将保留。
 
-<a href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">在 Google Play 获取</a>
+想提前体验新功能？加入 [Google Play beta](https://play.google.com/apps/testing/io.datarx.elrsmobile) 或 [TestFlight beta](https://testflight.apple.com/join/jwU1WrpX)。
 
-#### [iOS](https://apps.apple.com/us/app/elrs-mobile/id6760490014)
-从 App Store 安装
-
-<a href="https://apps.apple.com/us/app/elrs-mobile/id6760490014" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">在 App Store 下载</a>
-
-### 其他安装方式
-
-#### GitHub Store
-适合偏好其他应用商店体验的用户。
-
-<a href="https://github.com/OpenHub-Store/Github-Store" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">在 GitHub Store 下载</a>
-
-### 手动安装
-对于高级用户或偏好手动管理的用户，请访问我们的 [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases) 页面获取最新的 `.apk` 文件。
+首次启动时，应用程序会显示一个简短的免责声明。刷写固件始终对您的硬件存在一定风险；请接受以继续。
 
 ---
 
-## 🚀 快速开始：刷写您的第一个设备
+## 快速入门：刷写您的第一个设备
 
-### 阶段 1：缓存固件 (在家中完成此步骤)
-1. 打开应用程序并导航到 **固件管理器**。
-2. 点击最新稳定版本旁边的下载图标。
-3. 应用程序将下载并安全缓存所需的 Target 和 Hardware 定义，以供离线使用。
+### 步骤 1：下载固件（在家中）
 
-### 阶段 2：连接到您的设备
-1. 为您的 ExpressLRS 接收器 (RX) 或发射器 (TX) 上电。
-2. 等待 60 秒（或您配置的间隔），直到设备进入 Wi-Fi 热点模式（LED 快速闪烁）。
-3. 将您的手机 Wi-Fi 连接到 **ExpressLRS RX** 或 **ExpressLRS TX** 网络（密码：`expresslrs`）。
-4. 打开应用程序。仪表板将使用 mDNS 自动扫描网络并连接到设备。
+1.  在仪表板上，打开**固件管理器**。
+2.  点击您想要的 ExpressLRS 版本旁边的下载图标。仅列出 3.3.0 及更高版本：它们是 ELRS Mobile 所基于的统一固件的第一个版本。
+3.  下载完成后，版本会显示**可离线使用**。固件及其所需的硬件定义现在已存储在您的手机上。
 
-### 阶段 3：刷写固件
-1. 在仪表板中，选择 **刷写设备**。
-2. **选择您的硬件：** 使用级联下拉菜单选择您的 Device Type、Vendor、Frequency 和 Target。
-3. **配置选项和配置文件：** 选择一个 **刷写配置文件**（或点击 **+** 按钮添加一个新的命名配置文件）以加载您的凭据。自定义 Binding Phrase、Wi-Fi SSID、Wi-Fi password、regulatory domains 和 Wi-Fi auto-on interval。
-4. 点击 **FLASH**。应用程序将在本地组装二进制文件并将其推送到设备。
+在家中 Wi-Fi 或移动数据网络下下载固件。当您的手机连接到接收器或发射器的 Wi-Fi 热点时，您无法下载，因为该网络没有互联网连接。
 
-<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
-  <div class="flex items-center gap-3 mb-2">
-    <div class="p-2 rounded-lg bg-primary/10 text-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
-      </svg>
-    </div>
-    <span class="text-lg font-bold text-primary tracking-tight">目标不匹配警告</span>
-  </div>
-  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    如果应用程序检测到您选择的硬件目标与连接的设备不匹配，它将发出警告以防止意外损坏。如果您确定选择了正确的 Target（例如从错误的刷写中恢复或在 Target 定义之间迁移），请在警告对话框中点击 <strong>强制刷写</strong> 以绕过检查。
-  </p>
-</div>
+标题显示您已存储的版本数量与上限。在**设置 → 应用与存储 → 最大缓存版本数**中更改上限，并删除不再需要的版本。
 
-### 📋 管理刷写配置文件
-如果您有多个具有不同配置要求（例如，不同的 Binding Phrase 或 regulatory domains）的无人机或无线电设置，您可以使用命名 **刷写配置文件** 来保存和切换配置：
-* **添加配置文件**：点击“刷写配置文件”下拉菜单旁边的 **+** 图标，输入名称，然后点击添加。
-* **自动保存**：对活动配置文件的凭据（Binding Phrase、SSID、password、domain 或 interval）的任何更改都会实时自动保存。
-* **切换配置文件**：只需从下拉菜单中选择一个配置文件，即可立即加载其存储的设置��
-* **删除配置文件**：要进行清理，请从下拉菜单中选择配置文件，然后点击垃圾桶/删除图标（您必须至少有两个配置文件才能删除一个）。
+### 步骤 2：连接到您的设备
+
+1.  打开您的接收器或发射器电源，并等待它启动 Wi-Fi 热点。默认情况下，如果在开机后 60 秒内未连接到其配对设备，它将启动 Wi-Fi 热点。发射器也可以通过您遥控器上的 ExpressLRS Lua 脚本启动 Wi-Fi。
+2.  在您的手机上，加入 **ExpressLRS RX** 或 **ExpressLRS TX** 网络。
+3.  密码是 `expresslrs`。
+4.  打开 ELRS Mobile。仪表板会自动找到设备并显示其产品名称、固件版本、目标和监管区域。
+
+如果仪表板显示**未找到设备**，请点击**重试**。如果您的设备位于不同的网络（例如，已连接到您的家庭 Wi-Fi），请点击设备卡上的齿轮图标并输入其 IP 地址。
+
+运行早于 3.1 版本的固件的设备也可以被检测到，因此您可以将其更新到当前版本。
+
+### 步骤 3：刷写
+
+1.  在仪表板上，点击**刷写设备**。
+2.  检查目标。应用程序在可能的情况下会预选与连接设备匹配的目标；否则，请选择设备类型、设备厂商、监管与频率以及设备目标。
+3.  选择固件版本。您已下载的版本会标记为**(已缓存)**。如果硬件需要比您当前版本更新的固件，应用程序会提示并提供下载兼容版本。
+4.  检查固件选项：刷写配置文件、绑定短语、Wi-Fi 网络和密码、监管区域以及 Wi-Fi 自动开启间隔。
+5.  点击**刷写**。
+
+进度条显示每个步骤：定位和解压您下载的固件、使用您的设置构建它、上传它，以及设备安装并重启时的**正在写入设备 — 请稍候**。当设备确认后，您将看到**刷写成功！设备正在重启**，并在设备恢复后仪表板重新连接。
 
 ---
 
-## 技术细节
+## 安全检查
 
-### 连接和发现
-该应用程序使用强大的多阶段发现序列来查找您的硬件：
-1. **mDNS 解析**：主要方法。应用程序扫描 `elrs_rx.local` 或 `elrs_tx.local`。
-2. **静态 AP 回退**：如果 mDNS 被阻止，应用程序会检查官方 ELRS 接入点 IP (`10.0.0.1`)。
-3. **手动 IP 覆盖**：对于复杂的网络，您可以在设置中手动输入 IP 地址。
+应用程序会在刷写前检查您的选择，如果发现任何问题，将停止操作。
 
-**强制网络绑定**：现代智能手机通常会丢弃没有互联网的 Wi-Fi 连接。ELRS Mobile 包含一个原生的“强制路由”层，强制操作系统保持与硬件的连接，确保现场 100% 可靠的发现。
+:::danger[芯片不兼容]
+一个芯片的固件绝不能在另一个芯片上运行（例如，ESP32 固件不能在 ESP8285 接收器上运行）。应用程序会阻止刷写并告诉您每个芯片的类型。请为您的设备芯片选择一个目标。
+:::
+
+:::caution[目标不匹配]
+如果选定的目标与设备报告的产品不匹配，您将看到**目标不匹配**。请先检查您的选择。如果您确定选择正确（例如，从错误的刷写中恢复或切换到较新的目标定义），请点击**强制刷写**。
+:::
+
+:::note[无绑定短语]
+在没有绑定短语的情况下刷写是可行的，但设备将只能使用默认（空）短语进行绑定。应用程序会在继续前进行询问。
+:::
+
+:::caution[刷写未确认]
+如果设备在确认刷写前断开连接（电源中断、重启或 Wi-Fi 连接中断），应用程序无法判断更新是否完成。它会显示琥珀色警告而不是报告成功。重新连接并检查仪表板上的固件版本；如果未更改，请再次刷写。
+:::
 
 ---
 
-## 专家模式和审计
-在设置菜单中，用户可以启用 **专家模式**。这允许您将组装好的固件二进制文件直接保存到您的设备，以便通过 FTDI 进行审计或手动刷写。
+## 刷写配置文件
 
-<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
-  <div class="flex items-center gap-3 mb-2">
-    <div class="p-2 rounded-lg bg-primary/10 text-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
-      </svg>
-    </div>
-    <span class="text-lg font-bold text-primary tracking-tight">STM32 硬件处理</span>
-  </div>
-  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    虽然 ELRS Mobile 可以为 STM32 Target 组装和修补固件（最高支持 ELRS v3.x），但这些设备不支持通过 Wi-Fi 进行 Over-The-Air (OTA) 刷写。如果您选择 STM32 Target，应用程序将允许您在本地构建和保存二进制文件，以便您可以使用 PC 通过 STLink 或 Betaflight Passthrough 手动刷写。
-  </p>
-</div>
+刷写配置文件会以一个名称保存绑定短语、家庭 Wi-Fi 网络和密码、默认监管区域以及 Wi-Fi 自动开启间隔。每个机队或无线电设置使用一个配置文件，并可一键切换。
 
-希望验证这些二进制文件完整性的开发者，请参阅我们的 [**固件验证指南**](/guides/firmware-validation)。
+在**设置 → 配置文件与网络**中管理配置文件：
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+-   **添加：** 点击**+**，输入名称，然后点击**添加**。
+-   **切换：** 从**刷写配置文件**列表中选择一个配置文件。它也显示在刷写屏幕上。
+-   **编辑：** 更改任何字段；活动配置文件会自动保存。
+-   **删除：** 选择配置文件并点击删除图标。您始终会保留至少一个配置文件。
+
+绑定短语和 Wi-Fi 密码存储在您手机的加密安全存储中。
+
+---
+
+## 设备配置
+
+在仪表板上，点击**设备配置**以在应用内打开连接设备自己的 ExpressLRS 设置页面。使用它来更改 Wi-Fi 和绑定设置、模型匹配、串口协议、PWM 输出映射以及其他设备选项。应用程序将页面锁定到您的设备。
+
+---
+
+## 设置
+
+| 部分 | 内容 |
+| :--- | :--- |
+| 配置文件与网络 | 刷写配置文件、绑定短语、家庭 Wi-Fi 网络和密码、默认 2.4 GHz 和 sub-GHz 监管区域 |
+| 应用与存储 | 最大缓存版本数、固件管理器、清除固件缓存、应用语言、匿名使用分析（默认开启；通过**共享分析**关闭） |
+| 高级与调试 | 专家模式及其工具（见下文） |
+| 关于与法律 | 应用版本、法律声明和许可证、支持开发，以及直接下载 APK 中的**检查更新** |
+
+从设置或顶部栏的语言按钮更改应用程序语言。ELRS Mobile 支持 18 种语言。
+
+---
+
+## 专家模式
+
+开启**设置 → 高级与调试 → 专家模式**以解锁：
+
+-   **STM32 目标。** 旧的基于 STM32 的硬件无法通过 Wi-Fi 刷写，并且只有 ExpressLRS 3.3.x 支持它。应用程序会使用您的设置构建固件，因此您可以从 PC 使用 STLink 或 Betaflight 直通方式进行刷写。
+-   **下载二进制文件。** 保存构建好的固件文件而不是刷写它，用于手动刷写或审计。
+-   **导出 ELRS Lua 脚本。** 保存 `elrs.lua` 用于 EdgeTX 和 OpenTX 遥控器。
+-   **提交调试报告。** 发送设备信息和应用日志以帮助修复错误。绑定短语和 Wi-Fi 密码绝不会包含在内。
+
+---
+
+## 故障排除
+
+**仪表板无法找到我的设备。** 确保您的手机仍连接到设备的 Wi-Fi 网络；有些手机会离开没有互联网的网络。在 Android 上，即使没有互联网，ELRS Mobile 也会将其流量保留在该 Wi-Fi 网络上。点击**重试**，或者从齿轮图标输入 IP 地址（在设备自己的热点上是 `10.0.0.1`）。
+
+**我无法下载固件。** 断开与设备热点的连接，并使用有互联网的网络。
+
+**我的设备在刷写失败后无响应。** 在通过 USB 插入时按住 BOOT 按钮进入引导加载程序模式，然后使用 [ExpressLRS Web Flasher](https://expresslrs.org/flasher) 重新刷写。支持 Wi-Fi 的设备也可以通过按住 BOOT 按钮 60 秒来启动 Wi-Fi 热点进行恢复。应用内的**帮助与支持**屏幕包含这些步骤、常见问题解答以及 ExpressLRS Discord 的链接。
+
+**我的配置文件在更新后消失了。** 从 v1.0.43 或更旧版本直接更新到 v1.0.45 或更新版本时，无法在存储升级后保留保存的配置文件、绑定短语和 Wi-Fi 设置。应用程序会通知您一次；请在设置中重新输入它们。
+
+---
+
+开发者可以使用 [固件验证工具](/firmware-validation) 验证 ELRS Mobile 构建的固件。
+
+<!-- source_hash: 927017dfd36d96b7c787e4972528233d -->

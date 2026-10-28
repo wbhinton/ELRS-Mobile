@@ -1,0 +1,58 @@
+---
+// Click-to-play YouTube embed. Shows an optimised local thumbnail; the player
+// (and any request to YouTube) loads only when the visitor presses play.
+import { Image } from 'astro:assets';
+import type { Video } from '../../data/landing';
+
+interface Props {
+	video: Video;
+	playLabel: string;
+}
+
+const { video, playLabel } = Astro.props;
+const thumb = `https://i.ytimg.com/vi/${video.id}/${video.vertical ? 'oardefault' : 'maxresdefault'}.jpg`;
+---
+
+<div
+	class:list={[
+		'relative overflow-hidden bg-black',
+		video.vertical ? 'aspect-[9/16]' : 'aspect-video',
+	]}
+>
+	<button
+		type="button"
+		class="video-facade group absolute inset-0 w-full h-full cursor-pointer p-0 border-0 bg-transparent"
+		data-video-id={video.id}
+		data-video-title={video.title}
+		aria-label={`${playLabel}: ${video.title}`}
+	>
+		<Image
+			src={thumb}
+			alt=""
+			inferSize
+			widths={video.vertical ? [320, 640] : [480, 960]}
+			sizes={video.vertical ? '320px' : '(min-width: 768px) 480px, 100vw'}
+			class="absolute inset-0 w-full h-full object-cover"
+		/>
+		<span
+			class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-16 h-16 rounded-full bg-black/70 text-white transition group-hover:bg-primary group-hover:text-background"
+			aria-hidden="true"
+		>
+			<svg class="w-7 h-7 ml-1" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+		</span>
+	</button>
+</div>
+
+<script>
+	document.addEventListener('click', (event) => {
+		const button = (event.target as Element).closest<HTMLButtonElement>('.video-facade');
+		if (!button) return;
+		const iframe = document.createElement('iframe');
+		iframe.src = `https://www.youtube-nocookie.com/embed/${button.dataset.videoId}?autoplay=1`;
+		iframe.title = button.dataset.videoTitle ?? '';
+		iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+		iframe.allowFullscreen = true;
+		iframe.className = 'absolute inset-0 w-full h-full border-0';
+		button.replaceWith(iframe);
+	});
+</script>

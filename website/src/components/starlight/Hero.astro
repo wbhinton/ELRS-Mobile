@@ -1,0 +1,61 @@
+---
+// Starlight Hero override (only the landing page has a hero). Same data as the
+// default hero (title, tagline, image, actions from frontmatter), plus usage
+// stats and beta links directly under the calls to action.
+import { Image } from 'astro:assets';
+import { LinkButton } from '@astrojs/starlight/components';
+import UsageStats from '../landing/UsageStats.astro';
+import { links } from '../../config/site';
+import { useTranslations, defaultLocale } from '../../i18n';
+
+const { entry, locale } = Astro.locals.starlightRoute;
+const { title = entry.data.title, tagline, image, actions = [] } = entry.data.hero ?? {};
+const lang = locale ?? defaultLocale;
+const t = useTranslations(lang);
+const screen = image && 'file' in image ? image : undefined;
+---
+
+<div class="grid items-center gap-10 py-6 md:py-14 md:grid-cols-[7fr_4fr]">
+	<div class="flex flex-col items-center gap-5 text-center md:items-start md:text-left">
+		<h1 id="_top" data-page-title class="hero-title text-4xl md:text-6xl font-extrabold leading-tight">
+			{title}
+		</h1>
+		{tagline && <p class="text-lg md:text-xl text-text-muted max-w-xl">{tagline}</p>}
+		<div class="flex flex-wrap justify-center gap-4 md:justify-start">
+			{
+				actions.map(({ text, link, variant, attrs }) => (
+					<LinkButton href={link} variant={variant} class="font-bold" {...attrs}>
+						{text}
+					</LinkButton>
+				))
+			}
+		</div>
+		<UsageStats lang={lang} />
+		<p class="text-xs text-text-muted">
+			{t('hero.play_beta_blurb')} <a href={links.playBeta} class="text-primary" target="_blank" rel="noopener">{t('hero.play_beta_link')}</a>.
+			<span class="mx-2 opacity-30">|</span>
+			{t('hero.testflight_beta_blurb')} <a href={links.testFlight} class="text-primary" target="_blank" rel="noopener">{t('hero.testflight_beta_link')}</a>.
+		</p>
+	</div>
+	{
+		screen && (
+			<Image
+				src={screen.file}
+				alt={screen.alt}
+				widths={[280, 440, 560]}
+				sizes="(min-width: 800px) 22rem, 70vw"
+				loading="eager"
+				class="mx-auto h-auto w-[min(70%,20rem)] md:w-[min(100%,22rem)]"
+			/>
+		)
+	}
+</div>
+
+<style>
+	.hero-title {
+		background-image: linear-gradient(135deg, var(--sl-color-white) 55%, var(--sl-color-accent));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+</style>

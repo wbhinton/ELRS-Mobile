@@ -1,0 +1,14 @@
+{
+  "groups": [
+    {
+      "label": "sidebar.using",
+      "translate": true,
+      "slugs": ["user_guide", "supported_hardware"]
+    },
+    {
+      "label": "sidebar.developers",
+      "translate": false,
+      "slugs": ["development", "technical_spec", "technical_architecture", "firmware-validation"]
+    }
+  ]
+}

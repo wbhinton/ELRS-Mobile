@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:links": "node scripts/check_links.mjs",
+    "check:translations": "python3 scripts/check_translations.py"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.1",
@@ -14,5 +16,8 @@
     "@astrojs/tailwind": "^6.0.0",
     "astro": "^5.17.1",
     "tailwindcss": "^3.4.1"
+  },
+  "devDependencies": {
+    "@astrojs/starlight-tailwind": "^3.0.1"
   }
 }

@@ -1,0 +1,26 @@
+---
+import { steps } from '../../data/landing';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+	lang: string;
+}
+
+const t = useTranslations(Astro.props.lang);
+---
+
+<ol class="list-none p-0 m-0 flex flex-col gap-6">
+	{
+		steps.map((step, i) => (
+			<li class="flex gap-5">
+				<span class="flex-none flex items-center justify-center w-11 h-11 rounded-full bg-primary/15 border border-primary/40 text-primary font-extrabold text-lg">
+					{i + 1}
+				</span>
+				<div>
+					<h3 class="text-xl font-bold mb-1">{t(step.title)}</h3>
+					<p class="text-text-muted leading-relaxed">{t(step.body)}</p>
+				</div>
+			</li>
+		))
+	}
+</ol>

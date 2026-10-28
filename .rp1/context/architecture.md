@@ -10,124 +10,131 @@ strictness: strict
 
 **Project**: ELRS Mobile
 **Architecture Pattern**: Feature-first layered (clean-architecture slices) + Riverpod reactive DI
-**Last Updated**: 2026-09-22
+**Last Updated**: 2026-10-27 (commit 3e8eab5, v1.0.45+111)
 
 ## High-Level Architecture
 
 ```mermaid
 graph TB
     User["RC Pilot"]
-    subgraph App["ELRS Mobile - Flutter (Android / iOS / Web / macOS)"]
-        UI["Presentation: screens, go_router, theme"]
+    subgraph App["ELRS Mobile - Flutter"]
+        UI["Presentation: screens, go_router"]
         Ctrl["Controllers and ViewModels - Riverpod"]
-        Repo["Repositories and Services (incl. legacy-firmware fallback shim)"]
+        Guards["Chip and target guards, typed FlashError"]
+        Repo["Repositories and Services"]
         Assembler["Firmware Assembly Engine"]
         Core["Core: networking, discovery, storage, analytics"]
-        Native["Android MethodChannel handler"]
+        Native["Android MethodChannel"]
+        Upd["app_update - direct builds only"]
     end
-    Artifactory["ExpressLRS Artifactory (only 3.3.0+ offered)"]
-    Device["ELRS Device Web Server on Wi-Fi hotspot (any fw 3.0.x+)"]
-    Cache["Local firmware_cache dir"]
-    Prefs["SharedPreferences and SecureStorage v10"]
-    Telemetry["Sentry and Aptabase"]
-    CI["GitHub Actions (unified release.yml)"]
+    Artifactory["ExpressLRS Artifactory 3.3.0+"]
+    Device["ELRS device web server on Wi-Fi AP"]
+    Cache["firmware_cache dir"]
+    Store["SharedPreferences and SecureStorage 11"]
+    Tele["Sentry and Aptabase"]
+    CDN["cdn.elrsmobile.com - APK and latest.json"]
+    CI["GitHub Actions"]
+    Site["Astro Starlight website on Cloudflare"]
 
     User --> UI --> Ctrl --> Repo
-    Ctrl --> Assembler
+    Ctrl --> Guards --> Assembler
     Repo --> Core
     Core --> Native
-    Repo -->|index.json, firmware.zip, hardware.zip| Artifactory
-    Repo -->|cache archives| Cache
-    Assembler -->|read base and hardware.json| Cache
-    Assembler -->|serialized HTTP upload| Device
-    Repo -->|/config or legacy /target+/mode.json| Device
-    Core -->|mDNS scan and probe| Device
-    Native -->|bindProcessToWiFi, multicast lock| Device
-    Ctrl -->|profiles, credentials| Prefs
-    App -.errors and events.-> Telemetry
-    CI -->|build APK, release| App
+    Repo -->|index.json and zips| Artifactory
+    Repo -->|cache| Cache
+    Assembler -->|read archives| Cache
+    Assembler -->|update and forceupdate| Device
+    Repo -->|config or legacy target| Device
+    Core -->|mDNS and probes| Device
+    Native -->|Wi-Fi bind and multicast lock| Device
+    Ctrl --> Store
+    App -.-> Tele
+    Upd -->|24h poll| CDN
+    CI -->|release APK mirror| CDN
+    CI -->|build and test| App
+    Site -.->|reads assets/targets.json| App
 ```
 
 ## Layers
 
 | Layer | Purpose | Representative components |
 |-------|---------|---------------------------|
-| Presentation | Screens, widgets, routing, theming, responsive layout | `lib/src/features/*/presentation/*`, `lib/src/router.dart`, `lib/src/core/theme/app_theme.dart`, `lib/src/core/presentation/responsive_layout.dart`, `lib/src/app.dart` |
-| Application / State | Controllers and view models orchestrating use cases and holding UI state | `flashing_controller.dart`, `flashing/state/flashing_provider.dart`, `flashing/application/firmware_patcher.dart`, `config/presentation/*_view_model.dart`, `settings_controller.dart` |
-| Data | Repositories / providers for remote (Artifactory / device) and local data, including legacy-firmware compatibility fallbacks | `flashing/data/*`, `config/services/device_config_service.dart`, `core/networking/connection_repository.dart` |
-| Domain | Immutable Freezed models and business rules | `flashing/domain/*`, `config/domain/*` |
-| Firmware Assembly Engine | On-device ESP/STM32 binary trimming, config byte-packing, gzip | `firmware_assembler.dart`, `stm32_firmware_patcher.dart`, `hardware_config_merger.dart`, `target_resolver.dart` |
-| Core / Cross-cutting | Networking, discovery, connectivity, storage, analytics, logging, utils | `core/networking/*` (incl. `expected_reboot_drop.dart`), `core/storage/*`, `core/analytics/*`, `core/utils/*` |
-| Native Platform | Android Kotlin for Wi-Fi process binding and multicast locks (iOS no-op; macOS relies on Flutter plugins directly, no custom channel) | `android/app/src/main/kotlin/.../MainActivity.kt` |
+| Presentation | Screens, widgets, go_router routing, theme, responsive layout | `lib/src/features/*/presentation/*`, `lib/src/router.dart`, `lib/src/app.dart`, `core/theme`, `core/presentation` |
+| Application / State | Controllers and view models | `flashing_controller.dart`, `flashing/state/flashing_provider.dart`, `flashing/application/firmware_patcher.dart`, `config_view_model.dart`, `settings_controller.dart`, `app_update_service.dart` |
+| Data | Repositories for Artifactory, device, CDN, local data | `flashing/data/*` (incl. `targets_provider.dart`), `app_update/data/app_update_repository.dart`, `config/services/device_config_service.dart`, `core/networking/connection_repository.dart` |
+| Domain | Freezed models, sealed typed errors | `flashing/domain/*` (incl. `flash_error.dart`), `config/domain/*`, `app_update/domain/app_release.dart` |
+| Firmware Assembly Engine | On-device ESP/STM32 trimming, config packing, gzip | `firmware_assembler.dart`, `stm32_firmware_patcher.dart`, `hardware_config_merger.dart`, `target_resolver.dart`, `chip_family.dart` |
+| Core / Cross-cutting | Networking, discovery, storage, analytics, app info | `core/networking/*`, `core/storage/*`, `core/analytics/analytics_service.dart`, `core/app_info.dart`, `core/utils/*` |
+| Native Platform | Android Wi-Fi process binding + multicast lock (iOS no-op) | `android/app/src/main/kotlin/.../MainActivity.kt` |
 
-Dependency direction is Presentation -> Application -> Data / Domain / Core. One deliberate **inversion smell** persists: `core/networking/discovery_service.dart` reads `features/flashing/state` (`isFlashingProvider`) so background scanning pauses during a flash — core depends on a feature.
+Dependency direction is Presentation → Application → Data / Domain / Core. Known inversions (core → feature): `discovery_service.dart` reads `isFlashingProvider`; `analytics_service.dart` reads `settingsControllerProvider.shareAnalytics`; `persistence_service.dart` imports `FlashingProfile`; `firmware_cache_service.dart` imports `HardwareConfigMerger`.
 
 ## Architectural Patterns
 
-- **Feature-first modular layered architecture** — each feature is a self-contained vertical slice (`domain`, `data`, `application`/`state`, `presentation`); cross-cutting code lives in `core/`. `flashing` is the fullest slice; others (`configurator`, `splash`, `support`) are thin. The `updates` feature (legacy in-app self-update check) was removed entirely — the app relies solely on store-based distribution now.
-- **Riverpod provider-based DI + reactive state** — `@riverpod` / `@Riverpod(keepAlive: true)` codegen (`*.g.dart`); `ProviderContainer` created in `main.dart`, `UncontrolledProviderScope` wraps `App`. `keepAlive` for app-lifetime singletons (discovery, analytics, target IP, `isFlashing`).
-- **Local-first / offline-first pipeline** — firmware assembly and config editing happen entirely on-device so field use needs no internet after an initial cache download.
-- **Platform-channel bridging** — `MethodChannel('org.expresslrs.elrs_mobile/network')` forces the app process onto the non-internet ELRS hotspot and manages multicast locks for mDNS (Android only).
-- **Repository pattern for external data** — network/device access hidden behind repositories/services returning domain models.
-- **Client-side request serialization (bulkhead)** — `SequentialRequestInterceptor` in `device_dio.dart` forces one-at-a-time requests to the device to protect fragile ESP8285 web servers.
-- **Code-generation build pipeline** — `build_runner` with `freezed`, `json_serializable`, `riverpod_generator`; `flutter gen-l10n` + `arb_translate` for localization.
-- **Firmware-version compatibility shim (backward-compat adapter)** — `DeviceConfigService.probeDeviceHead` falls back to `probeDevice('/')` when `/hardware.json` 404s, and `fetchConfig` falls back to a new `_fetchLegacyConfig()` reconstructing `RuntimeConfig` from `/target` + best-effort `/mode.json` for firmware older than 3.1.0. Meanwhile `ReleasesRepository` now only offers versions >= 3.3.0 for download/flashing. Net effect: the app can *configure* older already-flashed devices (down to ~3.0.x) but will only *flash* unified firmware (3.3.0+) — a deliberate widening between the "configurable" and "flashable" firmware ranges. `DeviceConfigService` is now read/probe-only in this area — `saveOptions`/`saveConfig`/`reboot` were removed as dead code (their only caller, `ConfigViewModel`, had already been trimmed of its own unwired write methods); config writes are no longer handled here.
-- **Shared predicate extraction (DRY refactor of a diverged duplicate)** — `core/networking/expected_reboot_drop.dart` exports `isExpectedRebootSocketDrop(DioException)`, now the sole implementation of the expected-error-as-success check for post-reboot socket drops, replacing two independently-maintained copies that had drifted apart (one omitted `ECONNREFUSED`, causing some successful flashes to be misreported as failures). Only `DeviceRepository` calls it now.
+- **Feature-first vertical slices**: `app_update`, `config`, `configurator`, `dashboard`, `firmware_manager`, `flashing`, `settings`, `splash`, `support`; shared code in `core/`.
+- **Riverpod codegen DI**: `@riverpod` / `@Riverpod(keepAlive: true)`; `ProviderContainer` built in `main.dart`, `UncontrolledProviderScope` wraps `App`.
+- **Offline-first pipeline**: assembly runs on-device; internet is needed only to fill the cache.
+- **Platform-channel bridging**: `MethodChannel('org.expresslrs.elrs_mobile/network')` binds the process to a no-internet Wi-Fi network and holds a multicast lock (Android only).
+- **Request serialization (bulkhead)**: `SequentialRequestInterceptor` sends device requests one at a time (ESP8285 crashes under concurrency).
+- **Pre-flash guards + typed outcomes**: chip-family hard block, forceable target mismatch, bind-phrase prompt; results are sealed `FlashError`s localized at the edge.
+- **Confirm-by-reply flash semantics**: success only on device `status == ok`; post-upload silence is `FlashUnconfirmed`, never success.
+- **Firmware-version compatibility shim**: identify/read devices back to ~3.0 via `/target` + `/mode.json`; flash only unified 3.3.0+.
+- **Build-flavor gating**: `--dart-define=DISTRIBUTION=direct` compiles in the self-update check; `SENTRY_DSN` enables Sentry.
+- **Codegen + l10n gate**: build_runner (freezed, json_serializable, riverpod_generator); all UI strings in ARB, enforced by `test/l10n_hygiene_test.dart`.
 
 ## Key Data Flows
 
-### App startup (asynchronous bootstrap)
-`main()` sets up `Logger` (piped to Sentry breadcrumbs) -> `SentryWidgetsFlutterBinding.ensureInitialized()` -> `ProviderContainer` created -> `analyticsService.init()` (Aptabase, fire-and-forget) -> `runApp(UncontrolledProviderScope -> App -> MaterialApp.router)` -> `Sentry.init()` after first frame when `SENTRY_DSN` is defined -> post-frame: `connectivityService.autoBindIfWiFi()` then `settingsController.loadSettings()`.
+### App startup
+`main()` pipes `Logger` records to Sentry breadcrumbs → `ProviderContainer` → `analyticsService.init()` (Aptabase, fire-and-forget) → `runApp` → `SentryFlutter.init` if `SENTRY_DSN` (50 % sample, socket errors filtered) → post-frame `autoBindIfWiFi()` + settings load → Dashboard shows, one at a time: legal disclaimer (first launch), "Saved Settings Reset" (if flagged), update dialog (direct builds).
 
-### Device discovery and connection (event-driven / streaming)
-`connectivityService` detects Wi-Fi -> `discoveryServiceProvider` (keepAlive, in `discovery_service.dart`; the redundant, never-watched `discovery_provider.dart` was deleted) restarts/stops an mDNS scan (`nsd`), skipping while `isFlashingProvider` is true -> `NativeNetworkService.acquireMulticastLock` + `bindProcessToWiFi` (Android) -> discovered IP written to `TargetIp` -> `localDio` rebuilds with the device base URL -> `DeviceConfigService.probeDevice` polls `http://<ip>/`.
+### Device discovery
+Wi-Fi detected → `discoveryServiceProvider` (keepAlive) runs serialized `nsd` scans, paused while flashing → Android multicast lock + process bind → `ConfigViewModel` also probes `elrs_rx.local`, `elrs_tx.local`, `10.0.0.1`, manual IP → `TargetIp` → `localDio` rebuilt → heartbeat.
 
-### Firmware download and caching (request/response + persistence)
-Firmware Manager requests a release -> `releases_repository` / `firmware_repository` GET `https://artifactory.expresslrs.org/ExpressLRS/index.json` (client-side filtered to versions >= 3.3.0, since only unified firmware is offered for flashing) -> `firmware.zip` and `hardware.zip` downloaded via Dio -> `FirmwareCacheService` saves archives + targets JSON under `<AppDocuments>/firmware_cache/<version>/` -> `evictOldestVersions` enforces the max-cached limit. A version is listed only when **both** zips are present.
+### Firmware download and cache
+Firmware Manager → `index.json` (filtered ≥ 3.3.0) → `firmware.zip` + `hardware.zip` → `firmware_cache/<version>/`, oldest evicted. Downloads unbind from the device AP first; doing it on the hotspot is a typed error.
 
-### Firmware assembly and flashing (synchronous pipeline)
-User selects target/version/options; `flashing_controller` builds a `PatchConfiguration` -> `FirmwareAssembler` extracts the base binary from the cached `firmware.zip`, trims to the ESP `0xE9` magic -> fixed-width blocks appended to the binary tail: product name (128 B), lua name (16 B), options JSON (512 B), hardware layout JSON (2048 B); regulatory domain (FCC / EU868 / LBT) injected -> payload gzipped when the target requires it (e.g. `esp8285`) -> POSTed to the device over the serialized `localDio`. STM32 targets instead get 6-byte UID + `Uint8` domain bit-packed via `Stm32FirmwarePatcher` and have no OTA path. On a target-mismatch force-flash, the controller now calls `confirmForceUpdate()` directly first (trusting that the mismatched bytes are still sitting in the device's OTA write buffer from the initial `/update` attempt, the same assumption the ExpressLRS WebUI makes), and only falls back to a full re-upload-then-confirm if the direct confirm fails.
+### Assembly and flash
+Guards (device connected, chip family, bind phrase, target product) → `locating`/`unpacking` cache (download fallback) → `building` (FirmwareAssembler / STM32 patcher) → rebind Wi-Fi → `POST /update` (forced `Content-Length`, 120 s timeouts, progress 66–95 %) → `finalizing` → reply `ok` = success; `mismatch` → dialog → Force Flash re-uploads with `?force=1`, then `/forceupdate` only if still mismatched; silent drop after full upload = `FlashUnconfirmed`. Analytics: Firmware Flashed / Firmware Flash Error.
 
-### Device configuration reading (request/response, with legacy-firmware fallback)
-`config_view_model` loads `RuntimeConfig` from the device via `DeviceConfigService.fetchConfig` -> on success, `_normalizeV3Config` / `_normalizeConfigDomains` normalize V3 payloads into the V4 shape (`reg_domain` -> `domain`, hoisted `settings` node, `vbind` coercion) before Freezed deserialization -> on a 404 (firmware older than 3.1.0, which predates `/config`), falls back to `_fetchLegacyConfig`, reconstructing an equivalent `RuntimeConfig` from `/target` (present through at least 3.2.1) plus best-effort `/mode.json`, populating `effectiveProductName` so the Target Mismatch Guard compares against real device data instead of leaving the device stuck "disconnected". Similarly, `probeDeviceHead` falls back to the universal `probeDevice('/')` when `/hardware.json` (unified-target firmware only, 3.2.x+) 404s. **Writing** device settings no longer has a native code path: `device_editor_view_model.dart` (which used to mutate settings and POST them back via `DeviceConfigService.saveOptions`/`saveConfig`/`reboot`) was deleted as dead code along with those three `DeviceConfigService` methods — device configuration is now edited exclusively through the embedded device WebUI (`features/configurator`). `FrequencyValidator` and `PersistenceService` (binding phrase / Wi-Fi credentials) remain relevant to the flashing write-path, not this one.
+### Device configuration
+Read: `/config` → V3→V4 normalization → `RuntimeConfig`; 404 → legacy `/target` + `/mode.json`. Write: only through the device's own web UI in the locked `/device_config` WebView.
+
+### Direct-build update check
+`kIsDirectDistribution` → `AppUpdateService` fetches `cdn.elrsmobile.com/latest.json` (≤ every 24 h, or Settings → Check for Updates) → dialog: Download / Later / Skip this version.
 
 ## Integration Points
 
 | Service | Purpose | Type |
 |---------|---------|------|
-| ExpressLRS Artifactory (`artifactory.expresslrs.org`) | Firmware index, generic `firmware.zip`, `hardware.zip`; index filtered to versions >= 3.3.0 (unified firmware only) | HTTPS REST (Dio) |
-| ExpressLRS `targets.json` (GitHub raw) | Flashable target definitions; also cached and bundled as `assets/targets.json` | HTTPS GET |
-| ELRS device web server (e.g. `10.0.0.1`, `elrs_rx.local`) | Read/write `hardware.json` / `/config` (or legacy `/target`, `/mode.json` on pre-3.1.0 firmware) and runtime config, upload firmware, reboot | Local HTTP (serialized Dio) |
-| mDNS / DNS-SD (`nsd`) | Zero-config discovery of ELRS devices | Native service discovery |
-| Android platform channel | Force Wi-Fi process binding + multicast lock | Flutter `MethodChannel` |
-| Sentry | Opt-in crash/error reporting + log breadcrumbs; benign socket errors filtered, 50% sample rate; DSN via `--dart-define SENTRY_DSN` | `sentry_flutter` SDK |
-| Aptabase | Privacy-friendly product analytics, opt-in via settings | `aptabase_flutter` SDK |
-| Google Gemini (build-time) | Automated ARB translation via `arb_translate` | CI tooling |
-| GitHub Actions | APK build + release (single unified workflow, tag/dispatch-triggered), website deploy, ARB translation, upstream `targets.json` sync | CI/CD |
+| ExpressLRS Artifactory | `index.json`, `firmware.zip`, `hardware.zip` (≥ 3.3.0) | HTTPS (Dio) |
+| GitHub raw `targets.json` | Target list; bundled `assets/targets.json` synced by `update_targets.yml` | HTTPS + asset |
+| ELRS device web server | `/`, `/hardware.json`, `/config`, legacy `/target` + `/mode.json`, `POST /update[?force=1]`, `POST /forceupdate` | Local HTTP, serialized |
+| mDNS (`nsd`) | Discovery | Native |
+| Android MethodChannel | Wi-Fi bind + multicast lock | Platform channel |
+| cdn.elrsmobile.com (Cloudflare R2) | Direct APK (`ELRS-Mobile-latest.apk`, public link, never move) + `latest.json` | CDN |
+| Sentry | Crash reporting + breadcrumbs; all release builds; not toggle-gated | SDK |
+| Aptabase | Usage analytics; opt-out (`shareAnalytics` default true) | SDK |
+| Google Gemini | ARB + website translation, manual dispatch only | Tooling |
+| Cloudflare (website) | Builds and deploys `website/` from GitHub on push | Git-triggered deploy |
 
-## Security & Data Protection
+## Security & Privacy
 
-- **Secret storage**: `FlutterSecureStorage` (now `^10.3.4`, up from `^9.x` — cipher migration per commit e2401d5) for binding phrases, Wi-Fi credentials, and the JSON-encoded flashing-profile list; on Android backed by `AndroidOptions()` (v10 defaults, replacing the previous explicit `encryptedSharedPreferences: true` flag). `SharedPreferences` holds only non-sensitive prefs (manual IP, disclaimer acceptance, locale, migration flag). `PersistenceService.migrateIfNeeded()` performs a one-time plaintext -> secure migration tracked by `security_migration_v1_done`.
-- **No auth**: the app has no accounts or backend; device access is unauthenticated local HTTP on an isolated AP.
-- **Transport**: HTTPS to Artifactory/GitHub; plain HTTP to the device (the device serves no TLS).
-- **Regulatory safety**: `FrequencyValidator` rejects a 2.4 GHz-capable model reporting a sub-GHz frequency (checks bit 7 of `config.modelId`), guarding against flashing an illegal frequency plan.
+- **Secrets**: `flutter_secure_storage` ^11 (cipher migration stage 2) for profiles, active profile, bind phrase, Wi-Fi creds. Data from ≤ 1.0.43 cannot carry over (one-time notice). `SharedPreferences` for non-sensitive prefs.
+- **No auth / no backend**: unauthenticated local HTTP to an isolated AP; HTTPS to Artifactory/GitHub/CDN.
+- **Safety**: chip-mismatch hard block, `FrequencyValidator` (modelId bit 7).
+- **Telemetry**: Aptabase events (Firmware Downloaded/Flashed with target+version, Download/Flash Error with errorType+text, Config Webview Opened) unless Share Analytics is off; Sentry independent of the toggle. Logs carry device IPs but never phrases/passwords. Privacy policy (website `/privacy`, single source; root `PRIVACY.md` is a pointer) states this as of 2026-10-27.
+- **Permissions**: Android requests no location permission; iOS `Info.plist` still declares location/camera/photo usage strings that the code does not use.
 
-## Performance Considerations
+## Performance
 
-- Large `targets.json` parsing is offloaded to an isolate via `compute(_parseTargets, ...)` to keep the UI responsive.
-- Device probes use short (~2 s) `sendTimeout` / `receiveTimeout`; `CancelToken`s thread through device calls.
-- All device HTTP is serialized (one connection at a time) — intentional throughput cap to keep the ESP8285 stable.
-- `wakelock_plus` holds the screen awake during flashing; orientation locked to portrait to prevent Riverpod `autoDispose` teardown mid-flash.
+- `targets.json` parsed on an isolate (`compute`); ~2 s probe timeouts with `CancelToken`; serialized device HTTP by design; wakelock + portrait lock during flash.
 
-## Deployment Architecture
+## Deployment
 
-- **Type**: Cross-platform Flutter mobile app, with a maintained macOS desktop target. Flutter SDK `^3.11.0` / Dart. `pixi.toml` pins tooling env.
-- **Platforms**: Android (primary — native Wi-Fi binding), iOS (native channel calls are no-ops), Web (partial, `kIsWeb` guards), macOS (Flutter plugin set mirrors mobile: `connectivity_plus`, `device_info_plus`, `file_picker`, `flutter_secure_storage_darwin`, `nsd_macos`, `sentry_flutter`, `wakelock_plus`, `webview_flutter_wkwebview`).
-- **Version**: semantic version in `pubspec.yaml` (`1.0.44-rc1+46`).
-- **Distribution**: Google Play + Apple App Store; GitHub Releases APK built by a single, unified `.github/workflows/release.yml` triggered on `v*` tags and `workflow_dispatch` (with `custom_version`/`custom_build_number`/`play_store_track` inputs) — the separate development-branch push trigger and standalone RC workflow were consolidated into this one.
-- **Build config**: Sentry DSN injected via `--dart-define`; `flutter_launcher_icons` (iOS launch image now uses the branded logo, replacing a placeholder); assets bundle `docs/`, `assets/lua/`, `assets/targets.json`. Android build tooling upgraded to Gradle `9.3.1` with the modern `kotlin { compilerOptions { jvmTarget } }` DSL (migrated off deprecated `kotlinOptions`).
-- **Companion**: marketing/docs website (`website/`, Astro + Starlight) deployed via `deploy-website.yml`.
-- **Dev tooling**: an `opencode.json` at repo root grants the OpenCode agent harness read/write access to `~/.rp1/**`, indicating this project's rp1 knowledge base is shared across multiple agent-harness tools (Claude Code and OpenCode), not just one.
+- **App**: Flutter SDK ^3.11, Android (primary), iOS, macOS, partial web. Version 1.0.45+111 (Play version codes run ahead of pubspec).
+- **Release** (`release.yml`, `v*` tag or dispatch): direct APK (`DISTRIBUTION=direct`) → GitHub Release + `publish-apk-r2.yml` (reusable) → CDN; Play AAB; iOS IPA. `build-direct-apk.yml` for ad-hoc direct builds.
+- **CI**: `ci.yml` (gen-l10n diff, analyze, test on `development` + PRs); `website.yml` (path-filtered build + `check_links.mjs`); `translate.yml` manual only.
+- **Website**: Astro + Starlight, every page through Starlight with Header/Footer/Hero/ThemeProvider/ThemeSelect overrides (dark-only); single sources `src/config/{locales.json,site.ts,docs.json}`, `src/i18n/index.ts`; data-driven landing and generated hardware list. Deployed by Cloudflare from GitHub (no deploy workflow in repo).
 
 ## Related KB Links
 

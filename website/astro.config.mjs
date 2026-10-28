@@ -3,13 +3,40 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import localeConfig from './src/config/locales.json' with { type: 'json' };
+import { analyticsId, links } from './src/config/site.ts';
+import docsConfig from './src/config/docs.json' with { type: 'json' };
+import ui from './src/i18n/ui.json' with { type: 'json' };
+
+const starlightLocales = Object.fromEntries(
+  Object.entries(localeConfig.locales).map(([lang, label]) => [
+    lang === localeConfig.defaultLocale ? 'root' : lang,
+    { label, lang },
+  ]),
+);
+
+// Sidebar groups from src/config/docs.json, labels translated from ui.json.
+const sidebar = docsConfig.groups.map((group) => ({
+  label: ui.en[group.label],
+  translations: Object.fromEntries(
+    Object.keys(localeConfig.locales)
+      .filter((lang) => lang !== localeConfig.defaultLocale && ui[lang]?.[group.label])
+      .map((lang) => [lang, ui[lang][group.label]]),
+  ),
+  items: group.slugs.map((slug) => ({ slug })),
+}));
+
+const site = 'https://elrsmobile.com';
+const ogImage = `${site}/images/og-image.png`;
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://elrsmobile.com',
+  site,
   base: '/',
+  // Video thumbnails are fetched and optimised at build time.
+  image: { domains: ['i.ytimg.com'] },
   integrations: [
-    tailwind(),
+    tailwind({ applyBaseStyles: false }),
     starlight({
       title: 'ELRS Mobile',
       description: 'Flash and configure ExpressLRS receivers and transmitters directly from your iOS or Android device. 100% offline flashing, no PC or cables required.',
@@ -17,81 +44,53 @@ export default defineConfig({
         src: './src/assets/logo.png',
       },
       favicon: '/favicon.png',
-      locales: {
-        root: {
-          label: 'English',
-          lang: 'en',
-        },
-        de: { label: 'Deutsch', lang: 'de' },
-        es: { label: 'Español', lang: 'es' },
-        fr: { label: 'Français', lang: 'fr' },
-        ja: { label: '日本語', lang: 'ja' },
-        uk: { label: 'Українська', lang: 'uk' },
-        pt: { label: 'Português', lang: 'pt' },
-        it: { label: 'Italiano', lang: 'it' },
-        pl: { label: 'Polski', lang: 'pl' },
-        ko: { label: '한국어', lang: 'ko' },
-        ru: { label: 'Русский', lang: 'ru' },
-        nl: { label: 'Nederlands', lang: 'nl' },
-        cs: { label: 'Čeština', lang: 'cs' },
-        th: { label: 'ไทย', lang: 'th' },
-        sv: { label: 'Svenska', lang: 'sv' },
-        id: { label: 'Bahasa Indonesia', lang: 'id' },
-        zh: { label: '简体中文', lang: 'zh' },
-      },
+      locales: starlightLocales,
       head: [
         {
           tag: 'script',
           attrs: {
-            src: 'https://www.googletagmanager.com/gtag/js?id=G-8X6YE82V0S',
+            src: `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`,
             async: true,
           },
         },
         {
           tag: 'script',
           content: `
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('js', new Date());
-						gtag('config', 'G-8X6YE82V0S');
-					`,
-        },
-        {
-          tag: 'script',
-          attrs: {
-            src: 'https://storage.ko-fi.com/cdn/scripts/overlay-widget.js',
-          },
-        },
-        {
-          tag: 'script',
-          content: `
-            window.addEventListener('DOMContentLoaded', () => {
-              if (typeof kofiWidgetOverlay !== 'undefined') {
-                kofiWidgetOverlay.draw('wbhinton', {
-                  'type': 'floating-chat',
-                  'floating-chat.donateButton.text': 'Support me',
-                  'floating-chat.donateButton.background-color': '#FFB114',
-                  'floating-chat.donateButton.text-color': '#fff'
-                });
-              }
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${analyticsId}');
+            // One delegated listener: any element with data-track="<event>" sends
+            // that event, with its other data-* attributes as parameters.
+            document.addEventListener('click', (e) => {
+              const el = e.target.closest('[data-track]');
+              if (!el) return;
+              const { track, ...params } = el.dataset;
+              gtag('event', track, params);
             });
           `,
         },
+        { tag: 'meta', attrs: { property: 'og:image', content: ogImage } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        { tag: 'meta', attrs: { name: 'twitter:image', content: ogImage } },
       ],
+      components: {
+        Header: './src/components/starlight/Header.astro',
+        Hero: './src/components/starlight/Hero.astro',
+        Footer: './src/components/starlight/Footer.astro',
+        ThemeProvider: './src/components/starlight/ThemeProvider.astro',
+        ThemeSelect: './src/components/starlight/ThemeSelect.astro',
+      },
       social: [
         {
           label: 'GitHub',
-          href: 'https://github.com/wbhinton/ELRS-Mobile',
+          href: links.repo,
           icon: 'github',
         },
       ],
-      customCss: ['./src/styles/custom.css'],
-      sidebar: [
-        {
-          label: 'Guides',
-          autogenerate: { directory: 'guides' },
-        },
-      ],
+      customCss: ['./src/styles/tailwind.css', './src/styles/custom.css'],
+      sidebar,
     }),
     sitemap(),
   ],

@@ -1,26 +1,8 @@
 ---
 import LandingPage from "../../components/LandingPage.astro";
+import { localeStaticPaths } from "../../i18n";
 
-export function getStaticPaths() {
-  return [
-    { params: { lang: "de" } },
-    { params: { lang: "es" } },
-    { params: { lang: "fr" } },
-    { params: { lang: "ja" } },
-    { params: { lang: "uk" } },
-    { params: { lang: "pt" } },
-    { params: { lang: "it" } },
-    { params: { lang: "pl" } },
-    { params: { lang: "ko" } },
-    { params: { lang: "ru" } },
-    { params: { lang: "nl" } },
-    { params: { lang: "cs" } },
-    { params: { lang: "th" } },
-    { params: { lang: "sv" } },
-    { params: { lang: "id" } },
-    { params: { lang: "zh" } },
-  ];
-}
+export const getStaticPaths = localeStaticPaths;
 
 const { lang } = Astro.params;
 ---

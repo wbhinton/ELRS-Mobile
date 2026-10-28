@@ -1,112 +1,145 @@
 ---
-title: "Instrukcja obsługi"
+title: "Przewodnik użytkownika"
 slug: pl/user_guide
 sidebar:
   order: 1
 ---
 
-## Przegląd
-Ta aplikacja zapewnia kompleksowy interfejs mobilny do zarządzania sprzętem ExpressLRS. Umożliwia użytkownikom konfigurację parametrów odbiornika (RX) i nadajnika (TX), mapowanie wyjść PWM oraz bezpośrednie flashowanie aktualizacji firmware z urządzenia mobilnego.
+ELRS Mobile flashuje i konfiguruje odbiorniki (RX) oraz nadajniki (TX) ExpressLRS z Twojego telefonu, przez Wi-Fi, bez laptopa i bez połączenia z internetem w terenie. Działa z urządzeniami opartymi na ESP (ESP8285, ESP32, ESP32-C3, ESP32-S3) oraz firmware'em ExpressLRS 3.3.x i 4.x. Zobacz [Obsługiwany sprzęt](/supported_hardware), aby znaleźć każde kompatybilne urządzenie.
+
+Proces pracy składa się z dwóch części: pobieranie firmware'u, gdy masz internet, a następnie flashowanie w dowolnym miejscu.
 
 ---
 
 ## Instalacja
 
-### Oficjalne sklepy z aplikacjami
+| Platforma | Gdzie pobrać |
+| :--- | :--- |
+| Android | [Google Play](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile) |
+| iPhone i iPad | [App Store](https://apps.apple.com/us/app/elrs-mobile/id6760490014) |
+| Android, bez Google Play | [Bezpośrednie pobieranie pliku APK](https://cdn.elrsmobile.com/ELRS-Mobile-latest.apk), [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases) lub [GitHub Store](https://github.com/OpenHub-Store/Github-Store) |
 
-#### [Android](https://play.google.com/store/apps/details?id=io.datarx.elrsmobile)
-Zainstaluj z Google Play
+Wersje ze sklepów aktualizują się przez Google Play i App Store. Plik APK pobrany bezpośrednio sprawdza dostępność nowej wersji raz dziennie i oferuje jej pobranie; możesz również sprawdzić w dowolnym momencie z poziomu **Ustawienia → Informacje i zasady → Sprawdź aktualizacje**, pominąć wersję lub ustawić przypomnienie na później. Twoje ustawienia i profile są zachowywane podczas instalacji aktualizacji.
 
-<a href="https://play.google.com/store/apps/details?id=io.datarx.elrsmobile" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Pobierz w Google Play</a>
+Chcesz mieć wczesny dostęp do nowych funkcji? Dołącz do [bety Google Play](https://play.google.com/apps/testing/io.datarx.elrsmobile) lub [bety TestFlight](https://testflight.apple.com/join/jwU1WrpX).
 
-#### [iOS](https://apps.apple.com/us/app/elrs-mobile/id6760490014)
-Zainstaluj z App Store
-
-<a href="https://apps.apple.com/us/app/elrs-mobile/id6760490014" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Pobierz z App Store</a>
-
-### Alternatywna instalacja
-
-#### GitHub Store
-Idealne dla użytkowników, którzy preferują alternatywny sklep z aplikacjami.
-
-<a href="https://github.com/OpenHub-Store/Github-Store" class="inline-block px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 hover:brightness-110 text-center bg-primary text-background no-underline">Pobierz z GitHub Store</a>
-
-### Instalacja ręczna
-Dla zaawansowanych użytkowników lub tych, którzy preferują ręczne zarządzanie, odwiedź naszą stronę [GitHub Releases](https://github.com/wbhinton/ELRS-Mobile/releases) po najnowsze pliki `.apk`.
+Przy pierwszym uruchomieniu aplikacja wyświetla krótkie zastrzeżenie. Flashowanie firmware'u zawsze wiąże się z pewnym ryzykiem dla Twojego sprzętu; zaakceptuj je, aby kontynuować.
 
 ---
 
-## 🚀 Szybki start: Flashowanie pierwszego urządzenia
+## Szybki start: flashowanie pierwszego urządzenia
 
-### Faza 1: Buforowanie firmware (Zrób to w domu)
-1. Otwórz aplikację i przejdź do **Firmware Manager**.
-2. Stuknij ikonę pobierania obok najnowszej stabilnej wersji.
-3. Aplikacja pobierze i bezpiecznie zbuforuje wymagane definicje celu i sprzętu do użytku offline.
+### Krok 1: Pobieranie firmware'u (w domu)
 
-### Faza 2: Łączenie z urządzeniem
-1. W��ącz odbiornik ExpressLRS (RX) lub nadajnik (TX).
-2. Poczekaj 60 sekund (lub skonfigurowany interwał), aż urządzenie przejdzie w tryb Wi-Fi Hotspot (szybko migająca dioda LED).
-3. Podłącz Wi-Fi telefonu do sieci **ExpressLRS RX** lub **ExpressLRS TX** (Hasło: `expresslrs`).
-4. Otwórz aplikację. Pulpit nawigacyjny automatycznie przeskanuje sieć za pomocą mDNS i połączy się z urządzeniem.
+1.  Na Pulpicie (Dashboard) otwórz **Menedżer Firmware'u**.
+2.  Stuknij ikonę pobierania obok wersji ExpressLRS, którą chcesz. Wyświetlane są tylko wersje 3.3.0 i nowsze: są to pierwsze wersje z ujednoliconym firmware'em, na którym bazuje ELRS Mobile.
+3.  Po zakończeniu pobierania wersja wyświetli **Gotowy do użytku offline**. Firmware i wymagane definicje sprzętowe są teraz przechowywane na Twoim telefonie.
 
-### Faza 3: Flashowanie firmware
-1. Z Pulpitu nawigacyjnego wybierz **Flash Device**.
-2. **Wybierz swój sprzęt:** Użyj rozwijanych list, aby wybrać typ urządzenia, dostawcę, częstotliwość i cel (Target).
-3. **Konfiguracja opcji i profili:** Wybierz **Flashing Profile** (lub stuknij przycisk **+**, aby dodać nowy nazwany profil) w celu załadowania swoich danych uwierzytelniających. Dostosuj Binding Phrase, Wi-Fi SSID, Wi-Fi password, domeny regulacyjne i interwał automatycznego włączania Wi-Fi.
-4. Stuknij **FLASH**. Aplikacja złoży binarnik lokalnie i prześle go do urządzenia.
+Pobierz firmware na domowym Wi-Fi lub danych mobilnych. Nie możesz pobierać, gdy Twój telefon jest podłączony do hotspota Wi-Fi odbiornika lub nadajnika, ponieważ ta sieć nie ma dostępu do internetu.
 
-<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
-  <div class="flex items-center gap-3 mb-2">
-    <div class="p-2 rounded-lg bg-primary/10 text-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.0,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
-      </svg>
-    </div>
-    <span class="text-lg font-bold text-primary tracking-tight">Ostrzeżenie o niezgodności celu (Target Mismatch)</span>
-  </div>
-  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Jeśli aplikacja wykryje niezgodność celu sprzętowego między twoim wyborem a podłączonym urządzeniem, ostrzeże cię, aby zapobiec przypadkowemu uszkodzeniu. Jeśli jesteś pewien, że masz prawidłowy cel (np. odzyskujesz po nieudanym flashowaniu lub migrujesz między definicjami celów), kliknij <strong>FORCE FLASH</strong> w oknie dialogowym ostrzeżenia, aby pominąć sprawdzenie.
-  </p>
-</div>
+Nagłówek pokazuje, ile wersji zapisałeś w ramach swojego limitu. Zmień limit w **Ustawienia → Aplikacja i Pamięć → Maksymalna liczba buforowanych wersji** i usuń wersje, których już nie potrzebujesz.
 
-### 📋 Zarządzanie profilami flashowania
-Jeśli masz wiele dronów lub konfiguracji radiowych z różnymi wymaganiami konfiguracyjnymi (np. różne frazy wiązania lub domeny regulacyjne), możesz użyć nazwanych **Flashing Profiles** do zapisywania i przełączania konfiguracji:
-*   **Dodaj profil**: Stuknij ikonę **+** obok rozwijanej listy "Flashing Profile", wpisz nazwę i stuknij Dodaj.
-*   **Auto-zapisywanie**: Wszelkie zmiany w danych uwierzytelniających aktywnego profilu (fraza wiązania, SSID, hasło, domena lub interwał) są automatycznie zapisywane w czasie rzeczywistym.
-*   **Przełącz profile**: Po prostu wybierz profil z rozwijanej listy, aby natychmiast załadować jego zapisane ustawienia.
-*   **Usuń profil**: Aby posprzątać, wybierz profil z rozwijanej listy i stuknij ikonę kosza/usuwania (aby usunąć profil, musisz mieć co najmniej dwa).
+### Krok 2: Podłączanie do urządzenia
+
+1.  Włącz odbiornik lub nadajnik i poczekaj, aż uruchomi swój hotspot Wi-Fi. Domyślnie dzieje się to 60 sekund po włączeniu, jeśli nie połączył się ze swoim partnerem. Nadajniki mogą również uruchamiać Wi-Fi ze skryptu Lua ExpressLRS w Twoim radiu.
+2.  Na swoim telefonie dołącz do sieci **ExpressLRS RX** lub **ExpressLRS TX**. Hasło to `expresslrs`.
+3.  Otwórz ELRS Mobile. Pulpit (Dashboard) automatycznie znajdzie urządzenie i wyświetli jego nazwę produktu, wersję firmware'u, target i domenę regulacyjną.
+
+Jeśli Pulpit (Dashboard) pokazuje **Nie znaleziono urządzenia**, stuknij **Ponów próbę**. Jeśli Twoje urządzenie jest w innej sieci (na przykład połączone z Twoim domowym Wi-Fi), stuknij ikonę zębatki na karcie urządzenia i wprowadź jego adres IP.
+
+Urządzenia z firmware'em starszym niż 3.1 również są wykrywane, dzięki czemu możesz je zaktualizować do bieżącej wersji.
+
+### Krok 3: Flashowanie
+
+1.  Na Pulpicie (Dashboard) stuknij **Flashuj urządzenie**.
+2.  Sprawdź target. Aplikacja wstępnie wybiera target pasujący do podłączonego urządzenia, jeśli jest to możliwe; w przeciwnym razie wybierz Typ urządzenia, Dostawcę urządzenia, Domenę regulacyjną i częstotliwość oraz Target urządzenia.
+3.  Wybierz wersję firmware'u. Wersje, które pobrałeś, są oznaczone jako **(Buforowane)**. Jeśli sprzęt wymaga nowszej wersji niż ta, którą masz, aplikacja poinformuje o tym i zaproponuje pobranie kompatybilnej.
+4.  Sprawdź opcje firmware'u: profil flashowania, frazę wiążącą, sieć Wi-Fi i hasło, domenę regulacyjną oraz interwał automatycznego włączania Wi-Fi.
+5.  Stuknij **Flashuj**.
+
+Pasek postępu śledzi każdy krok: lokalizowanie i rozpakowywanie pobranego firmware'u, budowanie go z Twoimi ustawieniami, przesyłanie go oraz **Zapisywanie do urządzenia — Proszę czekać**, podczas gdy urządzenie instaluje go i restartuje. Gdy urządzenie potwierdzi, zobaczysz **Flashowanie zakończone sukcesem! Urządzenie restartuje**, a Pulpit (Dashboard) ponownie połączy się, gdy urządzenie wróci do pracy.
 
 ---
 
-## Szczegóły techniczne
+## Kontrole bezpieczeństwa
 
-### Łączność i wykrywanie
-Aplikacja wykorzystuje solidną wielostopniową sekwencję wykrywania, aby znaleźć Twój sprzęt:
-1.  **Rozpoznawanie mDNS**: Podstawowa metoda. Aplikacja skanuje w poszukiwaniu `elrs_rx.local` lub `elrs_tx.local`.
-2.  **Awaryjne przełączanie na statyczny AP**: Jeśli mDNS jest zablokowane, aplikacja sprawdza oficjalny adres IP punktu dostępowego ELRS (`10.0.0.1`).
-3.  **Ręczne nadpisywanie IP**: W przypadku złożonych sieci można ręcznie wprowadzić adres IP w Ustawieniach.
+Aplikacja sprawdza Twoje wybory przed flashowaniem i zatrzymuje się, jeśli coś wygląda na błędne.
 
-**Wymuszone wiązanie sieciowe**: Nowoczesne smartfony często odrzucają połączenia Wi-Fi bez dostępu do Internetu. ELRS Mobile zawiera natywną warstwę "Forced Routing", która wymusza na systemie operacyjnym utrzymywanie połączenia ze sprzętem, zapewniając 100% niezawodne wykrywanie w terenie.
+:::danger[Niekompatybilny chip]
+Firmware dla jednego chipa nigdy nie może działać na innym (na przykład firmware ESP32 na odbiorniku ESP8285). Aplikacja blokuje flashowanie i informuje, który chip jest który. Wybierz target dla chipa swojego urządzenia.
+:::
+
+:::caution[Niezgodność targetu]
+Jeśli wybrany target nie pasuje do produktu zgłaszanego przez urządzenie, zobaczysz **Niezgodność targetu**. Najpierw sprawdź swój wybór. Jeśli jesteś pewien, że jest poprawny (na przykład odzyskujesz po nieudanym flashowaniu lub przechodzisz na nowszą definicję targetu), stuknij **Wymuś Flashowanie**.
+:::
+
+:::note[Brak frazy wiążącej]
+Flashowanie bez frazy wiążącej działa, ale urządzenie połączy się tylko przy użyciu domyślnej (pustej) frazy. Aplikacja pyta przed kontynuowaniem.
+:::
+
+:::caution[Flashowanie niepotwierdzone]
+Jeśli urządzenie rozłączy się przed potwierdzeniem flashowania (straciło zasilanie, zrestartowało się lub połączenie Wi-Fi zostało zerwane), aplikacja nie może stwierdzić, czy aktualizacja została zakończona. Zamiast zgłaszać sukces, wyświetla bursztynowe ostrzeżenie. Połącz się ponownie i sprawdź wersję firmware'u na Pulpicie (Dashboard); jeśli się nie zmieniła, flashuj ponownie.
+:::
 
 ---
 
-## Tryb eksperta i audytowanie
-W menu Ustawienia użytkownicy mogą włączyć **Expert Mode**. Pozwala to na zapisanie złożonego binarnego pliku firmware bezpośrednio na urządzeniu w celu audytu lub ręcznego flashowania za pomocą FTDI.
+## Profile flashowania
 
-<div class="p-4 my-8 rounded-2xl border border-primary/20 bg-surface/50 backdrop-blur-md shadow-xl shadow-primary/5">
-  <div class="flex items-center gap-3 mb-2">
-    <div class="p-2 rounded-lg bg-primary/10 text-primary">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.0,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
-      </svg>
-    </div>
-    <span class="text-lg font-bold text-primary tracking-tight">Obsługa sprzętu STM32</span>
-  </div>
-  <p class="text-sm leading-relaxed text-text-muted/90 pl-11">
-    Chociaż ELRS Mobile może składać i patchować firmware dla celów STM32 (do ELRS v3.x), urządzenia te nie obsługują flashowania Over-The-Air (OTA) za pośrednictwem Wi-Fi. Jeśli wybierzesz cel STM32, aplikacja pozwoli Ci zbudować i zapisać plik binarny lokalnie, abyś mógł flashować go ręcznie za pomocą komputera przez STLink lub Betaflight Passthrough.
-  </p>
-</div>
+Profil flashowania zapisuje frazę wiążącą, domową sieć Wi-Fi i hasło, domyślne domeny regulacyjne oraz interwał automatycznego włączania Wi-Fi pod wybraną nazwą. Używaj jednego na flotę lub konfigurację radiową i przełączaj się między nimi jednym stuknięciem.
 
-Dla programistów, którzy chcą zweryfikować integralność tych plików binarnych, zobacz nasz [**Przewodnik walidacji firmware**](/guides/firmware-validation).
+Zarządzaj profilami w **Ustawienia → Profile i Sieć**:
 
-<!-- source_hash: 517ac115b41fa09bfaf858b0da950a2d -->
+-   **Dodaj:** stuknij **+**, wpisz nazwę i stuknij **Dodaj**.
+-   **Przełącz:** wybierz profil z listy **Profil flashowania**. Jest on również dostępny na ekranie flashowania.
+-   **Edytuj:** zmień dowolne pole; aktywny profil zapisuje się automatycznie.
+-   **Usuń:** wybierz profil i stuknij ikonę usuwania. Zawsze zachowujesz co najmniej jeden profil.
+
+Frazy wiążące i hasła Wi-Fi są przechowywane w zaszyfrowanej bezpiecznej pamięci Twojego telefonu.
+
+---
+
+## Konfiguracja urządzenia
+
+Na Pulpicie (Dashboard) stuknij **Konfiguracja urządzenia**, aby otworzyć stronę ustawień ExpressLRS podłączonego urządzenia wewnątrz aplikacji. Użyj jej do zmiany ustawień Wi-Fi i wiązania, dopasowania modelu, protokołu szeregowego, mapowania wyjść PWM i innych opcji urządzenia. Aplikacja utrzymuje stronę zablokowaną dla Twojego urządzenia.
+
+---
+
+## Ustawienia
+
+| Sekcja | Co się tam znajduje |
+| :--- | :--- |
+| Profile i Sieć | Profile flashowania, fraza wiążąca, domowa sieć Wi-Fi i hasło, domyślne domeny regulacyjne 2.4 GHz i sub-GHz |
+| Aplikacja i Pamięć | Maksymalna liczba buforowanych wersji, Menedżer Firmware'u, wyczyść pamięć podręczną firmware'u, język aplikacji, anonimowe analizy użytkowania (domyślnie włączone; wyłącz za pomocą **Udostępnij Analizy**) |
+| Zaawansowane i Debugowanie | Tryb eksperta i jego narzędzia (poniżej) |
+| Informacje i Zasady | Wersja aplikacji, nota prawna i licencja, wsparcie rozwoju oraz **Sprawdź aktualizacje** w pliku APK pobranym bezpośrednio |
+
+Zmień język aplikacji z Ustawień lub przycisku języka na górnym pasku. ELRS Mobile jest dostępne w 18 językach.
+
+---
+
+## Tryb eksperta
+
+Włącz **Ustawienia → Zaawansowane i Debugowanie → Tryb eksperta**, aby odblokować:
+
+-   **Targety STM32.** Starsze urządzenia oparte na STM32 nie mogą być flashowane przez Wi-Fi, a wspiera to tylko ExpressLRS 3.3.x. Aplikacja buduje firmware z Twoimi ustawieniami, dzięki czemu możesz go flashować z komputera za pomocą STLink lub passthrough Betaflight.
+-   **Pobierz Plik Binarny.** Zapisz zbudowany plik firmware'u zamiast go flashować, do ręcznego flashowania lub audytu.
+-   **Eksportuj skrypt ELRS Lua.** Zapisz `elrs.lua` dla radiów EdgeTX i OpenTX.
+-   **Wyślij Raport Debugowania.** Wyślij informacje o urządzeniu i logi aplikacji, aby pomóc w naprawieniu błędu. Frazy wiążące i hasła Wi-Fi nigdy nie są dołączane.
+
+---
+
+## Rozwiązywanie problemów
+
+**Pulpit (Dashboard) nie może znaleźć mojego urządzenia.** Upewnij się, że Twój telefon jest nadal podłączony do sieci Wi-Fi urządzenia; niektóre telefony opuszczają sieci, które nie mają dostępu do internetu. Na Androidzie, ELRS Mobile utrzymuje swój ruch na tej sieci Wi-Fi nawet bez internetu. Stuknij **Ponów próbę** lub wprowadź adres IP z ikony zębatki (`10.0.0.1` w hotspocie samego urządzenia).
+
+**Nie mogę pobrać firmware'u.** Odłącz się od hotspota urządzenia i użyj sieci z dostępem do internetu.
+
+**Moje urządzenie nie reaguje po nieudanym flashowaniu.** Przytrzymaj przycisk BOOT podczas podłączania go przez USB, aby wejść w tryb bootloader'a, a następnie ponownie flashuj za pomocą [ExpressLRS Web Flasher](https://expresslrs.org/flasher). Urządzenia z obsługą Wi-Fi można również odzyskać, przytrzymując BOOT przez 60 sekund, aby uruchomić hotspot Wi-Fi. Ekran **Pomoc i Wsparcie** w aplikacji zawiera te kroki, FAQ oraz linki do ExpressLRS Discord.
+
+**Moje profile zniknęły po aktualizacji.** Bezpośrednia aktualizacja z wersji v1.0.43 lub starszej do v1.0.45 lub nowszej nie może przenieść zapisanych profili, fraz wiążących i ustawień Wi-Fi przez aktualizację pamięci. Aplikacja informuje o tym raz; wprowadź je ponownie w Ustawieniach.
+
+---
+
+Deweloperzy mogą zweryfikować firmware budowany przez ELRS Mobile za pomocą [Narzędzi Walidacji Firmware'u](/firmware-validation).
+
+<!-- source_hash: 927017dfd36d96b7c787e4972528233d -->
