@@ -2,6 +2,10 @@ arb-dir: lib/l10n
 template-arb-file: app_en.arb
 output-class: AppLocalizations
 output-dir: lib/src/localization
+# gen-l10n (Flutter 3.50) still emits the deprecated SDK Material/Cupertino
+# delegates in AppLocalizations.localizationsDelegates. The app does not use
+# that list; it uses appLocalizationsDelegates (lib/src/core/l10n_delegates.dart).
+header: "// ignore_for_file: deprecated_member_use"
 
 # arb_translate configuration
 arb-translate-model-provider: gemini

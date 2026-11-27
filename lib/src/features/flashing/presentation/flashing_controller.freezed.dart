@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'flashing_controller.dart';
@@ -9,6 +9,7 @@ part of 'flashing_controller.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -24,23 +25,29 @@ $FlashingStateCopyWith<FlashingState> get copyWith => _$FlashingStateCopyWithImp
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as FlashingState;
   properties
     ..add(DiagnosticsProperty('type', 'FlashingState'))
-    ..add(DiagnosticsProperty('selectedDeviceType', selectedDeviceType))..add(DiagnosticsProperty('selectedVendor', selectedVendor))..add(DiagnosticsProperty('selectedFrequency', selectedFrequency))..add(DiagnosticsProperty('selectedTarget', selectedTarget))..add(DiagnosticsProperty('selectedVersion', selectedVersion))..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('progress', progress))..add(DiagnosticsProperty('error', error))..add(DiagnosticsProperty('bindPhrase', bindPhrase))..add(DiagnosticsProperty('wifiSsid', wifiSsid))..add(DiagnosticsProperty('wifiPassword', wifiPassword))..add(DiagnosticsProperty('regulatoryDomain', regulatoryDomain))..add(DiagnosticsProperty('wifiOnInterval', wifiOnInterval))..add(DiagnosticsProperty('autosavingField', autosavingField))..add(DiagnosticsProperty('bindPhraseError', bindPhraseError))..add(DiagnosticsProperty('wifiSsidError', wifiSsidError))..add(DiagnosticsProperty('wifiPasswordError', wifiPasswordError))..add(DiagnosticsProperty('cachedPayload', cachedPayload));
+    ..add(DiagnosticsProperty('selectedDeviceType', _this.selectedDeviceType))..add(DiagnosticsProperty('selectedVendor', _this.selectedVendor))..add(DiagnosticsProperty('selectedFrequency', _this.selectedFrequency))..add(DiagnosticsProperty('selectedTarget', _this.selectedTarget))..add(DiagnosticsProperty('selectedVersion', _this.selectedVersion))..add(DiagnosticsProperty('status', _this.status))..add(DiagnosticsProperty('progress', _this.progress))..add(DiagnosticsProperty('error', _this.error))..add(DiagnosticsProperty('bindPhrase', _this.bindPhrase))..add(DiagnosticsProperty('wifiSsid', _this.wifiSsid))..add(DiagnosticsProperty('wifiPassword', _this.wifiPassword))..add(DiagnosticsProperty('regulatoryDomain', _this.regulatoryDomain))..add(DiagnosticsProperty('wifiOnInterval', _this.wifiOnInterval))..add(DiagnosticsProperty('autosavingField', _this.autosavingField))..add(DiagnosticsProperty('bindPhraseError', _this.bindPhraseError))..add(DiagnosticsProperty('wifiSsidError', _this.wifiSsidError))..add(DiagnosticsProperty('wifiPasswordError', _this.wifiPasswordError))..add(DiagnosticsProperty('cachedPayload', _this.cachedPayload));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FlashingState&&(identical(other.selectedDeviceType, selectedDeviceType) || other.selectedDeviceType == selectedDeviceType)&&(identical(other.selectedVendor, selectedVendor) || other.selectedVendor == selectedVendor)&&(identical(other.selectedFrequency, selectedFrequency) || other.selectedFrequency == selectedFrequency)&&(identical(other.selectedTarget, selectedTarget) || other.selectedTarget == selectedTarget)&&(identical(other.selectedVersion, selectedVersion) || other.selectedVersion == selectedVersion)&&(identical(other.status, status) || other.status == status)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.error, error) || other.error == error)&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.autosavingField, autosavingField) || other.autosavingField == autosavingField)&&(identical(other.bindPhraseError, bindPhraseError) || other.bindPhraseError == bindPhraseError)&&(identical(other.wifiSsidError, wifiSsidError) || other.wifiSsidError == wifiSsidError)&&(identical(other.wifiPasswordError, wifiPasswordError) || other.wifiPasswordError == wifiPasswordError)&&const DeepCollectionEquality().equals(other.cachedPayload, cachedPayload));
+  final _this = this as FlashingState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FlashingState&&(identical(other.selectedDeviceType, _this.selectedDeviceType) || other.selectedDeviceType == _this.selectedDeviceType)&&(identical(other.selectedVendor, _this.selectedVendor) || other.selectedVendor == _this.selectedVendor)&&(identical(other.selectedFrequency, _this.selectedFrequency) || other.selectedFrequency == _this.selectedFrequency)&&(identical(other.selectedTarget, _this.selectedTarget) || other.selectedTarget == _this.selectedTarget)&&(identical(other.selectedVersion, _this.selectedVersion) || other.selectedVersion == _this.selectedVersion)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.progress, _this.progress) || other.progress == _this.progress)&&(identical(other.error, _this.error) || other.error == _this.error)&&(identical(other.bindPhrase, _this.bindPhrase) || other.bindPhrase == _this.bindPhrase)&&(identical(other.wifiSsid, _this.wifiSsid) || other.wifiSsid == _this.wifiSsid)&&(identical(other.wifiPassword, _this.wifiPassword) || other.wifiPassword == _this.wifiPassword)&&(identical(other.regulatoryDomain, _this.regulatoryDomain) || other.regulatoryDomain == _this.regulatoryDomain)&&(identical(other.wifiOnInterval, _this.wifiOnInterval) || other.wifiOnInterval == _this.wifiOnInterval)&&(identical(other.autosavingField, _this.autosavingField) || other.autosavingField == _this.autosavingField)&&(identical(other.bindPhraseError, _this.bindPhraseError) || other.bindPhraseError == _this.bindPhraseError)&&(identical(other.wifiSsidError, _this.wifiSsidError) || other.wifiSsidError == _this.wifiSsidError)&&(identical(other.wifiPasswordError, _this.wifiPasswordError) || other.wifiPasswordError == _this.wifiPasswordError)&&const DeepCollectionEquality().equals(other.cachedPayload, _this.cachedPayload));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedDeviceType,selectedVendor,selectedFrequency,selectedTarget,selectedVersion,status,progress,error,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,wifiOnInterval,autosavingField,bindPhraseError,wifiSsidError,wifiPasswordError,const DeepCollectionEquality().hash(cachedPayload));
+int get hashCode {
+  final _this = this as FlashingState;
+  return Object.hash(runtimeType,_this.selectedDeviceType,_this.selectedVendor,_this.selectedFrequency,_this.selectedTarget,_this.selectedVersion,_this.status,_this.progress,_this.error,_this.bindPhrase,_this.wifiSsid,_this.wifiPassword,_this.regulatoryDomain,_this.wifiOnInterval,_this.autosavingField,_this.bindPhraseError,_this.wifiSsidError,_this.wifiPasswordError,const DeepCollectionEquality().hash(_this.cachedPayload));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'FlashingState(selectedDeviceType: $selectedDeviceType, selectedVendor: $selectedVendor, selectedFrequency: $selectedFrequency, selectedTarget: $selectedTarget, selectedVersion: $selectedVersion, status: $status, progress: $progress, error: $error, bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, wifiOnInterval: $wifiOnInterval, autosavingField: $autosavingField, bindPhraseError: $bindPhraseError, wifiSsidError: $wifiSsidError, wifiPasswordError: $wifiPasswordError, cachedPayload: $cachedPayload)';
+  final _this = this as FlashingState;
+  return 'FlashingState(selectedDeviceType: ${_this.selectedDeviceType}, selectedVendor: ${_this.selectedVendor}, selectedFrequency: ${_this.selectedFrequency}, selectedTarget: ${_this.selectedTarget}, selectedVersion: ${_this.selectedVersion}, status: ${_this.status}, progress: ${_this.progress}, error: ${_this.error}, bindPhrase: ${_this.bindPhrase}, wifiSsid: ${_this.wifiSsid}, wifiPassword: ${_this.wifiPassword}, regulatoryDomain: ${_this.regulatoryDomain}, wifiOnInterval: ${_this.wifiOnInterval}, autosavingField: ${_this.autosavingField}, bindPhraseError: ${_this.bindPhraseError}, wifiSsidError: ${_this.wifiSsidError}, wifiPasswordError: ${_this.wifiPasswordError}, cachedPayload: ${_this.cachedPayload})';
 }
 
 
@@ -69,7 +76,7 @@ class _$FlashingStateCopyWithImpl<$Res>
 /// Create a copy of FlashingState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? selectedDeviceType = freezed,Object? selectedVendor = freezed,Object? selectedFrequency = freezed,Object? selectedTarget = freezed,Object? selectedVersion = freezed,Object? status = null,Object? progress = null,Object? error = freezed,Object? bindPhrase = null,Object? wifiSsid = null,Object? wifiPassword = null,Object? regulatoryDomain = null,Object? wifiOnInterval = null,Object? autosavingField = freezed,Object? bindPhraseError = freezed,Object? wifiSsidError = freezed,Object? wifiPasswordError = freezed,Object? cachedPayload = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(FlashingState(
 selectedDeviceType: freezed == selectedDeviceType ? _self.selectedDeviceType : selectedDeviceType // ignore: cast_nullable_to_non_nullable
 as String?,selectedVendor: freezed == selectedVendor ? _self.selectedVendor : selectedVendor // ignore: cast_nullable_to_non_nullable
 as String?,selectedFrequency: freezed == selectedFrequency ? _self.selectedFrequency : selectedFrequency // ignore: cast_nullable_to_non_nullable
@@ -272,23 +279,25 @@ _$FlashingStateCopyWith<_FlashingState> get copyWith => __$FlashingStateCopyWith
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'FlashingState'))
     ..add(DiagnosticsProperty('selectedDeviceType', selectedDeviceType))..add(DiagnosticsProperty('selectedVendor', selectedVendor))..add(DiagnosticsProperty('selectedFrequency', selectedFrequency))..add(DiagnosticsProperty('selectedTarget', selectedTarget))..add(DiagnosticsProperty('selectedVersion', selectedVersion))..add(DiagnosticsProperty('status', status))..add(DiagnosticsProperty('progress', progress))..add(DiagnosticsProperty('error', error))..add(DiagnosticsProperty('bindPhrase', bindPhrase))..add(DiagnosticsProperty('wifiSsid', wifiSsid))..add(DiagnosticsProperty('wifiPassword', wifiPassword))..add(DiagnosticsProperty('regulatoryDomain', regulatoryDomain))..add(DiagnosticsProperty('wifiOnInterval', wifiOnInterval))..add(DiagnosticsProperty('autosavingField', autosavingField))..add(DiagnosticsProperty('bindPhraseError', bindPhraseError))..add(DiagnosticsProperty('wifiSsidError', wifiSsidError))..add(DiagnosticsProperty('wifiPasswordError', wifiPasswordError))..add(DiagnosticsProperty('cachedPayload', cachedPayload));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FlashingState&&(identical(other.selectedDeviceType, selectedDeviceType) || other.selectedDeviceType == selectedDeviceType)&&(identical(other.selectedVendor, selectedVendor) || other.selectedVendor == selectedVendor)&&(identical(other.selectedFrequency, selectedFrequency) || other.selectedFrequency == selectedFrequency)&&(identical(other.selectedTarget, selectedTarget) || other.selectedTarget == selectedTarget)&&(identical(other.selectedVersion, selectedVersion) || other.selectedVersion == selectedVersion)&&(identical(other.status, status) || other.status == status)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.error, error) || other.error == error)&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.autosavingField, autosavingField) || other.autosavingField == autosavingField)&&(identical(other.bindPhraseError, bindPhraseError) || other.bindPhraseError == bindPhraseError)&&(identical(other.wifiSsidError, wifiSsidError) || other.wifiSsidError == wifiSsidError)&&(identical(other.wifiPasswordError, wifiPasswordError) || other.wifiPasswordError == wifiPasswordError)&&const DeepCollectionEquality().equals(other.cachedPayload, cachedPayload));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FlashingState&&(identical(other.selectedDeviceType, selectedDeviceType) || other.selectedDeviceType == selectedDeviceType)&&(identical(other.selectedVendor, selectedVendor) || other.selectedVendor == selectedVendor)&&(identical(other.selectedFrequency, selectedFrequency) || other.selectedFrequency == selectedFrequency)&&(identical(other.selectedTarget, selectedTarget) || other.selectedTarget == selectedTarget)&&(identical(other.selectedVersion, selectedVersion) || other.selectedVersion == selectedVersion)&&(identical(other.status, status) || other.status == status)&&(identical(other.progress, progress) || other.progress == progress)&&(identical(other.error, error) || other.error == error)&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.autosavingField, autosavingField) || other.autosavingField == autosavingField)&&(identical(other.bindPhraseError, bindPhraseError) || other.bindPhraseError == bindPhraseError)&&(identical(other.wifiSsidError, wifiSsidError) || other.wifiSsidError == wifiSsidError)&&(identical(other.wifiPasswordError, wifiPasswordError) || other.wifiPasswordError == wifiPasswordError)&&const DeepCollectionEquality().equals(other.cachedPayload, cachedPayload));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,selectedDeviceType,selectedVendor,selectedFrequency,selectedTarget,selectedVersion,status,progress,error,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,wifiOnInterval,autosavingField,bindPhraseError,wifiSsidError,wifiPasswordError,const DeepCollectionEquality().hash(cachedPayload));
+int get hashCode {
+    return Object.hash(runtimeType,selectedDeviceType,selectedVendor,selectedFrequency,selectedTarget,selectedVersion,status,progress,error,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,wifiOnInterval,autosavingField,bindPhraseError,wifiSsidError,wifiPasswordError,const DeepCollectionEquality().hash(cachedPayload));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'FlashingState(selectedDeviceType: $selectedDeviceType, selectedVendor: $selectedVendor, selectedFrequency: $selectedFrequency, selectedTarget: $selectedTarget, selectedVersion: $selectedVersion, status: $status, progress: $progress, error: $error, bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, wifiOnInterval: $wifiOnInterval, autosavingField: $autosavingField, bindPhraseError: $bindPhraseError, wifiSsidError: $wifiSsidError, wifiPasswordError: $wifiPasswordError, cachedPayload: $cachedPayload)';
+    return 'FlashingState(selectedDeviceType: $selectedDeviceType, selectedVendor: $selectedVendor, selectedFrequency: $selectedFrequency, selectedTarget: $selectedTarget, selectedVersion: $selectedVersion, status: $status, progress: $progress, error: $error, bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, wifiOnInterval: $wifiOnInterval, autosavingField: $autosavingField, bindPhraseError: $bindPhraseError, wifiSsidError: $wifiSsidError, wifiPasswordError: $wifiPasswordError, cachedPayload: $cachedPayload)';
 }
 
 

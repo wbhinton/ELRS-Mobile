@@ -48,7 +48,7 @@ abstract class _$FlashingController extends $Notifier<FlashingState> {
   FlashingState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<FlashingState, FlashingState>;
     final element =
         ref.element
@@ -58,6 +58,6 @@ abstract class _$FlashingController extends $Notifier<FlashingState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

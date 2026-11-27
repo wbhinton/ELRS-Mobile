@@ -10,7 +10,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
@@ -19,6 +19,7 @@ import 'router.dart';
 import 'core/networking/connectivity_service.dart';
 import 'features/settings/presentation/settings_controller.dart';
 import 'core/app_info.dart';
+import 'core/l10n_delegates.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -69,7 +70,7 @@ class _AppContent extends HookConsumerWidget {
       themeMode: ThemeMode.dark,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates: appLocalizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: appLocale != null ? Locale(appLocale) : null,
     );

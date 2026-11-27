@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:elrs_mobile/src/core/l10n_delegates.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:elrs_mobile/src/features/flashing/presentation/widgets/options_card.dart';
 import 'package:elrs_mobile/src/features/dashboard/presentation/widgets/hardware_status_card.dart';
@@ -28,7 +29,7 @@ void main() {
             child: MaterialApp(
               locale: locale,
               supportedLocales: AppLocalizations.supportedLocales,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              localizationsDelegates: appLocalizationsDelegates,
               home: const Scaffold(
                 body: SingleChildScrollView(
                   child: OptionsCard(),
@@ -50,7 +51,7 @@ void main() {
             child: MaterialApp(
               locale: locale,
               supportedLocales: AppLocalizations.supportedLocales,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              localizationsDelegates: appLocalizationsDelegates,
               home: const Scaffold(
                 body: SingleChildScrollView(
                   child: HardwareStatusCard(),

@@ -55,12 +55,10 @@ class SharedPrefsReleaseIndexStore implements ReleaseIndexStore {
 /// A healthy live index always wins, so upstream removals are honoured.
 class ReleaseIndexRepository {
   ReleaseIndexRepository({
-    required Future<Object?> Function() fetchLive,
-    required ReleaseIndexStore store,
+    required this._fetchLive,
+    required this._store,
     Future<String> Function()? loadBundled,
-  })  : _fetchLive = fetchLive,
-        _store = store,
-        _loadBundled =
+  })  : _loadBundled =
             loadBundled ?? (() => rootBundle.loadString(bundledIndexAsset));
 
   final Future<Object?> Function() _fetchLive;

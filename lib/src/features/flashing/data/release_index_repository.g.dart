@@ -55,4 +55,4 @@ final class ReleaseIndexRepositoryProvider
 }
 
 String _$releaseIndexRepositoryHash() =>
-    r'722bce76a33bc54bb845e3c46a8f131e36324621';
+    r'1c4b7b684f030bf47ba5cefcbf5046ef95422afe';
