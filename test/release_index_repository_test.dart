@@ -24,9 +24,9 @@ String _index(Map<String, String> tags) => jsonEncode({'tags': tags});
 Map<String, String> _tags(int n) =>
     {for (var i = 0; i < n; i++) '3.$i.0': 'hash$i'};
 
-/// The exact payload Artifactory served on 2026-11-27.
+/// Shape of the index served on 2026-11-27: one branch, no tags.
 const _brokenUpstream = '''
-{"branches": {"pwm-inverted-polarity": "d07dc2f956a93311d9c119255196d61c99743291"},
+{"branches": {"feature-branch": "0000000000000000000000000000000000000000"},
  "tags": {}}
 ''';
 

@@ -1,3 +1,12 @@
+## [v1.0.46] - 2026-11-27
+
+### Bug Fixes
+
+*   **Firmware Versions Missing:** On November 27 the online list of ExpressLRS firmware versions was temporarily published without any releases, so the Firmware Manager and the Flash screen showed no versions to download. The firmware files themselves were never affected. The app now recognises an incomplete version list and uses the last complete one instead, either saved from a previous check or bundled with the app, so firmware stays available. When the online list is complete, the app uses it as before, so new releases appear immediately and withdrawn ones disappear.
+*   **Cached Firmware as a Fallback:** If no version list is available at all, the app now shows the firmware you've already downloaded instead of an empty screen.
+
+---
+
 ## [v1.0.45] - 2026-10-09
 
 ### New Features
