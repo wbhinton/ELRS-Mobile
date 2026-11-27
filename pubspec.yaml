@@ -112,6 +112,7 @@ flutter:
     - assets/docs/
     - assets/lua/elrs.lua
     - assets/targets.json
+    - assets/expresslrs_index.json
     - icons/elrs_mobile.png
     - icons/elrs_mobile_foreground.svg
   

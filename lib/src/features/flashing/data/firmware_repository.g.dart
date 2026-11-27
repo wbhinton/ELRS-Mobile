@@ -55,4 +55,4 @@ final class FirmwareRepositoryProvider
 }
 
 String _$firmwareRepositoryHash() =>
-    r'd2fbb20442b1b6ee27ef3708a1d8ee5540c6efe0';
+    r'a870a8392016036aa3e3ab4eb1313ed163b02cb0';

@@ -22,11 +22,25 @@ jobs:
         # Pulls the live target list directly from the ExpressLRS master branch
         run: curl -sL https://raw.githubusercontent.com/ExpressLRS/targets/master/targets.json -o assets/targets.json
 
+      - name: Fetch Latest ExpressLRS release index
+        # Bundled fallback for when the live Artifactory index is published
+        # degraded (it was served with zero tags on 2026-11-27). Never accept
+        # an index that is empty or smaller than the one already bundled.
+        run: |
+          curl -sfL https://artifactory.expresslrs.org/ExpressLRS/index.json -o /tmp/index.json || exit 0
+          NEW=$(jq '.tags | length' /tmp/index.json 2>/dev/null || echo 0)
+          OLD=$(jq '.tags | length' assets/expresslrs_index.json)
+          if [ "$NEW" -gt 0 ] && [ "$NEW" -ge "$OLD" ]; then
+            jq --sort-keys '{tags: .tags}' /tmp/index.json > assets/expresslrs_index.json
+          else
+            echo "::warning::Artifactory index has $NEW tags (bundled has $OLD); keeping bundled copy."
+          fi
+
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add assets/targets.json
+          git add assets/targets.json assets/expresslrs_index.json
           # The command will quietly succeed if there are no changes, or commit the new file if it was updated
-          git commit -m "chore: auto-update assets/targets.json from upstream" || echo "No changes to commit"
+          git commit -m "chore: auto-update bundled targets and release index from upstream" || echo "No changes to commit"
           git push

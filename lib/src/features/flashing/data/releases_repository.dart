@@ -10,38 +10,25 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 
-import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/storage/firmware_cache_service.dart';
-import '../../../core/networking/connectivity_service.dart';
-
-import '../../../core/networking/device_dio.dart';
+import 'release_index_repository.dart';
 
 part 'releases_repository.g.dart';
 
 final _log = Logger('ReleasesRepository');
 
 class ReleasesRepository {
-  final Dio _dio;
-  final Ref _ref;
+  final ReleaseIndexRepository _index;
 
-  ReleasesRepository(this._dio, this._ref);
+  ReleasesRepository(this._index);
 
   Future<List<String>> fetchVersions() async {
     try {
-      // Use Artifactory Index to ensure we only list versions we can actually download.
-      // Index URL: https://artifactory.expresslrs.org/ExpressLRS/index.json
-      final response = await _ref
-          .read(connectivityServiceProvider.notifier)
-          .withInternetAccess(() {
-            return _dio.get(
-              'https://artifactory.expresslrs.org/ExpressLRS/index.json',
-            );
-          });
-
-      // key = version string, value = hash
-      final Map<String, dynamic> tags = response.data['tags'];
+      // Tags come from the Artifactory index (with last-known-good fallback),
+      // so we only list versions we can actually download.
+      final tags = await _index.fetchTags();
 
       // Filter for versions >= 3.3.0 (including 4.x)
       // Versions prior to 3.3.0 lack unified firmware support and cannot be used with ELRS Mobile.
@@ -92,14 +79,16 @@ class ReleasesRepository {
 
 @riverpod
 ReleasesRepository releasesRepository(Ref ref) {
-  return ReleasesRepository(ref.watch(internetDioProvider), ref);
+  return ReleasesRepository(ref.watch(releaseIndexRepositoryProvider));
 }
 
 @riverpod
 Future<List<String>> releases(Ref ref) async {
   final repo = ref.watch(releasesRepositoryProvider);
   try {
-    return await repo.fetchVersions();
+    final versions = await repo.fetchVersions();
+    if (versions.isEmpty) throw StateError('Index has no usable versions');
+    return versions;
   } catch (e) {
     _log.warning('Failed to fetch releases ($e). Checking cache...');
     final cacheService = ref.read(firmwareCacheServiceProvider);
