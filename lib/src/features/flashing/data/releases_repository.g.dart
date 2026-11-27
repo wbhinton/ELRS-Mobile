@@ -55,7 +55,7 @@ final class ReleasesRepositoryProvider
 }
 
 String _$releasesRepositoryHash() =>
-    r'94d1f2b726eb6ad7ec49a45686f200e35585866b';
+    r'9becdb5551147dbbd4e6e66be3d74ff88194fffa';
 
 @ProviderFor(releases)
 final releasesProvider = ReleasesProvider._();
@@ -94,4 +94,4 @@ final class ReleasesProvider
   }
 }
 
-String _$releasesHash() => r'b4a9e185b6fb63ea0f94e981aff9c0c2637ff8cd';
+String _$releasesHash() => r'fe35eb06511dc3141488035d51cf550f3148926f';

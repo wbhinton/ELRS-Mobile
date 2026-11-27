@@ -11,6 +11,9 @@ class SupportScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Moving to material_hooks' useTabController is part of the Flutter 3.50
+    // upgrade (see the CI Flutter pin); until then keep the SDK one.
+    // ignore: deprecated_member_use
     final tabController = useTabController(initialLength: 3);
     useListenable(tabController);
     final l10n = AppLocalizations.of(context)!;

@@ -16,6 +16,7 @@ import 'package:archive/archive.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/networking/device_dio.dart';
+import 'release_index_repository.dart';
 
 part 'firmware_repository.g.dart';
 
@@ -30,7 +31,9 @@ class FirmwareRepository {
   final Dio _dio;
   static final _log = Logger('FirmwareRepository');
 
-  FirmwareRepository(this._dio);
+  final ReleaseIndexRepository _index;
+
+  FirmwareRepository(this._dio, this._index);
 
   Future<FirmwareData> downloadFirmware(
     String targetName,
@@ -52,22 +55,19 @@ class FirmwareRepository {
     }
   }
 
-  /// Fetches the commit hash for a given version from the Artifactory index.
+  /// Fetches the commit hash for a given version from the Artifactory index
+  /// (with last-known-good fallback, see [ReleaseIndexRepository]).
   Future<String> fetchHashForVersion(String version) async {
     try {
       _log.info('Fetching Artifactory Index...');
-      final indexResponse = await _dio.get(
-        'https://artifactory.expresslrs.org/ExpressLRS/index.json',
-      );
-      final tags = indexResponse.data['tags'] as Map<String, dynamic>;
-
-      if (!tags.containsKey(version)) {
-        throw Exception('Version $version not found in Artifactory index.');
-      }
+      final tags = await _index.fetchTags();
 
       final hash = tags[version];
+      if (hash == null) {
+        throw Exception('Version $version not found in Artifactory index.');
+      }
       _log.info('Found hash for $version: $hash');
-      return hash as String;
+      return hash;
     } catch (e) {
       _log.warning('Hash fetch failed (Offline?). Error: $e');
       rethrow;
@@ -214,5 +214,5 @@ class FirmwareRepository {
 @riverpod
 FirmwareRepository firmwareRepository(Ref ref) {
   final dio = ref.watch(internetDioProvider);
-  return FirmwareRepository(dio);
+  return FirmwareRepository(dio, ref.watch(releaseIndexRepositoryProvider));
 }

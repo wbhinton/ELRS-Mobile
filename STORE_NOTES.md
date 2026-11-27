@@ -16,6 +16,28 @@ when the release goes to production.
 
 ---
 
+## v1.0.46
+
+### Google Play — What's new
+
+```
+• Fixes firmware versions not appearing in the Firmware Manager and Flash screen
+• If the online version list is incomplete, the app now uses the last complete list so firmware stays available
+• Shows your downloaded firmware if no version list can be loaded
+```
+
+### App Store — What's New in This Version
+
+```
+What's new in ELRS Mobile 1.0.46:
+
+• Fixes firmware versions not appearing in the Firmware Manager and on the Flash screen.
+• If the online list of ExpressLRS releases is temporarily incomplete, the app now uses the last complete list, so you can still download and flash firmware.
+• If no version list can be loaded at all, the app shows the firmware you've already downloaded.
+```
+
+---
+
 ## v1.0.45
 
 ### Google Play — What's new
