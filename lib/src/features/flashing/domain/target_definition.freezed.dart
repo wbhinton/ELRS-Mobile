@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'target_definition.dart';
@@ -9,6 +9,7 @@ part of 'target_definition.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -23,8 +24,7 @@ mixin _$TargetDefinition {
 /// but for now we map it as a String if it exists.
  String? get firmware;/// Configuration map containing 'serial_rx', 'serial_tx', etc.
  Map<String, dynamic> get config;/// Target architecture platform (e.g., "esp8285", "esp32", "esp32-s3")
- String? get platform;// Keeping prior fields that might be useful, but making them optional/default to avoid breakages if not present
-@JsonKey(name: 'upload_methods') List<String> get uploadMethods; List<String> get options; String get category;@JsonKey(name: 'device_type') String get deviceType;@JsonKey(name: 'frequency_type') String get frequencyType;@JsonKey(name: 'min_version') String? get minVersion;@JsonKey(name: 'prior_target_name') String? get priorTargetName;
+ String? get platform;@JsonKey(name: 'upload_methods') List<String> get uploadMethods; List<String> get options; String get category;@JsonKey(name: 'device_type') String get deviceType;@JsonKey(name: 'frequency_type') String get frequencyType;@JsonKey(name: 'min_version') String? get minVersion;@JsonKey(name: 'prior_target_name') String? get priorTargetName;
 /// Create a copy of TargetDefinition
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,16 +37,21 @@ $TargetDefinitionCopyWith<TargetDefinition> get copyWith => _$TargetDefinitionCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TargetDefinition&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.name, name) || other.name == name)&&(identical(other.productCode, productCode) || other.productCode == productCode)&&(identical(other.firmware, firmware) || other.firmware == firmware)&&const DeepCollectionEquality().equals(other.config, config)&&(identical(other.platform, platform) || other.platform == platform)&&const DeepCollectionEquality().equals(other.uploadMethods, uploadMethods)&&const DeepCollectionEquality().equals(other.options, options)&&(identical(other.category, category) || other.category == category)&&(identical(other.deviceType, deviceType) || other.deviceType == deviceType)&&(identical(other.frequencyType, frequencyType) || other.frequencyType == frequencyType)&&(identical(other.minVersion, minVersion) || other.minVersion == minVersion)&&(identical(other.priorTargetName, priorTargetName) || other.priorTargetName == priorTargetName));
+  final _this = this as TargetDefinition;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TargetDefinition&&(identical(other.vendor, _this.vendor) || other.vendor == _this.vendor)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.productCode, _this.productCode) || other.productCode == _this.productCode)&&(identical(other.firmware, _this.firmware) || other.firmware == _this.firmware)&&const DeepCollectionEquality().equals(other.config, _this.config)&&(identical(other.platform, _this.platform) || other.platform == _this.platform)&&const DeepCollectionEquality().equals(other.uploadMethods, _this.uploadMethods)&&const DeepCollectionEquality().equals(other.options, _this.options)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.deviceType, _this.deviceType) || other.deviceType == _this.deviceType)&&(identical(other.frequencyType, _this.frequencyType) || other.frequencyType == _this.frequencyType)&&(identical(other.minVersion, _this.minVersion) || other.minVersion == _this.minVersion)&&(identical(other.priorTargetName, _this.priorTargetName) || other.priorTargetName == _this.priorTargetName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor,name,productCode,firmware,const DeepCollectionEquality().hash(config),platform,const DeepCollectionEquality().hash(uploadMethods),const DeepCollectionEquality().hash(options),category,deviceType,frequencyType,minVersion,priorTargetName);
+int get hashCode {
+  final _this = this as TargetDefinition;
+  return Object.hash(runtimeType,_this.vendor,_this.name,_this.productCode,_this.firmware,const DeepCollectionEquality().hash(_this.config),_this.platform,const DeepCollectionEquality().hash(_this.uploadMethods),const DeepCollectionEquality().hash(_this.options),_this.category,_this.deviceType,_this.frequencyType,_this.minVersion,_this.priorTargetName);
+}
 
 @override
 String toString() {
-  return 'TargetDefinition(vendor: $vendor, name: $name, productCode: $productCode, firmware: $firmware, config: $config, platform: $platform, uploadMethods: $uploadMethods, options: $options, category: $category, deviceType: $deviceType, frequencyType: $frequencyType, minVersion: $minVersion, priorTargetName: $priorTargetName)';
+  final _this = this as TargetDefinition;
+  return 'TargetDefinition(vendor: ${_this.vendor}, name: ${_this.name}, productCode: ${_this.productCode}, firmware: ${_this.firmware}, config: ${_this.config}, platform: ${_this.platform}, uploadMethods: ${_this.uploadMethods}, options: ${_this.options}, category: ${_this.category}, deviceType: ${_this.deviceType}, frequencyType: ${_this.frequencyType}, minVersion: ${_this.minVersion}, priorTargetName: ${_this.priorTargetName})';
 }
 
 
@@ -75,7 +80,7 @@ class _$TargetDefinitionCopyWithImpl<$Res>
 /// Create a copy of TargetDefinition
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? vendor = null,Object? name = null,Object? productCode = freezed,Object? firmware = freezed,Object? config = null,Object? platform = freezed,Object? uploadMethods = null,Object? options = null,Object? category = null,Object? deviceType = null,Object? frequencyType = null,Object? minVersion = freezed,Object? priorTargetName = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(TargetDefinition(
 vendor: null == vendor ? _self.vendor : vendor // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,productCode: freezed == productCode ? _self.productCode : productCode // ignore: cast_nullable_to_non_nullable
@@ -230,7 +235,7 @@ return $default(_that.vendor,_that.name,_that.productCode,_that.firmware,_that.c
 @JsonSerializable()
 
 class _TargetDefinition extends TargetDefinition {
-  const _TargetDefinition({required this.vendor, required this.name, @JsonKey(name: 'product_code') this.productCode, this.firmware, final  Map<String, dynamic> config = const {}, this.platform, @JsonKey(name: 'upload_methods') final  List<String> uploadMethods = const [], final  List<String> options = const [], this.category = '', @JsonKey(name: 'device_type') this.deviceType = 'RX', @JsonKey(name: 'frequency_type') this.frequencyType = '2.4GHz', @JsonKey(name: 'min_version') this.minVersion, @JsonKey(name: 'prior_target_name') this.priorTargetName}): _config = config,_uploadMethods = uploadMethods,_options = options,super._();
+  const _TargetDefinition({required this.vendor, required this.name, @JsonKey(name: 'product_code') this.productCode, this.firmware,  Map<String, dynamic> config = const {}, this.platform, @JsonKey(name: 'upload_methods')  List<String> uploadMethods = const [],  List<String> options = const [], this.category = '', @JsonKey(name: 'device_type') this.deviceType = 'RX', @JsonKey(name: 'frequency_type') this.frequencyType = '2.4GHz', @JsonKey(name: 'min_version') this.minVersion, @JsonKey(name: 'prior_target_name') this.priorTargetName}): _config = config,_uploadMethods = uploadMethods,_options = options,super._();
   factory _TargetDefinition.fromJson(Map<String, dynamic> json) => _$TargetDefinitionFromJson(json);
 
 /// Manufacturer/Vendor name (e.g., "HappyModel")
@@ -254,9 +259,7 @@ class _TargetDefinition extends TargetDefinition {
 
 /// Target architecture platform (e.g., "esp8285", "esp32", "esp32-s3")
 @override final  String? platform;
-// Keeping prior fields that might be useful, but making them optional/default to avoid breakages if not present
  final  List<String> _uploadMethods;
-// Keeping prior fields that might be useful, but making them optional/default to avoid breakages if not present
 @override@JsonKey(name: 'upload_methods') List<String> get uploadMethods {
   if (_uploadMethods is EqualUnmodifiableListView) return _uploadMethods;
   // ignore: implicit_dynamic_type
@@ -289,16 +292,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TargetDefinition&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.name, name) || other.name == name)&&(identical(other.productCode, productCode) || other.productCode == productCode)&&(identical(other.firmware, firmware) || other.firmware == firmware)&&const DeepCollectionEquality().equals(other._config, _config)&&(identical(other.platform, platform) || other.platform == platform)&&const DeepCollectionEquality().equals(other._uploadMethods, _uploadMethods)&&const DeepCollectionEquality().equals(other._options, _options)&&(identical(other.category, category) || other.category == category)&&(identical(other.deviceType, deviceType) || other.deviceType == deviceType)&&(identical(other.frequencyType, frequencyType) || other.frequencyType == frequencyType)&&(identical(other.minVersion, minVersion) || other.minVersion == minVersion)&&(identical(other.priorTargetName, priorTargetName) || other.priorTargetName == priorTargetName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TargetDefinition&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.name, name) || other.name == name)&&(identical(other.productCode, productCode) || other.productCode == productCode)&&(identical(other.firmware, firmware) || other.firmware == firmware)&&const DeepCollectionEquality().equals(other.config, _config)&&(identical(other.platform, platform) || other.platform == platform)&&const DeepCollectionEquality().equals(other.uploadMethods, _uploadMethods)&&const DeepCollectionEquality().equals(other.options, _options)&&(identical(other.category, category) || other.category == category)&&(identical(other.deviceType, deviceType) || other.deviceType == deviceType)&&(identical(other.frequencyType, frequencyType) || other.frequencyType == frequencyType)&&(identical(other.minVersion, minVersion) || other.minVersion == minVersion)&&(identical(other.priorTargetName, priorTargetName) || other.priorTargetName == priorTargetName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor,name,productCode,firmware,const DeepCollectionEquality().hash(_config),platform,const DeepCollectionEquality().hash(_uploadMethods),const DeepCollectionEquality().hash(_options),category,deviceType,frequencyType,minVersion,priorTargetName);
+int get hashCode {
+    return Object.hash(runtimeType,vendor,name,productCode,firmware,const DeepCollectionEquality().hash(_config),platform,const DeepCollectionEquality().hash(_uploadMethods),const DeepCollectionEquality().hash(_options),category,deviceType,frequencyType,minVersion,priorTargetName);
+}
 
 @override
 String toString() {
-  return 'TargetDefinition(vendor: $vendor, name: $name, productCode: $productCode, firmware: $firmware, config: $config, platform: $platform, uploadMethods: $uploadMethods, options: $options, category: $category, deviceType: $deviceType, frequencyType: $frequencyType, minVersion: $minVersion, priorTargetName: $priorTargetName)';
+    return 'TargetDefinition(vendor: $vendor, name: $name, productCode: $productCode, firmware: $firmware, config: $config, platform: $platform, uploadMethods: $uploadMethods, options: $options, category: $category, deviceType: $deviceType, frequencyType: $frequencyType, minVersion: $minVersion, priorTargetName: $priorTargetName)';
 }
 
 

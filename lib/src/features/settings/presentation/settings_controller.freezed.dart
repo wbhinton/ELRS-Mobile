@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'settings_controller.dart';
@@ -9,6 +9,7 @@ part of 'settings_controller.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $SettingsStateCopyWith<SettingsState> get copyWith => _$SettingsStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.defaultDomain2400, defaultDomain2400) || other.defaultDomain2400 == defaultDomain2400)&&(identical(other.defaultDomain900, defaultDomain900) || other.defaultDomain900 == defaultDomain900)&&(identical(other.globalBindPhrase, globalBindPhrase) || other.globalBindPhrase == globalBindPhrase)&&(identical(other.homeWifiSsid, homeWifiSsid) || other.homeWifiSsid == homeWifiSsid)&&(identical(other.homeWifiPassword, homeWifiPassword) || other.homeWifiPassword == homeWifiPassword)&&(identical(other.maxCachedVersions, maxCachedVersions) || other.maxCachedVersions == maxCachedVersions)&&(identical(other.expertMode, expertMode) || other.expertMode == expertMode)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.disclaimerAccepted, disclaimerAccepted) || other.disclaimerAccepted == disclaimerAccepted)&&(identical(other.shareAnalytics, shareAnalytics) || other.shareAnalytics == shareAnalytics)&&(identical(other.isLoaded, isLoaded) || other.isLoaded == isLoaded)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.bindPhraseError, bindPhraseError) || other.bindPhraseError == bindPhraseError)&&(identical(other.wifiSsidError, wifiSsidError) || other.wifiSsidError == wifiSsidError)&&(identical(other.wifiPasswordError, wifiPasswordError) || other.wifiPasswordError == wifiPasswordError)&&const DeepCollectionEquality().equals(other.profiles, profiles)&&(identical(other.activeProfileId, activeProfileId) || other.activeProfileId == activeProfileId));
+  final _this = this as SettingsState;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SettingsState&&(identical(other.defaultDomain2400, _this.defaultDomain2400) || other.defaultDomain2400 == _this.defaultDomain2400)&&(identical(other.defaultDomain900, _this.defaultDomain900) || other.defaultDomain900 == _this.defaultDomain900)&&(identical(other.globalBindPhrase, _this.globalBindPhrase) || other.globalBindPhrase == _this.globalBindPhrase)&&(identical(other.homeWifiSsid, _this.homeWifiSsid) || other.homeWifiSsid == _this.homeWifiSsid)&&(identical(other.homeWifiPassword, _this.homeWifiPassword) || other.homeWifiPassword == _this.homeWifiPassword)&&(identical(other.maxCachedVersions, _this.maxCachedVersions) || other.maxCachedVersions == _this.maxCachedVersions)&&(identical(other.expertMode, _this.expertMode) || other.expertMode == _this.expertMode)&&(identical(other.appVersion, _this.appVersion) || other.appVersion == _this.appVersion)&&(identical(other.disclaimerAccepted, _this.disclaimerAccepted) || other.disclaimerAccepted == _this.disclaimerAccepted)&&(identical(other.shareAnalytics, _this.shareAnalytics) || other.shareAnalytics == _this.shareAnalytics)&&(identical(other.isLoaded, _this.isLoaded) || other.isLoaded == _this.isLoaded)&&(identical(other.wifiOnInterval, _this.wifiOnInterval) || other.wifiOnInterval == _this.wifiOnInterval)&&(identical(other.appLocale, _this.appLocale) || other.appLocale == _this.appLocale)&&(identical(other.bindPhraseError, _this.bindPhraseError) || other.bindPhraseError == _this.bindPhraseError)&&(identical(other.wifiSsidError, _this.wifiSsidError) || other.wifiSsidError == _this.wifiSsidError)&&(identical(other.wifiPasswordError, _this.wifiPasswordError) || other.wifiPasswordError == _this.wifiPasswordError)&&const DeepCollectionEquality().equals(other.profiles, _this.profiles)&&(identical(other.activeProfileId, _this.activeProfileId) || other.activeProfileId == _this.activeProfileId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,defaultDomain2400,defaultDomain900,globalBindPhrase,homeWifiSsid,homeWifiPassword,maxCachedVersions,expertMode,appVersion,disclaimerAccepted,shareAnalytics,isLoaded,wifiOnInterval,appLocale,bindPhraseError,wifiSsidError,wifiPasswordError,const DeepCollectionEquality().hash(profiles),activeProfileId);
+int get hashCode {
+  final _this = this as SettingsState;
+  return Object.hash(runtimeType,_this.defaultDomain2400,_this.defaultDomain900,_this.globalBindPhrase,_this.homeWifiSsid,_this.homeWifiPassword,_this.maxCachedVersions,_this.expertMode,_this.appVersion,_this.disclaimerAccepted,_this.shareAnalytics,_this.isLoaded,_this.wifiOnInterval,_this.appLocale,_this.bindPhraseError,_this.wifiSsidError,_this.wifiPasswordError,const DeepCollectionEquality().hash(_this.profiles),_this.activeProfileId);
+}
 
 @override
 String toString() {
-  return 'SettingsState(defaultDomain2400: $defaultDomain2400, defaultDomain900: $defaultDomain900, globalBindPhrase: $globalBindPhrase, homeWifiSsid: $homeWifiSsid, homeWifiPassword: $homeWifiPassword, maxCachedVersions: $maxCachedVersions, expertMode: $expertMode, appVersion: $appVersion, disclaimerAccepted: $disclaimerAccepted, shareAnalytics: $shareAnalytics, isLoaded: $isLoaded, wifiOnInterval: $wifiOnInterval, appLocale: $appLocale, bindPhraseError: $bindPhraseError, wifiSsidError: $wifiSsidError, wifiPasswordError: $wifiPasswordError, profiles: $profiles, activeProfileId: $activeProfileId)';
+  final _this = this as SettingsState;
+  return 'SettingsState(defaultDomain2400: ${_this.defaultDomain2400}, defaultDomain900: ${_this.defaultDomain900}, globalBindPhrase: ${_this.globalBindPhrase}, homeWifiSsid: ${_this.homeWifiSsid}, homeWifiPassword: ${_this.homeWifiPassword}, maxCachedVersions: ${_this.maxCachedVersions}, expertMode: ${_this.expertMode}, appVersion: ${_this.appVersion}, disclaimerAccepted: ${_this.disclaimerAccepted}, shareAnalytics: ${_this.shareAnalytics}, isLoaded: ${_this.isLoaded}, wifiOnInterval: ${_this.wifiOnInterval}, appLocale: ${_this.appLocale}, bindPhraseError: ${_this.bindPhraseError}, wifiSsidError: ${_this.wifiSsidError}, wifiPasswordError: ${_this.wifiPasswordError}, profiles: ${_this.profiles}, activeProfileId: ${_this.activeProfileId})';
 }
 
 
@@ -63,7 +69,7 @@ class _$SettingsStateCopyWithImpl<$Res>
 /// Create a copy of SettingsState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? defaultDomain2400 = null,Object? defaultDomain900 = null,Object? globalBindPhrase = null,Object? homeWifiSsid = null,Object? homeWifiPassword = null,Object? maxCachedVersions = null,Object? expertMode = null,Object? appVersion = null,Object? disclaimerAccepted = null,Object? shareAnalytics = null,Object? isLoaded = null,Object? wifiOnInterval = null,Object? appLocale = freezed,Object? bindPhraseError = freezed,Object? wifiSsidError = freezed,Object? wifiPasswordError = freezed,Object? profiles = null,Object? activeProfileId = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SettingsState(
 defaultDomain2400: null == defaultDomain2400 ? _self.defaultDomain2400 : defaultDomain2400 // ignore: cast_nullable_to_non_nullable
 as int,defaultDomain900: null == defaultDomain900 ? _self.defaultDomain900 : defaultDomain900 // ignore: cast_nullable_to_non_nullable
 as int,globalBindPhrase: null == globalBindPhrase ? _self.globalBindPhrase : globalBindPhrase // ignore: cast_nullable_to_non_nullable
@@ -223,7 +229,7 @@ return $default(_that.defaultDomain2400,_that.defaultDomain900,_that.globalBindP
 
 
 class _SettingsState implements SettingsState {
-  const _SettingsState({this.defaultDomain2400 = 0, this.defaultDomain900 = 1, this.globalBindPhrase = '', this.homeWifiSsid = '', this.homeWifiPassword = '', this.maxCachedVersions = 2, this.expertMode = false, this.appVersion = 'Unknown', this.disclaimerAccepted = false, this.shareAnalytics = true, this.isLoaded = false, this.wifiOnInterval = 60, this.appLocale, this.bindPhraseError, this.wifiSsidError, this.wifiPasswordError, final  List<FlashingProfile> profiles = const [], this.activeProfileId}): _profiles = profiles;
+  const _SettingsState({this.defaultDomain2400 = 0, this.defaultDomain900 = 1, this.globalBindPhrase = '', this.homeWifiSsid = '', this.homeWifiPassword = '', this.maxCachedVersions = 2, this.expertMode = false, this.appVersion = 'Unknown', this.disclaimerAccepted = false, this.shareAnalytics = true, this.isLoaded = false, this.wifiOnInterval = 60, this.appLocale, this.bindPhraseError, this.wifiSsidError, this.wifiPasswordError,  List<FlashingProfile> profiles = const [], this.activeProfileId}): _profiles = profiles;
   
 
 @override@JsonKey() final  int defaultDomain2400;
@@ -261,16 +267,18 @@ _$SettingsStateCopyWith<_SettingsState> get copyWith => __$SettingsStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.defaultDomain2400, defaultDomain2400) || other.defaultDomain2400 == defaultDomain2400)&&(identical(other.defaultDomain900, defaultDomain900) || other.defaultDomain900 == defaultDomain900)&&(identical(other.globalBindPhrase, globalBindPhrase) || other.globalBindPhrase == globalBindPhrase)&&(identical(other.homeWifiSsid, homeWifiSsid) || other.homeWifiSsid == homeWifiSsid)&&(identical(other.homeWifiPassword, homeWifiPassword) || other.homeWifiPassword == homeWifiPassword)&&(identical(other.maxCachedVersions, maxCachedVersions) || other.maxCachedVersions == maxCachedVersions)&&(identical(other.expertMode, expertMode) || other.expertMode == expertMode)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.disclaimerAccepted, disclaimerAccepted) || other.disclaimerAccepted == disclaimerAccepted)&&(identical(other.shareAnalytics, shareAnalytics) || other.shareAnalytics == shareAnalytics)&&(identical(other.isLoaded, isLoaded) || other.isLoaded == isLoaded)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.bindPhraseError, bindPhraseError) || other.bindPhraseError == bindPhraseError)&&(identical(other.wifiSsidError, wifiSsidError) || other.wifiSsidError == wifiSsidError)&&(identical(other.wifiPasswordError, wifiPasswordError) || other.wifiPasswordError == wifiPasswordError)&&const DeepCollectionEquality().equals(other._profiles, _profiles)&&(identical(other.activeProfileId, activeProfileId) || other.activeProfileId == activeProfileId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsState&&(identical(other.defaultDomain2400, defaultDomain2400) || other.defaultDomain2400 == defaultDomain2400)&&(identical(other.defaultDomain900, defaultDomain900) || other.defaultDomain900 == defaultDomain900)&&(identical(other.globalBindPhrase, globalBindPhrase) || other.globalBindPhrase == globalBindPhrase)&&(identical(other.homeWifiSsid, homeWifiSsid) || other.homeWifiSsid == homeWifiSsid)&&(identical(other.homeWifiPassword, homeWifiPassword) || other.homeWifiPassword == homeWifiPassword)&&(identical(other.maxCachedVersions, maxCachedVersions) || other.maxCachedVersions == maxCachedVersions)&&(identical(other.expertMode, expertMode) || other.expertMode == expertMode)&&(identical(other.appVersion, appVersion) || other.appVersion == appVersion)&&(identical(other.disclaimerAccepted, disclaimerAccepted) || other.disclaimerAccepted == disclaimerAccepted)&&(identical(other.shareAnalytics, shareAnalytics) || other.shareAnalytics == shareAnalytics)&&(identical(other.isLoaded, isLoaded) || other.isLoaded == isLoaded)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.appLocale, appLocale) || other.appLocale == appLocale)&&(identical(other.bindPhraseError, bindPhraseError) || other.bindPhraseError == bindPhraseError)&&(identical(other.wifiSsidError, wifiSsidError) || other.wifiSsidError == wifiSsidError)&&(identical(other.wifiPasswordError, wifiPasswordError) || other.wifiPasswordError == wifiPasswordError)&&const DeepCollectionEquality().equals(other.profiles, _profiles)&&(identical(other.activeProfileId, activeProfileId) || other.activeProfileId == activeProfileId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,defaultDomain2400,defaultDomain900,globalBindPhrase,homeWifiSsid,homeWifiPassword,maxCachedVersions,expertMode,appVersion,disclaimerAccepted,shareAnalytics,isLoaded,wifiOnInterval,appLocale,bindPhraseError,wifiSsidError,wifiPasswordError,const DeepCollectionEquality().hash(_profiles),activeProfileId);
+int get hashCode {
+    return Object.hash(runtimeType,defaultDomain2400,defaultDomain900,globalBindPhrase,homeWifiSsid,homeWifiPassword,maxCachedVersions,expertMode,appVersion,disclaimerAccepted,shareAnalytics,isLoaded,wifiOnInterval,appLocale,bindPhraseError,wifiSsidError,wifiPasswordError,const DeepCollectionEquality().hash(_profiles),activeProfileId);
+}
 
 @override
 String toString() {
-  return 'SettingsState(defaultDomain2400: $defaultDomain2400, defaultDomain900: $defaultDomain900, globalBindPhrase: $globalBindPhrase, homeWifiSsid: $homeWifiSsid, homeWifiPassword: $homeWifiPassword, maxCachedVersions: $maxCachedVersions, expertMode: $expertMode, appVersion: $appVersion, disclaimerAccepted: $disclaimerAccepted, shareAnalytics: $shareAnalytics, isLoaded: $isLoaded, wifiOnInterval: $wifiOnInterval, appLocale: $appLocale, bindPhraseError: $bindPhraseError, wifiSsidError: $wifiSsidError, wifiPasswordError: $wifiPasswordError, profiles: $profiles, activeProfileId: $activeProfileId)';
+    return 'SettingsState(defaultDomain2400: $defaultDomain2400, defaultDomain900: $defaultDomain900, globalBindPhrase: $globalBindPhrase, homeWifiSsid: $homeWifiSsid, homeWifiPassword: $homeWifiPassword, maxCachedVersions: $maxCachedVersions, expertMode: $expertMode, appVersion: $appVersion, disclaimerAccepted: $disclaimerAccepted, shareAnalytics: $shareAnalytics, isLoaded: $isLoaded, wifiOnInterval: $wifiOnInterval, appLocale: $appLocale, bindPhraseError: $bindPhraseError, wifiSsidError: $wifiSsidError, wifiPasswordError: $wifiPasswordError, profiles: $profiles, activeProfileId: $activeProfileId)';
 }
 
 

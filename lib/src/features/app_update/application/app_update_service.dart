@@ -37,15 +37,12 @@ class UpdateCheckFailed extends UpdateCheckResult {
 
 class AppUpdateService {
   AppUpdateService({
-    required AppUpdateRepository repository,
-    required PersistenceService persistence,
-    required Future<PackageInfo> Function() packageInfo,
+    required this._repository,
+    required this._persistence,
+    required this._packageInfo,
     bool? enabled,
     DateTime Function()? now,
-  })  : _repository = repository,
-        _persistence = persistence,
-        _packageInfo = packageInfo,
-        _enabled = enabled ??
+  })  : _enabled = enabled ??
             (kIsDirectDistribution &&
                 !kIsWeb &&
                 defaultTargetPlatform == TargetPlatform.android),

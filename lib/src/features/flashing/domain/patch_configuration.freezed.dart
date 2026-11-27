@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'patch_configuration.dart';
@@ -9,6 +9,7 @@ part of 'patch_configuration.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $PatchConfigurationCopyWith<PatchConfiguration> get copyWith => _$PatchConfigura
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatchConfiguration&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&const DeepCollectionEquality().equals(other.uid, uid));
+  final _this = this as PatchConfiguration;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PatchConfiguration&&(identical(other.bindPhrase, _this.bindPhrase) || other.bindPhrase == _this.bindPhrase)&&(identical(other.wifiSsid, _this.wifiSsid) || other.wifiSsid == _this.wifiSsid)&&(identical(other.wifiPassword, _this.wifiPassword) || other.wifiPassword == _this.wifiPassword)&&(identical(other.regulatoryDomain, _this.regulatoryDomain) || other.regulatoryDomain == _this.regulatoryDomain)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.wifiOnInterval, _this.wifiOnInterval) || other.wifiOnInterval == _this.wifiOnInterval)&&const DeepCollectionEquality().equals(other.uid, _this.uid));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,domain,wifiOnInterval,const DeepCollectionEquality().hash(uid));
+int get hashCode {
+  final _this = this as PatchConfiguration;
+  return Object.hash(runtimeType,_this.bindPhrase,_this.wifiSsid,_this.wifiPassword,_this.regulatoryDomain,_this.domain,_this.wifiOnInterval,const DeepCollectionEquality().hash(_this.uid));
+}
 
 @override
 String toString() {
-  return 'PatchConfiguration(bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, domain: $domain, wifiOnInterval: $wifiOnInterval, uid: $uid)';
+  final _this = this as PatchConfiguration;
+  return 'PatchConfiguration(bindPhrase: ${_this.bindPhrase}, wifiSsid: ${_this.wifiSsid}, wifiPassword: ${_this.wifiPassword}, regulatoryDomain: ${_this.regulatoryDomain}, domain: ${_this.domain}, wifiOnInterval: ${_this.wifiOnInterval}, uid: ${_this.uid})';
 }
 
 
@@ -63,7 +69,7 @@ class _$PatchConfigurationCopyWithImpl<$Res>
 /// Create a copy of PatchConfiguration
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? bindPhrase = null,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? regulatoryDomain = freezed,Object? domain = freezed,Object? wifiOnInterval = freezed,Object? uid = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PatchConfiguration(
 bindPhrase: null == bindPhrase ? _self.bindPhrase : bindPhrase // ignore: cast_nullable_to_non_nullable
 as String,wifiSsid: freezed == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast_nullable_to_non_nullable
 as String?,wifiPassword: freezed == wifiPassword ? _self.wifiPassword : wifiPassword // ignore: cast_nullable_to_non_nullable
@@ -212,7 +218,7 @@ return $default(_that.bindPhrase,_that.wifiSsid,_that.wifiPassword,_that.regulat
 
 
 class _PatchConfiguration implements PatchConfiguration {
-  const _PatchConfiguration({required this.bindPhrase, this.wifiSsid, this.wifiPassword, this.regulatoryDomain, this.domain, this.wifiOnInterval, final  List<int>? uid}): _uid = uid;
+  const _PatchConfiguration({required this.bindPhrase, this.wifiSsid, this.wifiPassword, this.regulatoryDomain, this.domain, this.wifiOnInterval,  List<int>? uid}): _uid = uid;
   
 
 @override final  String bindPhrase;
@@ -241,16 +247,18 @@ _$PatchConfigurationCopyWith<_PatchConfiguration> get copyWith => __$PatchConfig
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatchConfiguration&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&const DeepCollectionEquality().equals(other._uid, _uid));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PatchConfiguration&&(identical(other.bindPhrase, bindPhrase) || other.bindPhrase == bindPhrase)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.regulatoryDomain, regulatoryDomain) || other.regulatoryDomain == regulatoryDomain)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&const DeepCollectionEquality().equals(other.uid, _uid));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,domain,wifiOnInterval,const DeepCollectionEquality().hash(_uid));
+int get hashCode {
+    return Object.hash(runtimeType,bindPhrase,wifiSsid,wifiPassword,regulatoryDomain,domain,wifiOnInterval,const DeepCollectionEquality().hash(_uid));
+}
 
 @override
 String toString() {
-  return 'PatchConfiguration(bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, domain: $domain, wifiOnInterval: $wifiOnInterval, uid: $uid)';
+    return 'PatchConfiguration(bindPhrase: $bindPhrase, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, regulatoryDomain: $regulatoryDomain, domain: $domain, wifiOnInterval: $wifiOnInterval, uid: $uid)';
 }
 
 

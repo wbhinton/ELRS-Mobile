@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'runtime_config_model.dart';
@@ -9,6 +9,7 @@ part of 'runtime_config_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $RuntimeConfigCopyWith<RuntimeConfig> get copyWith => _$RuntimeConfigCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RuntimeConfig&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.activeIp, activeIp) || other.activeIp == activeIp)&&(identical(other.settings, settings) || other.settings == settings)&&(identical(other.options, options) || other.options == options)&&(identical(other.config, config) || other.config == config));
+  final _this = this as RuntimeConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RuntimeConfig&&(identical(other.productName, _this.productName) || other.productName == _this.productName)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.target, _this.target) || other.target == _this.target)&&(identical(other.activeIp, _this.activeIp) || other.activeIp == _this.activeIp)&&(identical(other.settings, _this.settings) || other.settings == _this.settings)&&(identical(other.options, _this.options) || other.options == _this.options)&&(identical(other.config, _this.config) || other.config == _this.config));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,activeIp,settings,options,config);
+int get hashCode {
+  final _this = this as RuntimeConfig;
+  return Object.hash(runtimeType,_this.productName,_this.version,_this.target,_this.activeIp,_this.settings,_this.options,_this.config);
+}
 
 @override
 String toString() {
-  return 'RuntimeConfig(productName: $productName, version: $version, target: $target, activeIp: $activeIp, settings: $settings, options: $options, config: $config)';
+  final _this = this as RuntimeConfig;
+  return 'RuntimeConfig(productName: ${_this.productName}, version: ${_this.version}, target: ${_this.target}, activeIp: ${_this.activeIp}, settings: ${_this.settings}, options: ${_this.options}, config: ${_this.config})';
 }
 
 
@@ -66,7 +72,7 @@ class _$RuntimeConfigCopyWithImpl<$Res>
 /// Create a copy of RuntimeConfig
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = null,Object? target = freezed,Object? activeIp = freezed,Object? settings = null,Object? options = null,Object? config = null,}) {
-  return _then(_self.copyWith(
+  return _then(RuntimeConfig(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String,target: freezed == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
@@ -266,16 +272,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RuntimeConfig&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.activeIp, activeIp) || other.activeIp == activeIp)&&(identical(other.settings, settings) || other.settings == settings)&&(identical(other.options, options) || other.options == options)&&(identical(other.config, config) || other.config == config));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RuntimeConfig&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.activeIp, activeIp) || other.activeIp == activeIp)&&(identical(other.settings, settings) || other.settings == settings)&&(identical(other.options, options) || other.options == options)&&(identical(other.config, config) || other.config == config));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,activeIp,settings,options,config);
+int get hashCode {
+    return Object.hash(runtimeType,productName,version,target,activeIp,settings,options,config);
+}
 
 @override
 String toString() {
-  return 'RuntimeConfig(productName: $productName, version: $version, target: $target, activeIp: $activeIp, settings: $settings, options: $options, config: $config)';
+    return 'RuntimeConfig(productName: $productName, version: $version, target: $target, activeIp: $activeIp, settings: $settings, options: $options, config: $config)';
 }
 
 
@@ -363,16 +371,21 @@ $ElrsSettingsCopyWith<ElrsSettings> get copyWith => _$ElrsSettingsCopyWithImpl<E
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.regDomain, regDomain) || other.regDomain == regDomain)&&(identical(other.regDomainHigh, regDomainHigh) || other.regDomainHigh == regDomainHigh)&&(identical(other.regDomainLow, regDomainLow) || other.regDomainLow == regDomainLow)&&(identical(other.hasHighBand, hasHighBand) || other.hasHighBand == hasHighBand)&&(identical(other.hasLowBand, hasLowBand) || other.hasLowBand == hasLowBand));
+  final _this = this as ElrsSettings;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsSettings&&(identical(other.productName, _this.productName) || other.productName == _this.productName)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.target, _this.target) || other.target == _this.target)&&(identical(other.moduleType, _this.moduleType) || other.moduleType == _this.moduleType)&&(identical(other.hasSerialPins, _this.hasSerialPins) || other.hasSerialPins == _this.hasSerialPins)&&(identical(other.deviceId, _this.deviceId) || other.deviceId == _this.deviceId)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.regDomain, _this.regDomain) || other.regDomain == _this.regDomain)&&(identical(other.regDomainHigh, _this.regDomainHigh) || other.regDomainHigh == _this.regDomainHigh)&&(identical(other.regDomainLow, _this.regDomainLow) || other.regDomainLow == _this.regDomainLow)&&(identical(other.hasHighBand, _this.hasHighBand) || other.hasHighBand == _this.hasHighBand)&&(identical(other.hasLowBand, _this.hasLowBand) || other.hasLowBand == _this.hasLowBand));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain,regDomain,regDomainHigh,regDomainLow,hasHighBand,hasLowBand);
+int get hashCode {
+  final _this = this as ElrsSettings;
+  return Object.hash(runtimeType,_this.productName,_this.version,_this.target,_this.moduleType,_this.hasSerialPins,_this.deviceId,_this.domain,_this.regDomain,_this.regDomainHigh,_this.regDomainLow,_this.hasHighBand,_this.hasLowBand);
+}
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain, regDomain: $regDomain, regDomainHigh: $regDomainHigh, regDomainLow: $regDomainLow, hasHighBand: $hasHighBand, hasLowBand: $hasLowBand)';
+  final _this = this as ElrsSettings;
+  return 'ElrsSettings(productName: ${_this.productName}, version: ${_this.version}, target: ${_this.target}, moduleType: ${_this.moduleType}, hasSerialPins: ${_this.hasSerialPins}, deviceId: ${_this.deviceId}, domain: ${_this.domain}, regDomain: ${_this.regDomain}, regDomainHigh: ${_this.regDomainHigh}, regDomainLow: ${_this.regDomainLow}, hasHighBand: ${_this.hasHighBand}, hasLowBand: ${_this.hasLowBand})';
 }
 
 
@@ -401,7 +414,7 @@ class _$ElrsSettingsCopyWithImpl<$Res>
 /// Create a copy of ElrsSettings
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? productName = freezed,Object? version = freezed,Object? target = freezed,Object? moduleType = freezed,Object? hasSerialPins = freezed,Object? deviceId = freezed,Object? domain = freezed,Object? regDomain = freezed,Object? regDomainHigh = freezed,Object? regDomainLow = freezed,Object? hasHighBand = freezed,Object? hasLowBand = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ElrsSettings(
 productName: freezed == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,target: freezed == target ? _self.target : target // ignore: cast_nullable_to_non_nullable
@@ -584,16 +597,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.regDomain, regDomain) || other.regDomain == regDomain)&&(identical(other.regDomainHigh, regDomainHigh) || other.regDomainHigh == regDomainHigh)&&(identical(other.regDomainLow, regDomainLow) || other.regDomainLow == regDomainLow)&&(identical(other.hasHighBand, hasHighBand) || other.hasHighBand == hasHighBand)&&(identical(other.hasLowBand, hasLowBand) || other.hasLowBand == hasLowBand));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsSettings&&(identical(other.productName, productName) || other.productName == productName)&&(identical(other.version, version) || other.version == version)&&(identical(other.target, target) || other.target == target)&&(identical(other.moduleType, moduleType) || other.moduleType == moduleType)&&(identical(other.hasSerialPins, hasSerialPins) || other.hasSerialPins == hasSerialPins)&&(identical(other.deviceId, deviceId) || other.deviceId == deviceId)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.regDomain, regDomain) || other.regDomain == regDomain)&&(identical(other.regDomainHigh, regDomainHigh) || other.regDomainHigh == regDomainHigh)&&(identical(other.regDomainLow, regDomainLow) || other.regDomainLow == regDomainLow)&&(identical(other.hasHighBand, hasHighBand) || other.hasHighBand == hasHighBand)&&(identical(other.hasLowBand, hasLowBand) || other.hasLowBand == hasLowBand));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain,regDomain,regDomainHigh,regDomainLow,hasHighBand,hasLowBand);
+int get hashCode {
+    return Object.hash(runtimeType,productName,version,target,moduleType,hasSerialPins,deviceId,domain,regDomain,regDomainHigh,regDomainLow,hasHighBand,hasLowBand);
+}
 
 @override
 String toString() {
-  return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain, regDomain: $regDomain, regDomainHigh: $regDomainHigh, regDomainLow: $regDomainLow, hasHighBand: $hasHighBand, hasLowBand: $hasLowBand)';
+    return 'ElrsSettings(productName: $productName, version: $version, target: $target, moduleType: $moduleType, hasSerialPins: $hasSerialPins, deviceId: $deviceId, domain: $domain, regDomain: $regDomain, regDomainHigh: $regDomainHigh, regDomainLow: $regDomainLow, hasHighBand: $hasHighBand, hasLowBand: $hasLowBand)';
 }
 
 
@@ -659,16 +674,21 @@ $ElrsOptionsCopyWith<ElrsOptions> get copyWith => _$ElrsOptionsCopyWithImpl<Elrs
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsOptions&&const DeepCollectionEquality().equals(other.uid, uid)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.isAirport, isAirport) || other.isAirport == isAirport)&&(identical(other.airportUartBaud, airportUartBaud) || other.airportUartBaud == airportUartBaud)&&(identical(other.tlmInterval, tlmInterval) || other.tlmInterval == tlmInterval)&&(identical(other.fanRuntime, fanRuntime) || other.fanRuntime == fanRuntime)&&(identical(other.lockOnFirstConnection, lockOnFirstConnection) || other.lockOnFirstConnection == lockOnFirstConnection)&&(identical(other.rcvrUartBaud, rcvrUartBaud) || other.rcvrUartBaud == rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, djiPermanentlyArmed) || other.djiPermanentlyArmed == djiPermanentlyArmed)&&(identical(other.freqIndex, freqIndex) || other.freqIndex == freqIndex)&&(identical(other.domain, domain) || other.domain == domain));
+  final _this = this as ElrsOptions;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsOptions&&const DeepCollectionEquality().equals(other.uid, _this.uid)&&(identical(other.wifiSsid, _this.wifiSsid) || other.wifiSsid == _this.wifiSsid)&&(identical(other.wifiPassword, _this.wifiPassword) || other.wifiPassword == _this.wifiPassword)&&(identical(other.wifiOnInterval, _this.wifiOnInterval) || other.wifiOnInterval == _this.wifiOnInterval)&&(identical(other.isAirport, _this.isAirport) || other.isAirport == _this.isAirport)&&(identical(other.airportUartBaud, _this.airportUartBaud) || other.airportUartBaud == _this.airportUartBaud)&&(identical(other.tlmInterval, _this.tlmInterval) || other.tlmInterval == _this.tlmInterval)&&(identical(other.fanRuntime, _this.fanRuntime) || other.fanRuntime == _this.fanRuntime)&&(identical(other.lockOnFirstConnection, _this.lockOnFirstConnection) || other.lockOnFirstConnection == _this.lockOnFirstConnection)&&(identical(other.rcvrUartBaud, _this.rcvrUartBaud) || other.rcvrUartBaud == _this.rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, _this.djiPermanentlyArmed) || other.djiPermanentlyArmed == _this.djiPermanentlyArmed)&&(identical(other.freqIndex, _this.freqIndex) || other.freqIndex == _this.freqIndex)&&(identical(other.domain, _this.domain) || other.domain == _this.domain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(uid),wifiSsid,wifiPassword,wifiOnInterval,isAirport,airportUartBaud,tlmInterval,fanRuntime,lockOnFirstConnection,rcvrUartBaud,djiPermanentlyArmed,freqIndex,domain);
+int get hashCode {
+  final _this = this as ElrsOptions;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.uid),_this.wifiSsid,_this.wifiPassword,_this.wifiOnInterval,_this.isAirport,_this.airportUartBaud,_this.tlmInterval,_this.fanRuntime,_this.lockOnFirstConnection,_this.rcvrUartBaud,_this.djiPermanentlyArmed,_this.freqIndex,_this.domain);
+}
 
 @override
 String toString() {
-  return 'ElrsOptions(uid: $uid, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, wifiOnInterval: $wifiOnInterval, isAirport: $isAirport, airportUartBaud: $airportUartBaud, tlmInterval: $tlmInterval, fanRuntime: $fanRuntime, lockOnFirstConnection: $lockOnFirstConnection, rcvrUartBaud: $rcvrUartBaud, djiPermanentlyArmed: $djiPermanentlyArmed, freqIndex: $freqIndex, domain: $domain)';
+  final _this = this as ElrsOptions;
+  return 'ElrsOptions(uid: ${_this.uid}, wifiSsid: ${_this.wifiSsid}, wifiPassword: ${_this.wifiPassword}, wifiOnInterval: ${_this.wifiOnInterval}, isAirport: ${_this.isAirport}, airportUartBaud: ${_this.airportUartBaud}, tlmInterval: ${_this.tlmInterval}, fanRuntime: ${_this.fanRuntime}, lockOnFirstConnection: ${_this.lockOnFirstConnection}, rcvrUartBaud: ${_this.rcvrUartBaud}, djiPermanentlyArmed: ${_this.djiPermanentlyArmed}, freqIndex: ${_this.freqIndex}, domain: ${_this.domain})';
 }
 
 
@@ -697,7 +717,7 @@ class _$ElrsOptionsCopyWithImpl<$Res>
 /// Create a copy of ElrsOptions
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uid = freezed,Object? wifiSsid = freezed,Object? wifiPassword = freezed,Object? wifiOnInterval = freezed,Object? isAirport = freezed,Object? airportUartBaud = freezed,Object? tlmInterval = freezed,Object? fanRuntime = freezed,Object? lockOnFirstConnection = freezed,Object? rcvrUartBaud = freezed,Object? djiPermanentlyArmed = freezed,Object? freqIndex = freezed,Object? domain = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ElrsOptions(
 uid: freezed == uid ? _self.uid : uid // ignore: cast_nullable_to_non_nullable
 as List<int>?,wifiSsid: freezed == wifiSsid ? _self.wifiSsid : wifiSsid // ignore: cast_nullable_to_non_nullable
 as String?,wifiPassword: freezed == wifiPassword ? _self.wifiPassword : wifiPassword // ignore: cast_nullable_to_non_nullable
@@ -852,7 +872,7 @@ return $default(_that.uid,_that.wifiSsid,_that.wifiPassword,_that.wifiOnInterval
 @JsonSerializable()
 
 class _ElrsOptions implements ElrsOptions {
-  const _ElrsOptions({final  List<int>? uid, @JsonKey(name: 'wifi-ssid') this.wifiSsid, @JsonKey(name: 'wifi-password') this.wifiPassword, @JsonKey(name: 'wifi-on-interval') this.wifiOnInterval, @JsonKey(name: 'is-airport') this.isAirport, @JsonKey(name: 'airport-uart-baud') this.airportUartBaud, @JsonKey(name: 'tlm-interval') this.tlmInterval, @JsonKey(name: 'fan-runtime') this.fanRuntime, @JsonKey(name: 'lock-on-first-connection') this.lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud') this.rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed') this.djiPermanentlyArmed, @JsonKey(name: 'freq-index') this.freqIndex, this.domain}): _uid = uid;
+  const _ElrsOptions({ List<int>? uid, @JsonKey(name: 'wifi-ssid') this.wifiSsid, @JsonKey(name: 'wifi-password') this.wifiPassword, @JsonKey(name: 'wifi-on-interval') this.wifiOnInterval, @JsonKey(name: 'is-airport') this.isAirport, @JsonKey(name: 'airport-uart-baud') this.airportUartBaud, @JsonKey(name: 'tlm-interval') this.tlmInterval, @JsonKey(name: 'fan-runtime') this.fanRuntime, @JsonKey(name: 'lock-on-first-connection') this.lockOnFirstConnection, @JsonKey(name: 'rcvr-uart-baud') this.rcvrUartBaud, @JsonKey(name: 'dji-permanently-armed') this.djiPermanentlyArmed, @JsonKey(name: 'freq-index') this.freqIndex, this.domain}): _uid = uid;
   factory _ElrsOptions.fromJson(Map<String, dynamic> json) => _$ElrsOptionsFromJson(json);
 
  final  List<int>? _uid;
@@ -890,16 +910,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsOptions&&const DeepCollectionEquality().equals(other._uid, _uid)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.isAirport, isAirport) || other.isAirport == isAirport)&&(identical(other.airportUartBaud, airportUartBaud) || other.airportUartBaud == airportUartBaud)&&(identical(other.tlmInterval, tlmInterval) || other.tlmInterval == tlmInterval)&&(identical(other.fanRuntime, fanRuntime) || other.fanRuntime == fanRuntime)&&(identical(other.lockOnFirstConnection, lockOnFirstConnection) || other.lockOnFirstConnection == lockOnFirstConnection)&&(identical(other.rcvrUartBaud, rcvrUartBaud) || other.rcvrUartBaud == rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, djiPermanentlyArmed) || other.djiPermanentlyArmed == djiPermanentlyArmed)&&(identical(other.freqIndex, freqIndex) || other.freqIndex == freqIndex)&&(identical(other.domain, domain) || other.domain == domain));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsOptions&&const DeepCollectionEquality().equals(other.uid, _uid)&&(identical(other.wifiSsid, wifiSsid) || other.wifiSsid == wifiSsid)&&(identical(other.wifiPassword, wifiPassword) || other.wifiPassword == wifiPassword)&&(identical(other.wifiOnInterval, wifiOnInterval) || other.wifiOnInterval == wifiOnInterval)&&(identical(other.isAirport, isAirport) || other.isAirport == isAirport)&&(identical(other.airportUartBaud, airportUartBaud) || other.airportUartBaud == airportUartBaud)&&(identical(other.tlmInterval, tlmInterval) || other.tlmInterval == tlmInterval)&&(identical(other.fanRuntime, fanRuntime) || other.fanRuntime == fanRuntime)&&(identical(other.lockOnFirstConnection, lockOnFirstConnection) || other.lockOnFirstConnection == lockOnFirstConnection)&&(identical(other.rcvrUartBaud, rcvrUartBaud) || other.rcvrUartBaud == rcvrUartBaud)&&(identical(other.djiPermanentlyArmed, djiPermanentlyArmed) || other.djiPermanentlyArmed == djiPermanentlyArmed)&&(identical(other.freqIndex, freqIndex) || other.freqIndex == freqIndex)&&(identical(other.domain, domain) || other.domain == domain));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_uid),wifiSsid,wifiPassword,wifiOnInterval,isAirport,airportUartBaud,tlmInterval,fanRuntime,lockOnFirstConnection,rcvrUartBaud,djiPermanentlyArmed,freqIndex,domain);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_uid),wifiSsid,wifiPassword,wifiOnInterval,isAirport,airportUartBaud,tlmInterval,fanRuntime,lockOnFirstConnection,rcvrUartBaud,djiPermanentlyArmed,freqIndex,domain);
+}
 
 @override
 String toString() {
-  return 'ElrsOptions(uid: $uid, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, wifiOnInterval: $wifiOnInterval, isAirport: $isAirport, airportUartBaud: $airportUartBaud, tlmInterval: $tlmInterval, fanRuntime: $fanRuntime, lockOnFirstConnection: $lockOnFirstConnection, rcvrUartBaud: $rcvrUartBaud, djiPermanentlyArmed: $djiPermanentlyArmed, freqIndex: $freqIndex, domain: $domain)';
+    return 'ElrsOptions(uid: $uid, wifiSsid: $wifiSsid, wifiPassword: $wifiPassword, wifiOnInterval: $wifiOnInterval, isAirport: $isAirport, airportUartBaud: $airportUartBaud, tlmInterval: $tlmInterval, fanRuntime: $fanRuntime, lockOnFirstConnection: $lockOnFirstConnection, rcvrUartBaud: $rcvrUartBaud, djiPermanentlyArmed: $djiPermanentlyArmed, freqIndex: $freqIndex, domain: $domain)';
 }
 
 
@@ -966,16 +988,21 @@ $ElrsConfigCopyWith<ElrsConfig> get copyWith => _$ElrsConfigCopyWithImpl<ElrsCon
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsConfig&&(identical(other.modelId, modelId) || other.modelId == modelId)&&(identical(other.forceTlm, forceTlm) || other.forceTlm == forceTlm)&&(identical(other.vbind, vbind) || other.vbind == vbind)&&(identical(other.serialProtocol, serialProtocol) || other.serialProtocol == serialProtocol)&&(identical(other.serial1Protocol, serial1Protocol) || other.serial1Protocol == serial1Protocol)&&(identical(other.sbusFailsafe, sbusFailsafe) || other.sbusFailsafe == sbusFailsafe)&&const DeepCollectionEquality().equals(other.pwm, pwm)&&const DeepCollectionEquality().equals(other.hardware, hardware));
+  final _this = this as ElrsConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElrsConfig&&(identical(other.modelId, _this.modelId) || other.modelId == _this.modelId)&&(identical(other.forceTlm, _this.forceTlm) || other.forceTlm == _this.forceTlm)&&(identical(other.vbind, _this.vbind) || other.vbind == _this.vbind)&&(identical(other.serialProtocol, _this.serialProtocol) || other.serialProtocol == _this.serialProtocol)&&(identical(other.serial1Protocol, _this.serial1Protocol) || other.serial1Protocol == _this.serial1Protocol)&&(identical(other.sbusFailsafe, _this.sbusFailsafe) || other.sbusFailsafe == _this.sbusFailsafe)&&const DeepCollectionEquality().equals(other.pwm, _this.pwm)&&const DeepCollectionEquality().equals(other.hardware, _this.hardware));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,modelId,forceTlm,vbind,serialProtocol,serial1Protocol,sbusFailsafe,const DeepCollectionEquality().hash(pwm),const DeepCollectionEquality().hash(hardware));
+int get hashCode {
+  final _this = this as ElrsConfig;
+  return Object.hash(runtimeType,_this.modelId,_this.forceTlm,_this.vbind,_this.serialProtocol,_this.serial1Protocol,_this.sbusFailsafe,const DeepCollectionEquality().hash(_this.pwm),const DeepCollectionEquality().hash(_this.hardware));
+}
 
 @override
 String toString() {
-  return 'ElrsConfig(modelId: $modelId, forceTlm: $forceTlm, vbind: $vbind, serialProtocol: $serialProtocol, serial1Protocol: $serial1Protocol, sbusFailsafe: $sbusFailsafe, pwm: $pwm, hardware: $hardware)';
+  final _this = this as ElrsConfig;
+  return 'ElrsConfig(modelId: ${_this.modelId}, forceTlm: ${_this.forceTlm}, vbind: ${_this.vbind}, serialProtocol: ${_this.serialProtocol}, serial1Protocol: ${_this.serial1Protocol}, sbusFailsafe: ${_this.sbusFailsafe}, pwm: ${_this.pwm}, hardware: ${_this.hardware})';
 }
 
 
@@ -1004,7 +1031,7 @@ class _$ElrsConfigCopyWithImpl<$Res>
 /// Create a copy of ElrsConfig
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? modelId = freezed,Object? forceTlm = freezed,Object? vbind = freezed,Object? serialProtocol = freezed,Object? serial1Protocol = freezed,Object? sbusFailsafe = freezed,Object? pwm = null,Object? hardware = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ElrsConfig(
 modelId: freezed == modelId ? _self.modelId : modelId // ignore: cast_nullable_to_non_nullable
 as int?,forceTlm: freezed == forceTlm ? _self.forceTlm : forceTlm // ignore: cast_nullable_to_non_nullable
 as bool?,vbind: freezed == vbind ? _self.vbind : vbind // ignore: cast_nullable_to_non_nullable
@@ -1154,7 +1181,7 @@ return $default(_that.modelId,_that.forceTlm,_that.vbind,_that.serialProtocol,_t
 @JsonSerializable()
 
 class _ElrsConfig implements ElrsConfig {
-  const _ElrsConfig({@JsonKey(name: 'modelid') this.modelId, @JsonKey(name: 'force-tlm') this.forceTlm, this.vbind, @JsonKey(name: 'serial-protocol') this.serialProtocol, @JsonKey(name: 'serial1-protocol') this.serial1Protocol, @JsonKey(name: 'sbus-failsafe') this.sbusFailsafe, final  List<dynamic> pwm = const [], final  Map<String, dynamic>? hardware}): _pwm = pwm,_hardware = hardware;
+  const _ElrsConfig({@JsonKey(name: 'modelid') this.modelId, @JsonKey(name: 'force-tlm') this.forceTlm, this.vbind, @JsonKey(name: 'serial-protocol') this.serialProtocol, @JsonKey(name: 'serial1-protocol') this.serial1Protocol, @JsonKey(name: 'sbus-failsafe') this.sbusFailsafe,  List<dynamic> pwm = const [],  Map<String, dynamic>? hardware}): _pwm = pwm,_hardware = hardware;
   factory _ElrsConfig.fromJson(Map<String, dynamic> json) => _$ElrsConfigFromJson(json);
 
 @override@JsonKey(name: 'modelid') final  int? modelId;
@@ -1193,16 +1220,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsConfig&&(identical(other.modelId, modelId) || other.modelId == modelId)&&(identical(other.forceTlm, forceTlm) || other.forceTlm == forceTlm)&&(identical(other.vbind, vbind) || other.vbind == vbind)&&(identical(other.serialProtocol, serialProtocol) || other.serialProtocol == serialProtocol)&&(identical(other.serial1Protocol, serial1Protocol) || other.serial1Protocol == serial1Protocol)&&(identical(other.sbusFailsafe, sbusFailsafe) || other.sbusFailsafe == sbusFailsafe)&&const DeepCollectionEquality().equals(other._pwm, _pwm)&&const DeepCollectionEquality().equals(other._hardware, _hardware));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElrsConfig&&(identical(other.modelId, modelId) || other.modelId == modelId)&&(identical(other.forceTlm, forceTlm) || other.forceTlm == forceTlm)&&(identical(other.vbind, vbind) || other.vbind == vbind)&&(identical(other.serialProtocol, serialProtocol) || other.serialProtocol == serialProtocol)&&(identical(other.serial1Protocol, serial1Protocol) || other.serial1Protocol == serial1Protocol)&&(identical(other.sbusFailsafe, sbusFailsafe) || other.sbusFailsafe == sbusFailsafe)&&const DeepCollectionEquality().equals(other.pwm, _pwm)&&const DeepCollectionEquality().equals(other.hardware, _hardware));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,modelId,forceTlm,vbind,serialProtocol,serial1Protocol,sbusFailsafe,const DeepCollectionEquality().hash(_pwm),const DeepCollectionEquality().hash(_hardware));
+int get hashCode {
+    return Object.hash(runtimeType,modelId,forceTlm,vbind,serialProtocol,serial1Protocol,sbusFailsafe,const DeepCollectionEquality().hash(_pwm),const DeepCollectionEquality().hash(_hardware));
+}
 
 @override
 String toString() {
-  return 'ElrsConfig(modelId: $modelId, forceTlm: $forceTlm, vbind: $vbind, serialProtocol: $serialProtocol, serial1Protocol: $serial1Protocol, sbusFailsafe: $sbusFailsafe, pwm: $pwm, hardware: $hardware)';
+    return 'ElrsConfig(modelId: $modelId, forceTlm: $forceTlm, vbind: $vbind, serialProtocol: $serialProtocol, serial1Protocol: $serial1Protocol, sbusFailsafe: $sbusFailsafe, pwm: $pwm, hardware: $hardware)';
 }
 
 

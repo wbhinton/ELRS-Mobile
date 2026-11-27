@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import '../../../../core/presentation/responsive_layout.dart';
 
 enum SettingsCategory { profiles, storage, advanced, about }

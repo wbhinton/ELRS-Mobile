@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../application/app_update_service.dart';

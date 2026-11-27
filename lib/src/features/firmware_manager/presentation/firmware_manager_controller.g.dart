@@ -49,7 +49,7 @@ abstract class _$FirmwareManagerController
   FirmwareManagerState build();
   @$mustCallSuper
   @override
-  void runBuild() {
+  WhenComplete runBuild() {
     final ref = this.ref as $Ref<FirmwareManagerState, FirmwareManagerState>;
     final element =
         ref.element
@@ -59,6 +59,6 @@ abstract class _$FirmwareManagerController
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    return element.handleCreate(ref, build);
   }
 }

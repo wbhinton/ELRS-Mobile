@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:elrs_mobile/src/features/app_update/application/app_update_service.dart';
 import 'package:elrs_mobile/src/features/app_update/domain/app_release.dart';
 import 'package:elrs_mobile/src/features/settings/presentation/settings_screen.dart';
+import 'package:elrs_mobile/src/core/l10n_delegates.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
 import 'package:elrs_mobile/src/localization/app_localizations_en.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -43,7 +44,7 @@ Future<void> _pumpTile(WidgetTester tester, AppUpdateService service) {
         appUpdateServiceProvider.overrideWith((ref) async => service),
       ],
       child: MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: appLocalizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: const Scaffold(body: CheckForUpdatesTile()),
       ),

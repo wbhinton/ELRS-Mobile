@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:elrs_mobile/src/localization/app_localizations.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_hooks/flutter_hooks.dart' hide useTabController;
+import 'package:material_hooks/material_hooks.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,9 +12,6 @@ class SupportScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Moving to material_hooks' useTabController is part of the Flutter 3.50
-    // upgrade (see the CI Flutter pin); until then keep the SDK one.
-    // ignore: deprecated_member_use
     final tabController = useTabController(initialLength: 3);
     useListenable(tabController);
     final l10n = AppLocalizations.of(context)!;
